@@ -16,14 +16,24 @@
 
 ### 🌐 Key Features
 
-* 🤖 **Automated server collection** from *6 major MCP marketplaces*
-  ![intro](mcp-flow.png)
+* 🤖 **Automated server collection** from *6 major MCP marketplaces*  
 
-* 📊 **Extensive tool coverage:** 1,166 real-world servers, 11,536 tools, and 68K+ instruction–function call pairs
-  ![intro](tool_server.png)
+  <p align="center">
+    <img src="assets/mcp-flow.png" alt="Server collection" width="600"/>
+  </p>
 
-* 🧩 **Scale & diversity** far beyond previous benchmarks
-  ![intro](bench.png)
+* 📊 **Extensive tool coverage:** 1,166 real-world servers, 11,536 tools, and 68K+ instruction–function call pairs  
+
+  <p align="center">
+    <img src="assets/tool_server.png" alt="Tool coverage" width="600"/>
+  </p>
+
+* 🧩 **Scale & diversity** far beyond previous benchmarks  
+
+  <p align="center">
+    <img src="assets/bench.png" alt="Benchmark scale" width="600"/>
+  </p>
+
 
 
 
@@ -67,4 +77,4 @@ If you find **MCP-Flow** useful in your research, please consider citing:
 If you have any questions or encounter issues, feel free to open an issue or reach out to the authors directly:
 
 📮 Email: 12321254@zju.edu.cn  
-💬 WeChat: <br> <img src="wechat.png" alt="WeChat QR" width="80"/>
+💬 WeChat: <br> <img src="assets/wechat.png" alt="WeChat QR" width="80"/>
