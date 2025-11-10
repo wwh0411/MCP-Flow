@@ -1,0 +1,72 @@
+[
+    {
+        "name": "ask_perplexity",
+        "description": "\nProvides expert programming assistance through Perplexity.\nThis tool only has access to the context you have provided. It cannot read any file unless you provide it with the file content.\nFocuses on coding solutions, error debugging, and technical explanations.\nReturns responses with source citations and alternative suggestions.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Technical question or problem to solve"
+                }
+            },
+            "required": [
+                "query"
+            ]
+        }
+    },
+    {
+        "name": "chat_perplexity",
+        "description": "\nMaintains ongoing conversations with Perplexity AI.\nCreates new chats or continues existing ones with full history context.\nThis tool only has access to the context you have provided. It cannot read any file unless you provide it with the file content.\nReturns chat ID for future continuation.\n\nFor new chats: Provide 'message' and 'title'\nFor existing chats: Provide 'chat_id' and 'message'\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "description": "New message to add to the conversation"
+                },
+                "chat_id": {
+                    "type": "string",
+                    "description": "ID of an existing chat to continue. If not provided, a new chat will be created and title is required."
+                },
+                "title": {
+                    "type": "string",
+                    "description": "Title for the new chat. Required when creating a new chat (when chat_id is not provided)."
+                }
+            },
+            "required": [
+                "message"
+            ]
+        }
+    },
+    {
+        "name": "list_chats_perplexity",
+        "description": "\nLists all available chat conversations with Perplexity AI.\nReturns chat IDs, titles, and creation dates.\nResults are paginated with 50 chats per page.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "type": "integer",
+                    "description": "Page number (defaults to 1)",
+                    "minimum": 1
+                }
+            }
+        }
+    },
+    {
+        "name": "read_chat_perplexity",
+        "description": "\nRetrieves the complete conversation history for a specific chat.\nReturns the full chat history with all messages and their timestamps.\nNo API calls are made to Perplexity - this only reads from local storage.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "chat_id": {
+                    "type": "string",
+                    "description": "ID of the chat to retrieve"
+                }
+            },
+            "required": [
+                "chat_id"
+            ]
+        }
+    }
+]

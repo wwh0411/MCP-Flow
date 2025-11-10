@@ -1,0 +1,69 @@
+[
+    {
+        "name": "pdf-reader-mcp_read_pdf",
+        "description": "Reads content/metadata from one or more PDFs (local/URL). Each source can specify pages to extract.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "sources": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "path": {
+                                "type": "string",
+                                "minLength": 1,
+                                "description": "Relative path to the local PDF file."
+                            },
+                            "url": {
+                                "type": "string",
+                                "format": "uri",
+                                "description": "URL of the PDF file."
+                            },
+                            "pages": {
+                                "anyOf": [
+                                    {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer",
+                                            "exclusiveMinimum": true,
+                                            "minimum": 0
+                                        },
+                                        "minItems": 1
+                                    },
+                                    {
+                                        "type": "string",
+                                        "minLength": 1
+                                    }
+                                ],
+                                "description": "Extract text only from specific pages (1-based) or ranges for *this specific source*. If provided, 'include_full_text' for the entire request is ignored for this source."
+                            }
+                        },
+                        "additionalProperties": false
+                    },
+                    "minItems": 1,
+                    "description": "An array of PDF sources to process, each can optionally specify pages."
+                },
+                "include_full_text": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Include the full text content of each PDF (only if 'pages' is not specified for that source)."
+                },
+                "include_metadata": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Include metadata and info objects for each PDF."
+                },
+                "include_page_count": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Include the total number of pages for each PDF."
+                }
+            },
+            "required": [
+                "sources"
+            ],
+            "additionalProperties": false
+        }
+    }
+]

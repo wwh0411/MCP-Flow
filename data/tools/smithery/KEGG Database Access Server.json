@@ -1,0 +1,696 @@
+[
+    {
+        "name": "kegg-mcp-server_get_database_info",
+        "description": "Get release information and statistics for any KEGG database",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "database": {
+                    "type": "string",
+                    "description": "Database name (kegg, pathway, brite, module, ko, genes, genome, compound, glycan, reaction, rclass, enzyme, network, variant, disease, drug, dgroup, or organism code)"
+                }
+            },
+            "required": [
+                "database"
+            ]
+        }
+    },
+    {
+        "name": "kegg-mcp-server_list_organisms",
+        "description": "Get all KEGG organisms with codes and names",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of organisms to return (default: 100)",
+                    "minimum": 1,
+                    "maximum": 1000
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "kegg-mcp-server_search_pathways",
+        "description": "Search pathways by keywords or pathway names",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Search query (pathway name, keywords, or description)"
+                },
+                "organism_code": {
+                    "type": "string",
+                    "description": "Organism code to filter results (optional, e.g., hsa, mmu, eco)"
+                },
+                "max_results": {
+                    "type": "number",
+                    "description": "Maximum number of results (1-1000, default: 50)",
+                    "minimum": 1,
+                    "maximum": 1000
+                }
+            },
+            "required": [
+                "query"
+            ]
+        }
+    },
+    {
+        "name": "kegg-mcp-server_get_pathway_info",
+        "description": "Get detailed information for a specific pathway",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "pathway_id": {
+                    "type": "string",
+                    "description": "Pathway ID (e.g., map00010, hsa00010, ko00010)"
+                },
+                "format": {
+                    "type": "string",
+                    "enum": [
+                        "json",
+                        "kgml",
+                        "image",
+                        "conf"
+                    ],
+                    "description": "Output format (default: json)"
+                }
+            },
+            "required": [
+                "pathway_id"
+            ]
+        }
+    },
+    {
+        "name": "kegg-mcp-server_get_pathway_genes",
+        "description": "Get all genes involved in a specific pathway",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "pathway_id": {
+                    "type": "string",
+                    "description": "Pathway ID (e.g., hsa00010, mmu00010)"
+                }
+            },
+            "required": [
+                "pathway_id"
+            ]
+        }
+    },
+    {
+        "name": "kegg-mcp-server_search_genes",
+        "description": "Search genes by name, symbol, or keywords",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Search query (gene name, symbol, or keywords)"
+                },
+                "organism_code": {
+                    "type": "string",
+                    "description": "Organism code to filter results (optional, e.g., hsa, mmu)"
+                },
+                "max_results": {
+                    "type": "number",
+                    "description": "Maximum number of results (1-1000, default: 50)",
+                    "minimum": 1,
+                    "maximum": 1000
+                }
+            },
+            "required": [
+                "query"
+            ]
+        }
+    },
+    {
+        "name": "kegg-mcp-server_get_gene_info",
+        "description": "Get detailed information for a specific gene",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "gene_id": {
+                    "type": "string",
+                    "description": "Gene ID (e.g., hsa:1956, mmu:11651, eco:b0008)"
+                },
+                "include_sequences": {
+                    "type": "boolean",
+                    "description": "Include amino acid and nucleotide sequences (default: false)"
+                }
+            },
+            "required": [
+                "gene_id"
+            ]
+        }
+    },
+    {
+        "name": "kegg-mcp-server_search_compounds",
+        "description": "Search compounds by name, formula, or chemical structure",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Search query (compound name, formula, or identifier)"
+                },
+                "search_type": {
+                    "type": "string",
+                    "enum": [
+                        "name",
+                        "formula",
+                        "exact_mass",
+                        "mol_weight"
+                    ],
+                    "description": "Type of search (default: name)"
+                },
+                "max_results": {
+                    "type": "number",
+                    "description": "Maximum number of results (1-1000, default: 50)",
+                    "minimum": 1,
+                    "maximum": 1000
+                }
+            },
+            "required": [
+                "query"
+            ]
+        }
+    },
+    {
+        "name": "kegg-mcp-server_get_compound_info",
+        "description": "Get detailed information for a specific compound",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "compound_id": {
+                    "type": "string",
+                    "description": "Compound ID (e.g., C00002, C00031, cpd:C00002)"
+                }
+            },
+            "required": [
+                "compound_id"
+            ]
+        }
+    },
+    {
+        "name": "kegg-mcp-server_search_reactions",
+        "description": "Search biochemical reactions by keywords or reaction components",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Search query (reaction name, enzyme, or compound)"
+                },
+                "max_results": {
+                    "type": "number",
+                    "description": "Maximum number of results (1-1000, default: 50)",
+                    "minimum": 1,
+                    "maximum": 1000
+                }
+            },
+            "required": [
+                "query"
+            ]
+        }
+    },
+    {
+        "name": "kegg-mcp-server_get_reaction_info",
+        "description": "Get detailed information for a specific reaction",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "reaction_id": {
+                    "type": "string",
+                    "description": "Reaction ID (e.g., R00001, R00002)"
+                }
+            },
+            "required": [
+                "reaction_id"
+            ]
+        }
+    },
+    {
+        "name": "kegg-mcp-server_search_enzymes",
+        "description": "Search enzymes by EC number or enzyme name",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Search query (EC number or enzyme name)"
+                },
+                "max_results": {
+                    "type": "number",
+                    "description": "Maximum number of results (1-1000, default: 50)",
+                    "minimum": 1,
+                    "maximum": 1000
+                }
+            },
+            "required": [
+                "query"
+            ]
+        }
+    },
+    {
+        "name": "kegg-mcp-server_get_enzyme_info",
+        "description": "Get detailed enzyme information by EC number",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "ec_number": {
+                    "type": "string",
+                    "description": "EC number (e.g., ec:1.1.1.1)"
+                }
+            },
+            "required": [
+                "ec_number"
+            ]
+        }
+    },
+    {
+        "name": "kegg-mcp-server_search_diseases",
+        "description": "Search human diseases by name or keywords",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Search query (disease name or keywords)"
+                },
+                "max_results": {
+                    "type": "number",
+                    "description": "Maximum number of results (1-1000, default: 50)",
+                    "minimum": 1,
+                    "maximum": 1000
+                }
+            },
+            "required": [
+                "query"
+            ]
+        }
+    },
+    {
+        "name": "kegg-mcp-server_get_disease_info",
+        "description": "Get detailed information for a specific disease",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "disease_id": {
+                    "type": "string",
+                    "description": "Disease ID (e.g., H00001, H00002)"
+                }
+            },
+            "required": [
+                "disease_id"
+            ]
+        }
+    },
+    {
+        "name": "kegg-mcp-server_search_drugs",
+        "description": "Search drugs by name, target, or indication",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Search query (drug name, target, or indication)"
+                },
+                "max_results": {
+                    "type": "number",
+                    "description": "Maximum number of results (1-1000, default: 50)",
+                    "minimum": 1,
+                    "maximum": 1000
+                }
+            },
+            "required": [
+                "query"
+            ]
+        }
+    },
+    {
+        "name": "kegg-mcp-server_get_drug_info",
+        "description": "Get detailed information for a specific drug",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "drug_id": {
+                    "type": "string",
+                    "description": "Drug ID (e.g., D00001, D00002)"
+                }
+            },
+            "required": [
+                "drug_id"
+            ]
+        }
+    },
+    {
+        "name": "kegg-mcp-server_get_drug_interactions",
+        "description": "Find adverse drug-drug interactions",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "drug_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Drug IDs to check for interactions (1-10)",
+                    "minItems": 1,
+                    "maxItems": 10
+                }
+            },
+            "required": [
+                "drug_ids"
+            ]
+        }
+    },
+    {
+        "name": "kegg-mcp-server_search_modules",
+        "description": "Search KEGG modules by name or function",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Search query (module name or function)"
+                },
+                "max_results": {
+                    "type": "number",
+                    "description": "Maximum number of results (1-1000, default: 50)",
+                    "minimum": 1,
+                    "maximum": 1000
+                }
+            },
+            "required": [
+                "query"
+            ]
+        }
+    },
+    {
+        "name": "kegg-mcp-server_get_module_info",
+        "description": "Get detailed information for a specific module",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "module_id": {
+                    "type": "string",
+                    "description": "Module ID (e.g., M00001, M00002)"
+                }
+            },
+            "required": [
+                "module_id"
+            ]
+        }
+    },
+    {
+        "name": "kegg-mcp-server_search_ko_entries",
+        "description": "Search KEGG Orthology entries by function or gene name",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Search query (function or gene name)"
+                },
+                "max_results": {
+                    "type": "number",
+                    "description": "Maximum number of results (1-1000, default: 50)",
+                    "minimum": 1,
+                    "maximum": 1000
+                }
+            },
+            "required": [
+                "query"
+            ]
+        }
+    },
+    {
+        "name": "kegg-mcp-server_get_ko_info",
+        "description": "Get detailed information for a specific KO entry",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "ko_id": {
+                    "type": "string",
+                    "description": "KO ID (e.g., K00001, K00002)"
+                }
+            },
+            "required": [
+                "ko_id"
+            ]
+        }
+    },
+    {
+        "name": "kegg-mcp-server_search_glycans",
+        "description": "Search glycan structures by name or composition",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Search query (glycan name or composition)"
+                },
+                "max_results": {
+                    "type": "number",
+                    "description": "Maximum number of results (1-1000, default: 50)",
+                    "minimum": 1,
+                    "maximum": 1000
+                }
+            },
+            "required": [
+                "query"
+            ]
+        }
+    },
+    {
+        "name": "kegg-mcp-server_get_glycan_info",
+        "description": "Get detailed information for a specific glycan",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "glycan_id": {
+                    "type": "string",
+                    "description": "Glycan ID (e.g., G00001, G00002)"
+                }
+            },
+            "required": [
+                "glycan_id"
+            ]
+        }
+    },
+    {
+        "name": "kegg-mcp-server_search_brite",
+        "description": "Search BRITE functional hierarchies",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Search query (function or category)"
+                },
+                "hierarchy_type": {
+                    "type": "string",
+                    "enum": [
+                        "br",
+                        "ko",
+                        "jp"
+                    ],
+                    "description": "Type of BRITE hierarchy (default: br)"
+                },
+                "max_results": {
+                    "type": "number",
+                    "description": "Maximum number of results (1-1000, default: 50)",
+                    "minimum": 1,
+                    "maximum": 1000
+                }
+            },
+            "required": [
+                "query"
+            ]
+        }
+    },
+    {
+        "name": "kegg-mcp-server_get_brite_info",
+        "description": "Get detailed information for a specific BRITE entry",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "brite_id": {
+                    "type": "string",
+                    "description": "BRITE ID (e.g., br:br08301, ko:K00001)"
+                },
+                "format": {
+                    "type": "string",
+                    "enum": [
+                        "json",
+                        "htext"
+                    ],
+                    "description": "Output format (default: json)"
+                }
+            },
+            "required": [
+                "brite_id"
+            ]
+        }
+    },
+    {
+        "name": "kegg-mcp-server_get_pathway_compounds",
+        "description": "Get all compounds involved in a specific pathway",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "pathway_id": {
+                    "type": "string",
+                    "description": "Pathway ID (e.g., map00010, hsa00010)"
+                }
+            },
+            "required": [
+                "pathway_id"
+            ]
+        }
+    },
+    {
+        "name": "kegg-mcp-server_get_pathway_reactions",
+        "description": "Get all reactions involved in a specific pathway",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "pathway_id": {
+                    "type": "string",
+                    "description": "Pathway ID (e.g., map00010, rn00010)"
+                }
+            },
+            "required": [
+                "pathway_id"
+            ]
+        }
+    },
+    {
+        "name": "kegg-mcp-server_get_compound_reactions",
+        "description": "Get all reactions involving a specific compound",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "compound_id": {
+                    "type": "string",
+                    "description": "Compound ID (e.g., C00002, C00031)"
+                }
+            },
+            "required": [
+                "compound_id"
+            ]
+        }
+    },
+    {
+        "name": "kegg-mcp-server_get_gene_orthologs",
+        "description": "Find orthologous genes across organisms",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "gene_id": {
+                    "type": "string",
+                    "description": "Gene ID (e.g., hsa:1956)"
+                },
+                "target_organisms": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Target organism codes (optional, e.g., [mmu, rno, dme])"
+                }
+            },
+            "required": [
+                "gene_id"
+            ]
+        }
+    },
+    {
+        "name": "kegg-mcp-server_batch_entry_lookup",
+        "description": "Process multiple KEGG entries efficiently",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "entry_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "KEGG entry IDs (1-50)",
+                    "minItems": 1,
+                    "maxItems": 50
+                },
+                "operation": {
+                    "type": "string",
+                    "enum": [
+                        "info",
+                        "sequence",
+                        "pathway",
+                        "link"
+                    ],
+                    "description": "Operation to perform (default: info)"
+                }
+            },
+            "required": [
+                "entry_ids"
+            ]
+        }
+    },
+    {
+        "name": "kegg-mcp-server_convert_identifiers",
+        "description": "Convert between KEGG and external database identifiers",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "source_db": {
+                    "type": "string",
+                    "description": "Source database (e.g., hsa, ncbi-geneid, uniprot)"
+                },
+                "target_db": {
+                    "type": "string",
+                    "description": "Target database (e.g., hsa, ncbi-geneid, uniprot)"
+                },
+                "identifiers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Identifiers to convert (optional, for batch conversion)"
+                }
+            },
+            "required": [
+                "source_db",
+                "target_db"
+            ]
+        }
+    },
+    {
+        "name": "kegg-mcp-server_find_related_entries",
+        "description": "Find related entries across KEGG databases using cross-references",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "source_db": {
+                    "type": "string",
+                    "description": "Source database (e.g., pathway, compound, gene)"
+                },
+                "target_db": {
+                    "type": "string",
+                    "description": "Target database (e.g., pathway, compound, gene)"
+                },
+                "source_entries": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Source entries to find links for (optional)"
+                }
+            },
+            "required": [
+                "source_db",
+                "target_db"
+            ]
+        }
+    }
+]

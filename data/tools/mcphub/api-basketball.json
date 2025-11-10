@@ -1,0 +1,717 @@
+[
+    {
+        "name": "timezone",
+        "description": "Get the list of available timezone to be used in the [games] endpoint",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "standings",
+        "description": "Get all available standings | Return a table of one or more rankings according to the league / cup",
+        "parameters": {
+            "properties": {
+                "league": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Fails if field contains anything other than an integer Default: 12",
+                    "title": "League"
+                },
+                "season": {
+                    "description": "Fails if field contains anything other than a valid season [YYYY] or [YYYY-YYYY]",
+                    "title": "Season",
+                    "type": "string"
+                },
+                "stage": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Stage"
+                },
+                "group": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Group"
+                },
+                "team": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Fails if field contains anything other than an integer Default: 0",
+                    "title": "Team"
+                }
+            },
+            "required": [
+                "league",
+                "season"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "stages",
+        "description": "Get all available stages for standings",
+        "parameters": {
+            "properties": {
+                "league": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Fails if field contains anything other than an integer Default: 12",
+                    "title": "League"
+                },
+                "season": {
+                    "description": "Fails if field contains anything other than a valid season [YYYY] or [YYYY-YYYY]",
+                    "title": "Season",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "league",
+                "season"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "groups",
+        "description": "Get all available groups for standings",
+        "parameters": {
+            "properties": {
+                "season": {
+                    "description": "Fails if field contains anything other than a valid season [YYYY] or [YYYY-YYYY]",
+                    "title": "Season",
+                    "type": "string"
+                },
+                "league": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Fails if field contains anything other than an integer Default: 12",
+                    "title": "League"
+                }
+            },
+            "required": [
+                "season",
+                "league"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "seasons",
+        "description": "Get all available seasons | All {season} can be used in other endpoints as filters",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "countries",
+        "description": "Get all available countries | The {country} and {code} keys can be used in other endpoints as filters",
+        "parameters": {
+            "properties": {
+                "name": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Fails if field contains anything other than alpha-numeric characters, numbers or space",
+                    "title": "Name"
+                },
+                "id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Fails if field contains anything other than an integer Default: 0",
+                    "title": "Id"
+                },
+                "code": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "2 characters | Fails if field has anything other than alphabetic characters | Ex : FR, GB, IT...",
+                    "title": "Code"
+                },
+                "search": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "3 characters minimum | Fails if field has anything other than alphabetic characters",
+                    "title": "Search"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "leagues",
+        "description": "Get all available leagues | The league {id} are unique in the API and leagues keep it across all seasons",
+        "parameters": {
+            "properties": {
+                "country": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Fails if field contains anything other than alpha-numeric characters, numbers or space",
+                    "title": "Country"
+                },
+                "id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Fails if field contains anything other than an integer Default: 0",
+                    "title": "Id"
+                },
+                "type": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Fails if field is not within a predetermined list : [league,cup]",
+                    "title": "Type"
+                },
+                "season": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Fails if field contains anything other than a valid season [YYYY] or [YYYY-YYYY]",
+                    "title": "Season"
+                },
+                "name": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Fails if field contains anything other than alpha-numeric characters, numbers or space",
+                    "title": "Name"
+                },
+                "code": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "2 characters | Fails if field has anything other than alphabetic characters | Ex : FR, GB, IT...",
+                    "title": "Code"
+                },
+                "search": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "3 characters minimum | Fails if field has anything other than alphabetic characters",
+                    "title": "Search"
+                },
+                "country_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Fails if field contains anything other than an integer Default: 0",
+                    "title": "Country Id"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "head2_head",
+        "description": "Get all head to head between two teams",
+        "parameters": {
+            "properties": {
+                "h2h": {
+                    "description": "Fails if field does not match the regular expression : [id-id]",
+                    "title": "H2H",
+                    "type": "string"
+                },
+                "league": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Fails if field contains anything other than an integer Default: 0",
+                    "title": "League"
+                },
+                "season": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Fails if field contains anything other than a valid season [YYYY] or [YYYY-YYYY]",
+                    "title": "Season"
+                },
+                "timezone": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Fails if field is not a result of the endpoint timezone",
+                    "title": "Timezone"
+                }
+            },
+            "required": [
+                "h2h"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "games",
+        "description": "Get all available games",
+        "parameters": {
+            "properties": {
+                "timezone": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Fails if field is not a result of the endpoint timezone",
+                    "title": "Timezone"
+                },
+                "season": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Fails if field contains anything other than a valid season [YYYY] or [YYYY-YYYY]",
+                    "title": "Season"
+                },
+                "id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Fails if field contains anything other than an integer Default: 0",
+                    "title": "Id"
+                },
+                "league": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Fails if field contains anything other than an integer Default: 0",
+                    "title": "League"
+                },
+                "date": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Fails if field does not contain a valid date : [YYYY-MM-DD]",
+                    "title": "Date"
+                },
+                "team": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Fails if field contains anything other than an integer Default: 0",
+                    "title": "Team"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "teams_statistics",
+        "description": "Get team statistics",
+        "parameters": {
+            "properties": {
+                "season": {
+                    "description": "Fails if field contains anything other than a valid season [YYYY] or [YYYY-YYYY]",
+                    "title": "Season",
+                    "type": "string"
+                },
+                "league": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Fails if field contains anything other than an integer Default: 12",
+                    "title": "League"
+                },
+                "team": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Fails if field contains anything other than an integer Default: 133",
+                    "title": "Team"
+                },
+                "date": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Fails if field does not contain a valid date : [YYYY-MM-DD]",
+                    "title": "Date"
+                }
+            },
+            "required": [
+                "season",
+                "league",
+                "team"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "teams_informations",
+        "description": "Get all available teams | The team {id} are unique in the API and teams keep it among all the leagues/cups in which they participate",
+        "parameters": {
+            "properties": {
+                "name": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Fails if field contains anything other than alpha-numeric characters, numbers, dashes or space",
+                    "title": "Name"
+                },
+                "league": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Fails if field contains anything other than an integer Default: 12",
+                    "title": "League"
+                },
+                "id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Fails if field contains anything other than an integer Default: 0",
+                    "title": "Id"
+                },
+                "season": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Fails if field contains anything other than a valid season [YYYY] or [YYYY-YYYY]",
+                    "title": "Season"
+                },
+                "search": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "3 characters minimum | Fails if field has anything other than alphabetic characters",
+                    "title": "Search"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_bets",
+        "description": "get all available bets labels | All bets {id} can be used in endpoint [odds] as filters",
+        "parameters": {
+            "properties": {
+                "search": {
+                    "description": "3 characters minimum | Fails if field has anything other than alphabetic characters",
+                    "title": "Search",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "search"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_bookmakers",
+        "description": "get all available bookmakers | All bookmakers {id} can be used in endpoint [odds] as filters",
+        "parameters": {
+            "properties": {
+                "search": {
+                    "description": "3 characters minimum | Fails if field has anything other than alphabetic characters",
+                    "title": "Search",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "search"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_countries",
+        "description": "Get all available countries | The {country} and {code} keys can be used in other endpoints as filters",
+        "parameters": {
+            "properties": {
+                "search": {
+                    "description": "3 characters minimum | Fails if field has anything other than alphabetic characters",
+                    "title": "Search",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "search"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_leagues",
+        "description": "Get all available leagues | The league {id} are unique in the API and leagues keep it across all seasons",
+        "parameters": {
+            "properties": {
+                "search": {
+                    "description": "3 characters minimum | Fails if field has anything other than alphabetic characters",
+                    "title": "Search",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "search"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_teams",
+        "description": "Get all available teams | The team {id} are unique in the API and teams keep it among all the leagues/cups in which they participate",
+        "parameters": {
+            "properties": {
+                "search": {
+                    "description": "3 characters minimum | Fails if field has anything other than alphabetic characters",
+                    "title": "Search",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "search"
+            ],
+            "type": "object"
+        }
+    }
+]

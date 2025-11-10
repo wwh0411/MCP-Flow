@@ -1,0 +1,159 @@
+[
+    {
+        "name": "get_server_prompts",
+        "description": "List all available prompt templates.",
+        "inputSchema": {
+            "properties": {},
+            "title": "get_server_promptsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_hackernews",
+        "description": "Search HackerNews stories by title.\n    \n    Args:\n        query: Search term to look for in story titles\n        limit: Maximum number of stories to return (default: 5, max: 20)\n        \n    Returns:\n        List of matching stories\n    ",
+        "inputSchema": {
+            "properties": {
+                "query": {
+                    "title": "Query",
+                    "type": "string"
+                },
+                "limit": {
+                    "default": 5,
+                    "title": "Limit",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "title": "search_hackernewsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_github_repo_info",
+        "description": "Get detailed information about a specific GitHub repository.\n    \n    Args:\n        owner: Repository owner (username or organization)\n        repo: Repository name\n        \n    Returns:\n        Detailed repository information\n    ",
+        "inputSchema": {
+            "properties": {
+                "repo": {
+                    "title": "Repo",
+                    "type": "string"
+                },
+                "owner": {
+                    "title": "Owner",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "repo",
+                "owner"
+            ],
+            "title": "get_github_repo_infoArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "create_sampling_request",
+        "description": "Create a sampling request according to MCP 2025-03-26 specification.\n    \n    This tool demonstrates proper MCP sampling by creating requests that clients\n    can process to get LLM completions with server context and enhanced model preferences.\n    \n    Args:\n        prompt: The prompt to send to the LLM\n        context_data: Optional context data to include\n        max_tokens: Maximum tokens to generate\n        temperature: Sampling temperature (0.0 to 1.0)\n        model_hint: Optional model name hint (e.g., \"claude-3-sonnet\", \"gpt-4\")\n        intelligence_priority: How much to prioritize intelligence (0.0-1.0)\n        cost_priority: How much to prioritize cost efficiency (0.0-1.0)\n        speed_priority: How much to prioritize response speed (0.0-1.0)\n        \n    Returns:\n        Properly formatted MCP sampling request per 2025-03-26 spec\n    ",
+        "inputSchema": {
+            "properties": {
+                "context_data": {
+                    "title": "context_data",
+                    "type": "string"
+                },
+                "prompt": {
+                    "title": "Prompt",
+                    "type": "string"
+                },
+                "model_hint": {
+                    "title": "model_hint",
+                    "type": "string"
+                },
+                "max_tokens": {
+                    "default": 1000,
+                    "title": "Max Tokens",
+                    "type": "integer"
+                },
+                "temperature": {
+                    "default": 0.7,
+                    "title": "Temperature",
+                    "type": "integer"
+                },
+                "intelligence_priority": {
+                    "default": 0.8,
+                    "title": "Intelligence Priority",
+                    "type": "integer"
+                },
+                "cost_priority": {
+                    "default": 0.3,
+                    "title": "Cost Priority",
+                    "type": "integer"
+                },
+                "speed_priority": {
+                    "default": 0.5,
+                    "title": "Speed Priority",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "context_data",
+                "prompt",
+                "model_hint"
+            ],
+            "title": "create_sampling_requestArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "analyze_hackernews_trends_with_ai",
+        "description": "Analyze HackerNews trends using AI through sampling.\n    \n    This tool demonstrates how servers can use sampling to get AI analysis\n    of data they collect.\n    \n    Args:\n        topic: Topic to analyze in HackerNews stories\n        count: Number of stories to analyze\n        analysis_type: Type of analysis (brief, detailed, comprehensive)\n        \n    Returns:\n        AI analysis request with collected data\n    ",
+        "inputSchema": {
+            "properties": {
+                "topic": {
+                    "default": "AI",
+                    "title": "Topic",
+                    "type": "string"
+                },
+                "count": {
+                    "default": 5,
+                    "title": "Count",
+                    "type": "integer"
+                },
+                "analysis_type": {
+                    "default": "comprehensive",
+                    "title": "Analysis Type",
+                    "type": "string"
+                }
+            },
+            "title": "analyze_hackernews_trends_with_aiArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "code_review_with_ai",
+        "description": "Get AI-powered code review insights for a GitHub repository.\n    \n    Demonstrates using sampling to get AI analysis of repository data.\n    \n    Args:\n        repo_owner: GitHub repository owner\n        repo_name: Repository name\n        review_focus: Focus area (security, performance, architecture, general)\n        \n    Returns:\n        AI code review request with repository context\n    ",
+        "inputSchema": {
+            "properties": {
+                "repo_name": {
+                    "title": "Repo Name",
+                    "type": "string"
+                },
+                "repo_owner": {
+                    "title": "Repo Owner",
+                    "type": "string"
+                },
+                "review_focus": {
+                    "default": "general",
+                    "title": "Review Focus",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "repo_name",
+                "repo_owner"
+            ],
+            "title": "code_review_with_aiArguments",
+            "type": "object"
+        }
+    }
+]

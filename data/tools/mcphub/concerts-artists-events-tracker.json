@@ -1,0 +1,369 @@
+[
+    {
+        "name": "search",
+        "description": "Find events, artists, festivals, and venues based on various filters, including keywords, location, and date range.",
+        "parameters": {
+            "properties": {
+                "keyword": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search term to filter results by artist, event, festival, or venue name. For example, use Coldplay to find events related to the artist Coldplay",
+                    "title": "Keyword"
+                },
+                "city": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A city for location-based searches (e.g., New York).",
+                    "title": "City"
+                },
+                "types": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Specifies the types of results to include in the search. Available types are -artist -event -festival -venue Multiple types can be specified as a comma-separated list (e.g., artist,event).",
+                    "title": "Types"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Page"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Sort"
+                },
+                "latitude": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Coordinates for location-based searches. Use these to find events within a specific radius of a geographical point.",
+                    "title": "Latitude"
+                },
+                "longitude": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Coordinates for location-based searches. Use these to find events within a specific radius of a geographical point.",
+                    "title": "Longitude"
+                },
+                "radius": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The radius (in kilometers) around the specified location (latitude/longitude or city name) to search for events. Defaults to 75 km if not specified.",
+                    "title": "Radius"
+                },
+                "starts_at": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Specifies the starting date and time for the search. Only events happening on or after this date will be included in the results. Use ISO 8601 date format (YYYY-MM-DDTHH:MM:SSZ) or (YYYY-MM-DD)",
+                    "title": "Starts At"
+                },
+                "ends_at": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Specifies the ending date and time for the search. Only events happening on or before this date will be included in the results. Use ISO 8601 date format (YYYY-MM-DDTHH:MM:SSZ) or (YYYY-MM-DD)",
+                    "title": "Ends At"
+                },
+                "filter": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filters events based on type. Options include physical (for in-person events) and streaming (for online events).",
+                    "title": "Filter"
+                },
+                "genre": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filters by genre. Available genres include - alternative - blues - christian-gospel - classical - country - comedy - electronic - folk - hip-hop - jazz - latin - metal - pop - punk - rnb-soul - reggae - rock If left empty, all genres are included",
+                    "title": "Genre"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "artist_bio",
+        "description": "Fetches the biography of a specific artist.",
+        "parameters": {
+            "properties": {
+                "artist_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The id can be found within the results returned by the /search endpoint Default: 99",
+                    "title": "Artist Id"
+                }
+            },
+            "required": [
+                "artist_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "artist_events",
+        "description": "Retrieves upcoming events for a specific artist.",
+        "parameters": {
+            "properties": {
+                "artist_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The id can be found within the results returned by the /search endpoint Default: 99",
+                    "title": "Artist Id"
+                }
+            },
+            "required": [
+                "artist_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "artist_similar",
+        "description": "Fetches similar artists to the specified artist.",
+        "parameters": {
+            "properties": {
+                "artist_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The id can be found within the results returned by the /search endpoint Default: 99",
+                    "title": "Artist Id"
+                }
+            },
+            "required": [
+                "artist_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "artist_past",
+        "description": "Retrieves past events for a specific artist.",
+        "parameters": {
+            "properties": {
+                "artist_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The id can be found within the results returned by the /search endpoint Default: 99",
+                    "title": "Artist Id"
+                },
+                "before": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Filters events to those that occurred before this date.",
+                    "title": "Before"
+                }
+            },
+            "required": [
+                "artist_id",
+                "before"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "event_infos",
+        "description": "Fetches details about a specific event.",
+        "parameters": {
+            "properties": {
+                "event_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The id can be found within the results returned by the /search endpoint Default: 105973572",
+                    "title": "Event Id"
+                }
+            },
+            "required": [
+                "event_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "venue_infos",
+        "description": "Fetches information about a specific venue.",
+        "parameters": {
+            "properties": {
+                "venue_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The id can be found within the results returned by the /search endpoint Default: 10091046",
+                    "title": "Venue Id"
+                }
+            },
+            "required": [
+                "venue_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "festival_infos",
+        "description": "Fetches information about a specific festival.",
+        "parameters": {
+            "properties": {
+                "festival_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The id can be found within the results returned by the /search endpoint Default: 157318",
+                    "title": "Festival Id"
+                }
+            },
+            "required": [
+                "festival_id"
+            ],
+            "type": "object"
+        }
+    }
+]

@@ -1,0 +1,416 @@
+[
+    {
+        "name": "open-streetmap-mcp_geocode_address",
+        "description": "\nConvert an address or place name to geographic coordinates with detailed location information.\n\nThis tool takes a text description of a location (such as an address, landmark name, or\nplace of interest) and returns its precise geographic coordinates along with rich metadata.\nThe results can be used for mapping, navigation, location-based analysis, and as input to\nother geospatial tools.\n\nArgs:\n    address: The address, place name, landmark, or description to geocode (e.g., \"Empire State Building\", \n            \"123 Main St, Springfield\", \"Golden Gate Park, San Francisco\")\n    \nReturns:\n    List of matching locations with:\n    - Geographic coordinates (latitude/longitude)\n    - Formatted address\n    - Administrative boundaries (city, state, country)\n    - OSM type and ID\n    - Bounding box (if applicable)\n    - Importance ranking\n",
+        "parameters": {
+            "properties": {
+                "address": {
+                    "title": "Address",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "address"
+            ],
+            "title": "geocode_addressArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "open-streetmap-mcp_reverse_geocode",
+        "description": "\nConvert geographic coordinates to a detailed address and location description.\n\nThis tool takes a specific point on Earth (latitude and longitude) and returns \ncomprehensive information about that location, including its address, nearby landmarks,\nadministrative boundaries, and other contextual information. Useful for translating\nGPS coordinates into human-readable locations.\n\nArgs:\n    latitude: The latitude coordinate (decimal degrees, WGS84)\n    longitude: The longitude coordinate (decimal degrees, WGS84)\n    \nReturns:\n    Detailed address and location information including:\n    - Formatted address\n    - Building, street, city, state, country\n    - Administrative hierarchy\n    - OSM metadata\n    - Postal code and other relevant identifiers\n",
+        "parameters": {
+            "properties": {
+                "latitude": {
+                    "title": "Latitude",
+                    "type": "number"
+                },
+                "longitude": {
+                    "title": "Longitude",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "latitude",
+                "longitude"
+            ],
+            "title": "reverse_geocodeArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "open-streetmap-mcp_find_nearby_places",
+        "description": "\nDiscover points of interest and amenities near a specific location.\n\nThis tool performs a comprehensive search around a geographic point to identify\nnearby establishments, amenities, and points of interest. Results are organized by\ncategory and subcategory, making it easy to find specific types of places. Essential\nfor location-based recommendations, neighborhood analysis, and proximity-based decision making.\n\nArgs:\n    latitude: Center point latitude (decimal degrees)\n    longitude: Center point longitude (decimal degrees)\n    radius: Search radius in meters (defaults to 1000m/1km)\n    categories: List of OSM categories to search for (e.g., [\"amenity\", \"shop\", \"tourism\"]).\n               If omitted, searches common categories.\n    limit: Maximum number of total results to return\n    \nReturns:\n    Structured dictionary containing:\n    - Original query parameters\n    - Total count of places found\n    - Results grouped by category and subcategory\n    - Each place includes name, coordinates, and associated tags\n",
+        "parameters": {
+            "properties": {
+                "latitude": {
+                    "title": "Latitude",
+                    "type": "number"
+                },
+                "longitude": {
+                    "title": "Longitude",
+                    "type": "number"
+                },
+                "radius": {
+                    "default": 1000,
+                    "title": "Radius",
+                    "type": "number"
+                },
+                "categories": {
+                    "default": null,
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Categories",
+                    "type": "array"
+                },
+                "limit": {
+                    "default": 20,
+                    "title": "Limit",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "latitude",
+                "longitude"
+            ],
+            "title": "find_nearby_placesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "open-streetmap-mcp_get_route_directions",
+        "description": "\nCalculate detailed route directions between two geographic points.\n\nThis tool provides comprehensive routing information between two locations using OpenStreetMap/OSRM.\nThe output can be minimized using the steps, overview, and annotations parameters to reduce the response size.\n\nArgs:\n    from_latitude: Starting point latitude (decimal degrees)\n    from_longitude: Starting point longitude (decimal degrees)\n    to_latitude: Destination latitude (decimal degrees)\n    to_longitude: Destination longitude (decimal degrees)\n    ctx: Context (provided internally by MCP)\n    mode: Transportation mode (\"car\", \"bike\", \"foot\")\n    steps: Turn-by-turn instructions (True/False, Default: False)\n    overview: Geometry output (\"full\", \"simplified\", \"false\"; Default: \"simplified\")\n    annotations: Additional segment info (True/False, Default: False)\n\nReturns:\n    Dictionary with routing information (summary, directions, geometry, waypoints)\n\nExample:\n    {\n      \"from_latitude\": 51.3334193,\n      \"from_longitude\": 9.4540423,\n      \"to_latitude\": 51.3295516,\n      \"to_longitude\": 9.4576721,\n      \"mode\": \"car\",\n      \"steps\": false,\n      \"overview\": \"simplified\",\n      \"annotations\": false\n    }\n",
+        "parameters": {
+            "properties": {
+                "from_latitude": {
+                    "title": "From Latitude",
+                    "type": "number"
+                },
+                "from_longitude": {
+                    "title": "From Longitude",
+                    "type": "number"
+                },
+                "to_latitude": {
+                    "title": "To Latitude",
+                    "type": "number"
+                },
+                "to_longitude": {
+                    "title": "To Longitude",
+                    "type": "number"
+                },
+                "mode": {
+                    "default": "car",
+                    "title": "Mode",
+                    "type": "string"
+                },
+                "steps": {
+                    "default": false,
+                    "title": "Steps",
+                    "type": "boolean"
+                },
+                "overview": {
+                    "default": "simplified",
+                    "title": "Overview",
+                    "type": "string"
+                },
+                "annotations": {
+                    "default": false,
+                    "title": "Annotations",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "from_latitude",
+                "from_longitude",
+                "to_latitude",
+                "to_longitude"
+            ],
+            "title": "get_route_directionsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "open-streetmap-mcp_search_category",
+        "description": "\nSearch for specific types of places within a defined geographic area.\n\nThis tool allows targeted searches for places matching specific categories within\na rectangular geographic region. It's particularly useful for filtering places by type\n(restaurants, schools, parks, etc.) within a neighborhood or city district. Results include\ncomplete location details and metadata about each matching place.\n\nArgs:\n    category: Main OSM category to search for (e.g., \"amenity\", \"shop\", \"tourism\", \"building\")\n    min_latitude: Southern boundary of search area (decimal degrees)\n    min_longitude: Western boundary of search area (decimal degrees)\n    max_latitude: Northern boundary of search area (decimal degrees)\n    max_longitude: Eastern boundary of search area (decimal degrees)\n    subcategories: Optional list of specific subcategories to filter by (e.g., [\"restaurant\", \"cafe\"])\n    \nReturns:\n    Structured results including:\n    - Query parameters\n    - Count of matching places\n    - List of matching places with coordinates, names, and metadata\n",
+        "parameters": {
+            "properties": {
+                "category": {
+                    "title": "Category",
+                    "type": "string"
+                },
+                "min_latitude": {
+                    "title": "Min Latitude",
+                    "type": "number"
+                },
+                "min_longitude": {
+                    "title": "Min Longitude",
+                    "type": "number"
+                },
+                "max_latitude": {
+                    "title": "Max Latitude",
+                    "type": "number"
+                },
+                "max_longitude": {
+                    "title": "Max Longitude",
+                    "type": "number"
+                },
+                "subcategories": {
+                    "default": null,
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Subcategories",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "category",
+                "min_latitude",
+                "min_longitude",
+                "max_latitude",
+                "max_longitude"
+            ],
+            "title": "search_categoryArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "open-streetmap-mcp_suggest_meeting_point",
+        "description": "\nFind the optimal meeting place for multiple people coming from different locations.\n\nThis tool calculates a central meeting point based on the locations of multiple individuals,\nthen recommends suitable venues near that central point. Ideal for planning social gatherings,\nbusiness meetings, or any situation where multiple people need to converge from different\nstarting points.\n\nArgs:\n    locations: List of dictionaries, each containing the latitude and longitude of a person's location\n              Example: [{\"latitude\": 37.7749, \"longitude\": -122.4194}, {\"latitude\": 37.3352, \"longitude\": -121.8811}]\n    venue_type: Type of venue to suggest as a meeting point. Options include:\n               \"cafe\", \"restaurant\", \"bar\", \"library\", \"park\", etc.\n    \nReturns:\n    Meeting point recommendations including:\n    - Calculated center point coordinates\n    - List of suggested venues with names and details\n    - Total number of matching venues in the area\n",
+        "parameters": {
+            "properties": {
+                "locations": {
+                    "items": {
+                        "additionalProperties": {
+                            "type": "number"
+                        },
+                        "type": "object"
+                    },
+                    "title": "Locations",
+                    "type": "array"
+                },
+                "venue_type": {
+                    "default": "cafe",
+                    "title": "Venue Type",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "locations"
+            ],
+            "title": "suggest_meeting_pointArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "open-streetmap-mcp_explore_area",
+        "description": "\nGenerate a comprehensive profile of an area including all amenities and features.\n\nThis powerful analysis tool creates a detailed overview of a neighborhood or area by\nidentifying and categorizing all geographic features, amenities, and points of interest.\nResults are organized by category for easy analysis. Excellent for neighborhood research,\narea comparisons, and location-based decision making.\n\nArgs:\n    latitude: Center point latitude (decimal degrees)\n    longitude: Center point longitude (decimal degrees)\n    radius: Search radius in meters (defaults to 500m)\n    \nReturns:\n    In-depth area profile including:\n    - Address and location context\n    - Total feature count\n    - Features organized by category and subcategory\n    - Each feature includes name, coordinates, and detailed metadata\n",
+        "parameters": {
+            "properties": {
+                "latitude": {
+                    "title": "Latitude",
+                    "type": "number"
+                },
+                "longitude": {
+                    "title": "Longitude",
+                    "type": "number"
+                },
+                "radius": {
+                    "default": 500,
+                    "title": "Radius",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "latitude",
+                "longitude"
+            ],
+            "title": "explore_areaArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "open-streetmap-mcp_find_schools_nearby",
+        "description": "\nLocate educational institutions near a specific location, filtered by education level.\n\nThis specialized search tool identifies schools, colleges, and other educational institutions\nwithin a specified distance from a location. Results can be filtered by education level\n(elementary, middle, high school, university, etc.). Essential for families evaluating\nneighborhoods or real estate purchases with education considerations.\n\nArgs:\n    latitude: Center point latitude (decimal degrees)\n    longitude: Center point longitude (decimal degrees)\n    radius: Search radius in meters (defaults to 2000m/2km)\n    education_levels: Optional list of specific education levels to filter by\n                     (e.g., [\"elementary\", \"secondary\", \"university\"])\n    \nReturns:\n    List of educational institutions with:\n    - Name and type\n    - Distance from search point\n    - Education levels offered\n    - Contact information if available\n    - Other relevant metadata\n",
+        "parameters": {
+            "properties": {
+                "latitude": {
+                    "title": "Latitude",
+                    "type": "number"
+                },
+                "longitude": {
+                    "title": "Longitude",
+                    "type": "number"
+                },
+                "radius": {
+                    "default": 2000,
+                    "title": "Radius",
+                    "type": "number"
+                },
+                "education_levels": {
+                    "default": null,
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Education Levels",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "latitude",
+                "longitude"
+            ],
+            "title": "find_schools_nearbyArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "open-streetmap-mcp_analyze_commute",
+        "description": "\nPerform a detailed commute analysis between home and work locations.\n\nThis advanced tool analyzes commute options between two locations (typically home and work),\ncomparing multiple transportation modes and providing detailed metrics for each option.\nIncludes estimated travel times, distances, turn-by-turn directions, and other commute-relevant\ndata. Essential for real estate decisions, lifestyle planning, and workplace relocation analysis.\n\nArgs:\n    home_latitude: Home location latitude (decimal degrees)\n    home_longitude: Home location longitude (decimal degrees)\n    work_latitude: Workplace location latitude (decimal degrees)\n    work_longitude: Workplace location longitude (decimal degrees)\n    modes: List of transportation modes to analyze (options: \"car\", \"foot\", \"bike\")\n    depart_at: Optional departure time (format: \"HH:MM\") for time-sensitive routing\n    \nReturns:\n    Comprehensive commute analysis with:\n    - Summary comparing all transportation modes\n    - Detailed route information for each mode\n    - Total distance and duration for each option\n    - Turn-by-turn directions\n",
+        "parameters": {
+            "properties": {
+                "home_latitude": {
+                    "title": "Home Latitude",
+                    "type": "number"
+                },
+                "home_longitude": {
+                    "title": "Home Longitude",
+                    "type": "number"
+                },
+                "work_latitude": {
+                    "title": "Work Latitude",
+                    "type": "number"
+                },
+                "work_longitude": {
+                    "title": "Work Longitude",
+                    "type": "number"
+                },
+                "modes": {
+                    "default": [
+                        "car",
+                        "foot",
+                        "bike"
+                    ],
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Modes",
+                    "type": "array"
+                },
+                "depart_at": {
+                    "default": null,
+                    "title": "Depart At",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "home_latitude",
+                "home_longitude",
+                "work_latitude",
+                "work_longitude"
+            ],
+            "title": "analyze_commuteArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "open-streetmap-mcp_find_ev_charging_stations",
+        "description": "\nLocate electric vehicle charging stations near a specific location.\n\nThis specialized search tool identifies EV charging infrastructure within a specified\ndistance from a location. Results can be filtered by connector type (Tesla, CCS, CHAdeMO, etc.)\nand minimum power delivery. Essential for EV owners planning trips or evaluating potential\ncharging stops.\n\nArgs:\n    latitude: Center point latitude (decimal degrees)\n    longitude: Center point longitude (decimal degrees)\n    radius: Search radius in meters (defaults to 5000m/5km)\n    connector_types: Optional list of specific connector types to filter by\n                    (e.g., [\"type2\", \"ccs\", \"tesla\"])\n    min_power: Minimum charging power in kW\n    \nReturns:\n    List of charging stations with:\n    - Location name and operator\n    - Available connector types\n    - Charging speeds\n    - Number of charging points\n    - Access restrictions\n    - Other relevant metadata\n",
+        "parameters": {
+            "properties": {
+                "latitude": {
+                    "title": "Latitude",
+                    "type": "number"
+                },
+                "longitude": {
+                    "title": "Longitude",
+                    "type": "number"
+                },
+                "radius": {
+                    "default": 5000,
+                    "title": "Radius",
+                    "type": "number"
+                },
+                "connector_types": {
+                    "default": null,
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Connector Types",
+                    "type": "array"
+                },
+                "min_power": {
+                    "default": null,
+                    "title": "Min Power",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "latitude",
+                "longitude"
+            ],
+            "title": "find_ev_charging_stationsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "open-streetmap-mcp_analyze_neighborhood",
+        "description": "\nGenerate a comprehensive neighborhood analysis focused on livability factors.\n\nThis advanced analysis tool evaluates a neighborhood based on multiple livability factors,\nincluding amenities, transportation options, green spaces, and services. Results include\ncounts and proximity scores for various categories, helping to assess the overall quality\nand convenience of a residential area. Invaluable for real estate decisions, relocation\nplanning, and neighborhood comparisons.\n\nArgs:\n    latitude: Center point latitude (decimal degrees)\n    longitude: Center point longitude (decimal degrees)\n    radius: Analysis radius in meters (defaults to 1000m/1km)\n    \nReturns:\n    Comprehensive neighborhood profile including:\n    - Overall neighborhood score\n    - Walkability assessment\n    - Public transportation access\n    - Nearby amenities (shops, restaurants, services)\n    - Green spaces and recreation\n    - Education and healthcare facilities\n    - Detailed counts and distance metrics for each category\n",
+        "parameters": {
+            "properties": {
+                "latitude": {
+                    "title": "Latitude",
+                    "type": "number"
+                },
+                "longitude": {
+                    "title": "Longitude",
+                    "type": "number"
+                },
+                "radius": {
+                    "default": 1000,
+                    "title": "Radius",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "latitude",
+                "longitude"
+            ],
+            "title": "analyze_neighborhoodArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "open-streetmap-mcp_find_parking_facilities",
+        "description": "\nLocate parking facilities near a specific location.\n\nThis tool finds parking options (lots, garages, street parking) near a specified location.\nResults can be filtered by parking type and include capacity information where available.\nUseful for trip planning, city navigation, and evaluating parking availability in urban areas.\n\nArgs:\n    latitude: Center point latitude (decimal degrees)\n    longitude: Center point longitude (decimal degrees)\n    radius: Search radius in meters (defaults to 1000m/1km)\n    parking_type: Optional filter for specific types of parking facilities\n                 (\"surface\", \"underground\", \"multi-storey\", etc.)\n    \nReturns:\n    List of parking facilities with:\n    - Name and type\n    - Capacity information if available\n    - Fee structure if available\n    - Access restrictions\n    - Distance from search point\n",
+        "parameters": {
+            "properties": {
+                "latitude": {
+                    "title": "Latitude",
+                    "type": "number"
+                },
+                "longitude": {
+                    "title": "Longitude",
+                    "type": "number"
+                },
+                "radius": {
+                    "default": 1000,
+                    "title": "Radius",
+                    "type": "number"
+                },
+                "parking_type": {
+                    "default": null,
+                    "title": "Parking Type",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "latitude",
+                "longitude"
+            ],
+            "title": "find_parking_facilitiesArguments",
+            "type": "object"
+        }
+    }
+]

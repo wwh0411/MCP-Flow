@@ -1,0 +1,744 @@
+[
+    {
+        "name": "get_allowed_directory",
+        "description": "Get the current working directory that this server is allowed to access. WHEN TO USE: When you need to understand the current workspace boundaries, determine the root directory for relative paths, or verify where file operations are permitted. Useful for commands that need to know the allowed workspace root. WHEN NOT TO USE: When you already know the current working directory or when you need to actually list files in the directory (use directory_listing instead). RETURNS: A string containing the absolute path to the current allowed working directory. This is the root directory within which all file operations must occur.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    },
+    {
+        "name": "write_file",
+        "description": "Create a new file or overwrite an existing file with new content. WHEN TO USE: When you need to save changes, create new files, or update existing ones with new content. Useful for generating reports, creating configuration files, or saving edited content. WHEN NOT TO USE: When you want to make targeted edits to parts of a file while preserving the rest (use edit_file instead), when you need to append to a file without overwriting existing content, or when you need to preserve the original file. RETURNS: A confirmation message indicating that the file was successfully written. Creates parent directories automatically if they don't exist. Use with caution as it will overwrite existing files without warning. Only works within the allowed directory. Example: Path='notes.txt', Content='Meeting notes for project X'",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "Path where to write the file. Both absolute and relative paths are supported, but must be within the allowed workspace. Examples: 'README.md', 'logs/debug.log', 'reports/report.txt'. Parent directories will be created automatically if they don't exist."
+                },
+                "content": {
+                    "type": "string",
+                    "description": "Content to write to the file. The complete text content that should be saved to the file. This will completely replace any existing content if the file already exists."
+                }
+            },
+            "required": [
+                "path",
+                "content"
+            ]
+        }
+    },
+    {
+        "name": "update_allowed_directory",
+        "description": "Change the working directory that this server is allowed to access. WHEN TO USE: When you need to switch between different projects, change the workspace root to a different directory, or expand/modify the boundaries of allowed file operations. Useful when working with multiple projects or repositories in different locations. WHEN NOT TO USE: When you only need to create a subdirectory within the current workspace (use create_directory instead), or when you just want to list files in a different directory (use directory_listing instead). RETURNS: A confirmation message indicating that the allowed directory has been successfully updated to the new path.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "directory": {
+                    "type": "string",
+                    "description": "Directory to allow access to. Must be an absolute path that exists on the system. Use ~ to refer to the user's home directory. Examples: '/Users/username/projects', '~/Documents/code', '/home/user/repositories'. The directory must exist and be accessible to the user running the application."
+                }
+            },
+            "required": [
+                "directory"
+            ]
+        }
+    },
+    {
+        "name": "create_directory",
+        "description": "Create a new directory or ensure a directory exists. Can create multiple nested directories in one operation. WHEN TO USE: When you need to set up project structure, organize files, create output directories before saving files, or establish a directory hierarchy. WHEN NOT TO USE: When you only want to check if a directory exists (use get_file_info instead), or when trying to create directories outside the allowed workspace. RETURNS: Text message confirming either that the directory was successfully created or that it already exists. The operation succeeds silently if the directory already exists. Only works within the allowed directory. Example: Enter 'src/components' to create nested directories.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "Path of the directory to create. Can include nested directories which will all be created. Examples: 'logs' for a simple directory, 'src/components/buttons' for nested directories. Both absolute and relative paths are supported, but must be within the allowed workspace."
+                }
+            },
+            "required": [
+                "path"
+            ]
+        }
+    },
+    {
+        "name": "edit_file",
+        "description": "Make line-based edits to a text file. WHEN TO USE: When you need to make selective changes to specific parts of a file while preserving the rest of the content. Useful for modifying configuration values, updating text while maintaining file structure, or making targeted code changes. IMPORTANT: For multiple edits to the same file, use a single tool call with multiple edits in the 'edits' array rather than multiple tool calls. This is more efficient and ensures all edits are applied atomically. WHEN NOT TO USE: When you want to completely replace a file's contents (use write_file instead), when you need to create a new file (use write_file instead), or when you want to apply highly complex edits with context. RETURNS: A git-style diff showing the changes made, along with information about any failed matches. The response includes sections for failed matches (if any) and the unified diff output. Only works within the allowed directory. EXAMPLES: For a single edit: {\"path\": \"config.js\", \"edits\": [{\"oldText\": \"port: 3000\", \"newText\": \"port: 8080\"}]}. For multiple edits: {\"path\": \"app.py\", \"edits\": [{\"oldText\": \"debug=False\", \"newText\": \"debug=True\"}, {\"oldText\": \"version='1.0'\", \"newText\": \"version='2.0'\"}]}",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "File to edit. Must be a text file that exists within the allowed workspace. Examples: 'README.md', 'src/config.js', 'settings.json'. Both absolute and relative paths are supported, but must be within the allowed workspace."
+                },
+                "edits": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "oldText": {
+                                "type": "string",
+                                "description": "Text to search for in the file. This should be a unique segment of text to identify where the change should be made. Include enough context (lines before/after) to ensure the right match is found."
+                            },
+                            "newText": {
+                                "type": "string",
+                                "description": "Text to replace the matched section with. This will completely replace the oldText section. To delete text, use an empty string."
+                            }
+                        },
+                        "required": [
+                            "oldText",
+                            "newText"
+                        ]
+                    },
+                    "description": "MUST be an array of edit objects, NOT a string. Each edit object must contain 'oldText' and 'newText' properties. For multiple edits, use: [{\"oldText\": \"text1\", \"newText\": \"replacement1\"}, {\"oldText\": \"text2\", \"newText\": \"replacement2\"}]. For single edit, still use array: [{\"oldText\": \"text\", \"newText\": \"replacement\"}]. The edits are applied in sequence, and each one can modify the result of previous edits. AVOID multiple tool calls for the same file - instead, group all edits into a single call."
+                },
+                "options": {
+                    "type": "object",
+                    "properties": {
+                        "partialMatch": {
+                            "type": "boolean",
+                            "description": "Enable fuzzy matching for finding text. When true, the tool will try to find the best match even if it's not an exact match, using the confidenceThreshold (default 80%).",
+                            "default": true
+                        },
+                        "confidenceThreshold": {
+                            "type": "number",
+                            "description": "Minimum confidence threshold for fuzzy matching (0.0 to 1.0). Higher values require more exact matches. Default is 0.8 (80% confidence).",
+                            "minimum": 0.0,
+                            "maximum": 1.0,
+                            "default": 0.8
+                        }
+                    }
+                }
+            },
+            "required": [
+                "path",
+                "edits"
+            ]
+        }
+    },
+    {
+        "name": "list_directory",
+        "description": "Get a detailed listing of files and directories in the specified path, including type, size, and modification date. WHEN TO USE: When you need to explore the contents of a directory, understand what files are available, check file sizes or modification dates, or locate specific files by name. WHEN NOT TO USE: When you need to read the contents of files (use read_file instead), when you need a recursive listing of all subdirectories (use directory_tree instead), or when searching for files by name pattern (use search_files instead). RETURNS: Text with each line containing file type ([DIR]/[FILE]), name, size (in B/KB/MB), and modification date. Only works within the allowed directory. Example: Enter 'src' to list contents of the src directory, or '.' for current directory.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "Path of the directory to list. Examples: '.' for current directory, 'src' for src directory, 'docs/images' for a nested directory. The path must be within the allowed workspace."
+                }
+            },
+            "required": [
+                "path"
+            ]
+        }
+    },
+    {
+        "name": "read_file",
+        "description": "Read the contents of one or more files from the file system. WHEN TO USE: When you need to examine the actual content of one or more files, view source code, check configuration files, or analyze text data. This is the primary tool for accessing file contents directly. WHEN NOT TO USE: When you only need file metadata like size or modification date (use get_file_info instead), when you need to list directory contents (use directory_listing instead). RETURNS: The complete text content of the specified file(s) or the requested portion if offset/limit are specified. Binary files or files with unknown encodings will return an error message. Each file's content is preceded by a header showing the file path (==> path/to/file <==). Handles various text encodings and provides detailed error messages if a file cannot be read. Only works within the allowed directory. Example: Use 'files: [{\"path\": \"src/main.py\"}]' to read a Python file, or add offset/limit to read specific line ranges. For multiple files, use 'files: [{\"path\": \"file1.txt\"}, {\"path\": \"file2.txt\"}]' with optional offset/limit for each file.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "files": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "path": {
+                                "type": "string",
+                                "description": "Path to the file to read. This must be a path to a file, not a directory. Examples: 'README.md', 'src/main.py', 'config.json'. Both absolute and relative paths are supported, but must be within the allowed workspace."
+                            },
+                            "offset": {
+                                "type": "integer",
+                                "description": "Line number to start reading from (1-indexed). If specified, the file will be read starting from this line. Default is to start from the beginning of the file."
+                            },
+                            "limit": {
+                                "type": "integer",
+                                "description": "Maximum number of lines to read after the offset. If specified along with offset, only this many lines will be read. Default is to read to the end of the file."
+                            }
+                        },
+                        "required": [
+                            "path"
+                        ]
+                    },
+                    "description": "List of files to read with optional offset and limit for each file."
+                }
+            },
+            "required": [
+                "files"
+            ]
+        }
+    },
+    {
+        "name": "move_file",
+        "description": "Move or rename a file or directory to a new location. WHEN TO USE: When you need to reorganize files or directories, rename files or folders, or move items to a different location within the allowed workspace. Useful for organizing project files, restructuring directories, or for simple renaming operations. WHEN NOT TO USE: When you want to copy a file while keeping the original (copying functionality is not available in this tool set), when destination already exists (the operation will fail), or when either source or destination is outside the allowed workspace. RETURNS: A confirmation message indicating that the file or directory was successfully moved. Parent directories of the destination will be created automatically if they don't exist. Both source and destination must be within the allowed directory. Example: source='old.txt', destination='new/path/new.txt'",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "source": {
+                    "type": "string",
+                    "description": "Source path of the file or directory to move. This file or directory must exist. Both absolute and relative paths are supported, but must be within the allowed workspace. Examples: 'document.txt', 'src/utils.js', 'config/old-settings/'"
+                },
+                "destination": {
+                    "type": "string",
+                    "description": "Destination path where to move the file or directory. If this path already exists, the operation will fail. Parent directories will be created automatically if they don't exist. Both absolute and relative paths are supported, but must be within the allowed workspace. Examples: 'renamed.txt', 'backup/document.txt', 'src/new-location/'"
+                }
+            },
+            "required": [
+                "source",
+                "destination"
+            ]
+        }
+    },
+    {
+        "name": "copy_file",
+        "description": "Copy a file or directory to a new location. WHEN TO USE: When you need to duplicate files or directories while keeping the original intact, create backups, or replicate configuration files for different environments. Useful for testing changes without risking original files, creating template files, or duplicating project structures. WHEN NOT TO USE: When you want to move a file without keeping the original (use move_file instead), when the destination already exists (the operation will fail), or when either source or destination is outside the allowed workspace. RETURNS: A confirmation message indicating that the file or directory was successfully copied. For directories, the entire directory structure is copied recursively. Parent directories of the destination will be created automatically if they don't exist. Both source and destination must be within the allowed directory. Example: source='config.json', destination='config.backup.json'",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "source": {
+                    "type": "string",
+                    "description": "Source path of the file or directory to copy. This file or directory must exist. Both absolute and relative paths are supported, but must be within the allowed workspace. Examples: 'document.txt', 'src/utils.js', 'config/settings/'"
+                },
+                "destination": {
+                    "type": "string",
+                    "description": "Destination path where to copy the file or directory. If this path already exists, the operation will fail. Parent directories will be created automatically if they don't exist. Both absolute and relative paths are supported, but must be within the allowed workspace. Examples: 'document.backup.txt', 'backup/document.txt', 'src/new-project/'"
+                },
+                "recursive": {
+                    "type": "boolean",
+                    "description": "Whether to copy directories recursively. If set to true and the source is a directory, all subdirectories and files will be copied. If set to false and the source is a directory, the operation will fail. Defaults to true.",
+                    "default": true
+                }
+            },
+            "required": [
+                "source",
+                "destination"
+            ]
+        }
+    },
+    {
+        "name": "search_files",
+        "description": "Search for files and directories matching a pattern in their names. WHEN TO USE: When you need to find files or directories by name pattern across a directory tree, locate files with specific extensions, or find items containing certain text in their names. Useful for locating configuration files, finding all files of a certain type, or gathering files related to a specific feature. WHEN NOT TO USE: When searching for content within files (use search_code tool for that), when you need a flat listing of a single directory (use list_directory instead), or when you need to analyze code structure (use codebase_mapper instead). RETURNS: A list of matching files and directories with their types ([FILE] or [DIR]) and relative paths. For Git repositories, only shows tracked files and directories by default. The search is recursive and case-insensitive. Only searches within the allowed directory. Example: pattern='.py' finds all Python files, pattern='test' finds all items with 'test' in the name.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "pattern": {
+                    "type": "string",
+                    "description": "Pattern to search for in file and directory names. The search is case-insensitive and matches substrings. Examples: '.js' to find all JavaScript files, 'test' to find all items containing 'test' in their name, 'config' to find configuration files and directories."
+                },
+                "path": {
+                    "type": "string",
+                    "description": "Starting directory for the search (defaults to allowed directory). This is the root directory from which the recursive search begins. Examples: '.' for current directory, 'src' to search only in the src directory tree. Both absolute and relative paths are supported, but must be within the allowed workspace."
+                },
+                "include_hidden": {
+                    "type": "boolean",
+                    "description": "Whether to include hidden files and directories (defaults to false). On Unix-like systems, hidden items start with a dot (.). Set to true to include them in the search results."
+                }
+            },
+            "required": [
+                "pattern"
+            ]
+        }
+    },
+    {
+        "name": "delete_file",
+        "description": "Delete a file or empty directory from the file system. WHEN TO USE: When you need to remove unwanted files, clean up temporary files, or delete empty directories. Useful for cleaning up workspaces, removing intermediate build artifacts, or deleting temporary files. WHEN NOT TO USE: When you need to delete non-empty directories (the operation will fail), when you want to move files instead of deleting them (use move_file instead), or when you need to preserve the file for later use. RETURNS: A confirmation message indicating that the file or empty directory was successfully deleted. For safety, this tool will not delete non-empty directories. Use with caution as this operation cannot be undone. Only works within the allowed directory. Example: path='old_file.txt' removes the specified file.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "Path to the file or empty directory to delete. For directories, they must be completely empty or the operation will fail. Examples: 'temp.txt', 'build/cache.json', 'empty-dir/'. Both absolute and relative paths are supported, but must be within the allowed workspace."
+                }
+            },
+            "required": [
+                "path"
+            ]
+        }
+    },
+    {
+        "name": "get_file_info",
+        "description": "Get detailed information about a file or directory. WHEN TO USE: When you need to check file metadata like size, timestamps, permissions, or file type without reading the contents. Useful for determining when files were modified, checking file sizes, verifying file existence, or distinguishing between files and directories. WHEN NOT TO USE: When you need to read the actual content of a file (use read_file instead), or when you need to list all files in a directory (use directory_listing instead). RETURNS: Text with information about the file or directory including type (file/directory), size in bytes, creation time, modification time, access time (all in ISO 8601 format), and permissions. Only works within the allowed directory. Example: path='src/main.py' returns details about main.py",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "Path to the file or directory to get information about. Can be either a file or directory path. Examples: 'README.md', 'src/components', 'package.json'. Both absolute and relative paths are supported, but must be within the allowed workspace."
+                }
+            },
+            "required": [
+                "path"
+            ]
+        }
+    },
+    {
+        "name": "directory_tree",
+        "description": "Get a recursive tree view of files and directories in the specified path as a JSON structure. WHEN TO USE: When you need to understand the complete structure of a directory tree, visualize the hierarchy of files and directories, or get a comprehensive overview of a project's organization. Particularly useful for large projects where you need to see nested relationships. WHEN NOT TO USE: When you only need a flat list of files in a single directory (use directory_listing instead), or when you're only interested in specific file types (use search_files instead). RETURNS: JSON structure where each entry includes 'name', 'type' (file/directory), and 'children' for directories. Files have no children array, while directories always have a children array (which may be empty). The output is formatted with 2-space indentation for readability. For Git repositories, shows tracked files only. Only works within the allowed directory and only for non-hidden files, or files that are not inside hidden directory. If you want to show the hidden files also, use commands like execute_shell_script. Example: Enter '.' for current directory, or 'src' for a specific directory.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "Root directory to analyze. This is the starting point for the recursive tree generation. Examples: '.' for current directory, 'src' for the src directory. Both absolute and relative paths are supported, but must be within the allowed workspace."
+                },
+                "max_depth": {
+                    "type": "integer",
+                    "description": "Max depth for traversing in case of big and deeply nested directory",
+                    "default": 3
+                }
+            },
+            "required": [
+                "path"
+            ]
+        }
+    },
+    {
+        "name": "execute_code",
+        "description": "Execute arbitrary code in various programming languages on the user's local machine within the current working directory. WHEN TO USE: When you need to run small code snippets to test functionality, compute values, process data, or demonstrate how code works. Useful for quick prototyping, data transformations, or explaining programming concepts with running examples. WHEN NOT TO USE: When you need to modify files (use write_file or edit_file instead), when running potentially harmful operations, or when you need to install external dependencies. RETURNS: Text output including stdout, stderr, and exit code of the execution. The output sections are clearly labeled with '=== stdout ===' and '=== stderr ==='. Supported languages: python, javascript, ruby, php, go, rust. Always review the code carefully before execution to prevent unintended consequences. Examples: - Python: code='print(sum(range(10)))'. - JavaScript: code='console.log(Array.from({length: 5}, (_, i) => i*2))'. - Ruby: code='puts (1..5).reduce(:+)'. ",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "language": {
+                    "type": "string",
+                    "enum": [
+                        "python",
+                        "javascript",
+                        "ruby",
+                        "php",
+                        "go",
+                        "rust"
+                    ],
+                    "description": "Programming language to use. Must be one of the supported languages: python, javascript, ruby, php, go, rust. Each language requires the appropriate runtime to be installed on the user's machine. The code will be executed using: python3 for Python, node for JavaScript, ruby for Ruby, php for PHP, go run for Go, and rustc for Rust."
+                },
+                "code": {
+                    "type": "string",
+                    "description": "Code to execute on the user's local machine in the current working directory. The code will be saved to a temporary file and executed within the allowed workspace. For Go and Rust, main function wrappers will be added automatically if not present. For PHP, <?php will be prepended if not present."
+                },
+                "timeout": {
+                    "type": "integer",
+                    "description": "Maximum execution time in seconds. The execution will be terminated if it exceeds this time limit, returning a timeout message. Must be between 1 and 30 seconds.",
+                    "default": 5,
+                    "minimum": 1,
+                    "maximum": 30
+                }
+            },
+            "required": [
+                "language",
+                "code"
+            ]
+        }
+    },
+    {
+        "name": "execute_shell_script",
+        "description": "Execute a shell script (bash/sh) on the user's local machine within the current working directory. WHEN TO USE: When you need to automate system tasks, run shell commands, interact with the operating system, or perform operations that are best expressed as shell commands. Useful for file system operations, system configuration, or running system utilities. Also ideal when you need to run code linters to check for style issues or potential bugs in the codebase, or when you need to perform version control operations such as initializing git repositories, checking status, committing changes, cloning repositories, and other git commands without dedicated tools. WHEN NOT TO USE: When you need more structured programming (use execute_code instead), when you need to execute potentially dangerous system operations, or when you want to run commands outside the allowed directory. RETURNS: Text output including stdout, stderr, and exit code of the execution. The output sections are clearly labeled with '=== stdout ===' and '=== stderr ==='. This tool can execute shell commands and scripts for system automation and management tasks. It is designed to perform tasks on the user's local environment, such as opening applications, installing packages and more. Always review the script carefully before execution to prevent unintended consequences. Examples: - script='echo \"Current directory:\" && pwd'. - script='for i in {1..5}; do echo $i; done'. - script='eslint src/ --format stylish' (for linting). - script='git init && git add . && git commit -m \"Initial commit\"' (for git operations).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "script": {
+                    "type": "string",
+                    "description": "Shell script to execute on the user's local machine. Can include any valid shell commands or scripts that would run in a standard shell environment. The script is executed using /bin/sh for maximum compatibility across systems."
+                },
+                "timeout": {
+                    "type": "integer",
+                    "description": "Maximum execution time in seconds. The execution will be terminated if it exceeds this time limit. Default is 300 seconds (5 minutes), with a maximum allowed value of 600 seconds (10 minutes).",
+                    "default": 300,
+                    "maximum": 600
+                }
+            },
+            "required": [
+                "script"
+            ]
+        }
+    },
+    {
+        "name": "codebase_mapper",
+        "description": "Build a structural map of source code files in a directory. This tool analyzes code structure to identify classes, functions, and methods. WHEN TO USE: When you need to understand the structure of a codebase, discover classes and functions across multiple files, identify inheritance relationships, or get a high-level overview of code organization without reading every file individually. WHEN NOT TO USE: When you need to search for specific text patterns (use search_files instead), when you need to analyze a single known file (use read_file instead), or when you're working with non-code files. SUPPORTED LANGUAGES: Python (.py), JavaScript (.js/.jsx), TypeScript (.ts/.tsx), Java (.java), C++ (.cpp), Ruby (.rb), Go (.go), Rust (.rs), PHP (.php), C# (.cs), Kotlin (.kt). RETURNS: A text-based tree structure showing classes and functions in the codebase, along with statistics about found elements. Only analyzes files within the allowed directory. Example: Enter '.' to analyze all source files in current directory, or 'src' to analyze all files in the src directory.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "Root directory to analyze. Examples: '.' for current directory, 'src' for src directory, 'lib/components' for a specific subdirectory. The path must point to a directory within the allowed workspace."
+                }
+            },
+            "required": [
+                "path"
+            ]
+        }
+    },
+    {
+        "name": "search_code",
+        "description": "Fast content search tool using regular expressions. WHEN TO USE: When you need to search for specific patterns within file contents across a codebase. Useful for finding function definitions, variable usages, import statements, or any text pattern in source code files. WHEN NOT TO USE: When you need to find files by name (use search_files instead), when you need semantic code understanding (use codebase_mapper instead), or when analyzing individual file structure. RETURNS: Lines of code matching the specified patterns, grouped by file with line numbers. Results are sorted by file modification time with newest files first. Respects file filtering and ignores binary files. Search is restricted to the allowed directory.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "patterns": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of regular expression patterns to search for in file contents. Supports full regex syntax. Examples: ['function\\s+\\w+', 'class\\s+\\w+'] to find both function and class declarations."
+                },
+                "include": {
+                    "type": "string",
+                    "description": "File pattern to include in the search. Supports glob patterns including wildcards and braces. Examples: '*.js' for all JavaScript files, '*.{ts,tsx}' for TypeScript files, 'src/**/*.py' for Python files in the src directory and subdirectories.",
+                    "default": "*"
+                },
+                "exclude": {
+                    "type": "string",
+                    "description": "File pattern to exclude from the search. Supports glob patterns including wildcards and braces. Examples: 'node_modules/**' to exclude node_modules directory, '*.min.js' to exclude minified JS.",
+                    "default": ""
+                },
+                "max_results": {
+                    "type": "integer",
+                    "description": "Maximum number of matching results to return per pattern. Use to limit output size for common patterns. Default is 100, which is sufficient for most searches while preventing excessive output.",
+                    "default": 100
+                },
+                "case_sensitive": {
+                    "type": "boolean",
+                    "description": "Whether to perform a case-sensitive search. When true, 'Error' will not match 'error'. Default is false, which makes searches case-insensitive.",
+                    "default": false
+                },
+                "path": {
+                    "type": "string",
+                    "description": "Base directory to search from. This is the starting point for the search. Examples: '.' for current directory, 'src' to search only within src directory. Default is the root of the allowed directory.",
+                    "default": "."
+                },
+                "include_hidden": {
+                    "type": "boolean",
+                    "description": "Whether to include hidden files. When true, also include the hidden files like.env, .config on Unix/Posix/Linux, or files with hidden attribute on WindowsDefault is false, which exclude the hidden files from search",
+                    "default": false
+                }
+            },
+            "required": [
+                "patterns"
+            ]
+        }
+    },
+    {
+        "name": "batch_tools",
+        "description": "Execute multiple tool invocations in parallel or serially. WHEN TO USE: When you need to run multiple operations efficiently in a single request, combine related operations, or gather results from different tools. Useful for bulk operations, coordinated tasks, or performing multiple queries simultaneously. WHEN NOT TO USE: When operations need to be performed strictly in sequence where each step depends on the previous step's result, when performing simple operations that don't benefit from batching, or when you need fine-grained error handling. RETURNS: Results from all tool invocations grouped together. Each result includes the tool name and its output. If any individual tool fails, its error is included but other tools continue execution. Parallelizable tools are executed concurrently for performance. Each tool's output is presented in a structured format along with the description you provided. IMPORTANT NOTE: All tools in the batch execute in the same working directory context. If a tool creates a directory and a subsequent tool needs to work inside that directory, you must either use paths relative to the current working directory or include an explicit tool invocation to change directories (e.g., update_allowed_directory).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "description": "A short (3-5 word) description of the batch operation. This helps identify the purpose of the batch and provides context for the results. Examples: 'Setup new project', 'Analyze codebase', 'Gather system info'."
+                },
+                "sequential": {
+                    "type": "boolean",
+                    "description": "Whether to run tools in sequential order (true) or parallel when possible (false). Use sequential mode when tools need to build on the results of previous tools. Default is false (parallel execution).",
+                    "default": false
+                },
+                "invocations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "tool": {
+                                "type": "string",
+                                "description": "Name of the tool to invoke. Must be a valid tool name registered in the system."
+                            },
+                            "arguments": {
+                                "type": "object",
+                                "description": "Arguments to pass to the tool. These should match the required arguments for the specified tool."
+                            }
+                        },
+                        "required": [
+                            "tool",
+                            "arguments"
+                        ]
+                    },
+                    "description": "List of tool invocations to execute. Each invocation specifies a tool name and its arguments. These will be executed in parallel when possible, or serially when necessary."
+                }
+            },
+            "required": [
+                "description",
+                "invocations"
+            ]
+        }
+    },
+    {
+        "name": "think",
+        "description": "Use the tool to methodically think through a complex problem step-by-step. WHEN TO USE: When tackling complex reasoning tasks that benefit from breaking down problems, exploring multiple perspectives, or reasoning through chains of consequences. Ideal for planning system architecture, debugging complex issues, anticipating edge cases, weighing tradeoffs, or making implementation decisions. WHEN NOT TO USE: For simple explanations, direct code writing, retrieving information, or when immediate action is needed. RETURNS: Your structured thinking process formatted as markdown. This tool helps you methodically document your reasoning without making repository changes. Structuring your thoughts with this tool can lead to more reliable reasoning and better decision-making, especially for complex problems where it's easy to overlook important considerations.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "thought": {
+                    "type": "string",
+                    "description": "Your step-by-step thinking process, including: breaking down problems, exploring alternatives, considering pros/cons, examining assumptions, listing requirements, or working through edge cases. Structure your thinking using markdown elements like bullet points, numbered lists, headings, or code blocks. The more systematic your thinking, the better the outcome."
+                }
+            },
+            "required": [
+                "thought"
+            ]
+        }
+    },
+    {
+        "name": "capture_screenshot",
+        "description": "Capture a screenshot of the current screen and save it to a file. This tool allows capturing the entire screen, the active window, or a specific named window. The screenshot will be saved to the specified output path or to a default location if not provided. WHEN TO USE: When you need to visually document what's on screen, capture a specific application window, create visual references for troubleshooting, or gather visual information about the user's environment. Useful for documenting issues, creating tutorials, or assisting with visual tasks. WHEN NOT TO USE: When you need information about windows without capturing them (use get_available_windows instead). RETURNS: A JSON object containing success status, file path where the screenshot was saved, and a message. On failure, includes a detailed error message. If debug mode is enabled, also includes debug information about the attempted capture. Windows can be captured in the background without bringing them to the front. Works on macOS, Windows, and Linux with platform-specific implementations.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "output_path": {
+                    "type": "string",
+                    "description": "Optional path where the screenshot should be saved. If not provided, a default path will be used.Examples: 'screenshots/main_window.png', 'docs/current_state.png'. Both absolute and relative paths are supported, but must be within the allowed workspace."
+                },
+                "capture_mode": {
+                    "type": "object",
+                    "description": "Specifies what to capture in the screenshot.",
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "description": "The type of screenshot to capture. Use 'full' for the entire screen, 'active_window' for the currently active window (foreground window), or 'named_window' for a specific window by name or application name.",
+                            "enum": [
+                                "full",
+                                "active_window",
+                                "named_window"
+                            ]
+                        },
+                        "window_name": {
+                            "type": "string",
+                            "description": "Name of the specific application or window to capture. Required when type is 'named_window'. This can be a partial window title or application name, and the search is case-insensitive. Examples: 'Chrome', 'Visual Studio Code', 'Terminal'. Windows can be captured in the background without bringing them to the front."
+                        }
+                    },
+                    "required": [
+                        "type"
+                    ]
+                },
+                "debug": {
+                    "type": "boolean",
+                    "description": "Whether to include detailed debug information in the response when the operation fails. When set to true, the response will include additional information about available windows, match attempts, and system-specific details that can help diagnose capture issues. Default is False."
+                }
+            },
+            "required": [
+                "capture_mode"
+            ]
+        }
+    },
+    {
+        "name": "get_active_apps",
+        "description": "Get a list of currently active applications running on the user's system. WHEN TO USE: When you need to understand what software the user is currently working with, gain context about their active applications, provide application-specific assistance, or troubleshoot issues related to running programs. Especially useful for providing targeted help based on what the user is actively using. WHEN NOT TO USE: When you need information about specific windows rather than applications (use get_available_windows instead), when you need a screenshot of what's on screen (use capture_screenshot instead), or when application context isn't relevant to the task at hand. RETURNS: JSON object containing platform information, success status, count of applications, and an array of application objects. Each application object includes name, has_windows flag, and when details are requested, information about visible windows. Works on macOS, Windows, and Linux, with platform-specific implementation details.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "with_details": {
+                    "type": "boolean",
+                    "description": "Whether to include additional details about each application. When true, returns extra information like window_count, visible_windows with their names and dimensions. When false, returns a simpler list with just application names and whether they have windows. Default is False."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "get_available_windows",
+        "description": "Get detailed information about all available windows currently displayed on the user's screen. WHEN TO USE: When you need to know exactly what windows are visible to the user, find a specific window by title, provide guidance related to something the user is viewing, or need window-level context that's more detailed than application-level information. Useful for referencing specific content the user can see on their screen. WHEN NOT TO USE: When application-level information is sufficient (use get_active_apps instead), when you need to capture what's on screen (use capture_screenshot instead), or when window context isn't relevant to the task at hand. RETURNS: JSON object containing platform information, success status, count of windows, and an array of window objects. Each window object includes title, application owner, visibility status, and platform-specific details like window IDs. Works on macOS, Windows, and Linux, with platform-specific implementation details.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    },
+    {
+        "name": "read_image_file",
+        "description": "Read an image file from the file system and return its contents as a base64-encoded string. WHEN TO USE: When you need to view or process image files, include images in responses, analyze image content, or convert images to a format that can be transmitted as text. Useful for examining screenshots, diagrams, photos, or any visual content stored in the file system. WHEN NOT TO USE: When you only need information about the image file without its contents (use get_file_info instead), when working with extremely large images (over 100MB), or when you need to read text files (use read_file instead). RETURNS: A base64-encoded data URI string prefixed with the appropriate MIME type (e.g., 'data:image/png;base64,...'). Images that are very small or very large will be automatically resized to between 20-800 pixels wide while maintaining aspect ratio. This tool supports common image formats like PNG, JPEG, GIF, and WebP. Only works within the allowed directory.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "Path to the image file to read. This must be a valid image file in a supported format (PNG, JPEG, GIF, WebP). Examples: 'screenshots/screen.png', 'images/logo.jpg', 'diagrams/flowchart.gif'. Both absolute and relative paths are supported, but must be within the allowed workspace."
+                },
+                "max_size": {
+                    "type": "integer",
+                    "description": "Maximum file size in bytes to allow. Files larger than this size will be rejected to prevent memory issues. Default is 100MB (104,857,600 bytes). For most use cases, the default value is sufficient, but you can lower this when working with limited memory.",
+                    "optional": true
+                }
+            },
+            "required": [
+                "path"
+            ]
+        }
+    },
+    {
+        "name": "web_fetch",
+        "description": "Fetches content from a URL. WHEN TO USE: When you need to retrieve data from web APIs, download documentation, check external resources, or gather information from websites. Useful for getting real-time data, documentation, or referencing external content. WHEN NOT TO USE: When you need to interact with complex websites requiring authentication or session management, when the data needs to be processed in a specific format not supported, or when you need to make authenticated API calls with OAuth. TIP: Use 'web_search' first to find relevant URLs, then use this tool to fetch detailed content. RETURNS: The content of the URL as text. For HTML pages, returns the raw HTML content. For JSON endpoints, returns the JSON content as a string. Successful response includes HTTP status code. Failed requests include error details. Maximum request size enforced for safety.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "The URL to fetch content from. Must be a valid URL with supported protocol (http or https). Examples: 'https://example.com', 'https://api.github.com/repos/user/repo'. The URL must be publicly accessible."
+                },
+                "headers": {
+                    "type": "object",
+                    "description": "Optional HTTP headers to include in the request. Useful for API calls that require specific headers like User-Agent or Accept. Example: {'User-Agent': 'SkyDeckAI', 'Accept': 'application/json'}.",
+                    "default": {}
+                },
+                "timeout": {
+                    "type": "integer",
+                    "description": "Request timeout in seconds. Maximum time to wait for the server to respond before aborting the request. Defaults to 10 seconds.",
+                    "default": 10
+                },
+                "save_to_file": {
+                    "type": "string",
+                    "description": "Optional path to save the response content to a file. If provided, the content will be saved to this location. Must be within the allowed directory. Example: 'downloads/page.html', 'data/api_response.json'.",
+                    "default": null
+                },
+                "convert_html_to_markdown": {
+                    "type": "boolean",
+                    "description": "If set to true and the content is HTML, it will be converted to markdown format for better readability. This is especially useful for web pages with a lot of content.",
+                    "default": true
+                }
+            },
+            "required": [
+                "url"
+            ]
+        }
+    },
+    {
+        "name": "web_search",
+        "description": "Performs a web search and returns the search results. WHEN TO USE: When you need to find information on the web, get up-to-date data, or research a topic. This provides more current information than your training data. WHEN NOT TO USE: For queries requiring complex authentication, accessing private data, or when you want to browse interactive websites. TIP: For best results, use this tool to find relevant URLs, then use 'web_fetch' to get the full content of specific pages. RETURNS: A list of search results including titles, URLs, and snippets for each result.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "The search query to send to search engine. Be specific to get better results. Example: 'latest python release features' or 'climate change statistics 2023'."
+                },
+                "num_results": {
+                    "type": "integer",
+                    "description": "Number of search results to return. Maximum is 20 to prevent abuse.",
+                    "default": 10
+                },
+                "convert_html_to_markdown": {
+                    "type": "boolean",
+                    "description": "If true, search result snippets will be converted from HTML to markdown for better readability.",
+                    "default": true
+                },
+                "search_engine": {
+                    "type": "string",
+                    "description": "Specifies which search engine to use. Options: 'auto' (tries all in sequence), 'bing', or 'duckduckgo'. Some engines may block automated requests.",
+                    "enum": [
+                        "auto",
+                        "bing",
+                        "duckduckgo"
+                    ],
+                    "default": "auto"
+                }
+            },
+            "required": [
+                "query"
+            ]
+        }
+    },
+    {
+        "name": "get_system_info",
+        "description": "Get detailed system information about the host computer. WHEN TO USE: When you need to understand the system environment, diagnose performance issues, verify hardware specifications, check resource availability, or determine the operating environment for compatibility reasons. Useful for system analysis, troubleshooting, environment verification, and providing context-aware assistance. WHEN NOT TO USE: When you only need the current working directory (use get_allowed_directory instead), when specific file information is needed (use get_file_info instead), or when you need to interact with applications rather than system information (use get_active_apps instead). RETURNS: A JSON object containing comprehensive system details including: working directory path, OS details (name, version, architecture), Python version, WiFi network name, CPU information (cores, usage), memory statistics (total, available, usage percentage), disk information (total, free, usage percentage), and on macOS, additional hardware details (model, chip, serial number).",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    },
+    {
+        "name": "todo_read",
+        "description": "Read the current task list from the workspace-specific todo storage. MANDATORY: This tool MUST be called FIRST before ANY workspace operations including file reads, code analysis, development tasks, project creation, or directory manipulation. WORKSPACE-FIRST RULE: Every LLM interaction with workspaces, directories, projects, or repositories requires todo management. WHEN TO USE: Always when starting workspace operations - check task status, review pending/completed work, understand project context, pick up previous progress. Essential for: Project initialization, code development, file operations, debugging, testing, deployment, refactoring. WHEN NOT TO USE: Pure informational queries unrelated to workspace development. RETURNS: Sequential task list with status and metadata. Tasks execute in order - no priority system. Each workspace maintains isolated todo lists for project organization. CRITICAL: Bypassing this tool for workspace operations violates mandatory protocol. EXAMPLES: \n- Creating new projects: Read todos to check existing project structure tasks\n- Code development: Check current development phase and next sequential steps\n- File modifications: Understand task context before making changes\n- Project analysis: Review completed analysis and next investigation steps",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    },
+    {
+        "name": "todo_write",
+        "description": "Update the entire task list (complete replacement) for the current workspace. MANDATORY: This tool MUST be called when planning, adding, or reorganizing tasks during ANY workspace operations. WORKSPACE-FIRST RULE: All workspace development requires structured task management through sequential execution. WHEN TO USE: Task planning for new projects, adding development phases, reorganizing workflow, batch status updates. Sequential execution model: Tasks are completed in order, building upon previous work. No priority system - order determines execution. Essential for: Project planning, development workflows, feature implementation, debugging sequences, deployment phases. WHEN NOT TO USE: Single task updates (use todo_update), pure reading (use todo_read). RETURNS: Success status and task count. Enforces sequential execution (only one in-progress task). CRITICAL: Sequential task management is mandatory for all workspace development activities. EXAMPLES: \n- New project setup: Create sequential tasks for initialization, structure, dependencies\n- Feature development: Plan design, implementation, testing, documentation phases\n- Bug fixing: Create investigation, fix, test, validation sequence\n- Code refactoring: Plan analysis, changes, testing, cleanup steps",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "todos": {
+                    "type": "array",
+                    "description": "Complete list of todo items to replace the current list for sequential execution. Each todo must contain id, content, and status fields. Tasks execute in array order.",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "description": "Unique identifier for the task. Must be unique across all todos."
+                            },
+                            "content": {
+                                "type": "string",
+                                "description": "Task description or content. Cannot be empty."
+                            },
+                            "status": {
+                                "type": "string",
+                                "enum": [
+                                    "pending",
+                                    "in_progress",
+                                    "completed"
+                                ],
+                                "description": "Current status of the task. Only one task can be 'in_progress' at a time."
+                            },
+                            "metadata": {
+                                "type": "object",
+                                "description": "Optional additional data for the task.",
+                                "additionalProperties": true
+                            }
+                        },
+                        "required": [
+                            "id",
+                            "content",
+                            "status"
+                        ],
+                        "additionalProperties": true
+                    }
+                }
+            },
+            "required": [
+                "todos"
+            ]
+        }
+    },
+    {
+        "name": "todo_update",
+        "description": "Update a specific todo item by ID for sequential workflow management. MANDATORY: This tool MUST be called when progressing through tasks during workspace operations. WORKSPACE-FIRST RULE: Task progress updates are required for all workspace development activities. WHEN TO USE: Mark tasks in-progress when starting, completed when finished, update content for clarification. Sequential workflow: Progress through tasks in order, maintaining single active task constraint. Essential for: Task status transitions, progress tracking, workflow advancement, content updates. WHEN NOT TO USE: Multiple task updates (use todo_write), adding new tasks (use todo_write). RETURNS: Updated todo with status counts showing workflow progress. Enforces sequential execution - only one task can be in-progress at any time. CRITICAL: Sequential progress tracking is mandatory for workspace development workflows. EXAMPLES: \n- Starting work: Update task from 'pending' to 'in_progress'\n- Completing work: Update task from 'in_progress' to 'completed'\n- Task refinement: Update content for better clarity\n- Workflow progression: Move to next sequential task",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "todo_id": {
+                    "type": "string",
+                    "description": "The unique ID of the todo to update."
+                },
+                "updates": {
+                    "type": "object",
+                    "description": "Fields to update in the todo for sequential workflow. Can include content, status, or metadata.",
+                    "properties": {
+                        "content": {
+                            "type": "string",
+                            "description": "New task description or content."
+                        },
+                        "status": {
+                            "type": "string",
+                            "enum": [
+                                "pending",
+                                "in_progress",
+                                "completed"
+                            ],
+                            "description": "New status of the task."
+                        },
+                        "metadata": {
+                            "type": "object",
+                            "description": "Additional data for the task.",
+                            "additionalProperties": true
+                        }
+                    },
+                    "additionalProperties": true
+                }
+            },
+            "required": [
+                "todo_id",
+                "updates"
+            ]
+        }
+    }
+]

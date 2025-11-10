@@ -1,0 +1,159 @@
+[
+    {
+        "name": "opentofu_search-opentofu-registry",
+        "description": "Search the OpenTofu Registry to find providers, modules, resources, and data sources. Use simple terms without prefixes like 'terraform-provider-' or 'terraform-module-'.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "minLength": 2,
+                    "description": "Search query for finding OpenTofu components (e.g., 'aws', 'kubernetes', 'database', 's3')"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "provider",
+                        "module",
+                        "resource",
+                        "data-source",
+                        "all"
+                    ],
+                    "default": "all",
+                    "description": "Type of registry items to search for"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "opentofu_get-provider-details",
+        "description": "Get detailed information about a specific OpenTofu provider by namespace and name. Do NOT include 'terraform-provider-' prefix in the name.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "namespace": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Provider namespace (e.g., 'hashicorp', 'opentofu')"
+                },
+                "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Provider name WITHOUT 'terraform-provider-' prefix (e.g., 'aws', 'kubernetes', 'azurerm')"
+                }
+            },
+            "required": [
+                "namespace",
+                "name"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "opentofu_get-module-details",
+        "description": "Get detailed information about a specific OpenTofu module by namespace, name, and target. Use the simple module name, NOT the full repository name.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "namespace": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Module namespace without prefix (e.g., 'terraform-aws-modules')"
+                },
+                "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Simple module name WITHOUT 'terraform-aws-' or similar prefix (e.g., 'vpc', 's3-bucket')"
+                },
+                "target": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Module target platform (e.g., 'aws', 'kubernetes', 'azurerm')"
+                }
+            },
+            "required": [
+                "namespace",
+                "name",
+                "target"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "opentofu_get-resource-docs",
+        "description": "Get detailed documentation for a specific OpenTofu resource by provider namespace, provider name, and resource name.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "namespace": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Provider namespace (e.g., 'hashicorp', 'opentofu')"
+                },
+                "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Provider name WITHOUT 'terraform-provider-' prefix (e.g., 'aws', 'kubernetes')"
+                },
+                "resource": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Resource name WITHOUT provider prefix (e.g., 's3_bucket', 'instance')"
+                },
+                "version": {
+                    "type": "string",
+                    "description": "Provider version (e.g., 'v4.0.0'). If not specified, latest version will be used"
+                }
+            },
+            "required": [
+                "namespace",
+                "name",
+                "resource"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "opentofu_get-datasource-docs",
+        "description": "Get detailed documentation for a specific OpenTofu data source by provider namespace, provider name, and data source name.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "namespace": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Provider namespace (e.g., 'hashicorp', 'opentofu')"
+                },
+                "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Provider name WITHOUT 'terraform-provider-' prefix (e.g., 'aws', 'kubernetes')"
+                },
+                "dataSource": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Data source name WITHOUT provider prefix (e.g., 'ami', 'vpc')"
+                },
+                "version": {
+                    "type": "string",
+                    "description": "Provider version (e.g., 'v4.0.0'). If not specified, latest version will be used"
+                }
+            },
+            "required": [
+                "namespace",
+                "name",
+                "dataSource"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

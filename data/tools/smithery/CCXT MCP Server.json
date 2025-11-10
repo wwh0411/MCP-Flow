@@ -1,0 +1,739 @@
+[
+    {
+        "name": "mcp-server-ccxt_cache-stats",
+        "description": "Get CCXT cache statistics",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-ccxt_clear-cache",
+        "description": "Clear CCXT cache",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-ccxt_set-log-level",
+        "description": "Set logging level",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "level": {
+                    "type": "string",
+                    "enum": [
+                        "debug",
+                        "info",
+                        "warning",
+                        "error"
+                    ],
+                    "description": "Logging level to set"
+                }
+            },
+            "required": [
+                "level"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-ccxt_list-exchanges",
+        "description": "List all available cryptocurrency exchanges",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-ccxt_get-ticker",
+        "description": "Get current ticker information for a trading pair",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "exchange": {
+                    "type": "string",
+                    "description": "Exchange ID (e.g., binance, coinbase)"
+                },
+                "symbol": {
+                    "type": "string",
+                    "description": "Trading pair symbol (e.g., BTC/USDT)"
+                },
+                "marketType": {
+                    "type": "string",
+                    "enum": [
+                        "spot",
+                        "future",
+                        "swap",
+                        "option",
+                        "margin"
+                    ],
+                    "description": "Market type (default: spot)"
+                }
+            },
+            "required": [
+                "exchange",
+                "symbol"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-ccxt_batch-get-tickers",
+        "description": "Get ticker information for multiple trading pairs at once",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "exchange": {
+                    "type": "string",
+                    "description": "Exchange ID (e.g., binance, coinbase)"
+                },
+                "symbols": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of trading pair symbols (e.g., ['BTC/USDT', 'ETH/USDT'])"
+                },
+                "marketType": {
+                    "type": "string",
+                    "enum": [
+                        "spot",
+                        "future",
+                        "swap",
+                        "option",
+                        "margin"
+                    ],
+                    "description": "Market type (default: spot)"
+                }
+            },
+            "required": [
+                "exchange",
+                "symbols"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-ccxt_get-orderbook",
+        "description": "Get market order book for a trading pair",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "exchange": {
+                    "type": "string",
+                    "description": "Exchange ID (e.g., binance, coinbase)"
+                },
+                "symbol": {
+                    "type": "string",
+                    "description": "Trading pair symbol (e.g., BTC/USDT)"
+                },
+                "limit": {
+                    "type": "number",
+                    "default": 20,
+                    "description": "Depth of the orderbook"
+                }
+            },
+            "required": [
+                "exchange",
+                "symbol"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-ccxt_get-ohlcv",
+        "description": "Get OHLCV candlestick data for a trading pair",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "exchange": {
+                    "type": "string",
+                    "description": "Exchange ID (e.g., binance, coinbase)"
+                },
+                "symbol": {
+                    "type": "string",
+                    "description": "Trading pair symbol (e.g., BTC/USDT)"
+                },
+                "timeframe": {
+                    "type": "string",
+                    "default": "1d",
+                    "description": "Timeframe (e.g., 1m, 5m, 1h, 1d)"
+                },
+                "limit": {
+                    "type": "number",
+                    "default": 100,
+                    "description": "Number of candles to fetch (max 1000)"
+                }
+            },
+            "required": [
+                "exchange",
+                "symbol"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-ccxt_get-trades",
+        "description": "Get recent trades for a trading pair",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "exchange": {
+                    "type": "string",
+                    "description": "Exchange ID (e.g., binance, coinbase)"
+                },
+                "symbol": {
+                    "type": "string",
+                    "description": "Trading pair symbol (e.g., BTC/USDT)"
+                },
+                "limit": {
+                    "type": "number",
+                    "default": 50,
+                    "description": "Number of trades to fetch"
+                }
+            },
+            "required": [
+                "exchange",
+                "symbol"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-ccxt_get-markets",
+        "description": "Get all available markets for an exchange",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "exchange": {
+                    "type": "string",
+                    "description": "Exchange ID (e.g., binance, coinbase)"
+                },
+                "page": {
+                    "type": "number",
+                    "default": 1,
+                    "description": "Page number"
+                },
+                "pageSize": {
+                    "type": "number",
+                    "default": 100,
+                    "description": "Items per page"
+                }
+            },
+            "required": [
+                "exchange"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-ccxt_get-exchange-info",
+        "description": "Get exchange information and status",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "exchange": {
+                    "type": "string",
+                    "description": "Exchange ID (e.g., binance, coinbase)"
+                },
+                "marketType": {
+                    "type": "string",
+                    "enum": [
+                        "spot",
+                        "future",
+                        "swap",
+                        "option",
+                        "margin"
+                    ],
+                    "description": "Market type (default: spot)"
+                }
+            },
+            "required": [
+                "exchange"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-ccxt_get-leverage-tiers",
+        "description": "Get futures leverage tiers for trading pairs",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "exchange": {
+                    "type": "string",
+                    "description": "Exchange ID (e.g., binance, bybit)"
+                },
+                "symbol": {
+                    "type": "string",
+                    "description": "Trading pair symbol (optional, e.g., BTC/USDT)"
+                },
+                "marketType": {
+                    "type": "string",
+                    "enum": [
+                        "future",
+                        "swap"
+                    ],
+                    "default": "future",
+                    "description": "Market type (default: future)"
+                }
+            },
+            "required": [
+                "exchange"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-ccxt_get-funding-rates",
+        "description": "Get current funding rates for perpetual contracts",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "exchange": {
+                    "type": "string",
+                    "description": "Exchange ID (e.g., binance, bybit)"
+                },
+                "symbols": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of trading pair symbols (optional)"
+                },
+                "marketType": {
+                    "type": "string",
+                    "enum": [
+                        "future",
+                        "swap"
+                    ],
+                    "default": "swap",
+                    "description": "Market type (default: swap)"
+                }
+            },
+            "required": [
+                "exchange"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-ccxt_get-market-types",
+        "description": "Get market types supported by an exchange",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "exchange": {
+                    "type": "string",
+                    "description": "Exchange ID (e.g., binance, coinbase)"
+                }
+            },
+            "required": [
+                "exchange"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-ccxt_account-balance",
+        "description": "Get your account balance from a crypto exchange",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "exchange": {
+                    "type": "string",
+                    "description": "Exchange ID (e.g., binance, coinbase)"
+                },
+                "apiKey": {
+                    "type": "string",
+                    "description": "API key for authentication"
+                },
+                "secret": {
+                    "type": "string",
+                    "description": "API secret for authentication"
+                },
+                "passphrase": {
+                    "type": "string",
+                    "description": "Passphrase for authentication (required for some exchanges like KuCoin)"
+                },
+                "marketType": {
+                    "type": "string",
+                    "enum": [
+                        "spot",
+                        "future",
+                        "swap",
+                        "option",
+                        "margin"
+                    ],
+                    "description": "Market type (default: spot)"
+                }
+            },
+            "required": [
+                "exchange",
+                "apiKey",
+                "secret"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-ccxt_place-market-order",
+        "description": "Place a market order on an exchange",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "exchange": {
+                    "type": "string",
+                    "description": "Exchange ID (e.g., binance, coinbase)"
+                },
+                "symbol": {
+                    "type": "string",
+                    "description": "Trading pair symbol (e.g., BTC/USDT)"
+                },
+                "side": {
+                    "type": "string",
+                    "enum": [
+                        "buy",
+                        "sell"
+                    ],
+                    "description": "Order side: buy or sell"
+                },
+                "amount": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "Amount to buy/sell"
+                },
+                "apiKey": {
+                    "type": "string",
+                    "description": "API key for authentication"
+                },
+                "secret": {
+                    "type": "string",
+                    "description": "API secret for authentication"
+                },
+                "passphrase": {
+                    "type": "string",
+                    "description": "Passphrase for authentication (required for some exchanges like KuCoin)"
+                },
+                "marketType": {
+                    "type": "string",
+                    "enum": [
+                        "spot",
+                        "future",
+                        "swap",
+                        "option",
+                        "margin"
+                    ],
+                    "description": "Market type (default: spot)"
+                }
+            },
+            "required": [
+                "exchange",
+                "symbol",
+                "side",
+                "amount",
+                "apiKey",
+                "secret"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-ccxt_set-leverage",
+        "description": "Set leverage for futures trading",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "exchange": {
+                    "type": "string",
+                    "description": "Exchange ID (e.g., binance, bybit)"
+                },
+                "symbol": {
+                    "type": "string",
+                    "description": "Trading pair symbol (e.g., BTC/USDT)"
+                },
+                "leverage": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "Leverage value"
+                },
+                "apiKey": {
+                    "type": "string",
+                    "description": "API key for authentication"
+                },
+                "secret": {
+                    "type": "string",
+                    "description": "API secret for authentication"
+                },
+                "passphrase": {
+                    "type": "string",
+                    "description": "Passphrase for authentication (required for some exchanges like KuCoin)"
+                },
+                "marketType": {
+                    "type": "string",
+                    "enum": [
+                        "future",
+                        "swap"
+                    ],
+                    "default": "future",
+                    "description": "Market type (default: future)"
+                }
+            },
+            "required": [
+                "exchange",
+                "symbol",
+                "leverage",
+                "apiKey",
+                "secret"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-ccxt_set-margin-mode",
+        "description": "Set margin mode for futures trading",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "exchange": {
+                    "type": "string",
+                    "description": "Exchange ID (e.g., binance, bybit)"
+                },
+                "symbol": {
+                    "type": "string",
+                    "description": "Trading pair symbol (e.g., BTC/USDT)"
+                },
+                "marginMode": {
+                    "type": "string",
+                    "enum": [
+                        "cross",
+                        "isolated"
+                    ],
+                    "description": "Margin mode: cross or isolated"
+                },
+                "apiKey": {
+                    "type": "string",
+                    "description": "API key for authentication"
+                },
+                "secret": {
+                    "type": "string",
+                    "description": "API secret for authentication"
+                },
+                "passphrase": {
+                    "type": "string",
+                    "description": "Passphrase for authentication (required for some exchanges like KuCoin)"
+                },
+                "marketType": {
+                    "type": "string",
+                    "enum": [
+                        "future",
+                        "swap"
+                    ],
+                    "default": "future",
+                    "description": "Market type (default: future)"
+                }
+            },
+            "required": [
+                "exchange",
+                "symbol",
+                "marginMode",
+                "apiKey",
+                "secret"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-ccxt_place-futures-market-order",
+        "description": "Place a futures market order",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "exchange": {
+                    "type": "string",
+                    "description": "Exchange ID (e.g., binance, bybit)"
+                },
+                "symbol": {
+                    "type": "string",
+                    "description": "Trading pair symbol (e.g., BTC/USDT)"
+                },
+                "side": {
+                    "type": "string",
+                    "enum": [
+                        "buy",
+                        "sell"
+                    ],
+                    "description": "Order side: buy or sell"
+                },
+                "amount": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "Amount to buy/sell"
+                },
+                "params": {
+                    "type": "object",
+                    "additionalProperties": {},
+                    "description": "Additional order parameters"
+                },
+                "apiKey": {
+                    "type": "string",
+                    "description": "API key for authentication"
+                },
+                "secret": {
+                    "type": "string",
+                    "description": "API secret for authentication"
+                },
+                "passphrase": {
+                    "type": "string",
+                    "description": "Passphrase for authentication (required for some exchanges like KuCoin)"
+                },
+                "marketType": {
+                    "type": "string",
+                    "enum": [
+                        "future",
+                        "swap"
+                    ],
+                    "default": "future",
+                    "description": "Market type (default: future)"
+                }
+            },
+            "required": [
+                "exchange",
+                "symbol",
+                "side",
+                "amount",
+                "apiKey",
+                "secret"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-ccxt_get-proxy-config",
+        "description": "Get the current proxy configuration",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-ccxt_set-proxy-config",
+        "description": "Configure proxy settings for all exchanges",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "description": "Enable or disable proxy"
+                },
+                "url": {
+                    "type": "string",
+                    "description": "Proxy URL (e.g., http://proxy-server:port)"
+                },
+                "username": {
+                    "type": "string",
+                    "description": "Proxy username (optional)"
+                },
+                "password": {
+                    "type": "string",
+                    "description": "Proxy password (optional)"
+                },
+                "clearCache": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Clear exchange cache to apply changes immediately"
+                }
+            },
+            "required": [
+                "enabled",
+                "url"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-ccxt_test-proxy-connection",
+        "description": "Test the proxy connection with a specified exchange",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "exchange": {
+                    "type": "string",
+                    "description": "Exchange ID to test connection with (e.g., binance)"
+                }
+            },
+            "required": [
+                "exchange"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-ccxt_clear-exchange-cache",
+        "description": "Clear exchange instance cache to apply configuration changes",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-ccxt_set-market-type",
+        "description": "Set default market type for all exchanges",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "marketType": {
+                    "type": "string",
+                    "enum": [
+                        "spot",
+                        "future",
+                        "swap",
+                        "option",
+                        "margin"
+                    ],
+                    "description": "Market type to set"
+                },
+                "clearCache": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Clear exchange cache to apply changes immediately"
+                }
+            },
+            "required": [
+                "marketType"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

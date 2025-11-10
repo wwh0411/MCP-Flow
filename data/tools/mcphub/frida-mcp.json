@@ -1,0 +1,252 @@
+[
+    {
+        "name": "list_processes",
+        "description": "List all processes running on the system.",
+        "parameters": {
+            "properties": {},
+            "title": "list_processesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "enumerate_processes",
+        "description": "List all processes running on the system.\n    \n    Returns:\n        A list of process information dictionaries containing:\n        - pid: Process ID\n        - name: Process name\n    ",
+        "parameters": {
+            "properties": {},
+            "title": "enumerate_processesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "enumerate_devices",
+        "description": "List all devices connected to the system.\n    \n    Returns:\n        A list of device information dictionaries containing:\n        - id: Device ID\n        - name: Device name\n        - type: Device type\n    ",
+        "parameters": {
+            "properties": {},
+            "title": "enumerate_devicesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_device",
+        "description": "Get a device by its ID.\n    \n    Args:\n        device_id: The ID of the device to get\n        \n    Returns:\n        Information about the device\n    ",
+        "parameters": {
+            "properties": {
+                "device_id": {
+                    "title": "Device Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "device_id"
+            ],
+            "title": "get_deviceArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_usb_device",
+        "description": "Get the USB device connected to the system.\n    \n    Returns:\n        Information about the USB device\n    ",
+        "parameters": {
+            "properties": {},
+            "title": "get_usb_deviceArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_process_by_name",
+        "description": "Find a process by name.",
+        "parameters": {
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "title": "get_process_by_nameArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "attach_to_process",
+        "description": "Attach to a process by ID.",
+        "parameters": {
+            "properties": {
+                "pid": {
+                    "title": "Pid",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "pid"
+            ],
+            "title": "attach_to_processArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "create_simple_hook",
+        "description": "Create a simple hook for a process.",
+        "parameters": {
+            "properties": {
+                "pid": {
+                    "title": "Pid",
+                    "type": "integer"
+                },
+                "hook_type": {
+                    "default": "memory",
+                    "title": "Hook Type",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "pid"
+            ],
+            "title": "create_simple_hookArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "spawn_process",
+        "description": "Spawn a program.\n    \n    Args:\n        program: The program to spawn\n        args: Optional arguments for the program\n        device_id: Optional device ID\n        \n    Returns:\n        Information about the spawned process\n    ",
+        "parameters": {
+            "properties": {
+                "program": {
+                    "title": "Program",
+                    "type": "string"
+                },
+                "args": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Args"
+                },
+                "device_id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Device Id"
+                }
+            },
+            "required": [
+                "program"
+            ],
+            "title": "spawn_processArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "resume_process",
+        "description": "Resume a process by ID.\n    \n    Args:\n        pid: The ID of the process to resume\n        device_id: Optional device ID\n        \n    Returns:\n        Status information\n    ",
+        "parameters": {
+            "properties": {
+                "pid": {
+                    "title": "Pid",
+                    "type": "integer"
+                },
+                "device_id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Device Id"
+                }
+            },
+            "required": [
+                "pid"
+            ],
+            "title": "resume_processArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "kill_process",
+        "description": "Kill a process by ID.\n    \n    Args:\n        pid: The ID of the process to kill\n        device_id: Optional device ID\n        \n    Returns:\n        Status information\n    ",
+        "parameters": {
+            "properties": {
+                "pid": {
+                    "title": "Pid",
+                    "type": "integer"
+                },
+                "device_id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Device Id"
+                }
+            },
+            "required": [
+                "pid"
+            ],
+            "title": "kill_processArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "create_interactive_session",
+        "description": "Create an interactive REPL-like session with a process.\n    \n    This returns a session ID that can be used with execute_in_session to run commands.\n    \n    Args:\n        process_id: The ID of the process to attach to\n        \n    Returns:\n        Information about the created session\n    ",
+        "parameters": {
+            "properties": {
+                "process_id": {
+                    "title": "Process Id",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "process_id"
+            ],
+            "title": "create_interactive_sessionArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "execute_in_session",
+        "description": "Execute JavaScript code in an interactive session.\n    \n    Args:\n        session_id: The ID of the session to execute in\n        javascript_code: The JavaScript code to execute\n        \n    Returns:\n        The result of the execution\n    ",
+        "parameters": {
+            "properties": {
+                "session_id": {
+                    "title": "Session Id",
+                    "type": "string"
+                },
+                "javascript_code": {
+                    "title": "Javascript Code",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "session_id",
+                "javascript_code"
+            ],
+            "title": "execute_in_sessionArguments",
+            "type": "object"
+        }
+    }
+]

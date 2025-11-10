@@ -1,0 +1,366 @@
+[
+    {
+        "name": "memory_aim_create_entities",
+        "description": "Create multiple new entities in the knowledge graph.\n\nDATABASE SELECTION: By default, all memories are stored in the master database. Use the 'context' parameter to organize information into separate knowledge graphs for different areas of life or work.\n\nSTORAGE LOCATION: Files are stored in the user's configured directory, or project-local .aim directory if one exists. Each database creates its own file (e.g., memory-work.jsonl, memory-personal.jsonl).\n\nLOCATION OVERRIDE: Use the 'location' parameter to force storage in a specific location:\n- 'project': Always use project-local .aim directory (creates if needed)\n- 'global': Always use global configured directory\n- Leave blank: Auto-detect (project if .aim exists, otherwise global)\n\nWHEN TO USE DATABASES:\n- Any descriptive name: 'work', 'personal', 'health', 'research', 'basket-weaving', 'book-club', etc.\n- New databases are created automatically - no setup required\n- IMPORTANT: Use consistent, simple names - prefer 'work' over 'work-stuff' or 'job-related'\n- Common examples: 'work' (professional), 'personal' (private), 'health' (medical), 'research' (academic)  \n- Leave blank: General information or when unsure (uses master database)\n\nEXAMPLES:\n- Master database (default): aim_create_entities({entities: [{name: \"John\", entityType: \"person\", observations: [\"Met at conference\"]}]})\n- Work database: aim_create_entities({context: \"work\", entities: [{name: \"Q4_Project\", entityType: \"project\", observations: [\"Due December 2024\"]}]})\n- Master database in global location: aim_create_entities({location: \"global\", entities: [{name: \"John\", entityType: \"person\", observations: [\"Met at conference\"]}]})\n- Work database in project location: aim_create_entities({context: \"work\", location: \"project\", entities: [{name: \"Q4_Project\", entityType: \"project\", observations: [\"Due December 2024\"]}]})",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "context": {
+                    "type": "string",
+                    "description": "Optional memory context. Defaults to master database if not specified. Use any descriptive name ('work', 'personal', 'health', 'basket-weaving', etc.) - new contexts created automatically."
+                },
+                "location": {
+                    "type": "string",
+                    "enum": [
+                        "project",
+                        "global"
+                    ],
+                    "description": "Optional storage location override. 'project' forces project-local .aim directory, 'global' forces global directory. If not specified, uses automatic detection."
+                },
+                "entities": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "The name of the entity"
+                            },
+                            "entityType": {
+                                "type": "string",
+                                "description": "The type of the entity"
+                            },
+                            "observations": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "description": "An array of observation contents associated with the entity"
+                            }
+                        },
+                        "required": [
+                            "name",
+                            "entityType",
+                            "observations"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "entities"
+            ]
+        }
+    },
+    {
+        "name": "memory_aim_create_relations",
+        "description": "Create multiple new relations between entities in the knowledge graph. Relations should be in active voice.\n\nDATABASE SELECTION: Relations are created within the specified database's knowledge graph. Entities must exist in the same database.\n\nLOCATION OVERRIDE: Use the 'location' parameter to force storage in 'project' (.aim directory) or 'global' (configured directory). Leave blank for auto-detection.\n\nEXAMPLES:\n- Master database (default): aim_create_relations({relations: [{from: \"John\", to: \"TechConf2024\", relationType: \"attended\"}]})\n- Work database: aim_create_relations({context: \"work\", relations: [{from: \"Alice\", to: \"Q4_Project\", relationType: \"manages\"}]})\n- Master database in global location: aim_create_relations({location: \"global\", relations: [{from: \"John\", to: \"TechConf2024\", relationType: \"attended\"}]})\n- Personal database in project location: aim_create_relations({context: \"personal\", location: \"project\", relations: [{from: \"Mom\", to: \"Gardening\", relationType: \"enjoys\"}]})",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "context": {
+                    "type": "string",
+                    "description": "Optional memory context. Relations will be created in the specified context's knowledge graph."
+                },
+                "location": {
+                    "type": "string",
+                    "enum": [
+                        "project",
+                        "global"
+                    ],
+                    "description": "Optional storage location override. 'project' forces project-local .aim directory, 'global' forces global directory. If not specified, uses automatic detection."
+                },
+                "relations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "from": {
+                                "type": "string",
+                                "description": "The name of the entity where the relation starts"
+                            },
+                            "to": {
+                                "type": "string",
+                                "description": "The name of the entity where the relation ends"
+                            },
+                            "relationType": {
+                                "type": "string",
+                                "description": "The type of the relation"
+                            }
+                        },
+                        "required": [
+                            "from",
+                            "to",
+                            "relationType"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "relations"
+            ]
+        }
+    },
+    {
+        "name": "memory_aim_add_observations",
+        "description": "Add new observations to existing entities in the knowledge graph.\n\nDATABASE SELECTION: Observations are added to entities within the specified database's knowledge graph.\n\nLOCATION OVERRIDE: Use the 'location' parameter to force storage in 'project' (.aim directory) or 'global' (configured directory). Leave blank for auto-detection.\n\nEXAMPLES:\n- Master database (default): aim_add_observations({observations: [{entityName: \"John\", contents: [\"Lives in Seattle\", \"Works in tech\"]}]})\n- Work database: aim_add_observations({context: \"work\", observations: [{entityName: \"Q4_Project\", contents: [\"Behind schedule\", \"Need more resources\"]}]})\n- Master database in global location: aim_add_observations({location: \"global\", observations: [{entityName: \"John\", contents: [\"Lives in Seattle\", \"Works in tech\"]}]})\n- Health database in project location: aim_add_observations({context: \"health\", location: \"project\", observations: [{entityName: \"Daily_Routine\", contents: [\"30min morning walk\", \"8 glasses water\"]}]})",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "context": {
+                    "type": "string",
+                    "description": "Optional memory context. Observations will be added to entities in the specified context's knowledge graph."
+                },
+                "location": {
+                    "type": "string",
+                    "enum": [
+                        "project",
+                        "global"
+                    ],
+                    "description": "Optional storage location override. 'project' forces project-local .aim directory, 'global' forces global directory. If not specified, uses automatic detection."
+                },
+                "observations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "entityName": {
+                                "type": "string",
+                                "description": "The name of the entity to add the observations to"
+                            },
+                            "contents": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "description": "An array of observation contents to add"
+                            }
+                        },
+                        "required": [
+                            "entityName",
+                            "contents"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "observations"
+            ]
+        }
+    },
+    {
+        "name": "memory_aim_delete_entities",
+        "description": "Delete multiple entities and their associated relations from the knowledge graph.\n\nDATABASE SELECTION: Entities are deleted from the specified database's knowledge graph.\n\nLOCATION OVERRIDE: Use the 'location' parameter to force deletion from 'project' (.aim directory) or 'global' (configured directory). Leave blank for auto-detection.\n\nEXAMPLES:\n- Master database (default): aim_delete_entities({entityNames: [\"OldProject\"]})\n- Work database: aim_delete_entities({context: \"work\", entityNames: [\"CompletedTask\", \"CancelledMeeting\"]})\n- Master database in global location: aim_delete_entities({location: \"global\", entityNames: [\"OldProject\"]})\n- Personal database in project location: aim_delete_entities({context: \"personal\", location: \"project\", entityNames: [\"ExpiredReminder\"]})",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "context": {
+                    "type": "string",
+                    "description": "Optional memory context. Entities will be deleted from the specified context's knowledge graph."
+                },
+                "location": {
+                    "type": "string",
+                    "enum": [
+                        "project",
+                        "global"
+                    ],
+                    "description": "Optional storage location override. 'project' forces project-local .aim directory, 'global' forces global directory. If not specified, uses automatic detection."
+                },
+                "entityNames": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "An array of entity names to delete"
+                }
+            },
+            "required": [
+                "entityNames"
+            ]
+        }
+    },
+    {
+        "name": "memory_aim_delete_observations",
+        "description": "Delete specific observations from entities in the knowledge graph.\n\nDATABASE SELECTION: Observations are deleted from entities within the specified database's knowledge graph.\n\nLOCATION OVERRIDE: Use the 'location' parameter to force deletion from 'project' (.aim directory) or 'global' (configured directory). Leave blank for auto-detection.\n\nEXAMPLES:\n- Master database (default): aim_delete_observations({deletions: [{entityName: \"John\", observations: [\"Outdated info\"]}]})\n- Work database: aim_delete_observations({context: \"work\", deletions: [{entityName: \"Project\", observations: [\"Old deadline\"]}]})\n- Master database in global location: aim_delete_observations({location: \"global\", deletions: [{entityName: \"John\", observations: [\"Outdated info\"]}]})\n- Health database in project location: aim_delete_observations({context: \"health\", location: \"project\", deletions: [{entityName: \"Exercise\", observations: [\"Injured knee\"]}]})",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "context": {
+                    "type": "string",
+                    "description": "Optional memory context. Observations will be deleted from entities in the specified context's knowledge graph."
+                },
+                "location": {
+                    "type": "string",
+                    "enum": [
+                        "project",
+                        "global"
+                    ],
+                    "description": "Optional storage location override. 'project' forces project-local .aim directory, 'global' forces global directory. If not specified, uses automatic detection."
+                },
+                "deletions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "entityName": {
+                                "type": "string",
+                                "description": "The name of the entity containing the observations"
+                            },
+                            "observations": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "description": "An array of observations to delete"
+                            }
+                        },
+                        "required": [
+                            "entityName",
+                            "observations"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "deletions"
+            ]
+        }
+    },
+    {
+        "name": "memory_aim_delete_relations",
+        "description": "Delete multiple relations from the knowledge graph.\n\nDATABASE SELECTION: Relations are deleted from the specified database's knowledge graph.\n\nLOCATION OVERRIDE: Use the 'location' parameter to force deletion from 'project' (.aim directory) or 'global' (configured directory). Leave blank for auto-detection.\n\nEXAMPLES:\n- Master database (default): aim_delete_relations({relations: [{from: \"John\", to: \"OldCompany\", relationType: \"worked_at\"}]})\n- Work database: aim_delete_relations({context: \"work\", relations: [{from: \"Alice\", to: \"CancelledProject\", relationType: \"manages\"}]})\n- Master database in global location: aim_delete_relations({location: \"global\", relations: [{from: \"John\", to: \"OldCompany\", relationType: \"worked_at\"}]})\n- Personal database in project location: aim_delete_relations({context: \"personal\", location: \"project\", relations: [{from: \"Me\", to: \"OldHobby\", relationType: \"enjoys\"}]})",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "context": {
+                    "type": "string",
+                    "description": "Optional memory context. Relations will be deleted from the specified context's knowledge graph."
+                },
+                "location": {
+                    "type": "string",
+                    "enum": [
+                        "project",
+                        "global"
+                    ],
+                    "description": "Optional storage location override. 'project' forces project-local .aim directory, 'global' forces global directory. If not specified, uses automatic detection."
+                },
+                "relations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "from": {
+                                "type": "string",
+                                "description": "The name of the entity where the relation starts"
+                            },
+                            "to": {
+                                "type": "string",
+                                "description": "The name of the entity where the relation ends"
+                            },
+                            "relationType": {
+                                "type": "string",
+                                "description": "The type of the relation"
+                            }
+                        },
+                        "required": [
+                            "from",
+                            "to",
+                            "relationType"
+                        ]
+                    },
+                    "description": "An array of relations to delete"
+                }
+            },
+            "required": [
+                "relations"
+            ]
+        }
+    },
+    {
+        "name": "memory_aim_read_graph",
+        "description": "Read the entire knowledge graph.\n\nDATABASE SELECTION: Reads from the specified database or master database if no database is specified.\n\nLOCATION OVERRIDE: Use the 'location' parameter to force reading from 'project' (.aim directory) or 'global' (configured directory). Leave blank for auto-detection.\n\nEXAMPLES:\n- Master database (default): aim_read_graph({})\n- Work database: aim_read_graph({context: \"work\"})\n- Master database in global location: aim_read_graph({location: \"global\"})\n- Personal database in project location: aim_read_graph({context: \"personal\", location: \"project\"})",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "context": {
+                    "type": "string",
+                    "description": "Optional memory context. Reads from the specified context's knowledge graph or master database if not specified."
+                },
+                "location": {
+                    "type": "string",
+                    "enum": [
+                        "project",
+                        "global"
+                    ],
+                    "description": "Optional storage location override. 'project' forces project-local .aim directory, 'global' forces global directory. If not specified, uses automatic detection."
+                }
+            }
+        }
+    },
+    {
+        "name": "memory_aim_search_nodes",
+        "description": "Search for nodes in the knowledge graph based on a query.\n\nDATABASE SELECTION: Searches within the specified database or master database if no database is specified.\n\nLOCATION OVERRIDE: Use the 'location' parameter to force searching in 'project' (.aim directory) or 'global' (configured directory). Leave blank for auto-detection.\n\nEXAMPLES:\n- Master database (default): aim_search_nodes({query: \"John\"})\n- Work database: aim_search_nodes({context: \"work\", query: \"project\"})\n- Master database in global location: aim_search_nodes({location: \"global\", query: \"John\"})\n- Personal database in project location: aim_search_nodes({context: \"personal\", location: \"project\", query: \"family\"})",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "context": {
+                    "type": "string",
+                    "description": "Optional memory context. Searches within the specified context's knowledge graph or master database if not specified."
+                },
+                "location": {
+                    "type": "string",
+                    "enum": [
+                        "project",
+                        "global"
+                    ],
+                    "description": "Optional storage location override. 'project' forces project-local .aim directory, 'global' forces global directory. If not specified, uses automatic detection."
+                },
+                "query": {
+                    "type": "string",
+                    "description": "The search query to match against entity names, types, and observation content"
+                }
+            },
+            "required": [
+                "query"
+            ]
+        }
+    },
+    {
+        "name": "memory_aim_open_nodes",
+        "description": "Open specific nodes in the knowledge graph by their names.\n\nDATABASE SELECTION: Retrieves entities from the specified database or master database if no database is specified.\n\nLOCATION OVERRIDE: Use the 'location' parameter to force retrieval from 'project' (.aim directory) or 'global' (configured directory). Leave blank for auto-detection.\n\nEXAMPLES:\n- Master database (default): aim_open_nodes({names: [\"John\", \"TechConf2024\"]})\n- Work database: aim_open_nodes({context: \"work\", names: [\"Q4_Project\", \"Alice\"]})\n- Master database in global location: aim_open_nodes({location: \"global\", names: [\"John\", \"TechConf2024\"]})\n- Personal database in project location: aim_open_nodes({context: \"personal\", location: \"project\", names: [\"Mom\", \"Birthday_Plans\"]})",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "context": {
+                    "type": "string",
+                    "description": "Optional memory context. Retrieves entities from the specified context's knowledge graph or master database if not specified."
+                },
+                "location": {
+                    "type": "string",
+                    "enum": [
+                        "project",
+                        "global"
+                    ],
+                    "description": "Optional storage location override. 'project' forces project-local .aim directory, 'global' forces global directory. If not specified, uses automatic detection."
+                },
+                "names": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "An array of entity names to retrieve"
+                }
+            },
+            "required": [
+                "names"
+            ]
+        }
+    },
+    {
+        "name": "memory_aim_list_databases",
+        "description": "List all available memory databases in both project and global locations.\n\nDISCOVERY: Shows which databases exist, where they're stored, and which location is currently active.\n\nEXAMPLES:\n- aim_list_databases() - Shows all available databases and current storage location",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    }
+]

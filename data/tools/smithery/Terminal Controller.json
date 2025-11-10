@@ -1,0 +1,250 @@
+[
+    {
+        "name": "terminal-controller-mcp_execute_command",
+        "description": "\n    Execute terminal command and return results\n    \n    Args:\n        command: Command line command to execute\n        timeout: Command timeout in seconds, default is 30 seconds\n    \n    Returns:\n        Output of the command execution\n    ",
+        "parameters": {
+            "properties": {
+                "command": {
+                    "title": "Command",
+                    "type": "string"
+                },
+                "timeout": {
+                    "default": 30,
+                    "title": "Timeout",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "command"
+            ],
+            "title": "execute_commandArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "terminal-controller-mcp_get_command_history",
+        "description": "\n    Get recent command execution history\n    \n    Args:\n        count: Number of recent commands to return\n    \n    Returns:\n        Formatted command history record\n    ",
+        "parameters": {
+            "properties": {
+                "count": {
+                    "default": 10,
+                    "title": "Count",
+                    "type": "integer"
+                }
+            },
+            "title": "get_command_historyArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "terminal-controller-mcp_get_current_directory",
+        "description": "\n    Get current working directory\n    \n    Returns:\n        Path of current working directory\n    ",
+        "parameters": {
+            "properties": {},
+            "title": "get_current_directoryArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "terminal-controller-mcp_change_directory",
+        "description": "\n    Change current working directory\n    \n    Args:\n        path: Directory path to switch to\n    \n    Returns:\n        Operation result information\n    ",
+        "parameters": {
+            "properties": {
+                "path": {
+                    "title": "Path",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "path"
+            ],
+            "title": "change_directoryArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "terminal-controller-mcp_list_directory",
+        "description": "\n    List files and subdirectories in the specified directory\n    \n    Args:\n        path: Directory path to list contents, default is current directory\n    \n    Returns:\n        List of directory contents\n    ",
+        "parameters": {
+            "properties": {
+                "path": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Path"
+                }
+            },
+            "title": "list_directoryArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "terminal-controller-mcp_write_file",
+        "description": "\n    Write content to a file\n    \n    Args:\n        path: Path to the file\n        content: Content to write (string or JSON object)\n        mode: Write mode ('overwrite' or 'append')\n    \n    Returns:\n        Operation result information\n    ",
+        "parameters": {
+            "properties": {
+                "path": {
+                    "title": "Path",
+                    "type": "string"
+                },
+                "content": {
+                    "title": "Content",
+                    "type": "string"
+                },
+                "mode": {
+                    "default": "overwrite",
+                    "title": "Mode",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "path",
+                "content"
+            ],
+            "title": "write_fileArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "terminal-controller-mcp_read_file",
+        "description": "\n    Read content from a file with optional row selection\n    \n    Args:\n        path: Path to the file\n        start_row: Starting row to read from (0-based, optional)\n        end_row: Ending row to read to (0-based, inclusive, optional)\n        as_json: If True, attempt to parse file content as JSON (optional)\n    \n    Returns:\n        File content or selected lines, optionally parsed as JSON\n    ",
+        "parameters": {
+            "properties": {
+                "path": {
+                    "title": "Path",
+                    "type": "string"
+                },
+                "start_row": {
+                    "default": null,
+                    "title": "Start Row",
+                    "type": "integer"
+                },
+                "end_row": {
+                    "default": null,
+                    "title": "End Row",
+                    "type": "integer"
+                },
+                "as_json": {
+                    "default": false,
+                    "title": "As Json",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "path"
+            ],
+            "title": "read_fileArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "terminal-controller-mcp_insert_file_content",
+        "description": "\n    Insert content at specific row(s) in a file\n    \n    Args:\n        path: Path to the file\n        content: Content to insert (string or JSON object)\n        row: Row number to insert at (0-based, optional)\n        rows: List of row numbers to insert at (0-based, optional)\n    \n    Returns:\n        Operation result information\n    ",
+        "parameters": {
+            "properties": {
+                "path": {
+                    "title": "Path",
+                    "type": "string"
+                },
+                "content": {
+                    "title": "Content",
+                    "type": "string"
+                },
+                "row": {
+                    "default": null,
+                    "title": "Row",
+                    "type": "integer"
+                },
+                "rows": {
+                    "default": null,
+                    "items": {},
+                    "title": "Rows",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "path",
+                "content"
+            ],
+            "title": "insert_file_contentArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "terminal-controller-mcp_delete_file_content",
+        "description": "\n    Delete content at specific row(s) from a file\n    \n    Args:\n        path: Path to the file\n        row: Row number to delete (0-based, optional)\n        rows: List of row numbers to delete (0-based, optional)\n        substring: If provided, only delete this substring within the specified row(s), not the entire row (optional)\n    \n    Returns:\n        Operation result information\n    ",
+        "parameters": {
+            "properties": {
+                "path": {
+                    "title": "Path",
+                    "type": "string"
+                },
+                "row": {
+                    "default": null,
+                    "title": "Row",
+                    "type": "integer"
+                },
+                "rows": {
+                    "default": null,
+                    "items": {},
+                    "title": "Rows",
+                    "type": "array"
+                },
+                "substring": {
+                    "default": null,
+                    "title": "Substring",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "path"
+            ],
+            "title": "delete_file_contentArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "terminal-controller-mcp_update_file_content",
+        "description": "\n    Update content at specific row(s) in a file\n    \n    Args:\n        path: Path to the file\n        content: New content to place at the specified row(s)\n        row: Row number to update (0-based, optional)\n        rows: List of row numbers to update (0-based, optional)\n        substring: If provided, only replace this substring within the specified row(s), not the entire row\n    \n    Returns:\n        Operation result information\n    ",
+        "parameters": {
+            "properties": {
+                "path": {
+                    "title": "Path",
+                    "type": "string"
+                },
+                "content": {
+                    "title": "Content",
+                    "type": "string"
+                },
+                "row": {
+                    "default": null,
+                    "title": "Row",
+                    "type": "integer"
+                },
+                "rows": {
+                    "default": null,
+                    "items": {},
+                    "title": "Rows",
+                    "type": "array"
+                },
+                "substring": {
+                    "default": null,
+                    "title": "Substring",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "path",
+                "content"
+            ],
+            "title": "update_file_contentArguments",
+            "type": "object"
+        }
+    }
+]

@@ -1,0 +1,68 @@
+[
+    {
+        "name": "gotoHuman_list-forms",
+        "description": "List all available review forms. NOTE: You need to fetch the schema for the form fields first using the get-form-schema tool.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "gotoHuman_get-form-schema",
+        "description": "Get the schema to use for the 'fields' property when requesting a human review with a form.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "formId": {
+                    "type": "string",
+                    "description": "The form ID to fetch the schema for"
+                }
+            },
+            "required": [
+                "formId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "gotoHuman_request-human-review-with-form",
+        "description": "Request a human review with a form. NOTE: If you don't have a form ID yet, list all available forms using the list-forms tool first. To know what to pass for fieldData, you need to fetch the schema for the form fields using the get-form-schema tool.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "formId": {
+                    "type": "string",
+                    "description": "The form ID to request a human review for"
+                },
+                "fieldData": {
+                    "type": "object",
+                    "additionalProperties": {},
+                    "description": "The field data to include in the review request. Note that this is a dynamic schema that you need to fetch first using the get-form-schema tool."
+                },
+                "metadata": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "description": "Optional additional data that will be incl. in the webhook response after form submission. Incl. everything required to proceed with your workflow."
+                },
+                "assignToUsers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Optional list of user emails to assign the review to"
+                }
+            },
+            "required": [
+                "formId",
+                "fieldData"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

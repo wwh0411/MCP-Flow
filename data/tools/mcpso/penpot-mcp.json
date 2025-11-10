@@ -1,0 +1,188 @@
+[
+    {
+        "name": "penpot_list_projects",
+        "description": "Retrieve a list of all available Penpot projects.",
+        "parameters": {
+            "properties": {},
+            "title": "list_projectsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "penpot_get_project_files",
+        "description": "Get all files contained within a specific Penpot project.\n\nArgs:\n    project_id: The ID of the Penpot project\n",
+        "parameters": {
+            "properties": {
+                "project_id": {
+                    "title": "Project Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "project_id"
+            ],
+            "title": "get_project_filesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "penpot_get_file",
+        "description": "Retrieve a Penpot file by its ID and cache it. Don't use this tool for code generation, use 'get_object_tree' instead.\n\nArgs:\n    file_id: The ID of the Penpot file\n",
+        "parameters": {
+            "properties": {
+                "file_id": {
+                    "title": "File Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "file_id"
+            ],
+            "title": "get_fileArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "penpot_export_object",
+        "description": "Export a Penpot design object as an image.\n\nArgs:\n    file_id: The ID of the Penpot file\n    page_id: The ID of the page containing the object\n    object_id: The ID of the object to export\n    export_type: Image format (png, svg, etc.)\n    scale: Scale factor for the exported image\n",
+        "parameters": {
+            "properties": {
+                "file_id": {
+                    "title": "File Id",
+                    "type": "string"
+                },
+                "page_id": {
+                    "title": "Page Id",
+                    "type": "string"
+                },
+                "object_id": {
+                    "title": "Object Id",
+                    "type": "string"
+                },
+                "export_type": {
+                    "default": "png",
+                    "title": "Export Type",
+                    "type": "string"
+                },
+                "scale": {
+                    "default": 1,
+                    "title": "Scale",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "file_id",
+                "page_id",
+                "object_id"
+            ],
+            "title": "export_objectArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "penpot_get_object_tree",
+        "description": "Get the object tree structure for a Penpot object (\"tree\" field) with rendered screenshot image of the object (\"image.mcp_uri\" field).\nArgs:\n    file_id: The ID of the Penpot file\n    object_id: The ID of the object to retrieve\n    fields: Specific fields to include in the tree (call \"penpot_tree_schema\" resource/tool for available fields)\n    depth: How deep to traverse the object tree (-1 for full depth)\n    format: Output format ('json' or 'yaml')\n",
+        "parameters": {
+            "properties": {
+                "file_id": {
+                    "title": "File Id",
+                    "type": "string"
+                },
+                "object_id": {
+                    "title": "Object Id",
+                    "type": "string"
+                },
+                "fields": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Fields",
+                    "type": "array"
+                },
+                "depth": {
+                    "default": -1,
+                    "title": "Depth",
+                    "type": "integer"
+                },
+                "format": {
+                    "default": "json",
+                    "title": "Format",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "file_id",
+                "object_id",
+                "fields"
+            ],
+            "title": "get_object_treeArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "penpot_search_object",
+        "description": "Search for objects within a Penpot file by name.\n\nArgs:\n    file_id: The ID of the Penpot file to search in\n    query: Search string (supports regex patterns)\n",
+        "parameters": {
+            "properties": {
+                "file_id": {
+                    "title": "File Id",
+                    "type": "string"
+                },
+                "query": {
+                    "title": "Query",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "file_id",
+                "query"
+            ],
+            "title": "search_objectArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "penpot_penpot_schema",
+        "description": "Provide the Penpot API schema as JSON.",
+        "parameters": {
+            "properties": {},
+            "title": "penpot_schemaArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "penpot_penpot_tree_schema",
+        "description": "Provide the Penpot object tree schema as JSON.",
+        "parameters": {
+            "properties": {},
+            "title": "penpot_tree_schemaArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "penpot_get_rendered_component",
+        "description": "Return a rendered component image by its ID.",
+        "parameters": {
+            "properties": {
+                "component_id": {
+                    "title": "Component Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "component_id"
+            ],
+            "title": "get_rendered_componentArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "penpot_get_cached_files",
+        "description": "List all files currently stored in the cache.",
+        "parameters": {
+            "properties": {},
+            "title": "get_cached_filesArguments",
+            "type": "object"
+        }
+    }
+]

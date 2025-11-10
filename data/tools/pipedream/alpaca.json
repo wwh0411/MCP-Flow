@@ -1,0 +1,194 @@
+[
+    {
+        "name": "alpaca-cancel-all-orders",
+        "description": "Attempts to cancel all open orders. A response will be provided for each order that is attempted to be cancelled. If an order is no longer cancelable, the server reject the request, [See the docs](https://alpaca.markets/docs/api-references/trading-api/orders/#cancel-all-orders)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "isPaperAPI": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "alpaca-cancel-order",
+        "description": "Attempts to cancel an open order. If the order is no longer cancelable (example: status=`filled`), the server will reject the request, [See the docs](https://alpaca.markets/docs/api-references/trading-api/orders/#cancel-an-order)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "isPaperAPI": {
+                    "type": "string",
+                    "description": ""
+                },
+                "orderId": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "alpaca-close-all-positions",
+        "description": "Closes (liquidates) all of the account’s open long and short positions. A response will be provided for each order that is attempted to be cancelled. If an order is no longer cancelable, the server will reject the request, [See the docs](https://alpaca.markets/docs/api-references/trading-api/positions/#close-all-positions)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "isPaperAPI": {
+                    "type": "string",
+                    "description": ""
+                },
+                "cancelOrders": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "alpaca-close-position",
+        "description": "Closes (liquidates) the account’s open position. Works for both long and short positions, [See the docs](https://alpaca.markets/docs/api-references/trading-api/positions/#close-a-position)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "isPaperAPI": {
+                    "type": "string",
+                    "description": ""
+                },
+                "positionSymbol": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "alpaca-get-account-info",
+        "description": "Returns the account info, [See the docs](https://alpaca.markets/docs/api-references/trading-api/account/)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "isPaperAPI": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "alpaca-list-orders",
+        "description": "Retrieves a list of orders for the account, filtered by the supplied query parameters, if no filter given all will be returned, [See the docs](https://alpaca.markets/docs/api-references/trading-api/orders/#get-a-list-of-orders)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "isPaperAPI": {
+                    "type": "string",
+                    "description": ""
+                },
+                "symbols": {
+                    "type": "string",
+                    "description": "A list of symbols to filter by (ex. `AAPL,TSLA,MSFT`). A currency pair is required for crypto orders (ex. `BTC/USD,BCH/USD,LTC/USDT,ETC/USDT`)."
+                },
+                "side": {
+                    "type": "string",
+                    "description": "Filters down to orders that have a matching `side` field set."
+                },
+                "status": {
+                    "type": "string",
+                    "description": "Order status to be queried. `open`, `closed` or `all`. Defaults to `open`."
+                },
+                "after": {
+                    "type": "string",
+                    "description": "The response will include only ones submitted after this time, in ISO 8601 format, e.g. `2022-09-07` or `2022-09-07T13:26:53`"
+                },
+                "until": {
+                    "type": "string",
+                    "description": "The response will include only ones submitted until this time, in ISO 8601 format, e.g. `2022-09-07` or `2022-09-07T13:26:53`"
+                },
+                "nested": {
+                    "type": "string",
+                    "description": "If true, the result will roll up multi-leg orders under the `legs` field of primary order."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "alpaca-list-positions",
+        "description": "Retrieves a list of the account’s open positions, [See the docs](https://alpaca.markets/docs/api-references/trading-api/positions/#get-open-positions)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "isPaperAPI": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "alpaca-place-order",
+        "description": "Places a new order for the given account. An order request may be rejected if the account is not authorized for trading, or if the tradable balance is insufficient to fill the order, [See the docs](https://alpaca.markets/docs/api-references/trading-api/orders/#request-a-new-order)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "isPaperAPI": {
+                    "type": "string",
+                    "description": ""
+                },
+                "symbol": {
+                    "type": "string",
+                    "description": "Symbol, asset ID, or currency pair to identify the asset to trade (ex. `AAPL`, `BTC/USD`)."
+                },
+                "qty": {
+                    "type": "string",
+                    "description": "Number of shares to trade. Can be fractionable for only `market` and `day` order types."
+                },
+                "notional": {
+                    "type": "string",
+                    "description": "Dollar amount to trade. Cannot work with `Qty`. Can only work for `market` order types and `day` for time in force."
+                },
+                "side": {
+                    "type": "string",
+                    "description": ""
+                },
+                "type": {
+                    "type": "string",
+                    "description": "Type"
+                },
+                "timeInForce": {
+                    "type": "string",
+                    "description": "Please see [this doc](https://alpaca.markets/docs/trading/orders/#time-in-force) for more info on what values are possible for what kind of orders."
+                },
+                "limitPrice": {
+                    "type": "string",
+                    "description": "Required if type is `limit` or `stop_limit`"
+                },
+                "stopPrice": {
+                    "type": "string",
+                    "description": "Required if type is `stop` or `stop_limit`"
+                },
+                "trailPrice": {
+                    "type": "string",
+                    "description": "This or `trail_percent` is required if type is `trailing_stop`"
+                },
+                "trailPercent": {
+                    "type": "string",
+                    "description": "This or `trail_price` is required if type is `trailing_stop`"
+                },
+                "extendedHours": {
+                    "type": "boolean",
+                    "description": "If true, order will be eligible to execute in premarket/afterhours. Only works with `Type` **Limit** and `Time in Force` **Day**."
+                }
+            },
+            "required": []
+        }
+    }
+]

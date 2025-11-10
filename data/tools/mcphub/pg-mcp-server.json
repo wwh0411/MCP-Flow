@@ -1,0 +1,112 @@
+[
+    {
+        "name": "connect",
+        "description": "\nRegister a database connection string and return its connection ID.\n\nArgs:\n    connection_string: PostgreSQL connection string (required)\n    ctx: Request context (injected by the framework)\n    \nReturns:\n    Dictionary containing the connection ID\n",
+        "inputSchema": {
+            "properties": {
+                "connection_string": {
+                    "title": "Connection String",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "connection_string"
+            ],
+            "title": "connectArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "disconnect",
+        "description": "\nClose a specific database connection and remove it from the pool.\n\nArgs:\n    conn_id: Connection ID to disconnect (required)\n    ctx: Request context (injected by the framework)\n    \nReturns:\n    Dictionary indicating success status\n",
+        "inputSchema": {
+            "properties": {
+                "conn_id": {
+                    "title": "Conn Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "conn_id"
+            ],
+            "title": "disconnectArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "pg_query",
+        "description": "\nExecute a read-only SQL query against the PostgreSQL database.\n\nArgs:\n    query: The SQL query to execute (must be read-only)\n    conn_id: Connection ID previously obtained from the connect tool\n    params: Parameters for the query (optional)\n    \nReturns:\n    Query results as a list of dictionaries\n",
+        "inputSchema": {
+            "properties": {
+                "query": {
+                    "title": "Query",
+                    "type": "string"
+                },
+                "conn_id": {
+                    "title": "Conn Id",
+                    "type": "string"
+                },
+                "params": {
+                    "title": "Params",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "query",
+                "conn_id",
+                "params"
+            ],
+            "title": "pg_queryArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "pg_explain",
+        "description": "\nExecute an EXPLAIN (FORMAT JSON) query to get PostgreSQL execution plan.\n\nArgs:\n    query: The SQL query to analyze\n    conn_id: Connection ID previously obtained from the connect tool\n    params: Parameters for the query (optional)\n    \nReturns:\n    Complete JSON-formatted execution plan\n",
+        "inputSchema": {
+            "properties": {
+                "query": {
+                    "title": "Query",
+                    "type": "string"
+                },
+                "conn_id": {
+                    "title": "Conn Id",
+                    "type": "string"
+                },
+                "params": {
+                    "title": "Params",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "query",
+                "conn_id",
+                "params"
+            ],
+            "title": "pg_explainArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "pg_metadata",
+        "description": "\nAnalyzes a SQL query and produces visualization metadata.\n\nArgs:\n    conn_id: Connection ID previously obtained from the connect tool\n    sql_query: The SQL query to analyze\n    \nReturns:\n    JSON metadata about the query results structure\n",
+        "inputSchema": {
+            "properties": {
+                "conn_id": {
+                    "title": "Conn Id",
+                    "type": "string"
+                },
+                "sql_query": {
+                    "title": "Sql Query",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "conn_id",
+                "sql_query"
+            ],
+            "title": "pg_metadataArguments",
+            "type": "object"
+        }
+    }
+]

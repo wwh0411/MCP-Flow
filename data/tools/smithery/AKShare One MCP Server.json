@@ -1,0 +1,360 @@
+[
+    {
+        "name": "akshare-one-mcp_get_hist_data",
+        "description": "Get historical stock market data. 'eastmoney_direct' support all A,B,H shares",
+        "parameters": {
+            "properties": {
+                "symbol": {
+                    "description": "Stock symbol/ticker (e.g. '000001')",
+                    "title": "Symbol",
+                    "type": "string"
+                },
+                "interval": {
+                    "default": "day",
+                    "description": "Time interval",
+                    "enum": [
+                        "minute",
+                        "hour",
+                        "day",
+                        "week",
+                        "month",
+                        "year"
+                    ],
+                    "title": "Interval",
+                    "type": "string"
+                },
+                "interval_multiplier": {
+                    "default": 1,
+                    "description": "Interval multiplier",
+                    "minimum": 1,
+                    "title": "Interval Multiplier",
+                    "type": "integer"
+                },
+                "start_date": {
+                    "default": "1970-01-01",
+                    "description": "Start date in YYYY-MM-DD format",
+                    "title": "Start Date",
+                    "type": "string"
+                },
+                "end_date": {
+                    "default": "2030-12-31",
+                    "description": "End date in YYYY-MM-DD format",
+                    "title": "End Date",
+                    "type": "string"
+                },
+                "adjust": {
+                    "default": "none",
+                    "description": "Adjustment type",
+                    "enum": [
+                        "none",
+                        "qfq",
+                        "hfq"
+                    ],
+                    "title": "Adjust",
+                    "type": "string"
+                },
+                "source": {
+                    "default": "eastmoney",
+                    "description": "Data source",
+                    "enum": [
+                        "eastmoney",
+                        "eastmoney_direct",
+                        "sina"
+                    ],
+                    "title": "Source",
+                    "type": "string"
+                },
+                "indicators_list": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "enum": [
+                                    "SMA",
+                                    "EMA",
+                                    "RSI",
+                                    "MACD",
+                                    "BOLL",
+                                    "STOCH",
+                                    "ATR",
+                                    "CCI",
+                                    "ADX",
+                                    "WILLR",
+                                    "AD",
+                                    "ADOSC",
+                                    "OBV",
+                                    "MOM",
+                                    "SAR",
+                                    "TSF",
+                                    "APO",
+                                    "AROON",
+                                    "AROONOSC",
+                                    "BOP",
+                                    "CMO",
+                                    "DX",
+                                    "MFI",
+                                    "MINUS_DI",
+                                    "MINUS_DM",
+                                    "PLUS_DI",
+                                    "PLUS_DM",
+                                    "PPO",
+                                    "ROC",
+                                    "ROCP",
+                                    "ROCR",
+                                    "ROCR100",
+                                    "TRIX",
+                                    "ULTOSC"
+                                ],
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Technical indicators to add",
+                    "title": "Indicators List"
+                },
+                "recent_n": {
+                    "anyOf": [
+                        {
+                            "minimum": 1,
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": 100,
+                    "description": "Number of most recent records to return",
+                    "title": "Recent N"
+                }
+            },
+            "required": [
+                "symbol"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "akshare-one-mcp_get_realtime_data",
+        "description": "Get real-time stock market data. 'eastmoney_direct' support all A,B,H shares",
+        "parameters": {
+            "properties": {
+                "symbol": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Stock symbol/ticker (e.g. '000001')",
+                    "title": "Symbol"
+                },
+                "source": {
+                    "default": "eastmoney_direct",
+                    "description": "Data source",
+                    "enum": [
+                        "xueqiu",
+                        "eastmoney",
+                        "eastmoney_direct"
+                    ],
+                    "title": "Source",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "akshare-one-mcp_get_news_data",
+        "description": "Get stock-related news data.",
+        "parameters": {
+            "properties": {
+                "symbol": {
+                    "description": "Stock symbol/ticker (e.g. '000001')",
+                    "title": "Symbol",
+                    "type": "string"
+                },
+                "recent_n": {
+                    "anyOf": [
+                        {
+                            "minimum": 1,
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": 10,
+                    "description": "Number of most recent records to return",
+                    "title": "Recent N"
+                }
+            },
+            "required": [
+                "symbol"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "akshare-one-mcp_get_balance_sheet",
+        "description": "Get company balance sheet data.",
+        "parameters": {
+            "properties": {
+                "symbol": {
+                    "description": "Stock symbol/ticker (e.g. '000001')",
+                    "title": "Symbol",
+                    "type": "string"
+                },
+                "recent_n": {
+                    "anyOf": [
+                        {
+                            "minimum": 1,
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": 10,
+                    "description": "Number of most recent records to return",
+                    "title": "Recent N"
+                }
+            },
+            "required": [
+                "symbol"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "akshare-one-mcp_get_income_statement",
+        "description": "Get company income statement data.",
+        "parameters": {
+            "properties": {
+                "symbol": {
+                    "description": "Stock symbol/ticker (e.g. '000001')",
+                    "title": "Symbol",
+                    "type": "string"
+                },
+                "recent_n": {
+                    "anyOf": [
+                        {
+                            "minimum": 1,
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": 10,
+                    "description": "Number of most recent records to return",
+                    "title": "Recent N"
+                }
+            },
+            "required": [
+                "symbol"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "akshare-one-mcp_get_cash_flow",
+        "description": "Get company cash flow statement data.",
+        "parameters": {
+            "properties": {
+                "symbol": {
+                    "description": "Stock symbol/ticker (e.g. '000001')",
+                    "title": "Symbol",
+                    "type": "string"
+                },
+                "source": {
+                    "const": "sina",
+                    "default": "sina",
+                    "description": "Data source",
+                    "title": "Source",
+                    "type": "string"
+                },
+                "recent_n": {
+                    "anyOf": [
+                        {
+                            "minimum": 1,
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": 10,
+                    "description": "Number of most recent records to return",
+                    "title": "Recent N"
+                }
+            },
+            "required": [
+                "symbol"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "akshare-one-mcp_get_inner_trade_data",
+        "description": "Get company insider trading data.",
+        "parameters": {
+            "properties": {
+                "symbol": {
+                    "description": "Stock symbol/ticker (e.g. '000001')",
+                    "title": "Symbol",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "symbol"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "akshare-one-mcp_get_financial_metrics",
+        "description": "Get key financial metrics from the three major financial statements.",
+        "parameters": {
+            "properties": {
+                "symbol": {
+                    "description": "Stock symbol/ticker (e.g. '000001')",
+                    "title": "Symbol",
+                    "type": "string"
+                },
+                "recent_n": {
+                    "anyOf": [
+                        {
+                            "minimum": 1,
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": 10,
+                    "description": "Number of most recent records to return",
+                    "title": "Recent N"
+                }
+            },
+            "required": [
+                "symbol"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "akshare-one-mcp_get_time_info",
+        "description": "Get current time with ISO format, timestamp, and the last trading day.",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    }
+]

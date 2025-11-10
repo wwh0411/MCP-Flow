@@ -1,0 +1,1267 @@
+[
+    {
+        "name": "shortcut_get-current-user",
+        "description": "Get the current user",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "shortcut_get-current-user-teams",
+        "description": "Get a list of teams where the current user is a member",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "shortcut_list-users",
+        "description": "Get all users",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "shortcut_get-story",
+        "description": "Get a Shortcut story by public ID",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "storyPublicId": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "The public ID of the story to get"
+                },
+                "full": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "True to return all story fields from the API. False to return a slim version that excludes uncommon fields"
+                }
+            },
+            "required": [
+                "storyPublicId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shortcut_search-stories",
+        "description": "Find Shortcut stories.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "nextPageToken": {
+                    "type": "string",
+                    "description": "If a next_page_token was returned from the search result, pass it in to get the next page of results. Should be combined with the original search parameters."
+                },
+                "id": {
+                    "type": "number",
+                    "description": "Find only stories with the specified public ID"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Find only stories matching the specified name"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Find only stories matching the specified description"
+                },
+                "comment": {
+                    "type": "string",
+                    "description": "Find only stories matching the specified comment"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "feature",
+                        "bug",
+                        "chore"
+                    ],
+                    "description": "Find only stories of the specified type"
+                },
+                "estimate": {
+                    "type": "number",
+                    "description": "Find only stories matching the specified estimate"
+                },
+                "branch": {
+                    "type": "string",
+                    "description": "Find only stories matching the specified branch"
+                },
+                "commit": {
+                    "type": "string",
+                    "description": "Find only stories matching the specified commit"
+                },
+                "pr": {
+                    "type": "number",
+                    "description": "Find only stories matching the specified pull request"
+                },
+                "project": {
+                    "type": "number",
+                    "description": "Find only stories matching the specified project"
+                },
+                "epic": {
+                    "type": "number",
+                    "description": "Find only stories matching the specified epic"
+                },
+                "objective": {
+                    "type": "number",
+                    "description": "Find only stories matching the specified objective"
+                },
+                "state": {
+                    "type": "string",
+                    "description": "Find only stories matching the specified state"
+                },
+                "label": {
+                    "type": "string",
+                    "description": "Find only stories matching the specified label"
+                },
+                "owner": {
+                    "type": "string",
+                    "description": "Find entities where the owner match the specified user. This must either be the user's mention name or the keyword \"me\" for the current user."
+                },
+                "requester": {
+                    "type": "string",
+                    "description": "Find entities where the requester match the specified user. This must either be the user's mention name or the keyword \"me\" for the current user."
+                },
+                "team": {
+                    "type": "string",
+                    "description": "Find only stories matching the specified team. This can be a team mention name or team name."
+                },
+                "skillSet": {
+                    "type": "string",
+                    "description": "Find only stories matching the specified skill set"
+                },
+                "productArea": {
+                    "type": "string",
+                    "description": "Find only stories matching the specified product area"
+                },
+                "technicalArea": {
+                    "type": "string",
+                    "description": "Find only stories matching the specified technical area"
+                },
+                "priority": {
+                    "type": "string",
+                    "description": "Find only stories matching the specified priority"
+                },
+                "severity": {
+                    "type": "string",
+                    "description": "Find only stories matching the specified severity"
+                },
+                "isDone": {
+                    "type": "boolean",
+                    "description": "Find only entities that are completed when true, or only entities that are not completed when false."
+                },
+                "isStarted": {
+                    "type": "boolean",
+                    "description": "Find only entities that are started when true, or only entities that are not started when false."
+                },
+                "isUnstarted": {
+                    "type": "boolean",
+                    "description": "Find only entities that are unstarted when true, or only entities that are not unstarted when false."
+                },
+                "isUnestimated": {
+                    "type": "boolean",
+                    "description": "Find only entities that are unestimated when true, or only entities that are not unestimated when false."
+                },
+                "isOverdue": {
+                    "type": "boolean",
+                    "description": "Find only entities that are overdue when true, or only entities that are not overdue when false."
+                },
+                "isArchived": {
+                    "type": "boolean",
+                    "description": "Find only entities that are archived when true, or only entities that are not archived when false.",
+                    "default": false
+                },
+                "isBlocker": {
+                    "type": "boolean",
+                    "description": "Find only entities that are blocking when true, or only entities that are not blocking when false."
+                },
+                "isBlocked": {
+                    "type": "boolean",
+                    "description": "Find only entities that are blocked when true, or only entities that are not blocked when false."
+                },
+                "hasComment": {
+                    "type": "boolean",
+                    "description": "Find only entities that have a comment when true, or only entities that do not have a comment when false. Example: hasOwner: true will find stories with an owner, hasOwner: false will find stories without an owner."
+                },
+                "hasLabel": {
+                    "type": "boolean",
+                    "description": "Find only entities that have a label when true, or only entities that do not have a label when false. Example: hasOwner: true will find stories with an owner, hasOwner: false will find stories without an owner."
+                },
+                "hasDeadline": {
+                    "type": "boolean",
+                    "description": "Find only entities that have a deadline when true, or only entities that do not have a deadline when false. Example: hasOwner: true will find stories with an owner, hasOwner: false will find stories without an owner."
+                },
+                "hasOwner": {
+                    "type": "boolean",
+                    "description": "Find only entities that have an owner when true, or only entities that do not have an owner when false. Example: hasOwner: true will find stories with an owner, hasOwner: false will find stories without an owner."
+                },
+                "hasPr": {
+                    "type": "boolean",
+                    "description": "Find only entities that have a pr when true, or only entities that do not have a pr when false. Example: hasOwner: true will find stories with an owner, hasOwner: false will find stories without an owner."
+                },
+                "hasCommit": {
+                    "type": "boolean",
+                    "description": "Find only entities that have a commit when true, or only entities that do not have a commit when false. Example: hasOwner: true will find stories with an owner, hasOwner: false will find stories without an owner."
+                },
+                "hasBranch": {
+                    "type": "boolean",
+                    "description": "Find only entities that have a branch when true, or only entities that do not have a branch when false. Example: hasOwner: true will find stories with an owner, hasOwner: false will find stories without an owner."
+                },
+                "hasEpic": {
+                    "type": "boolean",
+                    "description": "Find only entities that have an epic when true, or only entities that do not have an epic when false. Example: hasOwner: true will find stories with an owner, hasOwner: false will find stories without an owner."
+                },
+                "hasTask": {
+                    "type": "boolean",
+                    "description": "Find only entities that have a task when true, or only entities that do not have a task when false. Example: hasOwner: true will find stories with an owner, hasOwner: false will find stories without an owner."
+                },
+                "hasAttachment": {
+                    "type": "boolean",
+                    "description": "Find only entities that have an attachment when true, or only entities that do not have an attachment when false. Example: hasOwner: true will find stories with an owner, hasOwner: false will find stories without an owner."
+                },
+                "created": {
+                    "type": "string",
+                    "pattern": "^(today|tomorrow|yesterday|\\d{4}-\\d{2}-\\d{2}|today\\.\\.\\*|\\*\\.\\.today|yesterday\\.\\.\\*|\\*\\.\\.yesterday|tomorrow\\.\\.\\*|\\*\\.\\.tomorrow|\\d{4}-\\d{2}-\\d{2}\\.\\.\\*|\\*\\.\\.\\d{4}-\\d{2}-\\d{2}|\\d{4}-\\d{2}-\\d{2}\\.\\.\\d{4}-\\d{2}-\\d{2})$",
+                    "description": "The date in \"YYYY-MM-DD\" format, or one of the keywords: \"yesterday\", \"today\", \"tomorrow\", or a date range in the format \"YYYY-MM-DD..YYYY-MM-DD\". The date range can also be open ended by using \"*\" for one of the bounds. Examples: \"2023-01-01\", \"today\", \"2023-01-01..*\" (from Jan 1, 2023 to any future date), \"*.2023-01-31\" (any date up to Jan 31, 2023), \"today..*\" (from today onwards), \"*.yesterday\" (any date up to yesterday). The keywords cannot be used to calculate relative dates (e.g. the following are not valid: \"today-1\" or \"tomorrow+1\")."
+                },
+                "updated": {
+                    "type": "string",
+                    "pattern": "^(today|tomorrow|yesterday|\\d{4}-\\d{2}-\\d{2}|today\\.\\.\\*|\\*\\.\\.today|yesterday\\.\\.\\*|\\*\\.\\.yesterday|tomorrow\\.\\.\\*|\\*\\.\\.tomorrow|\\d{4}-\\d{2}-\\d{2}\\.\\.\\*|\\*\\.\\.\\d{4}-\\d{2}-\\d{2}|\\d{4}-\\d{2}-\\d{2}\\.\\.\\d{4}-\\d{2}-\\d{2})$",
+                    "description": "The date in \"YYYY-MM-DD\" format, or one of the keywords: \"yesterday\", \"today\", \"tomorrow\", or a date range in the format \"YYYY-MM-DD..YYYY-MM-DD\". The date range can also be open ended by using \"*\" for one of the bounds. Examples: \"2023-01-01\", \"today\", \"2023-01-01..*\" (from Jan 1, 2023 to any future date), \"*.2023-01-31\" (any date up to Jan 31, 2023), \"today..*\" (from today onwards), \"*.yesterday\" (any date up to yesterday). The keywords cannot be used to calculate relative dates (e.g. the following are not valid: \"today-1\" or \"tomorrow+1\")."
+                },
+                "completed": {
+                    "type": "string",
+                    "pattern": "^(today|tomorrow|yesterday|\\d{4}-\\d{2}-\\d{2}|today\\.\\.\\*|\\*\\.\\.today|yesterday\\.\\.\\*|\\*\\.\\.yesterday|tomorrow\\.\\.\\*|\\*\\.\\.tomorrow|\\d{4}-\\d{2}-\\d{2}\\.\\.\\*|\\*\\.\\.\\d{4}-\\d{2}-\\d{2}|\\d{4}-\\d{2}-\\d{2}\\.\\.\\d{4}-\\d{2}-\\d{2})$",
+                    "description": "The date in \"YYYY-MM-DD\" format, or one of the keywords: \"yesterday\", \"today\", \"tomorrow\", or a date range in the format \"YYYY-MM-DD..YYYY-MM-DD\". The date range can also be open ended by using \"*\" for one of the bounds. Examples: \"2023-01-01\", \"today\", \"2023-01-01..*\" (from Jan 1, 2023 to any future date), \"*.2023-01-31\" (any date up to Jan 31, 2023), \"today..*\" (from today onwards), \"*.yesterday\" (any date up to yesterday). The keywords cannot be used to calculate relative dates (e.g. the following are not valid: \"today-1\" or \"tomorrow+1\")."
+                },
+                "due": {
+                    "type": "string",
+                    "pattern": "^(today|tomorrow|yesterday|\\d{4}-\\d{2}-\\d{2}|today\\.\\.\\*|\\*\\.\\.today|yesterday\\.\\.\\*|\\*\\.\\.yesterday|tomorrow\\.\\.\\*|\\*\\.\\.tomorrow|\\d{4}-\\d{2}-\\d{2}\\.\\.\\*|\\*\\.\\.\\d{4}-\\d{2}-\\d{2}|\\d{4}-\\d{2}-\\d{2}\\.\\.\\d{4}-\\d{2}-\\d{2})$",
+                    "description": "The date in \"YYYY-MM-DD\" format, or one of the keywords: \"yesterday\", \"today\", \"tomorrow\", or a date range in the format \"YYYY-MM-DD..YYYY-MM-DD\". The date range can also be open ended by using \"*\" for one of the bounds. Examples: \"2023-01-01\", \"today\", \"2023-01-01..*\" (from Jan 1, 2023 to any future date), \"*.2023-01-31\" (any date up to Jan 31, 2023), \"today..*\" (from today onwards), \"*.yesterday\" (any date up to yesterday). The keywords cannot be used to calculate relative dates (e.g. the following are not valid: \"today-1\" or \"tomorrow+1\")."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shortcut_get-story-branch-name",
+        "description": "Get a valid branch name for a specific story.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "storyPublicId": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "The public Id of the story"
+                }
+            },
+            "required": [
+                "storyPublicId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shortcut_create-story",
+        "description": "Create a new Shortcut story. \nName is required, and either a Team or Workflow must be specified:\n- If only Team is specified, we will use the default workflow for that team.\n- If Workflow is specified, it will be used regardless of Team.\nThe story will be added to the default state for the workflow.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512,
+                    "description": "The name of the story. Required."
+                },
+                "description": {
+                    "type": "string",
+                    "maxLength": 10000,
+                    "description": "The description of the story"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "feature",
+                        "bug",
+                        "chore"
+                    ],
+                    "default": "feature",
+                    "description": "The type of the story"
+                },
+                "owner": {
+                    "type": "string",
+                    "description": "The user id of the owner of the story"
+                },
+                "epic": {
+                    "type": "number",
+                    "description": "The epic id of the epic the story belongs to"
+                },
+                "iteration": {
+                    "type": "number",
+                    "description": "The iteration id of the iteration the story belongs to"
+                },
+                "team": {
+                    "type": "string",
+                    "description": "The team ID or mention name of the team the story belongs to. Required unless a workflow is specified."
+                },
+                "workflow": {
+                    "type": "number",
+                    "description": "The workflow ID to add the story to. Required unless a team is specified."
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shortcut_update-story",
+        "description": "Update an existing Shortcut story. Only provide fields you want to update. The story public ID will always be included in updates.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "storyPublicId": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "The public ID of the story to update"
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 512,
+                    "description": "The name of the story"
+                },
+                "description": {
+                    "type": "string",
+                    "maxLength": 10000,
+                    "description": "The description of the story"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "feature",
+                        "bug",
+                        "chore"
+                    ],
+                    "description": "The type of the story"
+                },
+                "epic": {
+                    "type": [
+                        "number",
+                        "null"
+                    ],
+                    "description": "The epic id of the epic the story belongs to, or null to unset"
+                },
+                "estimate": {
+                    "type": [
+                        "number",
+                        "null"
+                    ],
+                    "description": "The point estimate of the story, or null to unset"
+                },
+                "iteration": {
+                    "type": [
+                        "number",
+                        "null"
+                    ],
+                    "description": "The iteration id of the iteration the story belongs to, or null to unset"
+                },
+                "owner_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Array of user UUIDs to assign as owners of the story"
+                },
+                "workflow_state_id": {
+                    "type": "number",
+                    "description": "The workflow state ID to move the story to"
+                },
+                "labels": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "The name of the label"
+                            },
+                            "color": {
+                                "type": "string",
+                                "description": "The color of the label"
+                            },
+                            "description": {
+                                "type": "string",
+                                "description": "The description of the label"
+                            }
+                        },
+                        "required": [
+                            "name"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "Labels to assign to the story"
+                }
+            },
+            "required": [
+                "storyPublicId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shortcut_upload-file-to-story",
+        "description": "Upload a file and link it to a story.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "storyPublicId": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "The public ID of the story"
+                },
+                "filePath": {
+                    "type": "string",
+                    "description": "The path to the file to upload"
+                }
+            },
+            "required": [
+                "storyPublicId",
+                "filePath"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shortcut_assign-current-user-as-owner",
+        "description": "Assign the current user as the owner of a story",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "storyPublicId": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "The public ID of the story"
+                }
+            },
+            "required": [
+                "storyPublicId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shortcut_unassign-current-user-as-owner",
+        "description": "Unassign the current user as the owner of a story",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "storyPublicId": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "The public ID of the story"
+                }
+            },
+            "required": [
+                "storyPublicId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shortcut_create-story-comment",
+        "description": "Create a comment on a story",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "storyPublicId": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "The public ID of the story"
+                },
+                "text": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "The text of the comment"
+                }
+            },
+            "required": [
+                "storyPublicId",
+                "text"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shortcut_add-task-to-story",
+        "description": "Add a task to a story",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "storyPublicId": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "The public ID of the story"
+                },
+                "taskDescription": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "The description of the task"
+                },
+                "taskOwnerIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Array of user IDs to assign as owners of the task"
+                }
+            },
+            "required": [
+                "storyPublicId",
+                "taskDescription"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shortcut_update-task",
+        "description": "Update a task in a story",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "storyPublicId": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "The public ID of the story"
+                },
+                "taskPublicId": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "The public ID of the task"
+                },
+                "taskDescription": {
+                    "type": "string",
+                    "description": "The description of the task"
+                },
+                "taskOwnerIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Array of user IDs to assign as owners of the task"
+                },
+                "isCompleted": {
+                    "type": "boolean",
+                    "description": "Whether the task is completed or not"
+                }
+            },
+            "required": [
+                "storyPublicId",
+                "taskPublicId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shortcut_add-relation-to-story",
+        "description": "Add a story relationship to a story",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "storyPublicId": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "The public ID of the story"
+                },
+                "relatedStoryPublicId": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "The public ID of the related story"
+                },
+                "relationshipType": {
+                    "type": "string",
+                    "enum": [
+                        "relates to",
+                        "blocks",
+                        "blocked by",
+                        "duplicates",
+                        "duplicated by"
+                    ],
+                    "default": "relates to",
+                    "description": "The type of relationship"
+                }
+            },
+            "required": [
+                "storyPublicId",
+                "relatedStoryPublicId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shortcut_add-external-link-to-story",
+        "description": "Add an external link to a Shortcut story",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "storyPublicId": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "The public ID of the story"
+                },
+                "externalLink": {
+                    "type": "string",
+                    "format": "uri",
+                    "maxLength": 2048,
+                    "description": "The external link URL to add"
+                }
+            },
+            "required": [
+                "storyPublicId",
+                "externalLink"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shortcut_remove-external-link-from-story",
+        "description": "Remove an external link from a Shortcut story",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "storyPublicId": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "The public ID of the story"
+                },
+                "externalLink": {
+                    "type": "string",
+                    "format": "uri",
+                    "maxLength": 2048,
+                    "description": "The external link URL to remove"
+                }
+            },
+            "required": [
+                "storyPublicId",
+                "externalLink"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shortcut_set-story-external-links",
+        "description": "Replace all external links on a story with a new set of links",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "storyPublicId": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "The public ID of the story"
+                },
+                "externalLinks": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "format": "uri",
+                        "maxLength": 2048
+                    },
+                    "description": "Array of external link URLs to set (replaces all existing links)"
+                }
+            },
+            "required": [
+                "storyPublicId",
+                "externalLinks"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shortcut_get-stories-by-external-link",
+        "description": "Find all stories that contain a specific external link",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "externalLink": {
+                    "type": "string",
+                    "format": "uri",
+                    "maxLength": 2048,
+                    "description": "The external link URL to search for"
+                }
+            },
+            "required": [
+                "externalLink"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shortcut_get-iteration-stories",
+        "description": "Get stories in a specific iteration by iteration public ID",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "iterationPublicId": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "The public ID of the iteration"
+                },
+                "includeStoryDescriptions": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Indicate whether story descriptions should be included. Including descriptions may take longer and will increase the size of the response."
+                }
+            },
+            "required": [
+                "iterationPublicId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shortcut_get-iteration",
+        "description": "Get a Shortcut iteration by public ID",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "iterationPublicId": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "The public ID of the iteration to get"
+                },
+                "full": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "True to return all iteration fields from the API. False to return a slim version that excludes uncommon fields"
+                }
+            },
+            "required": [
+                "iterationPublicId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shortcut_search-iterations",
+        "description": "Find Shortcut iterations.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "nextPageToken": {
+                    "type": "string",
+                    "description": "If a next_page_token was returned from the search result, pass it in to get the next page of results. Should be combined with the original search parameters."
+                },
+                "id": {
+                    "type": "number",
+                    "description": "Find only iterations with the specified public ID"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Find only iterations matching the specified name"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Find only iterations matching the specified description"
+                },
+                "state": {
+                    "type": "string",
+                    "enum": [
+                        "started",
+                        "unstarted",
+                        "done"
+                    ],
+                    "description": "Find only iterations matching the specified state"
+                },
+                "team": {
+                    "type": "string",
+                    "description": "Find only iterations matching the specified team. This can be a team ID or mention name."
+                },
+                "created": {
+                    "type": "string",
+                    "pattern": "^(today|tomorrow|yesterday|\\d{4}-\\d{2}-\\d{2}|today\\.\\.\\*|\\*\\.\\.today|yesterday\\.\\.\\*|\\*\\.\\.yesterday|tomorrow\\.\\.\\*|\\*\\.\\.tomorrow|\\d{4}-\\d{2}-\\d{2}\\.\\.\\*|\\*\\.\\.\\d{4}-\\d{2}-\\d{2}|\\d{4}-\\d{2}-\\d{2}\\.\\.\\d{4}-\\d{2}-\\d{2})$",
+                    "description": "The date in \"YYYY-MM-DD\" format, or one of the keywords: \"yesterday\", \"today\", \"tomorrow\", or a date range in the format \"YYYY-MM-DD..YYYY-MM-DD\". The date range can also be open ended by using \"*\" for one of the bounds. Examples: \"2023-01-01\", \"today\", \"2023-01-01..*\" (from Jan 1, 2023 to any future date), \"*.2023-01-31\" (any date up to Jan 31, 2023), \"today..*\" (from today onwards), \"*.yesterday\" (any date up to yesterday). The keywords cannot be used to calculate relative dates (e.g. the following are not valid: \"today-1\" or \"tomorrow+1\")."
+                },
+                "updated": {
+                    "type": "string",
+                    "pattern": "^(today|tomorrow|yesterday|\\d{4}-\\d{2}-\\d{2}|today\\.\\.\\*|\\*\\.\\.today|yesterday\\.\\.\\*|\\*\\.\\.yesterday|tomorrow\\.\\.\\*|\\*\\.\\.tomorrow|\\d{4}-\\d{2}-\\d{2}\\.\\.\\*|\\*\\.\\.\\d{4}-\\d{2}-\\d{2}|\\d{4}-\\d{2}-\\d{2}\\.\\.\\d{4}-\\d{2}-\\d{2})$",
+                    "description": "The date in \"YYYY-MM-DD\" format, or one of the keywords: \"yesterday\", \"today\", \"tomorrow\", or a date range in the format \"YYYY-MM-DD..YYYY-MM-DD\". The date range can also be open ended by using \"*\" for one of the bounds. Examples: \"2023-01-01\", \"today\", \"2023-01-01..*\" (from Jan 1, 2023 to any future date), \"*.2023-01-31\" (any date up to Jan 31, 2023), \"today..*\" (from today onwards), \"*.yesterday\" (any date up to yesterday). The keywords cannot be used to calculate relative dates (e.g. the following are not valid: \"today-1\" or \"tomorrow+1\")."
+                },
+                "startDate": {
+                    "type": "string",
+                    "pattern": "^(today|tomorrow|yesterday|\\d{4}-\\d{2}-\\d{2}|today\\.\\.\\*|\\*\\.\\.today|yesterday\\.\\.\\*|\\*\\.\\.yesterday|tomorrow\\.\\.\\*|\\*\\.\\.tomorrow|\\d{4}-\\d{2}-\\d{2}\\.\\.\\*|\\*\\.\\.\\d{4}-\\d{2}-\\d{2}|\\d{4}-\\d{2}-\\d{2}\\.\\.\\d{4}-\\d{2}-\\d{2})$",
+                    "description": "The date in \"YYYY-MM-DD\" format, or one of the keywords: \"yesterday\", \"today\", \"tomorrow\", or a date range in the format \"YYYY-MM-DD..YYYY-MM-DD\". The date range can also be open ended by using \"*\" for one of the bounds. Examples: \"2023-01-01\", \"today\", \"2023-01-01..*\" (from Jan 1, 2023 to any future date), \"*.2023-01-31\" (any date up to Jan 31, 2023), \"today..*\" (from today onwards), \"*.yesterday\" (any date up to yesterday). The keywords cannot be used to calculate relative dates (e.g. the following are not valid: \"today-1\" or \"tomorrow+1\")."
+                },
+                "endDate": {
+                    "type": "string",
+                    "pattern": "^(today|tomorrow|yesterday|\\d{4}-\\d{2}-\\d{2}|today\\.\\.\\*|\\*\\.\\.today|yesterday\\.\\.\\*|\\*\\.\\.yesterday|tomorrow\\.\\.\\*|\\*\\.\\.tomorrow|\\d{4}-\\d{2}-\\d{2}\\.\\.\\*|\\*\\.\\.\\d{4}-\\d{2}-\\d{2}|\\d{4}-\\d{2}-\\d{2}\\.\\.\\d{4}-\\d{2}-\\d{2})$",
+                    "description": "The date in \"YYYY-MM-DD\" format, or one of the keywords: \"yesterday\", \"today\", \"tomorrow\", or a date range in the format \"YYYY-MM-DD..YYYY-MM-DD\". The date range can also be open ended by using \"*\" for one of the bounds. Examples: \"2023-01-01\", \"today\", \"2023-01-01..*\" (from Jan 1, 2023 to any future date), \"*.2023-01-31\" (any date up to Jan 31, 2023), \"today..*\" (from today onwards), \"*.yesterday\" (any date up to yesterday). The keywords cannot be used to calculate relative dates (e.g. the following are not valid: \"today-1\" or \"tomorrow+1\")."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shortcut_create-iteration",
+        "description": "Create a new Shortcut iteration",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The name of the iteration"
+                },
+                "startDate": {
+                    "type": "string",
+                    "description": "The start date of the iteration in YYYY-MM-DD format"
+                },
+                "endDate": {
+                    "type": "string",
+                    "description": "The end date of the iteration in YYYY-MM-DD format"
+                },
+                "teamId": {
+                    "type": "string",
+                    "description": "The ID of a team to assign the iteration to"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "A description of the iteration"
+                }
+            },
+            "required": [
+                "name",
+                "startDate",
+                "endDate"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shortcut_get-active-iterations",
+        "description": "Get the active Shortcut iterations for the current user based on their team memberships",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "teamId": {
+                    "type": "string",
+                    "description": "The ID of a team to filter iterations by"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shortcut_get-upcoming-iterations",
+        "description": "Get the upcoming Shortcut iterations for the current user based on their team memberships",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "teamId": {
+                    "type": "string",
+                    "description": "The ID of a team to filter iterations by"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shortcut_get-epic",
+        "description": "Get a Shortcut epic by public ID",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "epicPublicId": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "The public ID of the epic to get"
+                },
+                "full": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "True to return all epic fields from the API. False to return a slim version that excludes uncommon fields"
+                }
+            },
+            "required": [
+                "epicPublicId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shortcut_search-epics",
+        "description": "Find Shortcut epics.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "nextPageToken": {
+                    "type": "string",
+                    "description": "If a next_page_token was returned from the search result, pass it in to get the next page of results.  Should be combined with the original search parameters."
+                },
+                "id": {
+                    "type": "number",
+                    "description": "Find only epics with the specified public ID"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Find only epics matching the specified name"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Find only epics matching the specified description"
+                },
+                "state": {
+                    "type": "string",
+                    "enum": [
+                        "unstarted",
+                        "started",
+                        "done"
+                    ],
+                    "description": "Find only epics matching the specified state"
+                },
+                "objective": {
+                    "type": "number",
+                    "description": "Find only epics matching the specified objective"
+                },
+                "owner": {
+                    "type": "string",
+                    "description": "Find entities where the owner match the specified user. This must either be the user's mention name or the keyword \"me\" for the current user."
+                },
+                "requester": {
+                    "type": "string",
+                    "description": "Find entities where the requester match the specified user. This must either be the user's mention name or the keyword \"me\" for the current user."
+                },
+                "team": {
+                    "type": "string",
+                    "description": "Find only epics matching the specified team. Should be a team's mention name."
+                },
+                "comment": {
+                    "type": "string",
+                    "description": "Find only epics matching the specified comment"
+                },
+                "isUnstarted": {
+                    "type": "boolean",
+                    "description": "Find only entities that are unstarted when true, or only entities that are not unstarted when false."
+                },
+                "isStarted": {
+                    "type": "boolean",
+                    "description": "Find only entities that are started when true, or only entities that are not started when false."
+                },
+                "isDone": {
+                    "type": "boolean",
+                    "description": "Find only entities that are completed when true, or only entities that are not completed when false."
+                },
+                "isArchived": {
+                    "type": "boolean",
+                    "description": "Find only entities that are archived when true, or only entities that are not archived when false.",
+                    "default": false
+                },
+                "isOverdue": {
+                    "type": "boolean",
+                    "description": "Find only entities that are overdue when true, or only entities that are not overdue when false."
+                },
+                "hasOwner": {
+                    "type": "boolean",
+                    "description": "Find only entities that have an owner when true, or only entities that do not have an owner when false. Example: hasOwner: true will find stories with an owner, hasOwner: false will find stories without an owner."
+                },
+                "hasComment": {
+                    "type": "boolean",
+                    "description": "Find only entities that have a comment when true, or only entities that do not have a comment when false. Example: hasOwner: true will find stories with an owner, hasOwner: false will find stories without an owner."
+                },
+                "hasDeadline": {
+                    "type": "boolean",
+                    "description": "Find only entities that have a deadline when true, or only entities that do not have a deadline when false. Example: hasOwner: true will find stories with an owner, hasOwner: false will find stories without an owner."
+                },
+                "hasLabel": {
+                    "type": "boolean",
+                    "description": "Find only entities that have a label when true, or only entities that do not have a label when false. Example: hasOwner: true will find stories with an owner, hasOwner: false will find stories without an owner."
+                },
+                "created": {
+                    "type": "string",
+                    "pattern": "^(today|tomorrow|yesterday|\\d{4}-\\d{2}-\\d{2}|today\\.\\.\\*|\\*\\.\\.today|yesterday\\.\\.\\*|\\*\\.\\.yesterday|tomorrow\\.\\.\\*|\\*\\.\\.tomorrow|\\d{4}-\\d{2}-\\d{2}\\.\\.\\*|\\*\\.\\.\\d{4}-\\d{2}-\\d{2}|\\d{4}-\\d{2}-\\d{2}\\.\\.\\d{4}-\\d{2}-\\d{2})$",
+                    "description": "The date in \"YYYY-MM-DD\" format, or one of the keywords: \"yesterday\", \"today\", \"tomorrow\", or a date range in the format \"YYYY-MM-DD..YYYY-MM-DD\". The date range can also be open ended by using \"*\" for one of the bounds. Examples: \"2023-01-01\", \"today\", \"2023-01-01..*\" (from Jan 1, 2023 to any future date), \"*.2023-01-31\" (any date up to Jan 31, 2023), \"today..*\" (from today onwards), \"*.yesterday\" (any date up to yesterday). The keywords cannot be used to calculate relative dates (e.g. the following are not valid: \"today-1\" or \"tomorrow+1\")."
+                },
+                "updated": {
+                    "type": "string",
+                    "pattern": "^(today|tomorrow|yesterday|\\d{4}-\\d{2}-\\d{2}|today\\.\\.\\*|\\*\\.\\.today|yesterday\\.\\.\\*|\\*\\.\\.yesterday|tomorrow\\.\\.\\*|\\*\\.\\.tomorrow|\\d{4}-\\d{2}-\\d{2}\\.\\.\\*|\\*\\.\\.\\d{4}-\\d{2}-\\d{2}|\\d{4}-\\d{2}-\\d{2}\\.\\.\\d{4}-\\d{2}-\\d{2})$",
+                    "description": "The date in \"YYYY-MM-DD\" format, or one of the keywords: \"yesterday\", \"today\", \"tomorrow\", or a date range in the format \"YYYY-MM-DD..YYYY-MM-DD\". The date range can also be open ended by using \"*\" for one of the bounds. Examples: \"2023-01-01\", \"today\", \"2023-01-01..*\" (from Jan 1, 2023 to any future date), \"*.2023-01-31\" (any date up to Jan 31, 2023), \"today..*\" (from today onwards), \"*.yesterday\" (any date up to yesterday). The keywords cannot be used to calculate relative dates (e.g. the following are not valid: \"today-1\" or \"tomorrow+1\")."
+                },
+                "completed": {
+                    "type": "string",
+                    "pattern": "^(today|tomorrow|yesterday|\\d{4}-\\d{2}-\\d{2}|today\\.\\.\\*|\\*\\.\\.today|yesterday\\.\\.\\*|\\*\\.\\.yesterday|tomorrow\\.\\.\\*|\\*\\.\\.tomorrow|\\d{4}-\\d{2}-\\d{2}\\.\\.\\*|\\*\\.\\.\\d{4}-\\d{2}-\\d{2}|\\d{4}-\\d{2}-\\d{2}\\.\\.\\d{4}-\\d{2}-\\d{2})$",
+                    "description": "The date in \"YYYY-MM-DD\" format, or one of the keywords: \"yesterday\", \"today\", \"tomorrow\", or a date range in the format \"YYYY-MM-DD..YYYY-MM-DD\". The date range can also be open ended by using \"*\" for one of the bounds. Examples: \"2023-01-01\", \"today\", \"2023-01-01..*\" (from Jan 1, 2023 to any future date), \"*.2023-01-31\" (any date up to Jan 31, 2023), \"today..*\" (from today onwards), \"*.yesterday\" (any date up to yesterday). The keywords cannot be used to calculate relative dates (e.g. the following are not valid: \"today-1\" or \"tomorrow+1\")."
+                },
+                "due": {
+                    "type": "string",
+                    "pattern": "^(today|tomorrow|yesterday|\\d{4}-\\d{2}-\\d{2}|today\\.\\.\\*|\\*\\.\\.today|yesterday\\.\\.\\*|\\*\\.\\.yesterday|tomorrow\\.\\.\\*|\\*\\.\\.tomorrow|\\d{4}-\\d{2}-\\d{2}\\.\\.\\*|\\*\\.\\.\\d{4}-\\d{2}-\\d{2}|\\d{4}-\\d{2}-\\d{2}\\.\\.\\d{4}-\\d{2}-\\d{2})$",
+                    "description": "The date in \"YYYY-MM-DD\" format, or one of the keywords: \"yesterday\", \"today\", \"tomorrow\", or a date range in the format \"YYYY-MM-DD..YYYY-MM-DD\". The date range can also be open ended by using \"*\" for one of the bounds. Examples: \"2023-01-01\", \"today\", \"2023-01-01..*\" (from Jan 1, 2023 to any future date), \"*.2023-01-31\" (any date up to Jan 31, 2023), \"today..*\" (from today onwards), \"*.yesterday\" (any date up to yesterday). The keywords cannot be used to calculate relative dates (e.g. the following are not valid: \"today-1\" or \"tomorrow+1\")."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shortcut_create-epic",
+        "description": "Create a new Shortcut epic.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The name of the epic"
+                },
+                "owner": {
+                    "type": "string",
+                    "description": "The user ID of the owner of the epic"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "A description of the epic"
+                },
+                "teamId": {
+                    "type": "string",
+                    "description": "The ID of a team to assign the epic to"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shortcut_get-objective",
+        "description": "Get a Shortcut objective by public ID",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "objectivePublicId": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "The public ID of the objective to get"
+                },
+                "full": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "True to return all objective fields from the API. False to return a slim version that excludes uncommon fields"
+                }
+            },
+            "required": [
+                "objectivePublicId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shortcut_search-objectives",
+        "description": "Find Shortcut objectives.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "nextPageToken": {
+                    "type": "string",
+                    "description": "If a next_page_token was returned from the search result, pass it in to get the next page of results. Should be combined with the original search parameters."
+                },
+                "id": {
+                    "type": "number",
+                    "description": "Find objectives matching the specified id"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Find objectives matching the specified name"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Find objectives matching the specified description"
+                },
+                "state": {
+                    "type": "string",
+                    "enum": [
+                        "unstarted",
+                        "started",
+                        "done"
+                    ],
+                    "description": "Find objectives matching the specified state"
+                },
+                "owner": {
+                    "type": "string",
+                    "description": "Find entities where the owner match the specified user. This must either be the user's mention name or the keyword \"me\" for the current user."
+                },
+                "requester": {
+                    "type": "string",
+                    "description": "Find entities where the requester match the specified user. This must either be the user's mention name or the keyword \"me\" for the current user."
+                },
+                "team": {
+                    "type": "string",
+                    "description": "Find objectives matching the specified team. Should be a team mention name."
+                },
+                "isUnstarted": {
+                    "type": "boolean",
+                    "description": "Find only entities that are unstarted when true, or only entities that are not unstarted when false."
+                },
+                "isStarted": {
+                    "type": "boolean",
+                    "description": "Find only entities that are started when true, or only entities that are not started when false."
+                },
+                "isDone": {
+                    "type": "boolean",
+                    "description": "Find only entities that are completed when true, or only entities that are not completed when false."
+                },
+                "isArchived": {
+                    "type": "boolean",
+                    "description": "Find only entities that are archived when true, or only entities that are not archived when false."
+                },
+                "hasOwner": {
+                    "type": "boolean",
+                    "description": "Find only entities that have an owner when true, or only entities that do not have an owner when false. Example: hasOwner: true will find stories with an owner, hasOwner: false will find stories without an owner."
+                },
+                "created": {
+                    "type": "string",
+                    "pattern": "^(today|tomorrow|yesterday|\\d{4}-\\d{2}-\\d{2}|today\\.\\.\\*|\\*\\.\\.today|yesterday\\.\\.\\*|\\*\\.\\.yesterday|tomorrow\\.\\.\\*|\\*\\.\\.tomorrow|\\d{4}-\\d{2}-\\d{2}\\.\\.\\*|\\*\\.\\.\\d{4}-\\d{2}-\\d{2}|\\d{4}-\\d{2}-\\d{2}\\.\\.\\d{4}-\\d{2}-\\d{2})$",
+                    "description": "The date in \"YYYY-MM-DD\" format, or one of the keywords: \"yesterday\", \"today\", \"tomorrow\", or a date range in the format \"YYYY-MM-DD..YYYY-MM-DD\". The date range can also be open ended by using \"*\" for one of the bounds. Examples: \"2023-01-01\", \"today\", \"2023-01-01..*\" (from Jan 1, 2023 to any future date), \"*.2023-01-31\" (any date up to Jan 31, 2023), \"today..*\" (from today onwards), \"*.yesterday\" (any date up to yesterday). The keywords cannot be used to calculate relative dates (e.g. the following are not valid: \"today-1\" or \"tomorrow+1\")."
+                },
+                "updated": {
+                    "type": "string",
+                    "pattern": "^(today|tomorrow|yesterday|\\d{4}-\\d{2}-\\d{2}|today\\.\\.\\*|\\*\\.\\.today|yesterday\\.\\.\\*|\\*\\.\\.yesterday|tomorrow\\.\\.\\*|\\*\\.\\.tomorrow|\\d{4}-\\d{2}-\\d{2}\\.\\.\\*|\\*\\.\\.\\d{4}-\\d{2}-\\d{2}|\\d{4}-\\d{2}-\\d{2}\\.\\.\\d{4}-\\d{2}-\\d{2})$",
+                    "description": "The date in \"YYYY-MM-DD\" format, or one of the keywords: \"yesterday\", \"today\", \"tomorrow\", or a date range in the format \"YYYY-MM-DD..YYYY-MM-DD\". The date range can also be open ended by using \"*\" for one of the bounds. Examples: \"2023-01-01\", \"today\", \"2023-01-01..*\" (from Jan 1, 2023 to any future date), \"*.2023-01-31\" (any date up to Jan 31, 2023), \"today..*\" (from today onwards), \"*.yesterday\" (any date up to yesterday). The keywords cannot be used to calculate relative dates (e.g. the following are not valid: \"today-1\" or \"tomorrow+1\")."
+                },
+                "completed": {
+                    "type": "string",
+                    "pattern": "^(today|tomorrow|yesterday|\\d{4}-\\d{2}-\\d{2}|today\\.\\.\\*|\\*\\.\\.today|yesterday\\.\\.\\*|\\*\\.\\.yesterday|tomorrow\\.\\.\\*|\\*\\.\\.tomorrow|\\d{4}-\\d{2}-\\d{2}\\.\\.\\*|\\*\\.\\.\\d{4}-\\d{2}-\\d{2}|\\d{4}-\\d{2}-\\d{2}\\.\\.\\d{4}-\\d{2}-\\d{2})$",
+                    "description": "The date in \"YYYY-MM-DD\" format, or one of the keywords: \"yesterday\", \"today\", \"tomorrow\", or a date range in the format \"YYYY-MM-DD..YYYY-MM-DD\". The date range can also be open ended by using \"*\" for one of the bounds. Examples: \"2023-01-01\", \"today\", \"2023-01-01..*\" (from Jan 1, 2023 to any future date), \"*.2023-01-31\" (any date up to Jan 31, 2023), \"today..*\" (from today onwards), \"*.yesterday\" (any date up to yesterday). The keywords cannot be used to calculate relative dates (e.g. the following are not valid: \"today-1\" or \"tomorrow+1\")."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shortcut_get-team",
+        "description": "Get a Shortcut team by public ID",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "teamPublicId": {
+                    "type": "string",
+                    "description": "The public ID of the team to get"
+                },
+                "full": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "True to return all team fields from the API. False to return a slim version that excludes uncommon fields"
+                }
+            },
+            "required": [
+                "teamPublicId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shortcut_list-teams",
+        "description": "List all Shortcut teams",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "shortcut_get-default-workflow",
+        "description": "Get the default workflow for a specific team or the global default if no team is specified.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "teamPublicId": {
+                    "type": "string",
+                    "description": "The public ID of the team to get the default workflow for."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shortcut_get-workflow",
+        "description": "Get a Shortcut workflow by public ID",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "workflowPublicId": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "The public ID of the workflow to get"
+                },
+                "full": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "True to return all workflow fields from the API. False to return a slim version that excludes uncommon fields"
+                }
+            },
+            "required": [
+                "workflowPublicId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shortcut_list-workflows",
+        "description": "List all Shortcut workflows",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "shortcut_create-document",
+        "description": "Create a new document in Shortcut with a title and content. Returns the document's id, title, and app_url. Note: Use HTML markup for the content (e.g., <p>, <h1>, <ul>, <strong>) rather than Markdown.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "maxLength": 256,
+                    "description": "The title for the new document (max 256 characters)"
+                },
+                "content": {
+                    "type": "string",
+                    "description": "The content for the new document in HTML format (e.g., <p>Hello</p>, <h1>Title</h1>, <ul><li>Item</li></ul>)"
+                }
+            },
+            "required": [
+                "title",
+                "content"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

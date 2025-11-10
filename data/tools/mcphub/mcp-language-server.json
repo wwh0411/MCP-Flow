@@ -1,0 +1,787 @@
+[
+    {
+        "name": "python-language-server_definition",
+        "description": "Read the source code definition of a symbol (function, type, constant, etc.) from the codebase. Returns the complete implementation code where the symbol is defined.",
+        "parameters": {
+            "properties": {
+                "symbolName": {
+                    "description": "The name of the symbol whose definition you want to find (e.g. 'mypackage.MyFunction', 'MyType.MyMethod')",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "symbolName"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "python-language-server_diagnostics",
+        "description": "Get diagnostic information for a specific file from the language server.",
+        "parameters": {
+            "properties": {
+                "contextLines": {
+                    "default": false,
+                    "description": "Lines to include around each diagnostic.",
+                    "type": "boolean"
+                },
+                "filePath": {
+                    "description": "The path to the file to get diagnostics for",
+                    "type": "string"
+                },
+                "showLineNumbers": {
+                    "default": true,
+                    "description": "If true, adds line numbers to the output",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "filePath"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "python-language-server_edit_file",
+        "description": "Apply multiple text edits to a file.",
+        "parameters": {
+            "properties": {
+                "edits": {
+                    "description": "List of edits to apply",
+                    "items": {
+                        "properties": {
+                            "endLine": {
+                                "description": "End line to replace, inclusive, one-indexed",
+                                "type": "number"
+                            },
+                            "newText": {
+                                "description": "Replacement text. Replace with the new text. Leave blank to remove lines.",
+                                "type": "string"
+                            },
+                            "startLine": {
+                                "description": "Start line to replace, inclusive, one-indexed",
+                                "type": "number"
+                            }
+                        },
+                        "required": [
+                            "startLine",
+                            "endLine"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "filePath": {
+                    "description": "Path to the file to edit",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "edits",
+                "filePath"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "python-language-server_hover",
+        "description": "Get hover information (type, documentation) for a symbol at the specified position.",
+        "parameters": {
+            "properties": {
+                "column": {
+                    "description": "The column number where the hover is requested (1-indexed)",
+                    "type": "number"
+                },
+                "filePath": {
+                    "description": "The path to the file to get hover information for",
+                    "type": "string"
+                },
+                "line": {
+                    "description": "The line number where the hover is requested (1-indexed)",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "filePath",
+                "line",
+                "column"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "python-language-server_references",
+        "description": "Find all usages and references of a symbol throughout the codebase. Returns a list of all files and locations where the symbol appears.",
+        "parameters": {
+            "properties": {
+                "symbolName": {
+                    "description": "The name of the symbol to search for (e.g. 'mypackage.MyFunction', 'MyType')",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "symbolName"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "python-language-server_rename_symbol",
+        "description": "Rename a symbol (variable, function, class, etc.) at the specified position and update all references throughout the codebase.",
+        "parameters": {
+            "properties": {
+                "column": {
+                    "description": "The column number where the symbol is located (1-indexed)",
+                    "type": "number"
+                },
+                "filePath": {
+                    "description": "The path to the file containing the symbol to rename",
+                    "type": "string"
+                },
+                "line": {
+                    "description": "The line number where the symbol is located (1-indexed)",
+                    "type": "number"
+                },
+                "newName": {
+                    "description": "The new name for the symbol",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "filePath",
+                "line",
+                "column",
+                "newName"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "go-language-server_definition",
+        "description": "Read the source code definition of a symbol (function, type, constant, etc.) from the codebase. Returns the complete implementation code where the symbol is defined.",
+        "parameters": {
+            "properties": {
+                "symbolName": {
+                    "description": "The name of the symbol whose definition you want to find (e.g. 'mypackage.MyFunction', 'MyType.MyMethod')",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "symbolName"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "go-language-server_diagnostics",
+        "description": "Get diagnostic information for a specific file from the language server.",
+        "parameters": {
+            "properties": {
+                "contextLines": {
+                    "default": false,
+                    "description": "Lines to include around each diagnostic.",
+                    "type": "boolean"
+                },
+                "filePath": {
+                    "description": "The path to the file to get diagnostics for",
+                    "type": "string"
+                },
+                "showLineNumbers": {
+                    "default": true,
+                    "description": "If true, adds line numbers to the output",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "filePath"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "go-language-server_edit_file",
+        "description": "Apply multiple text edits to a file.",
+        "parameters": {
+            "properties": {
+                "edits": {
+                    "description": "List of edits to apply",
+                    "items": {
+                        "properties": {
+                            "endLine": {
+                                "description": "End line to replace, inclusive, one-indexed",
+                                "type": "number"
+                            },
+                            "newText": {
+                                "description": "Replacement text. Replace with the new text. Leave blank to remove lines.",
+                                "type": "string"
+                            },
+                            "startLine": {
+                                "description": "Start line to replace, inclusive, one-indexed",
+                                "type": "number"
+                            }
+                        },
+                        "required": [
+                            "startLine",
+                            "endLine"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "filePath": {
+                    "description": "Path to the file to edit",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "edits",
+                "filePath"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "go-language-server_hover",
+        "description": "Get hover information (type, documentation) for a symbol at the specified position.",
+        "parameters": {
+            "properties": {
+                "column": {
+                    "description": "The column number where the hover is requested (1-indexed)",
+                    "type": "number"
+                },
+                "filePath": {
+                    "description": "The path to the file to get hover information for",
+                    "type": "string"
+                },
+                "line": {
+                    "description": "The line number where the hover is requested (1-indexed)",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "filePath",
+                "line",
+                "column"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "go-language-server_references",
+        "description": "Find all usages and references of a symbol throughout the codebase. Returns a list of all files and locations where the symbol appears.",
+        "parameters": {
+            "properties": {
+                "symbolName": {
+                    "description": "The name of the symbol to search for (e.g. 'mypackage.MyFunction', 'MyType')",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "symbolName"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "go-language-server_rename_symbol",
+        "description": "Rename a symbol (variable, function, class, etc.) at the specified position and update all references throughout the codebase.",
+        "parameters": {
+            "properties": {
+                "column": {
+                    "description": "The column number where the symbol is located (1-indexed)",
+                    "type": "number"
+                },
+                "filePath": {
+                    "description": "The path to the file containing the symbol to rename",
+                    "type": "string"
+                },
+                "line": {
+                    "description": "The line number where the symbol is located (1-indexed)",
+                    "type": "number"
+                },
+                "newName": {
+                    "description": "The new name for the symbol",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "filePath",
+                "line",
+                "column",
+                "newName"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "typescript-language-server_definition",
+        "description": "Read the source code definition of a symbol (function, type, constant, etc.) from the codebase. Returns the complete implementation code where the symbol is defined.",
+        "parameters": {
+            "properties": {
+                "symbolName": {
+                    "description": "The name of the symbol whose definition you want to find (e.g. 'mypackage.MyFunction', 'MyType.MyMethod')",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "symbolName"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "typescript-language-server_diagnostics",
+        "description": "Get diagnostic information for a specific file from the language server.",
+        "parameters": {
+            "properties": {
+                "contextLines": {
+                    "default": false,
+                    "description": "Lines to include around each diagnostic.",
+                    "type": "boolean"
+                },
+                "filePath": {
+                    "description": "The path to the file to get diagnostics for",
+                    "type": "string"
+                },
+                "showLineNumbers": {
+                    "default": true,
+                    "description": "If true, adds line numbers to the output",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "filePath"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "typescript-language-server_edit_file",
+        "description": "Apply multiple text edits to a file.",
+        "parameters": {
+            "properties": {
+                "edits": {
+                    "description": "List of edits to apply",
+                    "items": {
+                        "properties": {
+                            "endLine": {
+                                "description": "End line to replace, inclusive, one-indexed",
+                                "type": "number"
+                            },
+                            "newText": {
+                                "description": "Replacement text. Replace with the new text. Leave blank to remove lines.",
+                                "type": "string"
+                            },
+                            "startLine": {
+                                "description": "Start line to replace, inclusive, one-indexed",
+                                "type": "number"
+                            }
+                        },
+                        "required": [
+                            "startLine",
+                            "endLine"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "filePath": {
+                    "description": "Path to the file to edit",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "edits",
+                "filePath"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "typescript-language-server_hover",
+        "description": "Get hover information (type, documentation) for a symbol at the specified position.",
+        "parameters": {
+            "properties": {
+                "column": {
+                    "description": "The column number where the hover is requested (1-indexed)",
+                    "type": "number"
+                },
+                "filePath": {
+                    "description": "The path to the file to get hover information for",
+                    "type": "string"
+                },
+                "line": {
+                    "description": "The line number where the hover is requested (1-indexed)",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "filePath",
+                "line",
+                "column"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "typescript-language-server_references",
+        "description": "Find all usages and references of a symbol throughout the codebase. Returns a list of all files and locations where the symbol appears.",
+        "parameters": {
+            "properties": {
+                "symbolName": {
+                    "description": "The name of the symbol to search for (e.g. 'mypackage.MyFunction', 'MyType')",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "symbolName"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "typescript-language-server_rename_symbol",
+        "description": "Rename a symbol (variable, function, class, etc.) at the specified position and update all references throughout the codebase.",
+        "parameters": {
+            "properties": {
+                "column": {
+                    "description": "The column number where the symbol is located (1-indexed)",
+                    "type": "number"
+                },
+                "filePath": {
+                    "description": "The path to the file containing the symbol to rename",
+                    "type": "string"
+                },
+                "line": {
+                    "description": "The line number where the symbol is located (1-indexed)",
+                    "type": "number"
+                },
+                "newName": {
+                    "description": "The new name for the symbol",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "filePath",
+                "line",
+                "column",
+                "newName"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "rust-language-server_definition",
+        "description": "Read the source code definition of a symbol (function, type, constant, etc.) from the codebase. Returns the complete implementation code where the symbol is defined.",
+        "parameters": {
+            "properties": {
+                "symbolName": {
+                    "description": "The name of the symbol whose definition you want to find (e.g. 'mypackage.MyFunction', 'MyType.MyMethod')",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "symbolName"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "rust-language-server_diagnostics",
+        "description": "Get diagnostic information for a specific file from the language server.",
+        "parameters": {
+            "properties": {
+                "contextLines": {
+                    "default": false,
+                    "description": "Lines to include around each diagnostic.",
+                    "type": "boolean"
+                },
+                "filePath": {
+                    "description": "The path to the file to get diagnostics for",
+                    "type": "string"
+                },
+                "showLineNumbers": {
+                    "default": true,
+                    "description": "If true, adds line numbers to the output",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "filePath"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "rust-language-server_edit_file",
+        "description": "Apply multiple text edits to a file.",
+        "parameters": {
+            "properties": {
+                "edits": {
+                    "description": "List of edits to apply",
+                    "items": {
+                        "properties": {
+                            "endLine": {
+                                "description": "End line to replace, inclusive, one-indexed",
+                                "type": "number"
+                            },
+                            "newText": {
+                                "description": "Replacement text. Replace with the new text. Leave blank to remove lines.",
+                                "type": "string"
+                            },
+                            "startLine": {
+                                "description": "Start line to replace, inclusive, one-indexed",
+                                "type": "number"
+                            }
+                        },
+                        "required": [
+                            "startLine",
+                            "endLine"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "filePath": {
+                    "description": "Path to the file to edit",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "edits",
+                "filePath"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "rust-language-server_hover",
+        "description": "Get hover information (type, documentation) for a symbol at the specified position.",
+        "parameters": {
+            "properties": {
+                "column": {
+                    "description": "The column number where the hover is requested (1-indexed)",
+                    "type": "number"
+                },
+                "filePath": {
+                    "description": "The path to the file to get hover information for",
+                    "type": "string"
+                },
+                "line": {
+                    "description": "The line number where the hover is requested (1-indexed)",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "filePath",
+                "line",
+                "column"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "rust-language-server_references",
+        "description": "Find all usages and references of a symbol throughout the codebase. Returns a list of all files and locations where the symbol appears.",
+        "parameters": {
+            "properties": {
+                "symbolName": {
+                    "description": "The name of the symbol to search for (e.g. 'mypackage.MyFunction', 'MyType')",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "symbolName"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "rust-language-server_rename_symbol",
+        "description": "Rename a symbol (variable, function, class, etc.) at the specified position and update all references throughout the codebase.",
+        "parameters": {
+            "properties": {
+                "column": {
+                    "description": "The column number where the symbol is located (1-indexed)",
+                    "type": "number"
+                },
+                "filePath": {
+                    "description": "The path to the file containing the symbol to rename",
+                    "type": "string"
+                },
+                "line": {
+                    "description": "The line number where the symbol is located (1-indexed)",
+                    "type": "number"
+                },
+                "newName": {
+                    "description": "The new name for the symbol",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "filePath",
+                "line",
+                "column",
+                "newName"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "cpp-language-server_definition",
+        "description": "Read the source code definition of a symbol (function, type, constant, etc.) from the codebase. Returns the complete implementation code where the symbol is defined.",
+        "parameters": {
+            "properties": {
+                "symbolName": {
+                    "description": "The name of the symbol whose definition you want to find (e.g. 'mypackage.MyFunction', 'MyType.MyMethod')",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "symbolName"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "cpp-language-server_diagnostics",
+        "description": "Get diagnostic information for a specific file from the language server.",
+        "parameters": {
+            "properties": {
+                "contextLines": {
+                    "default": false,
+                    "description": "Lines to include around each diagnostic.",
+                    "type": "boolean"
+                },
+                "filePath": {
+                    "description": "The path to the file to get diagnostics for",
+                    "type": "string"
+                },
+                "showLineNumbers": {
+                    "default": true,
+                    "description": "If true, adds line numbers to the output",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "filePath"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "cpp-language-server_edit_file",
+        "description": "Apply multiple text edits to a file.",
+        "parameters": {
+            "properties": {
+                "edits": {
+                    "description": "List of edits to apply",
+                    "items": {
+                        "properties": {
+                            "endLine": {
+                                "description": "End line to replace, inclusive, one-indexed",
+                                "type": "number"
+                            },
+                            "newText": {
+                                "description": "Replacement text. Replace with the new text. Leave blank to remove lines.",
+                                "type": "string"
+                            },
+                            "startLine": {
+                                "description": "Start line to replace, inclusive, one-indexed",
+                                "type": "number"
+                            }
+                        },
+                        "required": [
+                            "startLine",
+                            "endLine"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "filePath": {
+                    "description": "Path to the file to edit",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "edits",
+                "filePath"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "cpp-language-server_hover",
+        "description": "Get hover information (type, documentation) for a symbol at the specified position.",
+        "parameters": {
+            "properties": {
+                "column": {
+                    "description": "The column number where the hover is requested (1-indexed)",
+                    "type": "number"
+                },
+                "filePath": {
+                    "description": "The path to the file to get hover information for",
+                    "type": "string"
+                },
+                "line": {
+                    "description": "The line number where the hover is requested (1-indexed)",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "filePath",
+                "line",
+                "column"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "cpp-language-server_references",
+        "description": "Find all usages and references of a symbol throughout the codebase. Returns a list of all files and locations where the symbol appears.",
+        "parameters": {
+            "properties": {
+                "symbolName": {
+                    "description": "The name of the symbol to search for (e.g. 'mypackage.MyFunction', 'MyType')",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "symbolName"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "cpp-language-server_rename_symbol",
+        "description": "Rename a symbol (variable, function, class, etc.) at the specified position and update all references throughout the codebase.",
+        "parameters": {
+            "properties": {
+                "column": {
+                    "description": "The column number where the symbol is located (1-indexed)",
+                    "type": "number"
+                },
+                "filePath": {
+                    "description": "The path to the file containing the symbol to rename",
+                    "type": "string"
+                },
+                "line": {
+                    "description": "The line number where the symbol is located (1-indexed)",
+                    "type": "number"
+                },
+                "newName": {
+                    "description": "The new name for the symbol",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "filePath",
+                "line",
+                "column",
+                "newName"
+            ],
+            "type": "object"
+        }
+    }
+]

@@ -1,0 +1,1451 @@
+[
+    {
+        "name": "thinking-models_list-models",
+        "description": "\u83b7\u53d6\u6307\u5b9a\u8bed\u8a00\u7684\u601d\u7ef4\u6a21\u578b\u5217\u8868\uff0c\u652f\u6301\u6309\u5206\u7c7b\u8fc7\u6ee4",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "lang": {
+                    "type": "string",
+                    "enum": [
+                        "zh",
+                        "en"
+                    ],
+                    "default": "zh",
+                    "description": "\u8bed\u8a00\u4ee3\u7801\uff08'zh' \u6216 'en'\uff09\uff0c\u9ed8\u8ba4\u4e3a 'zh'"
+                },
+                "category": {
+                    "type": "string",
+                    "description": "\u4e3b\u5206\u7c7b\u540d\u79f0\uff08\u53ef\u9009\uff09"
+                },
+                "subcategory": {
+                    "type": "string",
+                    "description": "\u5b50\u5206\u7c7b\u540d\u79f0\uff08\u53ef\u9009\uff0c\u9700\u540c\u65f6\u63d0\u4f9b\u4e3b\u5206\u7c7b\uff09"
+                },
+                "limit": {
+                    "type": "number",
+                    "default": 100,
+                    "description": "\u8fd4\u56de\u7ed3\u679c\u6570\u91cf\u9650\u5236\uff0c\u9ed8\u8ba4\u4e3a100"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "thinking-models_search-models",
+        "description": "\u5728\u6307\u5b9a\u8bed\u8a00\u7684\u601d\u7ef4\u6a21\u578b\u4e2d\u6839\u636e\u5173\u952e\u8bcd\u8fdb\u884c\u6587\u672c\u641c\u7d22",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "\u641c\u7d22\u5173\u952e\u8bcd"
+                },
+                "lang": {
+                    "type": "string",
+                    "enum": [
+                        "zh",
+                        "en"
+                    ],
+                    "default": "zh",
+                    "description": "\u8bed\u8a00\u4ee3\u7801\uff08'zh' \u6216 'en'\uff09\uff0c\u9ed8\u8ba4\u4e3a 'zh'"
+                },
+                "limit": {
+                    "type": "number",
+                    "default": 10,
+                    "description": "\u8fd4\u56de\u7ed3\u679c\u6570\u91cf\u9650\u5236\uff0c\u9ed8\u8ba4\u4e3a10"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "thinking-models_recommend-models-for-problem",
+        "description": "\u57fa\u4e8e\u95ee\u9898\u5173\u952e\u8bcd\u63a8\u8350\u9002\u5408\u89e3\u51b3\u7279\u5b9a\u95ee\u9898\u7684\u601d\u7ef4\u6a21\u578b",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "problem_keywords": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "minItems": 1,
+                    "description": "\u95ee\u9898\u5173\u952e\u8bcd\u6570\u7ec4"
+                },
+                "problem_context": {
+                    "type": "string",
+                    "description": "\u95ee\u9898\u7684\u5b8c\u6574\u4e0a\u4e0b\u6587\u63cf\u8ff0"
+                },
+                "lang": {
+                    "type": "string",
+                    "enum": [
+                        "zh",
+                        "en"
+                    ],
+                    "default": "zh",
+                    "description": "\u8bed\u8a00\u4ee3\u7801\uff08'zh' \u6216 'en'\uff09\uff0c\u9ed8\u8ba4\u4e3a 'zh'"
+                },
+                "limit": {
+                    "type": "number",
+                    "default": 10,
+                    "description": "\u8fd4\u56de\u7ed3\u679c\u6570\u91cf\u9650\u5236\uff0c\u9ed8\u8ba4\u4e3a10"
+                },
+                "use_learning_adjustment": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "\u662f\u5426\u4f7f\u7528\u5b66\u4e60\u7cfb\u7edf\u8c03\u6574\u63a8\u8350\u7ed3\u679c"
+                }
+            },
+            "required": [
+                "problem_keywords"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "thinking-models_get-model-info",
+        "description": "\u83b7\u53d6\u601d\u7ef4\u6a21\u578b\u7684\u8be6\u7ec6\u4fe1\u606f\u6216\u7279\u5b9a\u5b57\u6bb5",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "model_id": {
+                    "type": "string",
+                    "description": "\u601d\u7ef4\u6a21\u578b\u7684\u552f\u4e00id"
+                },
+                "fields": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "all",
+                            "basic",
+                            "detail",
+                            "teaching",
+                            "warnings",
+                            "visualizations"
+                        ]
+                    },
+                    "default": [
+                        "basic"
+                    ],
+                    "description": "\u9700\u8981\u8fd4\u56de\u7684\u5b57\u6bb5\uff0c\u5982 'all'(\u5168\u90e8), 'basic'(\u57fa\u672c\u4fe1\u606f), 'detail'(\u8be6\u7ec6\u4fe1\u606f), 'teaching'(\u6559\u5b66\u5185\u5bb9), 'warnings'(\u6ce8\u610f\u4e8b\u9879), 'visualizations'(\u53ef\u89c6\u5316)"
+                },
+                "lang": {
+                    "type": "string",
+                    "enum": [
+                        "zh",
+                        "en"
+                    ],
+                    "default": "zh",
+                    "description": "\u8bed\u8a00\u4ee3\u7801\uff08'zh' \u6216 'en'\uff09\uff0c\u9ed8\u8ba4\u4e3a 'zh'"
+                }
+            },
+            "required": [
+                "model_id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "thinking-models_get-categories",
+        "description": "\u83b7\u53d6\u6240\u6709\u601d\u7ef4\u6a21\u578b\u7684\u5206\u7c7b\u4fe1\u606f",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "lang": {
+                    "type": "string",
+                    "enum": [
+                        "zh",
+                        "en"
+                    ],
+                    "default": "zh",
+                    "description": "\u8bed\u8a00\u4ee3\u7801\uff08'zh' \u6216 'en'\uff09\uff0c\u9ed8\u8ba4\u4e3a 'zh'"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "thinking-models_get-related-models",
+        "description": "\u83b7\u53d6\u4e0e\u7279\u5b9a\u601d\u7ef4\u6a21\u578b\u76f8\u5173\u7684\u6a21\u578b\u63a8\u8350",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "model_id": {
+                    "type": "string",
+                    "description": "\u601d\u7ef4\u6a21\u578b\u7684\u552f\u4e00id"
+                },
+                "lang": {
+                    "type": "string",
+                    "enum": [
+                        "zh",
+                        "en"
+                    ],
+                    "default": "zh",
+                    "description": "\u8bed\u8a00\u4ee3\u7801\uff08'zh' \u6216 'en'\uff09\uff0c\u9ed8\u8ba4\u4e3a 'zh'"
+                },
+                "use_enhanced_similarity": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "\u662f\u5426\u4f7f\u7528\u589e\u5f3a\u7684\u76f8\u4f3c\u5ea6\u8bc4\u4f30\uff08\u5982\u679c\u4e3afalse\u5219\u4f7f\u7528\u57fa\u7840\u7b97\u6cd5\uff09"
+                },
+                "limit": {
+                    "type": "number",
+                    "default": 5,
+                    "description": "\u8fd4\u56de\u7ed3\u679c\u6570\u91cf\u9650\u5236\uff0c\u9ed8\u8ba4\u4e3a5"
+                }
+            },
+            "required": [
+                "model_id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "thinking-models_explain-reasoning-process",
+        "description": "\u89e3\u91ca\u6a21\u578b\u7684\u63a8\u7406\u8fc7\u7a0b\u548c\u5e94\u7528\u7684\u601d\u7ef4\u6a21\u5f0f",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "problemDescription": {
+                    "type": "string",
+                    "description": "\u95ee\u9898\u6216\u60c5\u5883\u63cf\u8ff0"
+                },
+                "reasoningSteps": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "description": {
+                                "type": "string",
+                                "description": "\u63a8\u7406\u6b65\u9aa4\u63cf\u8ff0"
+                            },
+                            "modelIds": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "description": "\u4f7f\u7528\u7684\u601d\u7ef4\u6a21\u578bID"
+                            },
+                            "evidence": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "description": "\u652f\u6301\u8bc1\u636e"
+                            },
+                            "confidence": {
+                                "type": "number",
+                                "default": 0.8,
+                                "description": "\u7f6e\u4fe1\u5ea6(0-1)"
+                            }
+                        },
+                        "required": [
+                            "description"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "\u63a8\u7406\u6b65\u9aa4\u8be6\u60c5"
+                },
+                "conclusion": {
+                    "type": "string",
+                    "description": "\u63a8\u7406\u7ed3\u8bba"
+                },
+                "lang": {
+                    "type": "string",
+                    "enum": [
+                        "zh",
+                        "en"
+                    ],
+                    "default": "zh",
+                    "description": "\u8bed\u8a00\u4ee3\u7801"
+                }
+            },
+            "required": [
+                "problemDescription",
+                "reasoningSteps",
+                "conclusion"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "thinking-models_interactive-reasoning",
+        "description": "\u4ea4\u4e92\u5f0f\u63a8\u7406\u8fc7\u7a0b\uff0c\u5141\u8bb8\u52a8\u6001\u83b7\u53d6\u989d\u5916\u4fe1\u606f",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "initialContext": {
+                    "type": "string",
+                    "description": "\u521d\u59cb\u95ee\u9898\u6216\u60c5\u5883\u63cf\u8ff0"
+                },
+                "reasoningStage": {
+                    "type": "string",
+                    "enum": [
+                        "information_gathering",
+                        "hypothesis_generation",
+                        "hypothesis_testing",
+                        "conclusion"
+                    ],
+                    "description": "\u5f53\u524d\u63a8\u7406\u9636\u6bb5"
+                },
+                "currentPathId": {
+                    "type": "string",
+                    "description": "\u5f53\u524d\u63a8\u7406\u8def\u5f84ID\uff08\u5982\u679c\u5728\u73b0\u6709\u63a8\u7406\u4e2d\uff09"
+                },
+                "requiredInformation": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "\u9700\u8981\u83b7\u53d6\u7684\u989d\u5916\u4fe1\u606f"
+                },
+                "lang": {
+                    "type": "string",
+                    "enum": [
+                        "zh",
+                        "en"
+                    ],
+                    "default": "zh",
+                    "description": "\u8bed\u8a00\u4ee3\u7801"
+                }
+            },
+            "required": [
+                "initialContext",
+                "reasoningStage"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "thinking-models_generate-validate-hypotheses",
+        "description": "\u4e3a\u95ee\u9898\u751f\u6210\u591a\u4e2a\u5047\u8bbe\u5e76\u63d0\u4f9b\u9a8c\u8bc1\u65b9\u6cd5",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "problem": {
+                    "type": "string",
+                    "description": "\u8981\u89e3\u51b3\u7684\u95ee\u9898"
+                },
+                "context": {
+                    "type": "string",
+                    "description": "\u95ee\u9898\u76f8\u5173\u7684\u80cc\u666f\u4fe1\u606f"
+                },
+                "lang": {
+                    "type": "string",
+                    "enum": [
+                        "zh",
+                        "en"
+                    ],
+                    "default": "zh",
+                    "description": "\u8bed\u8a00\u4ee3\u7801"
+                }
+            },
+            "required": [
+                "problem",
+                "context"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "thinking-models_count-models",
+        "description": "\u7edf\u8ba1\u5f53\u524d\u601d\u7ef4\u6a21\u578b\u7684\u603b\u6570",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "lang": {
+                    "type": "string",
+                    "enum": [
+                        "zh",
+                        "en"
+                    ],
+                    "default": "zh",
+                    "description": "\u8bed\u8a00\u4ee3\u7801\uff08'zh' \u6216 'en'\uff09\uff0c\u9ed8\u8ba4\u4e3a 'zh'"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "thinking-models_record-user-feedback",
+        "description": "\u8bb0\u5f55\u7528\u6237\u5bf9\u601d\u7ef4\u6a21\u578b\u4f7f\u7528\u4f53\u9a8c\u7684\u53cd\u9988",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "modelIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "\u76f8\u5173\u601d\u7ef4\u6a21\u578b\u7684ID\u6570\u7ec4"
+                },
+                "context": {
+                    "type": "string",
+                    "description": "\u5e94\u7528\u6a21\u578b\u7684\u4e0a\u4e0b\u6587\u6216\u95ee\u9898\u63cf\u8ff0"
+                },
+                "feedbackType": {
+                    "type": "string",
+                    "enum": [
+                        "helpful",
+                        "not_helpful",
+                        "incorrect",
+                        "insightful",
+                        "confusing"
+                    ],
+                    "description": "\u53cd\u9988\u7c7b\u578b"
+                },
+                "comment": {
+                    "type": "string",
+                    "description": "\u53cd\u9988\u8be6\u7ec6\u8bf4\u660e\u6216\u8bc4\u8bba"
+                },
+                "applicationResult": {
+                    "type": "string",
+                    "description": "\u6a21\u578b\u5e94\u7528\u7ed3\u679c\u63cf\u8ff0"
+                },
+                "suggestedImprovements": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "\u5efa\u8bae\u7684\u6539\u8fdb\u70b9"
+                },
+                "lang": {
+                    "type": "string",
+                    "enum": [
+                        "zh",
+                        "en"
+                    ],
+                    "default": "zh",
+                    "description": "\u8bed\u8a00\u4ee3\u7801"
+                }
+            },
+            "required": [
+                "modelIds",
+                "context",
+                "feedbackType"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "thinking-models_detect-knowledge-gap",
+        "description": "\u68c0\u6d4b\u7528\u6237\u67e5\u8be2\u4e2d\u7684\u77e5\u8bc6\u7f3a\u53e3",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "\u7528\u6237\u67e5\u8be2\u6216\u95ee\u9898"
+                },
+                "lang": {
+                    "type": "string",
+                    "enum": [
+                        "zh",
+                        "en"
+                    ],
+                    "default": "zh",
+                    "description": "\u8bed\u8a00\u4ee3\u7801"
+                },
+                "matchThreshold": {
+                    "type": "number",
+                    "default": 0.5,
+                    "description": "\u5339\u914d\u9608\u503c\uff0c\u4f4e\u4e8e\u6b64\u503c\u89c6\u4e3a\u77e5\u8bc6\u7f3a\u53e3"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "thinking-models_get-model-usage-stats",
+        "description": "\u83b7\u53d6\u601d\u7ef4\u6a21\u578b\u7684\u4f7f\u7528\u7edf\u8ba1\u6570\u636e",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "modelId": {
+                    "type": "string",
+                    "description": "\u601d\u7ef4\u6a21\u578b\u7684\u552f\u4e00ID"
+                },
+                "lang": {
+                    "type": "string",
+                    "enum": [
+                        "zh",
+                        "en"
+                    ],
+                    "default": "zh",
+                    "description": "\u8bed\u8a00\u4ee3\u7801"
+                }
+            },
+            "required": [
+                "modelId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "thinking-models_analyze-learning-system",
+        "description": "\u5206\u6790\u601d\u7ef4\u6a21\u578b\u5b66\u4e60\u7cfb\u7edf\u7684\u603b\u4f53\u72b6\u51b5",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "lang": {
+                    "type": "string",
+                    "enum": [
+                        "zh",
+                        "en"
+                    ],
+                    "default": "zh",
+                    "description": "\u8bed\u8a00\u4ee3\u7801"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "thinking-models_get-server-version",
+        "description": "\u83b7\u53d6\u601d\u7ef4\u6a21\u578bMCP\u670d\u52a1\u5668\u7684\u7248\u672c\u548c\u72b6\u6001\u4fe1\u606f",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "thinking-models_create-thinking-model",
+        "description": "\u521b\u5efa\u65b0\u7684\u601d\u7ef4\u6a21\u578b\u5e76\u6dfb\u52a0\u5230\u7cfb\u7edf\u4e2d\uff0c\u7528\u4e8e\u586b\u8865\u77e5\u8bc6\u7f3a\u53e3",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "\u6a21\u578b\u7684\u552f\u4e00\u6807\u8bc6\u7b26\uff0c\u8bf7\u4f7f\u7528\u5c0f\u5199\u5b57\u6bcd\u548c\u4e0b\u5212\u7ebf\uff0c\u4f8b\u5982\uff1adigital_marketing_funnel"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "\u6a21\u578b\u7684\u540d\u79f0\uff0c\u4f8b\u5982\uff1a\u6570\u5b57\u8425\u9500\u6f0f\u6597\u6a21\u578b"
+                },
+                "author": {
+                    "type": "string",
+                    "description": "\u6a21\u578b\u4f5c\u8005\uff08\u53ef\u9009\uff09"
+                },
+                "source": {
+                    "type": "string",
+                    "description": "\u6a21\u578b\u6765\u6e90\uff08\u53ef\u9009\uff09"
+                },
+                "definition": {
+                    "type": "string",
+                    "description": "\u6a21\u578b\u7684\u7b80\u660e\u5b9a\u4e49"
+                },
+                "purpose": {
+                    "type": "string",
+                    "description": "\u6a21\u578b\u7684\u4e3b\u8981\u76ee\u7684\u548c\u4f7f\u7528\u573a\u666f"
+                },
+                "interaction": {
+                    "type": "string",
+                    "description": "\u4f7f\u7528\u8be5\u6a21\u578b\u4e0e\u7528\u6237\u4ea4\u4e92\u7684\u65b9\u5f0f\u6307\u5357\uff08\u53ef\u9009\uff09"
+                },
+                "constraints": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "\u4f7f\u7528\u6b64\u6a21\u578b\u7684\u7ea6\u675f\u6761\u4ef6\uff08\u53ef\u9009\uff09"
+                },
+                "prompt": {
+                    "type": "string",
+                    "description": "\u8be6\u7ec6\u7684\u63d0\u793a\u8bcd/\u89d2\u8272\u626e\u6f14\u6307\u5357\uff08\u53ef\u9009\uff09"
+                },
+                "example": {
+                    "type": "string",
+                    "description": "\u6a21\u578b\u4f7f\u7528\u7684\u7b80\u77ed\u793a\u4f8b\uff08\u53ef\u9009\uff09"
+                },
+                "category": {
+                    "type": "string",
+                    "description": "\u6a21\u578b\u7684\u4e3b\u8981\u5206\u7c7b\uff0c\u5982\uff1a\u8425\u9500\u5206\u6790\u3001\u51b3\u7b56\u5236\u5b9a\u3001\u7cfb\u7edf\u601d\u8003\u7b49"
+                },
+                "subcategories": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "\u6a21\u578b\u7684\u5b50\u5206\u7c7b\u5217\u8868\uff08\u53ef\u9009\uff09"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "\u6a21\u578b\u7684\u76f8\u5173\u6807\u7b7e\uff08\u53ef\u9009\uff09"
+                },
+                "use_cases": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "\u6a21\u578b\u7684\u4f7f\u7528\u6848\u4f8b\uff08\u53ef\u9009\uff09"
+                },
+                "common_problems_solved": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "problem_description": {
+                                "type": "string"
+                            },
+                            "keywords": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "guiding_questions": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "required": [
+                            "problem_description",
+                            "keywords"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "\u6a21\u578b\u89e3\u51b3\u7684\u5e38\u89c1\u95ee\u9898\uff08\u53ef\u9009\uff09"
+                },
+                "popular_science_teaching": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "concept_name": {
+                                "type": "string"
+                            },
+                            "explanation": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "concept_name",
+                            "explanation"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "\u6a21\u578b\u7684\u901a\u4fd7\u79d1\u5b66\u6559\u5b66\uff08\u53ef\u9009\uff09"
+                },
+                "limitations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "limitation_name": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "limitation_name",
+                            "description"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "\u6a21\u578b\u7684\u5c40\u9650\u6027\uff08\u53ef\u9009\uff09"
+                },
+                "common_pitfalls": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "pitfall_name": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "pitfall_name",
+                            "description"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "\u4f7f\u7528\u6a21\u578b\u7684\u5e38\u89c1\u9677\u9631\uff08\u53ef\u9009\uff09"
+                },
+                "lang": {
+                    "type": "string",
+                    "enum": [
+                        "zh",
+                        "en"
+                    ],
+                    "default": "zh",
+                    "description": "\u6a21\u578b\u7684\u8bed\u8a00\uff08'zh' \u6216 'en'\uff09\uff0c\u9ed8\u8ba4\u4e3a 'zh'"
+                },
+                "flowchart_visualizations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "title": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "dsl": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "title",
+                            "dsl"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "\u6d41\u7a0b\u56fe\u53ef\u89c6\u5316\uff08\u53ef\u9009\uff09"
+                },
+                "bar_chart_visualizations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "title": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "labels": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "datasets": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "label": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "number"
+                                            }
+                                        },
+                                        "backgroundColor": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "label",
+                                        "data"
+                                    ],
+                                    "additionalProperties": false
+                                }
+                            }
+                        },
+                        "required": [
+                            "title",
+                            "labels",
+                            "datasets"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "\u67f1\u72b6\u56fe\u53ef\u89c6\u5316\uff08\u53ef\u9009\uff09"
+                },
+                "table_visualizations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "title": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "headers": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "rows": {
+                                "type": "array",
+                                "items": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": [
+                                            "string",
+                                            "number",
+                                            "boolean"
+                                        ]
+                                    }
+                                }
+                            }
+                        },
+                        "required": [
+                            "title",
+                            "headers",
+                            "rows"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "\u8868\u683c\u53ef\u89c6\u5316\uff08\u53ef\u9009\uff09"
+                },
+                "list_visualizations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "title": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "items": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "text": {
+                                            "type": "string"
+                                        },
+                                        "subItems": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "text": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "text"
+                                                ],
+                                                "additionalProperties": false
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "text"
+                                    ],
+                                    "additionalProperties": false
+                                }
+                            }
+                        },
+                        "required": [
+                            "title",
+                            "items"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "\u5217\u8868\u53ef\u89c6\u5316\uff08\u53ef\u9009\uff09"
+                },
+                "comparison_table_visualizations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "title": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "criteria": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "items": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "values": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": [
+                                                    "string",
+                                                    "number",
+                                                    "boolean"
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "name",
+                                        "values"
+                                    ],
+                                    "additionalProperties": false
+                                }
+                            }
+                        },
+                        "required": [
+                            "title",
+                            "criteria",
+                            "items"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "\u6bd4\u8f83\u8868\u53ef\u89c6\u5316\uff08\u53ef\u9009\uff09"
+                }
+            },
+            "required": [
+                "id",
+                "name",
+                "definition",
+                "purpose",
+                "category"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "thinking-models_update-thinking-model",
+        "description": "\u66f4\u65b0\u73b0\u6709\u601d\u7ef4\u6a21\u578b\u7684\u5185\u5bb9",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "model_id": {
+                    "type": "string",
+                    "description": "\u8981\u66f4\u65b0\u7684\u6a21\u578bID"
+                },
+                "lang": {
+                    "type": "string",
+                    "enum": [
+                        "zh",
+                        "en"
+                    ],
+                    "default": "zh",
+                    "description": "\u6a21\u578b\u7684\u8bed\u8a00\uff08'zh' \u6216 'en'\uff09\uff0c\u9ed8\u8ba4\u4e3a 'zh'"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "\u6a21\u578b\u7684\u540d\u79f0\uff08\u53ef\u9009\uff09"
+                },
+                "author": {
+                    "type": "string",
+                    "description": "\u6a21\u578b\u4f5c\u8005\uff08\u53ef\u9009\uff09"
+                },
+                "source": {
+                    "type": "string",
+                    "description": "\u6a21\u578b\u6765\u6e90\uff08\u53ef\u9009\uff09"
+                },
+                "definition": {
+                    "type": "string",
+                    "description": "\u6a21\u578b\u7684\u7b80\u660e\u5b9a\u4e49\uff08\u53ef\u9009\uff09"
+                },
+                "purpose": {
+                    "type": "string",
+                    "description": "\u6a21\u578b\u7684\u4e3b\u8981\u76ee\u7684\u548c\u4f7f\u7528\u573a\u666f\uff08\u53ef\u9009\uff09"
+                },
+                "interaction": {
+                    "type": "string",
+                    "description": "\u4f7f\u7528\u8be5\u6a21\u578b\u4e0e\u7528\u6237\u4ea4\u4e92\u7684\u65b9\u5f0f\u6307\u5357\uff08\u53ef\u9009\uff09"
+                },
+                "constraints": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "\u4f7f\u7528\u6b64\u6a21\u578b\u7684\u7ea6\u675f\u6761\u4ef6\uff08\u53ef\u9009\uff09"
+                },
+                "prompt": {
+                    "type": "string",
+                    "description": "\u8be6\u7ec6\u7684\u63d0\u793a\u8bcd/\u89d2\u8272\u626e\u6f14\u6307\u5357\uff08\u53ef\u9009\uff09"
+                },
+                "example": {
+                    "type": "string",
+                    "description": "\u6a21\u578b\u4f7f\u7528\u7684\u7b80\u77ed\u793a\u4f8b\uff08\u53ef\u9009\uff09"
+                },
+                "category": {
+                    "type": "string",
+                    "description": "\u6a21\u578b\u7684\u4e3b\u8981\u5206\u7c7b\uff08\u53ef\u9009\uff09"
+                },
+                "subcategories": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "\u6a21\u578b\u7684\u5b50\u5206\u7c7b\u5217\u8868\uff08\u53ef\u9009\uff09"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "\u6a21\u578b\u7684\u76f8\u5173\u6807\u7b7e\uff08\u53ef\u9009\uff09"
+                },
+                "use_cases": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "\u6a21\u578b\u7684\u4f7f\u7528\u6848\u4f8b\uff08\u53ef\u9009\uff09"
+                },
+                "common_problems_solved": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "problem_description": {
+                                "type": "string"
+                            },
+                            "keywords": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "guiding_questions": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "required": [
+                            "problem_description",
+                            "keywords"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "\u6a21\u578b\u89e3\u51b3\u7684\u5e38\u89c1\u95ee\u9898\uff08\u53ef\u9009\uff09"
+                },
+                "popular_science_teaching": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "concept_name": {
+                                "type": "string"
+                            },
+                            "explanation": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "concept_name",
+                            "explanation"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "\u6a21\u578b\u7684\u901a\u4fd7\u79d1\u5b66\u6559\u5b66\uff08\u53ef\u9009\uff09"
+                },
+                "limitations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "limitation_name": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "limitation_name",
+                            "description"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "\u6a21\u578b\u7684\u5c40\u9650\u6027\uff08\u53ef\u9009\uff09"
+                },
+                "common_pitfalls": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "pitfall_name": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "pitfall_name",
+                            "description"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "\u4f7f\u7528\u6a21\u578b\u7684\u5e38\u89c1\u9677\u9631\uff08\u53ef\u9009\uff09"
+                },
+                "flowchart_visualizations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "title": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "dsl": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "title",
+                            "dsl"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "\u6d41\u7a0b\u56fe\u53ef\u89c6\u5316\uff08\u53ef\u9009\uff09"
+                },
+                "bar_chart_visualizations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "title": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "labels": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "datasets": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "label": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "number"
+                                            }
+                                        },
+                                        "backgroundColor": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "label",
+                                        "data"
+                                    ],
+                                    "additionalProperties": false
+                                }
+                            }
+                        },
+                        "required": [
+                            "title",
+                            "labels",
+                            "datasets"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "\u67f1\u72b6\u56fe\u53ef\u89c6\u5316\uff08\u53ef\u9009\uff09"
+                },
+                "table_visualizations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "title": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "headers": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "rows": {
+                                "type": "array",
+                                "items": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": [
+                                            "string",
+                                            "number",
+                                            "boolean"
+                                        ]
+                                    }
+                                }
+                            }
+                        },
+                        "required": [
+                            "title",
+                            "headers",
+                            "rows"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "\u8868\u683c\u53ef\u89c6\u5316\uff08\u53ef\u9009\uff09"
+                },
+                "list_visualizations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "title": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "items": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "text": {
+                                            "type": "string"
+                                        },
+                                        "subItems": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "text": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "text"
+                                                ],
+                                                "additionalProperties": false
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "text"
+                                    ],
+                                    "additionalProperties": false
+                                }
+                            }
+                        },
+                        "required": [
+                            "title",
+                            "items"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "\u5217\u8868\u53ef\u89c6\u5316\uff08\u53ef\u9009\uff09"
+                },
+                "comparison_table_visualizations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "title": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "criteria": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "items": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "values": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": [
+                                                    "string",
+                                                    "number",
+                                                    "boolean"
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "name",
+                                        "values"
+                                    ],
+                                    "additionalProperties": false
+                                }
+                            }
+                        },
+                        "required": [
+                            "title",
+                            "criteria",
+                            "items"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "\u6bd4\u8f83\u8868\u53ef\u89c6\u5316\uff08\u53ef\u9009\uff09"
+                }
+            },
+            "required": [
+                "model_id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "thinking-models_emergent-model-design",
+        "description": "\u901a\u8fc7\u7ec4\u5408\u73b0\u6709\u601d\u7ef4\u6a21\u578b\u7684\u5173\u952e\u6982\u5ff5\u548c\u7279\u6027\u6765\u521b\u5efa\u65b0\u7684\u601d\u7ef4\u6a21\u578b",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "source_model_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "minItems": 2,
+                    "maxItems": 10,
+                    "description": "\u7528\u4e8e\u7ec4\u5408\u7684\u6e90\u6a21\u578bID\u5217\u8868\uff0c\u81f3\u5c112\u4e2a\uff0c\u6700\u591a10\u4e2a"
+                },
+                "target_model_id": {
+                    "type": "string",
+                    "description": "\u65b0\u6a21\u578b\u7684\u552f\u4e00\u6807\u8bc6\u7b26\uff0c\u8bf7\u4f7f\u7528\u5c0f\u5199\u5b57\u6bcd\u548c\u4e0b\u5212\u7ebf"
+                },
+                "target_model_name": {
+                    "type": "string",
+                    "description": "\u65b0\u6a21\u578b\u7684\u540d\u79f0"
+                },
+                "design_goal": {
+                    "type": "string",
+                    "description": "\u8bbe\u8ba1\u76ee\u6807\u548c\u7528\u9014\u63cf\u8ff0"
+                },
+                "lang": {
+                    "type": "string",
+                    "enum": [
+                        "zh",
+                        "en"
+                    ],
+                    "default": "zh",
+                    "description": "\u6a21\u578b\u7684\u8bed\u8a00\uff08'zh' \u6216 'en'\uff09\uff0c\u9ed8\u8ba4\u4e3a 'zh'"
+                },
+                "category": {
+                    "type": "string",
+                    "description": "\u65b0\u6a21\u578b\u7684\u4e3b\u8981\u5206\u7c7b\uff08\u53ef\u9009\uff09"
+                },
+                "connection_description": {
+                    "type": "string",
+                    "description": "\u63cf\u8ff0\u6e90\u6a21\u578b\u662f\u5982\u4f55\u7ec4\u5408\u7684\uff08\u53ef\u9009\uff09"
+                }
+            },
+            "required": [
+                "source_model_ids",
+                "target_model_id",
+                "target_model_name",
+                "design_goal"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "thinking-models_get-started-guide",
+        "description": "\u65b0\u624b\u5165\u95e8\u6307\u5357\uff0c\u5e2e\u52a9\u7528\u6237\u4e86\u89e3\u601d\u7ef4\u6a21\u578b\u5de5\u5177\u4f53\u7cfb\u548c\u5efa\u8bae\u4f7f\u7528\u6d41\u7a0b",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "lang": {
+                    "type": "string",
+                    "enum": [
+                        "zh",
+                        "en"
+                    ],
+                    "default": "zh",
+                    "description": "\u8bed\u8a00\u4ee3\u7801\uff08'zh' \u6216 'en'\uff09\uff0c\u9ed8\u8ba4\u4e3a 'zh'"
+                },
+                "expertise_level": {
+                    "type": "string",
+                    "enum": [
+                        "beginner",
+                        "intermediate",
+                        "advanced"
+                    ],
+                    "default": "beginner",
+                    "description": "\u7528\u6237\u7ecf\u9a8c\u6c34\u5e73\uff0c\u9ed8\u8ba4\u4e3a 'beginner'"
+                },
+                "user_objective": {
+                    "type": "string",
+                    "enum": [
+                        "explore",
+                        "solve_problem",
+                        "create_model",
+                        "learn_tools"
+                    ],
+                    "default": "explore",
+                    "description": "\u7528\u6237\u76ee\u6807\uff0c\u9ed8\u8ba4\u4e3a 'explore'"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

@@ -1,0 +1,3689 @@
+[
+    {
+        "name": "v2_auto_complete",
+        "description": "Get auto complete suggestions by city, ward, street name to pass in other endpoints. This endpoint also helps to get a specific property id by its address",
+        "parameters": {
+            "properties": {
+                "input": {
+                    "description": "States, cities, districts, addresses, zipcode. Ex : California Los Angeles 2425 Sahalee Dr W Sammamish, WA",
+                    "title": "Input",
+                    "type": "string"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The number of items per response, for paging purpose Default: 10",
+                    "title": "Limit"
+                }
+            },
+            "required": [
+                "input"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "locations_auto_complete",
+        "description": "Get auto complete suggestions by city, ward, street name to pass in other endpoints. This endpoint also helps to get a specific property id by its address",
+        "parameters": {
+            "properties": {
+                "input": {
+                    "description": "Name of cities, districts, places",
+                    "title": "Input",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "input"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "v3_list",
+        "description": "List properties for sale, rent, sold with options and filters",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "v3_list_similar_homes",
+        "description": "List similar homes",
+        "parameters": {
+            "properties": {
+                "property_id": {
+                    "description": "The value of property_id field returned in .../properties/.../list endpoint",
+                    "title": "Property Id",
+                    "type": "string"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The number of items per response, for paging purpose Default: 10",
+                    "title": "Limit"
+                },
+                "status": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "One of the following : for_sale|ready_to_build|for_rent|sold|off_market|other|new_community",
+                    "title": "Status"
+                }
+            },
+            "required": [
+                "property_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "v3_detail",
+        "description": "Get property detail information (include new Home Value feature)",
+        "parameters": {
+            "properties": {
+                "property_id": {
+                    "description": "The value of property_id field returned in .../properties/.../list endpoint",
+                    "title": "Property Id",
+                    "type": "string"
+                },
+                "listing_id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The value of listing_id field returned in .../properties/.../list endpoint",
+                    "title": "Listing Id"
+                }
+            },
+            "required": [
+                "property_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "v3_get_photos",
+        "description": "Get photos of a property",
+        "parameters": {
+            "properties": {
+                "property_id": {
+                    "description": "The value of property_id field returned in .../properties/.../list endpoint",
+                    "title": "Property Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "property_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "v3_get_commute_time",
+        "description": "Get commute time to travel to a location",
+        "parameters": {
+            "properties": {
+                "destination_address": {
+                    "description": "An address, you should use .../locations/v2/auto-complete to get a complete and correct address . Ex : 7830 Poppy Blvd",
+                    "title": "Destination Address",
+                    "type": "string"
+                },
+                "property_id": {
+                    "description": "The value of property_id field returned in .../properties/.../list endpoint",
+                    "title": "Property Id",
+                    "type": "string"
+                },
+                "transportation_type": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "One of the following : bicycling|driving|transit|walking",
+                    "title": "Transportation Type"
+                },
+                "with_traffic": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Whether or not calculate the time in rush hours",
+                    "title": "With Traffic"
+                }
+            },
+            "required": [
+                "destination_address",
+                "property_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "v3_get_surroundings",
+        "description": "Get surroundings data around a property",
+        "parameters": {
+            "properties": {
+                "property_id": {
+                    "description": "The value of property_id field returned in .../properties/.../list endpoint",
+                    "title": "Property Id",
+                    "type": "string"
+                },
+                "enable_flood": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Whether or not include flood information",
+                    "title": "Enable Flood"
+                }
+            },
+            "required": [
+                "property_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "properties_list_sold",
+        "description": "List sold properties",
+        "parameters": {
+            "properties": {
+                "city": {
+                    "description": "The value of city field responded in locations/auto-complete API (do not use this parameter with postal_code)",
+                    "title": "City",
+                    "type": "string"
+                },
+                "state_code": {
+                    "description": "The value of state_code field responded in locations/auto-complete API (do not use this parameter with postal_code)",
+                    "title": "State Code",
+                    "type": "string"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The offset of items to be ignored in response for paging Default: 0",
+                    "title": "Offset"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The number of items to be responded in every request Default: 200",
+                    "title": "Limit"
+                },
+                "postal_code": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Zip code or postal code (do not use this parameter with city and state_code)",
+                    "title": "Postal Code"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "One of the followings : price_low|price_high",
+                    "title": "Sort"
+                },
+                "prop_type": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "One of the followings (separated by comma for multiple values): single_family, condo, mobile, multi_family, farm, land",
+                    "title": "Prop Type"
+                },
+                "radius": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Radius in miles to look for properties Default: 0",
+                    "title": "Radius"
+                },
+                "age_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Min age of home Default: 0",
+                    "title": "Age Min"
+                },
+                "age_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max age of home Default: 0",
+                    "title": "Age Max"
+                },
+                "sqft_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Min size of the properties Default: 0",
+                    "title": "Sqft Min"
+                },
+                "sqft_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max size of the properties Default: 0",
+                    "title": "Sqft Max"
+                },
+                "lot_sqft_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Min Lot/Acreage size Default: 0",
+                    "title": "Lot Sqft Min"
+                },
+                "lot_sqft_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max Lot/Acreage size Default: 0",
+                    "title": "Lot Sqft Max"
+                },
+                "price_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Option filter by setting min price Default: 0",
+                    "title": "Price Min"
+                },
+                "price_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Option filter by setting max price Default: 0",
+                    "title": "Price Max"
+                },
+                "lat_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Look for properties in bounding box, this is the max latitude of the coordinate. Has no affect if postal_code, or city or state_code parameter has value. Default: 0",
+                    "title": "Lat Max"
+                },
+                "lat_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Look for properties in bounding box, this is the min latitude of the coordinate. Has no affect if postal_code, or city or state_code parameter has value. Default: 0",
+                    "title": "Lat Min"
+                },
+                "lng_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Look for properties in bounding box, this is the max longitude of the coordinate. Has no affect if postal_code, or city or state_code parameter has value. Default: 0",
+                    "title": "Lng Max"
+                },
+                "lng_min": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Look for properties in bounding box, this is the min longitude of the coordinate. Has no affect if postal_code, or city or state_code parameter has value.",
+                    "title": "Lng Min"
+                }
+            },
+            "required": [
+                "city",
+                "state_code",
+                "offset",
+                "limit"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "v2_list_sold",
+        "description": "List sold properties",
+        "parameters": {
+            "properties": {
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The offset of items to be ignored in response for paging Default: 0",
+                    "title": "Offset"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The number of items to be responded in every request Default: 200",
+                    "title": "Limit"
+                },
+                "city": {
+                    "description": "The value of city field responded in locations/auto-complete API (do not use this parameter with postal_code)",
+                    "title": "City",
+                    "type": "string"
+                },
+                "state_code": {
+                    "description": "The value of state_code field responded in locations/auto-complete API (do not use this parameter with postal_code)",
+                    "title": "State Code",
+                    "type": "string"
+                },
+                "postal_code": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Zip code or postal code (do not use this parameter with city and state_code)",
+                    "title": "Postal Code"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "One of the followings : sold_date|beds_high|price_low|price_high|lot_sqft_high",
+                    "title": "Sort"
+                },
+                "prop_type": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "One of the followings (separated by comma for multiple values): single_family,multi_family,condo,mobile,land,farm,other",
+                    "title": "Prop Type"
+                },
+                "radius": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Radius in miles to look for properties (1 to 20) Default: 0",
+                    "title": "Radius"
+                },
+                "baths_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Min baths of properties Default: 0",
+                    "title": "Baths Min"
+                },
+                "beds_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Min beds of properties Default: 0",
+                    "title": "Beds Min"
+                },
+                "price_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Option filter by setting min price Default: 0",
+                    "title": "Price Min"
+                },
+                "price_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Option filter by setting max price Default: 0",
+                    "title": "Price Max"
+                },
+                "lot_sqft_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Min Lot/Acreage size Default: 0",
+                    "title": "Lot Sqft Min"
+                },
+                "lot_sqft_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max Lot/Acreage size Default: 0",
+                    "title": "Lot Sqft Max"
+                },
+                "age_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Min age of home Default: 0",
+                    "title": "Age Min"
+                },
+                "age_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max age of home Default: 0",
+                    "title": "Age Max"
+                },
+                "sqft_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Min size of the properties Default: 0",
+                    "title": "Sqft Min"
+                },
+                "sqft_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max size of the properties Default: 0",
+                    "title": "Sqft Max"
+                },
+                "lat_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Look for properties in bounding box, this is the max latitude of the coordinate. Has no affect if postal_code, or city or state_code parameter has value. Default: 0",
+                    "title": "Lat Max"
+                },
+                "lat_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Look for properties in bounding box, this is the min latitude of the coordinate. Has no affect if postal_code, or city or state_code parameter has value. Default: 0",
+                    "title": "Lat Min"
+                },
+                "lng_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Look for properties in bounding box, this is the max longitude of the coordinate. Has no affect if postal_code, or city or state_code parameter has value. Default: 0",
+                    "title": "Lng Max"
+                },
+                "lng_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Look for properties in bounding box, this is the min longitude of the coordinate. Has no affect if postal_code, or city or state_code parameter has value. Default: 0",
+                    "title": "Lng Min"
+                }
+            },
+            "required": [
+                "offset",
+                "limit",
+                "city",
+                "state_code"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "properties_list_for_rent",
+        "description": "List properties for rent",
+        "parameters": {
+            "properties": {
+                "state_code": {
+                    "description": "The value of state_code field responded in locations/auto-complete API (do not use this parameter with postal_code)",
+                    "title": "State Code",
+                    "type": "string"
+                },
+                "city": {
+                    "description": "The value of city field responded in locations/auto-complete API (do not use this parameter with postal_code)",
+                    "title": "City",
+                    "type": "string"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The number of items to be responded in every request Default: 200",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The offset of items to be ignored in response for paging Default: 0",
+                    "title": "Offset"
+                },
+                "postal_code": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Zip code or postal code (do not use this parameter with city and state_code)",
+                    "title": "Postal Code"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "One of the followings : completeness,photos,freshest|price_low|price_high|photos|newest",
+                    "title": "Sort"
+                },
+                "radius": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Radius in miles to look for properties Default: 0",
+                    "title": "Radius"
+                },
+                "baths_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Option filter by setting at least the number of bathrooms Default: 0",
+                    "title": "Baths Min"
+                },
+                "beds_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Option filter by setting at least the number of bedrooms Default: 0",
+                    "title": "Beds Min"
+                },
+                "price_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Option filter by setting min price Default: 0",
+                    "title": "Price Min"
+                },
+                "price_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Option filter by setting max price Default: 0",
+                    "title": "Price Max"
+                },
+                "sqft_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Min size of the properties Default: 0",
+                    "title": "Sqft Min"
+                },
+                "sqft_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max size of the properties Default: 0",
+                    "title": "Sqft Max"
+                },
+                "prop_type": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "One of the followings (separated by comma for multiple values): apartment,single_family,mapi_condo_townhome,other",
+                    "title": "Prop Type"
+                },
+                "mapi_community_features": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "One of the followings (separated by comma for multiple values): community_washer_dryer,community_parking,central_air,community_pool,community_gym",
+                    "title": "Mapi Community Features"
+                },
+                "listed_date_min": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Date string format yyyy-MM-dd'T'HH:mm:ss'Z' , such as : 2019-08-01T16:24:40Z .The date from which the properties have been on realtor.com",
+                    "title": "Listed Date Min"
+                },
+                "allows_dogs": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "true/false - Dogs are allowed or not (cannot be used with no_pets_allowed)",
+                    "title": "Allows Dogs"
+                },
+                "allows_cats": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "true/false - Cats are allowed or not (cannot be used with no_pets_allowed)",
+                    "title": "Allows Cats"
+                },
+                "no_pets_allowed": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "true/false - Pets are allowed or not (cannot be used with allows_dogs, allows_cats)",
+                    "title": "No Pets Allowed"
+                },
+                "lat_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Look for properties in bounding box, this is the max latitude of the coordinate. Has no affect if postal_code, or city or state_code parameter has value. Default: 0",
+                    "title": "Lat Max"
+                },
+                "lat_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Look for properties in bounding box, this is the min latitude of the coordinate. Has no affect if postal_code, or city or state_code parameter has value. Default: 0",
+                    "title": "Lat Min"
+                },
+                "lng_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Look for properties in bounding box, this is the max longitude of the coordinate. Has no affect if postal_code, or city or state_code parameter has value. Default: 0",
+                    "title": "Lng Max"
+                },
+                "lng_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Look for properties in bounding box, this is the min longitude of the coordinate. Has no affect if postal_code, or city or state_code parameter has value. Default: 0",
+                    "title": "Lng Min"
+                }
+            },
+            "required": [
+                "state_code",
+                "city",
+                "limit",
+                "offset"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "v2_list_for_rent",
+        "description": "List properties for rent",
+        "parameters": {
+            "properties": {
+                "city": {
+                    "description": "The value of city field responded in locations/auto-complete API (do not use this parameter with postal_code)",
+                    "title": "City",
+                    "type": "string"
+                },
+                "state_code": {
+                    "description": "The value of state_code field responded in locations/auto-complete API (do not use this parameter with postal_code)",
+                    "title": "State Code",
+                    "type": "string"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The number of items to be responded in every request Default: 200",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The offset of items to be ignored in response for paging Default: 0",
+                    "title": "Offset"
+                },
+                "postal_code": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Zip code or postal code (do not use this parameter with city and state_code)",
+                    "title": "Postal Code"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "One of the followings : relevance|newest|price_low|price_high|photos|open_house_date|sqft_high|price_reduced_date",
+                    "title": "Sort"
+                },
+                "prop_type": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "One of the followings (separated by comma for multiple values): single_family,multi_family,condo,mobile,land,farm,other",
+                    "title": "Prop Type"
+                },
+                "prop_sub_type": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "One of the followings (separated by comma for multiple values): condo,cond_op,townhouse,co_op",
+                    "title": "Prop Sub Type"
+                },
+                "features": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "One of the followings (separated by comma for multiple values): recreation_facilities,swimming_pool,washer_dryer,garage_1_or_more,central_air,fireplace,spa_or_hot_tub,dishwasher,community_doorman,community_elevator,furnished,laundry_room,community_no_fee,community_outdoor_space,pets_allowed",
+                    "title": "Features"
+                },
+                "radius": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Radius in miles to look for properties (1 to 20) Default: 0",
+                    "title": "Radius"
+                },
+                "beds_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Min beds of properties Default: 0",
+                    "title": "Beds Min"
+                },
+                "baths_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Min baths of properties Default: 0",
+                    "title": "Baths Min"
+                },
+                "price_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Option filter by setting min price Default: 0",
+                    "title": "Price Min"
+                },
+                "price_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Option filter by setting max price Default: 0",
+                    "title": "Price Max"
+                },
+                "lot_sqft_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Min Lot/Acreage size Default: 0",
+                    "title": "Lot Sqft Min"
+                },
+                "lot_sqft_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max Lot/Acreage size Default: 0",
+                    "title": "Lot Sqft Max"
+                },
+                "sqft_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Min size of the properties Default: 0",
+                    "title": "Sqft Min"
+                },
+                "sqft_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max size of the properties Default: 0",
+                    "title": "Sqft Max"
+                },
+                "allows_dogs": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "false/true - Whether or not dogs are allowed to live in properties",
+                    "title": "Allows Dogs"
+                },
+                "allows_cats": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "false/true - Whether or not cats are allowed to live in properties",
+                    "title": "Allows Cats"
+                },
+                "lat_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Look for properties in bounding box, this is the max latitude of the coordinate. Has no affect if postal_code, or city or state_code parameter has value. Default: 0",
+                    "title": "Lat Max"
+                },
+                "lat_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Look for properties in bounding box, this is the min latitude of the coordinate. Has no affect if postal_code, or city or state_code parameter has value. Default: 0",
+                    "title": "Lat Min"
+                },
+                "lng_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Look for properties in bounding box, this is the max longitude of the coordinate. Has no affect if postal_code, or city or state_code parameter has value. Default: 0",
+                    "title": "Lng Max"
+                },
+                "lng_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Look for properties in bounding box, this is the min longitude of the coordinate. Has no affect if postal_code, or city or state_code parameter has value. Default: 0",
+                    "title": "Lng Min"
+                }
+            },
+            "required": [
+                "city",
+                "state_code",
+                "limit",
+                "offset"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "properties_list_for_sale",
+        "description": "List properties for sale",
+        "parameters": {
+            "properties": {
+                "state_code": {
+                    "description": "The value of state_code field responded in locations/auto-complete API (do not use this parameter with postal_code)",
+                    "title": "State Code",
+                    "type": "string"
+                },
+                "city": {
+                    "description": "The value of city field responded in locations/auto-complete API (do not use this parameter with postal_code)",
+                    "title": "City",
+                    "type": "string"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The offset of items to be ignored in response for paging Default: 0",
+                    "title": "Offset"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The number of items to be responded in every request Default: 200",
+                    "title": "Limit"
+                },
+                "postal_code": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Zip code or postal code (do not use this parameter with city and state_code)",
+                    "title": "Postal Code"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "One of the followings (relevance | price_low | price_high | photos | newest | open_house_date | sqft_high | price_reduced_date)",
+                    "title": "Sort"
+                },
+                "radius": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Radius in miles to look for properties Default: 0",
+                    "title": "Radius"
+                },
+                "prop_type": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "One of the followings (separated by comma for multiple values): single_family,condo,mobile,multi_family,farm,land",
+                    "title": "Prop Type"
+                },
+                "listed_date_min": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Date string format yyyy-MM-dd'T'HH:mm:ss'Z' , such as : 2019-08-01T16:24:40Z .The date from which the properties have been on realtor.com",
+                    "title": "Listed Date Min"
+                },
+                "baths_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Option filter by setting at least the number of bathrooms Default: 0",
+                    "title": "Baths Min"
+                },
+                "beds_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Option filter by setting at least the number of bedrooms Default: 0",
+                    "title": "Beds Min"
+                },
+                "reduced": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "true/false - Price reduced only",
+                    "title": "Reduced"
+                },
+                "price_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Option filter by setting min price Default: 0",
+                    "title": "Price Min"
+                },
+                "price_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Option filter by setting max price Default: 0",
+                    "title": "Price Max"
+                },
+                "features": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "One of the followings (separated by comma for multiple values): basement,den_or_office,dining_room,family_room,game_room,washer_dryer,energy_efficient_home,central_air,central_heat,forced_air,carport,garage_1_or_more,garage_2_or_more,garage_3_or_more,rv_or_boat_parking,disability_features,fireplace,hardwood_floors,horse_facilities,spa_or_hot_tub,swimming_pool,tennis_court,single_story,two_or_more_stories,lease_option,pets_allowed,corner_lot,cul_de_sac,golf_course_lot_or_frontage,waterfront,city_view,golf_course_view,hill_mountain,lake_view,ocean_view,river_view,water_view,view,community_swimming_pool,community_boat_facilities,community_spa_or_hot_tub,community_tennis_court,community_golf,community_clubhouse,community_security_features,senior_community,community_horse_facilities,community_park,recreation_facilities,exercise_area",
+                    "title": "Features"
+                },
+                "age_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Min age of home Default: 0",
+                    "title": "Age Min"
+                },
+                "age_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max age of home Default: 0",
+                    "title": "Age Max"
+                },
+                "lot_sqft_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Min Lot/Acreage size Default: 0",
+                    "title": "Lot Sqft Min"
+                },
+                "lot_sqft_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max Lot/Acreage size Default: 0",
+                    "title": "Lot Sqft Max"
+                },
+                "sqft_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Min size of the properties Default: 0",
+                    "title": "Sqft Min"
+                },
+                "sqft_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max size of the properties Default: 0",
+                    "title": "Sqft Max"
+                },
+                "is_foreclosure": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "true/false - Foreclosures only",
+                    "title": "Is Foreclosure"
+                },
+                "is_matterports": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "true/false - 3D tours only",
+                    "title": "Is Matterports"
+                },
+                "is_new_construction": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "true/false - New construction only",
+                    "title": "Is New Construction"
+                },
+                "is_pending": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "true/false - Pending only",
+                    "title": "Is Pending"
+                },
+                "is_contingent": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "true/false - Contingent only",
+                    "title": "Is Contingent"
+                },
+                "lat_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Look for properties in bounding box, this is the max latitude of the coordinate. Has no affect if postal_code, or city or state_code parameter has value. Default: 0",
+                    "title": "Lat Max"
+                },
+                "lat_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Look for properties in bounding box, this is the min latitude of the coordinate. Has no affect if postal_code, or city or state_code parameter has value. Default: 0",
+                    "title": "Lat Min"
+                },
+                "lng_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Look for properties in bounding box, this is the max longitude of the coordinate. Has no affect if postal_code, or city or state_code parameter has value. Default: 0",
+                    "title": "Lng Max"
+                },
+                "lng_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Look for properties in bounding box, this is the min longitude of the coordinate. Has no affect if postal_code, or city or state_code parameter has value. Default: 0",
+                    "title": "Lng Min"
+                }
+            },
+            "required": [
+                "state_code",
+                "city",
+                "offset",
+                "limit"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "v2_list_for_sale",
+        "description": "List properties for sale",
+        "parameters": {
+            "properties": {
+                "city": {
+                    "description": "The value of city field responded in locations/auto-complete API (do not use this parameter with postal_code)",
+                    "title": "City",
+                    "type": "string"
+                },
+                "state_code": {
+                    "description": "The value of state_code field responded in locations/auto-complete API (do not use this parameter with postal_code)",
+                    "title": "State Code",
+                    "type": "string"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The offset of items to be ignored in response for paging Default: 0",
+                    "title": "Offset"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The number of items to be responded in every request Default: 200",
+                    "title": "Limit"
+                },
+                "postal_code": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Zip code or postal code (do not use this parameter with city and state_code)",
+                    "title": "Postal Code"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "One of the followings (separated by comma for multiple values): relevance|newest|price_low|price_high|photos|open_house_date|sqft_high|price_reduced_date",
+                    "title": "Sort"
+                },
+                "prop_type": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "One of the followings (separated by comma for multiple values): single_family,multi_family,condo,mobile,land,farm,other",
+                    "title": "Prop Type"
+                },
+                "prop_sub_type": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "One of the followings (separated by comma for multiple values): condo,cond_op,townhouse,co_op",
+                    "title": "Prop Sub Type"
+                },
+                "features": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "One of the followings (separated by comma for multiple values): garage_2_or_more,view,waterfront,golf_course_view,swimming_pool,cul_de_sac,hardwood_floors,basement,fireplace,energy_efficient,disability_features,dining_room,washer_dryer,family_room,den_or_office,game_room,central_air,central_heat,forced_air,single_story,two_or_more_stories,corner_lot,water_view,golf_course_lot_or_frontage,hill_or_mountain_view,ocean_view,city_view,lake_view,river_view,community_security_features,community_swimming_pool,community_boat_facilities,recreation_facilities,community_clubhouse,community_horse_facilities,community_tennis_court,community_park,community_golf,senior_community,community_spa_or_hot_tub,rv_or_boat_parking,horse_facilities,tennis_court,spa_or_hot_tub,garage_1_or_more,garage_3_or_more,carport",
+                    "title": "Features"
+                },
+                "radius": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Radius in miles to look for properties (1 to 20) Default: 0",
+                    "title": "Radius"
+                },
+                "age_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Min age of properties Default: 0",
+                    "title": "Age Min"
+                },
+                "age_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max age of properties Default: 0",
+                    "title": "Age Max"
+                },
+                "sqft_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Min size of the properties Default: 0",
+                    "title": "Sqft Min"
+                },
+                "sqft_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max size of the properties Default: 0",
+                    "title": "Sqft Max"
+                },
+                "baths_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Min baths of properties Default: 0",
+                    "title": "Baths Min"
+                },
+                "beds_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Min beds of properties Default: 0",
+                    "title": "Beds Min"
+                },
+                "price_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Option filter by setting min price Default: 0",
+                    "title": "Price Min"
+                },
+                "price_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Option filter by setting max price Default: 0",
+                    "title": "Price Max"
+                },
+                "lot_sqft_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Min Lot/Acreage size Default: 0",
+                    "title": "Lot Sqft Min"
+                },
+                "lot_sqft_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max Lot/Acreage size Default: 0",
+                    "title": "Lot Sqft Max"
+                },
+                "is_matterports": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "true/false - 3D tours only",
+                    "title": "Is Matterports"
+                },
+                "is_foreclosure": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "true/false - Foreclosures only",
+                    "title": "Is Foreclosure"
+                },
+                "has_open_house": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "true/false - Open houses only",
+                    "title": "Has Open House"
+                },
+                "is_new_construction": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "true/false - New construction only",
+                    "title": "Is New Construction"
+                },
+                "is_contingent": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "true/false - Contingent only",
+                    "title": "Is Contingent"
+                },
+                "is_pending": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "true/false - Pending only",
+                    "title": "Is Pending"
+                },
+                "is_new_plan": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "true/false - Homes not yet built",
+                    "title": "Is New Plan"
+                },
+                "lat_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Look for properties in bounding box, this is the max latitude of the coordinate. Has no affect if postal_code, or city or state_code parameter has value. Default: 0",
+                    "title": "Lat Max"
+                },
+                "lat_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Look for properties in bounding box, this is the min latitude of the coordinate. Has no affect if postal_code, or city or state_code parameter has value. Default: 0",
+                    "title": "Lat Min"
+                },
+                "lng_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Look for properties in bounding box, this is the max longitude of the coordinate. Has no affect if postal_code, or city or state_code parameter has value. Default: 0",
+                    "title": "Lng Max"
+                },
+                "lng_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Look for properties in bounding box, this is the min longitude of the coordinate. Has no affect if postal_code, or city or state_code parameter has value. Default: 0",
+                    "title": "Lng Min"
+                }
+            },
+            "required": [
+                "city",
+                "state_code",
+                "offset",
+                "limit"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "properties_list_by_mls",
+        "description": "List properties by MLS ID",
+        "parameters": {
+            "properties": {
+                "mls_id": {
+                    "description": "The MLS ID",
+                    "title": "Mls Id",
+                    "type": "string"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The number of items per response Default: 200",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The offset of items to be ignored in response for paging Default: 0",
+                    "title": "Offset"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "One of the followings : price_low|price_high|photos|newest|open_house_date",
+                    "title": "Sort"
+                }
+            },
+            "required": [
+                "mls_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "v2_list_by_mls",
+        "description": "List properties by MLS ID",
+        "parameters": {
+            "properties": {
+                "mls_id": {
+                    "description": "The MLS ID",
+                    "title": "Mls Id",
+                    "type": "string"
+                },
+                "prop_status": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "One of the followings : for_sale|for_rent|recently_sold",
+                    "title": "Prop Status"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The offset of items to be ignored in response for paging Default: 0",
+                    "title": "Offset"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The number of items per response Default: 10",
+                    "title": "Limit"
+                }
+            },
+            "required": [
+                "mls_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "properties_list_similarities",
+        "description": "List similar properties",
+        "parameters": {
+            "properties": {
+                "property_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The value of property_id field returned in .../properties/list-.... or .../properties/v2/list-... endpoints. Default: 3109292331",
+                    "title": "Property Id"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The number of items responded Default: 10",
+                    "title": "Limit"
+                },
+                "prop_status": {
+                    "description": "One of the followings : for_sale|for_rent",
+                    "title": "Prop Status",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "property_id",
+                "limit",
+                "prop_status"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "properties_detail",
+        "description": "Get property detail information",
+        "parameters": {
+            "properties": {
+                "listing_id": {
+                    "description": "The value of listing_id field returned in .../properties/list-.... or .../properties/v2/list-... endpoints.",
+                    "title": "Listing Id",
+                    "type": "string"
+                },
+                "prop_status": {
+                    "description": "One of the followings : for_sale|for_rent",
+                    "title": "Prop Status",
+                    "type": "string"
+                },
+                "property_id": {
+                    "description": "The value of property_id field returned in .../properties/list-.... or .../properties/v2/list-... endpoints.",
+                    "title": "Property Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "listing_id",
+                "prop_status",
+                "property_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "v2_detail",
+        "description": "Get property detail information",
+        "parameters": {
+            "properties": {
+                "property_id": {
+                    "description": "The value of property_id field returned in .../properties/list-.... or .../properties/v2/list-... endpoints.",
+                    "title": "Property Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "property_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "v2_list_similar_rental_homes",
+        "description": "List similar properties for rent * This endpoint is deprecating, the official have changed to use .../properties/v2/list.... endpoints to list similar properties.",
+        "parameters": {
+            "properties": {
+                "postal_code": {
+                    "description": "The value of postal_code field returned in all list endpoints",
+                    "title": "Postal Code",
+                    "type": "string"
+                },
+                "property_id": {
+                    "description": "The value of property_id field returned in .../properties/list-.... or .../properties/v2/list-... endpoints.",
+                    "title": "Property Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "postal_code",
+                "property_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "v2_list_similar_homes",
+        "description": "List similar properties for sale * This endpoint is deprecating, the official have changed to use .../properties/v2/list.... endpoints to list similar properties.",
+        "parameters": {
+            "properties": {
+                "property_id": {
+                    "description": "The value of property_id field returned in .../properties/list-.... or .../properties/v2/list-... endpoints.",
+                    "title": "Property Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "property_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "agents_list",
+        "description": "List agents with filters and options",
+        "parameters": {
+            "properties": {
+                "postal_code": {
+                    "description": "Zip code or postal code",
+                    "title": "Postal Code",
+                    "type": "string"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The offset of items to be ignored in response for paging Default: 0",
+                    "title": "Offset"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For paging purpose (max 20) Default: 20",
+                    "title": "Limit"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "One of the followings : recent_activity_high|recently_sold_high|for_sale_count_high|recommendations_count_high|agent_rating_high",
+                    "title": "Sort"
+                },
+                "name": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search for agent or team or company by name",
+                    "title": "Name"
+                },
+                "types": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "One of the followings : agent | team | office",
+                    "title": "Types"
+                },
+                "agent_type": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "One of the followings or leave empty : buyer | seller",
+                    "title": "Agent Type"
+                },
+                "recommendations_count_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of recommendations (max 10) Default: 0",
+                    "title": "Recommendations Count Min"
+                },
+                "agent_rating_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Rating (max 5) Default: 0",
+                    "title": "Agent Rating Min"
+                },
+                "price_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Option filter by setting min price Default: 0",
+                    "title": "Price Min"
+                },
+                "price_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Option filter by setting max price Default: 0",
+                    "title": "Price Max"
+                }
+            },
+            "required": [
+                "postal_code"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "agents_get_profile",
+        "description": "Get agent profile",
+        "parameters": {
+            "properties": {
+                "advertiser_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The value of advertiser_id field returned in .../agents/list endpoint Default: 1633379",
+                    "title": "Advertiser Id"
+                },
+                "nrds_id": {
+                    "description": "The value of nrds_id field returned in .../agents/list endpoint",
+                    "title": "Nrds Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "advertiser_id",
+                "nrds_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "agents_get_reviews",
+        "description": "Get agent reviews",
+        "parameters": {
+            "properties": {
+                "advertiser_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The value of advertiser_id field returned in .../agents/list endpoint Default: 1633379",
+                    "title": "Advertiser Id"
+                }
+            },
+            "required": [
+                "advertiser_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "agents_get_recommendations",
+        "description": "Get agent's recommendations",
+        "parameters": {
+            "properties": {
+                "advertiser_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The value of advertiser_id field returned in .../agents/list endpoint Default: 1633379",
+                    "title": "Advertiser Id"
+                }
+            },
+            "required": [
+                "advertiser_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "agents_get_listings",
+        "description": "Get agent's listings",
+        "parameters": {
+            "properties": {
+                "fulfillment_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The value of advertiser_id field returned in .../agents/list endpoint Default: 1633379",
+                    "title": "Fulfillment Id"
+                },
+                "id": {
+                    "description": "The value of abbreviation field returned in .../agents/list endpoint",
+                    "title": "Id",
+                    "type": "string"
+                },
+                "agent_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The value of ...member/id JSON object returned in .../agents/list endpoint Default: 77018",
+                    "title": "Agent Id"
+                },
+                "type": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "One of the following : all|forSale|forSold|forRent|openHouses",
+                    "title": "Type"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For paging purpose Default: 1",
+                    "title": "Page"
+                }
+            },
+            "required": [
+                "fulfillment_id",
+                "id",
+                "agent_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "v2_check_rates",
+        "description": "Check mortgage rates",
+        "parameters": {
+            "properties": {
+                "postal_code": {
+                    "description": "The postal code",
+                    "title": "Postal Code",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "postal_code"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "v2_calculate",
+        "description": "Calculate mortgage",
+        "parameters": {
+            "properties": {
+                "home_insurance": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Home insurance Default: 56",
+                    "title": "Home Insurance"
+                },
+                "property_tax_rate": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Property tax Default: 1.2485549449920654",
+                    "title": "Property Tax Rate"
+                },
+                "down_payment": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Down payment Default: 44980",
+                    "title": "Down Payment"
+                },
+                "price": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Home price Default: 224900",
+                    "title": "Price"
+                },
+                "term": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Mortgage loan type Default: 30",
+                    "title": "Term"
+                },
+                "rate": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Interest rate Default: 3.827",
+                    "title": "Rate"
+                },
+                "hoa_fees": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Home owner association fee Default: 0",
+                    "title": "Hoa Fees"
+                },
+                "apply_veterans_benefits": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Whether or not apply veterans benefits",
+                    "title": "Apply Veterans Benefits"
+                }
+            },
+            "required": [
+                "home_insurance",
+                "property_tax_rate",
+                "down_payment",
+                "price",
+                "term",
+                "rate",
+                "hoa_fees"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "finance_rates",
+        "description": "Get finance rates",
+        "parameters": {
+            "properties": {
+                "loc": {
+                    "description": "The postal code",
+                    "title": "Loc",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "loc"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "mortgage_check_equity_rates",
+        "description": "Check mortgage equity rates",
+        "parameters": {
+            "properties": {
+                "creditScore": {
+                    "description": "One of the following : excellent|good|fair|poor",
+                    "title": "Creditscore",
+                    "type": "string"
+                },
+                "loanProduct": {
+                    "description": "One of the following : HELOC,HELOAN_FIXED_5YEARS,HELOAN_FIXED_10YEARS,HELOAN_FIXED_15YEARS,HELOAN_FIXED_20YEARS,HELOAN_FIXED_30YEARS. Separate by comma for multiple applied values",
+                    "title": "Loanproduct",
+                    "type": "string"
+                },
+                "loanAmount": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Default: 70000",
+                    "title": "Loanamount"
+                },
+                "propertyValue": {
+                    "description": "",
+                    "title": "Propertyvalue",
+                    "type": "string"
+                },
+                "mortgageBalance": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Default: 150000",
+                    "title": "Mortgagebalance"
+                },
+                "zip": {
+                    "description": "The postal code",
+                    "title": "Zip",
+                    "type": "string"
+                },
+                "state": {
+                    "description": "The state code",
+                    "title": "State",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "creditScore",
+                "loanProduct",
+                "loanAmount",
+                "propertyValue",
+                "mortgageBalance",
+                "zip",
+                "state"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "mortgage_calculate_affordability",
+        "description": "Calculate affordability",
+        "parameters": {
+            "properties": {
+                "annual_income": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Default: 250000",
+                    "title": "Annual Income"
+                },
+                "debt_to_income_ratio": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Default: 0.43",
+                    "title": "Debt To Income Ratio"
+                },
+                "down_payment": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Default: 172000",
+                    "title": "Down Payment"
+                },
+                "homeowner_insurance_rate": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Default: 0.012",
+                    "title": "Homeowner Insurance Rate"
+                },
+                "interest_rate": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Default: 0.03119",
+                    "title": "Interest Rate"
+                },
+                "loan_term": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Default: 30",
+                    "title": "Loan Term"
+                },
+                "monthly_debt": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Default: 1500",
+                    "title": "Monthly Debt"
+                },
+                "tax_rate": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Default: 0.01",
+                    "title": "Tax Rate"
+                },
+                "hoa_fees": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Hoa Fees"
+                },
+                "is_pmi_included": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Served in the U.S. Military. If the value is false, down_payment will be zero.",
+                    "title": "Is Pmi Included"
+                }
+            },
+            "required": [
+                "annual_income",
+                "debt_to_income_ratio",
+                "down_payment",
+                "homeowner_insurance_rate",
+                "interest_rate",
+                "loan_term",
+                "monthly_debt",
+                "tax_rate"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "mortgage_check_rates",
+        "description": "Check mortgage rates",
+        "parameters": {
+            "properties": {
+                "creditScore": {
+                    "description": "One of the following : excellent|good|fair|poor",
+                    "title": "Creditscore",
+                    "type": "string"
+                },
+                "points": {
+                    "description": "One of the following : all|zero|zero_to_one|one_to_two",
+                    "title": "Points",
+                    "type": "string"
+                },
+                "loanPurpose": {
+                    "description": "purchase|refinance",
+                    "title": "Loanpurpose",
+                    "type": "string"
+                },
+                "loanTypes": {
+                    "description": "One of the following : ALL|30YrFixed|30YrFixed_FHA|30YrFixed_VA|20YrFixed|15YrFixed|10YrFixed|5Arm|7Arm",
+                    "title": "Loantypes",
+                    "type": "string"
+                },
+                "loanPercent": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Default: 85.2",
+                    "title": "Loanpercent"
+                },
+                "propertyPrice": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Default: 250000",
+                    "title": "Propertyprice"
+                },
+                "zip": {
+                    "description": "The postal code",
+                    "title": "Zip",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "creditScore",
+                "points",
+                "loanPurpose",
+                "loanTypes",
+                "loanPercent",
+                "propertyPrice",
+                "zip"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "mortgage_calculate",
+        "description": "Calculate mortgage",
+        "parameters": {
+            "properties": {
+                "hoi": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Home insurance Default: 56",
+                    "title": "Hoi"
+                },
+                "tax_rate": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Property tax Default: 1.2485549449920654",
+                    "title": "Tax Rate"
+                },
+                "downpayment": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Down payment Default: 44980",
+                    "title": "Downpayment"
+                },
+                "price": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Home price Default: 224900",
+                    "title": "Price"
+                },
+                "term": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Mortgage loan type Default: 30",
+                    "title": "Term"
+                },
+                "rate": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Interest rate Default: 3.827",
+                    "title": "Rate"
+                }
+            },
+            "required": [
+                "hoi",
+                "tax_rate",
+                "downpayment",
+                "price",
+                "term",
+                "rate"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "schools_list",
+        "description": "List schools with options and filters",
+        "parameters": {
+            "properties": {
+                "state_code": {
+                    "description": "Filter schools by state (You need to specify at least one of the following : state_code|city|county|neighborhood|postal_code|school_district_id)",
+                    "title": "State Code",
+                    "type": "string"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The number of items per response, for paging purpose Default: 10",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The offset of records to ignore, for paging purpose Default: 0",
+                    "title": "Offset"
+                },
+                "city": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter schools by city (You need to specify at least one of the following : state_code|city|county|neighborhood|postal_code|school_district_id)",
+                    "title": "City"
+                },
+                "county": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter schools by county (You need to specify at least one of the following : state_code|city|county|neighborhood|postal_code|school_district_id)",
+                    "title": "County"
+                },
+                "neighborhood": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter schools by neighborhood (You need to specify at least one of the following : state_code|city|county|neighborhood|postal_code|school_district_id)",
+                    "title": "Neighborhood"
+                },
+                "postal_code": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter schools by postal_code (You need to specify at least one of the following : state_code|city|county|neighborhood|postal_code|school_district_id)",
+                    "title": "Postal Code"
+                },
+                "school_district_id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter schools by school_district_id (You need to specify at least one of the following : state_code|city|county|neighborhood|postal_code|school_district_id)",
+                    "title": "School District Id"
+                },
+                "education_level": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "One of the following : elementary|high|middle|private",
+                    "title": "Education Level"
+                }
+            },
+            "required": [
+                "state_code"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "schools_detail",
+        "description": "Get detailed information of a school",
+        "parameters": {
+            "properties": {
+                "id": {
+                    "description": "The value of schools -> id field returned in .../schools/list endpoint",
+                    "title": "Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "schools_get_school_district",
+        "description": "Get detailed information of a school district",
+        "parameters": {
+            "properties": {
+                "id": {
+                    "description": "The value of districts -> id field returned in .../schools/list endpoint",
+                    "title": "Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "schools_list_nearby",
+        "description": "List schools that are near the property",
+        "parameters": {
+            "properties": {
+                "lon": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The longitude co-ordinate Default: -117.937021",
+                    "title": "Lon"
+                },
+                "lat": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The latitude co-ordinate Default: 35.129431",
+                    "title": "Lat"
+                }
+            },
+            "required": [
+                "lon",
+                "lat"
+            ],
+            "type": "object"
+        }
+    }
+]

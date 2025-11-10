@@ -1,0 +1,420 @@
+[
+    {
+        "name": "after-effects-mcp_run-script",
+        "description": "Run a read-only script in After Effects",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "script": {
+                    "type": "string",
+                    "description": "Name of the predefined script to run"
+                },
+                "parameters": {
+                    "type": "object",
+                    "additionalProperties": {},
+                    "description": "Optional parameters for the script"
+                }
+            },
+            "required": [
+                "script"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "after-effects-mcp_get-results",
+        "description": "Get results from the last script executed in After Effects",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "after-effects-mcp_get-help",
+        "description": "Get help on using the After Effects MCP integration",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "after-effects-mcp_create-composition",
+        "description": "Create a new composition in After Effects with specified parameters",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Name of the composition"
+                },
+                "width": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "Width of the composition in pixels"
+                },
+                "height": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "Height of the composition in pixels"
+                },
+                "pixelAspect": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "Pixel aspect ratio (default: 1.0)"
+                },
+                "duration": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "Duration in seconds (default: 10.0)"
+                },
+                "frameRate": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "Frame rate in frames per second (default: 30.0)"
+                },
+                "backgroundColor": {
+                    "type": "object",
+                    "properties": {
+                        "r": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 255
+                        },
+                        "g": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 255
+                        },
+                        "b": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 255
+                        }
+                    },
+                    "required": [
+                        "r",
+                        "g",
+                        "b"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Background color of the composition (RGB values 0-255)"
+                }
+            },
+            "required": [
+                "name",
+                "width",
+                "height"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "after-effects-mcp_setLayerKeyframe",
+        "description": "Set a keyframe for a specific layer property at a given time.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "compIndex": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "1-based index of the target composition in the project panel."
+                },
+                "layerIndex": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "1-based index of the target layer within the composition."
+                },
+                "propertyName": {
+                    "type": "string",
+                    "description": "Name of the property to keyframe (e.g., 'Position', 'Scale', 'Rotation', 'Opacity')."
+                },
+                "timeInSeconds": {
+                    "type": "number",
+                    "description": "The time (in seconds) for the keyframe."
+                },
+                "value": {
+                    "description": "The value for the keyframe (e.g., [x,y] for Position, [w,h] for Scale, angle for Rotation, percentage for Opacity)"
+                }
+            },
+            "required": [
+                "compIndex",
+                "layerIndex",
+                "propertyName",
+                "timeInSeconds"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "after-effects-mcp_setLayerExpression",
+        "description": "Set or remove an expression for a specific layer property.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "compIndex": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "1-based index of the target composition in the project panel."
+                },
+                "layerIndex": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "1-based index of the target layer within the composition."
+                },
+                "propertyName": {
+                    "type": "string",
+                    "description": "Name of the property to apply the expression to (e.g., 'Position', 'Scale', 'Rotation', 'Opacity')."
+                },
+                "expressionString": {
+                    "type": "string",
+                    "description": "The JavaScript expression string. Provide an empty string (\"\") to remove the expression."
+                }
+            },
+            "required": [
+                "compIndex",
+                "layerIndex",
+                "propertyName",
+                "expressionString"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "after-effects-mcp_test-animation",
+        "description": "Test animation functionality in After Effects",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "operation": {
+                    "type": "string",
+                    "enum": [
+                        "keyframe",
+                        "expression"
+                    ],
+                    "description": "The animation operation to test"
+                },
+                "compIndex": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "Composition index (usually 1)"
+                },
+                "layerIndex": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "Layer index (usually 1)"
+                }
+            },
+            "required": [
+                "operation",
+                "compIndex",
+                "layerIndex"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "after-effects-mcp_apply-effect",
+        "description": "Apply an effect to a layer in After Effects",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "compIndex": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "1-based index of the target composition in the project panel."
+                },
+                "layerIndex": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "1-based index of the target layer within the composition."
+                },
+                "effectName": {
+                    "type": "string",
+                    "description": "Display name of the effect to apply (e.g., 'Gaussian Blur')."
+                },
+                "effectMatchName": {
+                    "type": "string",
+                    "description": "After Effects internal name for the effect (more reliable, e.g., 'ADBE Gaussian Blur 2')."
+                },
+                "effectCategory": {
+                    "type": "string",
+                    "description": "Optional category for filtering effects."
+                },
+                "presetPath": {
+                    "type": "string",
+                    "description": "Optional path to an effect preset file (.ffx)."
+                },
+                "effectSettings": {
+                    "type": "object",
+                    "additionalProperties": {},
+                    "description": "Optional parameters for the effect (e.g., { 'Blurriness': 25 })."
+                }
+            },
+            "required": [
+                "compIndex",
+                "layerIndex"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "after-effects-mcp_apply-effect-template",
+        "description": "Apply a predefined effect template to a layer in After Effects",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "compIndex": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "1-based index of the target composition in the project panel."
+                },
+                "layerIndex": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "1-based index of the target layer within the composition."
+                },
+                "templateName": {
+                    "type": "string",
+                    "enum": [
+                        "gaussian-blur",
+                        "directional-blur",
+                        "color-balance",
+                        "brightness-contrast",
+                        "curves",
+                        "glow",
+                        "drop-shadow",
+                        "cinematic-look",
+                        "text-pop"
+                    ],
+                    "description": "Name of the effect template to apply."
+                },
+                "customSettings": {
+                    "type": "object",
+                    "additionalProperties": {},
+                    "description": "Optional custom settings to override defaults."
+                }
+            },
+            "required": [
+                "compIndex",
+                "layerIndex",
+                "templateName"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "after-effects-mcp_mcp_aftereffects_applyEffect",
+        "description": "Apply an effect to a layer in After Effects",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "compIndex": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "1-based index of the target composition in the project panel."
+                },
+                "layerIndex": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "1-based index of the target layer within the composition."
+                },
+                "effectName": {
+                    "type": "string",
+                    "description": "Display name of the effect to apply (e.g., 'Gaussian Blur')."
+                },
+                "effectMatchName": {
+                    "type": "string",
+                    "description": "After Effects internal name for the effect (more reliable, e.g., 'ADBE Gaussian Blur 2')."
+                },
+                "effectSettings": {
+                    "type": "object",
+                    "additionalProperties": {},
+                    "description": "Optional parameters for the effect (e.g., { 'Blurriness': 25 })."
+                }
+            },
+            "required": [
+                "compIndex",
+                "layerIndex"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "after-effects-mcp_mcp_aftereffects_applyEffectTemplate",
+        "description": "Apply a predefined effect template to a layer in After Effects",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "compIndex": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "1-based index of the target composition in the project panel."
+                },
+                "layerIndex": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "1-based index of the target layer within the composition."
+                },
+                "templateName": {
+                    "type": "string",
+                    "enum": [
+                        "gaussian-blur",
+                        "directional-blur",
+                        "color-balance",
+                        "brightness-contrast",
+                        "curves",
+                        "glow",
+                        "drop-shadow",
+                        "cinematic-look",
+                        "text-pop"
+                    ],
+                    "description": "Name of the effect template to apply."
+                },
+                "customSettings": {
+                    "type": "object",
+                    "additionalProperties": {},
+                    "description": "Optional custom settings to override defaults."
+                }
+            },
+            "required": [
+                "compIndex",
+                "layerIndex",
+                "templateName"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "after-effects-mcp_mcp_aftereffects_get_effects_help",
+        "description": "Get help on using After Effects effects",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "after-effects-mcp_run-bridge-test",
+        "description": "Run the bridge test effects script to verify communication and apply test effects",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

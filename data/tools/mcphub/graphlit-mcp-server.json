@@ -1,0 +1,1977 @@
+[
+    {
+        "name": "configureProject",
+        "description": "Configures the default content workflow and conversation specification for the Graphlit project.\n    Only needed if user asks to configure the project defaults. *Do not* call unless specifically asked for by the user.\n    To reset the project configuration to 'factory state', assign False or null to all parameters.\n    Optionally accepts whether to configure the default specification for LLM conversations. Defaults to using OpenAI GPT-4o, if not assigned.\n    Optionally accepts whether to enable high-quality document and web page preparation using a vision LLM. Defaults to using Azure AI Document Intelligence for document preparation, if not assigned.\n    Optionally accepts whether to enable entity extraction using LLM into the knowledge graph. Defaults to no entity extraction, if not assigned.\n    Optionally accepts the preferred model provider service type, i.e. Anthropic, OpenAI, Google. Defaults to Anthropic if not provided.\n    Returns the project identifier.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "modelServiceType": {
+                    "type": "string",
+                    "enum": [
+                        "ANTHROPIC",
+                        "AZURE_AI",
+                        "AZURE_OPEN_AI",
+                        "BEDROCK",
+                        "CEREBRAS",
+                        "COHERE",
+                        "DEEPSEEK",
+                        "GOOGLE",
+                        "GROQ",
+                        "JINA",
+                        "MISTRAL",
+                        "OPEN_AI",
+                        "REPLICATE",
+                        "VOYAGE",
+                        "XAI"
+                    ],
+                    "default": "ANTHROPIC",
+                    "description": "Preferred model provider service type for all specifications, i.e. Anthropic, OpenAI, Google. Defaults to Anthropic if not provided."
+                },
+                "configureConversationSpecification": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to configure the default specification for LLM conversations. Defaults to False."
+                },
+                "configurePreparationSpecification": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to configure high-quality document and web page preparation using vision LLM. Defaults to False."
+                },
+                "configureExtractionSpecification": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to configure entity extraction using LLM into the knowledge graph. Defaults to False."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "queryProjectUsage",
+        "description": "Queries project usage records.\n    Usage record name describes the operation, i.e. 'Prompt completion', 'Text embedding', 'GraphQL', 'Entity Event'.\n    'GraphQL' usage records are used for GraphQL operations, i.e. 'queryContents', 'retrieveSources', 'askGraphlit', etc.\n    'Entity Event' usage records are used for async compute operations.\n    'Text embedding' usage records are used for text embedding operations.\n    'Prompt completion' usage records are used for LLM prompt completion operations, i.e. when using 'promptConversation'.\n    'Data extraction' usage records are used for data extraction operations, using LLMs to extract knowledge graph entities.\n    Look at 'metric' field for the type of metric captured in the usage record, i.e. BYTES, TOKENS, UNITS, REQUESTS.\n    Look for 'credits' field which describes how many credits were charged by the operation.\n    Look for 'promptTokens', 'completionTokens' and (total) 'tokens' fields which describe the number of tokens used by the operation.\n    Look for 'request', 'response' and 'variables' fields which describe the GraphQL operation.\n    Look for 'count' for the number of units used by the operation, for example, number of pages processed by document preparation.\n    Accepts an optional recency filter for usage records 'in last' timespan.\n    Returns a list of usage records, which describe the billable audit log of all Graphlit API operations.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "inLast": {
+                    "type": "string",
+                    "default": "PT1H",
+                    "description": "Recency filter for usage records 'in last' timespan, optional. Defaults to PT1H. Should be ISO 8601 format, for example, 'PT1H' for last hour, 'P1D' for last day, 'P7D' for last week, 'P30D' for last month. Doesn't support weeks or months explicitly."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "askGraphlit",
+        "description": "Ask questions about using the Graphlit Platform, or specifically about the Graphlit API or SDKs.\n    When the user asks about how to use the Graphlit API or SDKs, use this tool to provide a code sample in Python, TypeScript or C#.\n    Accepts an LLM user prompt.\n    Returns the LLM prompt completion in Markdown format.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "prompt": {
+                    "type": "string",
+                    "description": "LLM user prompt."
+                }
+            },
+            "required": [
+                "prompt"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "promptConversation",
+        "description": "Prompts an LLM conversation about your entire Graphlit knowledge base. \n    Uses hybrid vector search based on user prompt for locating relevant content sources. Uses LLM to complete the user prompt with the configured LLM.\n    Maintains conversation history between 'user' and LLM 'assistant'. \n    Prefer 'promptConversation' when the user intends to start or continue an ongoing conversation about the entire Graphlit knowledge base.\n    Similar to 'retrieveSources' but does not perform content metadata filtering.\n    Accepts an LLM user prompt and optional conversation identifier. Will either create a new conversation or continue an existing one.\n    Will use the default specification for LLM conversations, which is optionally configured with the 'configureProject' tool.\n    Returns the conversation identifier, completed LLM message, and any citations from the LLM response.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "prompt": {
+                    "type": "string",
+                    "description": "User prompt."
+                },
+                "conversationId": {
+                    "type": "string",
+                    "description": "Conversation identifier, optional."
+                }
+            },
+            "required": [
+                "prompt"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "retrieveSources",
+        "description": "Retrieve relevant content sources from Graphlit knowledge base. Do *not* use for retrieving content by content identifier - retrieve content resource instead, with URI 'contents://{id}'.\n    Accepts an LLM user prompt for content retrieval. For best retrieval quality, provide only key words or phrases from the user prompt, which will be used to create text embeddings for a vector search query.\n    Only use when there is a valid LLM user prompt for content retrieval, otherwise use 'queryContents'. For example 'recent content' is not a useful user prompt, since it doesn't reference the text in the content.\n    Only use for 'one shot' retrieval of content sources, i.e. when the user is not interested in having a conversation about the content.\n    Accepts an optional ingestion recency filter (defaults to null, meaning all time), and optional content type and file type filters.\n    Also accepts optional feed and collection identifiers to filter content by.\n    Returns the ranked content sources, including their content resource URI to retrieve the complete Markdown text.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "prompt": {
+                    "type": "string",
+                    "description": "LLM user prompt for content retrieval."
+                },
+                "inLast": {
+                    "type": "string",
+                    "description": "Recency filter for content ingested 'in last' timespan, optional. Should be ISO 8601 format, for example, 'PT1H' for last hour, 'P1D' for last day, 'P7D' for last week, 'P30D' for last month. Doesn't support weeks or months explicitly."
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "EMAIL",
+                        "EVENT",
+                        "FILE",
+                        "ISSUE",
+                        "MEMORY",
+                        "MESSAGE",
+                        "PAGE",
+                        "POST",
+                        "TEXT"
+                    ],
+                    "description": "Content type filter, optional. One of: Email, Event, File, Issue, Message, Page, Post, Text."
+                },
+                "fileType": {
+                    "type": "string",
+                    "enum": [
+                        "ANIMATION",
+                        "AUDIO",
+                        "CODE",
+                        "DATA",
+                        "DOCUMENT",
+                        "DRAWING",
+                        "EMAIL",
+                        "GEOMETRY",
+                        "IMAGE",
+                        "MANIFEST",
+                        "PACKAGE",
+                        "POINT_CLOUD",
+                        "SHAPE",
+                        "UNKNOWN",
+                        "VIDEO"
+                    ],
+                    "description": "File type filter, optional. One of: Animation, Audio, Code, Data, Document, Drawing, Email, Geometry, Image, Package, PointCloud, Shape, Video."
+                },
+                "feeds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Feed identifiers to filter content by, optional."
+                },
+                "collections": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Collection identifiers to filter content by, optional."
+                }
+            },
+            "required": [
+                "prompt"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "retrieveImages",
+        "description": "Retrieve images from Graphlit knowledge base. Provides image-specific retrieval when image similarity search is desired.\n    Do *not* use for retrieving content by content identifier - retrieve content resource instead, with URI 'contents://{id}'.\n    Accepts image URL. Image will be used for similarity search using image embeddings.\n    Accepts optional geo-location filter for search by latitude, longitude and optional distance radius. Images taken with GPS enabled are searchable by geo-location.\n    Also accepts optional recency filter (defaults to null, meaning all time), and optional feed and collection identifiers to filter images by.\n    Returns the matching images, including their content resource URI to retrieve the complete Markdown text.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "URL of image which will be used for similarity search using image embeddings."
+                },
+                "inLast": {
+                    "type": "string",
+                    "description": "Recency filter for images ingested 'in last' timespan, optional. Should be ISO 8601 format, for example, 'PT1H' for last hour, 'P1D' for last day, 'P7D' for last week, 'P30D' for last month. Doesn't support weeks or months explicitly."
+                },
+                "feeds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Feed identifiers to filter images by, optional."
+                },
+                "collections": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Collection identifiers to filter images by, optional."
+                },
+                "location": {
+                    "type": "object",
+                    "properties": {
+                        "latitude": {
+                            "type": "number",
+                            "minimum": -90,
+                            "maximum": 90,
+                            "description": "The latitude, must be between -90 and 90."
+                        },
+                        "longitude": {
+                            "type": "number",
+                            "minimum": -180,
+                            "maximum": 180,
+                            "description": "The longitude, must be between -180 and 180."
+                        },
+                        "distance": {
+                            "type": "number",
+                            "description": "The distance radius (in meters)."
+                        }
+                    },
+                    "required": [
+                        "latitude",
+                        "longitude"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Geo-location filter for search by latitude, longitude and optional distance radius."
+                },
+                "limit": {
+                    "type": "number",
+                    "default": 100,
+                    "description": "Limit the number of images to be returned. Defaults to 100."
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "extractText",
+        "description": "Extracts JSON data from text using LLM.\n    Accepts text to be extracted, and JSON schema which describes the data which will be extracted. JSON schema needs be of type 'object' and include 'properties' and 'required' fields.\n    Optionally accepts text prompt which is provided to LLM to guide data extraction. Defaults to 'Extract data using the tools provided'.\n    Returns extracted JSON from text.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "text": {
+                    "type": "string",
+                    "description": "Text to be extracted with LLM."
+                },
+                "schema": {
+                    "type": "string",
+                    "description": "JSON schema which describes the data which will be extracted. JSON schema needs be of type 'object' and include 'properties' and 'required' fields."
+                },
+                "prompt": {
+                    "type": "string",
+                    "description": "Text prompt which is provided to LLM to guide data extraction, optional."
+                }
+            },
+            "required": [
+                "text",
+                "schema"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "createCollection",
+        "description": "Create a collection.\n    Accepts a collection name, and optional list of content identifiers to add to collection.\n    Returns the collection identifier",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Collection name."
+                },
+                "contents": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Content identifiers to add to collection, optional."
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "addContentsToCollection",
+        "description": "Add contents to a collection.\n    Accepts a collection identifier and a list of content identifiers to add to collection.\n    Returns the collection identifier.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Collection identifier."
+                },
+                "contents": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Content identifiers to add to collection."
+                }
+            },
+            "required": [
+                "id",
+                "contents"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "removeContentsFromCollection",
+        "description": "Remove contents from collection.\n    Accepts a collection identifier and a list of content identifiers to remove from collection.\n    Returns the collection identifier.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Collection identifier."
+                },
+                "contents": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Content identifiers to remove from collection."
+                }
+            },
+            "required": [
+                "id",
+                "contents"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "deleteContent",
+        "description": "Deletes content from Graphlit knowledge base.\n    Accepts content identifier.\n    Returns the content identifier and content state, i.e. Deleted.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Content identifier."
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "deleteConversation",
+        "description": "Deletes conversation from Graphlit knowledge base.\n    Accepts conversation identifier.\n    Returns the conversation identifier and content state, i.e. Deleted.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Conversation identifier."
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "deleteCollection",
+        "description": "Deletes collection from Graphlit knowledge base.\n    Does *not* delete the contents in the collection, only the collection itself.\n    Accepts collection identifier.\n    Returns the collection identifier and collection state, i.e. Deleted.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Collection identifier."
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "deleteFeed",
+        "description": "Deletes feed from Graphlit knowledge base.\n    *Does* delete the contents in the feed, in addition to the feed itself.\n    Accepts feed identifier.\n    Returns the feed identifier and feed state, i.e. Deleted.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Feed identifier."
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "deleteFeeds",
+        "description": "Deletes feeds from Graphlit knowledge base.\n    *Does* delete the contents in the feed, in addition to the feed itself.\n    Accepts optional feed type filter to limit the feeds which will be deleted.\n    Also accepts optional limit of how many feeds to delete, defaults to 100.\n    Returns the feed identifiers and feed state, i.e. Deleted.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "feedType": {
+                    "type": "string",
+                    "enum": [
+                        "CALENDAR",
+                        "DISCORD",
+                        "EMAIL",
+                        "INTERCOM",
+                        "ISSUE",
+                        "MICROSOFT_TEAMS",
+                        "NOTION",
+                        "REDDIT",
+                        "RSS",
+                        "SEARCH",
+                        "SITE",
+                        "SLACK",
+                        "TWITTER",
+                        "WEB",
+                        "YOU_TUBE",
+                        "ZENDESK"
+                    ],
+                    "description": "Feed type filter, optional. One of: Discord, Email, Intercom, Issue, MicrosoftTeams, Notion, Reddit, Rss, Search, Site, Slack, Web, YouTube, Zendesk."
+                },
+                "limit": {
+                    "type": "number",
+                    "default": 100,
+                    "description": "Limit the number of feeds to be deleted. Defaults to 100."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "deleteCollections",
+        "description": "Deletes collections from Graphlit knowledge base.\n    Does *not* delete the contents in the collections, only the collections themselves.\n    Accepts optional limit of how many collections to delete, defaults to 100.\n    Returns the collection identifiers and collection state, i.e. Deleted.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "number",
+                    "default": 100,
+                    "description": "Limit the number of collections to be deleted. Defaults to 100."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "deleteConversations",
+        "description": "Deletes conversations from Graphlit knowledge base.\n    Accepts optional limit of how many conversations to delete, defaults to 100.\n    Returns the conversation identifiers and conversation state, i.e. Deleted.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "number",
+                    "default": 100,
+                    "description": "Limit the number of conversations to be deleted. Defaults to 100."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "deleteContents",
+        "description": "Deletes contents from Graphlit knowledge base.\n    Accepts optional content type and file type filters to limit the contents which will be deleted.\n    Also accepts optional limit of how many contents to delete, defaults to 1000.\n    Returns the content identifiers and content state, i.e. Deleted.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "contentType": {
+                    "type": "string",
+                    "enum": [
+                        "EMAIL",
+                        "EVENT",
+                        "FILE",
+                        "ISSUE",
+                        "MEMORY",
+                        "MESSAGE",
+                        "PAGE",
+                        "POST",
+                        "TEXT"
+                    ],
+                    "description": "Content type filter, optional. One of: Email, Event, File, Issue, Message, Page, Post, Text."
+                },
+                "fileType": {
+                    "type": "string",
+                    "enum": [
+                        "ANIMATION",
+                        "AUDIO",
+                        "CODE",
+                        "DATA",
+                        "DOCUMENT",
+                        "DRAWING",
+                        "EMAIL",
+                        "GEOMETRY",
+                        "IMAGE",
+                        "MANIFEST",
+                        "PACKAGE",
+                        "POINT_CLOUD",
+                        "SHAPE",
+                        "UNKNOWN",
+                        "VIDEO"
+                    ],
+                    "description": "File type filter, optional. One of: Animation, Audio, Code, Data, Document, Drawing, Email, Geometry, Image, Package, PointCloud, Shape, Video."
+                },
+                "limit": {
+                    "type": "number",
+                    "default": 1000,
+                    "description": "Limit the number of contents to be deleted. Defaults to 1000."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "queryContents",
+        "description": "Query contents from Graphlit knowledge base. Do *not* use for retrieving content by content identifier - retrieve content resource instead, with URI 'contents://{id}'.\n    Accepts optional content name, content type and file type for metadata filtering.\n    Accepts optional hybrid vector search query.\n    Accepts optional recency filter (defaults to null, meaning all time), and optional feed and collection identifiers to filter images by.\n    Accepts optional geo-location filter for search by latitude, longitude and optional distance radius. Images and videos taken with GPS enabled are searchable by geo-location.\n    Returns the matching contents, including their content resource URI to retrieve the complete Markdown text.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Textual match on content name."
+                },
+                "query": {
+                    "type": "string",
+                    "description": "Search query."
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "EMAIL",
+                        "EVENT",
+                        "FILE",
+                        "ISSUE",
+                        "MEMORY",
+                        "MESSAGE",
+                        "PAGE",
+                        "POST",
+                        "TEXT"
+                    ],
+                    "description": "Filter by content type."
+                },
+                "fileType": {
+                    "type": "string",
+                    "enum": [
+                        "ANIMATION",
+                        "AUDIO",
+                        "CODE",
+                        "DATA",
+                        "DOCUMENT",
+                        "DRAWING",
+                        "EMAIL",
+                        "GEOMETRY",
+                        "IMAGE",
+                        "MANIFEST",
+                        "PACKAGE",
+                        "POINT_CLOUD",
+                        "SHAPE",
+                        "UNKNOWN",
+                        "VIDEO"
+                    ],
+                    "description": "Filter by file type."
+                },
+                "inLast": {
+                    "type": "string",
+                    "description": "Recency filter for content ingested 'in last' timespan, optional. Should be ISO 8601 format, for example, 'PT1H' for last hour, 'P1D' for last day, 'P7D' for last week, 'P30D' for last month. Doesn't support weeks or months explicitly."
+                },
+                "feeds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Feed identifiers to filter contents by, optional."
+                },
+                "collections": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Collection identifiers to filter contents by, optional."
+                },
+                "location": {
+                    "type": "object",
+                    "properties": {
+                        "latitude": {
+                            "type": "number",
+                            "minimum": -90,
+                            "maximum": 90,
+                            "description": "The latitude, must be between -90 and 90."
+                        },
+                        "longitude": {
+                            "type": "number",
+                            "minimum": -180,
+                            "maximum": 180,
+                            "description": "The longitude, must be between -180 and 180."
+                        },
+                        "distance": {
+                            "type": "number",
+                            "description": "The distance radius (in meters)."
+                        }
+                    },
+                    "required": [
+                        "latitude",
+                        "longitude"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Geo-location filter for search by latitude, longitude and optional distance radius."
+                },
+                "limit": {
+                    "type": "number",
+                    "default": 100,
+                    "description": "Limit the number of contents to be returned. Defaults to 100."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "queryCollections",
+        "description": "Query collections from Graphlit knowledge base. Do *not* use for retrieving collection by collection identifier - retrieve collection resource instead, with URI 'collections://{id}'.\n    Accepts optional collection name for metadata filtering.\n    Returns the matching collections, including their collection resource URI to retrieve the collection contents.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Textual match on collection name."
+                },
+                "limit": {
+                    "type": "number",
+                    "default": 100,
+                    "description": "Limit the number of collections to be returned. Defaults to 100."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "queryFeeds",
+        "description": "Query feeds from Graphlit knowledge base. Do *not* use for retrieving feed by feed identifier - retrieve feed resource instead, with URI 'feeds://{id}'.\n    Accepts optional feed name and feed type for metadata filtering.\n    Returns the matching feeds, including their feed resource URI to retrieve the feed contents.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Textual match on feed name."
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "CALENDAR",
+                        "DISCORD",
+                        "EMAIL",
+                        "INTERCOM",
+                        "ISSUE",
+                        "MICROSOFT_TEAMS",
+                        "NOTION",
+                        "REDDIT",
+                        "RSS",
+                        "SEARCH",
+                        "SITE",
+                        "SLACK",
+                        "TWITTER",
+                        "WEB",
+                        "YOU_TUBE",
+                        "ZENDESK"
+                    ],
+                    "description": "Filter by feed type."
+                },
+                "limit": {
+                    "type": "number",
+                    "default": 100,
+                    "description": "Limit the number of feeds to be returned. Defaults to 100."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "queryConversations",
+        "description": "Query conversations from Graphlit knowledge base. Do *not* use for retrieving conversation by conversation identifier - retrieve conversation resource instead, with URI 'conversations://{id}'.\n    Accepts optional hybrid vector search query.\n    Accepts optional recency filter (defaults to null, meaning all time).\n    Returns the matching conversations, including their conversation resource URI to retrieve the complete conversation message history.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Search query."
+                },
+                "inLast": {
+                    "type": "string",
+                    "description": "Recency filter for conversations created 'in last' timespan, optional. Should be ISO 8601 format, for example, 'PT1H' for last hour, 'P1D' for last day, 'P7D' for last week, 'P30D' for last month. Doesn't support weeks or months explicitly."
+                },
+                "limit": {
+                    "type": "number",
+                    "default": 100,
+                    "description": "Limit the number of conversations to be returned. Defaults to 100."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "isContentDone",
+        "description": "Check if content has completed asynchronous ingestion.\n    Accepts a content identifier which was returned from one of the non-feed ingestion tools, like ingestUrl.\n    Returns whether the content is done or not.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Content identifier."
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "isFeedDone",
+        "description": "Check if an asynchronous feed has completed ingesting all the available content.\n    Accepts a feed identifier which was returned from one of the ingestion tools, like ingestGoogleDriveFiles.\n    Returns whether the feed is done or not.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Feed identifier."
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "listNotionDatabases",
+        "description": "Lists available Notion databases.\n    Requires environment variable to be configured: NOTION_API_KEY.\n    Returns a list of Notion databases, where the database identifier can be used with ingestNotionPages to ingest pages into Graphlit knowledge base.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "listDropboxFolders",
+        "description": "Lists available Dropbox folders.\n    Requires environment variables to be configured: DROPBOX_APP_KEY, DROPBOX_APP_SECRET, DROPBOX_REFRESH_TOKEN.\n    Returns a list of Dropbox folders that can be used with file ingestion tools.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "folderPath": {
+                    "type": "string",
+                    "description": "The folder path to list folders from. If not provided, lists from root."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "listBoxFolders",
+        "description": "Lists available Box folders.\n    Requires environment variables to be configured: BOX_CLIENT_ID, BOX_CLIENT_SECRET, BOX_REFRESH_TOKEN.\n    Returns a list of Box folders that can be used with file ingestion tools.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "folderId": {
+                    "type": "string",
+                    "description": "The folder ID to list folders from. If not provided, lists from root."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "listDiscordGuilds",
+        "description": "Lists available Discord guilds (servers).\n    Requires environment variable to be configured: DISCORD_BOT_TOKEN.\n    Returns a list of Discord guilds that the bot has access to.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "listDiscordChannels",
+        "description": "Lists available Discord channels in a guild.\n    Requires environment variable to be configured: DISCORD_BOT_TOKEN.\n    Returns a list of Discord channels that can be used with Discord ingestion tools.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "guildId": {
+                    "type": "string",
+                    "description": "The Discord guild (server) ID to list channels from."
+                }
+            },
+            "required": [
+                "guildId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "listNotionPages",
+        "description": "Lists pages from a Notion database.\n    Requires environment variable to be configured: NOTION_API_KEY.\n    Returns a list of Notion pages in the specified database.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "databaseId": {
+                    "type": "string",
+                    "description": "The Notion database identifier to list pages from."
+                }
+            },
+            "required": [
+                "databaseId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "listGoogleCalendars",
+        "description": "Lists available Google calendars.\n    Requires environment variables to be configured: GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REFRESH_TOKEN.\n    Returns a list of Google calendars that can be used with calendar ingestion tools.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "listMicrosoftCalendars",
+        "description": "Lists available Microsoft calendars.\n    Requires environment variables to be configured: MICROSOFT_CLIENT_ID, MICROSOFT_CLIENT_SECRET, MICROSOFT_REFRESH_TOKEN.\n    Returns a list of Microsoft calendars that can be used with calendar ingestion tools.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "listLinearProjects",
+        "description": "Lists available Linear projects.\n    Requires environment variable to be configured: LINEAR_API_KEY.\n    Returns a list of Linear projects, where the project name can be used with ingestLinearIssues to ingest issues into Graphlit knowledge base.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "listSlackChannels",
+        "description": "Lists available Slack channels.\n    Requires environment variable to be configured: SLACK_BOT_TOKEN.\n    Returns a list of Slack channels, where the channel name can be used with ingestSlackMessages to ingest messages into Graphlit knowledge base.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "listSharePointLibraries",
+        "description": "Lists available SharePoint libraries.\n    Requires environment variables to be configured: SHAREPOINT_CLIENT_ID, SHAREPOINT_CLIENT_SECRET, SHAREPOINT_REFRESH_TOKEN.\n    Returns a list of SharePoint libraries, where the selected libraryId can be used with listSharePointFolders to enumerate SharePoint folders in a library.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "listSharePointFolders",
+        "description": "Lists available SharePoint folders.\n    Requires environment variables to be configured: SHAREPOINT_CLIENT_ID, SHAREPOINT_CLIENT_SECRET, SHAREPOINT_REFRESH_TOKEN.\n    Returns a list of SharePoint folders, which can be used with ingestSharePointFiles to ingest files into Graphlit knowledge base.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "libraryId": {
+                    "type": "string",
+                    "description": "SharePoint library identifier."
+                }
+            },
+            "required": [
+                "libraryId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "ingestSharePointFiles",
+        "description": "Ingests files from SharePoint library into Graphlit knowledge base.\n    Accepts a SharePoint libraryId and an optional folderId to ingest files from a specific SharePoint folder.\n    Libraries can be enumerated with listSharePointLibraries and library folders with listSharePointFolders.\n    Requires environment variables to be configured: SHAREPOINT_ACCOUNT_NAME, SHAREPOINT_CLIENT_ID, SHAREPOINT_CLIENT_SECRET, SHAREPOINT_REFRESH_TOKEN.\n    Accepts an optional read limit for the number of files to ingest.\n    Executes asynchronously, creates SharePoint feed, and returns the feed identifier. Optionally creates a recurring feed that checks for new content every 15 minutes when 'recurring' is set to true.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "libraryId": {
+                    "type": "string",
+                    "description": "SharePoint library identifier."
+                },
+                "folderId": {
+                    "type": "string",
+                    "description": "SharePoint folder identifier, optional."
+                },
+                "readLimit": {
+                    "type": "number",
+                    "description": "Number of files to ingest, optional. Defaults to 100."
+                },
+                "recurring": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to create a recurring feed that checks for new content. Defaults to false (one-time execution). When true, isFeedDone is not needed for completion polling."
+                },
+                "repeatInterval": {
+                    "type": "string",
+                    "default": "PT15M",
+                    "description": "ISO 8601 duration for recurring interval (e.g., 'PT5M' for 5 minutes, 'PT15M' for 15 minutes, 'PT1H' for 1 hour). Must be at least PT5M. Only used when recurring is true."
+                }
+            },
+            "required": [
+                "libraryId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "ingestOneDriveFiles",
+        "description": "Ingests files from OneDrive into Graphlit knowledge base.\n    Accepts optional OneDrive folder identifier, and an optional read limit for the number of files to ingest.\n    If no folder identifier provided, ingests files from root OneDrive folder.\n    Requires environment variables to be configured: ONEDRIVE_CLIENT_ID, ONEDRIVE_CLIENT_SECRET, ONEDRIVE_REFRESH_TOKEN.\n    Executes asynchronously, creates OneDrive feed, and returns the feed identifier. Optionally creates a recurring feed that checks for new content every 15 minutes when 'recurring' is set to true.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "folderId": {
+                    "type": "string",
+                    "description": "OneDrive folder identifier, optional."
+                },
+                "readLimit": {
+                    "type": "number",
+                    "description": "Number of files to ingest, optional. Defaults to 100."
+                },
+                "recurring": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to create a recurring feed that checks for new content. Defaults to false (one-time execution). When true, isFeedDone is not needed."
+                },
+                "repeatInterval": {
+                    "type": "string",
+                    "default": "PT15M",
+                    "description": "ISO 8601 duration for recurring interval (e.g., 'PT5M' for 5 minutes, 'PT15M' for 15 minutes, 'PT1H' for 1 hour). Must be at least PT5M. Only used when recurring is true."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "ingestGoogleDriveFiles",
+        "description": "Ingests files from Google Drive into Graphlit knowledge base.\n    Accepts optional Google Drive folder identifier, and an optional read limit for the number of files to ingest.\n    For example, with Google Drive URI (https://drive.google.com/drive/u/0/folders/32tzhRD12KDh2hXABY8OZRFv7Smy8WBkQ), the folder identifier is 32tzhRD12KDh2hXABY8OZRFv7Smy8WBkQ.\n    If no folder identifier provided, ingests files from root Google Drive folder.\n    Requires environment variables to be configured: GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON -or- GOOGLE_DRIVE_CLIENT_ID, GOOGLE_DRIVE_CLIENT_SECRET, GOOGLE_DRIVE_REFRESH_TOKEN.\n    If service account JSON is provided, uses service account authentication. Else, uses user authentication.\n    Executes asynchronously, creates Google Drive feed, and returns the feed identifier. Optionally creates a recurring feed that checks for new content every 15 minutes when 'recurring' is set to true.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "folderId": {
+                    "type": "string",
+                    "description": "Google Drive folder identifier, optional."
+                },
+                "readLimit": {
+                    "type": "number",
+                    "description": "Number of files to ingest, optional. Defaults to 100."
+                },
+                "recurring": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to create a recurring feed that checks for new content. Defaults to false (one-time execution). When true, isFeedDone is not needed."
+                },
+                "repeatInterval": {
+                    "type": "string",
+                    "default": "PT15M",
+                    "description": "ISO 8601 duration for recurring interval (e.g., 'PT5M' for 5 minutes, 'PT15M' for 15 minutes, 'PT1H' for 1 hour). Must be at least PT5M. Only used when recurring is true."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "ingestDropboxFiles",
+        "description": "Ingests files from Dropbox into Graphlit knowledge base.\n    Accepts optional relative path to Dropbox folder (i.e. /Pictures), and an optional read limit for the number of files to ingest.\n    If no path provided, ingests files from root Dropbox folder.\n    Requires environment variables to be configured: DROPBOX_APP_KEY, DROPBOX_APP_SECRET, DROPBOX_REDIRECT_URI, DROPBOX_REFRESH_TOKEN.\n    Executes asynchronously, creates Dropbox feed, and returns the feed identifier. Optionally creates a recurring feed that checks for new content every 15 minutes when 'recurring' is set to true.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "Relative path to Dropbox folder, optional."
+                },
+                "readLimit": {
+                    "type": "number",
+                    "description": "Number of files to ingest, optional. Defaults to 100."
+                },
+                "recurring": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to create a recurring feed that checks for new content. Defaults to false (one-time execution). When true, isFeedDone is not needed."
+                },
+                "repeatInterval": {
+                    "type": "string",
+                    "default": "PT15M",
+                    "description": "ISO 8601 duration for recurring interval (e.g., 'PT5M' for 5 minutes, 'PT15M' for 15 minutes, 'PT1H' for 1 hour). Must be at least PT5M. Only used when recurring is true."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "ingestBoxFiles",
+        "description": "Ingests files from Box into Graphlit knowledge base.\n    Accepts optional Box folder identifier, and an optional read limit for the number of files to ingest.\n    If no folder identifier provided, ingests files from root Box folder (i.e. \"0\").\n    Folder identifier can be inferred from Box URL. https://app.box.com/folder/123456 -> folder identifier is \"123456\".\n    Requires environment variables to be configured: BOX_CLIENT_ID, BOX_CLIENT_SECRET, BOX_REDIRECT_URI, BOX_REFRESH_TOKEN.\n    Executes asynchronously, creates Box feed, and returns the feed identifier. Optionally creates a recurring feed that checks for new content every 15 minutes when 'recurring' is set to true.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "folderId": {
+                    "type": "string",
+                    "default": "0",
+                    "description": "Box folder identifier, optional. Defaults to root folder."
+                },
+                "readLimit": {
+                    "type": "number",
+                    "description": "Number of files to ingest, optional. Defaults to 100."
+                },
+                "recurring": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to create a recurring feed that checks for new content. Defaults to false (one-time execution). When true, isFeedDone is not needed."
+                },
+                "repeatInterval": {
+                    "type": "string",
+                    "default": "PT15M",
+                    "description": "ISO 8601 duration for recurring interval (e.g., 'PT5M' for 5 minutes, 'PT15M' for 15 minutes, 'PT1H' for 1 hour). Must be at least PT5M. Only used when recurring is true."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "ingestGitHubFiles",
+        "description": "Ingests files from GitHub repository into Graphlit knowledge base.\n    Accepts GitHub repository owner and repository name and an optional read limit for the number of files to ingest.\n    For example, for GitHub repository (https://github.com/openai/tiktoken), 'openai' is the repository owner, and 'tiktoken' is the repository name.\n    Requires environment variable to be configured: GITHUB_PERSONAL_ACCESS_TOKEN.\n    Executes asynchronously, creates GitHub feed, and returns the feed identifier. Optionally creates a recurring feed that checks for new content every 15 minutes when 'recurring' is set to true.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "repositoryName": {
+                    "type": "string",
+                    "description": "GitHub repository name."
+                },
+                "repositoryOwner": {
+                    "type": "string",
+                    "description": "GitHub repository owner."
+                },
+                "readLimit": {
+                    "type": "number",
+                    "description": "Number of files to ingest, optional. Defaults to 100."
+                },
+                "recurring": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to create a recurring feed that checks for new content. Defaults to false (one-time execution). When true, isFeedDone is not needed."
+                },
+                "repeatInterval": {
+                    "type": "string",
+                    "default": "PT15M",
+                    "description": "ISO 8601 duration for recurring interval (e.g., 'PT5M' for 5 minutes, 'PT15M' for 15 minutes, 'PT1H' for 1 hour). Must be at least PT5M. Only used when recurring is true."
+                }
+            },
+            "required": [
+                "repositoryName",
+                "repositoryOwner"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "ingestNotionPages",
+        "description": "Ingests pages from Notion database into Graphlit knowledge base.\n    Accepts Notion database identifier and an optional read limit for the number of pages to ingest.\n    You can list the available Notion database identifiers with listNotionDatabases.\n    Or, for a Notion URL, https://www.notion.so/Example/Engineering-Wiki-114abc10cb38487e91ec906fc6c6f350, 'Engineering-Wiki-114abc10cb38487e91ec906fc6c6f350' is an example of a Notion database identifier.\n    Requires environment variable to be configured: NOTION_API_KEY.\n    Executes asynchronously, creates Notion feed, and returns the feed identifier. Optionally creates a recurring feed that checks for new content every 15 minutes when 'recurring' is set to true.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "databaseId": {
+                    "type": "string",
+                    "description": "Notion database identifier."
+                },
+                "readLimit": {
+                    "type": "number",
+                    "description": "Number of pages to ingest, optional. Defaults to 100."
+                },
+                "recurring": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to create a recurring feed that checks for new content. Defaults to false (one-time execution). When true, isFeedDone is not needed."
+                },
+                "repeatInterval": {
+                    "type": "string",
+                    "default": "PT15M",
+                    "description": "ISO 8601 duration for recurring interval (e.g., 'PT5M' for 5 minutes, 'PT15M' for 15 minutes, 'PT1H' for 1 hour). Must be at least PT5M. Only used when recurring is true."
+                }
+            },
+            "required": [
+                "databaseId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "ingestMicrosoftTeamsMessages",
+        "description": "Ingests messages from Microsoft Teams channel into Graphlit knowledge base.\n    Accepts Microsoft Teams team identifier and channel identifier, and an optional read limit for the number of messages to ingest.\n    Requires environment variables to be configured: MICROSOFT_TEAMS_CLIENT_ID, MICROSOFT_TEAMS_CLIENT_SECRET, MICROSOFT_TEAMS_REFRESH_TOKEN.\n    Executes asynchronously, creates Microsoft Teams feed, and returns the feed identifier. Optionally creates a recurring feed that checks for new content every 15 minutes when 'recurring' is set to true.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "teamId": {
+                    "type": "string",
+                    "description": "Microsoft Teams team identifier."
+                },
+                "channelId": {
+                    "type": "string",
+                    "description": "Microsoft Teams channel identifier."
+                },
+                "readLimit": {
+                    "type": "number",
+                    "description": "Number of messages to ingest, optional. Defaults to 100."
+                },
+                "recurring": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to create a recurring feed that checks for new content. Defaults to false (one-time execution). When true, isFeedDone is not needed."
+                },
+                "repeatInterval": {
+                    "type": "string",
+                    "default": "PT15M",
+                    "description": "ISO 8601 duration for recurring interval (e.g., 'PT5M' for 5 minutes, 'PT15M' for 15 minutes, 'PT1H' for 1 hour). Must be at least PT5M. Only used when recurring is true."
+                }
+            },
+            "required": [
+                "teamId",
+                "channelId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "ingestSlackMessages",
+        "description": "Ingests messages from Slack channel into Graphlit knowledge base.\n    Accepts Slack channel name and an optional read limit for the number of messages to ingest.\n    Requires environment variable to be configured: SLACK_BOT_TOKEN.\n    Executes asynchronously, creates Slack feed, and returns the feed identifier. Optionally creates a recurring feed that checks for new content every 15 minutes when 'recurring' is set to true.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "channelName": {
+                    "type": "string",
+                    "description": "Slack channel name."
+                },
+                "readLimit": {
+                    "type": "number",
+                    "description": "Number of messages to ingest, optional. Defaults to 100."
+                },
+                "recurring": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to create a recurring feed that checks for new content. Defaults to false (one-time execution). When true, isFeedDone is not needed."
+                },
+                "repeatInterval": {
+                    "type": "string",
+                    "default": "PT15M",
+                    "description": "ISO 8601 duration for recurring interval (e.g., 'PT5M' for 5 minutes, 'PT15M' for 15 minutes, 'PT1H' for 1 hour). Must be at least PT5M. Only used when recurring is true."
+                }
+            },
+            "required": [
+                "channelName"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "ingestDiscordMessages",
+        "description": "Ingests messages from Discord channel into Graphlit knowledge base.\n    Accepts Discord channel name and an optional read limit for the number of messages to ingest.\n    Requires environment variable to be configured: DISCORD_BOT_TOKEN.\n    Executes asynchronously, creates Discord feed, and returns the feed identifier. Optionally creates a recurring feed that checks for new content every 15 minutes when 'recurring' is set to true.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "channelName": {
+                    "type": "string",
+                    "description": "Discord channel name."
+                },
+                "readLimit": {
+                    "type": "number",
+                    "description": "Number of messages to ingest, optional. Defaults to 100."
+                },
+                "recurring": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to create a recurring feed that checks for new content. Defaults to false (one-time execution). When true, isFeedDone is not needed."
+                },
+                "repeatInterval": {
+                    "type": "string",
+                    "default": "PT15M",
+                    "description": "ISO 8601 duration for recurring interval (e.g., 'PT5M' for 5 minutes, 'PT15M' for 15 minutes, 'PT1H' for 1 hour). Must be at least PT5M. Only used when recurring is true."
+                }
+            },
+            "required": [
+                "channelName"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "ingestTwitterPosts",
+        "description": "Ingests posts by user from Twitter/X into Graphlit knowledge base.\n    Accepts Twitter/X user name, without the leading @ symbol, and an optional read limit for the number of posts to ingest.\n    Requires environment variable to be configured: TWITTER_TOKEN.\n    Executes asynchronously, creates Twitter feed, and returns the feed identifier. Optionally creates a recurring feed that checks for new content every 15 minutes when 'recurring' is set to true.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "userName": {
+                    "type": "string",
+                    "description": "Twitter/X user name, without the leading @ symbol, i.e. 'graphlit'."
+                },
+                "readLimit": {
+                    "type": "number",
+                    "description": "Number of posts to ingest, optional. Defaults to 100."
+                },
+                "recurring": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to create a recurring feed that checks for new content. Defaults to false (one-time execution). When true, isFeedDone is not needed."
+                },
+                "repeatInterval": {
+                    "type": "string",
+                    "default": "PT15M",
+                    "description": "ISO 8601 duration for recurring interval (e.g., 'PT5M' for 5 minutes, 'PT15M' for 15 minutes, 'PT1H' for 1 hour). Must be at least PT5M. Only used when recurring is true."
+                }
+            },
+            "required": [
+                "userName"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "ingestTwitterSearch",
+        "description": "Searches for recent posts from Twitter/X, and ingests them into Graphlit knowledge base.\n    Accepts search query, and an optional read limit for the number of posts to ingest.\n    Requires environment variable to be configured: TWITTER_TOKEN.\n    Executes asynchronously, creates Twitter feed, and returns the feed identifier. Optionally creates a recurring feed that checks for new content every 15 minutes when 'recurring' is set to true.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Search query"
+                },
+                "readLimit": {
+                    "type": "number",
+                    "description": "Number of posts to ingest, optional. Defaults to 100."
+                },
+                "recurring": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to create a recurring feed that checks for new content. Defaults to false (one-time execution). When true, isFeedDone is not needed."
+                },
+                "repeatInterval": {
+                    "type": "string",
+                    "default": "PT15M",
+                    "description": "ISO 8601 duration for recurring interval (e.g., 'PT5M' for 5 minutes, 'PT15M' for 15 minutes, 'PT1H' for 1 hour). Must be at least PT5M. Only used when recurring is true."
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "ingestRedditPosts",
+        "description": "Ingests posts from Reddit subreddit into Graphlit knowledge base.\n    Accepts a subreddit name and an optional read limit for the number of posts to ingest.\n    Executes asynchronously, creates Reddit feed, and returns the feed identifier. Optionally creates a recurring feed that checks for new content every 15 minutes when 'recurring' is set to true.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "subredditName": {
+                    "type": "string",
+                    "description": "Subreddit name."
+                },
+                "readLimit": {
+                    "type": "number",
+                    "description": "Number of posts to ingest, optional. Defaults to 100."
+                },
+                "recurring": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to create a recurring feed that checks for new content. Defaults to false (one-time execution). When true, isFeedDone is not needed."
+                },
+                "repeatInterval": {
+                    "type": "string",
+                    "default": "PT15M",
+                    "description": "ISO 8601 duration for recurring interval (e.g., 'PT5M' for 5 minutes, 'PT15M' for 15 minutes, 'PT1H' for 1 hour). Must be at least PT5M. Only used when recurring is true."
+                }
+            },
+            "required": [
+                "subredditName"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "ingestGoogleEmail",
+        "description": "Ingests emails from Google Email account into Graphlit knowledge base.\n    Accepts an optional read limit for the number of emails to ingest.\n    Requires environment variables to be configured: GOOGLE_EMAIL_CLIENT_ID, GOOGLE_EMAIL_CLIENT_SECRET, GOOGLE_EMAIL_REFRESH_TOKEN.\n    Executes asynchronously, creates Google Email feed, and returns the feed identifier. Optionally creates a recurring feed that checks for new content every 15 minutes when 'recurring' is set to true.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "readLimit": {
+                    "type": "number",
+                    "description": "Number of emails to ingest, optional. Defaults to 100."
+                },
+                "recurring": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to create a recurring feed that checks for new content. Defaults to false (one-time execution). When true, isFeedDone is not needed."
+                },
+                "repeatInterval": {
+                    "type": "string",
+                    "default": "PT15M",
+                    "description": "ISO 8601 duration for recurring interval (e.g., 'PT5M' for 5 minutes, 'PT15M' for 15 minutes, 'PT1H' for 1 hour). Must be at least PT5M. Only used when recurring is true."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "ingestMicrosoftEmail",
+        "description": "Ingests emails from Microsoft Email account into Graphlit knowledge base.\n    Accepts an optional read limit for the number of emails to ingest.\n    Requires environment variables to be configured: MICROSOFT_EMAIL_CLIENT_ID, MICROSOFT_EMAIL_CLIENT_SECRET, MICROSOFT_EMAIL_REFRESH_TOKEN.\n    Executes asynchronously, creates Microsoft Email feed, and returns the feed identifier. Optionally creates a recurring feed that checks for new content every 15 minutes when 'recurring' is set to true.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "readLimit": {
+                    "type": "number",
+                    "description": "Number of emails to ingest, optional. Defaults to 100."
+                },
+                "recurring": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to create a recurring feed that checks for new content. Defaults to false (one-time execution). When true, isFeedDone is not needed."
+                },
+                "repeatInterval": {
+                    "type": "string",
+                    "default": "PT15M",
+                    "description": "ISO 8601 duration for recurring interval (e.g., 'PT5M' for 5 minutes, 'PT15M' for 15 minutes, 'PT1H' for 1 hour). Must be at least PT5M. Only used when recurring is true."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "ingestLinearIssues",
+        "description": "Ingests issues from Linear project into Graphlit knowledge base.\n    Accepts Linear project name and an optional read limit for the number of issues to ingest.\n    Requires environment variable to be configured: LINEAR_API_KEY.\n    Executes asynchronously, creates Linear issue feed, and returns the feed identifier. Optionally creates a recurring feed that checks for new content every 15 minutes when 'recurring' is set to true.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectName": {
+                    "type": "string",
+                    "description": "Linear project name."
+                },
+                "readLimit": {
+                    "type": "number",
+                    "description": "Number of issues to ingest, optional. Defaults to 100."
+                },
+                "recurring": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to create a recurring feed that checks for new content. Defaults to false (one-time execution). When true, isFeedDone is not needed."
+                },
+                "repeatInterval": {
+                    "type": "string",
+                    "default": "PT15M",
+                    "description": "ISO 8601 duration for recurring interval (e.g., 'PT5M' for 5 minutes, 'PT15M' for 15 minutes, 'PT1H' for 1 hour). Must be at least PT5M. Only used when recurring is true."
+                }
+            },
+            "required": [
+                "projectName"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "ingestGitHubIssues",
+        "description": "Ingests issues from GitHub repository into Graphlit knowledge base.\n    Accepts GitHub repository owner and repository name and an optional read limit for the number of issues to ingest.\n    For example, for GitHub repository (https://github.com/openai/tiktoken), 'openai' is the repository owner, and 'tiktoken' is the repository name.\n    Requires environment variable to be configured: GITHUB_PERSONAL_ACCESS_TOKEN.\n    Executes asynchronously, creates GitHub issue feed, and returns the feed identifier. Optionally creates a recurring feed that checks for new content every 15 minutes when 'recurring' is set to true.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "repositoryName": {
+                    "type": "string",
+                    "description": "GitHub repository name."
+                },
+                "repositoryOwner": {
+                    "type": "string",
+                    "description": "GitHub repository owner."
+                },
+                "readLimit": {
+                    "type": "number",
+                    "description": "Number of issues to ingest, optional. Defaults to 100."
+                },
+                "recurring": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to create a recurring feed that checks for new content. Defaults to false (one-time execution). When true, isFeedDone is not needed."
+                },
+                "repeatInterval": {
+                    "type": "string",
+                    "default": "PT15M",
+                    "description": "ISO 8601 duration for recurring interval (e.g., 'PT5M' for 5 minutes, 'PT15M' for 15 minutes, 'PT1H' for 1 hour). Must be at least PT5M. Only used when recurring is true."
+                }
+            },
+            "required": [
+                "repositoryName",
+                "repositoryOwner"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "ingestJiraIssues",
+        "description": "Ingests issues from Atlassian Jira repository into Graphlit knowledge base.\n    Accepts Atlassian Jira server URL and project name, and an optional read limit for the number of issues to ingest.\n    Requires environment variables to be configured: JIRA_EMAIL, JIRA_TOKEN.\n    Executes asynchronously, creates Atlassian Jira issue feed, and returns the feed identifier. Optionally creates a recurring feed that checks for new content every 15 minutes when 'recurring' is set to true.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "Atlassian Jira server URL."
+                },
+                "projectName": {
+                    "type": "string",
+                    "description": "Atlassian Jira project name."
+                },
+                "readLimit": {
+                    "type": "number",
+                    "description": "Number of issues to ingest, optional. Defaults to 100."
+                },
+                "recurring": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to create a recurring feed that checks for new content. Defaults to false (one-time execution). When true, isFeedDone is not needed."
+                },
+                "repeatInterval": {
+                    "type": "string",
+                    "default": "PT15M",
+                    "description": "ISO 8601 duration for recurring interval (e.g., 'PT5M' for 5 minutes, 'PT15M' for 15 minutes, 'PT1H' for 1 hour). Must be at least PT5M. Only used when recurring is true."
+                }
+            },
+            "required": [
+                "url",
+                "projectName"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "webCrawl",
+        "description": "Crawls web pages from web site into Graphlit knowledge base.\n    Accepts a URL and an optional read limit for the number of pages to crawl.\n    Uses sitemap.xml to discover pages to be crawled from website.\n    Executes asynchronously and returns the feed identifier. Optionally creates a recurring feed that checks for new content every 15 minutes when 'recurring' is set to true.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "Web site URL."
+                },
+                "readLimit": {
+                    "type": "number",
+                    "description": "Number of web pages to ingest, optional. Defaults to 100."
+                },
+                "recurring": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to create a recurring feed that checks for new content. Defaults to false (one-time execution). When true, isFeedDone is not needed."
+                },
+                "repeatInterval": {
+                    "type": "string",
+                    "default": "PT15M",
+                    "description": "ISO 8601 duration for recurring interval (e.g., 'PT5M' for 5 minutes, 'PT15M' for 15 minutes, 'PT1H' for 1 hour). Must be at least PT5M. Only used when recurring is true."
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "webMap",
+        "description": "Enumerates the web pages at or beneath the provided URL using web sitemap. \n    Does *not* ingest web pages into Graphlit knowledge base.\n    Accepts web site URL as string.\n    Returns list of mapped URIs from web site.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "Web site URL."
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "webSearch",
+        "description": "Performs web or podcast search based on search query. Can search for web pages or anything about podcasts (i.e. episodes, topics, guest appearances). \n    Format the search query as what would be entered into a Google search. You can use site filtering in the search query, like 'site:twitter.com'.    \n    Accepts search query as string, and optional search service type.    \n    Prefer calling this tool over using 'curl' directly for any web search.\n    Use 'PODSCAN' search service type to search podcasts.\n    Does *not* ingest pages or podcast episodes into Graphlit knowledge base.  \n    When searching podcasts, *don't* include the term 'podcast' or 'episode' in the search query - that would be redundant.\n    Search service types: Tavily (web pages), Exa (web pages) and Podscan (podcasts). Defaults to Exa.\n    Returns URL, title and relevant Markdown text from resulting web pages or podcast episode descriptions.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Search query."
+                },
+                "searchService": {
+                    "type": "string",
+                    "enum": [
+                        "EXA",
+                        "PODSCAN",
+                        "TAVILY"
+                    ],
+                    "default": "EXA",
+                    "description": "Search service type (Tavily, Exa, Podscan). Defaults to Exa."
+                },
+                "limit": {
+                    "type": "number",
+                    "default": 10,
+                    "description": "Limit the number of search hits to be returned. Defaults to 10."
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "ingestRSS",
+        "description": "Ingests posts from RSS feed into Graphlit knowledge base.\n    For podcast RSS feeds, audio will be downloaded, transcribed and ingested into Graphlit knowledge base.\n    Accepts RSS URL and an optional read limit for the number of posts to read.\n    Executes asynchronously and returns the feed identifier. Optionally creates a recurring feed that checks for new content every 15 minutes when 'recurring' is set to true.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "RSS URL."
+                },
+                "readLimit": {
+                    "type": "number",
+                    "description": "Number of issues to posts, optional. Defaults to 25."
+                },
+                "recurring": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to create a recurring feed that checks for new content. Defaults to false (one-time execution). When true, isFeedDone is not needed."
+                },
+                "repeatInterval": {
+                    "type": "string",
+                    "default": "PT15M",
+                    "description": "ISO 8601 duration for recurring interval (e.g., 'PT5M' for 5 minutes, 'PT15M' for 15 minutes, 'PT1H' for 1 hour). Must be at least PT5M. Only used when recurring is true."
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "ingestUrl",
+        "description": "Ingests content from URL into Graphlit knowledge base.\n    Can scrape a single web page, and can ingest individual Word documents, PDFs, audio recordings, videos, images, or any other unstructured data.\n    Do *not* use for crawling a web site, which is done with 'webCrawl' tool.\n    Executes asynchronously and returns the content identifier.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "URL to ingest content from."
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "ingestText",
+        "description": "Ingests text as content into Graphlit knowledge base.\n    Accepts the text itself, and an optional text type (Plain, Markdown, Html). Defaults to Markdown text type.\n    Optionally accepts the content name and an identifier for an existing content object. Will overwrite existing content, if provided.\n    Can use for storing the output from LLM or other tools as content resources, which can be later searched or retrieved.\n    Executes *synchronously* and returns the content identifier.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Name for the content object, optional."
+                },
+                "text": {
+                    "type": "string",
+                    "description": "Text content to ingest."
+                },
+                "textType": {
+                    "type": "string",
+                    "enum": [
+                        "HTML",
+                        "MARKDOWN",
+                        "PLAIN"
+                    ],
+                    "default": "MARKDOWN",
+                    "description": "Text type (Plain, Markdown, Html). Defaults to Markdown."
+                },
+                "id": {
+                    "type": "string",
+                    "description": "Optional content identifier. Will overwrite existing content, if provided."
+                }
+            },
+            "required": [
+                "text"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "ingestMemory",
+        "description": "Ingests short-term textual memory as content into Graphlit knowledge base.\n    Accepts an optional text type (Plain, Markdown, Html). Defaults to Markdown text type. Optionally accepts the content name.\n    Will automatically be entity extracted into a knowledge graph.\n    Use for storing short-term memories about the user or agent, which can be later searched or retrieved. Memories are transient and will be deleted after a period of time.\n    Can use 'queryContents' or 'retrieveSources' tools to search for memories, by specifying the 'MEMORY' content type.\n    Executes asynchronously and returns the content identifier.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Name for the content object."
+                },
+                "text": {
+                    "type": "string",
+                    "description": "Textual memory to ingest, i.e. 'Kirk likes raccoons' or 'Graphlit is based in Seattle'"
+                },
+                "textType": {
+                    "type": "string",
+                    "enum": [
+                        "HTML",
+                        "MARKDOWN",
+                        "PLAIN"
+                    ],
+                    "default": "MARKDOWN",
+                    "description": "Text type (Plain, Markdown, Html). Defaults to Markdown."
+                },
+                "timeToLive": {
+                    "type": "string",
+                    "description": "Time to live for ingested memory. Should be ISO 8601 format, for example, 'PT1H' for one hour, 'P1D' for one day, 'P7D' for one week, 'P30D' for one month. Doesn't support weeks or months explicitly."
+                }
+            },
+            "required": [
+                "text"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "ingestFile",
+        "description": "Ingests local file into Graphlit knowledge base.\n    Accepts the path to the file in the local filesystem.\n    Can use for storing *large* long-term textual memories or the output from LLM or other tools as content resources, which can be later searched or retrieved.\n    Executes asynchronously and returns the content identifier.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "filePath": {
+                    "type": "string",
+                    "description": "Path to the file in the local filesystem."
+                }
+            },
+            "required": [
+                "filePath"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "screenshotPage",
+        "description": "Screenshots web page from URL.\n    Executes *synchronously* and returns the content identifier.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "Web page URL."
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "describeImageUrl",
+        "description": "Prompts vision LLM and returns completion. \n    Does *not* ingest image into Graphlit knowledge base.\n    Accepts image URL as string.\n    Returns Markdown text from LLM completion.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "prompt": {
+                    "type": "string",
+                    "description": "Prompt for image description."
+                },
+                "url": {
+                    "type": "string",
+                    "description": "Image URL."
+                }
+            },
+            "required": [
+                "prompt",
+                "url"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "describeImageContent",
+        "description": "Prompts vision LLM and returns description of image content. \n    Accepts content identifier as string, and optional prompt for image description.\n    Returns Markdown text from LLM completion.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Content identifier."
+                },
+                "prompt": {
+                    "type": "string",
+                    "description": "Prompt for image description, optional."
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "publishAudio",
+        "description": "Publishes text as audio format, and ingests into Graphlit knowledge base.\n    Accepts a name for the content object, the text itself, and an optional text type (Plain, Markdown, Html). Defaults to Markdown text type.\n    Optionally accepts an ElevenLabs voice identifier.\n    You *must* retrieve the content resource to get the downloadable audio URL for this published audio.\n    Executes *synchronously* and returns the content identifiers.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Name for the content object."
+                },
+                "text": {
+                    "type": "string",
+                    "description": "Text content to publish."
+                },
+                "textType": {
+                    "type": "string",
+                    "enum": [
+                        "HTML",
+                        "MARKDOWN",
+                        "PLAIN"
+                    ],
+                    "default": "MARKDOWN",
+                    "description": "Text type (Plain, Markdown, Html). Defaults to Markdown."
+                },
+                "voice": {
+                    "type": "string",
+                    "default": "HqW11As4VRPkApNPkAZp",
+                    "description": "ElevenLabs voice identifier, optional."
+                }
+            },
+            "required": [
+                "name",
+                "text"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "publishImage",
+        "description": "Publishes text as image format, and ingests into Graphlit knowledge base.\n    Accepts a name for the content object.\n    Also, accepts a prompt for image generation. For example, 'Create a cartoon image of a raccoon, saying \"I Love Graphlit\"'.\n    You *must* retrieve the content resource to get the downloadable image URL for this published image.\n    Executes *synchronously* and returns the content identifiers.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Name for the content object."
+                },
+                "prompt": {
+                    "type": "string",
+                    "description": "Prompt for image generation."
+                },
+                "count": {
+                    "type": "number",
+                    "default": 1,
+                    "description": "Number of images to generate, optional. Defaults to 1."
+                }
+            },
+            "required": [
+                "name",
+                "prompt"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "sendWebHookNotification",
+        "description": "Sends a webhook notification to the provided URL.\n    Accepts the webhook URL.\n    Also accepts the text to be sent with the webhook, and an optional text type (Plain, Markdown, Html). Defaults to Markdown text type.\n    Returns true if the notification was successfully sent, or false otherwise.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "Webhook URL."
+                },
+                "text": {
+                    "type": "string",
+                    "description": "Text to send."
+                },
+                "textType": {
+                    "type": "string",
+                    "enum": [
+                        "HTML",
+                        "MARKDOWN",
+                        "PLAIN"
+                    ],
+                    "default": "MARKDOWN",
+                    "description": "Text type (Plain, Markdown, Html). Defaults to Markdown."
+                }
+            },
+            "required": [
+                "url",
+                "text"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "sendSlackNotification",
+        "description": "Sends a Slack notification to the provided Slack channel.\n    Accepts the Slack channel name.\n    Also accepts the text for the Slack message, and an optional text type (Plain, Markdown, Html). Defaults to Markdown text type.\n    Hint: In Slack Markdown, images are displayed by simply putting the URL in angle brackets like <https://example.com/image.jpg> instead of using the traditional Markdown image syntax ![alt text](url). \n    Requires environment variable to be configured: SLACK_BOT_TOKEN.\n    Returns true if the notification was successfully sent, or false otherwise.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "channelName": {
+                    "type": "string",
+                    "description": "Slack channel name."
+                },
+                "text": {
+                    "type": "string",
+                    "description": "Text to send."
+                },
+                "textType": {
+                    "type": "string",
+                    "enum": [
+                        "HTML",
+                        "MARKDOWN",
+                        "PLAIN"
+                    ],
+                    "default": "MARKDOWN",
+                    "description": "Text type (Plain, Markdown, Html). Defaults to Markdown."
+                }
+            },
+            "required": [
+                "channelName",
+                "text"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "sendTwitterNotification",
+        "description": "Posts a tweet from the configured user account.\n    Accepts the plain text for the tweet.\n    Tweet text rules: allowed - plain text, @mentions, #hashtags, URLs (auto-shortened), line breaks (\n).  \n    Not allowed - markdown, HTML tags, rich text, or custom styles.\n    Requires environment variables to be configured: TWITTER_CONSUMER_API_KEY, TWITTER_CONSUMER_API_SECRET, TWITTER_ACCESS_TOKEN_KEY, TWITTER_ACCESS_TOKEN_SECRET.\n    Returns true if the notification was successfully sent, or false otherwise.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "text": {
+                    "type": "string",
+                    "description": "Text to send."
+                }
+            },
+            "required": [
+                "text"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "sendEmailNotification",
+        "description": "Sends an email notification to the provided email address(es).\n    Accepts the email subject and a list of email 'to' addresses.\n    Email addresses should be in RFC 5322 format. i.e. Alice Wonderland <alice@wonderland.net>, or alice@wonderland.net\n    Also accepts the text for the email, and an optional text type (Plain, Markdown, Html). Defaults to Markdown text type.\n    Requires environment variable to be configured: FROM_EMAIL_ADDRESS.\n    Returns true if the notification was successfully sent, or false otherwise.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "subject": {
+                    "type": "string",
+                    "description": "Email subject."
+                },
+                "to": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Email address(es) to send the notification to."
+                },
+                "text": {
+                    "type": "string",
+                    "description": "Text to send."
+                },
+                "textType": {
+                    "type": "string",
+                    "enum": [
+                        "HTML",
+                        "MARKDOWN",
+                        "PLAIN"
+                    ],
+                    "default": "MARKDOWN",
+                    "description": "Text type (Plain, Markdown, Html). Defaults to Markdown."
+                }
+            },
+            "required": [
+                "subject",
+                "to",
+                "text"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

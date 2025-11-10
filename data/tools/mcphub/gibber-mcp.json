@@ -1,0 +1,82 @@
+[
+    {
+        "name": "generateKeyPair",
+        "description": "Generate a new SJCL P-256 key pair (don't print the private key)",
+        "inputSchema": {
+            "properties": {},
+            "title": "generateKeyPairArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "deriveSharedSecret",
+        "description": "Derive a shared secret. Call this only once, when you have TWO input strings: user's public key and your private key",
+        "inputSchema": {
+            "properties": {
+                "userPublicKey": {
+                    "title": "Userpublickey",
+                    "type": "string"
+                },
+                "myPrivateKey": {
+                    "title": "Myprivatekey",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "userPublicKey",
+                "myPrivateKey"
+            ],
+            "title": "deriveSharedSecretArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "encrypt",
+        "description": "Encrypt a message using SJCL AES-CCM and return only the IV and ciphertext",
+        "inputSchema": {
+            "properties": {
+                "plaintext": {
+                    "title": "Plaintext",
+                    "type": "string"
+                },
+                "sharedSecret": {
+                    "title": "Sharedsecret",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "plaintext",
+                "sharedSecret"
+            ],
+            "title": "encryptArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "decrypt",
+        "description": "Decrypt a message using SJCL AES-CCM with just IV and ciphertext",
+        "inputSchema": {
+            "properties": {
+                "sharedSecret": {
+                    "title": "Sharedsecret",
+                    "type": "string"
+                },
+                "ct": {
+                    "title": "Ct",
+                    "type": "string"
+                },
+                "iv": {
+                    "title": "Iv",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "sharedSecret",
+                "ct",
+                "iv"
+            ],
+            "title": "decryptArguments",
+            "type": "object"
+        }
+    }
+]

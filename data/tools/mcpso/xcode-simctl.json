@@ -1,0 +1,539 @@
+[
+    {
+        "name": "simctl_simctl_list_devices",
+        "description": "\nList available iOS simulators and their states.\n\nArgs:\n    format: Output format (json or text). Defaults to json.\n    filter: Optional filter term (e.g., 'available', 'iPhone', 'iOS 17')\n    \nReturns:\n    List of available simulators\n",
+        "parameters": {
+            "properties": {
+                "format": {
+                    "default": "json",
+                    "title": "Format",
+                    "type": "string"
+                },
+                "filter": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Filter"
+                }
+            },
+            "title": "simctl_list_devicesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "simctl_simctl_boot_device",
+        "description": "\nBoot a simulator device.\n\nArgs:\n    device: Device UDID, name, or 'booted' for current device\n    arch: Architecture to use when booting (arm64 or x86_64)\n    \nReturns:\n    Success message\n",
+        "parameters": {
+            "properties": {
+                "device": {
+                    "title": "Device",
+                    "type": "string"
+                },
+                "arch": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Arch"
+                }
+            },
+            "required": [
+                "device"
+            ],
+            "title": "simctl_boot_deviceArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "simctl_simctl_shutdown_device",
+        "description": "\nShutdown a simulator device.\n\nArgs:\n    device: Device UDID, name, or 'booted' for current device\n    \nReturns:\n    Success message\n",
+        "parameters": {
+            "properties": {
+                "device": {
+                    "title": "Device",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "device"
+            ],
+            "title": "simctl_shutdown_deviceArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "simctl_simctl_create_device",
+        "description": "\nCreate a new simulator device.\n\nArgs:\n    name: Name for the new device\n    device_type: Device type identifier (e.g., 'iPhone 15 Pro')\n    runtime: Runtime identifier (e.g., 'iOS 17.0')\n    \nReturns:\n    Created device information\n",
+        "parameters": {
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string"
+                },
+                "device_type": {
+                    "title": "Device Type",
+                    "type": "string"
+                },
+                "runtime": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Runtime"
+                }
+            },
+            "required": [
+                "name",
+                "device_type"
+            ],
+            "title": "simctl_create_deviceArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "simctl_simctl_delete_device",
+        "description": "\nDelete simulator devices.\n\nArgs:\n    devices: List of device UDIDs, names, or 'unavailable' to delete all unavailable devices\n    \nReturns:\n    Success message\n",
+        "parameters": {
+            "properties": {
+                "devices": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Devices",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "devices"
+            ],
+            "title": "simctl_delete_deviceArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "simctl_simctl_install_app",
+        "description": "\nInstall an app on a simulator device.\n\nArgs:\n    device: Device UDID, name, or 'booted' for current device\n    app_path: Path to .app bundle or .ipa file\n    \nReturns:\n    Success message\n",
+        "parameters": {
+            "properties": {
+                "device": {
+                    "title": "Device",
+                    "type": "string"
+                },
+                "app_path": {
+                    "title": "App Path",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "device",
+                "app_path"
+            ],
+            "title": "simctl_install_appArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "simctl_simctl_launch_app",
+        "description": "\nLaunch an app on a simulator device.\n\nArgs:\n    device: Device UDID, name, or 'booted' for current device\n    bundle_id: App bundle identifier\n    wait_for_debugger: Wait for debugger to attach before launching\n    console_mode: Console output mode (none, console, console-pty)\n    args: Additional launch arguments\n    \nReturns:\n    Launch result\n",
+        "parameters": {
+            "properties": {
+                "device": {
+                    "title": "Device",
+                    "type": "string"
+                },
+                "bundle_id": {
+                    "title": "Bundle Id",
+                    "type": "string"
+                },
+                "wait_for_debugger": {
+                    "default": false,
+                    "title": "Wait For Debugger",
+                    "type": "boolean"
+                },
+                "console_mode": {
+                    "default": "none",
+                    "title": "Console Mode",
+                    "type": "string"
+                },
+                "args": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Args"
+                }
+            },
+            "required": [
+                "device",
+                "bundle_id"
+            ],
+            "title": "simctl_launch_appArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "simctl_simctl_terminate_app",
+        "description": "\nTerminate an app on a simulator device.\n\nArgs:\n    device: Device UDID, name, or 'booted' for current device\n    bundle_id: App bundle identifier\n    \nReturns:\n    Success message\n",
+        "parameters": {
+            "properties": {
+                "device": {
+                    "title": "Device",
+                    "type": "string"
+                },
+                "bundle_id": {
+                    "title": "Bundle Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "device",
+                "bundle_id"
+            ],
+            "title": "simctl_terminate_appArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "simctl_simctl_screenshot",
+        "description": "\nTake a screenshot of a simulator device.\n\nArgs:\n    device: Device UDID, name, or 'booted' for current device\n    output_path: Path where to save the screenshot\n    format: Image format (png, jpeg)\n    display: Display to capture (internal, external)\n    \nReturns:\n    Success message\n",
+        "parameters": {
+            "properties": {
+                "device": {
+                    "title": "Device",
+                    "type": "string"
+                },
+                "output_path": {
+                    "title": "Output Path",
+                    "type": "string"
+                },
+                "format": {
+                    "default": "png",
+                    "title": "Format",
+                    "type": "string"
+                },
+                "display": {
+                    "default": "internal",
+                    "title": "Display",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "device",
+                "output_path"
+            ],
+            "title": "simctl_screenshotArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "simctl_simctl_record_video",
+        "description": "\nStart recording video of a simulator device.\n\nArgs:\n    device: Device UDID, name, or 'booted' for current device\n    output_path: Path where to save the video\n    codec: Video codec (hevc, h264)\n    display: Display to record (internal, external)\n    \nReturns:\n    Recording start message\n",
+        "parameters": {
+            "properties": {
+                "device": {
+                    "title": "Device",
+                    "type": "string"
+                },
+                "output_path": {
+                    "title": "Output Path",
+                    "type": "string"
+                },
+                "codec": {
+                    "default": "hevc",
+                    "title": "Codec",
+                    "type": "string"
+                },
+                "display": {
+                    "default": "internal",
+                    "title": "Display",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "device",
+                "output_path"
+            ],
+            "title": "simctl_record_videoArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "simctl_simctl_push_notification",
+        "description": "\nSend a push notification to a simulator device.\n\nArgs:\n    device: Device UDID, name, or 'booted' for current device\n    payload: Push notification payload as JSON object\n    bundle_id: Target app bundle identifier (optional if specified in payload)\n    \nReturns:\n    Success message\n",
+        "parameters": {
+            "properties": {
+                "device": {
+                    "title": "Device",
+                    "type": "string"
+                },
+                "payload": {
+                    "additionalProperties": true,
+                    "title": "Payload",
+                    "type": "object"
+                },
+                "bundle_id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Bundle Id"
+                }
+            },
+            "required": [
+                "device",
+                "payload"
+            ],
+            "title": "simctl_push_notificationArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "simctl_simctl_privacy_control",
+        "description": "\nControl app privacy permissions on a simulator device.\n\nArgs:\n    device: Device UDID, name, or 'booted' for current device\n    action: Privacy action (grant, revoke, reset)\n    service: Privacy service (photos, camera, microphone, location, etc.)\n    bundle_id: App bundle identifier (optional)\n    \nReturns:\n    Success message\n",
+        "parameters": {
+            "properties": {
+                "device": {
+                    "title": "Device",
+                    "type": "string"
+                },
+                "action": {
+                    "title": "Action",
+                    "type": "string"
+                },
+                "service": {
+                    "title": "Service",
+                    "type": "string"
+                },
+                "bundle_id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Bundle Id"
+                }
+            },
+            "required": [
+                "device",
+                "action",
+                "service"
+            ],
+            "title": "simctl_privacy_controlArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "simctl_simctl_set_location",
+        "description": "\nSet or clear device location on a simulator.\n\nArgs:\n    device: Device UDID, name, or 'booted' for current device\n    action: Location action (set, clear, run)\n    latitude: Latitude coordinate (required for 'set' action)\n    longitude: Longitude coordinate (required for 'set' action)\n    scenario: Location scenario (required for 'run' action)\n    \nReturns:\n    Success message\n",
+        "parameters": {
+            "properties": {
+                "device": {
+                    "title": "Device",
+                    "type": "string"
+                },
+                "action": {
+                    "title": "Action",
+                    "type": "string"
+                },
+                "latitude": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Latitude"
+                },
+                "longitude": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Longitude"
+                },
+                "scenario": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Scenario"
+                }
+            },
+            "required": [
+                "device",
+                "action"
+            ],
+            "title": "simctl_set_locationArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "simctl_simctl_status_bar_override",
+        "description": "\nOverride status bar appearance on a simulator device.\n\nArgs:\n    device: Device UDID, name, or 'booted' for current device\n    action: Status bar action (override, clear)\n    time: Time to display (e.g., \"9:41\")\n    data_network: Data network type (wifi, 3g, 4g, lte, lte-a, lte+, 5g, 5g+, 5g-uw)\n    wifi_bars: WiFi signal strength (0-3)\n    cellular_bars: Cellular signal strength (0-4)\n    battery_level: Battery level percentage (0-100)\n    battery_state: Battery state (charging, charged, discharging)\n    \nReturns:\n    Success message\n",
+        "parameters": {
+            "properties": {
+                "device": {
+                    "title": "Device",
+                    "type": "string"
+                },
+                "action": {
+                    "title": "Action",
+                    "type": "string"
+                },
+                "time": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Time"
+                },
+                "data_network": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Data Network"
+                },
+                "wifi_bars": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Wifi Bars"
+                },
+                "cellular_bars": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Cellular Bars"
+                },
+                "battery_level": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Battery Level"
+                },
+                "battery_state": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Battery State"
+                }
+            },
+            "required": [
+                "device",
+                "action"
+            ],
+            "title": "simctl_status_bar_overrideArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "simctl_simctl_ui_appearance",
+        "description": "\nGet or set UI appearance (light/dark mode) on a simulator device.\n\nArgs:\n    device: Device UDID, name, or 'booted' for current device\n    appearance: UI appearance (light, dark). If not provided, returns current appearance.\n    \nReturns:\n    Current or updated appearance\n",
+        "parameters": {
+            "properties": {
+                "device": {
+                    "title": "Device",
+                    "type": "string"
+                },
+                "appearance": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Appearance"
+                }
+            },
+            "required": [
+                "device"
+            ],
+            "title": "simctl_ui_appearanceArguments",
+            "type": "object"
+        }
+    }
+]

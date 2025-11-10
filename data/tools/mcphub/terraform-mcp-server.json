@@ -1,0 +1,130 @@
+[
+    {
+        "name": "getProviderDocs",
+        "description": "Fetches up-to-date documentation for a specific service from a Terraform provider. You must call 'resolveProviderDocID' first to obtain the exact tfprovider-compatible providerDocID required to use this tool.",
+        "parameters": {
+            "properties": {
+                "providerDocID": {
+                    "description": "Exact tfprovider-compatible providerDocID, (e.g., '8894603', '8906901') retrieved from 'resolveProviderDocID'",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "providerDocID"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "moduleDetails",
+        "description": "Fetches up-to-date documentation on how to use a Terraform module. You must call 'searchModules' first to obtain the exact valid and compatible moduleID required to use this tool.",
+        "parameters": {
+            "properties": {
+                "moduleID": {
+                    "description": "Exact valid and compatible moduleID retrieved from searchModules (e.g., 'squareops/terraform-kubernetes-mongodb/mongodb/2.1.1', 'GoogleCloudPlatform/vertex-ai/google/0.2.0')",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "moduleID"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "policyDetails",
+        "description": "Fetches up-to-date documentation for a specific policy from the Terraform registry. You must call 'searchPolicies' first to obtain the exact terraformPolicyID required to use this tool.",
+        "parameters": {
+            "properties": {
+                "terraformPolicyID": {
+                    "description": "Matching terraformPolicyID retrieved from the 'searchPolicies' tool (e.g., 'policies/hashicorp/CIS-Policy-Set-for-AWS-Terraform/1.0.1')",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "terraformPolicyID"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "resolveProviderDocID",
+        "description": "This tool retrieves a list of potential documents based on the serviceSlug and providerDataType provided. You MUST call this function before 'getProviderDocs' to obtain a valid tfprovider-compatible providerDocID. \n\t\t\tUse the most relevant single word as the search query for serviceSlug, if unsure about the serviceSlug, use the providerName for its value.\n\t\t\tWhen selecting the best match, consider: - Title similarity to the query - Category relevance Return the selected providerDocID and explain your choice.  \n\t\t\tIf there are multiple good matches, mention this but proceed with the most relevant one.",
+        "parameters": {
+            "properties": {
+                "providerDataType": {
+                    "default": "resources",
+                    "description": "The type of the document to retrieve, for general information use 'guides', for deploying resources use 'resources', for reading pre-deployed resources use 'data-sources', for functions use 'functions', and for overview of the provider use 'overview'",
+                    "enum": [
+                        "resources",
+                        "data-sources",
+                        "functions",
+                        "guides",
+                        "overview"
+                    ],
+                    "type": "string"
+                },
+                "providerName": {
+                    "description": "The name of the Terraform provider to perform the read or deployment operation",
+                    "type": "string"
+                },
+                "providerNamespace": {
+                    "description": "The publisher of the Terraform provider, typically the name of the company, or their GitHub organization name that created the provider",
+                    "type": "string"
+                },
+                "providerVersion": {
+                    "description": "The version of the Terraform provider to retrieve in the format 'x.y.z', or 'latest' to get the latest version",
+                    "type": "string"
+                },
+                "serviceSlug": {
+                    "description": "The slug of the service you want to deploy or read using the Terraform provider, prefer using a single word, use underscores for multiple words and if unsure about the serviceSlug, use the providerName for its value",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "providerName",
+                "providerNamespace",
+                "serviceSlug"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "searchModules",
+        "description": "Resolves a Terraform module name to obtain a compatible moduleID for the moduleDetails tool and returns a list of matching Terraform modules. You MUST call this function before 'moduleDetails' to obtain a valid and compatible moduleID. When selecting the best match, consider: - Name similarity to the query - Description relevance - Verification status (verified) - Download counts (popularity) Return the selected moduleID and explain your choice. If there are multiple good matches, mention this but proceed with the most relevant one. If no modules were found, reattempt the search with a new moduleName query.",
+        "parameters": {
+            "properties": {
+                "currentOffset": {
+                    "default": 0,
+                    "description": "Current offset for pagination",
+                    "minimum": 0,
+                    "type": "number"
+                },
+                "moduleQuery": {
+                    "description": "The query to search for Terraform modules.",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "moduleQuery"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "searchPolicies",
+        "description": "Searches for Terraform policies based on a query string. This tool returns a list of matching policies, which can be used to retrieve detailed policy information using the 'policyDetails' tool. \n\t\t\tYou MUST call this function before 'policyDetails' to obtain a valid terraformPolicyID.\n\t\t\tWhen selecting the best match, consider: - Name similarity to the query - Title relevance - Verification status (verified) - Download counts (popularity) Return the selected policyID and explain your choice. \n\t\t\tIf there are multiple good matches, mention this but proceed with the most relevant one. If no policies were found, reattempt the search with a new policyQuery.",
+        "parameters": {
+            "properties": {
+                "policyQuery": {
+                    "description": "The query to search for Terraform modules.",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "policyQuery"
+            ],
+            "type": "object"
+        }
+    }
+]

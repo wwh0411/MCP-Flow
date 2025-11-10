@@ -1,0 +1,775 @@
+[
+    {
+        "name": "claude-task-master_get_tasks",
+        "description": "Get all tasks from Task Master, optionally filtering by status and including subtasks.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "description": "Filter tasks by status (e.g., 'pending', 'done')"
+                },
+                "withSubtasks": {
+                    "type": "boolean",
+                    "description": "Include subtasks nested within their parent tasks in the response"
+                },
+                "file": {
+                    "type": "string",
+                    "description": "Path to the tasks file (relative to project root or absolute)"
+                },
+                "projectRoot": {
+                    "type": "string",
+                    "description": "The directory of the project. Must be an absolute path."
+                }
+            },
+            "required": [
+                "projectRoot"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "claude-task-master_set_task_status",
+        "description": "Set the status of one or more tasks or subtasks.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Task ID or subtask ID (e.g., '15', '15.2'). Can be comma-separated for multiple updates."
+                },
+                "status": {
+                    "type": "string",
+                    "description": "New status to set (e.g., 'pending', 'done', 'in-progress', 'review', 'deferred', 'cancelled'."
+                },
+                "file": {
+                    "type": "string",
+                    "description": "Absolute path to the tasks file"
+                },
+                "projectRoot": {
+                    "type": "string",
+                    "description": "The directory of the project. Must be an absolute path."
+                }
+            },
+            "required": [
+                "id",
+                "status",
+                "projectRoot"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "claude-task-master_parse_prd",
+        "description": "Parse a Product Requirements Document (PRD) text file to automatically generate initial tasks. Reinitializing the project is not necessary to run this tool. It is recommended to run parse-prd after initializing the project and creating/importing a prd.txt file in the project root's scripts/ directory.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "input": {
+                    "type": "string",
+                    "default": "scripts/prd.txt",
+                    "description": "Absolute path to the PRD document file (.txt, .md, etc.)"
+                },
+                "numTasks": {
+                    "type": "string",
+                    "description": "Approximate number of top-level tasks to generate (default: 10). As the agent, if you have enough information, ensure to enter a number of tasks that would logically scale with project complexity. Avoid entering numbers above 50 due to context window limitations."
+                },
+                "output": {
+                    "type": "string",
+                    "description": "Output path for tasks.json file (default: tasks/tasks.json)"
+                },
+                "force": {
+                    "type": "boolean",
+                    "description": "Allow overwriting an existing tasks.json file."
+                },
+                "append": {
+                    "type": "boolean",
+                    "description": "Append new tasks to existing tasks.json instead of overwriting"
+                },
+                "projectRoot": {
+                    "type": "string",
+                    "description": "The directory of the project. Must be absolute path."
+                }
+            },
+            "required": [
+                "projectRoot"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "claude-task-master_update",
+        "description": "Update multiple upcoming tasks (with ID >= 'from' ID) based on new context or changes provided in the prompt. Use 'update_task' instead for a single specific task or 'update_subtask' for subtasks.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "from": {
+                    "type": "string",
+                    "description": "Task ID from which to start updating (inclusive). IMPORTANT: This tool uses 'from', not 'id'"
+                },
+                "prompt": {
+                    "type": "string",
+                    "description": "Explanation of changes or new context to apply"
+                },
+                "research": {
+                    "type": "boolean",
+                    "description": "Use Perplexity AI for research-backed updates"
+                },
+                "file": {
+                    "type": "string",
+                    "description": "Absolute path to the tasks file"
+                },
+                "projectRoot": {
+                    "type": "string",
+                    "description": "The directory of the project. Must be an absolute path."
+                }
+            },
+            "required": [
+                "from",
+                "prompt",
+                "projectRoot"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "claude-task-master_update_task",
+        "description": "Updates a single task by ID with new information or context provided in the prompt.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "ID of the task (e.g., '15') to update. Subtasks are supported using the update-subtask tool."
+                },
+                "prompt": {
+                    "type": "string",
+                    "description": "New information or context to incorporate into the task"
+                },
+                "research": {
+                    "type": "boolean",
+                    "description": "Use Perplexity AI for research-backed updates"
+                },
+                "file": {
+                    "type": "string",
+                    "description": "Absolute path to the tasks file"
+                },
+                "projectRoot": {
+                    "type": "string",
+                    "description": "The directory of the project. Must be an absolute path."
+                }
+            },
+            "required": [
+                "id",
+                "prompt",
+                "projectRoot"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "claude-task-master_update_subtask",
+        "description": "Appends timestamped information to a specific subtask without replacing existing content",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "ID of the subtask to update in format \"parentId.subtaskId\" (e.g., \"5.2\"). Parent ID is the ID of the task that contains the subtask."
+                },
+                "prompt": {
+                    "type": "string",
+                    "description": "Information to add to the subtask"
+                },
+                "research": {
+                    "type": "boolean",
+                    "description": "Use Perplexity AI for research-backed updates"
+                },
+                "file": {
+                    "type": "string",
+                    "description": "Absolute path to the tasks file"
+                },
+                "projectRoot": {
+                    "type": "string",
+                    "description": "The directory of the project. Must be an absolute path."
+                }
+            },
+            "required": [
+                "id",
+                "prompt",
+                "projectRoot"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "claude-task-master_generate",
+        "description": "Generates individual task files in tasks/ directory based on tasks.json",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "file": {
+                    "type": "string",
+                    "description": "Absolute path to the tasks file"
+                },
+                "output": {
+                    "type": "string",
+                    "description": "Output directory (default: same directory as tasks file)"
+                },
+                "projectRoot": {
+                    "type": "string",
+                    "description": "The directory of the project. Must be an absolute path."
+                }
+            },
+            "required": [
+                "projectRoot"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "claude-task-master_get_task",
+        "description": "Get detailed information about a specific task",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Task ID to get"
+                },
+                "file": {
+                    "type": "string",
+                    "description": "Absolute path to the tasks file"
+                },
+                "projectRoot": {
+                    "type": "string",
+                    "description": "The directory of the project. Must be an absolute path."
+                }
+            },
+            "required": [
+                "id",
+                "projectRoot"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "claude-task-master_next_task",
+        "description": "Find the next task to work on based on dependencies and status",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "file": {
+                    "type": "string",
+                    "description": "Absolute path to the tasks file"
+                },
+                "projectRoot": {
+                    "type": "string",
+                    "description": "The directory of the project. Must be an absolute path."
+                }
+            },
+            "required": [
+                "projectRoot"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "claude-task-master_expand_task",
+        "description": "Expand a task into subtasks for detailed implementation",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "ID of task to expand"
+                },
+                "num": {
+                    "type": "string",
+                    "description": "Number of subtasks to generate"
+                },
+                "research": {
+                    "type": "boolean",
+                    "description": "Use Perplexity AI for research-backed generation"
+                },
+                "prompt": {
+                    "type": "string",
+                    "description": "Additional context for subtask generation"
+                },
+                "file": {
+                    "type": "string",
+                    "description": "Absolute path to the tasks file"
+                },
+                "projectRoot": {
+                    "type": "string",
+                    "description": "The directory of the project. Must be an absolute path."
+                },
+                "force": {
+                    "type": "boolean",
+                    "description": "Force the expansion"
+                }
+            },
+            "required": [
+                "id",
+                "projectRoot"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "claude-task-master_add_task",
+        "description": "Add a new task using AI",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "prompt": {
+                    "type": "string",
+                    "description": "Description of the task to add (required if not using manual fields)"
+                },
+                "title": {
+                    "type": "string",
+                    "description": "Task title (for manual task creation)"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Task description (for manual task creation)"
+                },
+                "details": {
+                    "type": "string",
+                    "description": "Implementation details (for manual task creation)"
+                },
+                "testStrategy": {
+                    "type": "string",
+                    "description": "Test strategy (for manual task creation)"
+                },
+                "dependencies": {
+                    "type": "string",
+                    "description": "Comma-separated list of task IDs this task depends on"
+                },
+                "priority": {
+                    "type": "string",
+                    "description": "Task priority (high, medium, low)"
+                },
+                "file": {
+                    "type": "string",
+                    "description": "Path to the tasks file (default: tasks/tasks.json)"
+                },
+                "projectRoot": {
+                    "type": "string",
+                    "description": "The directory of the project. Must be an absolute path."
+                },
+                "research": {
+                    "type": "boolean",
+                    "description": "Whether to use research capabilities for task creation"
+                }
+            },
+            "required": [
+                "projectRoot"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "claude-task-master_add_subtask",
+        "description": "Add a subtask to an existing task",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Parent task ID (required)"
+                },
+                "taskId": {
+                    "type": "string",
+                    "description": "Existing task ID to convert to subtask"
+                },
+                "title": {
+                    "type": "string",
+                    "description": "Title for the new subtask (when creating a new subtask)"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description for the new subtask"
+                },
+                "details": {
+                    "type": "string",
+                    "description": "Implementation details for the new subtask"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "Status for the new subtask (default: 'pending')"
+                },
+                "dependencies": {
+                    "type": "string",
+                    "description": "Comma-separated list of dependency IDs for the new subtask"
+                },
+                "file": {
+                    "type": "string",
+                    "description": "Absolute path to the tasks file (default: tasks/tasks.json)"
+                },
+                "skipGenerate": {
+                    "type": "boolean",
+                    "description": "Skip regenerating task files"
+                },
+                "projectRoot": {
+                    "type": "string",
+                    "description": "The directory of the project. Must be an absolute path."
+                }
+            },
+            "required": [
+                "id",
+                "projectRoot"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "claude-task-master_remove_subtask",
+        "description": "Remove a subtask from its parent task",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Subtask ID to remove in format 'parentId.subtaskId' (required)"
+                },
+                "convert": {
+                    "type": "boolean",
+                    "description": "Convert the subtask to a standalone task instead of deleting it"
+                },
+                "file": {
+                    "type": "string",
+                    "description": "Absolute path to the tasks file (default: tasks/tasks.json)"
+                },
+                "skipGenerate": {
+                    "type": "boolean",
+                    "description": "Skip regenerating task files"
+                },
+                "projectRoot": {
+                    "type": "string",
+                    "description": "The directory of the project. Must be an absolute path."
+                }
+            },
+            "required": [
+                "id",
+                "projectRoot"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "claude-task-master_analyze_project_complexity",
+        "description": "Analyze task complexity and generate expansion recommendations",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "output": {
+                    "type": "string",
+                    "description": "Output file path for the report (default: scripts/task-complexity-report.json)"
+                },
+                "model": {
+                    "type": "string",
+                    "description": "LLM model to use for analysis (defaults to configured model)"
+                },
+                "threshold": {
+                    "type": "number",
+                    "minimum": 1,
+                    "maximum": 10,
+                    "description": "Minimum complexity score to recommend expansion (1-10) (default: 5)"
+                },
+                "file": {
+                    "type": "string",
+                    "description": "Absolute path to the tasks file (default: tasks/tasks.json)"
+                },
+                "research": {
+                    "type": "boolean",
+                    "description": "Use Perplexity AI for research-backed complexity analysis"
+                },
+                "projectRoot": {
+                    "type": "string",
+                    "description": "The directory of the project. Must be an absolute path."
+                }
+            },
+            "required": [
+                "projectRoot"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "claude-task-master_clear_subtasks",
+        "description": "Clear subtasks from specified tasks",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Task IDs (comma-separated) to clear subtasks from"
+                },
+                "all": {
+                    "type": "boolean",
+                    "description": "Clear subtasks from all tasks"
+                },
+                "file": {
+                    "type": "string",
+                    "description": "Absolute path to the tasks file (default: tasks/tasks.json)"
+                },
+                "projectRoot": {
+                    "type": "string",
+                    "description": "The directory of the project. Must be an absolute path."
+                }
+            },
+            "required": [
+                "projectRoot"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "claude-task-master_expand_all",
+        "description": "Expand all pending tasks into subtasks",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "num": {
+                    "type": "string",
+                    "description": "Number of subtasks to generate for each task"
+                },
+                "research": {
+                    "type": "boolean",
+                    "description": "Enable Perplexity AI for research-backed subtask generation"
+                },
+                "prompt": {
+                    "type": "string",
+                    "description": "Additional context to guide subtask generation"
+                },
+                "force": {
+                    "type": "boolean",
+                    "description": "Force regeneration of subtasks for tasks that already have them"
+                },
+                "file": {
+                    "type": "string",
+                    "description": "Absolute path to the tasks file (default: tasks/tasks.json)"
+                },
+                "projectRoot": {
+                    "type": "string",
+                    "description": "The directory of the project. Must be an absolute path."
+                }
+            },
+            "required": [
+                "projectRoot"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "claude-task-master_remove_dependency",
+        "description": "Remove a dependency from a task",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Task ID to remove dependency from"
+                },
+                "dependsOn": {
+                    "type": "string",
+                    "description": "Task ID to remove as a dependency"
+                },
+                "file": {
+                    "type": "string",
+                    "description": "Absolute path to the tasks file (default: tasks/tasks.json)"
+                },
+                "projectRoot": {
+                    "type": "string",
+                    "description": "The directory of the project. Must be an absolute path."
+                }
+            },
+            "required": [
+                "id",
+                "dependsOn",
+                "projectRoot"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "claude-task-master_validate_dependencies",
+        "description": "Check tasks for dependency issues (like circular references or links to non-existent tasks) without making changes.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "file": {
+                    "type": "string",
+                    "description": "Absolute path to the tasks file"
+                },
+                "projectRoot": {
+                    "type": "string",
+                    "description": "The directory of the project. Must be an absolute path."
+                }
+            },
+            "required": [
+                "projectRoot"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "claude-task-master_fix_dependencies",
+        "description": "Fix invalid dependencies in tasks automatically",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "file": {
+                    "type": "string",
+                    "description": "Absolute path to the tasks file"
+                },
+                "projectRoot": {
+                    "type": "string",
+                    "description": "The directory of the project. Must be an absolute path."
+                }
+            },
+            "required": [
+                "projectRoot"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "claude-task-master_complexity_report",
+        "description": "Display the complexity analysis report in a readable format",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "file": {
+                    "type": "string",
+                    "description": "Path to the report file (default: scripts/task-complexity-report.json)"
+                },
+                "projectRoot": {
+                    "type": "string",
+                    "description": "The directory of the project. Must be an absolute path."
+                }
+            },
+            "required": [
+                "projectRoot"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "claude-task-master_add_dependency",
+        "description": "Add a dependency relationship between two tasks",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "ID of task that will depend on another task"
+                },
+                "dependsOn": {
+                    "type": "string",
+                    "description": "ID of task that will become a dependency"
+                },
+                "file": {
+                    "type": "string",
+                    "description": "Absolute path to the tasks file (default: tasks/tasks.json)"
+                },
+                "projectRoot": {
+                    "type": "string",
+                    "description": "The directory of the project. Must be an absolute path."
+                }
+            },
+            "required": [
+                "id",
+                "dependsOn",
+                "projectRoot"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "claude-task-master_remove_task",
+        "description": "Remove a task or subtask permanently from the tasks list",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "ID(s) of the task(s) or subtask(s) to remove (e.g., '5' or '5.2' or '5,6,7')"
+                },
+                "file": {
+                    "type": "string",
+                    "description": "Absolute path to the tasks file"
+                },
+                "projectRoot": {
+                    "type": "string",
+                    "description": "The directory of the project. Must be an absolute path."
+                },
+                "confirm": {
+                    "type": "boolean",
+                    "description": "Whether to skip confirmation prompt (default: false)"
+                }
+            },
+            "required": [
+                "id",
+                "projectRoot"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "claude-task-master_initialize_project",
+        "description": "Initializes a new Task Master project structure by calling the core initialization logic. Creates necessary folders and configuration files for Task Master in the current directory.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "skipInstall": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Skip installing dependencies automatically. Never do this unless you are sure the project is already installed."
+                },
+                "addAliases": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Add shell aliases (tm, taskmaster) to shell config file."
+                },
+                "yes": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Skip prompts and use default values. Always set to true for MCP tools."
+                },
+                "projectRoot": {
+                    "type": "string",
+                    "description": "The root directory for the project. ALWAYS SET THIS TO THE PROJECT ROOT DIRECTORY. IF NOT SET, THE TOOL WILL NOT WORK."
+                }
+            },
+            "required": [
+                "projectRoot"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

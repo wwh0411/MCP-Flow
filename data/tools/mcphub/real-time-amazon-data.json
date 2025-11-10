@@ -1,0 +1,1640 @@
+[
+    {
+        "name": "product_search",
+        "description": "Search for products & offers on Amazon with pagination support and multiple filters and options such as sort option, price range, product condition filter, and more.",
+        "parameters": {
+            "properties": {
+                "query": {
+                    "description": "Search query (supports both free-form text queries or a product asin).",
+                    "title": "Query",
+                    "type": "string"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Results page to return. Default: 1 Default: 1",
+                    "title": "Page"
+                },
+                "country": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Sets the Amazon domain, marketplace country, language and currency. Default: US Allowed values: US, AU, BR, CA, CN, FR, DE, IN, IT, MX, NL, SG, ES, TR, AE, GB, JP, SA, PL, SE, BE, EG",
+                    "title": "Country"
+                },
+                "sort_by": {
+                    "default": null,
+                    "description": "Return the results in a specific sort order. Default: RELEVANCE Allowed values: RELEVANCE, LOWEST_PRICE, HIGHEST_PRICE, REVIEWS, NEWEST, BEST_SELLERS",
+                    "enum": [
+                        "RELEVANCE",
+                        "LOWEST_PRICE",
+                        "HIGHEST_PRICE",
+                        "REVIEWS",
+                        "NEWEST",
+                        "BEST_SELLERS",
+                        null
+                    ],
+                    "title": "Sort By"
+                },
+                "category_id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Find products in a specific category / department (e.g. computers-intl-ship). Use the Product Category List endpoint to get a list of valid categories and their ids for the country specified in the request. For numeric Amazon category IDs, use the category parameter instead. Default: aps (All Departments)",
+                    "title": "Category Id"
+                },
+                "category": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter by specific numeric Amazon category. The category ID can be obtained from the Amazon category results URL, for example: https://amazon.com/s?node=2858778013 - the Amazon Category ID is 2858778013. Multiple category values can be separated by comma (e.g. categoryId1,categoryId2).",
+                    "title": "Category"
+                },
+                "min_price": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only return product offers with price greater than a certain value. Specified in the currency of the selected country. For example, in case country=US, a value of 105.34 means $105.34. Default: 0",
+                    "title": "Min Price"
+                },
+                "max_price": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only return product offers with price lower than a certain value. Specified in the currency of the selected country. For example, in case country=US, a value of 105.34 means $105.34. Default: 0",
+                    "title": "Max Price"
+                },
+                "product_condition": {
+                    "default": null,
+                    "description": "Return products in a specific condition. Default: ALL Allowed values: ALL, NEW, USED, RENEWED, COLLECTIBLE",
+                    "enum": [
+                        "ALL",
+                        "NEW",
+                        "USED",
+                        "RENEWED",
+                        "COLLECTIBLE",
+                        null
+                    ],
+                    "title": "Product Condition"
+                },
+                "brand": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Find products with a specific brand. Multiple brands can be specified as a comma (,) separated list. The brand values can be seen from Amazon's search left filters panel, as seen here. Examples: SAMSUNG Google,Apple",
+                    "title": "Brand"
+                },
+                "seller_id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Find products sold by specific seller (merchant). Multiple sellers can be specified as a comma (,) separated list. Examples: A02211013Q5HP3OMSZC7W AM7YCCDZROLB2,A1D09S7Q0OD6TH",
+                    "title": "Seller Id"
+                },
+                "is_prime": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only return prime products. Default: false",
+                    "title": "Is Prime"
+                },
+                "deals_and_discounts": {
+                    "default": null,
+                    "description": "Return deals and discounts in a specific condition. Default: NONE Allowed values: NONE, ALL_DISCOUNTS, TODAYS_DEALS",
+                    "enum": [
+                        "NONE",
+                        "ALL_DISCOUNTS",
+                        "TODAYS_DEALS",
+                        null
+                    ],
+                    "title": "Deals And Discounts"
+                },
+                "four_stars_and_up": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Return product listings with ratings of 4 stars & up.",
+                    "title": "Four Stars And Up"
+                },
+                "language": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The language of the results. In case not specified, results will be returned in the default domain language. Supported languages per country: US: en_US, es_US AU: en_AU BR: pt_BR CA: en_CA, fr_CA FR: fr_FR, en_GB DE: de_DE, en_GB, cs_CZ, nl_NL, pl_PL, tr_TR, da_DK IN: en_IN, hi_IN, ta_IN, te_IN, kn_IN, ml_IN, bn_IN, mr_IN IT: it_IT, en_GB MX: es_MX NL: nl_NL, en_GB SG: en_SG ES: es_ES, pt_PT, en_GB TR: tr_TR AE: en_AE, ar_AE GB: en_GB JP: ja_JP, en_US, zh_CN SA: ar_AE, en_AE PL: pl_PL SE: sv_SE, en_GB BE: fr_BE, nl_BE, en_GB EG: ar_AE, en_AE",
+                    "title": "Language"
+                },
+                "additional_filters": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Any filters available on the Amazon page but not part of this endpoint's parameters. The filter values can be extracted from the rh parameter in the Amazon search URL after applying the filter of interest on the Amazon search results page. Multiple filters are supported and can be separated by comma (,). For example, when searching for science books with the Paperback book format filter selected, the Amazon URL is: https://www.amazon.com/s?k=science+books&rh=p_n_feature_browse-bin%3A2656022011 and the rh parameter value is p_n_feature_browse-bin%3A2656022011 - To filter for Paperback books, set the value of additional_parameters=p_n_feature_browse-bin%3A2656022011.",
+                    "title": "Additional Filters"
+                },
+                "fields": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A comma separated list of product fields to include in the response (field projection). By default all fields are returned. Example: product_price,product_url,is_best_seller,sales_volume",
+                    "title": "Fields"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "products_by_category",
+        "description": "Get products & offers in a specific Amazon category with pagination support and multiple filters and options such as sort option, price range, product condition filter, and more.",
+        "parameters": {
+            "properties": {
+                "category_id": {
+                    "description": "The Amazon category for which to return results. The category ID can be obtained from the Amazon category results URL, for example: https://amazon.com/s?node=2858778013 - the Amazon Category ID is 2858778013. Multiple category values can be separated by comma (e.g. categoryId1,categoryId2).",
+                    "title": "Category Id",
+                    "type": "string"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Page to return. Default: 1 Default: 1",
+                    "title": "Page"
+                },
+                "country": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Sets the Amazon domain, marketplace country, language and currency. Default: US Allowed values: US, AU, BR, CA, CN, FR, DE, IN, IT, MX, NL, SG, ES, TR, AE, GB, JP, SA, PL, SE, BE, EG",
+                    "title": "Country"
+                },
+                "sort_by": {
+                    "default": null,
+                    "description": "Return the results in a specific sort order. Default: RELEVANCE Allowed values: RELEVANCE, LOWEST_PRICE, HIGHEST_PRICE, REVIEWS, NEWEST, BEST_SELLERS",
+                    "enum": [
+                        "RELEVANCE",
+                        "LOWEST_PRICE",
+                        "HIGHEST_PRICE",
+                        "REVIEWS",
+                        "NEWEST",
+                        "BEST_SELLERS",
+                        null
+                    ],
+                    "title": "Sort By"
+                },
+                "min_price": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only return product offers with price greater than a certain value. Specified in the currency of the selected country. For example, in case country=US, a value of 105.34 means $105.34.",
+                    "title": "Min Price"
+                },
+                "max_price": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only return product offers with price lower than a certain value. Specified in the currency of the selected country. For example, in case country=US, a value of 105.34 means $105.34.",
+                    "title": "Max Price"
+                },
+                "product_condition": {
+                    "default": null,
+                    "description": "Return products in a specific condition. Default: ALL Allowed values: ALL, NEW, USED, RENEWED, COLLECTIBLE",
+                    "enum": [
+                        "ALL",
+                        "NEW",
+                        "USED",
+                        "RENEWED",
+                        "COLLECTIBLE",
+                        null
+                    ],
+                    "title": "Product Condition"
+                },
+                "brand": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only return products of a specific brand. Multiple brands can be specified as a comma (,) separated list. The brand values can be seen from Amazon's search left filters panel, as seen here. Examples: SAMSUNG Google,Apple",
+                    "title": "Brand"
+                },
+                "is_prime": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only return prime products. Default: false",
+                    "title": "Is Prime"
+                },
+                "deals_and_discounts": {
+                    "default": null,
+                    "description": "Return deals and discounts in a specific condition. Default: NONE Allowed values: NONE, ALL_DISCOUNTS, TODAYS_DEALS",
+                    "enum": [
+                        "NONE",
+                        "ALL_DISCOUNTS",
+                        "TODAYS_DEALS",
+                        null
+                    ],
+                    "title": "Deals And Discounts"
+                },
+                "four_stars_and_up": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Return product listings with ratings of 4 stars & up.",
+                    "title": "Four Stars And Up"
+                },
+                "language": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The language of the results. In case not specified, results will be returned in the default domain language. Supported languages per country: US: en_US, es_US AU: en_AU BR: pt_BR CA: en_CA, fr_CA FR: fr_FR, en_GB DE: de_DE, en_GB, cs_CZ, nl_NL, pl_PL, tr_TR, da_DK IN: en_IN, hi_IN, ta_IN, te_IN, kn_IN, ml_IN, bn_IN, mr_IN IT: it_IT, en_GB MX: es_MX NL: nl_NL, en_GB SG: en_SG ES: es_ES, pt_PT, en_GB TR: tr_TR AE: en_AE, ar_AE GB: en_GB JP: ja_JP, en_US, zh_CN SA: ar_AE, en_AE PL: pl_PL SE: sv_SE, en_GB BE: fr_BE, nl_BE, en_GB EG: ar_AE, en_AE",
+                    "title": "Language"
+                },
+                "additional_filters": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Any filters available on the Amazon page but not part of this endpoint's parameters. The filter values can be extracted from the rh parameter in the Amazon search URL after applying the filter of interest on the Amazon search results page. Multiple filters are supported and can be separated by comma (,). For example, when searching for science books with the Paperback book format filter selected, the Amazon URL is: https://www.amazon.com/s?k=science+books&rh=p_n_feature_browse-bin%3A2656022011 and the rh parameter value is p_n_feature_browse-bin%3A2656022011 - To filter for Paperback books, set the value of additional_parameters=p_n_feature_browse-bin%3A2656022011.",
+                    "title": "Additional Filters"
+                },
+                "fields": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A comma separated list of product fields to include in the response (field projection). By default all fields are returned. Example: product_price,product_url,is_best_seller,sales_volume",
+                    "title": "Fields"
+                }
+            },
+            "required": [
+                "category_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "product_details",
+        "description": "Get extensive Amazon product details and information available on the Amazon product page by asin, including title, price data, ratings data, photos, product details (brand, weight, package size, model, etc) product variations (colors, sizes, flavors, etc), and many other data points. Here's an example product page: [https://www.amazon.com/dp/B0CMZFCQ6D](https://www.amazon.com/dp/B0CMZFCQ6D).",
+        "parameters": {
+            "properties": {
+                "asin": {
+                    "description": "Product ASIN for which to get details. Supports batching of up to 10 ASINs in a single request, separated by comma. Examples: B08BHXG144 B08PPDJWC8,B07ZPKBL9V,B08BHXG144 Note that each ASIN in a batch request is counted as a single request against the plan quota.",
+                    "title": "Asin",
+                    "type": "string"
+                },
+                "country": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Sets the Amazon domain, marketplace country, language and currency. Default: US Allowed values: US, AU, BR, CA, CN, FR, DE, IN, IT, MX, NL, SG, ES, TR, AE, GB, JP, SA, PL, SE, BE, EG",
+                    "title": "Country"
+                },
+                "more_info_query": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A query to search and get more info about the product as part of Product Information, Customer Q&As, and Customer Reviews.",
+                    "title": "More Info Query"
+                },
+                "language": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The language of the results. In case not specified, results will be returned in the default domain language. Supported languages per country: US: en_US, es_US AU: en_AU BR: pt_BR CA: en_CA, fr_CA FR: fr_FR, en_GB DE: de_DE, en_GB, cs_CZ, nl_NL, pl_PL, tr_TR, da_DK IN: en_IN, hi_IN, ta_IN, te_IN, kn_IN, ml_IN, bn_IN, mr_IN IT: it_IT, en_GB MX: es_MX NL: nl_NL, en_GB SG: en_SG ES: es_ES, pt_PT, en_GB TR: tr_TR AE: en_AE, ar_AE GB: en_GB JP: ja_JP, en_US, zh_CN SA: ar_AE, en_AE PL: pl_PL SE: sv_SE, en_GB BE: fr_BE, nl_BE, en_GB EG: ar_AE, en_AE",
+                    "title": "Language"
+                },
+                "fields": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A comma separated list of product fields to include in the response (field projection). By default all fields are returned. Example: product_price,product_url,is_best_seller,sales_volume",
+                    "title": "Fields"
+                }
+            },
+            "required": [
+                "asin"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "product_reviews",
+        "description": "Get and paginate through product reviews on Amazon using a logged in user cookie string. Each page contains up to 10 reviews.",
+        "parameters": {
+            "properties": {
+                "asin": {
+                    "description": "Product asin for which to get reviews.",
+                    "title": "Asin",
+                    "type": "string"
+                },
+                "country": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Sets the Amazon domain, marketplace country, language and currency. Default: US Allowed values: US, AU, BR, CA, CN, FR, DE, IN, IT, MX, NL, SG, ES, TR, AE, GB, JP, SA, PL, SE, BE, EG",
+                    "title": "Country"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Results page to return. Default: 1 Default: 1",
+                    "title": "Page"
+                },
+                "sort_by": {
+                    "default": null,
+                    "description": "Return reviews in a specific sort order. Default: TOP_REVIEWS Allowed values: TOP_REVIEWS, MOST_RECENT",
+                    "enum": [
+                        "TOP_REVIEWS",
+                        "MOST_RECENT",
+                        null
+                    ],
+                    "title": "Sort By"
+                },
+                "star_rating": {
+                    "default": null,
+                    "description": "Only return reviews with a specific star rating. Default: ALL Allowed values: ALL, 5_STARS, 4_STARS, 3_STARS, 2_STARS, 1_STARS, POSITIVE, CRITICAL",
+                    "enum": [
+                        "ALL",
+                        "5_STARS",
+                        "4_STARS",
+                        "3_STARS",
+                        "2_STARS",
+                        "1_STARS",
+                        "POSITIVE",
+                        "CRITICAL",
+                        null
+                    ],
+                    "title": "Star Rating"
+                },
+                "verified_purchases_only": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only return reviews by reviewers who made a verified purchase.",
+                    "title": "Verified Purchases Only"
+                },
+                "images_or_videos_only": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only return reviews containing images and / or videos.",
+                    "title": "Images Or Videos Only"
+                },
+                "current_format_only": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only return reviews of the current format (product variant - e.g. Color). By default reviews are returned for all product variants.",
+                    "title": "Current Format Only"
+                },
+                "query": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Find reviews matching a search query.",
+                    "title": "Query"
+                },
+                "language": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The language of the results. In case not specified, results will be returned in the default domain language. Supported languages per country: US: en_US, es_US AU: en_AU BR: pt_BR CA: en_CA, fr_CA FR: fr_FR, en_GB DE: de_DE, en_GB, cs_CZ, nl_NL, pl_PL, tr_TR, da_DK IN: en_IN, hi_IN, ta_IN, te_IN, kn_IN, ml_IN, bn_IN, mr_IN IT: it_IT, en_GB MX: es_MX NL: nl_NL, en_GB SG: en_SG ES: es_ES, pt_PT, en_GB TR: tr_TR AE: en_AE, ar_AE GB: en_GB JP: ja_JP, en_US, zh_CN SA: ar_AE, en_AE PL: pl_PL SE: sv_SE, en_GB BE: fr_BE, nl_BE, en_GB EG: ar_AE, en_AE",
+                    "title": "Language"
+                },
+                "fields": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A comma separated list of review fields to include in the response (field projection). By default all fields are returned. Example: review_title,review_images,review_date,country",
+                    "title": "Fields"
+                }
+            },
+            "required": [
+                "asin"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "product_offers",
+        "description": "Get all Amazon product details as available via the Product Details endpoint with an additional `offers` array containing product offers (The first offer in the array is the pinned offer returned by the **Search** endpoint). Supports pagination using the `page` and `limit` parameters.",
+        "parameters": {
+            "properties": {
+                "asin": {
+                    "description": "Product ASIN for which to get offers. Supports batching of up to 10 ASINs in a single request, separated by comma. Example: B08PPDJWC8,B07ZPKBL9V,B08BHXG144 Note that each ASIN in a batch request is counted as a single request against the plan quota.",
+                    "title": "Asin",
+                    "type": "string"
+                },
+                "country": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Sets the Amazon domain, marketplace country, language and currency. Default: US Allowed values: US, AU, BR, CA, CN, FR, DE, IN, IT, MX, NL, SG, ES, TR, AE, GB, JP, SA, PL, SE, BE, EG",
+                    "title": "Country"
+                },
+                "product_condition": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Find products in specific conditions, specified as a comma delimited list of the following values: NEW, USED_LIKE_NEW, USED_VERY_GOOD, USED_GOOD, USED_ACCEPTABLE. Default: NEW, USED_LIKE_NEW, USED_VERY_GOOD, USED_GOOD, USED_ACCEPTABLE Examples: NEW,USED_LIKE_NEW USED_VERY_GOOD,USED_GOOD,USED_LIKE_NEW",
+                    "title": "Product Condition"
+                },
+                "delivery": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Find products with specific delivery option, specified as a comma delimited list of the following values: PRIME_ELIGIBLE,FREE_DELIVERY. Examples: FREE_DELIVERY PRIME_ELIGIBLE,FREE_DELIVERY",
+                    "title": "Delivery"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Maximum number of offers to return. Default: 100 Default: 100",
+                    "title": "Limit"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Results page to return. Default: 1 Default: 1",
+                    "title": "Page"
+                },
+                "language": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The language of the results. In case not specified, results will be returned in the default domain language. Supported languages per country: US: en_US, es_US AU: en_AU BR: pt_BR CA: en_CA, fr_CA FR: fr_FR, en_GB DE: de_DE, en_GB, cs_CZ, nl_NL, pl_PL, tr_TR, da_DK IN: en_IN, hi_IN, ta_IN, te_IN, kn_IN, ml_IN, bn_IN, mr_IN IT: it_IT, en_GB MX: es_MX NL: nl_NL, en_GB SG: en_SG ES: es_ES, pt_PT, en_GB TR: tr_TR AE: en_AE, ar_AE GB: en_GB JP: ja_JP, en_US, zh_CN SA: ar_AE, en_AE PL: pl_PL SE: sv_SE, en_GB BE: fr_BE, nl_BE, en_GB EG: ar_AE, en_AE",
+                    "title": "Language"
+                },
+                "fields": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A comma separated list of product and offer fields to include in the response (field projection). By default all fields are returned. Example: product_price,product_information,product_condition,ships_from",
+                    "title": "Fields"
+                }
+            },
+            "required": [
+                "asin"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "seller_profile",
+        "description": "Get Amazon Seller profile details from the Amazon Seller profile page (e.g. https://www.amazon.com/sp?seller=A1D09S7Q0OD6TH).",
+        "parameters": {
+            "properties": {
+                "seller_id": {
+                    "description": "The Amazon Seller ID for which to get seller profile details",
+                    "title": "Seller Id",
+                    "type": "string"
+                },
+                "country": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Sets the Amazon domain, marketplace country, language and currency. Default: US Allowed values: US, AU, BR, CA, CN, FR, DE, IN, IT, MX, NL, SG, ES, TR, AE, GB, JP, SA, PL, SE, BE, EG",
+                    "title": "Country"
+                },
+                "language": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The language of the results. In case not specified, results will be returned in the default domain language. Supported languages per country: US: en_US, es_US AU: en_AU BR: pt_BR CA: en_CA, fr_CA FR: fr_FR, en_GB DE: de_DE, en_GB, cs_CZ, nl_NL, pl_PL, tr_TR, da_DK IN: en_IN, hi_IN, ta_IN, te_IN, kn_IN, ml_IN, bn_IN, mr_IN IT: it_IT, en_GB MX: es_MX NL: nl_NL, en_GB SG: en_SG ES: es_ES, pt_PT, en_GB TR: tr_TR AE: en_AE, ar_AE GB: en_GB JP: ja_JP, en_US, zh_CN SA: ar_AE, en_AE PL: pl_PL SE: sv_SE, en_GB BE: fr_BE, nl_BE, en_GB EG: ar_AE, en_AE",
+                    "title": "Language"
+                },
+                "fields": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A comma separated list of seller profile fields to include in the response (field projection). By default all fields are returned. Example: seller_link,phone,business_name,rating",
+                    "title": "Fields"
+                }
+            },
+            "required": [
+                "seller_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "seller_reviews",
+        "description": "Get and paginate through Amazon Seller reviews / feedback as shown on the Seller profile page (e.g. https://www.amazon.com/sp?seller=A1D09S7Q0OD6TH). Each page contains up to 5 reviews.",
+        "parameters": {
+            "properties": {
+                "seller_id": {
+                    "description": "The Amazon Seller ID for which to get seller reviews",
+                    "title": "Seller Id",
+                    "type": "string"
+                },
+                "country": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Sets the Amazon domain, marketplace country, language and currency. Default: US Allowed values: US, AU, BR, CA, CN, FR, DE, IN, IT, MX, NL, SG, ES, TR, AE, GB, JP, SA, PL, SE, BE, EG",
+                    "title": "Country"
+                },
+                "star_rating": {
+                    "default": null,
+                    "description": "Only return reviews with a specific star rating or positive / negative sentiment. Default: ALL Allowed values: ALL, 5_STARS, 4_STARS, 3_STARS, 2_STARS, 1_STARS, POSITIVE, CRITICAL",
+                    "enum": [
+                        "ALL",
+                        "5_STARS",
+                        "4_STARS",
+                        "3_STARS",
+                        "2_STARS",
+                        "1_STARS",
+                        "POSITIVE",
+                        "CRITICAL",
+                        null
+                    ],
+                    "title": "Star Rating"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The page of seller feedback results to retrieve. Default: 1 Default: 1",
+                    "title": "Page"
+                },
+                "language": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The language of the results. In case not specified, results will be returned in the default domain language. Supported languages per country: US: en_US, es_US AU: en_AU BR: pt_BR CA: en_CA, fr_CA FR: fr_FR, en_GB DE: de_DE, en_GB, cs_CZ, nl_NL, pl_PL, tr_TR, da_DK IN: en_IN, hi_IN, ta_IN, te_IN, kn_IN, ml_IN, bn_IN, mr_IN IT: it_IT, en_GB MX: es_MX NL: nl_NL, en_GB SG: en_SG ES: es_ES, pt_PT, en_GB TR: tr_TR AE: en_AE, ar_AE GB: en_GB JP: ja_JP, en_US, zh_CN SA: ar_AE, en_AE PL: pl_PL SE: sv_SE, en_GB BE: fr_BE, nl_BE, en_GB EG: ar_AE, en_AE",
+                    "title": "Language"
+                },
+                "fields": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A comma separated list of seller review fields to include in the response (field projection). By default all fields are returned. Example: review_star_rating,review_date",
+                    "title": "Fields"
+                }
+            },
+            "required": [
+                "seller_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "seller_products",
+        "description": "Get and paginate through the products sold by an Amazon Seller",
+        "parameters": {
+            "properties": {
+                "seller_id": {
+                    "description": "The Amazon Seller ID for which to get seller product listings",
+                    "title": "Seller Id",
+                    "type": "string"
+                },
+                "country": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Sets the Amazon domain, marketplace country, language and currency. Default: US Allowed values: US, AU, BR, CA, CN, FR, DE, IN, IT, MX, NL, SG, ES, TR, AE, GB, JP, SA, PL, SE, BE, EG",
+                    "title": "Country"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The page of seller products results to retrieve Seller products result page to retrieve. Default: 1 Default: 1",
+                    "title": "Page"
+                },
+                "sort_by": {
+                    "default": null,
+                    "description": "Return the results in a specific sort order. Default: RELEVANCE Allowed values: RELEVANCE, LOWEST_PRICE, HIGHEST_PRICE, REVIEWS, NEWEST, BEST_SELLERS",
+                    "enum": [
+                        "RELEVANCE",
+                        "LOWEST_PRICE",
+                        "HIGHEST_PRICE",
+                        "REVIEWS",
+                        "NEWEST",
+                        "BEST_SELLERS",
+                        null
+                    ],
+                    "title": "Sort By"
+                },
+                "language": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The language of the results. In case not specified, results will be returned in the default domain language. Supported languages per country: US: en_US, es_US AU: en_AU BR: pt_BR CA: en_CA, fr_CA FR: fr_FR, en_GB DE: de_DE, en_GB, cs_CZ, nl_NL, pl_PL, tr_TR, da_DK IN: en_IN, hi_IN, ta_IN, te_IN, kn_IN, ml_IN, bn_IN, mr_IN IT: it_IT, en_GB MX: es_MX NL: nl_NL, en_GB SG: en_SG ES: es_ES, pt_PT, en_GB TR: tr_TR AE: en_AE, ar_AE GB: en_GB JP: ja_JP, en_US, zh_CN SA: ar_AE, en_AE PL: pl_PL SE: sv_SE, en_GB BE: fr_BE, nl_BE, en_GB EG: ar_AE, en_AE",
+                    "title": "Language"
+                },
+                "fields": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A comma separated list of seller product fields to include in the response (field projection). By default all fields are returned. Example: product_price,product_url,is_prime",
+                    "title": "Fields"
+                }
+            },
+            "required": [
+                "seller_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "best_sellers",
+        "description": "Get Amazon Best Sellers, including prices, ratings, rank and more data points available on Amazon Best Sellers listings. Supports all Amazon Best Seller list types using the `type` parameter: **Best Sellers**, **New Releases**, **Movers & Shakers**, **Most Wished For**, **Gift Ideas**.",
+        "parameters": {
+            "properties": {
+                "category": {
+                    "description": "Best sellers category to return products for. Supports top level best sellers categories (e.g. software). In addition, subcategories / category path can be specified as well, separated by / (e.g. software/229535) - this can be seen in best sellers URLs, e.g. https://www.amazon.com/Best-Sellers-Software-Business-Office/zgbs/software/229535. Examples: software software/229535",
+                    "title": "Category",
+                    "type": "string"
+                },
+                "type": {
+                    "default": null,
+                    "description": "Type of Best Seller list to return. Default: BEST_SELLERS Allowed values: BEST_SELLERS, GIFT_IDEAS, MOST_WISHED_FOR, MOVERS_AND_SHAKERS, NEW_RELEASES",
+                    "enum": [
+                        "BEST_SELLERS",
+                        "GIFT_IDEAS",
+                        "MOST_WISHED_FOR",
+                        "MOVERS_AND_SHAKERS",
+                        "NEW_RELEASES",
+                        null
+                    ],
+                    "title": "Type"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Results page to return. Default: 1",
+                    "title": "Page"
+                },
+                "country": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Sets the Amazon domain, marketplace country, language and currency. Default: US Allowed values: US, AU, BR, CA, CN, FR, DE, IN, IT, MX, NL, SG, ES, TR, AE, GB, JP, SA, PL, SE, BE, EG",
+                    "title": "Country"
+                },
+                "language": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The language of the results. In case not specified, results will be returned in the default domain language. Supported languages per country: US: en_US, es_US AU: en_AU BR: pt_BR CA: en_CA, fr_CA FR: fr_FR, en_GB DE: de_DE, en_GB, cs_CZ, nl_NL, pl_PL, tr_TR, da_DK IN: en_IN, hi_IN, ta_IN, te_IN, kn_IN, ml_IN, bn_IN, mr_IN IT: it_IT, en_GB MX: es_MX NL: nl_NL, en_GB SG: en_SG ES: es_ES, pt_PT, en_GB TR: tr_TR AE: en_AE, ar_AE GB: en_GB JP: ja_JP, en_US, zh_CN SA: ar_AE, en_AE PL: pl_PL SE: sv_SE, en_GB BE: fr_BE, nl_BE, en_GB EG: ar_AE, en_AE",
+                    "title": "Language"
+                },
+                "fields": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A comma separated list of product fields to include in the response (field projection). By default all fields are returned. Example: product_title,product_url,product_photo",
+                    "title": "Fields"
+                }
+            },
+            "required": [
+                "category"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "deals",
+        "description": "Get Amazon Deals (Today's Deals / Top Deals, Best Deals, and Lightning Deals) with support for all deal types, filters, and options available on Amazon.",
+        "parameters": {
+            "properties": {
+                "country": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Sets the Amazon domain, marketplace country, language and currency. Default: US Allowed values: US, AU, BR, CA, CN, FR, DE, IN, IT, MX, NL, SG, ES, TR, AE, GB, JP, SA, PL, SE, BE, EG",
+                    "title": "Country"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of results to skip / index to start from (for pagination). Default: 0",
+                    "title": "Offset"
+                },
+                "categories": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Return deals with products in specific categories / departments. Multiple categories can be specified as a comma (,) separated list. Numeric category id's can be found in the URL after selecting a specific category on https://www.amazon.com/deals. Examples: 502394 2619525011,2617941011",
+                    "title": "Categories"
+                },
+                "min_product_star_rating": {
+                    "default": null,
+                    "description": "Return deals with products star rating greater than a specific value Default: ALL Allowed values: ALL, 1, 2, 3, 4",
+                    "enum": [
+                        "ALL",
+                        "1",
+                        "2",
+                        "3",
+                        "4",
+                        null
+                    ],
+                    "title": "Min Product Star Rating"
+                },
+                "price_range": {
+                    "default": null,
+                    "description": "Return deals with price within a specific price range. 1 is lowest price range shown on Amazon (e.g. Under $25) while 5 is the highest price range (e.g. $200 & Above). Default: ALL Allowed values: ALL, 1, 2, 3, 4, 5",
+                    "enum": [
+                        "ALL",
+                        "1",
+                        "2",
+                        "3",
+                        "4",
+                        "5",
+                        null
+                    ],
+                    "title": "Price Range"
+                },
+                "discount_range": {
+                    "default": null,
+                    "description": "Return deals with discount within a specific discount range. 1 is lowest discount range shown on Amazon (e.g. 10% off or more) while 5 is the highest discount range (e.g. 70% off or more). Default: ALL Allowed values: ALL, 1, 2, 3, 4, 5",
+                    "enum": [
+                        "ALL",
+                        "1",
+                        "2",
+                        "3",
+                        "4",
+                        "5",
+                        null
+                    ],
+                    "title": "Discount Range"
+                },
+                "brands": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Return deals with products by specific brands. Multiple brands can be specified separated by comma (,). In addition, brand names can be found under the Brand filter on the filter/refinements panel on https://www.amazon.com/deals (when applicable). Examples: AQUA CREST Daixers,Antarctic Star",
+                    "title": "Brands"
+                },
+                "prime_early_access": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only return prime early access deals.",
+                    "title": "Prime Early Access"
+                },
+                "prime_exclusive": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only return prime exclusive deals.",
+                    "title": "Prime Exclusive"
+                },
+                "lightning_deals": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only return lightning deals",
+                    "title": "Lightning Deals"
+                },
+                "language": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The language of the results. In case not specified, results will be returned in the default domain language. Supported languages per country: US: en_US, es_US AU: en_AU BR: pt_BR CA: en_CA, fr_CA FR: fr_FR, en_GB DE: de_DE, en_GB, cs_CZ, nl_NL, pl_PL, tr_TR, da_DK IN: en_IN, hi_IN, ta_IN, te_IN, kn_IN, ml_IN, bn_IN, mr_IN IT: it_IT, en_GB MX: es_MX NL: nl_NL, en_GB SG: en_SG ES: es_ES, pt_PT, en_GB TR: tr_TR AE: en_AE, ar_AE GB: en_GB JP: ja_JP, en_US, zh_CN SA: ar_AE, en_AE PL: pl_PL SE: sv_SE, en_GB BE: fr_BE, nl_BE, en_GB EG: ar_AE, en_AE",
+                    "title": "Language"
+                },
+                "fields": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A comma separated list of deal fields to include in the response (field projection). By default all fields are returned. Example: deal_type,deal_title,deal_ends_at,savings_amount",
+                    "title": "Fields"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "deal_products",
+        "description": "Get the products of a specific deal by Deal ID. Supports pagination using the *page* parameter. For now, only works for MULTI_ITEM deals with no canonical_deal_url (i.e. when deal_url is in the form of *https://amazon_domain/deal/deal_id*).",
+        "parameters": {
+            "properties": {
+                "deal_id": {
+                    "description": "Deal ID of the deal to fetch",
+                    "title": "Deal Id",
+                    "type": "string"
+                },
+                "country": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Sets the Amazon domain, marketplace country, language and currency. Default: US Allowed values: US, AU, BR, CA, CN, FR, DE, IN, IT, MX, NL, SG, ES, TR, AE, GB, JP, SA, PL, SE, BE, EG",
+                    "title": "Country"
+                },
+                "sort_by": {
+                    "default": null,
+                    "description": "Return products in a specific order. Default: FEATURED Allowed values: FEATURED, LOWEST_PRICE, HIGHEST_PRICE, REVIEWS, NEWEST, BEST_SELLERS",
+                    "enum": [
+                        "FEATURED",
+                        "LOWEST_PRICE",
+                        "HIGHEST_PRICE",
+                        "REVIEWS",
+                        "NEWEST",
+                        "BEST_SELLERS",
+                        null
+                    ],
+                    "title": "Sort By"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Results page to return. Default: 1 Default: 1",
+                    "title": "Page"
+                },
+                "language": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The language of the results. In case not specified, results will be returned in the default domain language. Supported languages per country: US: en_US, es_US AU: en_AU BR: pt_BR CA: en_CA, fr_CA FR: fr_FR, en_GB DE: de_DE, en_GB, cs_CZ, nl_NL, pl_PL, tr_TR, da_DK IN: en_IN, hi_IN, ta_IN, te_IN, kn_IN, ml_IN, bn_IN, mr_IN IT: it_IT, en_GB MX: es_MX NL: nl_NL, en_GB SG: en_SG ES: es_ES, pt_PT, en_GB TR: tr_TR AE: en_AE, ar_AE GB: en_GB JP: ja_JP, en_US, zh_CN SA: ar_AE, en_AE PL: pl_PL SE: sv_SE, en_GB BE: fr_BE, nl_BE, en_GB EG: ar_AE, en_AE",
+                    "title": "Language"
+                },
+                "fields": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A comma separated list of deal product fields to include in the response (field projection). By default all fields are returned. Example: product_title,deal_price,deal_badge",
+                    "title": "Fields"
+                }
+            },
+            "required": [
+                "deal_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "promo_code_details",
+        "description": "Get the products offered by an Amazon promo code.",
+        "parameters": {
+            "properties": {
+                "promo_code": {
+                    "description": "Promo code for which to get products. The promo code can be extracted from the /promocode Amazon URL. For example the promo code for https://www.amazon.com/promocode/A31M10S4V50SOU is A31M10S4V50SOU.",
+                    "title": "Promo Code",
+                    "type": "string"
+                },
+                "country": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Sets the Amazon domain, marketplace country, language and currency. Default: US Allowed values: US, AU, BR, CA, CN, FR, DE, IN, IT, MX, NL, SG, ES, TR, AE, GB, JP, SA, PL, SE, BE, EG",
+                    "title": "Country"
+                },
+                "language": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The language of the results. In case not specified, results will be returned in the default domain language. Supported languages per country: US: en_US, es_US AU: en_AU BR: pt_BR CA: en_CA, fr_CA FR: fr_FR, en_GB DE: de_DE, en_GB, cs_CZ, nl_NL, pl_PL, tr_TR, da_DK IN: en_IN, hi_IN, ta_IN, te_IN, kn_IN, ml_IN, bn_IN, mr_IN IT: it_IT, en_GB MX: es_MX NL: nl_NL, en_GB SG: en_SG ES: es_ES, pt_PT, en_GB TR: tr_TR AE: en_AE, ar_AE GB: en_GB JP: ja_JP, en_US, zh_CN SA: ar_AE, en_AE PL: pl_PL SE: sv_SE, en_GB BE: fr_BE, nl_BE, en_GB EG: ar_AE, en_AE",
+                    "title": "Language"
+                }
+            },
+            "required": [
+                "promo_code"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "influencer_profile",
+        "description": "Get Amazon Influencer profile details from the Amazon Influencer store page (e.g. https://www.amazon.com/shop/tastemade).",
+        "parameters": {
+            "properties": {
+                "influencer_name": {
+                    "description": "The Amazon Influencer name for which to get profile details",
+                    "title": "Influencer Name",
+                    "type": "string"
+                },
+                "country": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Sets the Amazon domain, marketplace country, language and currency. Default: US Allowed values: US, AU, BR, CA, CN, FR, DE, IN, IT, MX, NL, SG, ES, TR, AE, GB, JP, SA, PL, SE, BE, EG",
+                    "title": "Country"
+                },
+                "fields": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A comma separated list of influencer profile fields to include in the response (field projection). By default all fields are returned. Example: name,profile_link,posts_count,facebook_url",
+                    "title": "Fields"
+                },
+                "language": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The language of the results. In case not specified, results will be returned in the default domain language. Supported languages per country: US: en_US, es_US AU: en_AU BR: pt_BR CA: en_CA, fr_CA FR: fr_FR, en_GB DE: de_DE, en_GB, cs_CZ, nl_NL, pl_PL, tr_TR, da_DK IN: en_IN, hi_IN, ta_IN, te_IN, kn_IN, ml_IN, bn_IN, mr_IN IT: it_IT, en_GB MX: es_MX NL: nl_NL, en_GB SG: en_SG ES: es_ES, pt_PT, en_GB TR: tr_TR AE: en_AE, ar_AE GB: en_GB JP: ja_JP, en_US, zh_CN SA: ar_AE, en_AE PL: pl_PL SE: sv_SE, en_GB BE: fr_BE, nl_BE, en_GB EG: ar_AE, en_AE",
+                    "title": "Language"
+                }
+            },
+            "required": [
+                "influencer_name"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "influencer_posts",
+        "description": "Get all Amazon Influencer posts with pagination support.",
+        "parameters": {
+            "properties": {
+                "influencer_name": {
+                    "description": "The Amazon Influencer name for which to get posts",
+                    "title": "Influencer Name",
+                    "type": "string"
+                },
+                "country": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Sets the Amazon domain, marketplace country, language and currency. Default: US Allowed values: US, AU, BR, CA, CN, FR, DE, IN, IT, MX, NL, SG, ES, TR, AE, GB, JP, SA, PL, SE, BE, EG",
+                    "title": "Country"
+                },
+                "scope": {
+                    "default": null,
+                    "description": "Return the results in a specific scope. Default: ALL Allowed values: ALL, IDEA_LISTS, PHOTOS, VIDEOS",
+                    "enum": [
+                        "ALL",
+                        "IDEA_LISTS",
+                        "PHOTOS",
+                        "VIDEOS",
+                        null
+                    ],
+                    "title": "Scope"
+                },
+                "query": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Find posts matching a search query.",
+                    "title": "Query"
+                },
+                "cursor": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A cursor to get the next set of results, it can be used for for paging purposes. Note: the cursor value for the next set of results is returned by this endpoint under data.cursor.",
+                    "title": "Cursor"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Maximum number of posts to return. Default: 20 Allowed values: 1-100 Default: 20",
+                    "title": "Limit"
+                },
+                "language": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The language of the results. In case not specified, results will be returned in the default domain language. Supported languages per country: US: en_US, es_US AU: en_AU BR: pt_BR CA: en_CA, fr_CA FR: fr_FR, en_GB DE: de_DE, en_GB, cs_CZ, nl_NL, pl_PL, tr_TR, da_DK IN: en_IN, hi_IN, ta_IN, te_IN, kn_IN, ml_IN, bn_IN, mr_IN IT: it_IT, en_GB MX: es_MX NL: nl_NL, en_GB SG: en_SG ES: es_ES, pt_PT, en_GB TR: tr_TR AE: en_AE, ar_AE GB: en_GB JP: ja_JP, en_US, zh_CN SA: ar_AE, en_AE PL: pl_PL SE: sv_SE, en_GB BE: fr_BE, nl_BE, en_GB EG: ar_AE, en_AE",
+                    "title": "Language"
+                },
+                "fields": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A comma separated list of influencer post fields to include in the response (field projection). By default all fields are returned. Example: post_url,post_title,is_pinned,video_duration",
+                    "title": "Fields"
+                }
+            },
+            "required": [
+                "influencer_name"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "influencer_post_products",
+        "description": "Get the list of products related to a \"List\" type post by Post ID.",
+        "parameters": {
+            "properties": {
+                "influencer_name": {
+                    "description": "",
+                    "title": "Influencer Name",
+                    "type": "string"
+                },
+                "post_id": {
+                    "description": "Influencer Post ID (e.g. amzn1.ideas.1N84PQ3CI4NW0) of the list post for which to get product items (only posts with post_type=List are allowed).",
+                    "title": "Post Id",
+                    "type": "string"
+                },
+                "cursor": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Set the cursor value from the response of the previous call to get the next results page.",
+                    "title": "Cursor"
+                },
+                "language": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The language of the results. In case not specified, results will be returned in the default domain language. Supported languages per country: US: en_US, es_US AU: en_AU BR: pt_BR CA: en_CA, fr_CA FR: fr_FR, en_GB DE: de_DE, en_GB, cs_CZ, nl_NL, pl_PL, tr_TR, da_DK IN: en_IN, hi_IN, ta_IN, te_IN, kn_IN, ml_IN, bn_IN, mr_IN IT: it_IT, en_GB MX: es_MX NL: nl_NL, en_GB SG: en_SG ES: es_ES, pt_PT, en_GB TR: tr_TR AE: en_AE, ar_AE GB: en_GB JP: ja_JP, en_US, zh_CN SA: ar_AE, en_AE PL: pl_PL SE: sv_SE, en_GB BE: fr_BE, nl_BE, en_GB EG: ar_AE, en_AE",
+                    "title": "Language"
+                }
+            },
+            "required": [
+                "influencer_name",
+                "post_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "asinto_gtin",
+        "description": "Convert an Amazon ASIN to GTIN / EAN / UPS identifiers. Valid values for `type` are `EAN-13`, `UPC`, or `ISBN`.",
+        "parameters": {
+            "properties": {
+                "asin": {
+                    "description": "Amazon product ASIN to convert.",
+                    "title": "Asin",
+                    "type": "string"
+                },
+                "country": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Sets the Amazon domain, marketplace country, language and currency. Default: US Allowed values: US, AU, BR, CA, CN, FR, DE, IN, IT, MX, NL, SG, ES, TR, AE, GB, JP, SA, PL, SE, BE, EG",
+                    "title": "Country"
+                }
+            },
+            "required": [
+                "asin"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "product_category_list",
+        "description": "Get Amazon product categories per country / Amazon domain (for use with the \"category_id\" parameter of the Product Search only).",
+        "parameters": {
+            "properties": {
+                "country": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Sets the Amazon domain, marketplace country, language and currency. Default: US Allowed values: US, AU, BR, CA, CN, FR, DE, IN, IT, MX, NL, SG, ES, TR, AE, GB, JP, SA, PL, SE, BE, EG",
+                    "title": "Country"
+                }
+            },
+            "type": "object"
+        }
+    }
+]

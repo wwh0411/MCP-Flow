@@ -1,0 +1,60 @@
+[
+    {
+        "name": "mcp-stepstone_search_jobs",
+        "description": "Search for job listings on Stepstone.de using multiple search terms",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "search_terms": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of job search terms to look for",
+                    "default": [
+                        "fraud",
+                        "betrug",
+                        "compliance"
+                    ]
+                },
+                "zip_code": {
+                    "type": "string",
+                    "description": "German postal code for location-based search",
+                    "default": "40210"
+                },
+                "radius": {
+                    "type": "integer",
+                    "description": "Search radius in kilometers",
+                    "default": 5,
+                    "minimum": 1,
+                    "maximum": 100
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "mcp-stepstone_get_job_details",
+        "description": "Get detailed information about a specific job from previous search results",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "session_id": {
+                    "type": "string",
+                    "description": "Session ID from previous search (optional, will use latest if not provided)"
+                },
+                "job_query": {
+                    "type": "string",
+                    "description": "Job title or description to search for in previous results"
+                },
+                "job_index": {
+                    "type": "integer",
+                    "description": "Index of the job in previous results (1-based, optional)"
+                }
+            },
+            "required": [
+                "job_query"
+            ]
+        }
+    }
+]

@@ -1,0 +1,742 @@
+[
+    {
+        "name": "salesforce_salesforce_search_objects",
+        "description": "Search for Salesforce standard and custom objects by name pattern. Examples: 'Account' will find Account, AccountHistory; 'Order' will find WorkOrder, ServiceOrder__c etc.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "searchPattern": {
+                    "type": "string",
+                    "description": "Search pattern to find objects (e.g., 'Account Coverage' will find objects like 'AccountCoverage__c')"
+                }
+            },
+            "required": [
+                "searchPattern"
+            ]
+        }
+    },
+    {
+        "name": "salesforce_salesforce_describe_object",
+        "description": "Get detailed schema metadata including all fields, relationships, and field properties of any Salesforce object. Examples: 'Account' shows all Account fields including custom fields; 'Case' shows all Case fields including relationships to Account, Contact etc.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "objectName": {
+                    "type": "string",
+                    "description": "API name of the object (e.g., 'Account', 'Contact', 'Custom_Object__c')"
+                }
+            },
+            "required": [
+                "objectName"
+            ]
+        }
+    },
+    {
+        "name": "salesforce_salesforce_query_records",
+        "description": "Query records from any Salesforce object using SOQL, including relationship queries.\n\nNOTE: For queries with GROUP BY, aggregate functions (COUNT, SUM, AVG, etc.), or HAVING clauses, use salesforce_aggregate_query instead.\n\nExamples:\n1. Parent-to-child query (e.g., Account with Contacts):\n   - objectName: \"Account\"\n   - fields: [\"Name\", \"(SELECT Id, FirstName, LastName FROM Contacts)\"]\n\n2. Child-to-parent query (e.g., Contact with Account details):\n   - objectName: \"Contact\"\n   - fields: [\"FirstName\", \"LastName\", \"Account.Name\", \"Account.Industry\"]\n\n3. Multiple level query (e.g., Contact -> Account -> Owner):\n   - objectName: \"Contact\"\n   - fields: [\"Name\", \"Account.Name\", \"Account.Owner.Name\"]\n\n4. Related object filtering:\n   - objectName: \"Contact\"\n   - fields: [\"Name\", \"Account.Name\"]\n   - whereClause: \"Account.Industry = 'Technology'\"\n\nNote: When using relationship fields:\n- Use dot notation for parent relationships (e.g., \"Account.Name\")\n- Use subqueries in parentheses for child relationships (e.g., \"(SELECT Id FROM Contacts)\")\n- Custom relationship fields end in \"__r\" (e.g., \"CustomObject__r.Name\")",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "objectName": {
+                    "type": "string",
+                    "description": "API name of the object to query"
+                },
+                "fields": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of fields to retrieve, including relationship fields"
+                },
+                "whereClause": {
+                    "type": "string",
+                    "description": "WHERE clause, can include conditions on related objects",
+                    "optional": true
+                },
+                "orderBy": {
+                    "type": "string",
+                    "description": "ORDER BY clause, can include fields from related objects",
+                    "optional": true
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of records to return",
+                    "optional": true
+                }
+            },
+            "required": [
+                "objectName",
+                "fields"
+            ]
+        }
+    },
+    {
+        "name": "salesforce_salesforce_aggregate_query",
+        "description": "Execute SOQL queries with GROUP BY, aggregate functions, and statistical analysis. Use this tool for queries that summarize and group data rather than returning individual records.\n\nNOTE: For regular queries without GROUP BY or aggregates, use salesforce_query_records instead.\n\nThis tool handles:\n1. GROUP BY queries (single/multiple fields, related objects, date functions)\n2. Aggregate functions: COUNT(), COUNT_DISTINCT(), SUM(), AVG(), MIN(), MAX()\n3. HAVING clauses for filtering grouped results\n4. Date/time grouping: CALENDAR_YEAR(), CALENDAR_MONTH(), CALENDAR_QUARTER(), FISCAL_YEAR(), FISCAL_QUARTER()\n\nExamples:\n1. Count opportunities by stage:\n   - objectName: \"Opportunity\"\n   - selectFields: [\"StageName\", \"COUNT(Id) OpportunityCount\"]\n   - groupByFields: [\"StageName\"]\n\n2. Analyze cases by priority and status:\n   - objectName: \"Case\"\n   - selectFields: [\"Priority\", \"Status\", \"COUNT(Id) CaseCount\", \"AVG(Days_Open__c) AvgDaysOpen\"]\n   - groupByFields: [\"Priority\", \"Status\"]\n\n3. Count contacts by account industry:\n   - objectName: \"Contact\"\n   - selectFields: [\"Account.Industry\", \"COUNT(Id) ContactCount\"]\n   - groupByFields: [\"Account.Industry\"]\n\n4. Quarterly opportunity analysis:\n   - objectName: \"Opportunity\"\n   - selectFields: [\"CALENDAR_YEAR(CloseDate) Year\", \"CALENDAR_QUARTER(CloseDate) Quarter\", \"SUM(Amount) Revenue\"]\n   - groupByFields: [\"CALENDAR_YEAR(CloseDate)\", \"CALENDAR_QUARTER(CloseDate)\"]\n\n5. Find accounts with more than 10 opportunities:\n   - objectName: \"Opportunity\"\n   - selectFields: [\"Account.Name\", \"COUNT(Id) OpportunityCount\"]\n   - groupByFields: [\"Account.Name\"]\n   - havingClause: \"COUNT(Id) > 10\"\n\nImportant Rules:\n- All non-aggregate fields in selectFields MUST be included in groupByFields\n- Use whereClause to filter rows BEFORE grouping\n- Use havingClause to filter AFTER grouping (for aggregate conditions)\n- ORDER BY can only use fields from groupByFields or aggregate functions\n- OFFSET is not supported with GROUP BY in Salesforce",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "objectName": {
+                    "type": "string",
+                    "description": "API name of the object to query"
+                },
+                "selectFields": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Fields to select - mix of group fields and aggregates. Format: 'FieldName' or 'COUNT(Id) AliasName'"
+                },
+                "groupByFields": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Fields to group by - must include all non-aggregate fields from selectFields"
+                },
+                "whereClause": {
+                    "type": "string",
+                    "description": "WHERE clause to filter rows BEFORE grouping (cannot contain aggregate functions)",
+                    "optional": true
+                },
+                "havingClause": {
+                    "type": "string",
+                    "description": "HAVING clause to filter results AFTER grouping (use for aggregate conditions)",
+                    "optional": true
+                },
+                "orderBy": {
+                    "type": "string",
+                    "description": "ORDER BY clause - can only use grouped fields or aggregate functions",
+                    "optional": true
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of grouped results to return",
+                    "optional": true
+                }
+            },
+            "required": [
+                "objectName",
+                "selectFields",
+                "groupByFields"
+            ]
+        }
+    },
+    {
+        "name": "salesforce_salesforce_dml_records",
+        "description": "Perform data manipulation operations on Salesforce records:\n  - insert: Create new records\n  - update: Modify existing records (requires Id)\n  - delete: Remove records (requires Id)\n  - upsert: Insert or update based on external ID field\n  Examples: Insert new Accounts, Update Case status, Delete old records, Upsert based on custom external ID",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "operation": {
+                    "type": "string",
+                    "enum": [
+                        "insert",
+                        "update",
+                        "delete",
+                        "upsert"
+                    ],
+                    "description": "Type of DML operation to perform"
+                },
+                "objectName": {
+                    "type": "string",
+                    "description": "API name of the object"
+                },
+                "records": {
+                    "type": "array",
+                    "items": {
+                        "type": "object"
+                    },
+                    "description": "Array of records to process"
+                },
+                "externalIdField": {
+                    "type": "string",
+                    "description": "External ID field name for upsert operations",
+                    "optional": true
+                }
+            },
+            "required": [
+                "operation",
+                "objectName",
+                "records"
+            ]
+        }
+    },
+    {
+        "name": "salesforce_salesforce_manage_object",
+        "description": "Create new custom objects or modify existing ones in Salesforce:\n  - Create: New custom objects with fields, relationships, and settings\n  - Update: Modify existing object settings, labels, sharing model\n  Examples: Create Customer_Feedback__c object, Update object sharing settings\n  Note: Changes affect metadata and require proper permissions",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "operation": {
+                    "type": "string",
+                    "enum": [
+                        "create",
+                        "update"
+                    ],
+                    "description": "Whether to create new object or update existing"
+                },
+                "objectName": {
+                    "type": "string",
+                    "description": "API name for the object (without __c suffix)"
+                },
+                "label": {
+                    "type": "string",
+                    "description": "Label for the object"
+                },
+                "pluralLabel": {
+                    "type": "string",
+                    "description": "Plural label for the object"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description of the object",
+                    "optional": true
+                },
+                "nameFieldLabel": {
+                    "type": "string",
+                    "description": "Label for the name field",
+                    "optional": true
+                },
+                "nameFieldType": {
+                    "type": "string",
+                    "enum": [
+                        "Text",
+                        "AutoNumber"
+                    ],
+                    "description": "Type of the name field",
+                    "optional": true
+                },
+                "nameFieldFormat": {
+                    "type": "string",
+                    "description": "Display format for AutoNumber field (e.g., 'A-{0000}')",
+                    "optional": true
+                },
+                "sharingModel": {
+                    "type": "string",
+                    "enum": [
+                        "ReadWrite",
+                        "Read",
+                        "Private",
+                        "ControlledByParent"
+                    ],
+                    "description": "Sharing model for the object",
+                    "optional": true
+                }
+            },
+            "required": [
+                "operation",
+                "objectName"
+            ]
+        }
+    },
+    {
+        "name": "salesforce_salesforce_manage_field",
+        "description": "Create new custom fields or modify existing fields on any Salesforce object:\n  - Field Types: Text, Number, Date, Lookup, Master-Detail, Picklist etc.\n  - Properties: Required, Unique, External ID, Length, Scale etc.\n  - Relationships: Create lookups and master-detail relationships\n  - Automatically grants Field Level Security to System Administrator (or specified profiles)\n  Examples: Add Rating__c picklist to Account, Create Account lookup on Custom Object\n  Note: Use grantAccessTo parameter to specify profiles, defaults to System Administrator",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "operation": {
+                    "type": "string",
+                    "enum": [
+                        "create",
+                        "update"
+                    ],
+                    "description": "Whether to create new field or update existing"
+                },
+                "objectName": {
+                    "type": "string",
+                    "description": "API name of the object to add/modify the field"
+                },
+                "fieldName": {
+                    "type": "string",
+                    "description": "API name for the field (without __c suffix)"
+                },
+                "label": {
+                    "type": "string",
+                    "description": "Label for the field",
+                    "optional": true
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "Checkbox",
+                        "Currency",
+                        "Date",
+                        "DateTime",
+                        "Email",
+                        "Number",
+                        "Percent",
+                        "Phone",
+                        "Picklist",
+                        "MultiselectPicklist",
+                        "Text",
+                        "TextArea",
+                        "LongTextArea",
+                        "Html",
+                        "Url",
+                        "Lookup",
+                        "MasterDetail"
+                    ],
+                    "description": "Field type (required for create)",
+                    "optional": true
+                },
+                "required": {
+                    "type": "boolean",
+                    "description": "Whether the field is required",
+                    "optional": true
+                },
+                "unique": {
+                    "type": "boolean",
+                    "description": "Whether the field value must be unique",
+                    "optional": true
+                },
+                "externalId": {
+                    "type": "boolean",
+                    "description": "Whether the field is an external ID",
+                    "optional": true
+                },
+                "length": {
+                    "type": "number",
+                    "description": "Length for text fields",
+                    "optional": true
+                },
+                "precision": {
+                    "type": "number",
+                    "description": "Precision for numeric fields",
+                    "optional": true
+                },
+                "scale": {
+                    "type": "number",
+                    "description": "Scale for numeric fields",
+                    "optional": true
+                },
+                "referenceTo": {
+                    "type": "string",
+                    "description": "API name of the object to reference (for Lookup/MasterDetail)",
+                    "optional": true
+                },
+                "relationshipLabel": {
+                    "type": "string",
+                    "description": "Label for the relationship (for Lookup/MasterDetail)",
+                    "optional": true
+                },
+                "relationshipName": {
+                    "type": "string",
+                    "description": "API name for the relationship (for Lookup/MasterDetail)",
+                    "optional": true
+                },
+                "deleteConstraint": {
+                    "type": "string",
+                    "enum": [
+                        "Cascade",
+                        "Restrict",
+                        "SetNull"
+                    ],
+                    "description": "Delete constraint for Lookup fields",
+                    "optional": true
+                },
+                "picklistValues": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "label": {
+                                "type": "string"
+                            },
+                            "isDefault": {
+                                "type": "boolean",
+                                "optional": true
+                            }
+                        }
+                    },
+                    "description": "Values for Picklist/MultiselectPicklist fields",
+                    "optional": true
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description of the field",
+                    "optional": true
+                },
+                "grantAccessTo": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Profile names to grant field access to (defaults to ['System Administrator'])",
+                    "optional": true
+                }
+            },
+            "required": [
+                "operation",
+                "objectName",
+                "fieldName"
+            ]
+        }
+    },
+    {
+        "name": "salesforce_salesforce_manage_field_permissions",
+        "description": "Manage Field Level Security (Field Permissions) for custom and standard fields.\n  - Grant or revoke read/edit access to fields for specific profiles or permission sets\n  - View current field permissions\n  - Bulk update permissions for multiple profiles\n  \n  Examples:\n  1. Grant System Administrator access to a field\n  2. Give read-only access to a field for specific profiles\n  3. Check which profiles have access to a field",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "operation": {
+                    "type": "string",
+                    "enum": [
+                        "grant",
+                        "revoke",
+                        "view"
+                    ],
+                    "description": "Operation to perform on field permissions"
+                },
+                "objectName": {
+                    "type": "string",
+                    "description": "API name of the object (e.g., 'Account', 'Custom_Object__c')"
+                },
+                "fieldName": {
+                    "type": "string",
+                    "description": "API name of the field (e.g., 'Custom_Field__c')"
+                },
+                "profileNames": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Names of profiles to grant/revoke access (e.g., ['System Administrator', 'Sales User'])",
+                    "optional": true
+                },
+                "readable": {
+                    "type": "boolean",
+                    "description": "Grant/revoke read access (default: true)",
+                    "optional": true
+                },
+                "editable": {
+                    "type": "boolean",
+                    "description": "Grant/revoke edit access (default: true)",
+                    "optional": true
+                }
+            },
+            "required": [
+                "operation",
+                "objectName",
+                "fieldName"
+            ]
+        }
+    },
+    {
+        "name": "salesforce_salesforce_search_all",
+        "description": "Search across multiple Salesforce objects using SOSL (Salesforce Object Search Language).\n  \nExamples:\n1. Basic search across all objects:\n   {\n     \"searchTerm\": \"John\",\n     \"objects\": [\n       { \"name\": \"Account\", \"fields\": [\"Name\"], \"limit\": 10 },\n       { \"name\": \"Contact\", \"fields\": [\"FirstName\", \"LastName\", \"Email\"] }\n     ]\n   }\n\n2. Advanced search with filters:\n   {\n     \"searchTerm\": \"Cloud*\",\n     \"searchIn\": \"NAME FIELDS\",\n     \"objects\": [\n       { \n         \"name\": \"Account\", \n         \"fields\": [\"Name\", \"Industry\"], \n         \"orderBy\": \"Name DESC\",\n         \"where\": \"Industry = 'Technology'\"\n       }\n     ],\n     \"withClauses\": [\n       { \"type\": \"NETWORK\", \"value\": \"ALL NETWORKS\" },\n       { \"type\": \"SNIPPET\", \"fields\": [\"Description\"] }\n     ]\n   }\n\nNotes:\n- Use * and ? for wildcards in search terms\n- Each object can have its own WHERE, ORDER BY, and LIMIT clauses\n- Support for WITH clauses: DATA CATEGORY, DIVISION, METADATA, NETWORK, PRICEBOOKID, SNIPPET, SECURITY_ENFORCED\n- \"updateable\" and \"viewable\" options control record access filtering",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "searchTerm": {
+                    "type": "string",
+                    "description": "Text to search for (supports wildcards * and ?)"
+                },
+                "searchIn": {
+                    "type": "string",
+                    "enum": [
+                        "ALL FIELDS",
+                        "NAME FIELDS",
+                        "EMAIL FIELDS",
+                        "PHONE FIELDS",
+                        "SIDEBAR FIELDS"
+                    ],
+                    "description": "Which fields to search in",
+                    "optional": true
+                },
+                "objects": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "API name of the object"
+                            },
+                            "fields": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "description": "Fields to return for this object"
+                            },
+                            "where": {
+                                "type": "string",
+                                "description": "WHERE clause for this object",
+                                "optional": true
+                            },
+                            "orderBy": {
+                                "type": "string",
+                                "description": "ORDER BY clause for this object",
+                                "optional": true
+                            },
+                            "limit": {
+                                "type": "number",
+                                "description": "Maximum number of records to return for this object",
+                                "optional": true
+                            }
+                        },
+                        "required": [
+                            "name",
+                            "fields"
+                        ]
+                    },
+                    "description": "List of objects to search and their return fields"
+                },
+                "withClauses": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "type": {
+                                "type": "string",
+                                "enum": [
+                                    "DATA CATEGORY",
+                                    "DIVISION",
+                                    "METADATA",
+                                    "NETWORK",
+                                    "PRICEBOOKID",
+                                    "SNIPPET",
+                                    "SECURITY_ENFORCED"
+                                ]
+                            },
+                            "value": {
+                                "type": "string",
+                                "description": "Value for the WITH clause",
+                                "optional": true
+                            },
+                            "fields": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "description": "Fields for SNIPPET clause",
+                                "optional": true
+                            }
+                        },
+                        "required": [
+                            "type"
+                        ]
+                    },
+                    "description": "Additional WITH clauses for the search",
+                    "optional": true
+                },
+                "updateable": {
+                    "type": "boolean",
+                    "description": "Return only updateable records",
+                    "optional": true
+                },
+                "viewable": {
+                    "type": "boolean",
+                    "description": "Return only viewable records",
+                    "optional": true
+                }
+            },
+            "required": [
+                "searchTerm",
+                "objects"
+            ]
+        }
+    },
+    {
+        "name": "salesforce_salesforce_read_apex",
+        "description": "Read Apex classes from Salesforce.\n  \nExamples:\n1. Read a specific Apex class by name:\n   {\n     \"className\": \"AccountController\"\n   }\n\n2. List all Apex classes with an optional name pattern:\n   {\n     \"namePattern\": \"Controller\"\n   }\n\n3. Get metadata about Apex classes:\n   {\n     \"includeMetadata\": true,\n     \"namePattern\": \"Trigger\"\n   }\n\n4. Use wildcards in name patterns:\n   {\n     \"namePattern\": \"Account*Cont*\"\n   }\n\nNotes:\n- When className is provided, the full body of that specific class is returned\n- When namePattern is provided, all matching class names are returned (without body)\n- Use includeMetadata to get additional information like API version, length, and last modified date\n- If neither className nor namePattern is provided, all Apex class names will be listed\n- Wildcards are supported in namePattern: * (matches any characters) and ? (matches a single character)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "className": {
+                    "type": "string",
+                    "description": "Name of a specific Apex class to read"
+                },
+                "namePattern": {
+                    "type": "string",
+                    "description": "Pattern to match Apex class names (supports wildcards * and ?)"
+                },
+                "includeMetadata": {
+                    "type": "boolean",
+                    "description": "Whether to include metadata about the Apex classes"
+                }
+            }
+        }
+    },
+    {
+        "name": "salesforce_salesforce_write_apex",
+        "description": "Create or update Apex classes in Salesforce.\n  \nExamples:\n1. Create a new Apex class:\n   {\n     \"operation\": \"create\",\n     \"className\": \"AccountService\",\n     \"apiVersion\": \"58.0\",\n     \"body\": \"public class AccountService { public static void updateAccounts() { /* implementation */ } }\"\n   }\n\n2. Update an existing Apex class:\n   {\n     \"operation\": \"update\",\n     \"className\": \"AccountService\",\n     \"body\": \"public class AccountService { public static void updateAccounts() { /* updated implementation */ } }\"\n   }\n\nNotes:\n- The operation must be either 'create' or 'update'\n- For 'create' operations, className and body are required\n- For 'update' operations, className and body are required\n- apiVersion is optional for 'create' (defaults to the latest version)\n- The body must be valid Apex code\n- The className in the body must match the className parameter\n- Status information is returned after successful operations",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "operation": {
+                    "type": "string",
+                    "enum": [
+                        "create",
+                        "update"
+                    ],
+                    "description": "Whether to create a new class or update an existing one"
+                },
+                "className": {
+                    "type": "string",
+                    "description": "Name of the Apex class to create or update"
+                },
+                "apiVersion": {
+                    "type": "string",
+                    "description": "API version for the Apex class (e.g., '58.0')"
+                },
+                "body": {
+                    "type": "string",
+                    "description": "Full body of the Apex class"
+                }
+            },
+            "required": [
+                "operation",
+                "className",
+                "body"
+            ]
+        }
+    },
+    {
+        "name": "salesforce_salesforce_read_apex_trigger",
+        "description": "Read Apex triggers from Salesforce.\n  \nExamples:\n1. Read a specific Apex trigger by name:\n   {\n     \"triggerName\": \"AccountTrigger\"\n   }\n\n2. List all Apex triggers with an optional name pattern:\n   {\n     \"namePattern\": \"Account\"\n   }\n\n3. Get metadata about Apex triggers:\n   {\n     \"includeMetadata\": true,\n     \"namePattern\": \"Contact\"\n   }\n\n4. Use wildcards in name patterns:\n   {\n     \"namePattern\": \"Account*\"\n   }\n\nNotes:\n- When triggerName is provided, the full body of that specific trigger is returned\n- When namePattern is provided, all matching trigger names are returned (without body)\n- Use includeMetadata to get additional information like API version, object type, and last modified date\n- If neither triggerName nor namePattern is provided, all Apex trigger names will be listed\n- Wildcards are supported in namePattern: * (matches any characters) and ? (matches a single character)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "triggerName": {
+                    "type": "string",
+                    "description": "Name of a specific Apex trigger to read"
+                },
+                "namePattern": {
+                    "type": "string",
+                    "description": "Pattern to match Apex trigger names (supports wildcards * and ?)"
+                },
+                "includeMetadata": {
+                    "type": "boolean",
+                    "description": "Whether to include metadata about the Apex triggers"
+                }
+            }
+        }
+    },
+    {
+        "name": "salesforce_salesforce_write_apex_trigger",
+        "description": "Create or update Apex triggers in Salesforce.\n  \nExamples:\n1. Create a new Apex trigger:\n   {\n     \"operation\": \"create\",\n     \"triggerName\": \"AccountTrigger\",\n     \"objectName\": \"Account\",\n     \"apiVersion\": \"58.0\",\n     \"body\": \"trigger AccountTrigger on Account (before insert, before update) { /* implementation */ }\"\n   }\n\n2. Update an existing Apex trigger:\n   {\n     \"operation\": \"update\",\n     \"triggerName\": \"AccountTrigger\",\n     \"body\": \"trigger AccountTrigger on Account (before insert, before update, after update) { /* updated implementation */ }\"\n   }\n\nNotes:\n- The operation must be either 'create' or 'update'\n- For 'create' operations, triggerName, objectName, and body are required\n- For 'update' operations, triggerName and body are required\n- apiVersion is optional for 'create' (defaults to the latest version)\n- The body must be valid Apex trigger code\n- The triggerName in the body must match the triggerName parameter\n- The objectName in the body must match the objectName parameter (for 'create')\n- Status information is returned after successful operations",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "operation": {
+                    "type": "string",
+                    "enum": [
+                        "create",
+                        "update"
+                    ],
+                    "description": "Whether to create a new trigger or update an existing one"
+                },
+                "triggerName": {
+                    "type": "string",
+                    "description": "Name of the Apex trigger to create or update"
+                },
+                "objectName": {
+                    "type": "string",
+                    "description": "Name of the Salesforce object the trigger is for (required for 'create')"
+                },
+                "apiVersion": {
+                    "type": "string",
+                    "description": "API version for the Apex trigger (e.g., '58.0')"
+                },
+                "body": {
+                    "type": "string",
+                    "description": "Full body of the Apex trigger"
+                }
+            },
+            "required": [
+                "operation",
+                "triggerName",
+                "body"
+            ]
+        }
+    },
+    {
+        "name": "salesforce_salesforce_execute_anonymous",
+        "description": "Execute anonymous Apex code in Salesforce.\n  \nExamples:\n1. Execute simple Apex code:\n   {\n     \"apexCode\": \"System.debug('Hello World');\"\n   }\n\n2. Execute Apex code with variables:\n   {\n     \"apexCode\": \"List<Account> accounts = [SELECT Id, Name FROM Account LIMIT 5]; for(Account a : accounts) { System.debug(a.Name); }\"\n   }\n\n3. Execute Apex with debug logs:\n   {\n     \"apexCode\": \"System.debug(LoggingLevel.INFO, 'Processing accounts...'); List<Account> accounts = [SELECT Id FROM Account LIMIT 10]; System.debug(LoggingLevel.INFO, 'Found ' + accounts.size() + ' accounts');\",\n     \"logLevel\": \"DEBUG\"\n   }\n\nNotes:\n- The apexCode parameter is required and must contain valid Apex code\n- The code is executed in an anonymous context and does not persist\n- The logLevel parameter is optional (defaults to 'DEBUG')\n- Execution results include compilation success/failure, execution success/failure, and debug logs\n- For security reasons, some operations may be restricted based on user permissions\n- This tool can be used for data operations or updates when there are no other specific tools available\n- When users request data queries or updates that aren't directly supported by other tools, this tool can be used if the operation is achievable using Apex code\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "apexCode": {
+                    "type": "string",
+                    "description": "Apex code to execute anonymously"
+                },
+                "logLevel": {
+                    "type": "string",
+                    "enum": [
+                        "NONE",
+                        "ERROR",
+                        "WARN",
+                        "INFO",
+                        "DEBUG",
+                        "FINE",
+                        "FINER",
+                        "FINEST"
+                    ],
+                    "description": "Log level for debug logs (optional, defaults to DEBUG)"
+                }
+            },
+            "required": [
+                "apexCode"
+            ]
+        }
+    },
+    {
+        "name": "salesforce_salesforce_manage_debug_logs",
+        "description": "Manage debug logs for Salesforce users - enable, disable, or retrieve logs.\n  \nExamples:\n1. Enable debug logs for a user:\n   {\n     \"operation\": \"enable\",\n     \"username\": \"user@example.com\",\n     \"logLevel\": \"DEBUG\",\n     \"expirationTime\": 30\n   }\n\n2. Disable debug logs for a user:\n   {\n     \"operation\": \"disable\",\n     \"username\": \"user@example.com\"\n   }\n\n3. Retrieve debug logs for a user:\n   {\n     \"operation\": \"retrieve\",\n     \"username\": \"user@example.com\",\n     \"limit\": 5\n   }\n\n4. Retrieve a specific log with full content:\n   {\n     \"operation\": \"retrieve\",\n     \"username\": \"user@example.com\",\n     \"logId\": \"07L1g000000XXXXEAA0\",\n     \"includeBody\": true\n   }\n\nNotes:\n- The operation must be one of: 'enable', 'disable', or 'retrieve'\n- The username parameter is required for all operations\n- For 'enable' operation, logLevel is optional (defaults to 'DEBUG')\n- Log levels: NONE, ERROR, WARN, INFO, DEBUG, FINE, FINER, FINEST\n- expirationTime is optional for 'enable' operation (minutes until expiration, defaults to 30)\n- limit is optional for 'retrieve' operation (maximum number of logs to return, defaults to 10)\n- logId is optional for 'retrieve' operation (to get a specific log)\n- includeBody is optional for 'retrieve' operation (to include the full log content, defaults to false)\n- The tool validates that the specified user exists before performing operations\n- If logLevel is not specified when enabling logs, the tool will ask for clarification",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "operation": {
+                    "type": "string",
+                    "enum": [
+                        "enable",
+                        "disable",
+                        "retrieve"
+                    ],
+                    "description": "Operation to perform on debug logs"
+                },
+                "username": {
+                    "type": "string",
+                    "description": "Username of the Salesforce user"
+                },
+                "logLevel": {
+                    "type": "string",
+                    "enum": [
+                        "NONE",
+                        "ERROR",
+                        "WARN",
+                        "INFO",
+                        "DEBUG",
+                        "FINE",
+                        "FINER",
+                        "FINEST"
+                    ],
+                    "description": "Log level for debug logs (required for 'enable' operation)"
+                },
+                "expirationTime": {
+                    "type": "number",
+                    "description": "Minutes until the debug log configuration expires (optional, defaults to 30)"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of logs to retrieve (optional, defaults to 10)"
+                },
+                "logId": {
+                    "type": "string",
+                    "description": "ID of a specific log to retrieve (optional)"
+                },
+                "includeBody": {
+                    "type": "boolean",
+                    "description": "Whether to include the full log content (optional, defaults to false)"
+                }
+            },
+            "required": [
+                "operation",
+                "username"
+            ]
+        }
+    }
+]

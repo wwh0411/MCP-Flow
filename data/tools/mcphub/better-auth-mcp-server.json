@@ -1,0 +1,175 @@
+[
+    {
+        "name": "analyze_project",
+        "description": "Analyze project structure and dependencies to recommend Better-Auth setup approach",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectPath": {
+                    "type": "string",
+                    "description": "Path to the project root"
+                }
+            },
+            "required": [
+                "projectPath"
+            ]
+        }
+    },
+    {
+        "name": "setup_better_auth",
+        "description": "Install and configure Better-Auth in the project",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectPath": {
+                    "type": "string",
+                    "description": "Path to the project root"
+                },
+                "config": {
+                    "type": "object",
+                    "description": "Better-Auth configuration options",
+                    "properties": {
+                        "projectId": {
+                            "type": "string"
+                        },
+                        "apiKey": {
+                            "type": "string"
+                        },
+                        "environment": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "projectId",
+                        "apiKey"
+                    ]
+                }
+            },
+            "required": [
+                "projectPath",
+                "config"
+            ]
+        }
+    },
+    {
+        "name": "analyze_current_auth",
+        "description": "Detect and analyze existing auth.js/next-auth implementation",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectPath": {
+                    "type": "string",
+                    "description": "Path to the project root"
+                }
+            },
+            "required": [
+                "projectPath"
+            ]
+        }
+    },
+    {
+        "name": "generate_migration_plan",
+        "description": "Create step-by-step migration plan from existing auth to Better-Auth",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectPath": {
+                    "type": "string",
+                    "description": "Path to the project root"
+                },
+                "currentAuthType": {
+                    "type": "string",
+                    "description": "Current authentication system type",
+                    "enum": [
+                        "auth.js",
+                        "next-auth"
+                    ]
+                }
+            },
+            "required": [
+                "projectPath",
+                "currentAuthType"
+            ]
+        }
+    },
+    {
+        "name": "test_auth_flows",
+        "description": "Test authentication workflows",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "flows": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "login",
+                            "register",
+                            "password-reset",
+                            "2fa"
+                        ]
+                    },
+                    "description": "Authentication flows to test"
+                }
+            },
+            "required": [
+                "flows"
+            ]
+        }
+    },
+    {
+        "name": "test_security",
+        "description": "Run security tests on Better-Auth setup",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "tests": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "password-policy",
+                            "rate-limiting",
+                            "session-management"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "tests"
+            ]
+        }
+    },
+    {
+        "name": "analyze_logs",
+        "description": "Analyze Better-Auth logs for issues",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "timeRange": {
+                    "type": "string",
+                    "description": "Time range to analyze (e.g. '24h', '7d')"
+                }
+            },
+            "required": [
+                "timeRange"
+            ]
+        }
+    },
+    {
+        "name": "monitor_auth_flows",
+        "description": "Real-time monitoring of authentication processes",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "duration": {
+                    "type": "string",
+                    "description": "Monitoring duration (e.g. '1h', '30m')"
+                }
+            },
+            "required": [
+                "duration"
+            ]
+        }
+    }
+]

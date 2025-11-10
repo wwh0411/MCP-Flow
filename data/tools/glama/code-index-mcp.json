@@ -1,0 +1,184 @@
+[
+    {
+        "name": "code-index_set_project_path",
+        "description": "Set the base project path for indexing.",
+        "parameters": {
+            "properties": {
+                "path": {
+                    "title": "Path",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "path"
+            ],
+            "title": "set_project_pathArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "code-index_search_code_advanced",
+        "description": "\nSearch for a code pattern in the project using an advanced, fast tool.\n\nThis tool automatically selects the best available command-line search tool\n(like ugrep, ripgrep, ag, or grep) for maximum performance.\n\nArgs:\n    pattern: The search pattern. Can be literal text or regex (see regex parameter).\n    case_sensitive: Whether the search should be case-sensitive.\n    context_lines: Number of lines to show before and after the match.\n    file_pattern: A glob pattern to filter files to search in\n                 (e.g., \"*.py\", \"*.js\", \"test_*.py\").\n                 All search tools now handle glob patterns consistently:\n                 - ugrep: Uses glob patterns (*.py, *.{js,ts})\n                 - ripgrep: Uses glob patterns (*.py, *.{js,ts})\n                 - ag (Silver Searcher): Automatically converts globs to regex patterns\n                 - grep: Basic glob pattern matching\n                 All common glob patterns like \"*.py\", \"test_*.js\", \"src/*.ts\" are supported.\n    fuzzy: If True, enables fuzzy/partial matching behavior varies by search tool:\n           - ugrep: Native fuzzy search with --fuzzy flag (true edit-distance fuzzy search)\n           - ripgrep, ag, grep, basic: Word boundary pattern matching (not true fuzzy search)\n           IMPORTANT: Only ugrep provides true fuzzy search. Other tools use word boundary\n           matching which allows partial matches at word boundaries.\n           For exact literal matches, set fuzzy=False (default and recommended).\n    regex: Controls regex pattern matching behavior:\n           - If True, enables regex pattern matching\n           - If False, forces literal string search\n           - If None (default), automatically detects regex patterns and enables regex for patterns like \"ERROR|WARN\"\n           The pattern will always be validated for safety to prevent ReDoS attacks.\n\nReturns:\n    A dictionary containing the search results or an error message.\n\n",
+        "parameters": {
+            "properties": {
+                "pattern": {
+                    "title": "Pattern",
+                    "type": "string"
+                },
+                "case_sensitive": {
+                    "default": true,
+                    "title": "Case Sensitive",
+                    "type": "boolean"
+                },
+                "context_lines": {
+                    "default": 0,
+                    "title": "Context Lines",
+                    "type": "integer"
+                },
+                "file_pattern": {
+                    "default": null,
+                    "title": "File Pattern",
+                    "type": "string"
+                },
+                "fuzzy": {
+                    "default": false,
+                    "title": "Fuzzy",
+                    "type": "boolean"
+                },
+                "regex": {
+                    "default": null,
+                    "title": "Regex",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "pattern"
+            ],
+            "title": "search_code_advancedArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "code-index_find_files",
+        "description": "\nFind files matching a glob pattern using pre-built file index.\n\nUse when:\n- Looking for files by pattern (e.g., \"*.py\", \"test_*.js\")\n- Searching by filename only (e.g., \"README.md\" finds all README files)\n- Checking if specific files exist in the project\n- Getting file lists for further analysis\n\nPattern matching:\n- Supports both full path and filename-only matching\n- Uses standard glob patterns (*, ?, [])\n- Fast lookup using in-memory file index\n- Uses forward slashes consistently across all platforms\n\nArgs:\n    pattern: Glob pattern to match files (e.g., \"*.py\", \"test_*.js\", \"README.md\")\n\nReturns:\n    List of file paths matching the pattern\n",
+        "parameters": {
+            "properties": {
+                "pattern": {
+                    "title": "Pattern",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "pattern"
+            ],
+            "title": "find_filesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "code-index_get_file_summary",
+        "description": "\nGet a summary of a specific file, including:\n- Line count\n- Function/class definitions (for supported languages)\n- Import statements\n- Basic complexity metrics\n",
+        "parameters": {
+            "properties": {
+                "file_path": {
+                    "title": "File Path",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "file_path"
+            ],
+            "title": "get_file_summaryArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "code-index_refresh_index",
+        "description": "\nManually refresh the project index when files have been added/removed/moved.\n\nUse when:\n- File watcher is disabled or unavailable\n- After large-scale operations (git checkout, merge, pull) that change many files\n- When you want immediate index rebuild without waiting for file watcher debounce\n- When find_files results seem incomplete or outdated\n- For troubleshooting suspected index synchronization issues\n\nImportant notes for LLMs:\n- Always available as backup when file watcher is not working\n- Performs full project re-indexing for complete accuracy\n- Use when you suspect the index is stale after file system changes\n- **Call this after programmatic file modifications if file watcher seems unresponsive**\n- Complements the automatic file watcher system\n\nReturns:\n    Success message with total file count\n",
+        "parameters": {
+            "properties": {},
+            "title": "refresh_indexArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "code-index_get_settings_info",
+        "description": "Get information about the project settings.",
+        "parameters": {
+            "properties": {},
+            "title": "get_settings_infoArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "code-index_create_temp_directory",
+        "description": "Create the temporary directory used for storing index data.",
+        "parameters": {
+            "properties": {},
+            "title": "create_temp_directoryArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "code-index_check_temp_directory",
+        "description": "Check the temporary directory used for storing index data.",
+        "parameters": {
+            "properties": {},
+            "title": "check_temp_directoryArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "code-index_clear_settings",
+        "description": "Clear all settings and cached data.",
+        "parameters": {
+            "properties": {},
+            "title": "clear_settingsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "code-index_refresh_search_tools",
+        "description": "\nManually re-detect the available command-line search tools on the system.\nThis is useful if you have installed a new tool (like ripgrep) after starting the server.\n",
+        "parameters": {
+            "properties": {},
+            "title": "refresh_search_toolsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "code-index_get_file_watcher_status",
+        "description": "Get file watcher service status and statistics.",
+        "parameters": {
+            "properties": {},
+            "title": "get_file_watcher_statusArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "code-index_configure_file_watcher",
+        "description": "Configure file watcher service settings.",
+        "parameters": {
+            "properties": {
+                "enabled": {
+                    "default": null,
+                    "title": "Enabled",
+                    "type": "boolean"
+                },
+                "debounce_seconds": {
+                    "default": null,
+                    "title": "Debounce Seconds",
+                    "type": "number"
+                },
+                "additional_exclude_patterns": {
+                    "default": null,
+                    "items": {},
+                    "title": "Additional Exclude Patterns",
+                    "type": "array"
+                }
+            },
+            "title": "configure_file_watcherArguments",
+            "type": "object"
+        }
+    }
+]

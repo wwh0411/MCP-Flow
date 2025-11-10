@@ -1,0 +1,1290 @@
+[
+    {
+        "name": "get_account_info",
+        "description": "\n    Retrieves and formats the current account information including balances and status.\n    \n    Returns:\n        str: Formatted string containing account details including:\n            - Account ID\n            - Status\n            - Currency\n            - Buying Power\n            - Cash Balance\n            - Portfolio Value\n            - Equity\n            - Market Values\n            - Pattern Day Trader Status\n            - Day Trades Remaining\n    ",
+        "parameters": {
+            "properties": {},
+            "title": "get_account_infoArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_positions",
+        "description": "\n    Retrieves and formats all current positions in the portfolio.\n    \n    Returns:\n        str: Formatted string containing details of all open positions including:\n            - Symbol\n            - Quantity\n            - Market Value\n            - Average Entry Price\n            - Current Price\n            - Unrealized P/L\n    ",
+        "parameters": {
+            "properties": {},
+            "title": "get_positionsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_open_position",
+        "description": "\n    Retrieves and formats details for a specific open position.\n    \n    Args:\n        symbol (str): The symbol name of the asset to get position for (e.g., 'AAPL', 'MSFT')\n    \n    Returns:\n        str: Formatted string containing the position details or an error message\n    ",
+        "parameters": {
+            "properties": {
+                "symbol": {
+                    "title": "Symbol",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "symbol"
+            ],
+            "title": "get_open_positionArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_stock_quote",
+        "description": "\n    Retrieves and formats the latest quote for a stock.\n    \n    Args:\n        symbol (str): Stock ticker symbol (e.g., AAPL, MSFT)\n    \n    Returns:\n        str: Formatted string containing:\n            - Ask Price\n            - Bid Price\n            - Ask Size\n            - Bid Size\n            - Timestamp\n    ",
+        "parameters": {
+            "properties": {
+                "symbol": {
+                    "title": "Symbol",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "symbol"
+            ],
+            "title": "get_stock_quoteArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_stock_bars",
+        "description": "\n    Retrieves and formats historical price bars for a stock with configurable timeframe and time range.\n    \n    Args:\n        symbol (str): Stock ticker symbol (e.g., AAPL, MSFT)\n        days (int): Number of days to look back (default: 5, ignored if start/end provided)\n        timeframe (str): Bar timeframe - supports flexible Alpaca formats:\n            - Minutes: \"1Min\", \"2Min\", \"3Min\", \"4Min\", \"5Min\", \"15Min\", \"30Min\", etc.\n            - Hours: \"1Hour\", \"2Hour\", \"3Hour\", \"4Hour\", \"6Hour\", etc.\n            - Days: \"1Day\", \"2Day\", \"3Day\", etc.\n            - Weeks: \"1Week\", \"2Week\", etc.\n            - Months: \"1Month\", \"2Month\", etc.\n            (default: \"1Day\")\n        limit (Optional[int]): Maximum number of bars to return (optional)\n        start (Optional[str]): Start time in ISO format (e.g., \"2023-01-01T09:30:00\" or \"2023-01-01\")\n        end (Optional[str]): End time in ISO format (e.g., \"2023-01-01T16:00:00\" or \"2023-01-01\")\n    \n    Returns:\n        str: Formatted string containing historical price data with timestamps, OHLCV data\n    ",
+        "parameters": {
+            "properties": {
+                "symbol": {
+                    "title": "Symbol",
+                    "type": "string"
+                },
+                "days": {
+                    "default": 5,
+                    "title": "Days",
+                    "type": "integer"
+                },
+                "timeframe": {
+                    "default": "1Day",
+                    "title": "Timeframe",
+                    "type": "string"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Limit"
+                },
+                "start": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Start"
+                },
+                "end": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "End"
+                }
+            },
+            "required": [
+                "symbol"
+            ],
+            "title": "get_stock_barsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_stock_trades",
+        "description": "\n    Retrieves and formats historical trades for a stock.\n    \n    Args:\n        symbol (str): Stock ticker symbol (e.g., 'AAPL', 'MSFT')\n        days (int): Number of days to look back (default: 5)\n        limit (Optional[int]): Upper limit of number of data points to return\n        sort (Optional[Sort]): Chronological order of response (ASC or DESC)\n        feed (Optional[DataFeed]): The stock data feed to retrieve from\n        currency (Optional[SupportedCurrencies]): Currency for prices (default: USD)\n        asof (Optional[str]): The asof date in YYYY-MM-DD format\n    \n    Returns:\n        str: Formatted string containing trade history or an error message\n    ",
+        "parameters": {
+            "$defs": {
+                "DataFeed": {
+                    "description": "Equity market data feeds. OTC and SIP are available with premium data subscriptions.\n\nAttributes:\n    IEX (str): Investor's exchange data feed\n    SIP (str): Securities Information Processor feed\n    DELAYED_SIP (str): SIP data with a 15 minute delay\n    OTC (str): Over the counter feed\n    BOATS (str): Blue Ocean, overnight US trading data\n    OVERNIGHT (str): derived overnight US trading data",
+                    "enum": [
+                        "iex",
+                        "sip",
+                        "delayed_sip",
+                        "otc",
+                        "boats",
+                        "overnight"
+                    ],
+                    "title": "DataFeed",
+                    "type": "string"
+                },
+                "Sort": {
+                    "enum": [
+                        "asc",
+                        "desc"
+                    ],
+                    "title": "Sort",
+                    "type": "string"
+                },
+                "SupportedCurrencies": {
+                    "description": "The various currencies that can be supported for LCT.\n\nsee https://alpaca.markets/support/local-currency-trading-faq",
+                    "enum": [
+                        "USD",
+                        "GBP",
+                        "CHF",
+                        "EUR",
+                        "CAD",
+                        "JPY",
+                        "TRY",
+                        "AUD",
+                        "CZK",
+                        "SEK",
+                        "DKK",
+                        "SGD",
+                        "HKD",
+                        "HUF",
+                        "NZD",
+                        "NOK",
+                        "PLN"
+                    ],
+                    "title": "SupportedCurrencies",
+                    "type": "string"
+                }
+            },
+            "properties": {
+                "symbol": {
+                    "title": "Symbol",
+                    "type": "string"
+                },
+                "days": {
+                    "default": 5,
+                    "title": "Days",
+                    "type": "integer"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Limit"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Sort"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": "asc"
+                },
+                "feed": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/DataFeed"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null
+                },
+                "currency": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/SupportedCurrencies"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null
+                },
+                "asof": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Asof"
+                }
+            },
+            "required": [
+                "symbol"
+            ],
+            "title": "get_stock_tradesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_stock_latest_trade",
+        "description": "Get the latest trade for a stock.\n    \n    Args:\n        symbol: Stock ticker symbol (e.g., 'AAPL', 'MSFT')\n        feed: The stock data feed to retrieve from (optional)\n        currency: The currency for prices (optional, defaults to USD)\n    \n    Returns:\n        A formatted string containing the latest trade details or an error message\n    ",
+        "parameters": {
+            "$defs": {
+                "DataFeed": {
+                    "description": "Equity market data feeds. OTC and SIP are available with premium data subscriptions.\n\nAttributes:\n    IEX (str): Investor's exchange data feed\n    SIP (str): Securities Information Processor feed\n    DELAYED_SIP (str): SIP data with a 15 minute delay\n    OTC (str): Over the counter feed\n    BOATS (str): Blue Ocean, overnight US trading data\n    OVERNIGHT (str): derived overnight US trading data",
+                    "enum": [
+                        "iex",
+                        "sip",
+                        "delayed_sip",
+                        "otc",
+                        "boats",
+                        "overnight"
+                    ],
+                    "title": "DataFeed",
+                    "type": "string"
+                },
+                "SupportedCurrencies": {
+                    "description": "The various currencies that can be supported for LCT.\n\nsee https://alpaca.markets/support/local-currency-trading-faq",
+                    "enum": [
+                        "USD",
+                        "GBP",
+                        "CHF",
+                        "EUR",
+                        "CAD",
+                        "JPY",
+                        "TRY",
+                        "AUD",
+                        "CZK",
+                        "SEK",
+                        "DKK",
+                        "SGD",
+                        "HKD",
+                        "HUF",
+                        "NZD",
+                        "NOK",
+                        "PLN"
+                    ],
+                    "title": "SupportedCurrencies",
+                    "type": "string"
+                }
+            },
+            "properties": {
+                "symbol": {
+                    "title": "Symbol",
+                    "type": "string"
+                },
+                "feed": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/DataFeed"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null
+                },
+                "currency": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/SupportedCurrencies"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null
+                }
+            },
+            "required": [
+                "symbol"
+            ],
+            "title": "get_stock_latest_tradeArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_stock_latest_bar",
+        "description": "Get the latest minute bar for a stock.\n    \n    Args:\n        symbol: Stock ticker symbol (e.g., 'AAPL', 'MSFT')\n        feed: The stock data feed to retrieve from (optional)\n        currency: The currency for prices (optional, defaults to USD)\n    \n    Returns:\n        A formatted string containing the latest bar details or an error message\n    ",
+        "parameters": {
+            "$defs": {
+                "DataFeed": {
+                    "description": "Equity market data feeds. OTC and SIP are available with premium data subscriptions.\n\nAttributes:\n    IEX (str): Investor's exchange data feed\n    SIP (str): Securities Information Processor feed\n    DELAYED_SIP (str): SIP data with a 15 minute delay\n    OTC (str): Over the counter feed\n    BOATS (str): Blue Ocean, overnight US trading data\n    OVERNIGHT (str): derived overnight US trading data",
+                    "enum": [
+                        "iex",
+                        "sip",
+                        "delayed_sip",
+                        "otc",
+                        "boats",
+                        "overnight"
+                    ],
+                    "title": "DataFeed",
+                    "type": "string"
+                },
+                "SupportedCurrencies": {
+                    "description": "The various currencies that can be supported for LCT.\n\nsee https://alpaca.markets/support/local-currency-trading-faq",
+                    "enum": [
+                        "USD",
+                        "GBP",
+                        "CHF",
+                        "EUR",
+                        "CAD",
+                        "JPY",
+                        "TRY",
+                        "AUD",
+                        "CZK",
+                        "SEK",
+                        "DKK",
+                        "SGD",
+                        "HKD",
+                        "HUF",
+                        "NZD",
+                        "NOK",
+                        "PLN"
+                    ],
+                    "title": "SupportedCurrencies",
+                    "type": "string"
+                }
+            },
+            "properties": {
+                "symbol": {
+                    "title": "Symbol",
+                    "type": "string"
+                },
+                "feed": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/DataFeed"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null
+                },
+                "currency": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/SupportedCurrencies"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null
+                }
+            },
+            "required": [
+                "symbol"
+            ],
+            "title": "get_stock_latest_barArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_stock_snapshot",
+        "description": "\n    Retrieves comprehensive snapshots of stock symbols including latest trade, quote, minute bar, daily bar, and previous daily bar.\n    \n    Args:\n        symbol_or_symbols: Single stock symbol or list of stock symbols (e.g., 'AAPL' or ['AAPL', 'MSFT'])\n        feed: The stock data feed to retrieve from (optional)\n        currency: The currency the data should be returned in (default: USD)\n    \n    Returns:\n        Formatted string with comprehensive snapshots including:\n        - latest_quote: Current bid/ask prices and sizes\n        - latest_trade: Most recent trade price, size, and exchange\n        - minute_bar: Latest minute OHLCV bar\n        - daily_bar: Current day's OHLCV bar  \n        - previous_daily_bar: Previous trading day's OHLCV bar\n    ",
+        "parameters": {
+            "$defs": {
+                "DataFeed": {
+                    "description": "Equity market data feeds. OTC and SIP are available with premium data subscriptions.\n\nAttributes:\n    IEX (str): Investor's exchange data feed\n    SIP (str): Securities Information Processor feed\n    DELAYED_SIP (str): SIP data with a 15 minute delay\n    OTC (str): Over the counter feed\n    BOATS (str): Blue Ocean, overnight US trading data\n    OVERNIGHT (str): derived overnight US trading data",
+                    "enum": [
+                        "iex",
+                        "sip",
+                        "delayed_sip",
+                        "otc",
+                        "boats",
+                        "overnight"
+                    ],
+                    "title": "DataFeed",
+                    "type": "string"
+                },
+                "SupportedCurrencies": {
+                    "description": "The various currencies that can be supported for LCT.\n\nsee https://alpaca.markets/support/local-currency-trading-faq",
+                    "enum": [
+                        "USD",
+                        "GBP",
+                        "CHF",
+                        "EUR",
+                        "CAD",
+                        "JPY",
+                        "TRY",
+                        "AUD",
+                        "CZK",
+                        "SEK",
+                        "DKK",
+                        "SGD",
+                        "HKD",
+                        "HUF",
+                        "NZD",
+                        "NOK",
+                        "PLN"
+                    ],
+                    "title": "SupportedCurrencies",
+                    "type": "string"
+                }
+            },
+            "properties": {
+                "symbol_or_symbols": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        }
+                    ],
+                    "title": "Symbol Or Symbols"
+                },
+                "feed": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/DataFeed"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null
+                },
+                "currency": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/SupportedCurrencies"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null
+                }
+            },
+            "required": [
+                "symbol_or_symbols"
+            ],
+            "title": "get_stock_snapshotArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_orders",
+        "description": "\n    Retrieves and formats orders with the specified status.\n    \n    Args:\n        status (str): Order status to filter by (open, closed, all)\n        limit (int): Maximum number of orders to return (default: 10)\n    \n    Returns:\n        str: Formatted string containing order details including:\n            - Symbol\n            - ID\n            - Type\n            - Side\n            - Quantity\n            - Status\n            - Submission Time\n            - Fill Details (if applicable)\n    ",
+        "parameters": {
+            "properties": {
+                "status": {
+                    "default": "all",
+                    "title": "Status",
+                    "type": "string"
+                },
+                "limit": {
+                    "default": 10,
+                    "title": "Limit",
+                    "type": "integer"
+                }
+            },
+            "title": "get_ordersArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "place_stock_order",
+        "description": "\n    Places an order of any supported type (MARKET, LIMIT, STOP, STOP_LIMIT, TRAILING_STOP) using the correct Alpaca request class.\n\n    Args:\n        symbol (str): Stock ticker symbol (e.g., AAPL, MSFT)\n        side (str): Order side (buy or sell)\n        quantity (float): Number of shares to buy or sell\n        order_type (str): Order type (MARKET, LIMIT, STOP, STOP_LIMIT, TRAILING_STOP). Default is MARKET.\n        time_in_force (str): Time in force for the order. Valid options for equity trading: \n            DAY, GTC, OPG, CLS, IOC, FOK (default: DAY)\n        limit_price (float): Limit price (required for LIMIT, STOP_LIMIT)\n        stop_price (float): Stop price (required for STOP, STOP_LIMIT)\n        trail_price (float): Trail price (for TRAILING_STOP)\n        trail_percent (float): Trail percent (for TRAILING_STOP)\n        extended_hours (bool): Allow execution during extended hours (default: False)\n        client_order_id (str): Optional custom identifier for the order\n\n    Returns:\n        str: Formatted string containing order details or error message.\n    ",
+        "parameters": {
+            "properties": {
+                "symbol": {
+                    "title": "Symbol",
+                    "type": "string"
+                },
+                "side": {
+                    "title": "Side",
+                    "type": "string"
+                },
+                "quantity": {
+                    "title": "Quantity",
+                    "type": "number"
+                },
+                "order_type": {
+                    "default": "market",
+                    "title": "Order Type",
+                    "type": "string"
+                },
+                "time_in_force": {
+                    "default": "day",
+                    "title": "Time In Force",
+                    "type": "string"
+                },
+                "limit_price": {
+                    "default": null,
+                    "title": "Limit Price",
+                    "type": "number"
+                },
+                "stop_price": {
+                    "default": null,
+                    "title": "Stop Price",
+                    "type": "number"
+                },
+                "trail_price": {
+                    "default": null,
+                    "title": "Trail Price",
+                    "type": "number"
+                },
+                "trail_percent": {
+                    "default": null,
+                    "title": "Trail Percent",
+                    "type": "number"
+                },
+                "extended_hours": {
+                    "default": false,
+                    "title": "Extended Hours",
+                    "type": "boolean"
+                },
+                "client_order_id": {
+                    "default": null,
+                    "title": "Client Order Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "symbol",
+                "side",
+                "quantity"
+            ],
+            "title": "place_stock_orderArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "cancel_all_orders",
+        "description": "\n    Cancel all open orders.\n    \n    Returns:\n        A formatted string containing the status of each cancelled order.\n    ",
+        "parameters": {
+            "properties": {},
+            "title": "cancel_all_ordersArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "cancel_order_by_id",
+        "description": "\n    Cancel a specific order by its ID.\n    \n    Args:\n        order_id: The UUID of the order to cancel\n        \n    Returns:\n        A formatted string containing the status of the cancelled order.\n    ",
+        "parameters": {
+            "properties": {
+                "order_id": {
+                    "title": "Order Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "order_id"
+            ],
+            "title": "cancel_order_by_idArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "close_position",
+        "description": "\n    Closes a specific position for a single symbol.\n    \n    Args:\n        symbol (str): The symbol of the position to close\n        qty (Optional[str]): Optional number of shares to liquidate\n        percentage (Optional[str]): Optional percentage of shares to liquidate (must result in at least 1 share)\n    \n    Returns:\n        str: Formatted string containing position closure details or error message\n    ",
+        "parameters": {
+            "properties": {
+                "symbol": {
+                    "title": "Symbol",
+                    "type": "string"
+                },
+                "qty": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Qty"
+                },
+                "percentage": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Percentage"
+                }
+            },
+            "required": [
+                "symbol"
+            ],
+            "title": "close_positionArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "close_all_positions",
+        "description": "\n    Closes all open positions.\n    \n    Args:\n        cancel_orders (bool): If True, cancels all open orders before liquidating positions\n    \n    Returns:\n        str: Formatted string containing position closure results\n    ",
+        "parameters": {
+            "properties": {
+                "cancel_orders": {
+                    "default": false,
+                    "title": "Cancel Orders",
+                    "type": "boolean"
+                }
+            },
+            "title": "close_all_positionsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_asset_info",
+        "description": "\n    Retrieves and formats detailed information about a specific asset.\n    \n    Args:\n        symbol (str): The symbol of the asset to get information for\n    \n    Returns:\n        str: Formatted string containing asset details including:\n            - Name\n            - Exchange\n            - Class\n            - Status\n            - Trading Properties\n    ",
+        "parameters": {
+            "properties": {
+                "symbol": {
+                    "title": "Symbol",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "symbol"
+            ],
+            "title": "get_asset_infoArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_all_assets",
+        "description": "\n    Get all available assets with optional filtering.\n    \n    Args:\n        status: Filter by asset status (e.g., 'active', 'inactive')\n        asset_class: Filter by asset class (e.g., 'us_equity', 'crypto')\n        exchange: Filter by exchange (e.g., 'NYSE', 'NASDAQ')\n        attributes: Comma-separated values to query for multiple attributes\n    ",
+        "parameters": {
+            "properties": {
+                "status": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Status"
+                },
+                "asset_class": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Asset Class"
+                },
+                "exchange": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Exchange"
+                },
+                "attributes": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Attributes"
+                }
+            },
+            "title": "get_all_assetsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "create_watchlist",
+        "description": "\n    Creates a new watchlist with specified symbols.\n    \n    Args:\n        name (str): Name of the watchlist\n        symbols (List[str]): List of symbols to include in the watchlist\n    \n    Returns:\n        str: Confirmation message with watchlist creation status\n    ",
+        "parameters": {
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string"
+                },
+                "symbols": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Symbols",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "name",
+                "symbols"
+            ],
+            "title": "create_watchlistArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_watchlists",
+        "description": "Get all watchlists for the account.",
+        "parameters": {
+            "properties": {},
+            "title": "get_watchlistsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "update_watchlist",
+        "description": "Update an existing watchlist.",
+        "parameters": {
+            "properties": {
+                "watchlist_id": {
+                    "title": "Watchlist Id",
+                    "type": "string"
+                },
+                "name": {
+                    "default": null,
+                    "title": "Name",
+                    "type": "string"
+                },
+                "symbols": {
+                    "default": null,
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Symbols",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "watchlist_id"
+            ],
+            "title": "update_watchlistArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_market_clock",
+        "description": "\n    Retrieves and formats current market status and next open/close times.\n    \n    Returns:\n        str: Formatted string containing:\n            - Current Time\n            - Market Open Status\n            - Next Open Time\n            - Next Close Time\n    ",
+        "parameters": {
+            "properties": {},
+            "title": "get_market_clockArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_market_calendar",
+        "description": "\n    Retrieves and formats market calendar for specified date range.\n    \n    Args:\n        start_date (str): Start date in YYYY-MM-DD format\n        end_date (str): End date in YYYY-MM-DD format\n    \n    Returns:\n        str: Formatted string containing market calendar information\n    ",
+        "parameters": {
+            "properties": {
+                "start_date": {
+                    "title": "Start Date",
+                    "type": "string"
+                },
+                "end_date": {
+                    "title": "End Date",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "start_date",
+                "end_date"
+            ],
+            "title": "get_market_calendarArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_corporate_announcements",
+        "description": "\n    Retrieves and formats corporate action announcements.\n    \n    Args:\n        ca_types (Optional[List[CorporateActionsType]]): List of corporate action types to filter by (default: all types)\n            Available types from https://alpaca.markets/sdks/python/api_reference/data/enums.html#corporateactionstype:\n            - CorporateActionsType.REVERSE_SPLIT: Reverse split\n            - CorporateActionsType.FORWARD_SPLIT: Forward split  \n            - CorporateActionsType.UNIT_SPLIT: Unit split\n            - CorporateActionsType.CASH_DIVIDEND: Cash dividend\n            - CorporateActionsType.STOCK_DIVIDEND: Stock dividend\n            - CorporateActionsType.SPIN_OFF: Spin off\n            - CorporateActionsType.CASH_MERGER: Cash merger\n            - CorporateActionsType.STOCK_MERGER: Stock merger\n            - CorporateActionsType.STOCK_AND_CASH_MERGER: Stock and cash merger\n            - CorporateActionsType.REDEMPTION: Redemption\n            - CorporateActionsType.NAME_CHANGE: Name change\n            - CorporateActionsType.WORTHLESS_REMOVAL: Worthless removal\n            - CorporateActionsType.RIGHTS_DISTRIBUTION: Rights distribution\n        start (Optional[date]): Start date for the announcements (default: current day)\n        end (Optional[date]): End date for the announcements (default: current day)\n        symbols (Optional[List[str]]): Optional list of stock symbols to filter by\n        cusips (Optional[List[str]]): Optional list of CUSIPs to filter by\n        ids (Optional[List[str]]): Optional list of corporate action IDs (mutually exclusive with other filters)\n        limit (Optional[int]): Maximum number of results to return (default: 1000)\n        sort (Optional[str]): Sort order (asc or desc, default: asc)\n    \n    Returns:\n        str: Formatted string containing corporate announcement details\n        \n    References:\n        - API Documentation: https://docs.alpaca.markets/reference/corporateactions-1\n        - CorporateActionsType Enum: https://alpaca.markets/sdks/python/api_reference/data/enums.html#corporateactionstype\n        - CorporateActionsRequest: https://alpaca.markets/sdks/python/api_reference/data/corporate_actions/requests.html#corporateactionsrequest\n    ",
+        "parameters": {
+            "$defs": {
+                "CorporateActionsType": {
+                    "description": "The type of corporate action.\nref. https://docs.alpaca.markets/reference/corporateactions-1\n\nAttributes:\n    REVERSE_SPLIT (str): Reverse split\n    FORWARD_SPLIT (str): Forward split\n    UNIT_SPLIT (str): Unit split\n    CASH_DIVIDEND (str): Cash dividend\n    STOCK_DIVIDEND (str): Stock dividend\n    SPIN_OFF (str): Spin off\n    CASH_MERGER (str): Cash merger\n    STOCK_MERGER (str): Stock merger\n    STOCK_AND_CASH_MERGER (str): Stock and cash merger\n    REDEMPTION (str): Redemption\n    NAME_CHANGE (str): Name change\n    WORTHLESS_REMOVAL (str): Worthless removal\n    RIGHTS_DISTRIBUTION (str): Rights distribution",
+                    "enum": [
+                        "reverse_split",
+                        "forward_split",
+                        "unit_split",
+                        "cash_dividend",
+                        "stock_dividend",
+                        "spin_off",
+                        "cash_merger",
+                        "stock_merger",
+                        "stock_and_cash_merger",
+                        "redemption",
+                        "name_change",
+                        "worthless_removal",
+                        "rights_distribution"
+                    ],
+                    "title": "CorporateActionsType",
+                    "type": "string"
+                }
+            },
+            "properties": {
+                "ca_types": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "$ref": "#/$defs/CorporateActionsType"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Ca Types"
+                },
+                "start": {
+                    "anyOf": [
+                        {
+                            "format": "date",
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Start"
+                },
+                "end": {
+                    "anyOf": [
+                        {
+                            "format": "date",
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "End"
+                },
+                "symbols": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Symbols"
+                },
+                "cusips": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Cusips"
+                },
+                "ids": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Ids"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": 1000,
+                    "title": "Limit"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": "asc",
+                    "title": "Sort"
+                }
+            },
+            "title": "get_corporate_announcementsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_option_contracts",
+        "description": "\n    Retrieves metadata for option contracts based on specified criteria. This endpoint returns contract specifications\n    and static data, not real-time pricing information.\n    \n    Args:\n        underlying_symbol (str): The symbol of the underlying asset (e.g., 'AAPL')\n        expiration_date (Optional[date]): Optional specific expiration date for the options\n        expiration_month (Optional[int]): Optional expiration month (1-12) to get all contracts for that month\n        expiration_year (Optional[int]): Optional expiration year (required if expiration_month is provided)\n        expiration_week_start (Optional[date]): Optional start date of week to find all contracts expiring in that week (Monday-Sunday)\n        strike_price_gte (Optional[str]): Optional minimum strike price\n        strike_price_lte (Optional[str]): Optional maximum strike price\n        type (Optional[ContractType]): Optional contract type (CALL or PUT)\n        status (Optional[AssetStatus]): Optional asset status filter (e.g., ACTIVE)\n        root_symbol (Optional[str]): Optional root symbol for the option\n        limit (Optional[int]): Optional maximum number of contracts to return\n    \n    Returns:\n        str: Formatted string containing option contract metadata including:\n            - Contract ID and Symbol\n            - Name and Type (Call/Put)\n            - Strike Price and Expiration Date\n            - Exercise Style (American/European)\n            - Contract Size and Status\n            - Open Interest and Close Price\n            - Underlying Asset Information ('underlying_asset_id', 'underlying_symbol', 'underlying_name', 'underlying_exchange')\n            - Trading Status (Tradable/Non-tradable)\n    \n    Note:\n        This endpoint returns contract specifications and static data. For real-time pricing\n        information (bid/ask prices, sizes, etc.), use get_option_latest_quote instead.\n        \n        For month-based queries, use expiration_month and expiration_year instead of expiration_date.\n        For week-based queries, use expiration_week_start to find all contracts expiring in that week.\n        The function will check all dates from Monday through Sunday of that week.\n        \n        When more than 500 contracts are found, a guidance message is displayed instead of \n        overwhelming output to help users narrow their search criteria.\n    ",
+        "parameters": {
+            "$defs": {
+                "AssetStatus": {
+                    "description": "Represents the various states for an Asset's lifecycle",
+                    "enum": [
+                        "active",
+                        "inactive"
+                    ],
+                    "title": "AssetStatus",
+                    "type": "string"
+                },
+                "ContractType": {
+                    "description": "Represents the contract type of options",
+                    "enum": [
+                        "call",
+                        "put"
+                    ],
+                    "title": "ContractType",
+                    "type": "string"
+                }
+            },
+            "properties": {
+                "underlying_symbol": {
+                    "title": "Underlying Symbol",
+                    "type": "string"
+                },
+                "expiration_date": {
+                    "anyOf": [
+                        {
+                            "format": "date",
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Expiration Date"
+                },
+                "expiration_month": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Expiration Month"
+                },
+                "expiration_year": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Expiration Year"
+                },
+                "expiration_week_start": {
+                    "anyOf": [
+                        {
+                            "format": "date",
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Expiration Week Start"
+                },
+                "strike_price_gte": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Strike Price Gte"
+                },
+                "strike_price_lte": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Strike Price Lte"
+                },
+                "type": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/ContractType"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null
+                },
+                "status": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/AssetStatus"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null
+                },
+                "root_symbol": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Root Symbol"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Limit"
+                }
+            },
+            "required": [
+                "underlying_symbol"
+            ],
+            "title": "get_option_contractsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_option_latest_quote",
+        "description": "\n    Retrieves and formats the latest quote for an option contract. This endpoint returns real-time\n    pricing and market data, including bid/ask prices, sizes, and exchange information.\n    \n    Args:\n        symbol (str): The option contract symbol (e.g., 'AAPL230616C00150000')\n        feed (Optional[OptionsFeed]): The source feed of the data (opra or indicative).\n            Default: opra if the user has the options subscription, indicative otherwise.\n    \n    Returns:\n        str: Formatted string containing the latest quote information including:\n            - Ask Price and Ask Size\n            - Bid Price and Bid Size\n            - Ask Exchange and Bid Exchange\n            - Trade Conditions\n            - Tape Information\n            - Timestamp (in UTC)\n    \n    Note:\n        This endpoint returns real-time market data. For contract specifications and static data,\n        use get_option_contracts instead.\n    ",
+        "parameters": {
+            "$defs": {
+                "OptionsFeed": {
+                    "description": "The source feed of the data.\n`opra` requires subscription\n\nAttributes:\n    OPRA (str): Options Price Reporting Authority\n    INDICATIVE (str): Indicative data",
+                    "enum": [
+                        "opra",
+                        "indicative"
+                    ],
+                    "title": "OptionsFeed",
+                    "type": "string"
+                }
+            },
+            "properties": {
+                "symbol": {
+                    "title": "Symbol",
+                    "type": "string"
+                },
+                "feed": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/OptionsFeed"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null
+                }
+            },
+            "required": [
+                "symbol"
+            ],
+            "title": "get_option_latest_quoteArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_option_snapshot",
+        "description": "\n    Retrieves comprehensive snapshots of option contracts including latest trade, quote, implied volatility, and Greeks.\n    This endpoint provides a complete view of an option's current market state and theoretical values.\n    \n    Args:\n        symbol_or_symbols (Union[str, List[str]]): Single option symbol or list of option symbols\n            (e.g., 'AAPL250613P00205000')\n        feed (Optional[OptionsFeed]): The source feed of the data (opra or indicative).\n            Default: opra if the user has the options subscription, indicative otherwise.\n    \n    Returns:\n        str: Formatted string containing a comprehensive snapshot including:\n            - Symbol Information\n            - Latest Quote:\n                * Bid/Ask Prices and Sizes\n                * Exchange Information\n                * Trade Conditions\n                * Tape Information\n                * Timestamp (UTC)\n            - Latest Trade:\n                * Price and Size\n                * Exchange and Conditions\n                * Trade ID\n                * Timestamp (UTC)\n            - Implied Volatility (as percentage)\n            - Greeks:\n                * Delta (directional risk)\n                * Gamma (delta sensitivity)\n                * Rho (interest rate sensitivity)\n                * Theta (time decay)\n                * Vega (volatility sensitivity)\n    ",
+        "parameters": {
+            "$defs": {
+                "OptionsFeed": {
+                    "description": "The source feed of the data.\n`opra` requires subscription\n\nAttributes:\n    OPRA (str): Options Price Reporting Authority\n    INDICATIVE (str): Indicative data",
+                    "enum": [
+                        "opra",
+                        "indicative"
+                    ],
+                    "title": "OptionsFeed",
+                    "type": "string"
+                }
+            },
+            "properties": {
+                "symbol_or_symbols": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        }
+                    ],
+                    "title": "Symbol Or Symbols"
+                },
+                "feed": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/OptionsFeed"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null
+                }
+            },
+            "required": [
+                "symbol_or_symbols"
+            ],
+            "title": "get_option_snapshotArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "place_option_market_order",
+        "description": "\n    Places a market order for options (single or multi-leg) and returns the order details.\n    Supports up to 4 legs for multi-leg orders.\n\n    Single vs Multi-Leg Orders:\n    - Single-leg: One option contract (buy/sell call or put). Uses \"simple\" order class.\n    - Multi-leg: Multiple option contracts executed together as one strategy (spreads, straddles, etc.). Uses \"mleg\" order class.\n    \n    API Processing:\n    - Single-leg orders: Sent as standard MarketOrderRequest with symbol and side\n    - Multi-leg orders: Sent as MarketOrderRequest with legs array for atomic execution\n    \n    Args:\n        legs (List[Dict[str, Any]]): List of option legs, where each leg is a dictionary containing:\n            - symbol (str): Option contract symbol (e.g., 'AAPL230616C00150000')\n            - side (str): 'buy' or 'sell'\n            - ratio_qty (int): Quantity ratio for the leg (1-4)\n        order_class (Optional[Union[str, OrderClass]]): Order class ('simple', 'bracket', 'oco', 'oto', 'mleg' or OrderClass enum)\n            Defaults to 'simple' for single leg, 'mleg' for multi-leg\n        quantity (int): Base quantity for the order (default: 1)\n        time_in_force (TimeInForce): Time in force for the order. For options trading, \n            only DAY is supported (default: TimeInForce.DAY)\n        extended_hours (bool): Whether to allow execution during extended hours (default: False)\n    \n    Returns:\n        str: Formatted string containing order details or error message\n\n    Examples:\n        # Single-leg: Buy 1 call option\n        legs = [{\"symbol\": \"AAPL230616C00150000\", \"side\": \"buy\", \"ratio_qty\": 1}]\n        \n        # Multi-leg: Bull call spread (executed atomically)\n        legs = [\n            {\"symbol\": \"AAPL230616C00150000\", \"side\": \"buy\", \"ratio_qty\": 1},\n            {\"symbol\": \"AAPL230616C00160000\", \"side\": \"sell\", \"ratio_qty\": 1}\n        ]\n    \n    Note:\n        Some option strategies may require specific account permissions:\n        - Level 1: Covered calls, Covered puts, Cash-Secured put, etc.\n        - Level 2: Long calls, Long puts, cash-secured puts, etc.\n        - Level 3: Spreads and combinations: Butterfly Spreads, Straddles, Strangles, Calendar Spreads (except for short call calendar spread, short strangles, short straddles)\n        - Level 4: Uncovered options (naked calls/puts), Short Strangles, Short Straddles, Short Call Calendar Spread, etc.\n        If you receive a permission error, please check your account's option trading level.\n    ",
+        "parameters": {
+            "$defs": {
+                "OrderClass": {
+                    "description": "Represents what class of order this is.\n\nThe order classes supported by Alpaca vary based on the order's security type.\nThe following provides a comprehensive breakdown of the supported order classes for each category:\n- Equity trading: simple (or \"\"), oco, oto, bracket.\n- Options trading: simple (or \"\"), mleg (required for multi-leg complex options strategies).\n- Crypto trading: simple (or \"\").",
+                    "enum": [
+                        "simple",
+                        "mleg",
+                        "bracket",
+                        "oco",
+                        "oto"
+                    ],
+                    "title": "OrderClass",
+                    "type": "string"
+                },
+                "TimeInForce": {
+                    "description": "Represents the various time in force options for an Order.\n\nThe Time-In-Force values supported by Alpaca vary based on the order's security type. Here is a breakdown of the supported TIFs for each specific security type:\n- Equity trading: day, gtc, opg, cls, ioc, fok.\n- Options trading: day.\n- Crypto trading: gtc, ioc.\nBelow are the descriptions of each TIF:\n- day: A day order is eligible for execution only on the day it is live. By default, the order is only valid during Regular Trading Hours (9:30am - 4:00pm ET). If unfilled after the closing auction, it is automatically canceled. If submitted after the close, it is queued and submitted the following trading day. However, if marked as eligible for extended hours, the order can also execute during supported extended hours.\n- gtc: The order is good until canceled. Non-marketable GTC limit orders are subject to price adjustments to offset corporate actions affecting the issue. We do not currently support Do Not Reduce(DNR) orders to opt out of such price adjustments.\n- opg: Use this TIF with a market/limit order type to submit “market on open” (MOO) and “limit on open” (LOO) orders. This order is eligible to execute only in the market opening auction. Any unfilled orders after the open will be cancelled. OPG orders submitted after 9:28am but before 7:00pm ET will be rejected. OPG orders submitted after 7:00pm will be queued and routed to the following day’s opening auction. On open/on close orders are routed to the primary exchange. Such orders do not necessarily execute exactly at 9:30am / 4:00pm ET but execute per the exchange’s auction rules.\n- cls: Use this TIF with a market/limit order type to submit “market on close” (MOC) and “limit on close” (LOC) orders. This order is eligible to execute only in the market closing auction. Any unfilled orders after the close will be cancelled. CLS orders submitted after 3:50pm but before 7:00pm ET will be rejected. CLS orders submitted after 7:00pm will be queued and routed to the following day’s closing auction. Only available with API v2.\n- ioc: An Immediate Or Cancel (IOC) order requires all or part of the order to be executed immediately. Any unfilled portion of the order is canceled. Only available with API v2. Most market makers who receive IOC orders will attempt to fill the order on a principal basis only, and cancel any unfilled balance. On occasion, this can result in the entire order being cancelled if the market maker does not have any existing inventory of the security in question.\n- fok: A Fill or Kill (FOK) order is only executed if the entire order quantity can be filled, otherwise the order is canceled. Only available with API v2.",
+                    "enum": [
+                        "day",
+                        "gtc",
+                        "opg",
+                        "cls",
+                        "ioc",
+                        "fok"
+                    ],
+                    "title": "TimeInForce",
+                    "type": "string"
+                }
+            },
+            "properties": {
+                "legs": {
+                    "items": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "title": "Legs",
+                    "type": "array"
+                },
+                "order_class": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "$ref": "#/$defs/OrderClass"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Order Class"
+                },
+                "quantity": {
+                    "default": 1,
+                    "title": "Quantity",
+                    "type": "integer"
+                },
+                "time_in_force": {
+                    "$ref": "#/$defs/TimeInForce",
+                    "default": "day"
+                },
+                "extended_hours": {
+                    "default": false,
+                    "title": "Extended Hours",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "legs"
+            ],
+            "title": "place_option_market_orderArguments",
+            "type": "object"
+        }
+    }
+]

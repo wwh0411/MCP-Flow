@@ -1,0 +1,155 @@
+[
+    {
+        "name": "llm_search",
+        "description": "Get web search results with the serp and google search api, and support get detail crawl result.",
+        "parameters": {
+            "properties": {
+                "query": {
+                    "description": "The search query. You can use anything that you would use in a regular Google search. e.g. inurl:, site:, intitle:. We also support advanced search query parameters such as as_dt and as_eq.",
+                    "title": "Query",
+                    "type": "string"
+                },
+                "location": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parameter defines from where you want the search to originate. If several locations match the location requested, we'll pick the most popular one. It is recommended to specify location at the city level in order to simulate a real user's search.",
+                    "title": "Location"
+                },
+                "num": {
+                    "default": 5,
+                    "description": "Parameter defines the maximum number of results to return. (e.g., 5 (default) returns 5 results, 10 return 10 results). The use of num may introduce latency, and/or prevent the inclusion of specialized result types. It is better to omit this parameter unless it is strictly necessary to increase the number of results per page.",
+                    "title": "Num",
+                    "type": "integer"
+                },
+                "start": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parameter defines the result offset. It skips the given number of results. It's used for pagination. (e.g., 0 (default) is the first page of results, num * 1 is the 2nd page of results, num * 2 is the 3rd page of results, etc.).",
+                    "title": "Start"
+                },
+                "crawl": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parameter defines whether to crawl the search result page contents. If false (default), only the title, URL, and description will be returned like a search engine result page. If true, then the pages' contents will also be returned in markdown format. Enabling this option will add latency, and not all pages may be crawled successfully due to a timeout.",
+                    "title": "Crawl"
+                },
+                "device": {
+                    "anyOf": [
+                        {
+                            "enum": [
+                                "desktop",
+                                "tablet",
+                                "mobile"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parameter defines the device to use to get the results. It can be set to desktop (default) to use a regular browser, tablet to use a tablet browser (currently using iPads), or mobile to use a mobile browser (currently using iPhones).",
+                    "title": "Device"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "title": "llm_searchArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "exa_search",
+        "description": "search with exa search tool without crawl",
+        "parameters": {
+            "properties": {
+                "query": {
+                    "description": "The search query. You can use anything that you would use in a regular Exa search.",
+                    "title": "Query",
+                    "type": "string"
+                },
+                "type": {
+                    "default": "keyword",
+                    "description": "Exa search type",
+                    "enum": [
+                        "auto",
+                        "fast",
+                        "keyword",
+                        "neural",
+                        "magic",
+                        "hybrid"
+                    ],
+                    "title": "Type",
+                    "type": "string"
+                },
+                "num_results": {
+                    "default": 10,
+                    "description": "Parameter defines the maximum number of results to return. (e.g., 10 (default) returns 10 results).",
+                    "title": "Num Results",
+                    "type": "integer"
+                },
+                "category": {
+                    "default": null,
+                    "description": "result category",
+                    "enum": [
+                        "company",
+                        "research paper",
+                        "news",
+                        "pdf",
+                        "github",
+                        "personal site",
+                        "linkedin profile",
+                        "financial report",
+                        null
+                    ],
+                    "title": "Category"
+                },
+                "device": {
+                    "anyOf": [
+                        {
+                            "enum": [
+                                "desktop",
+                                "tablet",
+                                "mobile"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parameter defines the device to use to get the results. It can be set to desktop (default) to use a regular browser, tablet to use a tablet browser (currently using iPads), or mobile to use a mobile browser (currently using iPhones).",
+                    "title": "Device"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "title": "exa_searchArguments",
+            "type": "object"
+        }
+    }
+]

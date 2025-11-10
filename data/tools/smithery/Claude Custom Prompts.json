@@ -1,0 +1,284 @@
+[
+    {
+        "name": "claude-prompts-mcp_execute_prompt",
+        "description": "\ud83e\udde0 INTELLIGENT PROMPT EXECUTION: Just provide your content and let smart defaults handle everything! Auto-detects prompt types, applies quality gates, and optimizes execution. Simple usage: >>prompt_name your_content_here",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "command": {
+                    "type": "string",
+                    "description": "SIMPLE: >>prompt_name your_content_here (intelligent defaults handle everything) | ADVANCED: JSON format for custom control. Smart auto-detection optimizes execution type, quality gates, and validation automatically."
+                },
+                "execution_mode": {
+                    "type": "string",
+                    "enum": [
+                        "auto",
+                        "template",
+                        "chain",
+                        "workflow"
+                    ],
+                    "description": "OPTIONAL: Override intelligent auto-detection. 'auto' (smart defaults), 'template' (info only), 'chain' (step-by-step), 'workflow' (full validation). Usually not needed - smart defaults work great!"
+                },
+                "gate_validation": {
+                    "type": "boolean",
+                    "description": "OPTIONAL: Force quality validation on/off. Smart defaults automatically apply appropriate gates based on prompt complexity. Usually auto-detection is perfect!"
+                },
+                "step_confirmation": {
+                    "type": "boolean",
+                    "description": "OPTIONAL: Pause between chain steps for manual approval. Only needed for sensitive workflows - smart execution usually handles everything smoothly!"
+                }
+            },
+            "required": [
+                "command"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "claude-prompts-mcp_listprompts",
+        "description": "",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "command": {
+                    "type": "string",
+                    "description": "Optional filter text to show only matching commands"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "claude-prompts-mcp_update_prompt",
+        "description": "",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Unique identifier for the prompt"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Display name for the prompt"
+                },
+                "category": {
+                    "type": "string",
+                    "description": "Category this prompt belongs to"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description of the prompt"
+                },
+                "systemMessage": {
+                    "type": "string",
+                    "description": "Optional system message for the prompt"
+                },
+                "userMessageTemplate": {
+                    "type": "string",
+                    "description": "Template for generating the user message"
+                },
+                "arguments": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "Name of the argument"
+                            },
+                            "description": {
+                                "type": "string",
+                                "description": "Optional description of the argument"
+                            },
+                            "required": {
+                                "type": "boolean",
+                                "description": "Whether this argument is required"
+                            }
+                        },
+                        "required": [
+                            "name",
+                            "required"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "Arguments accepted by this prompt"
+                },
+                "isChain": {
+                    "type": "boolean",
+                    "description": "Whether this prompt is a chain of prompts"
+                },
+                "chainSteps": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "promptId": {
+                                "type": "string",
+                                "description": "ID of the prompt to execute in this step"
+                            },
+                            "stepName": {
+                                "type": "string",
+                                "description": "Name of this step"
+                            },
+                            "inputMapping": {
+                                "type": "object",
+                                "additionalProperties": {
+                                    "type": "string"
+                                },
+                                "description": "Maps chain inputs to this step's inputs"
+                            },
+                            "outputMapping": {
+                                "type": "object",
+                                "additionalProperties": {
+                                    "type": "string"
+                                },
+                                "description": "Maps this step's outputs to chain outputs"
+                            }
+                        },
+                        "required": [
+                            "promptId",
+                            "stepName"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "Steps in the chain if this is a chain prompt"
+                },
+                "onEmptyInvocation": {
+                    "type": "string",
+                    "enum": [
+                        "return_template",
+                        "execute_if_possible"
+                    ],
+                    "description": "Defines behavior when prompt is invoked without its defined arguments. Defaults to execute_if_possible if omitted."
+                },
+                "fullServerRestart": {
+                    "type": "boolean",
+                    "description": "Whether to perform a full server restart after updating the prompt. Defaults to false (hot-reload only)."
+                }
+            },
+            "required": [
+                "id",
+                "name",
+                "category",
+                "description",
+                "userMessageTemplate",
+                "arguments"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "claude-prompts-mcp_delete_prompt",
+        "description": "",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Unique identifier for the prompt to delete"
+                },
+                "fullServerRestart": {
+                    "type": "boolean",
+                    "description": "Whether to perform a full server restart after deleting the prompt. Defaults to false (hot-reload only)."
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "claude-prompts-mcp_modify_prompt_section",
+        "description": "",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Unique identifier of the prompt to modify"
+                },
+                "section_name": {
+                    "type": "string",
+                    "description": "Name of the section to modify (valid values: 'title', 'description', 'System Message', 'User Message Template', or any custom section)"
+                },
+                "new_content": {
+                    "type": "string",
+                    "description": "New content for the specified section"
+                },
+                "fullServerRestart": {
+                    "type": "boolean",
+                    "description": "Whether to perform a full server restart after modifying the prompt section. Defaults to false (hot-reload only)."
+                }
+            },
+            "required": [
+                "id",
+                "section_name",
+                "new_content"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "claude-prompts-mcp_reload_prompts",
+        "description": "",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fullServerRestart": {
+                    "type": "boolean",
+                    "description": "Whether to perform a full server restart after reloading prompts. Defaults to false (hot-reload only)."
+                },
+                "reason": {
+                    "type": "string",
+                    "description": "Optional reason for reloading/restarting"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "claude-prompts-mcp_process_slash_command",
+        "description": "\u26a0\ufe0f DEPRECATED: Use 'execute_prompt' instead. Legacy command processor for backward compatibility.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "command": {
+                    "type": "string",
+                    "description": "DEPRECATED: Use execute_prompt instead. Command to process with legacy behavior."
+                }
+            },
+            "required": [
+                "command"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "claude-prompts-mcp_execution_analytics",
+        "description": "\ud83d\udcca View execution analytics and performance metrics for the enhanced prompt execution system",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "include_history": {
+                    "type": "boolean",
+                    "description": "Include recent execution history (default: false)"
+                },
+                "reset_analytics": {
+                    "type": "boolean",
+                    "description": "Reset analytics counters (default: false)"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

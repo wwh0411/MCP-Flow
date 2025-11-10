@@ -1,0 +1,512 @@
+[
+    {
+        "name": "growthbook_get_environments",
+        "description": "Fetches all environments from the GrowthBook API. GrowthBook comes with one environment by default (production), but you can add as many as you need. Feature flags can be enabled and disabled on a per-environment basis. You can also set the default feature state for any new environment. Additionally, you can scope environments to only be available in specific projects, allowing for further control and segmentation over feature delivery.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "growthbook_get_projects",
+        "description": "Fetches all projects from the GrowthBook API",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "number",
+                    "default": 100
+                },
+                "offset": {
+                    "type": "number",
+                    "default": 0
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "growthbook_get_sdk_connections",
+        "description": "Get all SDK connections. SDK connections are how GrowthBook connects to an app. Users need the client key to fetch features and experiments from the API.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "number",
+                    "default": 100
+                },
+                "offset": {
+                    "type": "number",
+                    "default": 0
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "growthbook_create_sdk_connection",
+        "description": "Create an SDK connection for a user. Returns an SDK clientKey that can be used to fetch features and experiments.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Name of the SDK connection in GrowthBook. Should reflect the current project."
+                },
+                "language": {
+                    "type": "string",
+                    "enum": [
+                        "nocode-webflow",
+                        "nocode-wordpress",
+                        "nocode-shopify",
+                        "nocode-other",
+                        "javascript",
+                        "nodejs",
+                        "react",
+                        "php",
+                        "ruby",
+                        "python",
+                        "go",
+                        "java",
+                        "csharp",
+                        "android",
+                        "ios",
+                        "flutter",
+                        "elixir",
+                        "edge-cloudflare",
+                        "edge-fastly",
+                        "edge-lambda",
+                        "edge-other",
+                        "other"
+                    ],
+                    "description": "The language of the SDK. Either 'javascript' or 'typescript'."
+                },
+                "environment": {
+                    "type": "string",
+                    "description": "The environment associated with the SDK connection."
+                }
+            },
+            "required": [
+                "name",
+                "language"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "growthbook_create_feature_flag",
+        "description": "Creates a new feature flag in GrowthBook and modifies the codebase when relevant.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "pattern": "^[a-zA-Z0-9_-]+$",
+                    "description": "A unique key name for the feature"
+                },
+                "description": {
+                    "type": "string",
+                    "default": "",
+                    "description": "A brief description of the feature flag"
+                },
+                "valueType": {
+                    "type": "string",
+                    "enum": [
+                        "string",
+                        "number",
+                        "boolean",
+                        "json"
+                    ],
+                    "description": "The value type the feature flag will return"
+                },
+                "defaultValue": {
+                    "type": "string",
+                    "description": "The default value of the feature flag"
+                },
+                "fileExtension": {
+                    "type": "string",
+                    "enum": [
+                        ".tsx",
+                        ".jsx",
+                        ".ts",
+                        ".js",
+                        ".vue",
+                        ".py",
+                        ".go",
+                        ".php",
+                        ".rb",
+                        ".java",
+                        ".cs",
+                        ".swift",
+                        ".ex",
+                        ".exs",
+                        ".kt",
+                        ".kts",
+                        ".ktm",
+                        ".dart"
+                    ],
+                    "description": "The extension of the current file. If it's unclear, ask the user."
+                }
+            },
+            "required": [
+                "id",
+                "valueType",
+                "defaultValue",
+                "fileExtension"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "growthbook_get_feature_flags",
+        "description": "Fetches all feature flags from the GrowthBook API, with optional limit, offset, and project filtering.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "number",
+                    "default": 100
+                },
+                "offset": {
+                    "type": "number",
+                    "default": 0
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "growthbook_get_single_feature_flag",
+        "description": "Fetches a specific feature flag from the GrowthBook API",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "The ID of the feature flag"
+                },
+                "project": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "growthbook_get_stale_safe_rollouts",
+        "description": "Fetches all complete safe rollouts (rolled-back or released) from the GrowthBook API",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "number",
+                    "default": 100
+                },
+                "offset": {
+                    "type": "number",
+                    "default": 0
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "growthbook_generate_flag_types",
+        "description": "Generate types for feature flags",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "currentWorkingDirectory": {
+                    "type": "string",
+                    "description": "The current working directory of the user's project"
+                }
+            },
+            "required": [
+                "currentWorkingDirectory"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "growthbook_get_experiments",
+        "description": "Fetches all experiments from the GrowthBook API",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "number",
+                    "default": 100
+                },
+                "offset": {
+                    "type": "number",
+                    "default": 0
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "growthbook_create_force_rule",
+        "description": "Create a new force rule on an existing feature. If the existing feature isn't apparent, create a new feature using create_feature_flag first. A force rule sets a feature to a specific value based on a condition. For A/B tests and experiments, use create_experiment instead.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "featureId": {
+                    "type": "string",
+                    "description": "The ID of the feature to create the rule on"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "condition": {
+                    "type": "string",
+                    "description": "Applied to everyone by default. Write conditions in MongoDB-style query syntax."
+                },
+                "value": {
+                    "type": "string",
+                    "description": "The type of the value should match the feature type"
+                },
+                "fileExtension": {
+                    "type": "string",
+                    "enum": [
+                        ".tsx",
+                        ".jsx",
+                        ".ts",
+                        ".js",
+                        ".vue",
+                        ".py",
+                        ".go",
+                        ".php",
+                        ".rb",
+                        ".java",
+                        ".cs",
+                        ".swift",
+                        ".ex",
+                        ".exs",
+                        ".kt",
+                        ".kts",
+                        ".ktm",
+                        ".dart"
+                    ],
+                    "description": "The extension of the current file. If it's unclear, ask the user."
+                }
+            },
+            "required": [
+                "featureId",
+                "value",
+                "fileExtension"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "growthbook_get_experiment",
+        "description": "Gets a single experiment from GrowthBook",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "experimentId": {
+                    "type": "string",
+                    "description": "The ID of the experiment to get"
+                }
+            },
+            "required": [
+                "experimentId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "growthbook_get_attributes",
+        "description": "Get all attributes",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "growthbook_create_experiment",
+        "description": "IMPORTANT: Call get_defaults before creating an experiment, and use its output to guide the arguments. Creates a new feature flag and experiment (A/B test).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Experiment name. Base name off the examples from get_defaults. If none are available, use a short, descriptive name that captures the essence of the experiment."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Experiment description."
+                },
+                "hypothesis": {
+                    "type": "string",
+                    "description": "Experiment hypothesis. Base hypothesis off the examples from get_defaults. If none are available, use a falsifiable statement about what will happen if the experiment succeeds or fails."
+                },
+                "value": {
+                    "type": "string",
+                    "description": "The default value of the experiment."
+                },
+                "variations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "Variation name. Base name off the examples from get_defaults. If none are available, use a short, descriptive name that captures the essence of the variation."
+                            },
+                            "value": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "number"
+                                    },
+                                    {
+                                        "type": "boolean"
+                                    },
+                                    {
+                                        "type": "object",
+                                        "additionalProperties": {}
+                                    }
+                                ],
+                                "description": "The value of the control and each of the variations. The value should be a string, number, boolean, or object. If it's an object, it should be a valid JSON object."
+                            }
+                        },
+                        "required": [
+                            "name",
+                            "value"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "Experiment variations. The key should be the variation name and the value should be the variation value. Look to variations included in preview experiments for guidance on generation. The default or control variation should always be first."
+                },
+                "fileExtension": {
+                    "type": "string",
+                    "enum": [
+                        ".tsx",
+                        ".jsx",
+                        ".ts",
+                        ".js",
+                        ".vue",
+                        ".py",
+                        ".go",
+                        ".php",
+                        ".rb",
+                        ".java",
+                        ".cs",
+                        ".swift",
+                        ".ex",
+                        ".exs",
+                        ".kt",
+                        ".kts",
+                        ".ktm",
+                        ".dart"
+                    ],
+                    "description": "The extension of the current file. If it's unclear, ask the user."
+                },
+                "confirmedDefaultsReviewed": {
+                    "type": "boolean",
+                    "description": "Set to true to confirm you have called get_defaults and reviewed the output to guide these parameters."
+                }
+            },
+            "required": [
+                "name",
+                "value",
+                "variations",
+                "fileExtension",
+                "confirmedDefaultsReviewed"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "growthbook_search_growthbook_docs",
+        "description": "Search the GrowthBook docs on how to use a feature",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "The search query to look up in the GrowthBook docs."
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "growthbook_get_defaults",
+        "description": "Get the default values for experiments, including hypothesis, description, datasource, assignment query, and environments.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "growthbook_set_user_defaults",
+        "description": "Set user-defined defaults for datasource, assignment query, and environments. These will override the automatic defaults for these fields.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "datasourceId": {
+                    "type": "string",
+                    "description": "The data source ID to use as default"
+                },
+                "assignmentQueryId": {
+                    "type": "string",
+                    "description": "The assignment query ID to use as default"
+                },
+                "environments": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of environment IDs to use as defaults"
+                }
+            },
+            "required": [
+                "datasourceId",
+                "assignmentQueryId",
+                "environments"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "growthbook_clear_user_defaults",
+        "description": "Clear user-defined defaults and revert to automatic defaults.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

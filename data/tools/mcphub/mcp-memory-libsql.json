@@ -1,0 +1,158 @@
+[
+    {
+        "name": "create_entities",
+        "description": "Create new entities with observations and optional embeddings",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "entities": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "entityType": {
+                                "type": "string"
+                            },
+                            "observations": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "embedding": {
+                                "type": "array",
+                                "items": {
+                                    "type": "number"
+                                },
+                                "description": "Optional vector embedding for similarity search"
+                            }
+                        },
+                        "required": [
+                            "name",
+                            "entityType",
+                            "observations"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "entities"
+            ]
+        }
+    },
+    {
+        "name": "search_nodes",
+        "description": "Search for entities and their relations using text or vector similarity",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "oneOf": [
+                        {
+                            "type": "string",
+                            "description": "Text search query"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            },
+                            "description": "Vector for similarity search"
+                        }
+                    ]
+                }
+            },
+            "required": [
+                "query"
+            ]
+        }
+    },
+    {
+        "name": "read_graph",
+        "description": "Get recent entities and their relations",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    },
+    {
+        "name": "create_relations",
+        "description": "Create relations between entities",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "relations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "source": {
+                                "type": "string"
+                            },
+                            "target": {
+                                "type": "string"
+                            },
+                            "type": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "source",
+                            "target",
+                            "type"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "relations"
+            ]
+        }
+    },
+    {
+        "name": "delete_entity",
+        "description": "Delete an entity and all its associated data (observations and relations)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Name of the entity to delete"
+                }
+            },
+            "required": [
+                "name"
+            ]
+        }
+    },
+    {
+        "name": "delete_relation",
+        "description": "Delete a specific relation between entities",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "source": {
+                    "type": "string",
+                    "description": "Source entity name"
+                },
+                "target": {
+                    "type": "string",
+                    "description": "Target entity name"
+                },
+                "type": {
+                    "type": "string",
+                    "description": "Type of relation"
+                }
+            },
+            "required": [
+                "source",
+                "target",
+                "type"
+            ]
+        }
+    }
+]

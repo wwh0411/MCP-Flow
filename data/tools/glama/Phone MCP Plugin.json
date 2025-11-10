@@ -1,0 +1,394 @@
+[
+    {
+        "name": "phone-mcp_call_number",
+        "description": "Make a phone call to the specified number.\n\nInitiates a call using Android's dialer app through ADB. The number\nwill be dialed immediately without requiring user confirmation.\n\nArgs:\n    phone_number (str): The phone number to call. Country code\n                      will be automatically added if not provided.\n\nReturns:\n    str: Success message with the number being called, or an error message\n         if the call could not be initiated.\n",
+        "parameters": {
+            "properties": {
+                "phone_number": {
+                    "title": "Phone Number",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "phone_number"
+            ],
+            "title": "call_numberArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "phone-mcp_end_call",
+        "description": "End the current phone call.\n\nTerminates any active phone call by sending the end call keycode\nthrough ADB.\n\nReturns:\n    str: Success message if the call was ended, or an error message\n         if the end call command failed.\n",
+        "parameters": {
+            "properties": {},
+            "title": "end_callArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "phone-mcp_check_device_connection",
+        "description": "Check if an Android device is connected via ADB.\n\nVerifies that an Android device is properly connected and recognized\nby ADB, which is required for all other functions to work.\n\nReturns:\n    str: Status message indicating whether a device is connected and\n         ready, or an error message if no device is found.\n",
+        "parameters": {
+            "properties": {},
+            "title": "check_device_connectionArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "phone-mcp_send_text_message",
+        "description": "Send a text message to the specified number.\n\nUses the phone's messaging app with UI automation to send SMS.\nProcess: Opens messaging app, fills recipient and content, automatically clicks send button, then auto-exits app.\n\nArgs:\n    phone_number (str): Recipient's phone number. Country code will be automatically added if not included.\n                      Example: \"13812345678\" or \"+8613812345678\"\n    message (str): SMS content. Supports any text, including emojis.\n                 Example: \"Hello, this is a test message\"\n\nReturns:\n    str: String description of the operation result:\n         - Success: \"Text message sent to {phone_number}\"\n         - Failure: Message containing error reason, like \"Failed to open messaging app: {error}\"\n                   or \"Failed to navigate to send button: {error}\"\n",
+        "parameters": {
+            "properties": {
+                "phone_number": {
+                    "title": "Phone Number",
+                    "type": "string"
+                },
+                "message": {
+                    "title": "Message",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "phone_number",
+                "message"
+            ],
+            "title": "send_text_messageArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "phone-mcp_receive_text_messages",
+        "description": "Get recent text messages from the phone.\n\nRetrieves recent SMS messages from the device's SMS database\nusing ADB and content provider queries to get structured message data.\n\nArgs:\n    limit (int): Maximum number of messages to retrieve (default: 5)\n                Example: 10 will return the 10 most recent messages\n\nReturns:\n    str: JSON string containing messages or an error message:\n         - Success: Formatted JSON string with list of messages, each with fields:\n                   - address: Sender's number\n                   - body: Message content\n                   - date: Timestamp\n                   - formatted_date: Human-readable date time (like \"2023-07-25 14:30:22\")\n         - Failure: Text message describing the error, like \"No recent text messages found...\"\n",
+        "parameters": {
+            "properties": {
+                "limit": {
+                    "default": 5,
+                    "title": "Limit",
+                    "type": "integer"
+                }
+            },
+            "title": "receive_text_messagesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "phone-mcp_get_sent_messages",
+        "description": "Get recently sent text messages from the phone.\n\nRetrieves sent SMS messages from the device's SMS database.\nThis provides a complete list of messages that were successfully sent from this device.\n\nArgs:\n    limit (int): Maximum number of sent messages to retrieve (default: 5)\n\nReturns:\n    str: JSON string containing sent messages with:\n         - from: Sender phone number (device owner)\n         - to: Recipient phone number\n         - text: Message content\n         - date: Timestamp\n         - formatted_date: Human-readable date time (like \"2023-07-25 14:30:22\")\n",
+        "parameters": {
+            "properties": {
+                "limit": {
+                    "default": 5,
+                    "title": "Limit",
+                    "type": "integer"
+                }
+            },
+            "title": "get_sent_messagesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "phone-mcp_start_screen_recording",
+        "description": "Start recording the phone's screen.\n\nRecords the screen activity for the specified duration and saves\nthe video to the phone's storage. Automatically creates directories\nif they don't exist.\n\nArgs:\n    duration_seconds (int): Recording duration in seconds (default: 30,\n                           max: 180 seconds due to ADB limitations)\n\nReturns:\n    str: Success message with the path to the recording, or an error\n         message if the recording could not be started.\n",
+        "parameters": {
+            "properties": {
+                "duration_seconds": {
+                    "default": 30,
+                    "title": "Duration Seconds",
+                    "type": "integer"
+                }
+            },
+            "title": "start_screen_recordingArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "phone-mcp_play_media",
+        "description": "Simulate media button press to play/pause media.\n\nThis function sends a keyevent that simulates pressing the media\nplay/pause button, which can control music, videos, or podcasts\nthat are currently playing.\n\nReturns:\n    str: Success message, or an error message if the command failed.\n",
+        "parameters": {
+            "properties": {},
+            "title": "play_mediaArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "phone-mcp_set_alarm",
+        "description": "Set an alarm on the phone.\n\nCreates a new alarm with the specified time and label using the default\nclock application.\n\nArgs:\n    hour (int): Hour in 24-hour format (0-23)\n    minute (int): Minute (0-59)\n    label (str): Optional label for the alarm (default: \"Alarm\")\n\nReturns:\n    str: Success message if the alarm was set, or an error message\n         if the alarm could not be created.\n",
+        "parameters": {
+            "properties": {
+                "hour": {
+                    "title": "Hour",
+                    "type": "integer"
+                },
+                "minute": {
+                    "title": "Minute",
+                    "type": "integer"
+                },
+                "label": {
+                    "default": "Alarm",
+                    "title": "Label",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "hour",
+                "minute"
+            ],
+            "title": "set_alarmArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "phone-mcp_receive_incoming_call",
+        "description": "Handle an incoming phone call.\n\nChecks for any incoming calls and provides options to answer\nor reject the call. This function first checks if there's an\nincoming call, then can either answer it or reject it based\non the action parameter.\n\nReturns:\n    str: Information about any incoming call including the caller\n         number, or a message indicating no incoming calls.\n",
+        "parameters": {
+            "properties": {},
+            "title": "receive_incoming_callArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "phone-mcp_get_contacts",
+        "description": "Retrieve contacts from the phone.\n\nCore function for accessing the contacts database on the device.\nFetches contact information including names and phone numbers.\nReturns data in structured JSON format.\n\nArgs:\n    limit (int): Number of contacts to retrieve, defaults to 20\n\nReturns:\n    str: JSON string with contact data or error message\n",
+        "parameters": {
+            "properties": {
+                "limit": {
+                    "default": 20,
+                    "title": "limit",
+                    "type": "string"
+                }
+            },
+            "title": "get_contactsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "phone-mcp_create_contact",
+        "description": "Create a new contact on the phone.\n\nOpens the contact creation UI with pre-filled name and phone number,\nallowing the user to review and save the contact.\n\nArgs:\n    name (str): The contact's full name\n    phone_number (str): The contact's phone number (For testing, 10086 is recommended)\n    email (str, optional): The contact's email address\n\nReturns:\n    str: Success message if the contact UI was launched, or an error message\n         if the operation failed.\n\nNote:\n    When testing this feature, it's recommended to use 10086 as the test phone number.\n    This is China Mobile's customer service number, which is suitable for testing\n    environments and easy to recognize.\n",
+        "parameters": {
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string"
+                },
+                "phone_number": {
+                    "title": "Phone Number",
+                    "type": "string"
+                },
+                "email": {
+                    "default": null,
+                    "title": "Email",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "phone_number"
+            ],
+            "title": "create_contactArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "phone-mcp_get_current_window",
+        "description": "Get information about the current active window on the device.\n\nRetrieves details about the currently focused window, active application,\nand foreground activities on the device using multiple methods for reliability.\n\nReturns:\n    str: JSON string with current window details or error message\n",
+        "parameters": {
+            "properties": {},
+            "title": "get_current_windowArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "phone-mcp_get_app_shortcuts",
+        "description": "Get application shortcuts for installed apps.\n\nRetrieves shortcuts (quick actions) available for Android apps.\nIf package_name is provided, returns shortcuts only for that app,\notherwise lists all apps with shortcuts.\n\nArgs:\n    package_name (str, optional): Specific app package to get shortcuts for\n\nReturns:\n    str: JSON string with app shortcuts information or error message\n",
+        "parameters": {
+            "properties": {
+                "package_name": {
+                    "default": null,
+                    "title": "package_name",
+                    "type": "string"
+                }
+            },
+            "title": "get_app_shortcutsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "phone-mcp_launch_app_activity",
+        "description": "Launch an app using package name and optionally an activity name\n\nThis function uses adb to start an application on the device either by package name\nor by specifying both package and activity. It provides reliable app launching across\ndifferent Android devices and versions.\n\nArgs:\n    package_name (str): The package name of the app to launch (e.g., \"com.android.contacts\")\n    activity_name (str): The specific activity to launch. If not provided,\n                                  launches the app's main activity. Defaults to None.\n\nReturns:\n    str: JSON string with operation result:\n        For successful operations:\n            {\n                \"status\": \"success\",\n                \"message\": \"Successfully launched <package_name>\"\n            }\n        \n        For failed operations:\n            {\n                \"status\": \"error\",\n                \"message\": \"Failed to launch app: <error details>\"\n            }\n\nExamples:\n    # Launch an app using just the package name\n    result = await launch_app_activity(\"com.android.contacts\")\n    \n    # Launch a specific activity within an app\n    result = await launch_app_activity(\"com.android.dialer\", \"com.android.dialer.DialtactsActivity\")\n    \n    # Launch Android settings\n    result = await launch_app_activity(\"com.android.settings\")\n",
+        "parameters": {
+            "properties": {
+                "package_name": {
+                    "title": "Package Name",
+                    "type": "string"
+                },
+                "activity_name": {
+                    "default": null,
+                    "title": "Activity Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "package_name"
+            ],
+            "title": "launch_app_activityArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "phone-mcp_list_installed_apps",
+        "description": "List installed applications on the device with pagination support.\n\nArgs:\n    only_system (bool): If True, only show system apps\n    only_third_party (bool): If True, only show third-party apps\n    page (int): Page number (starts from 1)\n    page_size (int): Number of items per page\n    basic (bool): If True, only return basic info (faster loading, default behavior)\n\nReturns:\n    str: JSON string containing:\n        {\n            \"status\": \"success\" or \"error\",\n            \"message\": Error message if status is error,\n            \"total_count\": Total number of apps,\n            \"total_pages\": Total number of pages,\n            \"current_page\": Current page number,\n            \"page_size\": Number of items per page,\n            \"apps\": [\n                {\n                    \"package_name\": str,\n                    \"app_name\": str,\n                    \"system_app\": bool,\n                    \"version_name\": str (if not basic),\n                    \"version_code\": str (if not basic),\n                    \"install_time\": str (if not basic)\n                },\n                ...\n            ]\n        }\n",
+        "parameters": {
+            "properties": {
+                "only_system": {
+                    "default": false,
+                    "title": "only_system",
+                    "type": "string"
+                },
+                "only_third_party": {
+                    "default": false,
+                    "title": "only_third_party",
+                    "type": "string"
+                },
+                "page": {
+                    "default": 1,
+                    "title": "page",
+                    "type": "string"
+                },
+                "page_size": {
+                    "default": 10,
+                    "title": "page_size",
+                    "type": "string"
+                },
+                "basic": {
+                    "default": true,
+                    "title": "basic",
+                    "type": "string"
+                }
+            },
+            "title": "list_installed_appsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "phone-mcp_terminate_app",
+        "description": "Force stop an application on the device.\n\nArgs:\n    package_name (str): Package name of the app to terminate\n\nReturns:\n    str: Success or error message\n",
+        "parameters": {
+            "properties": {
+                "package_name": {
+                    "title": "Package Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "package_name"
+            ],
+            "title": "terminate_appArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "phone-mcp_open_url",
+        "description": "Open a URL in the device's default browser.\n\nArgs:\n    url (str): URL to open\n\nReturns:\n    str: Success or error message\n",
+        "parameters": {
+            "properties": {
+                "url": {
+                    "title": "Url",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "title": "open_urlArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "phone-mcp_analyze_screen",
+        "description": "Analyze the current screen and provide structured information about UI elements\n\nThis function captures the current screen state and returns a detailed analysis\nof the UI elements, their attributes, and suggests possible interactions.\n\nArgs:\n    include_screenshot (bool, optional): Whether to include base64-encoded screenshot in the result.\n                                      Default is False to reduce response size.\n    max_elements (int, optional): Maximum number of UI elements to process.\n                                Default is 50 to limit processing time and response size.\n\nReturns:\n    str: JSON string with the analysis result containing:\n        {\n            \"status\": \"success\" or \"error\",\n            \"message\": \"Success/error message\",\n            \"screen_size\": {\n                \"width\": Width of the screen in pixels,\n                \"height\": Height of the screen in pixels\n            },\n            \"screen_analysis\": {\n                \"text_elements\": {\n                    \"all\": [List of all text elements with coordinates],\n                    \"by_region\": {\n                        \"top\": [Text elements in the top of the screen],\n                        \"middle\": [Text elements in the middle of the screen],\n                        \"bottom\": [Text elements in the bottom of the screen]\n                    }\n                },\n                \"notable_clickables\": [List of important clickable elements],\n                \"ui_patterns\": {\n                    \"has_bottom_nav\": Whether screen has bottom navigation,\n                    \"has_top_bar\": Whether screen has top app bar,\n                    \"has_dialog\": Whether screen has a dialog showing,\n                    \"has_list_view\": Whether screen has a scrollable list\n                }\n            },\n            \"suggested_actions\": [\n                {\n                    \"action\": Action type (e.g., \"tap_element\"),\n                    \"element_text\": Text of element to interact with,\n                    \"element_id\": ID of element to interact with,\n                    \"coordinates\": [x, y] coordinates for interaction,\n                    \"confidence\": Confidence score (0-100)\n                }\n            ]\n        }\n    \n    If include_screenshot is True, the response will also include:\n    {\n        \"screenshot\": base64-encoded PNG image of the screen\n    }\n    \nExamples:\n    # Basic screen analysis\n    result = await analyze_screen()\n    \n    # Get screen analysis with screenshot included\n    result_with_screenshot = await analyze_screen(include_screenshot=True)\n    \n    # Get detailed analysis including more elements\n    detailed_result = await analyze_screen(max_elements=100)\n",
+        "parameters": {
+            "properties": {
+                "include_screenshot": {
+                    "default": false,
+                    "title": "Include Screenshot",
+                    "type": "boolean"
+                },
+                "max_elements": {
+                    "default": 50,
+                    "title": "Max Elements",
+                    "type": "integer"
+                }
+            },
+            "title": "analyze_screenArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "phone-mcp_interact_with_screen",
+        "description": "Execute screen interaction actions\n\nUnified interface for screen interactions including tapping, swiping, key pressing, text input, and element search.\n\nArgs:\n    action (str): Action type, one of:\n        - \"tap\": Tap screen at specified coordinates\n        - \"swipe\": Swipe screen from one position to another\n        - \"key\": Press a system key\n        - \"text\": Input text\n        - \"find\": Find UI element(s)\n        - \"wait\": Wait for element to appear\n        - \"scroll\": Scroll to find element\n        \n    params (Dict[str, Any]): Parameters dictionary with action-specific values:\n        For \"tap\" action:\n            - x (int): X coordinate to tap\n            - y (int): Y coordinate to tap\n        \n        For \"swipe\" action:\n            - x1 (int): Start X coordinate\n            - y1 (int): Start Y coordinate\n            - x2 (int): End X coordinate\n            - y2 (int): End Y coordinate\n            - duration (int, optional): Swipe duration in ms, defaults to 300\n        \n        For \"key\" action:\n            - keycode (str/int): Key to press (e.g., \"back\", \"home\", \"enter\", or keycode number)\n        \n        For \"text\" action:\n            - content (str): Text to input. For Chinese characters, use pinyin instead\n                          (e.g. \"yu\\ tian\" for \"\u96e8\u5929\") with escaped spaces.\n                          Direct Chinese character input may fail on some devices.\n        \n        For \"find\" action:\n            - method (str): Search method, one of: \"text\", \"id\", \"content_desc\", \"class\", \"clickable\"\n            - value (str): Text/value to search for (not required for method=\"clickable\")\n            - partial (bool, optional): Use partial matching, defaults to True (for text/content_desc)\n        \n        For \"wait\" action:\n            - method (str): Search method, same options as \"find\"\n            - value (str): Text/value to search for\n            - timeout (int, optional): Maximum wait time in seconds, defaults to 30\n            - interval (float, optional): Check interval in seconds, defaults to 1.0\n        \n        For \"scroll\" action:\n            - method (str): Search method, same options as \"find\"\n            - value (str): Text/value to search for\n            - direction (str, optional): Scroll direction, one of: \"up\", \"down\", \"left\", \"right\", defaults to \"down\"\n            - max_swipes (int, optional): Maximum swipe attempts, defaults to 5\n\nReturns:\n    str: JSON string with operation result containing:\n        For successful operations:\n            {\n                \"status\": \"success\",\n                \"message\": \"Operation-specific success message\",\n                ... (optional action-specific data)\n            }\n        \n        For failed operations:\n            {\n                \"status\": \"error\",\n                \"message\": \"Error description\"\n            }\n        \n        Special cases:\n            - find: Returns elements list containing matching elements with their properties\n            - wait: Returns success when element found or error if timeout\n            - scroll: Returns success when element found or error if not found after max attempts\n\nExamples:\n    # Tap by coordinates\n    result = await interact_with_screen(\"tap\", {\"x\": 100, \"y\": 200})\n    \n    # Swipe down\n    result = await interact_with_screen(\"swipe\", \n                                       {\"x1\": 500, \"y1\": 300, \n                                        \"x2\": 500, \"y2\": 1200, \n                                        \"duration\": 300})\n    \n    # Input text\n    result = await interact_with_screen(\"text\", {\"content\": \"Hello world\"})\n    \n    # Press back key\n    result = await interact_with_screen(\"key\", {\"keycode\": \"back\"})\n    \n    # Find element by text\n    result = await interact_with_screen(\"find\", \n                                       {\"method\": \"text\", \n                                        \"value\": \"Settings\", \n                                        \"partial\": True})\n    \n    # Wait for element to appear\n    result = await interact_with_screen(\"wait\", \n                                       {\"method\": \"text\", \n                                        \"value\": \"Success\", \n                                        \"timeout\": 10,\n                                        \"interval\": 0.5})\n                                        \n    # Scroll to find element\n    result = await interact_with_screen(\"scroll\", \n                                       {\"method\": \"text\", \n                                        \"value\": \"Privacy Policy\", \n                                        \"direction\": \"down\", \n                                        \"max_swipes\": 8})\n",
+        "parameters": {
+            "properties": {
+                "action": {
+                    "title": "Action",
+                    "type": "string"
+                },
+                "params": {
+                    "additionalProperties": true,
+                    "title": "Params",
+                    "type": "object"
+                }
+            },
+            "required": [
+                "action",
+                "params"
+            ],
+            "title": "interact_with_screenArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "phone-mcp_mcp_monitor_ui_changes",
+        "description": "Monitor the UI for changes with MCP compatible parameters.\n\nThis is a simplified version of monitor_ui_changes that doesn't use callback functions,\nmaking it compatible with MCP's JSON schema requirements.\n\nArgs:\n    interval_seconds (float): Time between UI checks (seconds)\n    max_duration_seconds (float): Maximum monitoring time (seconds)\n    watch_for (str): What to watch for - \"any_change\", \"text_appears\", \"text_disappears\", \n                    \"id_appears\", \"id_disappears\", \"class_appears\", \"content_desc_appears\"\n    target_text (str): Text to watch for (when watch_for includes \"text\")\n    target_id (str): ID to watch for (when watch_for includes \"id\")\n    target_class (str): Class to watch for (when watch_for includes \"class\")\n    target_content_desc (str): Content description to watch for (when watch_for includes \"content_desc\")\n\nReturns:\n    str: JSON string with monitoring results\n",
+        "parameters": {
+            "properties": {
+                "interval_seconds": {
+                    "default": 1.0,
+                    "title": "Interval Seconds",
+                    "type": "number"
+                },
+                "max_duration_seconds": {
+                    "default": 60.0,
+                    "title": "Max Duration Seconds",
+                    "type": "number"
+                },
+                "watch_for": {
+                    "default": "any_change",
+                    "title": "Watch For",
+                    "type": "string"
+                },
+                "target_text": {
+                    "default": "",
+                    "title": "Target Text",
+                    "type": "string"
+                },
+                "target_id": {
+                    "default": "",
+                    "title": "Target Id",
+                    "type": "string"
+                },
+                "target_class": {
+                    "default": "",
+                    "title": "Target Class",
+                    "type": "string"
+                },
+                "target_content_desc": {
+                    "default": "",
+                    "title": "Target Content Desc",
+                    "type": "string"
+                }
+            },
+            "title": "mcp_monitor_ui_changesArguments",
+            "type": "object"
+        }
+    }
+]

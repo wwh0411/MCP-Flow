@@ -1,0 +1,600 @@
+[
+    {
+        "name": "recraft_generate_image",
+        "description": "Generate an image using Recraft from a text prompt.\nYou can specify the image size, style, model, and number of images to generate.\nYou don't need to change default parameters if you don't have any specific requirements.\nYou can use styles to refine the image generation, and also to generate raster or vector images.\nLocal paths or URLs to generated images and their previews will be returned in the response.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "prompt": {
+                    "type": "string",
+                    "description": "Text prompt of the image you want to generate.\nIts length should be from 1 to 1024 characters."
+                },
+                "size": {
+                    "type": "string",
+                    "enum": [
+                        "1024x1024",
+                        "1365x1024",
+                        "1024x1365",
+                        "1536x1024",
+                        "1024x1536",
+                        "1820x1024",
+                        "1024x1820",
+                        "1024x2048",
+                        "2048x1024",
+                        "1434x1024",
+                        "1024x1434",
+                        "1024x1280",
+                        "1280x1024",
+                        "1024x1707",
+                        "1707x1024"
+                    ],
+                    "description": "Image dimensions. Default is 1024x1024."
+                },
+                "style": {
+                    "type": "string",
+                    "enum": [
+                        "digital_illustration",
+                        "icon",
+                        "realistic_image",
+                        "vector_illustration",
+                        "logo_raster"
+                    ],
+                    "description": "Visual style to apply. Default is realistic_image.\nUse this parameter only if you want to refine the image generation.\nMutually exclusive with styleID, you can't specify both of them.\nrealistic_image, digital_illustration, vector_illustration are available in both models, but icon is available only for recraftv2, and logo_raster is available only for recraftv3.\nIf you will provide a style that is not available for the specified model, generation will fail.\nStyles use-cases:\n- realistic_image: for realistic images, photos, portraits, landscapes, etc. Raster is generated.\n- digital_illustration: for digital illustrations, concept art, fantasy art, etc. Raster is generated.\n- vector_illustration: for vector illustrations, logos, icons, etc. Vector is generated.\n- icon: for icons, small graphics (only in recraftv2). Vector is generated\n- logo_raster: for graphic design, raster logos, posters, emblems, and badges (only in recraftv3). Raster is generated."
+                },
+                "substyle": {
+                    "type": "string",
+                    "enum": [
+                        "2d_art_poster",
+                        "3d",
+                        "80s",
+                        "glow",
+                        "grain",
+                        "hand_drawn",
+                        "infantile_sketch",
+                        "kawaii",
+                        "pixel_art",
+                        "psychedelic",
+                        "seamless",
+                        "voxel",
+                        "watercolor",
+                        "broken_line",
+                        "colored_outline",
+                        "colored_shapes",
+                        "colored_shapes_gradient",
+                        "doodle_fill",
+                        "doodle_offset_fill",
+                        "offset_fill",
+                        "outline",
+                        "outline_gradient",
+                        "cartoon",
+                        "doodle_line_art",
+                        "engraving",
+                        "flat_2",
+                        "line_art",
+                        "linocut",
+                        "b_and_w",
+                        "enterprise",
+                        "hard_flash",
+                        "hdr",
+                        "motion_blur",
+                        "natural_light",
+                        "studio_portrait",
+                        "line_circuit",
+                        "2d_art_poster_2",
+                        "engraving_color",
+                        "hand_drawn_outline",
+                        "handmade_3d",
+                        "plastic",
+                        "pictogram",
+                        "antiquarian",
+                        "bold_fantasy",
+                        "child_book",
+                        "cover",
+                        "crosshatch",
+                        "digital_engraving",
+                        "expressionism",
+                        "freehand_details",
+                        "grain_20",
+                        "graphic_intensity",
+                        "hard_comics",
+                        "long_shadow",
+                        "modern_folk",
+                        "multicolor",
+                        "neon_calm",
+                        "noir",
+                        "nostalgic_pastel",
+                        "outline_details",
+                        "pastel_gradient",
+                        "pastel_sketch",
+                        "pop_art",
+                        "pop_renaissance",
+                        "street_art",
+                        "tablet_sketch",
+                        "urban_glow",
+                        "urban_sketching",
+                        "young_adult_book",
+                        "young_adult_book_2",
+                        "evening_light",
+                        "faded_nostalgia",
+                        "forest_life",
+                        "mystic_naturalism",
+                        "natural_tones",
+                        "organic_calm",
+                        "real_life_glow",
+                        "retro_realism",
+                        "retro_snapshot",
+                        "urban_drama",
+                        "village_realism",
+                        "warm_folk",
+                        "bold_stroke",
+                        "chemistry",
+                        "colored_stencil",
+                        "cosmics",
+                        "cutout",
+                        "depressive",
+                        "editorial",
+                        "emotional_flat",
+                        "marker_outline",
+                        "mosaic",
+                        "naivector",
+                        "roundish_flat",
+                        "segmented_colors",
+                        "sharp_contrast",
+                        "thin",
+                        "vector_photo",
+                        "vivid_shapes",
+                        "emblem_graffiti",
+                        "emblem_pop_art",
+                        "emblem_punk",
+                        "emblem_stamp",
+                        "emblem_vintage"
+                    ],
+                    "description": "Visual substyle to apply. Can be specified only with style to refine more specifically.\nIf this parameter is not specified, model will decide on the final style. Use this parameter only if you want to refine the image generation more. No need to specify if you don't have any specific requirements.\nNote that each combination of model and style has their own list of available substyles:\n- recraftv3 with style realistic_image: b_and_w, enterprise, evening_light, faded_nostalgia, forest_life, hard_flash, hdr, motion_blur, mystic_naturalism, natural_light, natural_tones, organic_calm, real_life_glow, retro_realism, retro_snapshot, studio_portrait, urban_drama, village_realism, warm_folk\n- recraftv2 with style realistic_image: b_and_w, enterprise, hard_flash, hdr, motion_blur, natural_light, studio_portrait\n- recraftv3 with style digital_illustration: 2d_art_poster, 2d_art_poster_2, antiquarian, bold_fantasy, child_book, cover, crosshatch, digital_engraving, engraving_color, expressionism, freehand_details, grain, grain_20, graphic_intensity, hand_drawn, hand_drawn_outline, handmade_3d, hard_comics, infantile_sketch, long_shadow, modern_folk, multicolor, neon_calm, noir, nostalgic_pastel, outline_details, pastel_gradient, pastel_sketch, pixel_art, plastic, pop_art, pop_renaissance, seamless, street_art, tablet_sketch, urban_glow, urban_sketching, young_adult_book, young_adult_book_2\n- recraftv2 with style digital_illustration: 2d_art_poster, 2d_art_poster_2, 3d, 80s, engraving_color, glow, grain, hand_drawn, hand_drawn_outline, handmade_3d, infantile_sketch, kawaii, pixel_art, plastic, psychedelic, seamless, voxel, watercolor\n- recraftv3 with style vector_illustration: bold_stroke, chemistry, colored_stencil, cosmics, cutout, depressive, editorial, emotional_flat, engraving, line_art, line_circuit, linocut, marker_outline, mosaic, naivector, roundish_flat, seamless, segmented_colors, sharp_contrast, thin, vector_photo, vivid_shapes\n- recraftv2 with style vector_illustration: cartoon, doodle_line_art, engraving, flat_2, kawaii, line_art, line_circuit, linocut, seamless\n- recraftv2 with style icon: broken_line, colored_outline, colored_shapes, colored_shapes_gradient, doodle_fill, doodle_offset_fill, offset_fill, outline, outline_gradient, pictogram\n- recraftv3 with style logo_raster: emblem_graffiti, emblem_pop_art, emblem_punk, emblem_stamp, emblem_vintage\nIf you will provide a substyle that is not available for the specified model and style, generation will fail."
+                },
+                "styleID": {
+                    "type": "string",
+                    "description": "ID of the style to apply. Mutually exclusive with style, you can't specify both of them.\nThis ID can be the style ID from recraft.ai or some previously created custom style."
+                },
+                "model": {
+                    "type": "string",
+                    "enum": [
+                        "recraftv3",
+                        "recraftv2"
+                    ],
+                    "description": "Model version to use. Default is recraftv3.\n- recraftv3 is the latest model and should be used in most cases.\n- recraftv2 is the previous state model, it has a bit cheaper generation.\nBe accurate with compatibility of model with style if it is specified, otherwise generation will fail."
+                },
+                "numberOfImages": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 6,
+                    "description": "Number of images to generate. Should be from 1 to 6. Default is 1."
+                }
+            },
+            "required": [
+                "prompt"
+            ]
+        }
+    },
+    {
+        "name": "recraft_create_style",
+        "description": "Create a style in Recraft from the set of style reference images.\nA style is extracted from the provided images and can be used in image generation tools.\nID of the created style will be returned in the response.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "style": {
+                    "type": "string",
+                    "enum": [
+                        "realistic_image",
+                        "digital_illustration",
+                        "vector_illustration",
+                        "icon"
+                    ],
+                    "description": "Basic visual style in which the style will be created."
+                },
+                "imageURIs": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Array of images to use as a style references. Each item can be a URL (starting with http:// or https://) or a file path (starting with file://). The length should be from 1 to 5."
+                }
+            },
+            "required": [
+                "style",
+                "imageURIs"
+            ]
+        }
+    },
+    {
+        "name": "recraft_vectorize_image",
+        "description": "Vectorize an input image using Recraft.\nThis operation takes an input image and returns a vector SVG image, close to it.\nLocal path or URL to resulting image and its preview will be returned in the response.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "imageURI": {
+                    "type": "string",
+                    "description": "Image to use as an input. This can be a URL (starting with http:// or https://) or an absolute file path (starting with file://)."
+                }
+            },
+            "required": [
+                "imageURI"
+            ]
+        }
+    },
+    {
+        "name": "recraft_image_to_image",
+        "description": "Generate an image using Recraft from an input image and a text prompt.\nYou can specify the reference input image, style, model, and number of images to generate.\nYou should provide the same style/substyle/styleID settings as were used for input image generation (if exists) if there are no specific requirements to change the style.\nOther parameters are recommended to keep default if you don't have any specific requirements on them.\nYou can use styles to refine the image generation, and also to generate raster or vector images.\nLocal paths or URLs to generated images and their previews will be returned in the response.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "imageURI": {
+                    "type": "string",
+                    "description": "Image to use as an input. This can be a URL (starting with http:// or https://) or an absolute file path (starting with file://)."
+                },
+                "prompt": {
+                    "type": "string",
+                    "description": "Text prompt of the image you want to generate.\nIts length should be from 1 to 1024 characters."
+                },
+                "strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Strength of the image to image transformation, where 0 means almost similar to reference input image, 1 means almost no reference."
+                },
+                "style": {
+                    "type": "string",
+                    "enum": [
+                        "digital_illustration",
+                        "icon",
+                        "realistic_image",
+                        "vector_illustration",
+                        "logo_raster"
+                    ],
+                    "description": "Visual style to apply. Default is realistic_image.\nUse this parameter only if you want to refine the image generation.\nMutually exclusive with styleID, you can't specify both of them.\nrealistic_image, digital_illustration, vector_illustration are available in both models, but icon is available only for recraftv2, and logo_raster is available only for recraftv3.\nIf you will provide a style that is not available for the specified model, generation will fail.\nStyles use-cases:\n- realistic_image: for realistic images, photos, portraits, landscapes, etc. Raster is generated.\n- digital_illustration: for digital illustrations, concept art, fantasy art, etc. Raster is generated.\n- vector_illustration: for vector illustrations, logos, icons, etc. Vector is generated.\n- icon: for icons, small graphics (only in recraftv2). Vector is generated\n- logo_raster: for graphic design, raster logos, posters, emblems, and badges (only in recraftv3). Raster is generated.\nYou should provide the same style/substyle/styleID settings as were used for input image generation (if they exist) if there are no specific requirements to change the style in the resulting image."
+                },
+                "substyle": {
+                    "type": "string",
+                    "enum": [
+                        "2d_art_poster",
+                        "3d",
+                        "80s",
+                        "glow",
+                        "grain",
+                        "hand_drawn",
+                        "infantile_sketch",
+                        "kawaii",
+                        "pixel_art",
+                        "psychedelic",
+                        "seamless",
+                        "voxel",
+                        "watercolor",
+                        "broken_line",
+                        "colored_outline",
+                        "colored_shapes",
+                        "colored_shapes_gradient",
+                        "doodle_fill",
+                        "doodle_offset_fill",
+                        "offset_fill",
+                        "outline",
+                        "outline_gradient",
+                        "cartoon",
+                        "doodle_line_art",
+                        "engraving",
+                        "flat_2",
+                        "line_art",
+                        "linocut",
+                        "b_and_w",
+                        "enterprise",
+                        "hard_flash",
+                        "hdr",
+                        "motion_blur",
+                        "natural_light",
+                        "studio_portrait",
+                        "line_circuit",
+                        "2d_art_poster_2",
+                        "engraving_color",
+                        "hand_drawn_outline",
+                        "handmade_3d",
+                        "plastic",
+                        "pictogram",
+                        "antiquarian",
+                        "bold_fantasy",
+                        "child_book",
+                        "cover",
+                        "crosshatch",
+                        "digital_engraving",
+                        "expressionism",
+                        "freehand_details",
+                        "grain_20",
+                        "graphic_intensity",
+                        "hard_comics",
+                        "long_shadow",
+                        "modern_folk",
+                        "multicolor",
+                        "neon_calm",
+                        "noir",
+                        "nostalgic_pastel",
+                        "outline_details",
+                        "pastel_gradient",
+                        "pastel_sketch",
+                        "pop_art",
+                        "pop_renaissance",
+                        "street_art",
+                        "tablet_sketch",
+                        "urban_glow",
+                        "urban_sketching",
+                        "young_adult_book",
+                        "young_adult_book_2",
+                        "evening_light",
+                        "faded_nostalgia",
+                        "forest_life",
+                        "mystic_naturalism",
+                        "natural_tones",
+                        "organic_calm",
+                        "real_life_glow",
+                        "retro_realism",
+                        "retro_snapshot",
+                        "urban_drama",
+                        "village_realism",
+                        "warm_folk",
+                        "bold_stroke",
+                        "chemistry",
+                        "colored_stencil",
+                        "cosmics",
+                        "cutout",
+                        "depressive",
+                        "editorial",
+                        "emotional_flat",
+                        "marker_outline",
+                        "mosaic",
+                        "naivector",
+                        "roundish_flat",
+                        "segmented_colors",
+                        "sharp_contrast",
+                        "thin",
+                        "vector_photo",
+                        "vivid_shapes",
+                        "emblem_graffiti",
+                        "emblem_pop_art",
+                        "emblem_punk",
+                        "emblem_stamp",
+                        "emblem_vintage"
+                    ],
+                    "description": "Visual substyle to apply. Can be specified only with style to refine more specifically.\nIf this parameter is not specified, model will decide on the final style. Use this parameter only if you want to refine the image generation more. No need to specify if you don't have any specific requirements.\nNote that each combination of model and style has their own list of available substyles:\n- recraftv3 with style realistic_image: b_and_w, enterprise, evening_light, faded_nostalgia, forest_life, hard_flash, hdr, motion_blur, mystic_naturalism, natural_light, natural_tones, organic_calm, real_life_glow, retro_realism, retro_snapshot, studio_portrait, urban_drama, village_realism, warm_folk\n- recraftv2 with style realistic_image: b_and_w, enterprise, hard_flash, hdr, motion_blur, natural_light, studio_portrait\n- recraftv3 with style digital_illustration: 2d_art_poster, 2d_art_poster_2, antiquarian, bold_fantasy, child_book, cover, crosshatch, digital_engraving, engraving_color, expressionism, freehand_details, grain, grain_20, graphic_intensity, hand_drawn, hand_drawn_outline, handmade_3d, hard_comics, infantile_sketch, long_shadow, modern_folk, multicolor, neon_calm, noir, nostalgic_pastel, outline_details, pastel_gradient, pastel_sketch, pixel_art, plastic, pop_art, pop_renaissance, seamless, street_art, tablet_sketch, urban_glow, urban_sketching, young_adult_book, young_adult_book_2\n- recraftv2 with style digital_illustration: 2d_art_poster, 2d_art_poster_2, 3d, 80s, engraving_color, glow, grain, hand_drawn, hand_drawn_outline, handmade_3d, infantile_sketch, kawaii, pixel_art, plastic, psychedelic, seamless, voxel, watercolor\n- recraftv3 with style vector_illustration: bold_stroke, chemistry, colored_stencil, cosmics, cutout, depressive, editorial, emotional_flat, engraving, line_art, line_circuit, linocut, marker_outline, mosaic, naivector, roundish_flat, seamless, segmented_colors, sharp_contrast, thin, vector_photo, vivid_shapes\n- recraftv2 with style vector_illustration: cartoon, doodle_line_art, engraving, flat_2, kawaii, line_art, line_circuit, linocut, seamless\n- recraftv2 with style icon: broken_line, colored_outline, colored_shapes, colored_shapes_gradient, doodle_fill, doodle_offset_fill, offset_fill, outline, outline_gradient, pictogram\n- recraftv3 with style logo_raster: emblem_graffiti, emblem_pop_art, emblem_punk, emblem_stamp, emblem_vintage\nIf you will provide a substyle that is not available for the specified model and style, generation will fail.\nYou should provide the same style/substyle/styleID settings as were used for input image generation (if they exist) if there are no specific requirements to change the style in the resulting image."
+                },
+                "styleID": {
+                    "type": "string",
+                    "description": "ID of the style to apply. Mutually exclusive with style, you can't specify both of them.\nThis ID can be the style ID from recraft.ai or some previously created custom style.\nYou should provide the same style/substyle/styleID settings as were used for input image generation (if they exist) if there are no specific requirements to change the style in the resulting image."
+                },
+                "model": {
+                    "type": "string",
+                    "enum": [
+                        "recraftv3",
+                        "recraftv2"
+                    ],
+                    "description": "Model version to use. Default is recraftv3.\n- recraftv3 is the latest model and should be used in most cases.\n- recraftv2 is the previous state model, it has a bit cheaper generation.\nBe accurate with compatibility of model with style if it is specified, otherwise generation will fail."
+                },
+                "numberOfImages": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 6,
+                    "description": "Number of images to generate. Should be from 1 to 6. Default is 1."
+                }
+            },
+            "required": [
+                "imageURI",
+                "prompt",
+                "strength"
+            ]
+        }
+    },
+    {
+        "name": "recraft_remove_background",
+        "description": "Remove background in the input image using Recraft.\nThis operation takes an input image and returns the same image with detected background removed. Raster image will be always returned.\nLocal path or URL to resulting image and its preview will be returned in the response.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "imageURI": {
+                    "type": "string",
+                    "description": "Image to use as an input. This can be a URL (starting with http:// or https://) or an absolute file path (starting with file://)."
+                }
+            },
+            "required": [
+                "imageURI"
+            ]
+        }
+    },
+    {
+        "name": "recraft_replace_background",
+        "description": "Generate an image using Recraft from an input image with its detected background replaced based on the prompt.\nYou can specify the input image, style, model, and number of images to generate.\nYou should provide the same style/substyle/styleID settings as were used for input image generation (if exists) if there are no specific requirements to change the style.\nOther parameters are recommended to keep default if you don't have any specific requirements on them.\nYou can use styles to refine the image background generation, and also to generate raster or vector images.\nLocal paths or URLs to generated images and their previews will be returned in the response.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "imageURI": {
+                    "type": "string",
+                    "description": "Image to use as an input. This can be a URL (starting with http:// or https://) or an absolute file path (starting with file://)."
+                },
+                "prompt": {
+                    "type": "string",
+                    "description": "Text prompt of the background areas that will be changed.\nIts length should be from 1 to 1024 characters."
+                },
+                "style": {
+                    "type": "string",
+                    "enum": [
+                        "digital_illustration",
+                        "icon",
+                        "realistic_image",
+                        "vector_illustration",
+                        "logo_raster"
+                    ],
+                    "description": "Visual style to apply. Default is realistic_image.\nUse this parameter only if you want to refine the image generation.\nMutually exclusive with styleID, you can't specify both of them.\nrealistic_image, digital_illustration, vector_illustration are available in both models, but icon is available only for recraftv2, and logo_raster is available only for recraftv3.\nIf you will provide a style that is not available for the specified model, generation will fail.\nStyles use-cases:\n- realistic_image: for realistic images, photos, portraits, landscapes, etc. Raster is generated.\n- digital_illustration: for digital illustrations, concept art, fantasy art, etc. Raster is generated.\n- vector_illustration: for vector illustrations, logos, icons, etc. Vector is generated.\n- icon: for icons, small graphics (only in recraftv2). Vector is generated\n- logo_raster: for graphic design, raster logos, posters, emblems, and badges (only in recraftv3). Raster is generated.\nYou should provide the same style/substyle/styleID settings as were used for input image generation (if they exist) if there are no specific requirements to change the style in the resulting image."
+                },
+                "substyle": {
+                    "type": "string",
+                    "enum": [
+                        "2d_art_poster",
+                        "3d",
+                        "80s",
+                        "glow",
+                        "grain",
+                        "hand_drawn",
+                        "infantile_sketch",
+                        "kawaii",
+                        "pixel_art",
+                        "psychedelic",
+                        "seamless",
+                        "voxel",
+                        "watercolor",
+                        "broken_line",
+                        "colored_outline",
+                        "colored_shapes",
+                        "colored_shapes_gradient",
+                        "doodle_fill",
+                        "doodle_offset_fill",
+                        "offset_fill",
+                        "outline",
+                        "outline_gradient",
+                        "cartoon",
+                        "doodle_line_art",
+                        "engraving",
+                        "flat_2",
+                        "line_art",
+                        "linocut",
+                        "b_and_w",
+                        "enterprise",
+                        "hard_flash",
+                        "hdr",
+                        "motion_blur",
+                        "natural_light",
+                        "studio_portrait",
+                        "line_circuit",
+                        "2d_art_poster_2",
+                        "engraving_color",
+                        "hand_drawn_outline",
+                        "handmade_3d",
+                        "plastic",
+                        "pictogram",
+                        "antiquarian",
+                        "bold_fantasy",
+                        "child_book",
+                        "cover",
+                        "crosshatch",
+                        "digital_engraving",
+                        "expressionism",
+                        "freehand_details",
+                        "grain_20",
+                        "graphic_intensity",
+                        "hard_comics",
+                        "long_shadow",
+                        "modern_folk",
+                        "multicolor",
+                        "neon_calm",
+                        "noir",
+                        "nostalgic_pastel",
+                        "outline_details",
+                        "pastel_gradient",
+                        "pastel_sketch",
+                        "pop_art",
+                        "pop_renaissance",
+                        "street_art",
+                        "tablet_sketch",
+                        "urban_glow",
+                        "urban_sketching",
+                        "young_adult_book",
+                        "young_adult_book_2",
+                        "evening_light",
+                        "faded_nostalgia",
+                        "forest_life",
+                        "mystic_naturalism",
+                        "natural_tones",
+                        "organic_calm",
+                        "real_life_glow",
+                        "retro_realism",
+                        "retro_snapshot",
+                        "urban_drama",
+                        "village_realism",
+                        "warm_folk",
+                        "bold_stroke",
+                        "chemistry",
+                        "colored_stencil",
+                        "cosmics",
+                        "cutout",
+                        "depressive",
+                        "editorial",
+                        "emotional_flat",
+                        "marker_outline",
+                        "mosaic",
+                        "naivector",
+                        "roundish_flat",
+                        "segmented_colors",
+                        "sharp_contrast",
+                        "thin",
+                        "vector_photo",
+                        "vivid_shapes",
+                        "emblem_graffiti",
+                        "emblem_pop_art",
+                        "emblem_punk",
+                        "emblem_stamp",
+                        "emblem_vintage"
+                    ],
+                    "description": "Visual substyle to apply. Can be specified only with style to refine more specifically.\nIf this parameter is not specified, model will decide on the final style. Use this parameter only if you want to refine the image generation more. No need to specify if you don't have any specific requirements.\nNote that each combination of model and style has their own list of available substyles:\n- recraftv3 with style realistic_image: b_and_w, enterprise, evening_light, faded_nostalgia, forest_life, hard_flash, hdr, motion_blur, mystic_naturalism, natural_light, natural_tones, organic_calm, real_life_glow, retro_realism, retro_snapshot, studio_portrait, urban_drama, village_realism, warm_folk\n- recraftv2 with style realistic_image: b_and_w, enterprise, hard_flash, hdr, motion_blur, natural_light, studio_portrait\n- recraftv3 with style digital_illustration: 2d_art_poster, 2d_art_poster_2, antiquarian, bold_fantasy, child_book, cover, crosshatch, digital_engraving, engraving_color, expressionism, freehand_details, grain, grain_20, graphic_intensity, hand_drawn, hand_drawn_outline, handmade_3d, hard_comics, infantile_sketch, long_shadow, modern_folk, multicolor, neon_calm, noir, nostalgic_pastel, outline_details, pastel_gradient, pastel_sketch, pixel_art, plastic, pop_art, pop_renaissance, seamless, street_art, tablet_sketch, urban_glow, urban_sketching, young_adult_book, young_adult_book_2\n- recraftv2 with style digital_illustration: 2d_art_poster, 2d_art_poster_2, 3d, 80s, engraving_color, glow, grain, hand_drawn, hand_drawn_outline, handmade_3d, infantile_sketch, kawaii, pixel_art, plastic, psychedelic, seamless, voxel, watercolor\n- recraftv3 with style vector_illustration: bold_stroke, chemistry, colored_stencil, cosmics, cutout, depressive, editorial, emotional_flat, engraving, line_art, line_circuit, linocut, marker_outline, mosaic, naivector, roundish_flat, seamless, segmented_colors, sharp_contrast, thin, vector_photo, vivid_shapes\n- recraftv2 with style vector_illustration: cartoon, doodle_line_art, engraving, flat_2, kawaii, line_art, line_circuit, linocut, seamless\n- recraftv2 with style icon: broken_line, colored_outline, colored_shapes, colored_shapes_gradient, doodle_fill, doodle_offset_fill, offset_fill, outline, outline_gradient, pictogram\n- recraftv3 with style logo_raster: emblem_graffiti, emblem_pop_art, emblem_punk, emblem_stamp, emblem_vintage\nIf you will provide a substyle that is not available for the specified model and style, generation will fail.\nYou should provide the same style/substyle/styleID settings as were used for input image generation (if they exist) if there are no specific requirements to change the style in the resulting image."
+                },
+                "styleID": {
+                    "type": "string",
+                    "description": "ID of the style to apply. Mutually exclusive with style, you can't specify both of them.\nThis ID can be the style ID from recraft.ai or some previously created custom style.\nYou should provide the same style/substyle/styleID settings as were used for input image generation (if they exist) if there are no specific requirements to change the style in the resulting image."
+                },
+                "numberOfImages": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 6,
+                    "description": "Number of images to generate. Should be from 1 to 6. Default is 1."
+                }
+            },
+            "required": [
+                "imageURI",
+                "prompt"
+            ]
+        }
+    },
+    {
+        "name": "recraft_crisp_upscale",
+        "description": "Crisp upscale of the input image using Recraft.\nThis operation takes an input image and returns an upscaled image, making the image sharper and cleaner.\nThis version of upscale is much cheaper and faster than creative upscale.\nLocal path or URL to resulting image and its preview will be returned in the response.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "imageURI": {
+                    "type": "string",
+                    "description": "Image to use as an input. This can be a URL (starting with http:// or https://) or an absolute file path (starting with file://)."
+                }
+            },
+            "required": [
+                "imageURI"
+            ]
+        }
+    },
+    {
+        "name": "recraft_creative_upscale",
+        "description": "Creative upscale of the input image using Recraft.\nThis operation takes an input image and returns an upscaled image, boosting resolution with a focus on refining small details and faces.\nThis version of upscale is expensive and slower than crisp upscale.\nLocal path or URL to resulting image and its preview will be returned in the response.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "imageURI": {
+                    "type": "string",
+                    "description": "Image to use as an input. This can be a URL (starting with http:// or https://) or an absolute file path (starting with file://)."
+                }
+            },
+            "required": [
+                "imageURI"
+            ]
+        }
+    },
+    {
+        "name": "recraft_get_user",
+        "description": "Get information about the current Recraft API user (their email, name, and credit balance).",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    }
+]

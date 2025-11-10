@@ -1,0 +1,1542 @@
+[
+    {
+        "name": "lark-mcp_bitable_v1_app_create",
+        "description": "[Feishu/Lark]-Docs-Base-App-Create a Base App-Create a base app in user-defined folder",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "description": "Base App Name"
+                        },
+                        "folder_token": {
+                            "type": "string",
+                            "description": "Base App Folder Token. The default value is empty, which means that the Base App is created at the root folder. For information on how to obtain folder_token, please refer to [How to obtain tokens related to cloud document resources]"
+                        },
+                        "time_zone": {
+                            "type": "string",
+                            "description": "Base App Time Zone, [More Detail]"
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "useUAT": {
+                    "type": "boolean",
+                    "description": "Use user access token, otherwise use tenant access token"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "lark-mcp_bitable_v1_appTable_create",
+        "description": "[Feishu/Lark]-Docs-Base-Table-Create table-Add a new table in Base, supporting the input of table name, view name, and fields",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "table": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "description": "Name for the table.Please note:1. The first and last spaces in the name will be removed"
+                                },
+                                "default_view_name": {
+                                    "type": "string",
+                                    "description": "Name of the default table viewPlease note:1. The first and last spaces in the name will be removed.2. The characters [ ] are not allowed to be included"
+                                },
+                                "fields": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "field_name": {
+                                                "type": "string",
+                                                "description": "Field name"
+                                            },
+                                            "type": {
+                                                "type": "number",
+                                                "description": "Field type Options:1(Text Multiline),2(Number),3(SingleSelect Single option),4(MultiSelect Multiple options),5(DateTime Date),7(Checkbox),11(User Person),13(PhoneNumber),15(Url Link),17(Attachment),18(Link One-way link),20(Formula),21(DuplexLink Two-way link),22(Location),23(GroupChat group),1001(CreatedTime Date created),1002(ModifiedTime Last modified date),1003(CreatedUser Created by),1004(ModifiedUser Modified by),1005(AutoSerial)"
+                                            },
+                                            "ui_type": {
+                                                "type": "string",
+                                                "enum": [
+                                                    "Text",
+                                                    "Barcode",
+                                                    "Number",
+                                                    "Progress",
+                                                    "Currency",
+                                                    "Rating",
+                                                    "SingleSelect",
+                                                    "MultiSelect",
+                                                    "DateTime",
+                                                    "Checkbox",
+                                                    "User",
+                                                    "GroupChat",
+                                                    "Phone",
+                                                    "Url",
+                                                    "Attachment",
+                                                    "SingleLink",
+                                                    "Formula",
+                                                    "DuplexLink",
+                                                    "Location",
+                                                    "CreatedTime",
+                                                    "ModifiedTime",
+                                                    "CreatedUser",
+                                                    "ModifiedUser",
+                                                    "AutoNumber"
+                                                ],
+                                                "description": "Field Property, ref: [Field edit development guide] Options:Text(multiline text),Barcode(barcode),Number(number),Progress(progress),Currency(currency),Rating(score),SingleSelect(radio),MultiSelect(multiple choice),DateTime(date),Checkbox(checkbox),User(Personnel),GroupChat(group),Phone(Phone number),Url(Hyperlink),Attachment(Attachment),SingleLink(one-way association),Formula(formula),DuplexLink(Two-way link),Location(Geographical location),CreatedTime(Creation time),ModifiedTime(Last update time),CreatedUser(creator),ModifiedUser(Modifier),AutoNumber(Automatic numbering)"
+                                            },
+                                            "property": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "options": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "name": {
+                                                                    "type": "string",
+                                                                    "description": "Option name"
+                                                                },
+                                                                "id": {
+                                                                    "type": "string",
+                                                                    "description": "Option ID, not allowed to specify ID at creation time"
+                                                                },
+                                                                "color": {
+                                                                    "type": "number",
+                                                                    "description": "Option color"
+                                                                }
+                                                            },
+                                                            "additionalProperties": false
+                                                        },
+                                                        "description": "Whether to disable synchronization, if true, it means that synchronization of the description content to the problem description of the form is prohibited (only valid when fields are added or modified)"
+                                                    },
+                                                    "formatter": {
+                                                        "type": "string",
+                                                        "description": "Display format of numbers and formula fields"
+                                                    },
+                                                    "date_formatter": {
+                                                        "type": "string",
+                                                        "description": "The display format of the date, creation time, and last updated time fields"
+                                                    },
+                                                    "auto_fill": {
+                                                        "type": "boolean",
+                                                        "description": "New records in the date field are automatically filled in Creation time"
+                                                    },
+                                                    "multiple": {
+                                                        "type": "boolean",
+                                                        "description": "Multiple members are allowed to be added in the personnel field, and multiple records are allowed in one-way association and two-way association"
+                                                    },
+                                                    "table_id": {
+                                                        "type": "string",
+                                                        "description": "Base unique table identifier"
+                                                    },
+                                                    "table_name": {
+                                                        "type": "string",
+                                                        "description": "The name of the associated data table in the one-way association, two-way association field"
+                                                    },
+                                                    "back_field_name": {
+                                                        "type": "string",
+                                                        "description": "The name of the corresponding bidirectional association field in the associated data table in the bidirectional association field"
+                                                    },
+                                                    "auto_serial": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "type": {
+                                                                "type": "string",
+                                                                "enum": [
+                                                                    "custom",
+                                                                    "auto_increment_number"
+                                                                ],
+                                                                "description": "Automatic numbering type Options:custom(Custom number),auto_increment_number(AutoIncrementNumber Autoincrement number)"
+                                                            },
+                                                            "options": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "type": "object",
+                                                                    "properties": {
+                                                                        "type": {
+                                                                            "type": "string",
+                                                                            "enum": [
+                                                                                "system_number",
+                                                                                "fixed_text",
+                                                                                "created_time"
+                                                                            ],
+                                                                            "description": "Optional rule item types for auto-numbering Options:system_number(SystemNumber Incremental digits, value range 1-9),fixed_text(FixedText Fixed characters, maximum length: 20),created_time(CreatedTime Creation time, supports formats \"yyyyMMdd\", \"yyyyMM\", \"yyyy\", \"MMdd\", \"MM\", \"dd\")"
+                                                                        },
+                                                                        "value": {
+                                                                            "type": "string",
+                                                                            "description": "Values corresponding to auto-numbered optional rule item types"
+                                                                        }
+                                                                    },
+                                                                    "required": [
+                                                                        "type",
+                                                                        "value"
+                                                                    ],
+                                                                    "additionalProperties": false
+                                                                },
+                                                                "description": "List of auto-numbering rules"
+                                                            }
+                                                        },
+                                                        "required": [
+                                                            "type"
+                                                        ],
+                                                        "additionalProperties": false,
+                                                        "description": "Automatic numbering type"
+                                                    },
+                                                    "location": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "input_type": {
+                                                                "type": "string",
+                                                                "enum": [
+                                                                    "only_mobile",
+                                                                    "not_limit"
+                                                                ],
+                                                                "description": "Geolocation input restrictions Options:only_mobile(OnlyMobile Only allow uploads on mobile ends),not_limit(NotLimit Unlimited)"
+                                                            }
+                                                        },
+                                                        "required": [
+                                                            "input_type"
+                                                        ],
+                                                        "additionalProperties": false,
+                                                        "description": "Geolocation input method"
+                                                    },
+                                                    "formula_expression": {
+                                                        "type": "string",
+                                                        "description": "Expression of formula field"
+                                                    },
+                                                    "allowed_edit_modes": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "manual": {
+                                                                "type": "boolean",
+                                                                "description": "Whether to allow manual entry"
+                                                            },
+                                                            "scan": {
+                                                                "type": "boolean",
+                                                                "description": "Whether to allow mobile end entry"
+                                                            }
+                                                        },
+                                                        "additionalProperties": false,
+                                                        "description": "Editing modes supported by the field"
+                                                    },
+                                                    "min": {
+                                                        "type": "number",
+                                                        "description": "Minimum data range for fields such as progress, score, etc"
+                                                    },
+                                                    "max": {
+                                                        "type": "number",
+                                                        "description": "Maximum data range for fields such as progress, score, etc"
+                                                    },
+                                                    "range_customize": {
+                                                        "type": "boolean",
+                                                        "description": "Whether fields such as progress support custom ranges"
+                                                    },
+                                                    "currency_code": {
+                                                        "type": "string",
+                                                        "description": "Currency"
+                                                    },
+                                                    "rating": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "symbol": {
+                                                                "type": "string",
+                                                                "description": "Symbol display for rating fields"
+                                                            }
+                                                        },
+                                                        "additionalProperties": false,
+                                                        "description": "Relevant settings for scoring fields"
+                                                    }
+                                                },
+                                                "additionalProperties": false,
+                                                "description": "Field description"
+                                            },
+                                            "description": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "disable_sync": {
+                                                        "type": "boolean",
+                                                        "description": "Whether to disable synchronization, if true, it means that synchronization of the description content to the problem description of the form is prohibited (only valid when fields are added or modified)"
+                                                    },
+                                                    "text": {
+                                                        "type": "string",
+                                                        "description": "Field description content"
+                                                    }
+                                                },
+                                                "additionalProperties": false,
+                                                "description": "Field description"
+                                            }
+                                        },
+                                        "required": [
+                                            "field_name",
+                                            "type"
+                                        ],
+                                        "additionalProperties": false
+                                    },
+                                    "description": "Initial fields of the data table. To learn how to fill in the fields, refer to the [Field Editing Guide].**Note**:- If the `default_view_name` field is passed, the `fields` field must also be passed.- If the `default_view_name` field is not passed, the `fields` field is optional.- If neither the `default_view_name` field nor the `fields` field is passed, an empty data table containing only the index field will be created.- The first field of the data table is the index field. The index field only supports the following types: - 1: Multi-line text - 2: Number - 5: Date - 13: Phone number - 15: Hyperlink - 20: Formula - 22: Geographic location"
+                                }
+                            },
+                            "additionalProperties": false,
+                            "description": "table"
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "path": {
+                    "type": "object",
+                    "properties": {
+                        "app_token": {
+                            "type": "string",
+                            "description": "Base unique App identifier"
+                        }
+                    },
+                    "required": [
+                        "app_token"
+                    ],
+                    "additionalProperties": false
+                },
+                "useUAT": {
+                    "type": "boolean",
+                    "description": "Use user access token, otherwise use tenant access token"
+                }
+            },
+            "required": [
+                "path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "lark-mcp_bitable_v1_appTableField_list",
+        "description": "[Feishu/Lark]-Docs-Base-Field-List fields-Get all fields according to app_token and table_id",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "view_id": {
+                            "type": "string",
+                            "description": "Base unique view identifier"
+                        },
+                        "text_field_as_array": {
+                            "type": "boolean",
+                            "description": "Control the return format of field description (multi-line text format) data, true means return in array rich text form"
+                        },
+                        "page_token": {
+                            "type": "string",
+                            "description": "Page identifier. It is not filled in the first request, indicating traversal from the beginning when there will be more groups, the new page_token will be returned at the same time, and the next traversal can use the page_token to get more groups"
+                        },
+                        "page_size": {
+                            "type": "number",
+                            "description": "paging size"
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "path": {
+                    "type": "object",
+                    "properties": {
+                        "app_token": {
+                            "type": "string",
+                            "description": "Base unique App identifier"
+                        },
+                        "table_id": {
+                            "type": "string",
+                            "description": "Base unique table identifier"
+                        }
+                    },
+                    "required": [
+                        "app_token",
+                        "table_id"
+                    ],
+                    "additionalProperties": false
+                },
+                "useUAT": {
+                    "type": "boolean",
+                    "description": "Use user access token, otherwise use tenant access token"
+                }
+            },
+            "required": [
+                "path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "lark-mcp_bitable_v1_appTable_list",
+        "description": "[Feishu/Lark]-Docs-Base-Table-List all tables-According to app_token, get all tables under app",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "page_token": {
+                            "type": "string",
+                            "description": "Page identifier. It is not filled in the first request, indicating traversal from the beginning when there will be more groups, the new page_token will be returned at the same time, and the next traversal can use the page_token to get more groups"
+                        },
+                        "page_size": {
+                            "type": "number",
+                            "description": "paging size"
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "path": {
+                    "type": "object",
+                    "properties": {
+                        "app_token": {
+                            "type": "string",
+                            "description": "Base unique App identifier"
+                        }
+                    },
+                    "required": [
+                        "app_token"
+                    ],
+                    "additionalProperties": false
+                },
+                "useUAT": {
+                    "type": "boolean",
+                    "description": "Use user access token, otherwise use tenant access token"
+                }
+            },
+            "required": [
+                "path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "lark-mcp_bitable_v1_appTableRecord_create",
+        "description": "[Feishu/Lark]-Docs-Base-Record-Create a record-Create a record",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "fields": {
+                            "type": "object",
+                            "properties": {},
+                            "additionalProperties": {},
+                            "description": "To add new records to the data table, you need to first specify the fields in the table (i.e., specify the columns) and then pass the correctly formatted data as a record.**Note**:The supported field types and their descriptions are as follows:- Text: Enter a value in string format- Number: Enter a value in number format- Single choice: Enter an option value; for new option values, a new option will be created- Multiple choices: Enter multiple option values; for new option values, multiple new options will be created if multiple identical new option values are entered- Date: Enter a timestamp in milliseconds- Checkbox: Enter true or false- Barcode- Person: Enter the user's [open_id], [union_id] or [user_id]; the type must match the type specified by user_id_type- Phone number: Enter text content- Hyperlink: Refer to the following example, text is the text value, link is the URL link- Attachment: Enter the attachment token; you need to first call the [upload material] or [fragmented upload material] interface to upload the attachment to this Base- One-way association: Enter the record ID of the associated table- Two-way association: Enter the record ID of the associated table- Location: Enter the latitude and longitude coordinatesFor the data structure of different types of fields, please refer to the [Base record data structure overview]"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "additionalProperties": false
+                },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "user_id_type": {
+                            "type": "string",
+                            "enum": [
+                                "open_id",
+                                "union_id",
+                                "user_id"
+                            ],
+                            "description": "User ID type"
+                        },
+                        "client_token": {
+                            "type": "string",
+                            "description": "The format is a standard uuidv4, the unique identifier of the operation, used for idempotent update operations. This value is null to indicate that a new request will be initiated, and this value is non-null to indicate idempotent update operations"
+                        },
+                        "ignore_consistency_check": {
+                            "type": "boolean",
+                            "description": "Whether to ignore consistency checks for read and write operations. The default value is `false`, meaning the system will ensure that the data read and written is consistent. Optional values:- **true**: Ignore read/write consistency checks to improve performance, but this may cause data on some nodes to be out of sync, resulting in temporary inconsistency.- **false**: Enable read/write consistency checks to ensure data consistency during read and write operations"
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "path": {
+                    "type": "object",
+                    "properties": {
+                        "app_token": {
+                            "type": "string",
+                            "description": "Base unique App identifier"
+                        },
+                        "table_id": {
+                            "type": "string",
+                            "description": "Base unique table identifier"
+                        }
+                    },
+                    "required": [
+                        "app_token",
+                        "table_id"
+                    ],
+                    "additionalProperties": false
+                },
+                "useUAT": {
+                    "type": "boolean",
+                    "description": "Use user access token, otherwise use tenant access token"
+                }
+            },
+            "required": [
+                "data",
+                "path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "lark-mcp_bitable_v1_appTableRecord_search",
+        "description": "[Feishu/Lark]-Docs-Base-Record-Search records-This api is used to query existing records in the table. A maximum of 500 rows of records can be queried at a time, and paging is supported",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "view_id": {
+                            "type": "string",
+                            "description": "Base unique view identifier"
+                        },
+                        "field_names": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "field_names"
+                        },
+                        "sort": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "field_name": {
+                                        "type": "string",
+                                        "description": "field_name"
+                                    },
+                                    "desc": {
+                                        "type": "boolean",
+                                        "description": "desc"
+                                    }
+                                },
+                                "additionalProperties": false
+                            },
+                            "description": "Data validation rules"
+                        },
+                        "filter": {
+                            "type": "object",
+                            "properties": {
+                                "conjunction": {
+                                    "type": "string",
+                                    "enum": [
+                                        "and",
+                                        "or"
+                                    ],
+                                    "description": "Conjunction. This parameter is required and please ignore the \"No\" in the Required column Options:and(ConjunctionAnd meeting all of the conditions),or(ConjunctionOr meeting any of the conditions)"
+                                },
+                                "conditions": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "field_name": {
+                                                "type": "string",
+                                                "description": "field_name"
+                                            },
+                                            "operator": {
+                                                "type": "string",
+                                                "enum": [
+                                                    "is",
+                                                    "isNot",
+                                                    "contains",
+                                                    "doesNotContain",
+                                                    "isEmpty",
+                                                    "isNotEmpty",
+                                                    "isGreater",
+                                                    "isGreaterEqual",
+                                                    "isLess",
+                                                    "isLessEqual",
+                                                    "like",
+                                                    "in"
+                                                ],
+                                                "description": "operator Options:is(OperatorIs is),isNot(OperatorIsNot is not. This value does not support date fields. To learn how to query date fields, refer to [Date Field Entry Guide].),contains(OperatorContains contains. This value does not support date fields.),doesNotContain(OperatorDoesNotContain does not contain. This value does not support date fields.),isEmpty(OperatorIsEmpty is empty),isNotEmpty(OperatorIsNotEmpty is not empty),isGreater(OperatorIsGreater greater than.),isGreaterEqual(OperatorIsGreaterEqual greater than or equal to. This value does not support date fields.),isLess(OperatorIsLess less than),isLessEqual(OperatorIsLessEqual less than or equal to. This value does not support date fields.),like(OperatorLike LIKE operator. Not supported yet),in(OperatorIn IN operator. Not supported yet)"
+                                            },
+                                            "value": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                },
+                                                "description": "value[Record filter development guide]"
+                                            }
+                                        },
+                                        "required": [
+                                            "field_name",
+                                            "operator"
+                                        ],
+                                        "additionalProperties": false
+                                    },
+                                    "description": "conditions"
+                                }
+                            },
+                            "additionalProperties": false,
+                            "description": "Refer to the [Record Filter Parameter Filling Guide] to learn how to fill in the filter"
+                        },
+                        "automatic_fields": {
+                            "type": "boolean",
+                            "description": "Whether to automatically calculate and return the four types of fields: creation time (`created_time`), modification time (`last_modified_time`), creator (`created_by`), and modifier (`last_modified_by`). The default is false, indicating they will not be returned"
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "user_id_type": {
+                            "type": "string",
+                            "enum": [
+                                "open_id",
+                                "union_id",
+                                "user_id"
+                            ],
+                            "description": "User ID type"
+                        },
+                        "page_token": {
+                            "type": "string",
+                            "description": "Page identifier. It is not filled in the first request, indicating traversal from the beginning when there will be more groups, the new page_token will be returned at the same time, and the next traversal can use the page_token to get more groups"
+                        },
+                        "page_size": {
+                            "type": "number",
+                            "description": "Page size. The maximum value is 500"
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "path": {
+                    "type": "object",
+                    "properties": {
+                        "app_token": {
+                            "type": "string",
+                            "description": "Base unique App identifier"
+                        },
+                        "table_id": {
+                            "type": "string",
+                            "description": "Base unique table identifier"
+                        }
+                    },
+                    "required": [
+                        "app_token",
+                        "table_id"
+                    ],
+                    "additionalProperties": false
+                },
+                "useUAT": {
+                    "type": "boolean",
+                    "description": "Use user access token, otherwise use tenant access token"
+                }
+            },
+            "required": [
+                "path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "lark-mcp_bitable_v1_appTableRecord_update",
+        "description": "[Feishu/Lark]-Docs-Base-Record-Update a record-Update a record",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "fields": {
+                            "type": "object",
+                            "properties": {},
+                            "additionalProperties": {},
+                            "description": "fields"
+                        }
+                    },
+                    "required": [
+                        "fields"
+                    ],
+                    "additionalProperties": false
+                },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "user_id_type": {
+                            "type": "string",
+                            "enum": [
+                                "open_id",
+                                "union_id",
+                                "user_id"
+                            ],
+                            "description": "User ID type"
+                        },
+                        "ignore_consistency_check": {
+                            "type": "boolean",
+                            "description": "Whether to ignore consistency checks for read and write operations. The default value is `false`, meaning the system will ensure that the data read and written is consistent. Optional values:- **true**: Ignore read/write consistency checks to improve performance, but this may cause data on some nodes to be out of sync, resulting in temporary inconsistency.- **false**: Enable read/write consistency checks to ensure data consistency during read and write operations"
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "path": {
+                    "type": "object",
+                    "properties": {
+                        "app_token": {
+                            "type": "string",
+                            "description": "Base unique App identifier"
+                        },
+                        "table_id": {
+                            "type": "string",
+                            "description": "Base unique table identifier"
+                        },
+                        "record_id": {
+                            "type": "string",
+                            "description": "Base unique record identifier"
+                        }
+                    },
+                    "required": [
+                        "app_token",
+                        "table_id",
+                        "record_id"
+                    ],
+                    "additionalProperties": false
+                },
+                "useUAT": {
+                    "type": "boolean",
+                    "description": "Use user access token, otherwise use tenant access token"
+                }
+            },
+            "required": [
+                "data",
+                "path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "lark-mcp_contact_v3_user_batchGetId",
+        "description": "[Feishu/Lark]-Contacts-User-Obtain user ID via email or mobile number-Call this interface to obtain the ID (including user_id, open_id, union_id) and status information of one or more users through their mobile phone number or email address",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "emails": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Up to 50 user emails can be input to be queried.**Notice**:- Business email is not supported.- The two parameters emails and mobiles are independent of each other, that is, each user's email will return the corresponding user information, and each mobile phone number will also return the corresponding user information.- The number of user IDs returned by this interface is the sum of the number of emails and the number of mobiles.**Default**: empty"
+                        },
+                        "mobiles": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "You can input up to 50 user mobile phone numbers to be queried.**Notice**:- Mobile phone numbers outside of mainland China need to add a country or region code starting with \"+\".- The two parameters emails and mobiles are independent of each other, that is, each user's email will return the corresponding user information, and each mobile phone number will also return the corresponding user information.- The number of user IDs returned by this interface is the sum of the number of emails and the number of mobiles.**Default**: empty"
+                        },
+                        "include_resigned": {
+                            "type": "boolean",
+                            "description": "Check whether the query results contain user information of resigned employees.**Optional values are**:- true- false"
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "user_id_type": {
+                            "type": "string",
+                            "enum": [
+                                "open_id",
+                                "union_id",
+                                "user_id"
+                            ],
+                            "description": "User ID type"
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "lark-mcp_docx_v1_document_rawContent",
+        "description": "[Feishu/Lark]-Docs-Document-Document-Obtain the plain text content of the document-Obtains the plain text content of the document",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "lang": {
+                            "type": "number",
+                            "description": "Specifies the language of the MentionUser (@user) text. Options:0(ZH Default name for the user. Example: @\u5f20\u654f),1(EN English name for the user. Example: @Min Zhang),2(JP This enumeration is not currently supported. When used, the default name for the user will be returned)"
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "path": {
+                    "type": "object",
+                    "properties": {
+                        "document_id": {
+                            "type": "string",
+                            "description": "The unique identification of the document. Click [here] to learn how to get `document_id`"
+                        }
+                    },
+                    "required": [
+                        "document_id"
+                    ],
+                    "additionalProperties": false
+                },
+                "useUAT": {
+                    "type": "boolean",
+                    "description": "Use user access token, otherwise use tenant access token"
+                }
+            },
+            "required": [
+                "path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "lark-mcp_drive_v1_permissionMember_create",
+        "description": "[Feishu/Lark]-Docs-Permission-Member-Add permissions-Add collaborators to the specified cloud document. Collaborators can be users, groups, departments, user groups, etc",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "member_type": {
+                            "type": "string",
+                            "enum": [
+                                "email",
+                                "openid",
+                                "unionid",
+                                "openchat",
+                                "opendepartmentid",
+                                "userid",
+                                "groupid",
+                                "wikispaceid"
+                            ],
+                            "description": "Collaborator type, which needs to match the collaborator id Options:email(Email),openid(open_id The Open ID of the application or user. - To get the application OpenID, refer to [How to get the application open_id] - Get user OpenID, refer to [How to get different user IDs]),unionid(union_id Open platform unionID),openchat(open_chat Open platform chat ID),opendepartmentid(open_department_id Open platform department ID),userid(user_id User customized ID),groupid(group_id Custom user group ID),wikispaceid(wiki_space_id Wiki space ID - **NOTE**: This parameter is only supported by the wiki document, and it is required when you need to operate the \"wiki space member\" type collaborator in the wiki document)"
+                        },
+                        "member_id": {
+                            "type": "string",
+                            "description": "Collaborator ID, which needs to match the collaborator type"
+                        },
+                        "perm": {
+                            "type": "string",
+                            "enum": [
+                                "view",
+                                "edit",
+                                "full_access"
+                            ],
+                            "description": "Permission role of the collaborator Options:view(Readable role),edit(Editable role),full_access(Manageable role)"
+                        },
+                        "perm_type": {
+                            "type": "string",
+                            "enum": [
+                                "container",
+                                "single_page"
+                            ],
+                            "description": "Collaborator's permission role type Options:container(Current page and its sub-pages),single_page(Current page only)"
+                        },
+                        "type": {
+                            "type": "string",
+                            "enum": [
+                                "user",
+                                "chat",
+                                "department",
+                                "group",
+                                "wiki_space_member",
+                                "wiki_space_viewer",
+                                "wiki_space_editor"
+                            ],
+                            "description": "Type of collaborator**NOTE**: This parameter is required when the `member_type` parameter is `wikispaceid`**Default value**: \"\" Options:user(User),chat(Chat),department(Organizational structure),group(User group),wiki_space_member(Wiki space member - **NOTE**: This parameter is not supported after the wiki space has member grouping enabled),wiki_space_viewer(Wiki space viewer - **NOTE**: This parameter is only supported if the wiki space has member grouping enabled),wiki_space_editor(Wiki space editor - **NOTE**: This parameter is only supported if the wiki space has member grouping enabled)"
+                        }
+                    },
+                    "required": [
+                        "member_type",
+                        "member_id",
+                        "perm"
+                    ],
+                    "additionalProperties": false
+                },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "enum": [
+                                "doc",
+                                "sheet",
+                                "file",
+                                "wiki",
+                                "bitable",
+                                "docx",
+                                "folder",
+                                "mindnote",
+                                "minutes",
+                                "slides"
+                            ],
+                            "description": "File type, which needs to match the token of the file Options:doc(Documentation),sheet(Spreadsheet),file(Cloud space file),wiki(Wiki node),bitable(Bitable),docx(Upgraded docs),folder(Folders (not supported for `tenant_access_token`)),mindnote(Mindnote),minutes(Minutes),slides(Slides)"
+                        },
+                        "need_notification": {
+                            "type": "boolean",
+                            "description": "Specifies whether to notify the user after the permissions are added for the user.**Note:** When you use `tenant_access_token` to access the API, you cannot use this parameter"
+                        }
+                    },
+                    "required": [
+                        "type"
+                    ],
+                    "additionalProperties": false
+                },
+                "path": {
+                    "type": "object",
+                    "properties": {
+                        "token": {
+                            "type": "string",
+                            "description": "Token of the file. For more information about how to obtain the token, see [How to get the token of docs resources]"
+                        }
+                    },
+                    "required": [
+                        "token"
+                    ],
+                    "additionalProperties": false
+                },
+                "useUAT": {
+                    "type": "boolean",
+                    "description": "Use user access token, otherwise use tenant access token"
+                }
+            },
+            "required": [
+                "data",
+                "params",
+                "path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "lark-mcp_im_v1_chat_create",
+        "description": "[Feishu/Lark]-Group Chat-Group management-Create a group-Create a group chat. When creating a group chat, you can set the group avatar, group name, group owner, group type and other configurations. You can also invite group members and group bots to join the group",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "avatar": {
+                            "type": "string",
+                            "description": "Image Key of group avatar- Can be obtained by [upload image] (Note: ==image_type== of uploaded image needs to be specified as ==avatar==)- If no value is passed, the system default avatar will be used"
+                        },
+                        "name": {
+                            "type": "string",
+                            "description": "Group name**Notes**:- It is recommended that the group name does not exceed 60 characters.- The length of the public group name must be at least 2 characters.- If the private group does not fill in the group name, the group name defaults to \"`(no titile)`\""
+                        },
+                        "description": {
+                            "type": "string",
+                            "description": "Group description. Recommended not to exceed 100 characters.**Default value**: empty"
+                        },
+                        "i18n_names": {
+                            "type": "object",
+                            "properties": {
+                                "zh_cn": {
+                                    "type": "string",
+                                    "description": "Chinese name"
+                                },
+                                "en_us": {
+                                    "type": "string",
+                                    "description": "English name"
+                                },
+                                "ja_jp": {
+                                    "type": "string",
+                                    "description": "Japanese name"
+                                }
+                            },
+                            "additionalProperties": false,
+                            "description": "Internationalized group name**Notice**:- It is recommended not to exceed 60 characters- If you do not set an internationalized name, the name corresponding to the `name` parameter will be displayed by default"
+                        },
+                        "owner_id": {
+                            "type": "string",
+                            "description": "The group owner specified when a group was created. If the field is left empty, the bot that created the group will be specified as the owner. The group owner ID value corresponds to ==user_id_type== in the query parameter. Open ID is recommended here. For details, refer to [How to get Open ID?]**Note**: When a robot with external sharing capability is enabled, it cannot be the group owner when creating an external group. A user must be designated as the group owner. In addition, when adding external users to a group, the external users must be friends with the group owner on Feishu"
+                        },
+                        "user_id_list": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Group members invited when creating the group. The ID type is specified in the query parameter ==user_id_type==. Open ID is recommended here. For details, refer to [How to get Open ID?]**Note**: - Up to 50 users can be invited at the same time.- To facilitate viewing the effect on the client, it is recommended to add the developer's own ID when debugging the API.- If you need to invite external users to create an external group, the external users must be friends with the group owner on Feishu.- To obtain the open_id of an external user, refer to [Obtaining the open_id of an external user]"
+                        },
+                        "bot_id_list": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Group robots invited when creating a group. For more information, please refer to [How to Obtain App ID ?] to get the App ID of the application.**Notes**:- The Bot operating this API will automatically join the group, no need to fill in again.- Please use `app_id` to invite the bot into the group.- At most 5 bots can be invited at the same time, and the number of bots in the group after invitation cannot exceed 15"
+                        },
+                        "group_message_type": {
+                            "type": "string",
+                            "enum": [
+                                "chat",
+                                "thread"
+                            ],
+                            "description": "group message type Options:chat(chat),thread(thread)"
+                        },
+                        "chat_mode": {
+                            "type": "string",
+                            "description": "Group mode**Optional values are**:- `group`: A group"
+                        },
+                        "chat_type": {
+                            "type": "string",
+                            "description": "Group type**Optional values are**:- `private`: A private group- `public`: A public group"
+                        },
+                        "join_message_visibility": {
+                            "type": "string",
+                            "description": "Visibility of the messages on joining a group**Optional values are**:- `only_owner`: Visible to only the group owner and administrators- `all_members`: Visible to all members- `not_anyone`: Invisible to anyone"
+                        },
+                        "leave_message_visibility": {
+                            "type": "string",
+                            "description": "Visibility of the messages on leaving a group**Optional values are**:- `only_owner`: Visible to only the group owner and administrators- `all_members`: Visible to all members- `not_anyone`: Invisible to anyone"
+                        },
+                        "membership_approval": {
+                            "type": "string",
+                            "description": "Group joining approval**Optional values are**:- `no_approval_required`: Approval is not required.- `approval_required`: Approval is required"
+                        },
+                        "restricted_mode_setting": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "description": "Whether the restricted mode is enabled**Optional values**:- true: Enabled. When set to true, `screenshot_has_permission_setting`, `download_has_permission_setting`, `message_has_permission_setting` cannot all be `all_members`.- false: Disabled. When set to false, `screenshot_has_permission_setting`, `download_has_permission_setting`, `message_has_permission_setting` cannot have `not_anyone`.**Default value**: false"
+                                },
+                                "screenshot_has_permission_setting": {
+                                    "type": "string",
+                                    "enum": [
+                                        "all_members",
+                                        "not_anyone"
+                                    ],
+                                    "description": "Whether to allow screenshots**Default value**: all_members Options:all_members(AllMembers All members allow screenshots),not_anyone(NotAnyone Not anyone allow screenshots)"
+                                },
+                                "download_has_permission_setting": {
+                                    "type": "string",
+                                    "enum": [
+                                        "all_members",
+                                        "not_anyone"
+                                    ],
+                                    "description": "Whether to allow downloading pictures, videos and files in messages**Default value**: all_members Options:all_members(AllMembers All members allow downloading pictures, videos and files in messages),not_anyone(NotAnyone Not anyone allow downloading pictures, videos and files in messages)"
+                                },
+                                "message_has_permission_setting": {
+                                    "type": "string",
+                                    "enum": [
+                                        "all_members",
+                                        "not_anyone"
+                                    ],
+                                    "description": "Whether to allow copying and forwarding of messages**Default value**: all_members Options:all_members(AllMembers All members allow copying and forwarding of messages),not_anyone(NotAnyone Not anyone allow copying and forwarding of messages)"
+                                }
+                            },
+                            "additionalProperties": false,
+                            "description": "Restricted mode setting**Notice**: Confidentiality mode is applicable to Enterprise Ultimate Edition. For applicable versions and function introduction, please refer to [Session Confidentiality Mode]"
+                        },
+                        "urgent_setting": {
+                            "type": "string",
+                            "enum": [
+                                "only_owner",
+                                "all_members"
+                            ],
+                            "description": "Who can buzz others**Default value**: all_members Options:only_owner(Only group owner and admin),all_members(Everyone in this group)"
+                        },
+                        "video_conference_setting": {
+                            "type": "string",
+                            "enum": [
+                                "only_owner",
+                                "all_members"
+                            ],
+                            "description": "Who can start video calls**Default value**: all_members Options:only_owner(Only group owner and admin),all_members(Everyone in this group)"
+                        },
+                        "edit_permission": {
+                            "type": "string",
+                            "enum": [
+                                "only_owner",
+                                "all_members"
+                            ],
+                            "description": "Who can edit group info**Default value**: all_members Options:only_owner(Only group owner and admin),all_members(Everyone in this group)"
+                        },
+                        "hide_member_count_setting": {
+                            "type": "string",
+                            "enum": [
+                                "all_members",
+                                "only_owner"
+                            ],
+                            "description": "Hide member count setting**Default value**: all_members Options:all_members(visible to all group members),only_owner(visible only to group owners and group administrators)"
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "user_id_type": {
+                            "type": "string",
+                            "enum": [
+                                "open_id",
+                                "union_id",
+                                "user_id"
+                            ],
+                            "description": "User ID type"
+                        },
+                        "set_bot_manager": {
+                            "type": "boolean",
+                            "description": "If a user is specified as the group owner in the ==owner_id== field of the request body, you can choose whether to set the bot that created the group as the administrator at the same time. This flag is used to mark whether to set the bot that created the group as the administrator"
+                        },
+                        "uuid": {
+                            "type": "string",
+                            "description": "A unique string sequence generated by the developer, used to request deduplication requests with the same uuid + owner_id can only successfully create 1 group within 10 hours. If no value is passed, no deduplication of requests will be performed, and a group chat will be created for each successful request"
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "lark-mcp_im_v1_chat_list",
+        "description": "[Feishu/Lark]-Group Chat-Group management-Obtain groups where the user or bot is a member-Get the list of groups where the user or bot represented by [access_token] is a member",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "user_id_type": {
+                            "type": "string",
+                            "enum": [
+                                "open_id",
+                                "union_id",
+                                "user_id"
+                            ],
+                            "description": "User ID type"
+                        },
+                        "sort_type": {
+                            "type": "string",
+                            "enum": [
+                                "ByCreateTimeAsc",
+                                "ByActiveTimeDesc"
+                            ],
+                            "description": "Sort type of chat list Options:ByCreateTimeAsc(Sort by group creation time in ascending order),ByActiveTimeDesc(Sort by group active time in descending order. Because group active time changes frequently, using the `ByActiveTimeDesc` sorting method may cause groups to be missed. For example, if the paging size is set to 10, after the first request is made to obtain the first page of data, a group member in the group originally ranked 11th sends a message, then the group will be ranked 1st. At this time, when a request is made to obtain the second page of data, the group will not be obtained and needs to be obtained from the first page again.)"
+                        },
+                        "page_token": {
+                            "type": "string",
+                            "description": "Page identifier. It is not filled in the first request, indicating traversal from the beginning when there will be more groups, the new page_token will be returned at the same time, and the next traversal can use the page_token to get more groups"
+                        },
+                        "page_size": {
+                            "type": "number",
+                            "description": "The paging size is used to limit the number of data items returned in one request"
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "useUAT": {
+                    "type": "boolean",
+                    "description": "Use user access token, otherwise use tenant access token"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "lark-mcp_im_v1_chatMembers_get",
+        "description": "[Feishu/Lark]-Group Chat-Group member-Obtain group member list-Get the list of members of the group the user/bot is in",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "member_id_type": {
+                            "type": "string",
+                            "enum": [
+                                "open_id",
+                                "union_id",
+                                "user_id"
+                            ],
+                            "description": "User ID categories Options:open_id(Identifies a user to an app. The same user has different Open IDs in different apps. [How to get Open ID]),union_id(Identifies a user to a tenant that acts as a developer. A user has the same Union ID in apps developed by the same developer, and has different Union IDs in apps developed by different developers. A developer can use Union ID to link the same user's identities in multiple apps. [How to get Union ID]),user_id(Identifies a user to a tenant. The same user has different User IDs in different tenants. In one single tenant, a user has the same User ID in all apps \uff08including store apps\uff09. User ID is usually used to communicate user data between different apps. [How to get User ID])"
+                        },
+                        "page_size": {
+                            "type": "number",
+                            "description": "The paging size is used to limit the number of data entries returned in one request.- Since the returned group member list will filter out robot members, the number of group members returned may be less than the specified page_size.- If there are group members who join the group at the same time, they will be returned at once, which may cause the number of group members returned to be greater than the specified page_size"
+                        },
+                        "page_token": {
+                            "type": "string",
+                            "description": "Page identifier. It is not filled in the first request, indicating traversal from the beginning when there will be more groups, the new page_token will be returned at the same time, and the next traversal can use the page_token to get more groups"
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "path": {
+                    "type": "object",
+                    "properties": {
+                        "chat_id": {
+                            "type": "string",
+                            "description": "Group ID. How to obtain it:- [Create a group], and get the chat_id of the group from the returned result.- Call the [Get the list of groups where the user or robot is] interface to query the chat_id of the group where the user or robot is.- Call the [Search the list of groups visible to the user or robot] to search for the chat_id of the group where the user or robot is and the group that is open to the user or robot"
+                        }
+                    },
+                    "required": [
+                        "chat_id"
+                    ],
+                    "additionalProperties": false
+                },
+                "useUAT": {
+                    "type": "boolean",
+                    "description": "Use user access token, otherwise use tenant access token"
+                }
+            },
+            "required": [
+                "path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "lark-mcp_im_v1_message_create",
+        "description": "[Feishu/Lark]-Messaging-Message management-Send message-Call this interface to send a message to a specified user or group chat. Supported message types include text, rich text, cards, group business cards, personal business cards, pictures, videos, audio, files, and emoticons",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "receive_id": {
+                            "type": "string",
+                            "description": "The ID of the message recipient. The ID type is consistent with the value of the query parameter `receive_id_type`.**Notice**:- When sending a message to a user, the user needs to be in the bot's [availability scope]. For example, if you need to send a message to all employees of the company, you need to set the application's availability scope to all employees.- When sending a message to a group, the bot needs to be in the group and have the right to speak in the group.- If the message recipient is a user, it is recommended to use the user's `open_id`"
+                        },
+                        "msg_type": {
+                            "type": "string",
+                            "description": "Message type.**Optional values**:- text- post- image- file- audio- media- sticker- interactive- share_chat- share_user- system: This type only supports pushing system messages in bot single chats and not in group chats. For example, as shown in the image below to highlight a new conversation. For detailed description of different message types, see [Send message content]"
+                        },
+                        "content": {
+                            "type": "string",
+                            "description": "Message content, a string serialized from a JSON structure. The value of this parameter corresponds to `msg_type`. For example, if the value of `msg_type` is `text`, this parameter needs to pass in text type content.**Note:**- JSON strings need to be escaped. For example, the line break `` is escaped as `\\`.- The maximum size of a text message request body cannot exceed 150 KB.- The maximum size of a card message or rich text message request body cannot exceed 30 KB. - If a card template (template_id) is used to send a message, the actual size also includes the card data size corresponding to the template. - If the message contains style tags, the actual message body length will be greater than the request body length you entered.- For images, you need to [upload the image] first, and then use the image's Key to send a message.- Audio, video, and files need to be [uploaded] first, and then the file's key is used to send a message. Note that you cannot use the file_token returned by the cloud document [upload material] interface.For different types of message content formats and usage restrictions, see [Sending Message Content]"
+                        },
+                        "uuid": {
+                            "type": "string",
+                            "description": "A custom unique string sequence used to request deduplication when sending messages. For requests with the same uuid, at most one message can be successfully sent within 1 hour.**Note**: You can customize the parameter value by referring to the example value. When sending different message contents, if this parameter is passed in, you need to change the value of the parameter in each request"
+                        }
+                    },
+                    "required": [
+                        "receive_id",
+                        "msg_type",
+                        "content"
+                    ],
+                    "additionalProperties": false
+                },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "receive_id_type": {
+                            "type": "string",
+                            "enum": [
+                                "open_id",
+                                "union_id",
+                                "user_id",
+                                "email",
+                                "chat_id"
+                            ],
+                            "description": "Message recipient ID type. Support open_id/union_id/user_id/email/chat_id Options:open_id(Identifies a user to an app. The same user has different Open IDs in different apps. [How to get Open ID]),union_id(Identifies a user to a tenant that acts as a developer. A user has the same Union ID in apps developed by the same developer, and has different Union IDs in apps developed by different developers. A developer can use Union ID to link the same user's identities in multiple apps. [How to get Union ID]),user_id(Identifies a user to a tenant. The same user has different User IDs in different tenants. In one single tenant, a user has the same User ID in all apps \uff08including store apps\uff09. User ID is usually used to communicate user data between different apps. [How to get User ID].),email(Identifies users by \"email\", which is the user's actual email address),chat_id(Identifies group chats by chat_id. You can call the API [Search for groups visible to a user or bot] to obtain the chat_id value. For group ID description, refer to [Group ID description].</md-enum-item>)"
+                        }
+                    },
+                    "required": [
+                        "receive_id_type"
+                    ],
+                    "additionalProperties": false
+                }
+            },
+            "required": [
+                "data",
+                "params"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "lark-mcp_im_v1_message_list",
+        "description": "[Feishu/Lark]-Messaging-Message management-Get chat history-Obtains chat history (chat records) of chats (including private chats and group chats)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "container_id_type": {
+                            "type": "string",
+                            "description": "Container type.**Optional values**:- `chat`: includes single chat (p2p) and group chat (group)- `thread`: thread**Note**: For thread messages in **normal conversation groups**, only the root message of the thread can be obtained through the `chat` container type. You can obtain all messages in the thread reply by specifying the container type as `thread`"
+                        },
+                        "container_id": {
+                            "type": "string",
+                            "description": "Container ID. The ID type is the same as the value of container_id_type.- For how to obtain the ID of a group chat or a single chat, see [Group ID Description].- For how to obtain the topic ID, see the **How \u200b\u200bto obtain thread_id** section of [Topic Overview]"
+                        },
+                        "start_time": {
+                            "type": "string",
+                            "description": "The start time of the historical information to be queried, in seconds.**Notice**: The `thread` container type does not currently support obtaining messages within a specified time range"
+                        },
+                        "end_time": {
+                            "type": "string",
+                            "description": "The end time of the historical information to be queried, in seconds.**Notice**: The `thread` container type does not currently support obtaining messages within a specified time range"
+                        },
+                        "sort_type": {
+                            "type": "string",
+                            "enum": [
+                                "ByCreateTimeAsc",
+                                "ByCreateTimeDesc"
+                            ],
+                            "description": "Message sorting method.**Notice**: When using `page_token` for paging requests, the sorting method (`sort_type`) is the same as the first request, and changing the sorting method midway is not supported. Options:ByCreateTimeAsc(Sort by message creation time ascending),ByCreateTimeDesc(Sort by message creation time descending)"
+                        },
+                        "page_size": {
+                            "type": "number",
+                            "description": "The page size is the number of data items returned in a single request"
+                        },
+                        "page_token": {
+                            "type": "string",
+                            "description": "Page identifier. It is not filled in the first request, indicating traversal from the beginning; when there will be more groups, the new page_token will be returned at the same time, and the next traversal can use the page_token to get more groups"
+                        }
+                    },
+                    "required": [
+                        "container_id_type",
+                        "container_id"
+                    ],
+                    "additionalProperties": false
+                }
+            },
+            "required": [
+                "params"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "lark-mcp_wiki_v1_node_search",
+        "description": "[Feishu/Lark]-Docs-Wiki-Search Wiki",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "query": {
+                            "type": "string"
+                        },
+                        "space_id": {
+                            "type": "string"
+                        },
+                        "node_id": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "query"
+                    ],
+                    "additionalProperties": false
+                },
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "page_token": {
+                            "type": "string"
+                        },
+                        "page_size": {
+                            "type": "number"
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "useUAT": {
+                    "type": "boolean",
+                    "description": "Use user access token, otherwise use tenant access token"
+                }
+            },
+            "required": [
+                "data"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "lark-mcp_wiki_v2_space_getNode",
+        "description": "[Feishu/Lark]-Docs-Wiki-node-Get Wiki node information-Get wiki node inforamtion",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "params": {
+                    "type": "object",
+                    "properties": {
+                        "token": {
+                            "type": "string",
+                            "description": "The wiki node or the actual token of the corresponding cloud document.- **Wiki node token**: If the token in the URL link is preceded by \"wiki\", the token is the node token of the wiki.- **Actual cloud document token**: If the token in the URL link is preceded by \"docx\", \"base\", \"sheets\", or other non-\"wiki\" types, it indicates that the token is the actual token of the current cloud document.For more information, please refer to [Frequently Asked Questions about Documents - How to Retrieve Cloud Document Resource Tokens (IDs)].**Note**: When querying with a cloud document token, you need to pass the corresponding document type into the `obj_type` parameter"
+                        },
+                        "obj_type": {
+                            "type": "string",
+                            "enum": [
+                                "doc",
+                                "docx",
+                                "sheet",
+                                "mindnote",
+                                "bitable",
+                                "file",
+                                "slides",
+                                "wiki"
+                            ],
+                            "description": "Options:doc(ObjTypeDoc doc),docx(ObjTypeDocx docx),sheet(ObjTypeSheet sheet),mindnote(ObjTypeMindNote mindnote),bitable(ObjTypeBitable bitable),file(ObjTypeFile file),slides(ObjTypeSlides slides),wiki(ObjTypeWiki wiki)"
+                        }
+                    },
+                    "required": [
+                        "token"
+                    ],
+                    "additionalProperties": false
+                },
+                "useUAT": {
+                    "type": "boolean",
+                    "description": "Use user access token, otherwise use tenant access token"
+                }
+            },
+            "required": [
+                "params"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "lark-mcp_docx_builtin_search",
+        "description": "[Feishu/Lark]-Docs-Document-Search Document-Search cloud documents, only supports user_access_token",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "search_key": {
+                            "type": "string",
+                            "description": "Search keyword"
+                        },
+                        "count": {
+                            "type": "number",
+                            "description": "Specify the number of files returned in the search. Value range is [0,50]."
+                        },
+                        "offset": {
+                            "type": "number",
+                            "description": "Specifies the search offset. The minimum value is 0, which means no offset. The sum of this parameter and the number of returned files must not be greater than or equal to 200 (i.e., offset + count < 200)."
+                        },
+                        "owner_ids": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Open ID of the file owner"
+                        },
+                        "chat_ids": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "ID of the group where the file is located"
+                        },
+                        "docs_types": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "doc",
+                                    "sheet",
+                                    "slides",
+                                    "bitable",
+                                    "mindnote",
+                                    "file"
+                                ]
+                            },
+                            "description": "File types, supports the following enumerations: doc: old version document; sheet: spreadsheet; slides: slides; bitable: multi-dimensional table; mindnote: mind map; file: file"
+                        }
+                    },
+                    "required": [
+                        "search_key"
+                    ],
+                    "additionalProperties": false
+                },
+                "useUAT": {
+                    "type": "boolean",
+                    "description": "Whether to use user identity for the request, false means using application identity"
+                }
+            },
+            "required": [
+                "data"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "lark-mcp_docx_builtin_import",
+        "description": "[Feishu/Lark]-Docs-Document-Import Document-Import cloud document, maximum 20MB",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "markdown": {
+                            "type": "string",
+                            "description": "Markdown file content"
+                        },
+                        "file_name": {
+                            "type": "string",
+                            "maxLength": 27,
+                            "description": "File name"
+                        }
+                    },
+                    "required": [
+                        "markdown"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Request body"
+                },
+                "useUAT": {
+                    "type": "boolean",
+                    "description": "Use user identity for the request, otherwise use application identity"
+                }
+            },
+            "required": [
+                "data"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

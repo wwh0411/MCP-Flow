@@ -1,0 +1,115 @@
+[
+    {
+        "name": "ssh-mcp-server_ssh_exec",
+        "description": "Execute command over SSH using private key file path",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "host": {
+                    "type": "string"
+                },
+                "command": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                },
+                "privateKeyPath": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "host",
+                "command",
+                "username",
+                "privateKeyPath"
+            ]
+        }
+    },
+    {
+        "name": "ssh-mcp-server_add_credential",
+        "description": "Add a new SSH credential with private key file path",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "host": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                },
+                "privateKeyPath": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "host",
+                "username",
+                "privateKeyPath"
+            ]
+        }
+    },
+    {
+        "name": "ssh-mcp-server_list_credentials",
+        "description": "List all stored SSH credentials",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    },
+    {
+        "name": "ssh-mcp-server_remove_credential",
+        "description": "Remove a stored SSH credential",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ]
+        }
+    },
+    {
+        "name": "ssh-mcp-server_rsync_copy",
+        "description": "Copy files/directories between local and remote server via rsync",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "credentialName": {
+                    "type": "string",
+                    "description": "Name of the stored credential to use"
+                },
+                "localPath": {
+                    "type": "string",
+                    "description": "Path on the local machine"
+                },
+                "remotePath": {
+                    "type": "string",
+                    "description": "Path on the remote server"
+                },
+                "direction": {
+                    "type": "string",
+                    "enum": [
+                        "toRemote",
+                        "fromRemote"
+                    ],
+                    "description": "Direction of copy (toRemote or fromRemote)"
+                }
+            },
+            "required": [
+                "credentialName",
+                "localPath",
+                "remotePath",
+                "direction"
+            ]
+        }
+    }
+]

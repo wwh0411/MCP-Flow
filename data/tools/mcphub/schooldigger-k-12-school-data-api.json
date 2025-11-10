@@ -1,0 +1,894 @@
+[
+    {
+        "name": "get_school",
+        "description": "Retrieve a school record from the SchoolDigger database",
+        "parameters": {
+            "properties": {
+                "id": {
+                    "description": "The 12 digit School ID (e.g. 064215006903)",
+                    "title": "Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_schools",
+        "description": "Search the SchoolDigger database for schools. You may use any combination of criteria as query parameters.",
+        "parameters": {
+            "properties": {
+                "st": {
+                    "description": "Two character state (e.g. 'CA') - required",
+                    "title": "St",
+                    "type": "string"
+                },
+                "q": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search term - note: will match school name or city (optional)",
+                    "title": "Q"
+                },
+                "qSearchSchoolNameOnly": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For parameter 'q', only search school names instead of school and city (optional)",
+                    "title": "Qsearchschoolnameonly"
+                },
+                "districtID": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search for schools within this district (7 digit district id) (optional)",
+                    "title": "Districtid"
+                },
+                "level": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search for schools at this level. Valid values: 'Elementary', 'Middle', 'High', 'Alt', 'Public', 'Private' (optional). 'Public' returns all Elementary, Middle, High and Alternative schools",
+                    "title": "Level"
+                },
+                "city": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search for schools in this city (optional)",
+                    "title": "City"
+                },
+                "zip": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search for schools in this 5-digit zip code (optional)",
+                    "title": "Zip"
+                },
+                "isMagnet": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "True = return only magnet schools, False = return only non-magnet schools (optional) (Ultra, Mega API levels only)",
+                    "title": "Ismagnet"
+                },
+                "isCharter": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "True = return only charter schools, False = return only non-charter schools (optional) (Ultra, Mega API levels only)",
+                    "title": "Ischarter"
+                },
+                "isVirtual": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "True = return only virtual schools, False = return only non-virtual schools (optional) (Ultra, Mega API levels only)",
+                    "title": "Isvirtual"
+                },
+                "isTitleI": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "True = return only Title I schools, False = return only non-Title I schools (optional) (Ultra, Mega API levels only)",
+                    "title": "Istitlei"
+                },
+                "isTitleISchoolwide": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "True = return only Title I school-wide schools, False = return only non-Title I school-wide schools (optional) (Ultra, Mega API levels only)",
+                    "title": "Istitleischoolwide"
+                },
+                "nearLatitude": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search for schools within (distanceMiles) of (nearLatitude)/(nearLongitude) (e.g. 44.982560) (optional) (Ultra, Mega API levels only.) Minimum: -1.7976931348623157e+308 Maximum: 1.7976931348623157e+308",
+                    "title": "Nearlatitude"
+                },
+                "nearLongitude": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search for schools within (distanceMiles) of (nearLatitude)/(nearLongitude) (e.g. -124.289185) (optional) (Ultra, Mega API levels only.) Minimum: -1.7976931348623157e+308 Maximum: 1.7976931348623157e+308",
+                    "title": "Nearlongitude"
+                },
+                "nearAddress": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search for schools within (distanceMiles) of this address. Example: '123 Main St. AnyTown CA 90001' (optional) (Ultra, Mega API level only) IMPORTANT NOTE: If you have the lat/long of the address, use nearLatitude and nearLongitude instead for much faster response times",
+                    "title": "Nearaddress"
+                },
+                "distanceMiles": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search for schools within (distanceMiles) of (nearLatitude)/(nearLongitude) (Default 5 miles) (optional) (Ultra, Mega API levels only) Minimum: -2147483648 Maximum: 2147483647",
+                    "title": "Distancemiles"
+                },
+                "boxLatitudeNW": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search for schools within a 'box' defined by (boxLatitudeNW/boxLongitudeNW) to (boxLongitudeSE/boxLatitudeSE) (optional) Minimum: -1.7976931348623157e+308 Maximum: 1.7976931348623157e+308",
+                    "title": "Boxlatitudenw"
+                },
+                "boxLongitudeNW": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search for schools within a 'box' defined by (boxLatitudeNW/boxLongitudeNW) to (boxLongitudeSE/boxLatitudeSE) (optional) Minimum: -1.7976931348623157e+308 Maximum: 1.7976931348623157e+308",
+                    "title": "Boxlongitudenw"
+                },
+                "boxLatitudeSE": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search for schools within a 'box' defined by (boxLatitudeNW/boxLongitudeNW) to (boxLongitudeSE/boxLatitudeSE) (optional) Minimum: -1.7976931348623157e+308 Maximum: 1.7976931348623157e+308",
+                    "title": "Boxlatitudese"
+                },
+                "boxLongitudeSE": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Boxlongitudese"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Page number to retrieve (optional, default: 1) Minimum: -2147483648 Maximum: 2147483647",
+                    "title": "Page"
+                },
+                "perPage": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of schools to retrieve on a page (50 max) (optional, default: 10) Minimum: -2147483648 Maximum: 2147483647",
+                    "title": "Perpage"
+                },
+                "sortBy": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Sort list. Values are: schoolname, distance, rank. For descending order, precede with '-' i.e. -schoolname (optional, default: schoolname)",
+                    "title": "Sortby"
+                },
+                "includeUnrankedSchoolsInRankSort": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If sortBy is 'rank', this boolean determines if schools with no rank are included in the result (optional, default: false)",
+                    "title": "Includeunrankedschoolsinranksort"
+                }
+            },
+            "required": [
+                "st"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_district",
+        "description": "Retrieve a single district record from the SchoolDigger database",
+        "parameters": {
+            "properties": {
+                "id": {
+                    "description": "The 7 digit District ID (e.g. 0642150)",
+                    "title": "Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_districts",
+        "description": "Search the SchoolDigger database for districts. You may use any combination of criteria as query parameters.",
+        "parameters": {
+            "properties": {
+                "st": {
+                    "description": "Two character state (e.g. 'CA') - required",
+                    "title": "St",
+                    "type": "string"
+                },
+                "q": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search term - note: will match district name or city (optional)",
+                    "title": "Q"
+                },
+                "city": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search for districts in this city (optional)",
+                    "title": "City"
+                },
+                "zip": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search for districts in this 5-digit zip code (optional)",
+                    "title": "Zip"
+                },
+                "nearLatitude": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search for districts within (distanceMiles) of (nearLatitude)/(nearLongitude) (e.g. 44.982560) (optional) (Ultra, Mega API levels only. Mega API level will flag districts that include lat/long in its attendance boundary.) Minimum: -1.7976931348623157e+308 Maximum: 1.7976931348623157e+308",
+                    "title": "Nearlatitude"
+                },
+                "nearLongitude": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search for districts within (distanceMiles) of (nearLatitude)/(nearLongitude) (e.g. -124.289185) (optional) (Ultra, Mega API levels only. Mega API level will flag districts that include lat/long in its attendance boundary.) Minimum: -1.7976931348623157e+308 Maximum: 1.7976931348623157e+308",
+                    "title": "Nearlongitude"
+                },
+                "boundaryAddress": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Full U.S. address: flag returned districts that include this address in its attendance boundary. Example: '123 Main St. AnyTown CA 90001' (optional) (Mega API level only)",
+                    "title": "Boundaryaddress"
+                },
+                "distanceMiles": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search for districts within (distanceMiles) of (nearLatitude)/(nearLongitude) (Default 50 miles) (optional) (Ultra, Mega API levels only) Minimum: -2147483648 Maximum: 2147483647",
+                    "title": "Distancemiles"
+                },
+                "isInBoundaryOnly": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Return only the districts that include given location (nearLatitude/nearLongitude) or (boundaryAddress) in its attendance boundary (Mega API level only)",
+                    "title": "Isinboundaryonly"
+                },
+                "boxLatitudeNW": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search for districts within a 'box' defined by (BoxLatitudeNW/BoxLongitudeNW) to (BoxLongitudeSE/BoxLatitudeSE) (optional) Minimum: -1.7976931348623157e+308 Maximum: 1.7976931348623157e+308",
+                    "title": "Boxlatitudenw"
+                },
+                "boxLongitudeNW": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search for districts within a 'box' defined by (BoxLatitudeNW/BoxLongitudeNW) to (BoxLongitudeSE/BoxLatitudeSE) (optional) Minimum: -1.7976931348623157e+308 Maximum: 1.7976931348623157e+308",
+                    "title": "Boxlongitudenw"
+                },
+                "boxLatitudeSE": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search for districts within a 'box' defined by (BoxLatitudeNW/BoxLongitudeNW) to (BoxLongitudeSE/BoxLatitudeSE) (optional) Minimum: -1.7976931348623157e+308 Maximum: 1.7976931348623157e+308",
+                    "title": "Boxlatitudese"
+                },
+                "boxLongitudeSE": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search for districts within a 'box' defined by (BoxLatitudeNW/BoxLongitudeNW) to (BoxLongitudeSE/BoxLatitudeSE) (optional) Minimum: -1.7976931348623157e+308 Maximum: 1.7976931348623157e+308",
+                    "title": "Boxlongitudese"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Page number to retrieve (optional, default: 1) Minimum: -2147483648 Maximum: 2147483647",
+                    "title": "Page"
+                },
+                "perPage": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of districts to retrieve on a page (50 max) (optional, default: 10) Minimum: -2147483648 Maximum: 2147483647",
+                    "title": "Perpage"
+                },
+                "sortBy": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Sort list. Values are: districtname, distance, rank. For descending order, precede with '-' i.e. -districtname (optional, default: districtname)",
+                    "title": "Sortby"
+                },
+                "includeUnrankedDistrictsInRankSort": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If sortBy is 'rank', this boolean determines if districts with no rank are included in the result (optional, default: false)",
+                    "title": "Includeunrankeddistrictsinranksort"
+                }
+            },
+            "required": [
+                "st"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_rank_schools",
+        "description": "Returns a SchoolDigger school ranking list",
+        "parameters": {
+            "properties": {
+                "year": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The ranking year (leave blank for most recent year) Minimum: -2147483648 Maximum: 2147483647",
+                    "title": "Year"
+                },
+                "level": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Level of ranking: 'Elementary', 'Middle', or 'High'",
+                    "title": "Level"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Page number to retrieve (optional, default: 1) Minimum: -2147483648 Maximum: 2147483647",
+                    "title": "Page"
+                },
+                "perPage": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of schools to retrieve on a page (50 max) (optional, default: 10) Minimum: -2147483648 Maximum: 2147483647",
+                    "title": "Perpage"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_rank_districts",
+        "description": "Returns a SchoolDigger district ranking list",
+        "parameters": {
+            "properties": {
+                "year": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The ranking year (leave blank for most recent year) Minimum: -2147483648 Maximum: 2147483647",
+                    "title": "Year"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Page number to retrieve (optional, default: 1) Minimum: -2147483648 Maximum: 2147483647",
+                    "title": "Page"
+                },
+                "perPage": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of districts to retrieve on a page (50 max) (optional, default: 10) Minimum: -2147483648 Maximum: 2147483647",
+                    "title": "Perpage"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "autocomplete",
+        "description": "Returns a simple and quick list of schools for use in a client-typed autocomplete",
+        "parameters": {
+            "properties": {
+                "q": {
+                    "description": "Search term for autocomplete (e.g. 'Lincol') (required)",
+                    "title": "Q",
+                    "type": "string"
+                },
+                "st": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Two character state (e.g. 'CA') (optional -- leave blank to search entire U.S.)",
+                    "title": "St"
+                },
+                "level": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search for schools at this level only. Valid values: 'Elementary', 'Middle', 'High', 'Alt', 'Private' (optional - leave blank to search for all schools)",
+                    "title": "Level"
+                },
+                "qSearchCityStateName": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Extend the search term to include city and state (e.g. 'Lincoln el paso' matches Lincoln Middle School in El Paso) (optional)",
+                    "title": "Qsearchcitystatename"
+                },
+                "returnCount": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of schools to return. Valid values: 1-20. (default: 10) Minimum: -2147483648 Maximum: 2147483647",
+                    "title": "Returncount"
+                },
+                "boxLatitudeNW": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search within a 'box' defined by (BoxLatitudeNW/BoxLongitudeNW) to (BoxLongitudeSE/BoxLatitudeSE) (optional. Ultra, Mega API levels only.) Minimum: -1.7976931348623157e+308 Maximum: 1.7976931348623157e+308",
+                    "title": "Boxlatitudenw"
+                },
+                "boxLongitudeNW": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search within a 'box' defined by (BoxLatitudeNW/BoxLongitudeNW) to (BoxLongitudeSE/BoxLatitudeSE) (optional. Ultra, Mega API levels only.) Minimum: -1.7976931348623157e+308 Maximum: 1.7976931348623157e+308",
+                    "title": "Boxlongitudenw"
+                },
+                "boxLatitudeSE": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search within a 'box' defined by (BoxLatitudeNW/BoxLongitudeNW) to (BoxLongitudeSE/BoxLatitudeSE) (optional. Ultra, Mega API levels only.) Minimum: -1.7976931348623157e+308 Maximum: 1.7976931348623157e+308",
+                    "title": "Boxlatitudese"
+                },
+                "boxLongitudeSE": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search within a 'box' defined by (BoxLatitudeNW/BoxLongitudeNW) to (BoxLongitudeSE/BoxLatitudeSE) (optional. Ultra, Mega API levels only.) Minimum: -1.7976931348623157e+308 Maximum: 1.7976931348623157e+308",
+                    "title": "Boxlongitudese"
+                }
+            },
+            "required": [
+                "q"
+            ],
+            "type": "object"
+        }
+    }
+]

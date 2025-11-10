@@ -1,0 +1,805 @@
+[
+    {
+        "name": "biomcp_article_details",
+        "description": "\n    Retrieves details for a single PubMed article given its\n    PubMed ID (PMID).\n    Input: A single PMID (e.g., 34397683)\n    Process: Calls the PubTator3 API to fetch the article's\n             title, abstract, and full text (if available).\n    Output: A Markdown formatted string containing the\n            retrieved article content.\n    ",
+        "parameters": {
+            "properties": {
+                "pmid": {
+                    "title": "pmid",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "pmid"
+            ],
+            "title": "article_detailsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "biomcp_article_searcher",
+        "description": "\n    Searches PubMed articles using structured criteria.\n    Input: A `PubmedRequest` object containing lists for `genes`,\n           `variants`, `diseases`, `chemicals`, and `keywords`.\n           Use full terms (\"Non-small cell lung carcinoma\") over\n           abbreviations (\"NSCLC\"). Use keywords to specify terms\n           that don't fit in disease, gene (\"EGFR\"), chemical (\"Cisplatin\"),\n           or variant (\"BRAF V600E\").\n    Process: Resolves entities then queries PubTator3's search API.\n    Output: A Markdown formatted list summarizing matching articles\n            (PMID, title, abstract, etc.). Limited to max 40 results.\n    ",
+        "parameters": {
+            "$defs": {
+                "PubmedRequest": {
+                    "properties": {
+                        "chemicals": {
+                            "description": "List of chemicals for filtering results.",
+                            "items": {
+                                "type": "string"
+                            },
+                            "title": "Chemicals",
+                            "type": "array"
+                        },
+                        "diseases": {
+                            "description": "Diseases such as Hypertension, Lung Adenocarcinoma, etc.",
+                            "items": {
+                                "type": "string"
+                            },
+                            "title": "Diseases",
+                            "type": "array"
+                        },
+                        "genes": {
+                            "description": "List of genes for filtering results.",
+                            "items": {
+                                "type": "string"
+                            },
+                            "title": "Genes",
+                            "type": "array"
+                        },
+                        "keywords": {
+                            "description": "List of other keywords for filtering results.",
+                            "items": {
+                                "type": "string"
+                            },
+                            "title": "Keywords",
+                            "type": "array"
+                        },
+                        "variants": {
+                            "description": "List of variants for filtering results.",
+                            "items": {
+                                "type": "string"
+                            },
+                            "title": "Variants",
+                            "type": "array"
+                        }
+                    },
+                    "title": "PubmedRequest",
+                    "type": "object"
+                }
+            },
+            "properties": {
+                "request": {
+                    "$ref": "#/$defs/PubmedRequest"
+                }
+            },
+            "required": [
+                "request"
+            ],
+            "title": "article_searcherArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "biomcp_trial_protocol",
+        "description": "\n    Retrieves core protocol information for a single clinical\n    trial identified by its NCT ID.\n    Input: A single NCT ID (string, e.g., \"NCT04280705\").\n    Process: Fetches standard \"Protocol\" view modules (like ID,\n             Status, Sponsor, Design, Eligibility) from the\n             ClinicalTrials.gov v2 API.\n    Output: A Markdown formatted string detailing title, status,\n            sponsor, purpose, study design, phase, interventions,\n            eligibility criteria, etc. Returns error if invalid.\n    ",
+        "parameters": {
+            "properties": {
+                "nct_id": {
+                    "title": "Nct Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "nct_id"
+            ],
+            "title": "trial_protocolArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "biomcp_trial_locations",
+        "description": "\n    Retrieves contact and location details for a single\n    clinical trial identified by its NCT ID.\n    Input: A single NCT ID (string, e.g., \"NCT04280705\").\n    Process: Fetches the `ContactsLocationsModule` from the\n             ClinicalTrials.gov v2 API for the given NCT ID.\n    Output: A Markdown formatted string detailing facility names,\n            addresses (city, state, country), and contact info.\n            Returns an error message if the NCT ID is invalid.\n    ",
+        "parameters": {
+            "properties": {
+                "nct_id": {
+                    "title": "Nct Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "nct_id"
+            ],
+            "title": "trial_locationsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "biomcp_trial_outcomes",
+        "description": "\n    Retrieves outcome measures, results (if available), and\n    adverse event data for a single clinical trial.\n    Input: A single NCT ID (string, e.g., \"NCT04280705\").\n    Process: Fetches the `OutcomesModule` and `ResultsSection`\n             from the ClinicalTrials.gov v2 API for the NCT ID.\n    Output: A Markdown formatted string detailing primary/secondary\n            outcomes, participant flow, results tables (if posted),\n            and adverse event summaries. Returns an error if invalid.\n    ",
+        "parameters": {
+            "properties": {
+                "nct_id": {
+                    "title": "Nct Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "nct_id"
+            ],
+            "title": "trial_outcomesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "biomcp_trial_references",
+        "description": "\n    Retrieves publications and other references associated with\n    a single clinical trial identified by its NCT ID.\n    Input: A single NCT ID (string, e.g., \"NCT04280705\").\n    Process: Fetches the `ReferencesModule` from the\n             ClinicalTrials.gov v2 API for the NCT ID.\n    Output: A Markdown formatted string listing citations,\n            associated PubMed IDs (PMIDs), and reference types\n            (e.g., result publication). Returns error if invalid.\n    ",
+        "parameters": {
+            "properties": {
+                "nct_id": {
+                    "title": "Nct Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "nct_id"
+            ],
+            "title": "trial_referencesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "biomcp_trial_searcher",
+        "description": "\n    Searches for clinical trials based on specified criteria.\n    Input: A `TrialQuery` object containing fields like `conditions`,\n           `interventions`, `terms`, `recruiting_status`, `phase`,\n           `location` (lat/long/distance), date ranges, etc.\n    Process: Queries the ClinicalTrials.gov v2 API\n    Output: A Markdown formatted list summarizing matching trials\n            (NCT ID, Title, Status, Conditions, Interventions,\n            Summary). Results are typically paginated by the API.\n    ",
+        "parameters": {
+            "$defs": {
+                "AgeGroup": {
+                    "enum": [
+                        "CHILD",
+                        "ADULT",
+                        "SENIOR",
+                        "ALL"
+                    ],
+                    "title": "AgeGroup",
+                    "type": "string"
+                },
+                "DateField": {
+                    "enum": [
+                        "LAST_UPDATE",
+                        "STUDY_START",
+                        "PRIMARY_COMPLETION",
+                        "OUTCOME_POSTING",
+                        "COMPLETION",
+                        "FIRST_POSTING",
+                        "SUBMITTED_DATE"
+                    ],
+                    "title": "DateField",
+                    "type": "string"
+                },
+                "InterventionType": {
+                    "enum": [
+                        "DRUG",
+                        "DEVICE",
+                        "BIOLOGICAL",
+                        "PROCEDURE",
+                        "RADIATION",
+                        "BEHAVIORAL",
+                        "GENETIC",
+                        "DIETARY",
+                        "DIAGNOSTIC_TEST",
+                        "OTHER"
+                    ],
+                    "title": "InterventionType",
+                    "type": "string"
+                },
+                "PrimaryPurpose": {
+                    "enum": [
+                        "TREATMENT",
+                        "PREVENTION",
+                        "DIAGNOSTIC",
+                        "SUPPORTIVE_CARE",
+                        "SCREENING",
+                        "HEALTH_SERVICES",
+                        "BASIC_SCIENCE",
+                        "DEVICE_FEASIBILITY",
+                        "OTHER"
+                    ],
+                    "title": "PrimaryPurpose",
+                    "type": "string"
+                },
+                "RecruitingStatus": {
+                    "enum": [
+                        "OPEN",
+                        "CLOSED",
+                        "ANY"
+                    ],
+                    "title": "RecruitingStatus",
+                    "type": "string"
+                },
+                "SortOrder": {
+                    "enum": [
+                        "RELEVANCE",
+                        "LAST_UPDATE",
+                        "ENROLLMENT",
+                        "START_DATE",
+                        "COMPLETION_DATE",
+                        "SUBMITTED_DATE"
+                    ],
+                    "title": "SortOrder",
+                    "type": "string"
+                },
+                "SponsorType": {
+                    "enum": [
+                        "INDUSTRY",
+                        "GOVERNMENT",
+                        "ACADEMIC",
+                        "OTHER"
+                    ],
+                    "title": "SponsorType",
+                    "type": "string"
+                },
+                "StudyDesign": {
+                    "enum": [
+                        "RANDOMIZED",
+                        "NON_RANDOMIZED",
+                        "OBSERVATIONAL"
+                    ],
+                    "title": "StudyDesign",
+                    "type": "string"
+                },
+                "StudyType": {
+                    "enum": [
+                        "INTERVENTIONAL",
+                        "OBSERVATIONAL",
+                        "EXPANDED_ACCESS",
+                        "OTHER"
+                    ],
+                    "title": "StudyType",
+                    "type": "string"
+                },
+                "TrialPhase": {
+                    "enum": [
+                        "EARLY_PHASE1",
+                        "PHASE1",
+                        "PHASE2",
+                        "PHASE3",
+                        "PHASE4",
+                        "NOT_APPLICABLE"
+                    ],
+                    "title": "TrialPhase",
+                    "type": "string"
+                },
+                "TrialQuery": {
+                    "description": "Parameters for querying clinical trial data from ClinicalTrials.gov.",
+                    "properties": {
+                        "conditions": {
+                            "anyOf": [
+                                {
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "type": "array"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "List of condition terms.",
+                            "title": "Conditions"
+                        },
+                        "terms": {
+                            "anyOf": [
+                                {
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "type": "array"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "General search terms that don't fit specific categories.",
+                            "title": "Terms"
+                        },
+                        "interventions": {
+                            "anyOf": [
+                                {
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "type": "array"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "Intervention names.",
+                            "title": "Interventions"
+                        },
+                        "recruiting_status": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/$defs/RecruitingStatus"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "Study recruitment status."
+                        },
+                        "study_type": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/$defs/StudyType"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "Type of study."
+                        },
+                        "nct_ids": {
+                            "anyOf": [
+                                {
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "type": "array"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "Clinical trial NCT IDs",
+                            "title": "Nct Ids"
+                        },
+                        "lat": {
+                            "anyOf": [
+                                {
+                                    "type": "number"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "Latitude for location search",
+                            "title": "Lat"
+                        },
+                        "long": {
+                            "anyOf": [
+                                {
+                                    "type": "number"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "Longitude for location search",
+                            "title": "Long"
+                        },
+                        "distance": {
+                            "anyOf": [
+                                {
+                                    "type": "integer"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "Distance from lat/long in miles",
+                            "title": "Distance"
+                        },
+                        "min_date": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "Minimum date for filtering",
+                            "title": "Min Date"
+                        },
+                        "max_date": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "Maximum date for filtering",
+                            "title": "Max Date"
+                        },
+                        "date_field": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/$defs/DateField"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "Date field to filter on"
+                        },
+                        "phase": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/$defs/TrialPhase"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "Trial phase filter"
+                        },
+                        "age_group": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/$defs/AgeGroup"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "Age group filter"
+                        },
+                        "primary_purpose": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/$defs/PrimaryPurpose"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "Primary purpose of the trial"
+                        },
+                        "intervention_type": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/$defs/InterventionType"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "Type of intervention"
+                        },
+                        "sponsor_type": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/$defs/SponsorType"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "Type of sponsor"
+                        },
+                        "study_design": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/$defs/StudyDesign"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "Study design"
+                        },
+                        "sort": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/$defs/SortOrder"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "Sort order for results"
+                        },
+                        "next_page_hash": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "Token to retrieve the next page of results",
+                            "title": "Next Page Hash"
+                        }
+                    },
+                    "title": "TrialQuery",
+                    "type": "object"
+                }
+            },
+            "properties": {
+                "query": {
+                    "$ref": "#/$defs/TrialQuery"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "title": "trial_searcherArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "biomcp_variant_searcher",
+        "description": "\n    Searches for genetic variants based on specified criteria.\n    Input: A `VariantQuery` object containing fields like `gene`,\n           HGVS notations `hgvsp`, `hgvsc`), `rsid`, `region`,\n           `significance`, frequency ranges, prediction scores, etc.\n    Process: Constructs a query for the MyVariant.info query\n             endpoint (`/v1/query`) based on the input object.\n    Output: A Markdown formatted list summarizing matching variants\n            with key annotations (ID, gene, significance, frequency).\n            Includes a summary section with total hits found.\n    ",
+        "parameters": {
+            "$defs": {
+                "ClinicalSignificance": {
+                    "enum": [
+                        "pathogenic",
+                        "likely pathogenic",
+                        "uncertain significance",
+                        "likely benign",
+                        "benign"
+                    ],
+                    "title": "ClinicalSignificance",
+                    "type": "string"
+                },
+                "PolyPhenPrediction": {
+                    "enum": [
+                        "D",
+                        "P",
+                        "B"
+                    ],
+                    "title": "PolyPhenPrediction",
+                    "type": "string"
+                },
+                "SiftPrediction": {
+                    "enum": [
+                        "D",
+                        "T"
+                    ],
+                    "title": "SiftPrediction",
+                    "type": "string"
+                },
+                "VariantQuery": {
+                    "description": "Search parameters for querying variant data from MyVariant.info.",
+                    "properties": {
+                        "gene": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "Gene symbol to search for (e.g. BRAF, TP53)",
+                            "title": "Gene"
+                        },
+                        "hgvsp": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "Protein change notation (e.g., p.V600E, p.Arg557His)",
+                            "title": "Hgvsp"
+                        },
+                        "hgvsc": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "cDNA notation (e.g., c.1799T>A)",
+                            "title": "Hgvsc"
+                        },
+                        "rsid": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "dbSNP rsID (e.g., rs113488022)",
+                            "title": "Rsid"
+                        },
+                        "region": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "Genomic region as chr:start-end (e.g. chr1:12345-67890)",
+                            "title": "Region"
+                        },
+                        "significance": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/$defs/ClinicalSignificance"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "ClinVar clinical significance"
+                        },
+                        "max_frequency": {
+                            "anyOf": [
+                                {
+                                    "type": "number"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "Maximum population allele frequency threshold",
+                            "title": "Max Frequency"
+                        },
+                        "min_frequency": {
+                            "anyOf": [
+                                {
+                                    "type": "number"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "Minimum population allele frequency threshold",
+                            "title": "Min Frequency"
+                        },
+                        "cadd": {
+                            "anyOf": [
+                                {
+                                    "type": "number"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "Minimum CADD phred score",
+                            "title": "Cadd"
+                        },
+                        "polyphen": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/$defs/PolyPhenPrediction"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "PolyPhen-2 prediction"
+                        },
+                        "sift": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/$defs/SiftPrediction"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "SIFT prediction"
+                        },
+                        "sources": {
+                            "description": "Include only specific data sources",
+                            "items": {
+                                "$ref": "#/$defs/VariantSources"
+                            },
+                            "title": "Sources",
+                            "type": "array"
+                        },
+                        "size": {
+                            "default": 40,
+                            "description": "Number of results to return",
+                            "title": "Size",
+                            "type": "integer"
+                        },
+                        "offset": {
+                            "default": 0,
+                            "description": "Result offset for pagination",
+                            "title": "Offset",
+                            "type": "integer"
+                        }
+                    },
+                    "title": "VariantQuery",
+                    "type": "object"
+                },
+                "VariantSources": {
+                    "enum": [
+                        "cadd",
+                        "cgi",
+                        "civic",
+                        "clinvar",
+                        "cosmic",
+                        "dbnsfp",
+                        "dbsnp",
+                        "docm",
+                        "evm",
+                        "exac",
+                        "gnomad_exome",
+                        "hg19",
+                        "mutdb",
+                        "snpeff",
+                        "vcf"
+                    ],
+                    "title": "VariantSources",
+                    "type": "string"
+                }
+            },
+            "properties": {
+                "query": {
+                    "$ref": "#/$defs/VariantQuery"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "title": "variant_searcherArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "biomcp_variant_details",
+        "description": "\n    Retrieves detailed information for a *single* genetic variant.\n    Input: A variant identifier (\"chr7:g.140453136A>T\")\n    Process: Queries the MyVariant.info GET endpoint\n    Output: A Markdown formatted string containing comprehensive\n            variant annotations (genomic context, frequencies,\n            predictions, clinical data). Returns error if invalid.\n    Note: Use the variant_searcher to find the variant id first.\n    ",
+        "parameters": {
+            "properties": {
+                "variant_id": {
+                    "title": "Variant Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "variant_id"
+            ],
+            "title": "variant_detailsArguments",
+            "type": "object"
+        }
+    }
+]

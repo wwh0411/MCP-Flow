@@ -1,0 +1,570 @@
+[
+    {
+        "name": "yelp_chat",
+        "description": "\n    Conversational AI for Yelp business queries. Supports multi-turn conversations and location-aware responses.\n    Requires YELP_API_KEY environment variable with Bearer token.\n    ",
+        "parameters": {
+            "properties": {
+                "query": {
+                    "description": "Natural language text for querying Yelp-specific information；Accepts any prompt related to Yelp businesses, such as “Can you find a Thai restaurant near me?”；This should be plain text (no special formatting needed).",
+                    "title": "Query",
+                    "type": "string"
+                },
+                "chat_id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Uniquely identifies the current conversation (chat session)；For the first request, set this to null or omit it; the API will respond with a new chat_id；Use the returned chat_id on subsequent requests to continue the same conversation；If omitted on subsequent requests, a new conversation is started；If an invalid chat_id is provided, the request will fail.",
+                    "title": "Chat Id"
+                },
+                "latitude": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "User’s approximate latitude；If provided, it helps return more location-specific results；Otherwise, the system may ask for location details if needed",
+                    "title": "Latitude"
+                },
+                "longitude": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "User’s approximate longitude；If provided, it helps return more location-specific results；Otherwise, the system may ask for location details if needed.",
+                    "title": "Longitude"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "yelp_search",
+        "description": "\n    Search for businesses using Yelp Fusion API. Returns up to 50 businesses per request.\n    Requires either location or latitude/longitude pair. \n    Requires YELP_API_KEY environment variable with Bearer token.\n    ",
+        "parameters": {
+            "properties": {
+                "location": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Geographic area to search (e.g., 'New York City', '350 5th Ave, New York, NY'). Required if latitude/longitude not provided. Max 250 characters.",
+                    "title": "Location"
+                },
+                "latitude": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Latitude for search (-90 to 90). Required if location not provided. Must be paired with longitude.",
+                    "title": "Latitude"
+                },
+                "longitude": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Longitude for search (-180 to 180). Required if location not provided. Must be paired with latitude.",
+                    "title": "Longitude"
+                },
+                "term": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search term (e.g., 'food', 'restaurants', business names like 'Starbucks'). If omitted, searches popular categories.",
+                    "title": "Term"
+                },
+                "radius": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search radius in meters (0-40000, about 25 miles max). Actual radius may vary based on business density.",
+                    "title": "Radius"
+                },
+                "categories": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Comma-separated category aliases (e.g., 'bars,french'). See Yelp's supported categories list.",
+                    "title": "Categories"
+                },
+                "locale": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Locale in format '{language}_{country}' (e.g., 'en_US'). See Yelp's supported locales.",
+                    "title": "Locale"
+                },
+                "price": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Comma-separated price levels (1-4, e.g., '1,2' for $ or $$).",
+                    "title": "Price"
+                },
+                "open_now": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If true, returns only businesses currently open. Cannot be used with open_at.",
+                    "title": "Open Now"
+                },
+                "open_at": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Unix timestamp for businesses open at that time. Cannot be used with open_now.",
+                    "title": "Open At"
+                },
+                "attributes": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Comma-separated special attributes (e.g., 'hot_and_new,outdoor_seating'). See full list in Yelp documentation.",
+                    "title": "Attributes"
+                },
+                "sort_by": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Sort method: 'best_match', 'rating', 'review_count', or 'distance'. Default is 'best_match'.",
+                    "title": "Sort By"
+                },
+                "device_platform": {
+                    "anyOf": [
+                        {
+                            "enum": [
+                                "ios",
+                                "android",
+                                "mobile-generic"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Platform for mobile links. Options: 'ios', 'android', or 'mobile-generic'.",
+                    "title": "Device Platform"
+                },
+                "reservation_date": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Reservation date in YYYY-MM-DD format.",
+                    "title": "Reservation Date"
+                },
+                "reservation_time": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Reservation time in HH:MM format (24-hour).",
+                    "title": "Reservation Time"
+                },
+                "reservation_covers": {
+                    "anyOf": [
+                        {
+                            "maximum": 10,
+                            "minimum": 1,
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of people for reservation (1-10).",
+                    "title": "Reservation Covers"
+                },
+                "matches_party_size_param": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter businesses that can't accommodate the specified party size.",
+                    "title": "Matches Party Size Param"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of results (0-50). Default is 20.",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Result offset (0-1000) for pagination.",
+                    "title": "Offset"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "yelp_phone_search",
+        "description": "\n    Search businesses by phone number. Returns businesses matching the provided phone number.\n    Requires YELP_API_KEY environment variable with Bearer token.\n    ",
+        "parameters": {
+            "properties": {
+                "phone": {
+                    "description": "Phone number of the business (with country code, e.g., +14159083801). Length 1-32.",
+                    "maxLength": 32,
+                    "minLength": 1,
+                    "title": "Phone",
+                    "type": "string"
+                },
+                "locale": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Locale code in {language}_{country} format (e.g., 'en_US').",
+                    "title": "Locale"
+                }
+            },
+            "required": [
+                "phone"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "yelp_business_match",
+        "description": "\n    Match business data against Yelp listings using precise information.\n    Requires YELP_API_KEY environment variable with Bearer token.\n    ",
+        "parameters": {
+            "properties": {
+                "name": {
+                    "description": "Exact business name (max 64 chars). Allowed chars: letters, digits, spaces and !#$%&+,./:?@'",
+                    "maxLength": 64,
+                    "title": "Name",
+                    "type": "string"
+                },
+                "address1": {
+                    "description": "First address line (max 64 chars). Allowed chars: letters, digits, spaces and '/#&,.:",
+                    "maxLength": 64,
+                    "title": "Address1",
+                    "type": "string"
+                },
+                "city": {
+                    "description": "City name (1-64 chars). Allowed chars: letters, digits, spaces and '.()",
+                    "maxLength": 64,
+                    "minLength": 1,
+                    "title": "City",
+                    "type": "string"
+                },
+                "state": {
+                    "description": "ISO 3166-2 state code (1-3 chars).",
+                    "maxLength": 3,
+                    "minLength": 1,
+                    "title": "State",
+                    "type": "string"
+                },
+                "country": {
+                    "description": "ISO 3166-1 alpha-2 country code (2 chars).",
+                    "maxLength": 2,
+                    "minLength": 2,
+                    "title": "Country",
+                    "type": "string"
+                },
+                "address2": {
+                    "anyOf": [
+                        {
+                            "maxLength": 64,
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Second address line (max 64 chars).",
+                    "title": "Address2"
+                },
+                "address3": {
+                    "anyOf": [
+                        {
+                            "maxLength": 64,
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Third address line (max 64 chars).",
+                    "title": "Address3"
+                },
+                "postal_code": {
+                    "anyOf": [
+                        {
+                            "maxLength": 12,
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Postal/ZIP code (max 12 chars).",
+                    "title": "Postal Code"
+                },
+                "latitude": {
+                    "anyOf": [
+                        {
+                            "maximum": 90,
+                            "minimum": -90,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Latitude (-90 to 90). Required if no location.",
+                    "title": "Latitude"
+                },
+                "longitude": {
+                    "anyOf": [
+                        {
+                            "maximum": 180,
+                            "minimum": -180,
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Longitude (-180 to 180). Required if no location.",
+                    "title": "Longitude"
+                },
+                "phone": {
+                    "anyOf": [
+                        {
+                            "maxLength": 32,
+                            "minLength": 1,
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Phone number (1-32 chars). Can be local or international format.",
+                    "title": "Phone"
+                },
+                "yelp_business_id": {
+                    "anyOf": [
+                        {
+                            "maxLength": 22,
+                            "minLength": 22,
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "22-character Yelp business ID.",
+                    "title": "Yelp Business Id"
+                },
+                "limit": {
+                    "default": 3,
+                    "description": "Number of results (1-10). Default 3.",
+                    "maximum": 10,
+                    "minimum": 1,
+                    "title": "Limit",
+                    "type": "integer"
+                },
+                "match_threshold": {
+                    "default": "default",
+                    "description": "Match quality threshold: 'none' or 'default'.",
+                    "enum": [
+                        "none",
+                        "default"
+                    ],
+                    "title": "Match Threshold",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "address1",
+                "city",
+                "state",
+                "country"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "yelp_business_details",
+        "description": "\n    Get detailed information about a specific Yelp business.\n    Normally, you would get the Business ID from /v3/businesses/search, /v3/businesses/search/phone, /v3/transactions/{transaction_type}/search or /v3/autocomplete.\n    To retrieve review excerpts for a business, please refer to our Reviews endpoint (/v3/businesses/{id}/reviews)\n    ",
+        "parameters": {
+            "properties": {
+                "business_id_or_alias": {
+                    "description": "22-character Yelp Business ID or Business Alias.",
+                    "title": "Business Id Or Alias",
+                    "type": "string"
+                },
+                "locale": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Locale code in {language}_{country} format.",
+                    "title": "Locale"
+                },
+                "device_platform": {
+                    "anyOf": [
+                        {
+                            "enum": [
+                                "ios",
+                                "android",
+                                "mobile-generic"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Platform for mobile links: 'ios', 'android', or 'mobile-generic'.",
+                    "title": "Device Platform"
+                }
+            },
+            "required": [
+                "business_id_or_alias"
+            ],
+            "type": "object"
+        }
+    }
+]

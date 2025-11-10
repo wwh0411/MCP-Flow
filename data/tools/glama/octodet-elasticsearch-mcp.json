@@ -1,0 +1,478 @@
+[
+    {
+        "name": "elasticsearch_list_indices",
+        "description": "List all available Elasticsearch indices with detailed information",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "indexPattern": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Pattern of Elasticsearch indices to list (e.g., \"logs-*\")"
+                }
+            },
+            "required": [
+                "indexPattern"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "elasticsearch_get_mappings",
+        "description": "Get field mappings for a specific Elasticsearch index",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "index": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Name of the Elasticsearch index to get mappings for"
+                }
+            },
+            "required": [
+                "index"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "elasticsearch_search",
+        "description": "Perform an Elasticsearch search with the provided query DSL, highlighting, and script fields",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "index": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Name of the Elasticsearch index to search"
+                },
+                "queryBody": {
+                    "type": "object",
+                    "additionalProperties": {},
+                    "description": "Complete Elasticsearch query DSL object (can include query, size, from, sort, etc.)"
+                },
+                "scriptFields": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                            "script": {
+                                "type": "object",
+                                "properties": {
+                                    "source": {
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "description": "Painless script source code"
+                                    },
+                                    "params": {
+                                        "type": "object",
+                                        "additionalProperties": {},
+                                        "description": "Optional parameters for the script"
+                                    },
+                                    "lang": {
+                                        "type": "string",
+                                        "default": "painless",
+                                        "description": "Script language (defaults to painless)"
+                                    }
+                                },
+                                "required": [
+                                    "source"
+                                ],
+                                "additionalProperties": false
+                            }
+                        },
+                        "required": [
+                            "script"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "Script fields to evaluate and include in the response"
+                }
+            },
+            "required": [
+                "index",
+                "queryBody"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "elasticsearch_get_cluster_health",
+        "description": "Get health information about the Elasticsearch cluster",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "elasticsearch_get_shards",
+        "description": "Get shard information for all or specific indices",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "index": {
+                    "type": "string",
+                    "description": "Optional index name to get shard information for"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "elasticsearch_add_document",
+        "description": "Add a new document to a specific Elasticsearch index",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "index": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Name of the Elasticsearch index"
+                },
+                "id": {
+                    "type": "string",
+                    "description": "Optional document ID (if not provided, Elasticsearch will generate one)"
+                },
+                "document": {
+                    "type": "object",
+                    "additionalProperties": {},
+                    "description": "Document body to index"
+                }
+            },
+            "required": [
+                "index",
+                "document"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "elasticsearch_update_document",
+        "description": "Update an existing document in a specific Elasticsearch index",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "index": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Name of the Elasticsearch index"
+                },
+                "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Document ID to update"
+                },
+                "document": {
+                    "type": "object",
+                    "additionalProperties": {},
+                    "description": "Partial document body to update (fields to change)"
+                }
+            },
+            "required": [
+                "index",
+                "id",
+                "document"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "elasticsearch_delete_document",
+        "description": "Delete a document from a specific Elasticsearch index",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "index": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Name of the Elasticsearch index"
+                },
+                "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Document ID to delete"
+                }
+            },
+            "required": [
+                "index",
+                "id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "elasticsearch_update_by_query",
+        "description": "Update documents in an Elasticsearch index based on a query",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "index": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Name of the Elasticsearch index to update documents in"
+                },
+                "query": {
+                    "type": "object",
+                    "additionalProperties": {},
+                    "description": "Elasticsearch query to select documents for updating"
+                },
+                "script": {
+                    "type": "object",
+                    "properties": {
+                        "source": {
+                            "type": "string",
+                            "minLength": 1,
+                            "description": "Painless script source for the update operation"
+                        },
+                        "params": {
+                            "type": "object",
+                            "additionalProperties": {},
+                            "description": "Optional parameters for the script"
+                        }
+                    },
+                    "required": [
+                        "source"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Script to execute on matching documents"
+                },
+                "conflicts": {
+                    "type": "string",
+                    "enum": [
+                        "abort",
+                        "proceed"
+                    ],
+                    "description": "What to do when version conflicts occur during the update"
+                },
+                "maxDocs": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "Limit the number of documents to update"
+                },
+                "refresh": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Should the index be refreshed after the update (defaults to true)"
+                }
+            },
+            "required": [
+                "index",
+                "query",
+                "script"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "elasticsearch_delete_by_query",
+        "description": "Delete documents in an Elasticsearch index based on a query",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "index": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Name of the Elasticsearch index to delete documents from"
+                },
+                "query": {
+                    "type": "object",
+                    "additionalProperties": {},
+                    "description": "Elasticsearch query to select documents for deletion"
+                },
+                "conflicts": {
+                    "type": "string",
+                    "enum": [
+                        "abort",
+                        "proceed"
+                    ],
+                    "description": "What to do when version conflicts occur during the deletion"
+                },
+                "maxDocs": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "Limit the number of documents to delete"
+                },
+                "refresh": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Should the index be refreshed after the deletion (defaults to true)"
+                }
+            },
+            "required": [
+                "index",
+                "query"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "elasticsearch_bulk",
+        "description": "Perform multiple document operations (create, update, delete) in a single API call",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "operations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "action": {
+                                "type": "string",
+                                "enum": [
+                                    "index",
+                                    "create",
+                                    "update",
+                                    "delete"
+                                ],
+                                "description": "The action to perform: index (create/replace), create (fail if exists), update, or delete"
+                            },
+                            "index": {
+                                "type": "string",
+                                "minLength": 1,
+                                "description": "Name of the Elasticsearch index for this operation"
+                            },
+                            "id": {
+                                "type": "string",
+                                "description": "Document ID (required for update and delete, optional for index/create)"
+                            },
+                            "document": {
+                                "type": "object",
+                                "additionalProperties": {},
+                                "description": "Document body (required for index/create/update, not used for delete)"
+                            }
+                        },
+                        "required": [
+                            "action",
+                            "index"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "minItems": 1,
+                    "description": "Array of operations to perform in bulk"
+                },
+                "pipeline": {
+                    "type": "string",
+                    "description": "Optional pipeline to use for preprocessing documents"
+                }
+            },
+            "required": [
+                "operations"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "elasticsearch_create_index",
+        "description": "Create a new Elasticsearch index with optional settings and mappings",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "index": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Name of the new Elasticsearch index to create"
+                },
+                "settings": {
+                    "type": "object",
+                    "additionalProperties": {},
+                    "description": "Optional index settings like number of shards, replicas, etc."
+                },
+                "mappings": {
+                    "type": "object",
+                    "additionalProperties": {},
+                    "description": "Optional index mappings defining field types and properties"
+                }
+            },
+            "required": [
+                "index"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "elasticsearch_delete_index",
+        "description": "Delete an Elasticsearch index",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "index": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Name of the Elasticsearch index to delete"
+                }
+            },
+            "required": [
+                "index"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "elasticsearch_count_documents",
+        "description": "Count documents in an index, optionally filtered by a query",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "index": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Name of the Elasticsearch index to count documents in"
+                },
+                "query": {
+                    "type": "object",
+                    "additionalProperties": {},
+                    "description": "Optional Elasticsearch query to filter documents to count"
+                }
+            },
+            "required": [
+                "index"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "elasticsearch_get_templates",
+        "description": "Get index templates from Elasticsearch",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Optional template name filter"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "elasticsearch_get_aliases",
+        "description": "Get index aliases from Elasticsearch",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Optional alias name filter"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

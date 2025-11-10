@@ -1,0 +1,281 @@
+[
+    {
+        "name": "flyworks_create_lipsync_video_by_audio",
+        "description": "\n    Create lipsync video by audio input. The tool will animate a digital human avatar to speak in sync with the provided audio.\n    \n    Parameters:\n    - avatar: Digital human avatar ID. Either this or avatar creation parameters must be provided.\n    - avatar_video_url: URL of a video to create the avatar from.\n    - avatar_image_url: URL of an image to create the avatar from.\n    - avatar_video_file: Local path to a video file to create the avatar from.\n    - avatar_image_file: Local path to an image file to create the avatar from.\n    - audio_url: Remote URL of the audio file. One of audio_url or audio_file must be provided.\n    - audio_file: Local path to the audio file. One of audio_url or audio_file must be provided.\n    - title: Optional title for the created video.\n    - async_mode: If true, returns task_id immediately. If false, waits for completion and downloads the video. Default is false.\n    - output_path: Where to save the downloaded video if async_mode is false. Default is \"output.mp4\".\n    \n    Avatar creation: Provide exactly ONE of avatar_video_url, avatar_image_url, avatar_video_file, or avatar_image_file to create a new avatar.\n    If avatar ID is directly provided, these parameters will be ignored.\n    \n    Audio file should be mp3, m4a, or wav format, within 20MB, and between 1 second and 3 minutes.\n    \n    Returns:\n    - If async_mode is true: task_id for checking status later\n    - If async_mode is false: downloaded video path and task result\n    - If download fails: error message, task_id, task_result, and video_url for manual download\n    ",
+        "parameters": {
+            "properties": {
+                "avatar": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Digital human avatar ID",
+                    "title": "Avatar"
+                },
+                "avatar_video_url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "URL of a video to create the avatar from",
+                    "title": "Avatar Video Url"
+                },
+                "avatar_image_url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "URL of an image to create the avatar from",
+                    "title": "Avatar Image Url"
+                },
+                "avatar_video_file": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Local path to a video file to create the avatar from",
+                    "title": "Avatar Video File"
+                },
+                "avatar_image_file": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Local path to an image file to create the avatar from",
+                    "title": "Avatar Image File"
+                },
+                "audio_url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Remote URL of the audio file",
+                    "title": "Audio Url"
+                },
+                "audio_file": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Local path to the audio file",
+                    "title": "Audio File"
+                },
+                "title": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Optional title for the created video",
+                    "title": "Title"
+                },
+                "async_mode": {
+                    "default": false,
+                    "description": "If true, returns task_id immediately",
+                    "title": "Async Mode",
+                    "type": "boolean"
+                },
+                "output_path": {
+                    "default": "./output/output.mp4",
+                    "description": "Where to save the downloaded video",
+                    "title": "Output Path",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "flyworks_create_lipsync_video_by_text",
+        "description": "\n    Create lipsync video by text input. The tool will generate audio from the text and animate a digital human avatar to speak it.\n    \n    Parameters:\n    - avatar: Digital human avatar ID. Either this or avatar creation parameters must be provided.\n    - avatar_video_url: URL of a video to create the avatar from.\n    - avatar_image_url: URL of an image to create the avatar from.\n    - avatar_video_file: Local path to a video file to create the avatar from.\n    - avatar_image_file: Local path to an image file to create the avatar from.\n    - text: Text content to be spoken by the avatar. Required.\n    - voice: Voice ID to use for text-to-speech. If not provided, a random voice will be selected.\n    - title: Optional title for the created video.\n    - async_mode: If true, returns task_id immediately. If false, waits for completion and downloads the video. Default is false.\n    - output_path: Where to save the downloaded video if async_mode is false. Default is \"output.mp4\".\n    \n    Avatar creation: Provide exactly ONE of avatar_video_url, avatar_image_url, avatar_video_file, or avatar_image_file to create a new avatar.\n    If avatar ID is directly provided, these parameters will be ignored.\n    \n    Text should be between 1 and 500 characters.\n    \n    Returns:\n    - If async_mode is true: task_id for checking status later, selected voice ID\n    - If async_mode is false: downloaded video path, task result, and selected voice ID\n    - If download fails: error message, task_id, task_result, video_url, and selected voice ID for manual download\n    ",
+        "parameters": {
+            "properties": {
+                "avatar": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Digital human avatar ID",
+                    "title": "Avatar"
+                },
+                "avatar_video_url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "URL of a video to create the avatar from",
+                    "title": "Avatar Video Url"
+                },
+                "avatar_image_url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "URL of an image to create the avatar from",
+                    "title": "Avatar Image Url"
+                },
+                "avatar_video_file": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Local path to a video file to create the avatar from",
+                    "title": "Avatar Video File"
+                },
+                "avatar_image_file": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Local path to an image file to create the avatar from",
+                    "title": "Avatar Image File"
+                },
+                "text": {
+                    "default": "",
+                    "description": "Text content to be spoken by the avatar",
+                    "maxLength": 500,
+                    "minLength": 1,
+                    "title": "Text",
+                    "type": "string"
+                },
+                "voice": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Voice ID to use for text-to-speech",
+                    "title": "Voice"
+                },
+                "title": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Optional title for the created video",
+                    "title": "Title"
+                },
+                "async_mode": {
+                    "default": false,
+                    "description": "If true, returns task_id immediately",
+                    "title": "Async Mode",
+                    "type": "boolean"
+                },
+                "output_path": {
+                    "default": "./output/output.mp4",
+                    "description": "Where to save the downloaded video",
+                    "title": "Output Path",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "flyworks_create_video_by_podcast",
+        "description": "\n    Create video by podcast HTML file. The tool will read a podcast HTML file and generate a video based on its content.\n    \n    Parameters:\n    - podcast_html_url: Remote URL of the podcast HTML file.\n    - async_mode: If true, returns task_id immediately. If false, waits for completion and downloads the video. Default is false.\n    - output_path: Where to save the downloaded video if async_mode is false. Default is \"output.mp4\".\n    \n    The podcast HTML file should contain structured content that can be processed to generate a video.\n    \n    Returns:\n    - If async_mode is true: task_id for checking status later\n    - If async_mode is false: downloaded video path and task result\n    - If download fails: error message, task_id, task_result, and video_url for manual download\n    ",
+        "parameters": {
+            "properties": {
+                "podcast_html_url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Remote URL of the podcast HTML file",
+                    "title": "Podcast Html Url"
+                },
+                "async_mode": {
+                    "default": false,
+                    "description": "If true, returns task_id immediately",
+                    "title": "Async Mode",
+                    "type": "boolean"
+                },
+                "output_path": {
+                    "default": "./output/output.mp4",
+                    "description": "Where to save the downloaded video",
+                    "title": "Output Path",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        }
+    }
+]

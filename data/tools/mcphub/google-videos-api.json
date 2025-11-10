@@ -1,0 +1,158 @@
+[
+    {
+        "name": "search_videos",
+        "description": "使用 Google Videos API 搜索视频结果\n返回包含视频标题、链接、缩略图、时长等信息的结构化数据",
+        "parameters": {
+            "properties": {
+                "q": {
+                    "description": "搜索查询内容，支持高级语法如 inurl:, site:, intitle: 等",
+                    "title": "Q",
+                    "type": "string"
+                },
+                "location": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parameter defines from where you want the search to originate. If several locations match the location requested, we'll pick the most popular one. Head to the /locations.json API if you need more precise control. The location and uule parameters can't be used together. It is recommended to specify location at the city level in order to simulate a real user’s search. If location is omitted, the search may take on the location of the proxy.",
+                    "title": "Location"
+                },
+                "tbs": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "高级搜索参数（例如按日期、时长过滤）",
+                    "title": "Tbs"
+                },
+                "safe": {
+                    "anyOf": [
+                        {
+                            "enum": [
+                                "active",
+                                "off"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": "active",
+                    "description": "成人内容过滤，'active' 或 'off'",
+                    "title": "Safe"
+                },
+                "nfpr": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "是否排除拼写纠正结果（1=是, 0=否）",
+                    "title": "Nfpr"
+                },
+                "filter": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "结果过滤（1=启用, 0=禁用）",
+                    "title": "Filter"
+                },
+                "start": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": 0,
+                    "description": "分页偏移量（例如 0=第一页, 10=第二页）",
+                    "title": "Start"
+                },
+                "num": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": 10,
+                    "description": "返回结果数量（10-100）",
+                    "title": "Num"
+                },
+                "device": {
+                    "anyOf": [
+                        {
+                            "enum": [
+                                "desktop",
+                                "tablet",
+                                "mobile"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": "desktop",
+                    "description": "设备类型",
+                    "title": "Device"
+                },
+                "no_cache": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": false,
+                    "description": "是否禁用缓存",
+                    "title": "No Cache"
+                },
+                "async_mode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": false,
+                    "description": "是否异步获取结果（需使用 Searches Archive API 获取）",
+                    "title": "Async Mode"
+                }
+            },
+            "required": [
+                "q"
+            ],
+            "type": "object"
+        }
+    }
+]

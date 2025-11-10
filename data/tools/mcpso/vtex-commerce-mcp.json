@@ -1,0 +1,414 @@
+[
+    {
+        "name": "vtex_get_orders_count",
+        "description": "Get order counts across different time periods: today (current day orders), yesterday (previous day orders), lastWeek (same day last week orders), lastMonth (same day last month orders), lastYear (same day last year orders). Note: This tool provides pre-calculated counts for specific time periods and does not use date range parameters. The \"lastYear\" count refers to the same day of the year in the previous year, not a 90-day range. Timezone parameter is optional and defaults to EST (-5). Use this for quick time-based comparisons without date range limitations.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "timeZone": {
+                    "type": "integer",
+                    "minimum": -12,
+                    "maximum": 14,
+                    "description": "Timezone offset (e.g., -5 for EST). Optional - will use EST (-5) if not specified."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "vtex_search_orders",
+        "description": "Returns INDIVIDUAL ORDER RECORDS with full details for REVENUE-GENERATING ORDERS. By DEFAULT filters for revenue orders only: \"payment-approved,ready-for-handling,handling,invoiced\". Use when you need: specific order information, customer details, order tracking for completed sales. NOT for aggregated metrics or business analysis. Supports full-text search, datetime formats (YYYY-MM-DDTHH:MM:SS), timezone conversion, status filtering, and all VTEX OMS filter parameters. Common usage patterns: \u2022 Revenue orders (default): automatically includes only orders that count as sales \u2022 All statuses: set f_status=\"\" to include all order statuses (canceled, payment-pending, etc.) \u2022 Specific status: use \"f_status\" to override default (e.g., \"canceled\", \"payment-pending\") \u2022 Full-text search: use \"q\" parameter (searches order ID, client name, email) \u2022 Date range: use \"startDate\" and \"endDate\" with optional \"timezone\" (e.g., \"America/Bogota\") \u2022 Recent orders: call without filters for latest revenue orders Each query retrieves up to 90 days of orders. For longer periods (e.g., annual order analysis), make multiple calls with consecutive 90-day ranges. Returns paginated data as JSON tuples for token efficiency. Response includes pagination metadata: [\"meta\", \"type\", \"paginated_data\"], [\"meta\", \"currentPage\", N], [\"meta\", \"totalPages\", N], [\"meta\", \"totalOrders\", N], [\"meta\", \"hasMoreData\", 0/1]. Each order tuple contains: [orderId, creationEpoch, clientName, totalValue, paymentNames, status, salesChannel, origin]. Use \"page\" parameter to navigate through results when hasMoreData=1.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "startDate": {
+                    "type": "string",
+                    "description": "Start date - Date and time in format: YYYY-MM-DDTHH:MM:SS (e.g., \"2025-01-15T10:30:00\" for 10:30 AM, \"2025-01-15T00:00:00\" for start of day, \"2025-01-15T23:59:59\" for end of day). The timezone parameter will be applied to interpret this datetime. Each query supports up to 90 days - for longer analysis periods, make multiple calls with consecutive date ranges."
+                },
+                "endDate": {
+                    "type": "string",
+                    "description": "End date - Date and time in format: YYYY-MM-DDTHH:MM:SS (e.g., \"2025-01-15T10:30:00\" for 10:30 AM, \"2025-01-15T00:00:00\" for start of day, \"2025-01-15T23:59:59\" for end of day). The timezone parameter will be applied to interpret this datetime. Each query supports up to 90 days - for longer analysis periods, make multiple calls with consecutive date ranges."
+                },
+                "timezone": {
+                    "type": "string",
+                    "description": "Timezone in IANA format (e.g., \"America/Bogota\", \"Europe/Madrid\", \"America/New_York\") or UTC offset format (e.g., \"-05:00\", \"+02:00\"). If not provided, UTC will be used."
+                },
+                "orderBy": {
+                    "type": "string",
+                    "description": "Field to order by (e.g., \"creationDate:desc\")"
+                },
+                "page": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Page number for pagination (default: 1)"
+                },
+                "per_page": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "description": "Number of items per page (default: 15, max: 100)"
+                },
+                "f_hasInputInvoice": {
+                    "type": "boolean",
+                    "description": "Filter orders that have input invoice"
+                },
+                "q": {
+                    "type": "string",
+                    "description": "Full-text search query (e.g., order ID, client name, email)"
+                },
+                "f_UtmSource": {
+                    "type": "string",
+                    "description": "Filter by UTM source"
+                },
+                "f_sellerNames": {
+                    "type": "string",
+                    "description": "Filter by the seller names"
+                },
+                "f_marketingTags": {
+                    "type": "string",
+                    "description": "Filter by campaign names, promotion codes, or marketing identifiers"
+                },
+                "f_callCenterOperatorName": {
+                    "type": "string",
+                    "description": "Filter by sales representative/vendor name (social selling, in-store sales, call center operator)"
+                },
+                "f_salesChannel": {
+                    "type": "string",
+                    "description": "Filter by sales channel name"
+                },
+                "salesChannelId": {
+                    "type": "string",
+                    "description": "Filter by sales channel ID, or trade policy ID"
+                },
+                "f_affiliateId": {
+                    "type": "string",
+                    "description": "Filter by affiliate ID"
+                },
+                "f_status": {
+                    "type": "string",
+                    "description": "Filter by order status. DEFAULT: \"payment-approved,ready-for-handling,handling,invoiced\" (revenue orders). Use empty string \"\" to include all statuses. Or specify custom statuses (e.g., \"canceled\", \"payment-pending\", \"handling\")"
+                },
+                "incompleteOrders": {
+                    "type": "boolean",
+                    "description": "Include incomplete orders"
+                },
+                "f_paymentNames": {
+                    "type": "string",
+                    "description": "Filter by payment method names"
+                },
+                "f_RnB": {
+                    "type": "string",
+                    "description": "Filter by promotions, discounts, and benefits applied (Rates and Benefits)"
+                },
+                "searchField": {
+                    "type": "string",
+                    "description": "Specific field to search in"
+                },
+                "f_isInstore": {
+                    "type": "boolean",
+                    "description": "Filter in-store orders"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "vtex_aggregate_order_data",
+        "description": "Returns AGGREGATED METRICS and counts (totals, averages, summaries). Use when you need: totals by category, comparative analysis, business intelligence. NOT for individual order details. Perfect for both simple counts and complex business intelligence with datetime formats (YYYY-MM-DDTHH:MM:SS) and timezone support. Key use cases: \u2022 Basic Counts & Metrics: Count orders by any filter (payment method, status, date range, etc.), get totals for revenue and orders across any dimension, answer questions like \"how many PSE orders?\" or \"how many canceled orders?\" \u2022 Comparative Analysis: Compare performance between payment methods, channels, sellers, analyze customer behavior patterns across segments, identify growth/decline trends by category \u2022 Business Intelligence: Strategic insights for decision-making and performance monitoring, campaign and promotion effectiveness analysis, operational KPI tracking and benchmarking Each query aggregates up to 90 days of data. For longer analysis (e.g., yearly payment method trends), make multiple calls with consecutive 90-day ranges. Returns complete aggregated data in [category, dimension, value, count] format optimized for token efficiency. Response includes metadata: [\"meta\", \"type\", \"aggregated_data\"], [\"meta\", \"totalFacetGroups\", N], [\"meta\", \"totalItems\", N], [\"meta\", \"isPaginated\", 0]. Key distinction: Provides aggregated insights vs. search_orders which returns individual records.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "startDate": {
+                    "type": "string",
+                    "description": "Start date - Date and time in format: YYYY-MM-DDTHH:MM:SS (e.g., \"2025-01-15T10:30:00\" for 10:30 AM, \"2025-01-15T00:00:00\" for start of day, \"2025-01-15T23:59:59\" for end of day). The timezone parameter will be applied to interpret this datetime. Each query supports up to 90 days - for longer analysis periods, make multiple calls with consecutive date ranges."
+                },
+                "endDate": {
+                    "type": "string",
+                    "description": "End date - Date and time in format: YYYY-MM-DDTHH:MM:SS (e.g., \"2025-01-15T10:30:00\" for 10:30 AM, \"2025-01-15T00:00:00\" for start of day, \"2025-01-15T23:59:59\" for end of day). The timezone parameter will be applied to interpret this datetime. Each query supports up to 90 days - for longer analysis periods, make multiple calls with consecutive date ranges."
+                },
+                "timezone": {
+                    "type": "string",
+                    "description": "Timezone in IANA format (e.g., \"America/Bogota\", \"Europe/Madrid\", \"America/New_York\") or UTC offset format (e.g., \"-05:00\", \"+02:00\"). If not provided, UTC will be used."
+                },
+                "f_status": {
+                    "type": "string",
+                    "description": "Filter by order status. DEFAULT: \"payment-approved,ready-for-handling,handling,invoiced\" (revenue orders). Use empty string \"\" to include all statuses. Or specify custom statuses (e.g., \"canceled\", \"payment-pending\", \"handling\")"
+                },
+                "f_UtmSource": {
+                    "type": "string",
+                    "description": "Filter by UTM source (e.g., \"google\", \"facebook\", \"instagram\")"
+                },
+                "f_sellerNames": {
+                    "type": "string",
+                    "description": "Filter by seller names (e.g., \"MainSeller\", \"Marketplace Seller\")"
+                },
+                "f_callCenterOperatorName": {
+                    "type": "string",
+                    "description": "Filter by sales representative/vendor name (social selling, in-store sales, call center operator)"
+                },
+                "f_salesChannel": {
+                    "type": "string",
+                    "description": "Filter by sales channel name (e.g., \"1\", \"marketplace\")"
+                },
+                "f_marketingTags": {
+                    "type": "string",
+                    "description": "Filter by campaign names, promotion codes, or marketing identifiers"
+                },
+                "f_hasInputInvoice": {
+                    "type": "boolean",
+                    "description": "Filter orders that have input invoice (true/false)"
+                },
+                "f_hasOutputInvoice": {
+                    "type": "boolean",
+                    "description": "Filter orders that have output invoice (true/false)"
+                },
+                "f_paymentNames": {
+                    "type": "string",
+                    "description": "Filter by payment method names (e.g., \"Visa\", \"Mastercard\", \"PayPal\")"
+                },
+                "f_RnB": {
+                    "type": "string",
+                    "description": "Filter by promotions, discounts, and benefits applied (Rates and Benefits, e.g., \"10% Discount\", \"Free Shipping\", \"Env\u00edo Gratis\")"
+                },
+                "f_currencyCode": {
+                    "type": "string",
+                    "description": "Filter by currency code (e.g., \"USD\", \"BRL\", \"EUR\")"
+                },
+                "f_hostname": {
+                    "type": "string",
+                    "description": "Filter by hostname (e.g., \"storename.vtexcommercestable.com.br\")"
+                },
+                "f_isCorporate": {
+                    "type": "boolean",
+                    "description": "Filter corporate orders (true/false)"
+                },
+                "f_isInstore": {
+                    "type": "boolean",
+                    "description": "Filter in-store orders (true/false)"
+                },
+                "f_deliveryChannel": {
+                    "type": "string",
+                    "description": "Filter by delivery channel (e.g., \"delivery\", \"pickup-in-point\")"
+                },
+                "f_country": {
+                    "type": "string",
+                    "description": "Filter by country (e.g., \"BRA\", \"USA\", \"MEX\")"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "vtex_breakdown_metrics_by_dimension",
+        "description": "Ranks and compares performance within business dimensions (brands, categories, products, payment methods, etc.). Shows top/bottom performers with period-over-period growth analysis. Perfect for questions like \"which are my top-selling brands?\" or \"what products are declining?\" Key use cases: \u2022 Performance ranking: Find top-selling brands, categories, or products by revenue/orders \u2022 Growth analysis: Identify fastest growing/declining items with period-over-period comparisons \u2022 Competitive insights: Compare performance between different items within the same dimension \u2022 Trend identification: Spot emerging opportunities or declining segments Each query analyzes up to 90 days. For longer periods (e.g., 2-year brand analysis), make multiple calls with consecutive 90-day ranges. OPTIONAL: Call get_filter_options first if you need to discover available filter values for accurate filtering. Returns ranked lists with growth metrics as [itemName, metricName, currentValue, previousValue, percentChange] tuples. Response includes pagination metadata: [\"meta\", \"totalItems\", N], [\"meta\", \"returnedItems\", N], [\"meta\", \"hasMoreData\", 0/1], [\"meta\", \"estimatedPages\", N]. Use \"itemsPerPage\" parameter to control results. When hasMoreData=1, increase itemsPerPage or apply filters to get more specific results. Essential for performance benchmarking and competitive analysis.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "startDate": {
+                    "type": "string",
+                    "description": "Start date - Date and time in format: YYYY-MM-DDTHH:MM:SS (e.g., \"2025-01-15T10:30:00\" for 10:30 AM, \"2025-01-15T00:00:00\" for start of day, \"2025-01-15T23:59:59\" for end of day). The timezone parameter will be applied to interpret this datetime. Each query supports up to 90 days - for longer analysis periods, make multiple calls with consecutive date ranges."
+                },
+                "endDate": {
+                    "type": "string",
+                    "description": "End date - Date and time in format: YYYY-MM-DDTHH:MM:SS (e.g., \"2025-01-15T10:30:00\" for 10:30 AM, \"2025-01-15T00:00:00\" for start of day, \"2025-01-15T23:59:59\" for end of day). The timezone parameter will be applied to interpret this datetime. Each query supports up to 90 days - for longer analysis periods, make multiple calls with consecutive date ranges."
+                },
+                "timezone": {
+                    "type": "string",
+                    "description": "Timezone in IANA format (e.g., \"America/Bogota\", \"Europe/Madrid\", \"America/New_York\") or UTC offset format (e.g., \"-05:00\", \"+02:00\"). If not provided, UTC will be used."
+                },
+                "itemsPerPage": {
+                    "type": "number",
+                    "description": "Number of items to return (default: 10)"
+                },
+                "dimension": {
+                    "type": "string",
+                    "enum": [
+                        "brand",
+                        "category",
+                        "productName",
+                        "deliveryMethod",
+                        "marketplaceName",
+                        "destinationCity",
+                        "destinationState",
+                        "sellerName",
+                        "paymentMethod",
+                        "campaign",
+                        "coupon",
+                        "promotion",
+                        "utmCampaign",
+                        "utmSource",
+                        "tradePolicy"
+                    ],
+                    "description": "The dimension to analyze data by (e.g., brand, category, productName)"
+                },
+                "filters": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "description": "Filters to apply (e.g., {\"category\": \"Women's Clothing\"} to analyze only women's clothing products). IMPORTANT: Use exact values from get_dimension_options as filter values."
+                }
+            },
+            "required": [
+                "startDate",
+                "endDate",
+                "dimension"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "vtex_get_filter_options",
+        "description": "Discovers available filter values for any business dimension (brands, categories, products, payment methods, etc.). Essential prerequisite for accurate filtering in other analytics tools. Use this when you need exact filter values for filtering in breakdown_metrics_by_dimension. Key use cases: \u2022 Find exact names: Get precise spelling/format of brands, categories, or products \u2022 Explore catalog: Discover what dimensions exist in your data (e.g., find all payment methods) \u2022 Validate filters: Ensure filter values exist before using in other analytics tools \u2022 Data discovery: Understand available segments for analysis Each query analyzes up to 90 days. For longer periods, make multiple calls with consecutive 90-day ranges. Returns complete dimension data as [optionValue, optionId] tuples. Response includes metadata: [\"meta\", \"type\", \"dimension_options\"], [\"meta\", \"totalOptions\", N], [\"meta\", \"isPaginated\", 0]. This provides complete data for the specified dimension and date range.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "startDate": {
+                    "type": "string",
+                    "description": "Start date - Date and time in format: YYYY-MM-DDTHH:MM:SS (e.g., \"2025-01-15T10:30:00\" for 10:30 AM, \"2025-01-15T00:00:00\" for start of day, \"2025-01-15T23:59:59\" for end of day). The timezone parameter will be applied to interpret this datetime. Each query supports up to 90 days - for longer analysis periods, make multiple calls with consecutive date ranges."
+                },
+                "endDate": {
+                    "type": "string",
+                    "description": "End date - Date and time in format: YYYY-MM-DDTHH:MM:SS (e.g., \"2025-01-15T10:30:00\" for 10:30 AM, \"2025-01-15T00:00:00\" for start of day, \"2025-01-15T23:59:59\" for end of day). The timezone parameter will be applied to interpret this datetime. Each query supports up to 90 days - for longer analysis periods, make multiple calls with consecutive date ranges."
+                },
+                "timezone": {
+                    "type": "string",
+                    "description": "Timezone in IANA format (e.g., \"America/Bogota\", \"Europe/Madrid\", \"America/New_York\") or UTC offset format (e.g., \"-05:00\", \"+02:00\"). If not provided, UTC will be used."
+                },
+                "filterOption": {
+                    "type": "string",
+                    "enum": [
+                        "brand",
+                        "category",
+                        "productName",
+                        "deliveryMethod",
+                        "marketplaceName",
+                        "destinationCity",
+                        "destinationState",
+                        "sellerName",
+                        "paymentMethod",
+                        "campaign",
+                        "coupon",
+                        "promotion",
+                        "utmCampaign",
+                        "utmSource",
+                        "tradePolicy"
+                    ],
+                    "description": "The dimension to get available options for (e.g., \"category\" to find categories like \"Women's Clothing\")"
+                }
+            },
+            "required": [
+                "startDate",
+                "endDate",
+                "filterOption"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "vtex_track_conversion_trends",
+        "description": "Retrieves conversion rate data over time with period-over-period comparisons. Shows how website conversion performance changes across different time periods. Essential for measuring campaign impact and identifying conversion patterns. Key use cases: \u2022 Performance monitoring: Track daily/weekly conversion rate changes \u2022 Campaign impact: Measure conversion rate before/during/after campaigns \u2022 Trend analysis: Identify conversion rate patterns and seasonal effects \u2022 Benchmarking: Compare current performance vs historical periods Each query analyzes up to 90 days. For longer trend analysis (e.g., yearly patterns), make multiple calls with consecutive 90-day ranges. Aggregation parameter controls data grouping: \"hour\" for hourly data points, \"day\" for daily summaries, \"week\" for weekly summaries. Returns overall conversion rates plus time-series data showing trends. Data format: [referenceEpoch, comparedEpoch, currentRate, previousRate, percentChange] tuples.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "startDate": {
+                    "type": "string",
+                    "description": "Start date - Date and time in format: YYYY-MM-DDTHH:MM:SS (e.g., \"2025-01-15T10:30:00\" for 10:30 AM, \"2025-01-15T00:00:00\" for start of day, \"2025-01-15T23:59:59\" for end of day). The timezone parameter will be applied to interpret this datetime. Each query supports up to 90 days - for longer analysis periods, make multiple calls with consecutive date ranges."
+                },
+                "endDate": {
+                    "type": "string",
+                    "description": "End date - Date and time in format: YYYY-MM-DDTHH:MM:SS (e.g., \"2025-01-15T10:30:00\" for 10:30 AM, \"2025-01-15T00:00:00\" for start of day, \"2025-01-15T23:59:59\" for end of day). The timezone parameter will be applied to interpret this datetime. Each query supports up to 90 days - for longer analysis periods, make multiple calls with consecutive date ranges."
+                },
+                "timezone": {
+                    "type": "string",
+                    "description": "Timezone in IANA format (e.g., \"America/Bogota\", \"Europe/Madrid\", \"America/New_York\") or UTC offset format (e.g., \"-05:00\", \"+02:00\"). If not provided, UTC will be used."
+                },
+                "aggregation": {
+                    "type": "string",
+                    "description": "Aggregation level (e.g., \"hour\", \"day\", \"week\"). Default: \"hour\""
+                }
+            },
+            "required": [
+                "startDate",
+                "endDate"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "vtex_get_performance_overview",
+        "description": "Get comprehensive business health snapshot with all key metrics (revenue, orders, AOV, conversion rate, sessions) in a single call. Perfect for executive dashboards and quick performance checks. Provides complete store performance overview with period-over-period comparisons. Key use cases: \u2022 Executive dashboards: Get all key KPIs in one call \u2022 Performance monitoring: Track overall business health metrics \u2022 Quick diagnostics: Answer questions like \"What's our AOV?\" or \"How are we performing?\" \u2022 Trend analysis: See if key metrics are improving or declining \u2022 Business reporting: Get formatted data for reports and presentations Each query analyzes up to 90 days. For longer performance tracking (e.g., quarterly reports), make multiple calls with consecutive 90-day ranges. Aggregation parameter controls data grouping: \"hour\" for hourly data points, \"day\" for daily summaries, \"week\" for weekly summaries. Returns structured JSON with current values, previous period values, and percentage changes for each metric. Includes revenue, order count, average order value, sessions, and calculated conversion rate.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "startDate": {
+                    "type": "string",
+                    "description": "Start date - Date and time in format: YYYY-MM-DDTHH:MM:SS (e.g., \"2025-01-15T10:30:00\" for 10:30 AM, \"2025-01-15T00:00:00\" for start of day, \"2025-01-15T23:59:59\" for end of day). The timezone parameter will be applied to interpret this datetime. Each query supports up to 90 days - for longer analysis periods, make multiple calls with consecutive date ranges."
+                },
+                "endDate": {
+                    "type": "string",
+                    "description": "End date - Date and time in format: YYYY-MM-DDTHH:MM:SS (e.g., \"2025-01-15T10:30:00\" for 10:30 AM, \"2025-01-15T00:00:00\" for start of day, \"2025-01-15T23:59:59\" for end of day). The timezone parameter will be applied to interpret this datetime. Each query supports up to 90 days - for longer analysis periods, make multiple calls with consecutive date ranges."
+                },
+                "timezone": {
+                    "type": "string",
+                    "description": "Timezone in IANA format (e.g., \"America/Bogota\", \"Europe/Madrid\", \"America/New_York\") or UTC offset format (e.g., \"-05:00\", \"+02:00\"). If not provided, UTC will be used."
+                },
+                "aggregation": {
+                    "type": "string",
+                    "description": "Aggregation level (e.g., \"hour\", \"day\", \"week\"). Default: \"hour\""
+                }
+            },
+            "required": [
+                "startDate",
+                "endDate"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "vtex_list_brands",
+        "description": "Retrieve paginated list of brands from the VTEX store catalog. Perfect for browsing available brands, analyzing brand portfolio, or finding specific brand information. Key use cases: \u2022 Brand discovery: Find all available brands in the store \u2022 Brand analysis: Check which brands are active vs inactive \u2022 Brand validation: Verify if a specific brand exists in the catalog \u2022 Inventory planning: Review brand portfolio for merchandising decisions No date range limitations - provides static catalog data. Returns data as JSON tuples for token efficiency. First tuple contains pagination info: [\"paging\", currentPage, totalPages, totalBrands]. Each brand tuple contains: [brandId, brandName, isActive]. Default page size is 30 brands. Use pagination to browse through large brand catalogs efficiently.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "pageSize": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "description": "Number of brands per page (default: 30, max: 100)"
+                },
+                "page": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Page number for pagination (default: 1)"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "vtex_get_category_tree",
+        "description": "Retrieve the category tree structure from the VTEX store catalog. Perfect for understanding product categorization, building navigation menus, or analyzing category hierarchy. Key use cases: \u2022 Category discovery: Explore the complete category structure \u2022 Navigation building: Generate menu structures for storefronts \u2022 Category analysis: Understand how products are organized \u2022 Inventory planning: Review category coverage and gaps No date range limitations - provides static catalog data. Specify categoryLevels to control tree depth (default: 3 levels, max: 3). Returns data as JSON tuples for token efficiency. Each category tuple contains: [level, categoryId, categoryName, hasChildren, childrenCount]. Child categories are included as nested tuples with increasing level numbers.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "categoryLevels": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 3,
+                    "description": "Number of category levels to return (default: 3, max: 3). Controls how deep the category tree goes."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

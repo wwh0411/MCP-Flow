@@ -1,0 +1,222 @@
+[
+    {
+        "name": "context-request",
+        "description": "Request a context document using JSON schema, filters and modifiers",
+        "parameters": {
+            "type": "object",
+            "required": [
+                "json"
+            ],
+            "properties": {
+                "json": {
+                    "type": "string",
+                    "description": "Context configuration in JSON format. It should contain the context documents with sources (file, tree, text) and any filters or modifiers to be applied."
+                }
+            }
+        }
+    },
+    {
+        "name": "context-get",
+        "description": "Get a specific context document from the project context config",
+        "parameters": {
+            "type": "object",
+            "required": [
+                "path"
+            ],
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "Output path to the context document provided in the config."
+                }
+            }
+        }
+    },
+    {
+        "name": "context",
+        "description": "List all contexts in the project context config",
+        "parameters": {
+            "type": "object",
+            "required": [],
+            "properties": {}
+        }
+    },
+    {
+        "name": "file-info",
+        "description": "Get information about a file within the project directory structure",
+        "parameters": {
+            "type": "object",
+            "required": [
+                "path"
+            ],
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "Path to the file, relative to project root. Only files within project directory can be accessed."
+                }
+            }
+        }
+    },
+    {
+        "name": "file-read",
+        "description": "Read content from a file within the project directory structure",
+        "parameters": {
+            "type": "object",
+            "required": [
+                "path"
+            ],
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "Path to the file, relative to project root. Only files within project directory can be accessed."
+                },
+                "encoding": {
+                    "type": "string",
+                    "description": "File encoding (default: utf-8)",
+                    "default": "utf-8"
+                }
+            }
+        }
+    },
+    {
+        "name": "file-rename",
+        "description": "Rename a file within the project directory structure",
+        "parameters": {
+            "type": "object",
+            "required": [
+                "path",
+                "newPath"
+            ],
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "Path to the file, relative to project root. Only files within project directory can be accessed."
+                },
+                "newPath": {
+                    "type": "string",
+                    "description": "Path to the new file, relative to project root. Only files within project directory can be accessed."
+                }
+            }
+        }
+    },
+    {
+        "name": "file-move",
+        "description": "Move a file within the project directory structure",
+        "parameters": {
+            "type": "object",
+            "required": [
+                "source",
+                "destination"
+            ],
+            "properties": {
+                "source": {
+                    "type": "string",
+                    "description": "Path to the source file, relative to project root. Only files within project directory can be accessed."
+                },
+                "destination": {
+                    "type": "string",
+                    "description": "Path to the destination file, relative to project root. Only files within project directory can be accessed."
+                },
+                "createDirectory": {
+                    "type": "boolean",
+                    "description": "Create directory if it does not exist"
+                }
+            }
+        }
+    },
+    {
+        "name": "directory-list",
+        "description": "List directories and files with filtering options using Symfony Finder. Always ask for source path.",
+        "parameters": {
+            "type": "object",
+            "required": [
+                "path"
+            ],
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "Base directory path to list (relative to project root)"
+                },
+                "pattern": {
+                    "type": "string",
+                    "description": "File name pattern(s) to match (e.g., \"*.php\", comma-separated for multiple patterns)"
+                },
+                "depth": {
+                    "type": "integer",
+                    "description": "Maximum directory depth to search (0 means only files in the given directory) [default: 0]"
+                },
+                "size": {
+                    "type": "string",
+                    "description": "Size filter expression (e.g., \"> 1K\", \"< 10M\", \">=1K <=10K\")"
+                },
+                "date": {
+                    "type": "string",
+                    "description": "Date filter expression (e.g., \"since yesterday\", \"> 2023-01-01\", \"< now - 2 hours\")"
+                },
+                "contains": {
+                    "type": "string",
+                    "description": "Only files containing this text (uses grep-like behavior)"
+                },
+                "type": {
+                    "type": "string",
+                    "description": "Filter by type: \"file\", \"directory\", or \"any\" (default)"
+                },
+                "sort": {
+                    "type": "string",
+                    "description": "How to sort results: \"name\", \"type\", \"date\", \"size\""
+                },
+                "showTree": {
+                    "type": "boolean",
+                    "description": "Whether to include visual ASCII tree in the response"
+                },
+                "treeView": {
+                    "type": "object",
+                    "description": "Configuration options for tree view visualization",
+                    "properties": {
+                        "showSize": {
+                            "type": "boolean",
+                            "description": "Show file sizes in tree view"
+                        },
+                        "showLastModified": {
+                            "type": "boolean",
+                            "description": "Show last modified dates in tree view"
+                        },
+                        "showCharCount": {
+                            "type": "boolean",
+                            "description": "Show character counts in tree view"
+                        },
+                        "includeFiles": {
+                            "type": "boolean",
+                            "description": "Include files in tree view (false to show only directories)"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "file-write",
+        "description": "Write content to a file (mostly new files, use apply-path for updates if possible). Can create parent directories automatically.",
+        "parameters": {
+            "type": "object",
+            "required": [
+                "path",
+                "content"
+            ],
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "Relative path to the file (e.g., \"src/file.txt\"). Path is resolved against project root."
+                },
+                "content": {
+                    "type": "string",
+                    "description": "Content to write"
+                },
+                "createDirectory": {
+                    "type": "boolean",
+                    "description": "Create directory if it does not exist",
+                    "default": true
+                }
+            }
+        }
+    }
+]

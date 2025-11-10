@@ -1,0 +1,300 @@
+[
+    {
+        "name": "misttrack_detect_address_chain",
+        "description": "Detect blockchain and possible tokens based on address format features",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string",
+                    "description": "Address to detect"
+                }
+            },
+            "required": [
+                "address"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "misttrack_get_address_labels",
+        "description": "Get the list of labels for the specified address",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "coin": {
+                    "type": "string",
+                    "description": "Coin type to check, such as ETH, BTC, etc."
+                },
+                "address": {
+                    "type": "string",
+                    "description": "Address to check"
+                }
+            },
+            "required": [
+                "coin",
+                "address"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "misttrack_get_address_overview",
+        "description": "Get balance and statistics for the specified address",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "coin": {
+                    "type": "string",
+                    "description": "Coin type to check, such as ETH, BTC, etc."
+                },
+                "address": {
+                    "type": "string",
+                    "description": "Address to check"
+                }
+            },
+            "required": [
+                "coin",
+                "address"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "misttrack_get_address_action",
+        "description": "Get transaction action analysis results for the specified address",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "coin": {
+                    "type": "string",
+                    "description": "Coin type to check, such as ETH, BTC, etc."
+                },
+                "address": {
+                    "type": "string",
+                    "description": "Address to check"
+                }
+            },
+            "required": [
+                "coin",
+                "address"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "misttrack_get_address_trace",
+        "description": "Get configuration profile for the specified address, including interacted platforms and related threat intelligence data",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "coin": {
+                    "type": "string",
+                    "description": "Coin type to check, such as ETH, BTC, etc."
+                },
+                "address": {
+                    "type": "string",
+                    "description": "Address to check"
+                }
+            },
+            "required": [
+                "coin",
+                "address"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "misttrack_get_address_counterparty",
+        "description": "Get transaction counterparty analysis results for the specified address",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "coin": {
+                    "type": "string",
+                    "description": "Coin type to check, such as ETH, BTC, etc."
+                },
+                "address": {
+                    "type": "string",
+                    "description": "Address to check"
+                }
+            },
+            "required": [
+                "coin",
+                "address"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "misttrack_analyze_transactions_recursive",
+        "description": "Recursively analyze transaction relationships and build transaction graph",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "coin": {
+                    "type": "string",
+                    "description": "Cryptocurrency type, such as ETH, BTC, etc."
+                },
+                "address": {
+                    "type": "string",
+                    "description": "Address to analyze"
+                },
+                "max_depth": {
+                    "type": "number",
+                    "minimum": 1,
+                    "maximum": 3,
+                    "default": 1,
+                    "description": "Maximum analysis depth (default is 1 layer)"
+                },
+                "start_timestamp": {
+                    "type": "number",
+                    "description": "Start timestamp (optional)"
+                },
+                "end_timestamp": {
+                    "type": "number",
+                    "description": "End timestamp (optional)"
+                },
+                "transaction_type": {
+                    "type": "string",
+                    "enum": [
+                        "in",
+                        "out",
+                        "all"
+                    ],
+                    "description": "Transaction type, can be \"in\", \"out\", or \"all\" (optional)"
+                }
+            },
+            "required": [
+                "coin",
+                "address"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "misttrack_check_malicious_funds",
+        "description": "Check if the specified address contains malicious funds (e.g. tainted USDT)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "coin": {
+                    "type": "string",
+                    "description": "Coin type to check, automatically determined based on address format, prioritizes checking tainted USDT"
+                },
+                "address": {
+                    "type": "string",
+                    "description": "Address to check"
+                }
+            },
+            "required": [
+                "coin",
+                "address"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "misttrack_get_risk_score",
+        "description": "Get risk score for the specified address or transaction hash",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "coin": {
+                    "type": "string",
+                    "description": "Coin type to check, such as ETH, BTC, etc."
+                },
+                "address": {
+                    "type": "string",
+                    "description": "Address to check (either address or txid must be provided)"
+                },
+                "txid": {
+                    "type": "string",
+                    "description": "Transaction hash to check (either address or txid must be provided)"
+                }
+            },
+            "required": [
+                "coin"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "misttrack_get_dashboard_url",
+        "description": "Generate MistTrack dashboard URL based on coin type and address",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "coin": {
+                    "type": "string",
+                    "description": "Coin code, e.g. \"ETH\", \"BTC\", \"USDT-TRC20\", etc."
+                },
+                "address": {
+                    "type": "string",
+                    "description": "Blockchain address"
+                }
+            },
+            "required": [
+                "coin",
+                "address"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "misttrack_get_chain_explorer_url",
+        "description": "Generate URL for corresponding blockchain explorer based on coin type and address",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "coin": {
+                    "type": "string",
+                    "description": "Coin code, e.g. \"ETH\", \"BTC\", \"USDT-TRC20\", etc."
+                },
+                "address": {
+                    "type": "string",
+                    "description": "Blockchain address"
+                }
+            },
+            "required": [
+                "coin",
+                "address"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "misttrack_get_url_info",
+        "description": "Get comprehensive URL information for the specified address, including dashboard URL and blockchain explorer URL",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "coin": {
+                    "type": "string",
+                    "description": "Coin code, e.g. \"ETH\", \"BTC\", \"USDT-TRC20\", etc."
+                },
+                "address": {
+                    "type": "string",
+                    "description": "Blockchain address"
+                }
+            },
+            "required": [
+                "coin",
+                "address"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

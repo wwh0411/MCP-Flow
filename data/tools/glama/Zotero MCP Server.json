@@ -1,0 +1,93 @@
+[
+    {
+        "name": "zotero_zotero_item_metadata",
+        "description": "Get metadata information about a specific Zotero item, given the item key.",
+        "parameters": {
+            "properties": {
+                "item_key": {
+                    "title": "Item Key",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "item_key"
+            ],
+            "title": "get_item_metadataArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "zotero_zotero_item_fulltext",
+        "description": "Get the full text content of a Zotero item, given the item key of a parent item or specific attachment.",
+        "parameters": {
+            "properties": {
+                "item_key": {
+                    "title": "Item Key",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "item_key"
+            ],
+            "title": "get_item_fulltextArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "zotero_zotero_search_items",
+        "description": "Search for items in your Zotero library, given a query string, query mode (titleCreatorYear or everything), and optional tag search (supports boolean searches). Returned results can be looked up with zotero_item_fulltext or zotero_item_metadata.",
+        "parameters": {
+            "properties": {
+                "query": {
+                    "title": "Query",
+                    "type": "string"
+                },
+                "qmode": {
+                    "anyOf": [
+                        {
+                            "enum": [
+                                "titleCreatorYear",
+                                "everything"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": "titleCreatorYear",
+                    "title": "Qmode"
+                },
+                "tag": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Tag"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": 10,
+                    "title": "Limit"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "title": "search_itemsArguments",
+            "type": "object"
+        }
+    }
+]

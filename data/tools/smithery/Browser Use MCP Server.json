@@ -1,0 +1,362 @@
+[
+    {
+        "name": "mcp-server-browser_browser_navigate",
+        "description": "Navigate to a URL",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-browser_browser_go_back",
+        "description": "Go back to the previous page",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "mcp-server-browser_browser_go_forward",
+        "description": "Go forward to the next page",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "mcp-server-browser_browser_form_input_fill",
+        "description": "Fill out an input field, before using the tool, Either 'index' or 'selector' must be provided",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "selector": {
+                    "type": "string",
+                    "description": "CSS selector for input field, priority use index, if index is not provided, use selector"
+                },
+                "index": {
+                    "type": "number",
+                    "description": "Index of the element to fill"
+                },
+                "value": {
+                    "type": "string",
+                    "description": "Value to fill"
+                },
+                "clear": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to clear existing text before filling"
+                }
+            },
+            "required": [
+                "value"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-browser_browser_get_markdown",
+        "description": "Get the markdown content of the current page",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-browser_browser_get_text",
+        "description": "Get the text content of the current page",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-browser_browser_read_links",
+        "description": "Get all links on the current page",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "mcp-server-browser_browser_new_tab",
+        "description": "Open a new tab",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "URL to open in the new tab"
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-browser_browser_tab_list",
+        "description": "Get the list of tabs",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "mcp-server-browser_browser_switch_tab",
+        "description": "Switch to a specific tab",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "index": {
+                    "type": "number",
+                    "description": "Tab index to switch to"
+                }
+            },
+            "required": [
+                "index"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-browser_browser_close_tab",
+        "description": "Close the current tab",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "mcp-server-browser_browser_evaluate",
+        "description": "Execute JavaScript in the browser console",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "script": {
+                    "type": "string",
+                    "description": "JavaScript code to execute, () => { /* code */ }"
+                }
+            },
+            "required": [
+                "script"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-browser_browser_get_download_list",
+        "description": "Get the list of downloaded files",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "mcp-server-browser_browser_screenshot",
+        "description": "Take a screenshot of the current page or a specific element",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Name for the screenshot"
+                },
+                "selector": {
+                    "type": "string",
+                    "description": "CSS selector for element to screenshot"
+                },
+                "index": {
+                    "type": "number",
+                    "description": "index of the element to screenshot"
+                },
+                "width": {
+                    "type": "number",
+                    "description": "Width in pixels (default: viewport width)"
+                },
+                "height": {
+                    "type": "number",
+                    "description": "Height in pixels (default: viewport height)"
+                },
+                "fullPage": {
+                    "type": "boolean",
+                    "description": "Full page screenshot (default: false)"
+                },
+                "highlight": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Highlight the element"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-browser_browser_click",
+        "description": "Click an element on the page, before using the tool, use `browser_get_clickable_elements` to get the index of the element, but not call `browser_get_clickable_elements` multiple times",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "index": {
+                    "type": "number",
+                    "description": "Index of the element to click"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-browser_browser_select",
+        "description": "Select an element on the page with index, Either 'index' or 'selector' must be provided",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "index": {
+                    "type": "number",
+                    "description": "Index of the element to select"
+                },
+                "selector": {
+                    "type": "string",
+                    "description": "CSS selector for element to select"
+                },
+                "value": {
+                    "type": "string",
+                    "description": "Value to select"
+                }
+            },
+            "required": [
+                "value"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-browser_browser_hover",
+        "description": "Hover an element on the page, Either 'index' or 'selector' must be provided",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "index": {
+                    "type": "number",
+                    "description": "Index of the element to hover"
+                },
+                "selector": {
+                    "type": "string",
+                    "description": "CSS selector for element to hover"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-browser_browser_get_clickable_elements",
+        "description": "Get the clickable or hoverable or selectable elements on the current page, don't call this tool multiple times",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "mcp-server-browser_browser_scroll",
+        "description": "Scroll the page",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number",
+                    "description": "Pixels to scroll (positive for down, negative for up), if the amount is not provided, scroll to the bottom of the page"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-browser_browser_close",
+        "description": "Close the browser when the task is done and the browser is not needed anymore",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "mcp-server-browser_browser_press_key",
+        "description": "Press a key on the keyboard",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "enum": [
+                        "Enter",
+                        "Tab",
+                        "Escape",
+                        "Backspace",
+                        "Delete",
+                        "Insert",
+                        "F1",
+                        "F2",
+                        "F3",
+                        "F4",
+                        "F5",
+                        "F6",
+                        "F7",
+                        "F8",
+                        "F9",
+                        "F10",
+                        "F11",
+                        "F12",
+                        "ArrowLeft",
+                        "ArrowRight",
+                        "ArrowUp",
+                        "ArrowDown",
+                        "PageUp",
+                        "PageDown",
+                        "Home",
+                        "End",
+                        "ShiftLeft",
+                        "ShiftRight",
+                        "ControlLeft",
+                        "ControlRight",
+                        "AltLeft",
+                        "AltRight",
+                        "MetaLeft",
+                        "MetaRight",
+                        "CapsLock",
+                        "PrintScreen",
+                        "ScrollLock",
+                        "Pause",
+                        "ContextMenu"
+                    ],
+                    "description": "Name of the key to press or a character to generate, such as Enter, Tab, Escape, Backspace, Delete, Insert, F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12, ArrowLeft, ArrowRight, ArrowUp, ArrowDown, PageUp, PageDown, Home, End, ShiftLeft, ShiftRight, ControlLeft, ControlRight, AltLeft, AltRight, MetaLeft, MetaRight, CapsLock, PrintScreen, ScrollLock, Pause, ContextMenu"
+                }
+            },
+            "required": [
+                "key"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

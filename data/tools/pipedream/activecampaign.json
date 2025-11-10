@@ -1,0 +1,485 @@
+[
+    {
+        "name": "activecampaign-add-contact-to-automation",
+        "description": "Adds an existing contact to an existing automation. See the docs [here](https://developers.activecampaign.com/reference/create-new-contactautomation).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "contactId": {
+                    "type": "string",
+                    "description": "Contact ID of the Contact, to be linked to the contactAutomation"
+                },
+                "automationId": {
+                    "type": "string",
+                    "description": "Automation ID of the automation, to be linked to the contactAutomation."
+                }
+            },
+            "required": [
+                "contactId",
+                "automationId"
+            ]
+        }
+    },
+    {
+        "name": "activecampaign-create-account",
+        "description": "Create a new account. See the docs [here](https://developers.activecampaign.com/reference#create-an-account-new).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": ""
+                },
+                "accountUrl": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "activecampaign-create-deal",
+        "description": "Creates a new deal. See the docs [here](https://developers.activecampaign.com/reference/create-a-deal-new).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "description": "Deal's title."
+                },
+                "value": {
+                    "type": "string",
+                    "description": "Deal's value in cents. (i.e. $456.78 => 45678). Must be greater than or equal to zero."
+                },
+                "currency": {
+                    "type": "string",
+                    "description": "Deal's currency in 3-digit ISO format, lowercased."
+                },
+                "group": {
+                    "type": "string",
+                    "description": "Deal's pipeline id. Required if `deal.stage` is not provided. If `deal.group` is not provided, the stage's pipeline will be assigned to the deal automatically."
+                },
+                "stage": {
+                    "type": "string",
+                    "description": "Deal's stage id. Required if `deal.group` is not provided. If `deal.stage` is not provided, the deal will be assigned with the first stage in the pipeline provided in `deal.group`."
+                },
+                "owner": {
+                    "type": "string",
+                    "description": "Deal's owner id. Required if pipeline's auto-assign option is disabled."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Deal's description."
+                },
+                "account": {
+                    "type": "string",
+                    "description": "Deal's account id."
+                },
+                "contact": {
+                    "type": "string",
+                    "description": "Deal's primary contact's id."
+                },
+                "percent": {
+                    "type": "string",
+                    "description": "Deal's percentage."
+                },
+                "status": {
+                    "type": "string",
+                    "description": ""
+                },
+                "fields": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "activecampaign-create-note",
+        "description": "Adds a note, arbitrary information to a contact, deal, or other Active Campaign objects. See the docs [here](https://developers.activecampaign.com/reference/create-a-note).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "note": {
+                    "type": "string",
+                    "description": "The note's text."
+                },
+                "reltype": {
+                    "type": "string",
+                    "description": "The related type where the note will be added to. Possible Values: `Activity`, `Deal`, `DealTask`, `Subscriber`, `CustomerAccount`"
+                },
+                "relid": {
+                    "type": "string",
+                    "description": "Id of the related object where the note is being added."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "activecampaign-create-tracked-event",
+        "description": "Tracks an event using event tracking. See the docs [here](https://developers.activecampaign.com/reference/track-event).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "description": "This value is unique to your ActiveCampaign account and can be found named \"Event Key\" on Settings > Tracking > Event Tracking inside your ActiveCampaign account."
+                },
+                "event": {
+                    "type": "string",
+                    "description": "The name of the event you wish to track."
+                },
+                "eventdata": {
+                    "type": "string",
+                    "description": "A value you wish to store for the event."
+                },
+                "actid": {
+                    "type": "string",
+                    "description": "This value is unique to your ActiveCampaign account and can be found named \"actid\" on Settings > Tracking > Event Tracking API."
+                },
+                "visitEmail": {
+                    "type": "string",
+                    "description": "Email address of the contact you wish to track this event for."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "activecampaign-find-contact",
+        "description": "Finds a contact. See the docs [here](https://developers.activecampaign.com/reference/list-all-contacts).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "search": {
+                    "type": "string",
+                    "description": "Filter contacts that match the given value in the contact names, organization, phone or email"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "activecampaign-find-deal",
+        "description": "Finds an existing deal by search field. See the docs [here](https://developers.activecampaign.com/reference/list-all-deals)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "search": {
+                    "type": "string",
+                    "description": "Search text to use with **Search Field** parameter."
+                },
+                "field": {
+                    "type": "string",
+                    "description": "Field to search for. See [available values](https://developers.activecampaign.com/reference/deal#deals-parameters-available-values)."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "activecampaign-get-all-lists",
+        "description": "Retrieves all lists. See the docs [here](https://developers.activecampaign.com/reference/retrieve-all-lists)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Filter by the name of the list"
+                },
+                "limit": {
+                    "type": "string",
+                    "description": "Limit the number of returned results"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "activecampaign-get-contact",
+        "description": "Retrieves an existing contact. See the docs [here](https://developers.activecampaign.com/reference/get-contact).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "contactId": {
+                    "type": "string",
+                    "description": "ID of the contact to retrieve."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "activecampaign-get-contact-by-email",
+        "description": "Retrieves contact data from the ActiveCampaign CRM by email address. See the docs [here](https://developers.activecampaign.com/reference/list-all-contacts).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "description": "Email address of the contact you want to get."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "activecampaign-get-deal",
+        "description": "Retrieves an existing deal. See the docs [here](https://developers.activecampaign.com/reference/retrieve-a-deal)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "dealId": {
+                    "type": "string",
+                    "description": "ID of the deal to retrieve."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "activecampaign-get-tags-for-contact",
+        "description": "Get Contact Tags.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "contactId": {
+                    "type": "string",
+                    "description": "ID of the contact to retrieve."
+                }
+            },
+            "required": [
+                "contactId"
+            ]
+        }
+    },
+    {
+        "name": "activecampaign-list-all-contacts",
+        "description": "Retrieve all existing contacts. See the docs [here](https://developers.activecampaign.com/reference/list-all-contacts).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "ids": {
+                    "type": "string",
+                    "description": "Filter contacts by ID. Can be repeated for multiple IDs. Example: ids[]=1&ids[]=2&ids[]=42"
+                },
+                "email": {
+                    "type": "string",
+                    "description": "Email address of the contact you want to get"
+                },
+                "emailLike": {
+                    "type": "string",
+                    "description": "Filter contacts that contain the given value in the email address"
+                },
+                "exclude": {
+                    "type": "string",
+                    "description": "Exclude from the response the contact with the given ID"
+                },
+                "formid": {
+                    "type": "string",
+                    "description": "Filter contacts associated with the given form"
+                },
+                "idGreater": {
+                    "type": "string",
+                    "description": "Only include contacts with an ID greater than the given ID"
+                },
+                "idLess": {
+                    "type": "string",
+                    "description": "Only include contacts with an ID less than the given ID"
+                },
+                "listid": {
+                    "type": "string",
+                    "description": "Filter contacts associated with the given list"
+                },
+                "organization": {
+                    "type": "string",
+                    "description": "(Deprecated) Please use Account-Contact end points. Filter contacts associated with the given organization ID"
+                },
+                "search": {
+                    "type": "string",
+                    "description": "Filter contacts that match the given value in the contact names, organization, phone or email"
+                },
+                "segmentid": {
+                    "type": "string",
+                    "description": "Return only contacts that match a list segment (this param initially returns segment information, when it is run a second time it will return contacts that match the segment)"
+                },
+                "seriesid": {
+                    "type": "string",
+                    "description": "Filter contacts associated with the given automation"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "See [available values](https://developers.activecampaign.com/reference#section-contact-parameters-available-values)"
+                },
+                "tagid": {
+                    "type": "string",
+                    "description": "Filter contacts associated with the given tag"
+                },
+                "createdBefore": {
+                    "type": "string",
+                    "description": "Filter contacts that were created prior to this date"
+                },
+                "createdAfter": {
+                    "type": "string",
+                    "description": "Filter contacts that were created after this date"
+                },
+                "updatedBefore": {
+                    "type": "string",
+                    "description": "Filter contacts that were updated before this date"
+                },
+                "updatedAfter": {
+                    "type": "string",
+                    "description": "Filter contacts that were updated after this date"
+                },
+                "waitid": {
+                    "type": "string",
+                    "description": "Filter by contacts in the wait queue of an automation block"
+                },
+                "orderByCreationDate": {
+                    "type": "string",
+                    "description": "Order contacts by creation date"
+                },
+                "orderByEmail": {
+                    "type": "string",
+                    "description": "Order contacts by email"
+                },
+                "orderByFirstName": {
+                    "type": "string",
+                    "description": "Order contacts by first name"
+                },
+                "orderByLastName": {
+                    "type": "string",
+                    "description": "Order contacts by last name"
+                },
+                "orderByName": {
+                    "type": "string",
+                    "description": "Order contacts by full name"
+                },
+                "orderByScore": {
+                    "type": "string",
+                    "description": "Order contacts by score"
+                },
+                "inGroupLists": {
+                    "type": "string",
+                    "description": "Set this to `true` in order to return only contacts that the current user has permissions to see."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "activecampaign-list-campaigns",
+        "description": "List Campaigns. See the docs [here](https://developers.activecampaign.com/reference#list-all-campaigns).",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    },
+    {
+        "name": "activecampaign-remove-tag-from-contact",
+        "description": "Removes a tag from a contact. See the docs [here](https://developers.activecampaign.com/reference/remove-a-contacts-tag)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "contactId": {
+                    "type": "string",
+                    "description": "Contact id"
+                },
+                "contactTagId": {
+                    "type": "string",
+                    "description": "Contact tag id to remove"
+                }
+            },
+            "required": [
+                "contactId"
+            ]
+        }
+    },
+    {
+        "name": "activecampaign-tag-contact",
+        "description": "Tags a contact. See the docs [here](https://developers.activecampaign.com/reference/create-contact-tag).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "contactId": {
+                    "type": "string",
+                    "description": "Contact id"
+                },
+                "tagId": {
+                    "type": "string",
+                    "description": "Tag id"
+                }
+            },
+            "required": [
+                "contactId",
+                "tagId"
+            ]
+        }
+    },
+    {
+        "name": "activecampaign-update-deal",
+        "description": "Updates an existing deal. See the docs [here](https://developers.activecampaign.com/reference/update-a-deal-new).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "dealId": {
+                    "type": "string",
+                    "description": "Id of the deal to update."
+                },
+                "title": {
+                    "type": "string",
+                    "description": "Deal's title."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Deal's description."
+                },
+                "account": {
+                    "type": "string",
+                    "description": "Deal's account id."
+                },
+                "contact": {
+                    "type": "string",
+                    "description": "Deal's primary contact id."
+                },
+                "value": {
+                    "type": "string",
+                    "description": "Deal's value in cents. (i.e. $456.78 => 45678). Must be greater than or equal to zero. int32 datatype."
+                },
+                "currency": {
+                    "type": "string",
+                    "description": "Deal's currency in 3-digit ISO format, lowercased."
+                },
+                "group": {
+                    "type": "string",
+                    "description": "Deal's pipeline id. Deal's stage or `deal.stage` should belong to `deal.group`."
+                },
+                "stage": {
+                    "type": "string",
+                    "description": "Deal's stage id. `deal.stage` should belong to Deal's pipeline or `deal.group`."
+                },
+                "owner": {
+                    "type": "string",
+                    "description": "Deal's owner id."
+                },
+                "percent": {
+                    "type": "string",
+                    "description": "Deal's percentage. int32 datatype."
+                },
+                "status": {
+                    "type": "string",
+                    "description": ""
+                },
+                "fields": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    }
+]

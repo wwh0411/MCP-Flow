@@ -1,0 +1,2280 @@
+[
+    {
+        "name": "search_car_rentals",
+        "description": "Search car rentals by filter. Indicate the `location_id` -> use `Search locations` api point",
+        "parameters": {
+            "properties": {
+                "date_time_pickup": {
+                    "description": "Pickup date and time",
+                    "title": "Date Time Pickup",
+                    "type": "string"
+                },
+                "location_return": {
+                    "description": "Location return code or id",
+                    "title": "Location Return",
+                    "type": "string"
+                },
+                "location_pickup": {
+                    "description": "Location pickup code or id. Ex: JFK or 1365100023, use Search locations api point",
+                    "title": "Location Pickup",
+                    "type": "string"
+                },
+                "date_time_return": {
+                    "description": "Return date and time",
+                    "title": "Date Time Return",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "date_time_pickup",
+                "location_return",
+                "location_pickup",
+                "date_time_return"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_hotels",
+        "description": "Get available hotels by the filter. Indicate the `location_id` -> use `Search locations`, check-in and check-out date",
+        "parameters": {
+            "properties": {
+                "date_checkout": {
+                    "description": "Checkout date",
+                    "title": "Date Checkout",
+                    "type": "string"
+                },
+                "date_checkin": {
+                    "description": "Checkin date",
+                    "title": "Date Checkin",
+                    "type": "string"
+                },
+                "sort_order": {
+                    "description": "",
+                    "enum": [
+                        "HDR",
+                        "PRICE",
+                        "STAR",
+                        "PROXIMITY",
+                        "DEALS"
+                    ],
+                    "title": "Sort Order",
+                    "type": "string"
+                },
+                "location_id": {
+                    "description": "Location id, use Search locations api point",
+                    "title": "Location Id",
+                    "type": "string"
+                },
+                "page_number": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of page Default: 0 Minimum: 0 Maximum: 500",
+                    "title": "Page Number"
+                },
+                "star_rating_ids": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Hotel star ratings",
+                    "title": "Star Rating Ids"
+                },
+                "rooms_number": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Rooms number Default: 1 Minimum: 1 Maximum: 8",
+                    "title": "Rooms Number"
+                },
+                "amenities_ids": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Amenities",
+                    "title": "Amenities Ids"
+                }
+            },
+            "required": [
+                "date_checkout",
+                "date_checkin",
+                "sort_order",
+                "location_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_cars_locations",
+        "description": "Search locations by name",
+        "parameters": {
+            "properties": {
+                "name": {
+                    "description": "Name",
+                    "title": "Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "hotel_details",
+        "description": "Get all reviews and images of the hotel by hotel_id",
+        "parameters": {
+            "properties": {
+                "hotel_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Hotel id Default: 6733503 Minimum: 1",
+                    "title": "Hotel Id"
+                },
+                "offset_of_reviews": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Offset of reviews Default: 0 Minimum: 0 Maximum: 1000",
+                    "title": "Offset Of Reviews"
+                }
+            },
+            "required": [
+                "hotel_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_hotels_locations",
+        "description": "Search locations by name",
+        "parameters": {
+            "properties": {
+                "name": {
+                    "description": "Name",
+                    "title": "Name",
+                    "type": "string"
+                },
+                "search_type": {
+                    "description": "",
+                    "enum": [
+                        "ALL",
+                        "CITY",
+                        "AIRPORT",
+                        "POI",
+                        "HOTEL"
+                    ],
+                    "title": "Search Type",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "search_type"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_flights_locations",
+        "description": "Search airports and locations by name",
+        "parameters": {
+            "properties": {
+                "name": {
+                    "description": "Name",
+                    "title": "Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_flights",
+        "description": "Search flights. Type: only `ONE_WAY`. Set location_departure and location_arrival, use `/flights/locations` api point. You can filter out tickets by price, max duration and number of stops",
+        "parameters": {
+            "properties": {
+                "location_departure": {
+                    "description": "Departure location code. Use Search locations api point",
+                    "title": "Location Departure",
+                    "type": "string"
+                },
+                "itinerary_type": {
+                    "description": "",
+                    "enum": [
+                        "ONE_WAY",
+                        "ROUND_TRIP"
+                    ],
+                    "title": "Itinerary Type",
+                    "type": "string"
+                },
+                "date_departure": {
+                    "description": "Departure date",
+                    "title": "Date Departure",
+                    "type": "string"
+                },
+                "class_type": {
+                    "description": "",
+                    "enum": [
+                        "ECO",
+                        "BUS",
+                        "PEC",
+                        "FST"
+                    ],
+                    "title": "Class Type",
+                    "type": "string"
+                },
+                "sort_order": {
+                    "description": "",
+                    "enum": [
+                        "PRICE",
+                        "ARRIVETIME",
+                        "DEPARTTIME",
+                        "TRAVELTIME"
+                    ],
+                    "title": "Sort Order",
+                    "type": "string"
+                },
+                "location_arrival": {
+                    "description": "Arrival location code",
+                    "title": "Location Arrival",
+                    "type": "string"
+                },
+                "date_departure_return": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Departure date back",
+                    "title": "Date Departure Return"
+                },
+                "price_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Price max Default: 20000 Minimum: 1 Maximum: 1000000",
+                    "title": "Price Max"
+                },
+                "price_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Price min Default: 100 Minimum: 1 Maximum: 1000000",
+                    "title": "Price Min"
+                },
+                "number_of_passengers": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of passengers Default: 1 Minimum: 1 Maximum: 7",
+                    "title": "Number Of Passengers"
+                },
+                "number_of_stops": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of stops. 0 - is direct flight Default: 1 Minimum: 0 Maximum: 3",
+                    "title": "Number Of Stops"
+                },
+                "duration_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Duration max. Minutes Default: 2051 Minimum: 1 Maximum: 10000",
+                    "title": "Duration Max"
+                }
+            },
+            "required": [
+                "location_departure",
+                "itinerary_type",
+                "date_departure",
+                "class_type",
+                "sort_order",
+                "location_arrival"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_hotels_locations_by_geolocation",
+        "description": "Search locations by coordinates. Set coordinates latitude and longitude",
+        "parameters": {
+            "properties": {
+                "longitude": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Longitude Default: 14.41854 Minimum: -180 Maximum: 180",
+                    "title": "Longitude"
+                },
+                "latitude": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Latitude Default: 50.073658 Minimum: -90 Maximum: 90",
+                    "title": "Latitude"
+                }
+            },
+            "required": [
+                "longitude",
+                "latitude"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "booking_details_of_the_hotel",
+        "description": "Get hotel descriptions, prices and available booking options. Indicate the hotel_id, check-in and check-out date",
+        "parameters": {
+            "properties": {
+                "date_checkout": {
+                    "description": "Checkout date",
+                    "title": "Date Checkout",
+                    "type": "string"
+                },
+                "hotel_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Hotel id Default: 6733503 Minimum: 1",
+                    "title": "Hotel Id"
+                },
+                "date_checkin": {
+                    "description": "Checkin date",
+                    "title": "Date Checkin",
+                    "type": "string"
+                },
+                "rooms_number": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Rooms number Default: 1 Minimum: 1 Maximum: 8",
+                    "title": "Rooms Number"
+                }
+            },
+            "required": [
+                "date_checkout",
+                "hotel_id",
+                "date_checkin"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "seat_map",
+        "description": "Gets the seat map of all flights in a contract bundle through the getFlightSeatMap endpoint",
+        "parameters": {
+            "properties": {
+                "ppn_bundle": {
+                    "description": "The ppn_bundle for the seat map. Can be retrieved from the ppn_seat_bundle of FlightContract, or FlightLookUp.",
+                    "title": "Ppn Bundle",
+                    "type": "string"
+                },
+                "sid": {
+                    "description": "Session ID. Random string ex.: j10k11l12m13n14",
+                    "title": "Sid",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ppn_bundle",
+                "sid"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "contract",
+        "description": "Gets the contract for the PPN bundle provided by a flight return, departure, or combined (round trip/multi-city) through the getFlightContract endpoint",
+        "parameters": {
+            "properties": {
+                "sid": {
+                    "description": "Session ID. Random string ex.: j10k11l12m13n14",
+                    "title": "Sid",
+                    "type": "string"
+                },
+                "ppn_bundle": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The ppn_bundle for the seat map. Can be retrieved from the ppn_seat_bundle of Flight Contract, or LookUp",
+                    "title": "Ppn Bundle"
+                },
+                "convert_currency": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Requested currency for the results. ISO 4217 format.",
+                    "title": "Convert Currency"
+                }
+            },
+            "required": [
+                "sid"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search",
+        "description": "Returns a contract for a flight round trip search through the getFlightRoundTrip endpoint",
+        "parameters": {
+            "properties": {
+                "sid": {
+                    "description": "Session ID. Random string",
+                    "title": "Sid",
+                    "type": "string"
+                },
+                "adults": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Number of adults Default: 1 Minimum: 1 Maximum: 8",
+                    "title": "Adults"
+                },
+                "departure_date": {
+                    "description": "Departure date",
+                    "title": "Departure Date",
+                    "type": "string"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "How many pages the results are spread over. Used in conjunction with results per page.",
+                    "title": "Page"
+                },
+                "number_of_itineraries": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of itineraries to retrieve",
+                    "title": "Number Of Itineraries"
+                },
+                "airline_filter": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "2 Letter code used to specify which airline that has been used.",
+                    "title": "Airline Filter"
+                },
+                "convert_currency": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Requested currency for the results. ISO 4217 format.",
+                    "title": "Convert Currency"
+                },
+                "cabin_class": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "economy premium business first",
+                    "title": "Cabin Class"
+                },
+                "origin_airport_code": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Airport code",
+                    "title": "Origin Airport Code"
+                },
+                "destination_city_id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "City id",
+                    "title": "Destination City Id"
+                },
+                "results_per_page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of results per page. Used in conjunction with page.",
+                    "title": "Results Per Page"
+                },
+                "currency": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Requested currency for the results. ISO 4217 format.",
+                    "title": "Currency"
+                },
+                "children": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of children Minimum: 0 Maximum: 8",
+                    "title": "Children"
+                },
+                "destination_airport_code": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Airport code",
+                    "title": "Destination Airport Code"
+                },
+                "origin_city_id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "City id",
+                    "title": "Origin City Id"
+                }
+            },
+            "required": [
+                "sid",
+                "adults",
+                "departure_date"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "download_airports",
+        "description": "Downloads a list of airports with IATA codes for Flight search",
+        "parameters": {
+            "properties": {
+                "resume_key": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Resume results from given ID.",
+                    "title": "Resume Key"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Limits the number of results from the response. Default: 500",
+                    "title": "Limit"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "auto_complete",
+        "description": "Gets airport and city ids for the air product related to words in passed string through the getAutoComplete endpoint",
+        "parameters": {
+            "properties": {
+                "string": {
+                    "description": "Airport or City being searched",
+                    "title": "String",
+                    "type": "string"
+                },
+                "hotels": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include hotels in search results",
+                    "title": "Hotels"
+                },
+                "regions": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include regions in search results",
+                    "title": "Regions"
+                },
+                "airports": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include airports in search results",
+                    "title": "Airports"
+                },
+                "cities": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include cities in search results",
+                    "title": "Cities"
+                },
+                "longitude": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search for property availability around a specific longitude coordinate.",
+                    "title": "Longitude"
+                },
+                "latitude": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search for property availability around a specific latitude coordinate.",
+                    "title": "Latitude"
+                },
+                "pois": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include pois in search results",
+                    "title": "Pois"
+                },
+                "spellcheck": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If the spell check is strict.",
+                    "title": "Spellcheck"
+                }
+            },
+            "required": [
+                "string"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "download_companies",
+        "description": "Downloads a list of companies",
+        "parameters": {
+            "properties": {
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Limits the number of results from the response. Default: 500",
+                    "title": "Limit"
+                },
+                "resume_key": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Resume results from given ID.",
+                    "title": "Resume Key"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "download_cities",
+        "description": "Downloads a list of cities",
+        "parameters": {
+            "properties": {
+                "resume_key": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Resume results from given ID.",
+                    "title": "Resume Key"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Limits the number of results from the response. Default: 500",
+                    "title": "Limit"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "download_locations",
+        "description": "Downloads a list of Locations",
+        "parameters": {
+            "properties": {
+                "resume_key": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Resume results from given ID.",
+                    "title": "Resume Key"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Limits the number of results from the response. Default: 500",
+                    "title": "Limit"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "download_property_types",
+        "description": "Downloads Property Types list",
+        "parameters": {
+            "properties": {
+                "resume_key": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Resume results from given ID.",
+                    "title": "Resume Key"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Limits the number of results from the response. Default: 100",
+                    "title": "Limit"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "downalods_hotels",
+        "description": "Downalods a list of Hotels",
+        "parameters": {
+            "properties": {
+                "hotel_address": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter by address of hotel.",
+                    "title": "Hotel Address"
+                },
+                "active_vmer": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Show hotels with vacation merchant rates.",
+                    "title": "Active Vmer"
+                },
+                "active_bkg": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Show hotels with Booking rates.",
+                    "title": "Active Bkg"
+                },
+                "longitude_range_end": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Requires longitude to have value.",
+                    "title": "Longitude Range End"
+                },
+                "latitude": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter by latitude of the hotel.",
+                    "title": "Latitude"
+                },
+                "latitude_range_end": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Requires latitude to have value.",
+                    "title": "Latitude Range End"
+                },
+                "language": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Language code: en-US, es-ES, fr-FR, pt-BR",
+                    "title": "Language"
+                },
+                "state_code": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter by the state code of the hotel.",
+                    "title": "State Code"
+                },
+                "country_code": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter by the country code of the hotel.",
+                    "title": "Country Code"
+                },
+                "active_agd": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Show hotels with Agoda rates.",
+                    "title": "Active Agd"
+                },
+                "changes_since": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Date/time to filter the hotels that have been updated on or after this date. This will discover the last_changed_date of hotels in inventory (inclusive of the selected date). Date should be in a valid ISO 8601: https://en.wikipedia.org/wiki/ISO_8601 (YYYY-MM-DDThh:mm:ss{UTC_Offset}) format.",
+                    "title": "Changes Since"
+                },
+                "hotelid_ppn": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter by PPN hotel ID.",
+                    "title": "Hotelid Ppn"
+                },
+                "property_type_ids": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter by property type ids. See the Property Type Filter Guide for more detail.",
+                    "title": "Property Type Ids"
+                },
+                "longitude": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Requires longitude to have value.",
+                    "title": "Longitude"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Limits the number of results from the response. Default: 100",
+                    "title": "Limit"
+                },
+                "active_smop": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Show hotels with semi opaque rates.",
+                    "title": "Active Smop"
+                },
+                "active_mer": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Show hotels with Priceline rates.",
+                    "title": "Active Mer"
+                },
+                "resume_key": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Resume results from given ID.",
+                    "title": "Resume Key"
+                },
+                "cityid_ppn": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter by PPN city ID.",
+                    "title": "Cityid Ppn"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "download_areas",
+        "description": "Downloads an Area list",
+        "parameters": {
+            "properties": {
+                "resume_key": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Resume results from given ID.",
+                    "title": "Resume Key"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Limits the number of results from the response. Default: 100",
+                    "title": "Limit"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "download_countries",
+        "description": "Downloads a list of countries",
+        "parameters": {
+            "properties": {
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Limits the number of results from the response. Default: 100",
+                    "title": "Limit"
+                },
+                "resume_key": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Resume results from given ID.",
+                    "title": "Resume Key"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "download_chains",
+        "description": "Downloads a list of Hotel chains",
+        "parameters": {
+            "properties": {
+                "resume_key": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Resume results from given ID.",
+                    "title": "Resume Key"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Limits the number of results from the response. Default: 100",
+                    "title": "Limit"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "download_amenities",
+        "description": "Downloads a list of Amenities",
+        "parameters": {
+            "properties": {
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Limits the number of results from the response. Default: 100",
+                    "title": "Limit"
+                },
+                "language": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Language code: en-US, es-ES, fr-FR, pt-BR",
+                    "title": "Language"
+                },
+                "resume_key": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Resume results from given ID.",
+                    "title": "Resume Key"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "download_states",
+        "description": "Downloads a list of Satets",
+        "parameters": {
+            "properties": {
+                "resume_key": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Resume results from given ID.",
+                    "title": "Resume Key"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Limits the number of results from the response. Default: 100",
+                    "title": "Limit"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "download_cities_clusters",
+        "description": "Downloads a list of Hotel cities clusters",
+        "parameters": {
+            "properties": {
+                "resume_key": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Resume results from given ID.",
+                    "title": "Resume Key"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Limits the number of results from the response. Default: 100",
+                    "title": "Limit"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "hotel_reviews",
+        "description": "This API returns a list of reviews",
+        "parameters": {
+            "properties": {
+                "hotel_id": {
+                    "description": "The PPN Hotel ID identifying the desired property.",
+                    "title": "Hotel Id",
+                    "type": "string"
+                },
+                "languages": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Limits the number of results from the response.",
+                    "title": "Languages"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Used with limit to only retrieve a subset of all results at a time. Determines the nuber of properties to skip (starting at 0) before returning results.",
+                    "title": "Offset"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Limits the number of results from the response. Default: 100",
+                    "title": "Limit"
+                },
+                "order_by": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "CSV of sorting order metrics. Valid Options: creation_date, average_rating, or verified_guest followed by .asc or .desc.",
+                    "title": "Order By"
+                },
+                "only_verified_guests": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Set on to only include only reviews with verified_guests. A verified guest is a guest that has had a review verified by aaa. Valid Options: 0 = Off, 1 = On.",
+                    "title": "Only Verified Guests"
+                }
+            },
+            "required": [
+                "hotel_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_express_results",
+        "description": "Provides discounted Express (Cached) and Closed User Group (Live) Rates using the getExpress.Results endpoint.",
+        "parameters": {
+            "properties": {
+                "check_in": {
+                    "description": "Check In Date (YYYY-MM-DD or MM/DD/YYYY)",
+                    "title": "Check In",
+                    "type": "string"
+                },
+                "check_out": {
+                    "description": "Check In Date (YYYY-MM-DD or MM/DD/YYYY)",
+                    "title": "Check Out",
+                    "type": "string"
+                },
+                "rate_limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number passed to limit the number of rates returned. Defaults to returning all available rates",
+                    "title": "Rate Limit"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Limits the number of results from the response. Default: 100",
+                    "title": "Limit"
+                },
+                "radius": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Radius in miles the results are from",
+                    "title": "Radius"
+                },
+                "limit_to_country": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Limits results to country provided. Valid Options: true or false.",
+                    "title": "Limit To Country"
+                },
+                "rate_identifier": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A toggle to show if rate identifier is being passed. Valid Options: 0 = false, 1 = true. Rate is a string that is set for each hotel and holds all the information regarding the rate that we send to priceline.",
+                    "title": "Rate Identifier"
+                },
+                "multiple_deals": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Multi Rates are provided Valid Options: 0 = false, 1 = true.",
+                    "title": "Multiple Deals"
+                },
+                "sid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Session ID. Random string",
+                    "title": "Sid"
+                },
+                "language": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Language code: en-US, es-ES, fr-FR, pt-BR",
+                    "title": "Language"
+                },
+                "adults": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The total number of adult occupants for all rooms requested. Used with children parameter to determine occupancy. Example: Two rooms, each with one adult and one child occupants, adults=2 and children=2",
+                    "title": "Adults"
+                },
+                "hotel_ids": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Comma separated string of PPN hotel ids (Semi Opaque Only)",
+                    "title": "Hotel Ids"
+                },
+                "rooms": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of rooms required for all occupants",
+                    "title": "Rooms"
+                },
+                "country_code": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Pass the user s country to see rates with regional pricing. This is a two character ISO Alpha-2 country code.",
+                    "title": "Country Code"
+                },
+                "sort_by": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Sort results by a given option. Default sort is by guest_score. Valid Options: gs = guest_score, sr = star_rating, lp = lowest_price, hp = highest_price, ds = distance, mp = most_popular.",
+                    "title": "Sort By"
+                },
+                "currency": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Requested currency for the results. ISO 4217 format.",
+                    "title": "Currency"
+                },
+                "latitude": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search for property availability around a specific latitude coordinate.",
+                    "title": "Latitude"
+                },
+                "output_version": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Enum: 1 2 3 4 Default: 3",
+                    "title": "Output Version"
+                },
+                "children": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The total number of child occupants for all rooms requested. Used with adults parameter to determine occupancy. Example: Two rooms, each with one adult and one child occupants, adults=2 and children=2",
+                    "title": "Children"
+                },
+                "city_id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Accepts a single PPN City ID.)",
+                    "title": "City Id"
+                },
+                "airport_code": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Accepts a 3-character IATA airport code.",
+                    "title": "Airport Code"
+                },
+                "longitude": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search for property availability around a specific longitude coordinate",
+                    "title": "Longitude"
+                }
+            },
+            "required": [
+                "check_in",
+                "check_out"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "auto_suggest",
+        "description": "This API will provide a list of possible cities and hotels for a given search string",
+        "parameters": {
+            "properties": {
+                "string": {
+                    "description": "Search string that will enable a list of selection to be listed to the traveller.",
+                    "title": "String",
+                    "type": "string"
+                },
+                "order": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Method of ordering the results of the search. Valid options: asc or desc.",
+                    "title": "Order"
+                },
+                "get_cities": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include cities in search results. Valid Options: True or False.",
+                    "title": "Get Cities"
+                },
+                "get_airports": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include airports in search results. Valid Options: True or False.",
+                    "title": "Get Airports"
+                },
+                "combine_regions": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Enables the spell check option for the search string using either true or false.",
+                    "title": "Combine Regions"
+                },
+                "spellcheck": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Enables the spell check option for the search string using either true or false.",
+                    "title": "Spellcheck"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Enum: rank, name. Method of sorting the results. Valid options: rank, name",
+                    "title": "Sort"
+                },
+                "show_all_cities": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Will filter out cities with no hotels. Valid Options: False = filter out cities without hotels, True = show cities with and without hotels.",
+                    "title": "Show All Cities"
+                },
+                "get_hotels": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include hotels in search results. Valid Options: True or False.",
+                    "title": "Get Hotels"
+                },
+                "max_results": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number passed is the maximum number of results returned.",
+                    "title": "Max Results"
+                },
+                "get_pois": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include Points of Interest in search results. Valid Options: True or False",
+                    "title": "Get Pois"
+                },
+                "get_regions": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include Regions in search results. Valid Options: True or False.",
+                    "title": "Get Regions"
+                }
+            },
+            "required": [
+                "string"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "hotel_photos",
+        "description": "This API returns a list of photos per hotel",
+        "parameters": {
+            "properties": {
+                "hotel_ids": {
+                    "description": "Comma separated string of PPN hotel ids (Semi Opaque Only)",
+                    "title": "Hotel Ids",
+                    "type": "string"
+                },
+                "image_size": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The size of the image returned. Valid Options: small (60px), medium(300 to 312px) or large(500 to 800px)",
+                    "title": "Image Size"
+                }
+            },
+            "required": [
+                "hotel_ids"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "express_contract",
+        "description": "Provides the hotel inventory and corresponding rates for Express (cache) or Closed User Group (live)",
+        "parameters": {
+            "properties": {
+                "language": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Language code: en-US, es-ES, fr-FR, pt-BR",
+                    "title": "Language"
+                },
+                "country_code": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Pass the user s country to see rates with regional pricing. This is a two character ISO Alpha-2 country code.",
+                    "title": "Country Code"
+                },
+                "rate_identifier": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A toggle to show if rate identifier is being passed. Valid Options: 0 = false, 1 = true. Rate is a string that is set for each hotel and holds all the information regarding the rate that we send to priceline.",
+                    "title": "Rate Identifier"
+                },
+                "output_version": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Enum: 1 2 3 4 Default: 3",
+                    "title": "Output Version"
+                },
+                "ppn_bundle": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "ppn_bundle is a unique ID that ppn uses to identify a specific rate",
+                    "title": "Ppn Bundle"
+                },
+                "sid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Session ID. Random string",
+                    "title": "Sid"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "download_filter_amenities",
+        "description": "Downloads an Amenity list filtered",
+        "parameters": {
+            "properties": {
+                "resume_key": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Resume results from given ID.",
+                    "title": "Resume Key"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Limits the number of results from the response. Default: 100",
+                    "title": "Limit"
+                }
+            },
+            "type": "object"
+        }
+    }
+]

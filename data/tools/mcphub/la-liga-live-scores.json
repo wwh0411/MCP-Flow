@@ -1,0 +1,912 @@
+[
+    {
+        "name": "team",
+        "description": "Returns info about the team",
+        "parameters": {
+            "properties": {
+                "name": {
+                    "description": "",
+                    "title": "Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "venue",
+        "description": "Returns venue data",
+        "parameters": {
+            "properties": {
+                "name": {
+                    "description": "",
+                    "title": "Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "referees_statistics",
+        "description": "Referees statistics",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "match_statistics",
+        "description": "Returns match statistics",
+        "parameters": {
+            "properties": {
+                "team1": {
+                    "description": "Home team name",
+                    "title": "Team1",
+                    "type": "string"
+                },
+                "team2": {
+                    "description": "Away team name",
+                    "title": "Team2",
+                    "type": "string"
+                },
+                "live": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Returns data for a playing match (default false)",
+                    "title": "Live"
+                }
+            },
+            "required": [
+                "team1",
+                "team2"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "match_scorers",
+        "description": "Return scorers for a match",
+        "parameters": {
+            "properties": {
+                "team1": {
+                    "description": "Home team name",
+                    "title": "Team1",
+                    "type": "string"
+                },
+                "team2": {
+                    "description": "Away team name",
+                    "title": "Team2",
+                    "type": "string"
+                },
+                "live": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Returns data for a playing match (default false)",
+                    "title": "Live"
+                }
+            },
+            "required": [
+                "team1",
+                "team2"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "league_table",
+        "description": "Return current league table",
+        "parameters": {
+            "properties": {
+                "fromdate": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Compute the table only with matches played fromdate (format mmddyyyy)",
+                    "title": "Fromdate"
+                },
+                "todate": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Compute the tables only with matches played todate (format mmddyyyy)",
+                    "title": "Todate"
+                },
+                "to": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Optional parameter to specify the last match number to consider to compute the table (default last match number played registered on system)",
+                    "title": "To"
+                },
+                "_from": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Optional parameter to specify the first match number to use to compute the table (default 1)",
+                    "title": "From"
+                },
+                "time": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Let to compute the table considering only the first half (FH) or the second time (SH) results. Default is full time (FT).",
+                    "title": "Time"
+                },
+                "season": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Season code (default 2016-17)",
+                    "title": "Season"
+                },
+                "mode": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Optional parameter to restrict the table compute on home or away games (default all)",
+                    "title": "Mode"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "top_scorers",
+        "description": "Returns top scorers for the league",
+        "parameters": {
+            "properties": {
+                "how": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Return only goals scored according the how parameter. Its value can be: left, right, head or any, that is the default.",
+                    "title": "How"
+                },
+                "fromdate": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Compute the table only with matches played fromdate (format mmddyyyy)",
+                    "title": "Fromdate"
+                },
+                "todate": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Compute the table only with matches played todate (format mmddyyyy)",
+                    "title": "Todate"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Page result to return. Default is 1 that are results from 1 to 5 (max. value is 20).",
+                    "title": "Page"
+                },
+                "to": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Optional parameter to specify the last match number to consider to compute the result (default last match number played registered on system)",
+                    "title": "To"
+                },
+                "mode": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Optional parameter to restrict the table compute on home or away games (default all)",
+                    "title": "Mode"
+                },
+                "player": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Optional parameter to get goals number only for the player name specified",
+                    "title": "Player"
+                },
+                "team": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Team name",
+                    "title": "Team"
+                },
+                "_from": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Optional parameter to specify the first match number to use to compute the result (default 1)",
+                    "title": "From"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "player_stats_for_amatch",
+        "description": "Return the player's statistics for a match",
+        "parameters": {
+            "properties": {
+                "player": {
+                    "description": "Player name",
+                    "title": "Player",
+                    "type": "string"
+                },
+                "team1": {
+                    "description": "Home team name",
+                    "title": "Team1",
+                    "type": "string"
+                },
+                "team2": {
+                    "description": "Away team name",
+                    "title": "Team2",
+                    "type": "string"
+                },
+                "live": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Returns data for a playing match (default false)",
+                    "title": "Live"
+                }
+            },
+            "required": [
+                "player",
+                "team1",
+                "team2"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "player_details",
+        "description": "Returns all data about a player. Available only with ULTRA and MEGA plans!",
+        "parameters": {
+            "properties": {
+                "player": {
+                    "description": "Player name",
+                    "title": "Player",
+                    "type": "string"
+                },
+                "team": {
+                    "description": "Team name",
+                    "title": "Team",
+                    "type": "string"
+                },
+                "honours": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Return only the honours for the player (default false)",
+                    "title": "Honours"
+                }
+            },
+            "required": [
+                "player",
+                "team"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "lineups_and_substitutes_for_agame",
+        "description": "Return lineups, substitutes and coaches for a game.",
+        "parameters": {
+            "properties": {
+                "team1": {
+                    "description": "Home team name",
+                    "title": "Team1",
+                    "type": "string"
+                },
+                "team2": {
+                    "description": "Away team name",
+                    "title": "Team2",
+                    "type": "string"
+                },
+                "live": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Returns data for a playing match (default false)",
+                    "title": "Live"
+                }
+            },
+            "required": [
+                "team1",
+                "team2"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "match_events",
+        "description": "Returns events l(yellow and red cards, substitutions, missing penalties and formation module...) for a match",
+        "parameters": {
+            "properties": {
+                "team1": {
+                    "description": "Home team name",
+                    "title": "Team1",
+                    "type": "string"
+                },
+                "team2": {
+                    "description": "Away team name",
+                    "title": "Team2",
+                    "type": "string"
+                },
+                "live": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Returns data for a playing match (default false)",
+                    "title": "Live"
+                }
+            },
+            "required": [
+                "team1",
+                "team2"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "season_matches_results",
+        "description": "Return Season matches results",
+        "parameters": {
+            "properties": {
+                "team1": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Returns all matches with team1",
+                    "title": "Team1"
+                },
+                "team2": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Return all matches with team2",
+                    "title": "Team2"
+                },
+                "date": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Returns all matches for the date (format mmddyyyy)",
+                    "title": "Date"
+                },
+                "season": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Season code (default 2016-17)",
+                    "title": "Season"
+                },
+                "matchday": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Return all the games results for the match day specified.",
+                    "title": "Matchday"
+                },
+                "live": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Returns results for playing matches (live) (default false). Overwrite all the others parameters.",
+                    "title": "Live"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "league_players",
+        "description": "Returns all players for a team",
+        "parameters": {
+            "properties": {
+                "team": {
+                    "description": "Team name",
+                    "title": "Team",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "team"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "missing_players_for_amatch",
+        "description": "Return missing players for a match",
+        "parameters": {
+            "properties": {
+                "team1": {
+                    "description": "Home team name",
+                    "title": "Team1",
+                    "type": "string"
+                },
+                "team2": {
+                    "description": "Away team name",
+                    "title": "Team2",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "team1",
+                "team2"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "prediction",
+        "description": "Returns match result perdiction (use an AI deep learning engine)",
+        "parameters": {
+            "properties": {
+                "team2": {
+                    "description": "Away team name",
+                    "title": "Team2",
+                    "type": "string"
+                },
+                "team1": {
+                    "description": "Home team name",
+                    "title": "Team1",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "team2",
+                "team1"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "bookmakers_list",
+        "description": "Return the list of the available bookmakers for a match",
+        "parameters": {
+            "properties": {
+                "team2": {
+                    "description": "Away Team",
+                    "title": "Team2",
+                    "type": "string"
+                },
+                "team1": {
+                    "description": "Home team",
+                    "title": "Team1",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "team2",
+                "team1"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "odds_list",
+        "description": "Returns the available odds for a match and a bookmaker",
+        "parameters": {
+            "properties": {
+                "team2": {
+                    "description": "Away team",
+                    "title": "Team2",
+                    "type": "string"
+                },
+                "team1": {
+                    "description": "Home team",
+                    "title": "Team1",
+                    "type": "string"
+                },
+                "bookmaker": {
+                    "description": "Bookmaker name",
+                    "title": "Bookmaker",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "team2",
+                "team1",
+                "bookmaker"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "odd_quotas",
+        "description": "Returns quotas for an odd a match and a bookmaker",
+        "parameters": {
+            "properties": {
+                "team2": {
+                    "description": "Away team",
+                    "title": "Team2",
+                    "type": "string"
+                },
+                "team1": {
+                    "description": "Home team",
+                    "title": "Team1",
+                    "type": "string"
+                },
+                "odd": {
+                    "description": "Odd name",
+                    "title": "Odd",
+                    "type": "string"
+                },
+                "bookmaker": {
+                    "description": "Bookmaker name",
+                    "title": "Bookmaker",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "team2",
+                "team1",
+                "odd",
+                "bookmaker"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "bet_stats",
+        "description": "Returns aggregate data about results, goal-nogoal, underover, 1x2 and totalgoals to support your bet activities",
+        "parameters": {
+            "properties": {
+                "bet": {
+                    "description": "Type of data required, result, totalgoals,underover,1x2,goalnogoal",
+                    "title": "Bet",
+                    "type": "string"
+                },
+                "fromdate": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only matches fromdate (format mmddyyyy)",
+                    "title": "Fromdate"
+                },
+                "handicap": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Handicap values (only for 1x2 bet)",
+                    "title": "Handicap"
+                },
+                "mode": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Together with team parameter, let you to select only games where team has played home, away or all (default)",
+                    "title": "Mode"
+                },
+                "team": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Team name",
+                    "title": "Team"
+                },
+                "time": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Let you to select only first half (FH) result, second half (SH) or full time (FT) default",
+                    "title": "Time"
+                },
+                "todate": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only matches todate (format mmddyyyy)",
+                    "title": "Todate"
+                },
+                "when": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Let you to select only games with win, loss, draw or all (default)",
+                    "title": "When"
+                },
+                "over": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Over values limit, mandatory for underover bet",
+                    "title": "Over"
+                }
+            },
+            "required": [
+                "bet"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "activate_webhook",
+        "description": "Activate a webhook registered with the subscribe endpoint. Not available for BASIC plan.",
+        "parameters": {
+            "properties": {
+                "token": {
+                    "description": "Token",
+                    "title": "Token",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "token"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "events_subscribed",
+        "description": "Returns all the events subscribed. Not available for BASIC plan.",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "subscribe",
+        "description": "Register to an event for push notifications. Not available for BASIC plan.",
+        "parameters": {
+            "properties": {
+                "data": {
+                    "additionalProperties": true,
+                    "default": null,
+                    "description": "",
+                    "title": "Data",
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        }
+    }
+]

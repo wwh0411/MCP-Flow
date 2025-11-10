@@ -1,0 +1,216 @@
+[
+    {
+        "name": "get_user_info",
+        "description": "Get information about a Reddit user.\n\n    Args:\n        username: The username of the Reddit user to get info for\n\n    Returns:\n        Dictionary containing user information with the following structure:\n        {\n            'username': str,  # User's username\n            'created_utc': float,  # Account creation timestamp\n            'comment_karma': int,  # User's comment karma\n            'link_karma': int,  # User's post/link karma\n            'has_verified_email': bool,  # Whether email is verified\n            'is_mod': bool,  # Whether user is a moderator\n            'is_gold': bool,  # Whether user has Reddit premium\n            'has_subscribed': bool,  # Whether user has subscribed to premium\n            'is_employee': bool,  # Whether user is a Reddit employee\n            'over_18': bool,  # Whether user is marked as NSFW\n            'is_suspended': bool,  # Whether account is suspended\n            'suspension_expiration_utc': Optional[float],  # When suspension ends if suspended\n            'total_karma': int,  # Total karma (comments + posts)\n            'subreddit': Optional[Dict],  # User's profile subreddit info if exists\n        }\n\n    Raises:\n        ValueError: If the username is invalid or not found\n        RuntimeError: For other errors during the operation\n    ",
+        "parameters": {
+            "properties": {
+                "username": {
+                    "title": "Username",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "username"
+            ],
+            "title": "get_user_infoArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_top_posts",
+        "description": "Get top posts from a subreddit.\n\n    Args:\n        subreddit: Name of the subreddit (with or without 'r/' prefix)\n        time_filter: Time period to filter posts (e.g. \"day\", \"week\", \"month\", \"year\", \"all\")\n        limit: Number of posts to fetch (1-100)\n\n    Returns:\n        Dictionary containing structured post information with the following structure:\n        {\n            'subreddit': str,  # Subreddit name\n            'time_filter': str,  # The time period used for filtering\n            'posts': [  # List of posts, each with the following structure:\n                {\n                    'id': str,  # Post ID\n                    'title': str,  # Post title\n                    'author': str,  # Author's username\n                    'score': int,  # Post score (upvotes - downvotes)\n                    'upvote_ratio': float,  # Ratio of upvotes to total votes\n                    'num_comments': int,  # Number of comments\n                    'created_utc': float,  # Post creation timestamp\n                    'url': str,  # URL to the post\n                    'permalink': str,  # Relative URL to the post\n                    'is_self': bool,  # Whether it's a self (text) post\n                    'selftext': str,  # Content of self post (if any)\n                    'link_url': str,  # URL for link posts (if any)\n                    'over_18': bool,  # Whether marked as NSFW\n                    'spoiler': bool,  # Whether marked as spoiler\n                    'stickied': bool,  # Whether stickied in the subreddit\n                    'locked': bool,  # Whether comments are locked\n                    'distinguished': Optional[str],  # Distinguishing type (e.g., 'moderator')\n                    'flair': Optional[Dict],  # Post flair information if any\n                },\n                ...\n            ],\n            'metadata': {\n                'fetched_at': float,  # Timestamp when data was fetched\n                'post_count': int,  # Number of posts returned\n            }\n        }\n\n    Raises:\n        ValueError: If subreddit is invalid or time_filter is not valid\n        RuntimeError: For other errors during the operation\n    ",
+        "parameters": {
+            "properties": {
+                "subreddit": {
+                    "title": "Subreddit",
+                    "type": "string"
+                },
+                "time_filter": {
+                    "default": "week",
+                    "title": "Time Filter",
+                    "type": "string"
+                },
+                "limit": {
+                    "default": 10,
+                    "title": "Limit",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "subreddit"
+            ],
+            "title": "get_top_postsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_subreddit_info",
+        "description": "Get information about a subreddit.\n\n    Args:\n        subreddit_name: Name of the subreddit (with or without 'r/' prefix)\n\n    Returns:\n        Dictionary containing subreddit information\n\n    Raises:\n        ValueError: If subreddit_name is invalid or subreddit not found\n        RuntimeError: For other errors during the operation\n    ",
+        "parameters": {
+            "properties": {
+                "subreddit_name": {
+                    "title": "Subreddit Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "subreddit_name"
+            ],
+            "title": "get_subreddit_infoArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_trending_subreddits",
+        "description": "Get currently trending subreddits.\n\n    Args:\n        limit: Maximum number of trending subreddits to return (1-50)\n\n    Returns:\n        Dictionary containing list of trending subreddits with their basic info\n\n    Raises:\n        ValueError: If limit is invalid\n        RuntimeError: For errors during the operation\n    ",
+        "parameters": {
+            "properties": {
+                "limit": {
+                    "default": 5,
+                    "title": "Limit",
+                    "type": "integer"
+                }
+            },
+            "title": "get_trending_subredditsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_subreddit_stats",
+        "description": "Get statistics and information about a subreddit.\n\n    Args:\n        subreddit: Name of the subreddit (with or without 'r/' prefix)\n\n    Returns:\n        Dictionary containing structured subreddit information with the following structure:\n        {\n            'id': str,  # Subreddit ID (e.g., '2qgzt')\n            'display_name': str,  # Subreddit display name (without r/ prefix)\n            'title': str,  # Subreddit title\n            'public_description': str,  # Public description\n            'description': str,  # Full description (can include markdown)\n            'subscribers': int,  # Number of subscribers\n            'active_user_count': Optional[int],  # Currently active users if available\n            'created_utc': float,  # Creation timestamp (UTC)\n            'over18': bool,  # Whether marked as NSFW\n            'submission_type': str,  # Allowed submission types (any, link, self)\n            'allow_images': bool,  # Whether image uploads are allowed\n            'allow_videos': bool,  # Whether video uploads are allowed\n            'allow_polls': bool,  # Whether polls are allowed\n            'spoilers_enabled': bool,  # Whether spoiler tags are enabled\n            'wikienabled': bool,  # Whether wiki is enabled\n            'user_is_banned': bool,  # Whether current user is banned\n            'user_is_moderator': bool,  # Whether current user is a moderator\n            'user_is_subscriber': bool,  # Whether current user is a subscriber\n            'mod_permissions': List[str],  # Moderator permissions if applicable\n            'metadata': {\n                'fetched_at': float,  # Timestamp when data was fetched\n                'url': str,  # Full URL to the subreddit\n                'moderators_count': int,  # Number of moderators\n                'rules': List[Dict],  # Subreddit rules if available\n                'features': Dict[str, bool],  # Enabled subreddit features\n            }\n        }\n\n    Raises:\n        ValueError: If subreddit is invalid or not found\n        RuntimeError: For other errors during the operation\n    ",
+        "parameters": {
+            "properties": {
+                "subreddit": {
+                    "title": "Subreddit",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "subreddit"
+            ],
+            "title": "get_subreddit_statsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "create_post",
+        "description": "Create a new post in a subreddit.\n\n    Args:\n        subreddit: Name of the subreddit to post in (with or without 'r/' prefix)\n        title: Title of the post (max 300 characters)\n        content: Content of the post (text for self posts, URL for link posts)\n        flair: Flair to add to the post. Must be an available flair in the subreddit\n        is_self: Whether this is a self (text) post (True) or link post (False)\n\n    Returns:\n        Dictionary containing information about the created post\n\n    Raises:\n        ValueError: If input validation fails or flair is invalid\n        RuntimeError: For other errors during post creation\n    ",
+        "parameters": {
+            "properties": {
+                "subreddit": {
+                    "title": "Subreddit",
+                    "type": "string"
+                },
+                "title": {
+                    "title": "Title",
+                    "type": "string"
+                },
+                "content": {
+                    "title": "Content",
+                    "type": "string"
+                },
+                "flair": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Flair"
+                },
+                "is_self": {
+                    "default": true,
+                    "title": "Is Self",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "subreddit",
+                "title",
+                "content"
+            ],
+            "title": "create_postArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "reply_to_post",
+        "description": "Post a reply to an existing Reddit post.\n\n    Args:\n        post_id: The ID of the post to reply to (can be full URL, permalink, or just ID)\n        content: The content of the reply (1-10000 characters)\n        subreddit: The subreddit name if known (for validation, with or without 'r/' prefix)\n\n    Returns:\n        Dictionary containing information about the created reply and parent post\n\n    Raises:\n        ValueError: If input validation fails or post is not found\n        RuntimeError: For other errors during reply creation\n    ",
+        "parameters": {
+            "properties": {
+                "post_id": {
+                    "title": "Post Id",
+                    "type": "string"
+                },
+                "content": {
+                    "title": "Content",
+                    "type": "string"
+                },
+                "subreddit": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Subreddit"
+                }
+            },
+            "required": [
+                "post_id",
+                "content"
+            ],
+            "title": "reply_to_postArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_submission_by_url",
+        "description": "Get a Reddit submission by its URL.\n\n    Args:\n        url: The URL of the Reddit submission to retrieve\n\n    Returns:\n        Dictionary containing structured submission information with the following structure:\n        {\n            'id': str,  # Submission ID (e.g., 'abc123')\n            'title': str,  # Submission title\n            'author': str,  # Author's username or '[deleted]' if deleted\n            'subreddit': str,  # Subreddit name\n            'score': int,  # Post score (upvotes - downvotes)\n            'upvote_ratio': float,  # Ratio of upvotes to total votes\n            'num_comments': int,  # Number of comments\n            'created_utc': float,  # Post creation timestamp (UTC)\n            'url': str,  # Full URL to the post\n            'permalink': str,  # Relative URL to the post\n            'is_self': bool,  # Whether it's a self (text) post\n            'selftext': str,  # Content of self post (if any)\n            'selftext_html': Optional[str],  # HTML formatted content\n            'link_url': str,  # URL for link posts (if any)\n            'domain': str,  # Domain of the linked content\n            'over_18': bool,  # Whether marked as NSFW\n            'spoiler': bool,  # Whether marked as spoiler\n            'stickied': bool,  # Whether stickied in the subreddit\n            'locked': bool,  # Whether comments are locked\n            'archived': bool,  # Whether the post is archived\n            'distinguished': Optional[str],  # Distinguishing type (e.g., 'moderator')\n            'flair': Optional[Dict],  # Post flair information if any\n            'media': Optional[Dict],  # Media information if any\n            'preview': Optional[Dict],  # Preview information if available\n            'awards': List[Dict],  # List of awards received\n            'metadata': {\n                'fetched_at': float,  # Timestamp when data was fetched\n                'subreddit_id': str,  # Subreddit full ID\n                'author_id': str,  # Author's full ID if available\n                'is_original_content': bool,  # Whether marked as OC\n                'is_meta': bool,  # Whether marked as meta\n                'is_crosspostable': bool,  # Whether can be crossposted\n                'is_reddit_media_domain': bool,  # Whether media is hosted on Reddit\n                'is_robot_indexable': bool,  # Whether search engines should index\n                'is_created_from_ads_ui': bool,  # Whether created via ads UI\n                'is_video': bool,  # Whether the post is a video\n                'pinned': bool,  # Whether the post is pinned in the subreddit\n                'gilded': int,  # Number of times gilded\n                'total_awards_received': int,  # Total number of awards received\n                'view_count': Optional[int],  # View count if available\n                'visited': bool,  # Whether the current user has visited\n            }\n        }\n\n    Raises:\n        ValueError: If URL is invalid or submission not found\n        RuntimeError: For other errors during the operation\n    ",
+        "parameters": {
+            "properties": {
+                "url": {
+                    "title": "Url",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "title": "get_submission_by_urlArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_submission_by_id",
+        "description": "Get a Reddit submission by its ID.\n\n    Args:\n        submission_id: The ID of the Reddit submission to retrieve (can be full URL or just ID)\n\n    Returns:\n        Dictionary containing structured submission information with the following structure:\n        {\n            'id': str,  # Submission ID (e.g., 'abc123')\n            'title': str,  # Submission title\n            'author': str,  # Author's username or '[deleted]' if deleted\n            'subreddit': str,  # Subreddit name\n            'score': int,  # Post score (upvotes - downvotes)\n            'upvote_ratio': float,  # Ratio of upvotes to total votes\n            'num_comments': int,  # Number of comments\n            'created_utc': float,  # Post creation timestamp (UTC)\n            'url': str,  # Full URL to the post\n            'permalink': str,  # Relative URL to the post\n            'is_self': bool,  # Whether it's a self (text) post\n            'selftext': str,  # Content of self post (if any)\n            'selftext_html': Optional[str],  # HTML formatted content\n            'link_url': str,  # URL for link posts (if any)\n            'domain': str,  # Domain of the linked content\n            'over_18': bool,  # Whether marked as NSFW\n            'spoiler': bool,  # Whether marked as spoiler\n            'stickied': bool,  # Whether stickied in the subreddit\n            'locked': bool,  # Whether comments are locked\n            'archived': bool,  # Whether the post is archived\n            'distinguished': Optional[str],  # Distinguishing type (e.g., 'moderator')\n            'flair': Optional[Dict],  # Post flair information if any\n            'media': Optional[Dict],  # Media information if any\n            'preview': Optional[Dict],  # Preview information if available\n            'awards': List[Dict],  # List of awards received\n            'metadata': {\n                'fetched_at': float,  # Timestamp when data was fetched\n                'subreddit_id': str,  # Subreddit full ID\n                'author_id': str,  # Author's full ID if available\n                'is_original_content': bool,  # Whether marked as OC\n                'is_meta': bool,  # Whether marked as meta\n                'is_crosspostable': bool,  # Whether can be crossposted\n                'is_reddit_media_domain': bool,  # Whether media is hosted on Reddit\n                'is_robot_indexable': bool,  # Whether search engines should index\n                'is_created_from_ads_ui': bool,  # Whether created via ads UI\n                'is_video': bool,  # Whether the post is a video\n                'pinned': bool,  # Whether the post is pinned in the subreddit\n                'gilded': int,  # Number of times gilded\n                'total_awards_received': int,  # Total number of awards received\n                'view_count': Optional[int],  # View count if available\n                'visited': bool,  # Whether the current user has visited\n            }\n        }\n\n    Raises:\n        ValueError: If submission_id is invalid or submission not found\n        RuntimeError: For other errors during the operation\n    ",
+        "parameters": {
+            "properties": {
+                "submission_id": {
+                    "title": "Submission Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "submission_id"
+            ],
+            "title": "get_submission_by_idArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "who_am_i",
+        "description": "Get information about the currently authenticated user.\n\n    Returns:\n        Dictionary containing structured user information with the following structure:\n        {\n            'id': str,  # Full user ID (e.g., 't2_abc123')\n            'name': str,  # Username\n            'created_utc': float,  # Account creation timestamp\n            'comment_karma': int,  # Comment karma\n            'link_karma': int,  # Post/link karma\n            'total_karma': int,  # Total karma (comments + posts)\n            'awardee_karma': int,  # Karma from awards received\n            'awarder_karma': int,  # Karma from awards given\n            'has_verified_email': bool,  # Whether email is verified\n            'is_employee': bool,  # Whether user is a Reddit employee\n            'is_friend': bool,  # Whether user is a friend\n            'is_gold': bool,  # Whether user has Reddit Premium\n            'is_mod': bool,  # Whether user is a moderator\n            'is_suspended': bool,  # Whether account is suspended\n            'verified': bool,  # Whether account is verified\n            'has_subscribed': bool,  # Whether user has subscribed to Premium\n            'snoovatar_img': str,  # URL to snoovatar image\n            'icon_img': str,  # URL to user's icon\n            'pref_show_snoovatar': bool,  # Whether to show snoovatar\n            'snoovatar_size': Optional[List[int]],  # Snoovatar dimensions\n            'subreddit': Optional[Dict],  # User's profile subreddit info\n            'metadata': {\n                'fetched_at': float,  # Timestamp when data was fetched\n                'is_authenticated': bool,  # Whether user is authenticated\n                'is_moderator': bool,  # Whether user is a moderator\n                'has_verified_email': bool,  # Whether email is verified\n                'has_mail': bool,  # Whether user has unread messages\n                'has_mod_mail': bool,  # Whether user has mod mail\n                'has_subscribed': bool,  # Whether user has subscribed to Premium\n                'in_chat': bool,  # Whether user is in chat\n                'in_redesign_beta': bool,  # Whether user is in redesign beta\n                'new_modmail_exists': bool,  # Whether user has new modmail\n                'pref_no_profanity': bool,  # Whether to filter profanity\n                'suspension_expiration_utc': Optional[float],  # When suspension ends if suspended\n            }\n        }\n\n    Raises:\n        ValueError: If user authentication is not available\n        RuntimeError: For other errors during the operation\n    ",
+        "parameters": {
+            "properties": {},
+            "title": "who_am_iArguments",
+            "type": "object"
+        }
+    }
+]

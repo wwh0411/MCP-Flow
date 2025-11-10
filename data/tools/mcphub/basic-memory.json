@@ -1,0 +1,727 @@
+[
+    {
+        "name": "delete_note",
+        "description": "Delete a note by title or permalink",
+        "parameters": {
+            "properties": {
+                "identifier": {
+                    "title": "Identifier",
+                    "type": "string"
+                },
+                "project": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Project"
+                }
+            },
+            "required": [
+                "identifier"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "read_content",
+        "description": "Read a file's raw content by path or permalink",
+        "parameters": {
+            "properties": {
+                "path": {
+                    "title": "Path",
+                    "type": "string"
+                },
+                "project": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Project"
+                }
+            },
+            "required": [
+                "path"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "build_context",
+        "description": "Build context from a memory:// URI to continue conversations naturally.\n    \n    Use this to follow up on previous discussions or explore related topics.\n    \n    Memory URL Format:\n    - Use paths like \"folder/note\" or \"memory://folder/note\" \n    - Pattern matching: \"folder/*\" matches all notes in folder\n    - Valid characters: letters, numbers, hyphens, underscores, forward slashes\n    - Avoid: double slashes (//), angle brackets (<>), quotes, pipes (|)\n    - Examples: \"specs/search\", \"projects/basic-memory\", \"notes/*\"\n    \n    Timeframes support natural language like:\n    - \"2 days ago\", \"last week\", \"today\", \"3 months ago\"\n    - Or standard formats like \"7d\", \"24h\"\n    ",
+        "parameters": {
+            "properties": {
+                "url": {
+                    "maxLength": 2028,
+                    "minLength": 1,
+                    "title": "Url",
+                    "type": "string"
+                },
+                "depth": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": 1,
+                    "title": "Depth"
+                },
+                "timeframe": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": "7d",
+                    "title": "Timeframe"
+                },
+                "page": {
+                    "default": 1,
+                    "title": "Page",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "default": 10,
+                    "title": "Page Size",
+                    "type": "integer"
+                },
+                "max_related": {
+                    "default": 10,
+                    "title": "Max Related",
+                    "type": "integer"
+                },
+                "project": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Project"
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "recent_activity",
+        "description": "Get recent activity from across the knowledge base.\n\n    Timeframe supports natural language formats like:\n    - \"2 days ago\"  \n    - \"last week\"\n    - \"yesterday\" \n    - \"today\"\n    - \"3 weeks ago\"\n    Or standard formats like \"7d\"\n    ",
+        "parameters": {
+            "properties": {
+                "type": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        }
+                    ],
+                    "default": "",
+                    "title": "Type"
+                },
+                "depth": {
+                    "default": 1,
+                    "title": "Depth",
+                    "type": "integer"
+                },
+                "timeframe": {
+                    "default": "7d",
+                    "title": "Timeframe",
+                    "type": "string"
+                },
+                "page": {
+                    "default": 1,
+                    "title": "Page",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "default": 10,
+                    "title": "Page Size",
+                    "type": "integer"
+                },
+                "max_related": {
+                    "default": 10,
+                    "title": "Max Related",
+                    "type": "integer"
+                },
+                "project": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Project"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_notes",
+        "description": "Search across all content in the knowledge base with advanced syntax support.",
+        "parameters": {
+            "properties": {
+                "query": {
+                    "title": "Query",
+                    "type": "string"
+                },
+                "page": {
+                    "default": 1,
+                    "title": "Page",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "default": 10,
+                    "title": "Page Size",
+                    "type": "integer"
+                },
+                "search_type": {
+                    "default": "text",
+                    "title": "Search Type",
+                    "type": "string"
+                },
+                "types": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Types"
+                },
+                "entity_types": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Entity Types"
+                },
+                "after_date": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "After Date"
+                },
+                "project": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Project"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "read_note",
+        "description": "Read a markdown note by title or permalink.",
+        "parameters": {
+            "properties": {
+                "identifier": {
+                    "title": "Identifier",
+                    "type": "string"
+                },
+                "page": {
+                    "default": 1,
+                    "title": "Page",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "default": 10,
+                    "title": "Page Size",
+                    "type": "integer"
+                },
+                "project": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Project"
+                }
+            },
+            "required": [
+                "identifier"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "view_note",
+        "description": "View a note as a formatted artifact for better readability.",
+        "parameters": {
+            "properties": {
+                "identifier": {
+                    "title": "Identifier",
+                    "type": "string"
+                },
+                "page": {
+                    "default": 1,
+                    "title": "Page",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "default": 10,
+                    "title": "Page Size",
+                    "type": "integer"
+                },
+                "project": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Project"
+                }
+            },
+            "required": [
+                "identifier"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "write_note",
+        "description": "Create or update a markdown note. Returns a markdown formatted summary of the semantic content.",
+        "parameters": {
+            "properties": {
+                "title": {
+                    "title": "Title",
+                    "type": "string"
+                },
+                "content": {
+                    "title": "Content",
+                    "type": "string"
+                },
+                "folder": {
+                    "title": "Folder",
+                    "type": "string"
+                },
+                "tags": {
+                    "default": null,
+                    "title": "Tags"
+                },
+                "entity_type": {
+                    "default": "note",
+                    "title": "Entity Type",
+                    "type": "string"
+                },
+                "project": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Project"
+                }
+            },
+            "required": [
+                "title",
+                "content",
+                "folder"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "canvas",
+        "description": "Create an Obsidian canvas file to visualize concepts and connections.",
+        "parameters": {
+            "properties": {
+                "nodes": {
+                    "items": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "title": "Nodes",
+                    "type": "array"
+                },
+                "edges": {
+                    "items": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "title": "Edges",
+                    "type": "array"
+                },
+                "title": {
+                    "title": "Title",
+                    "type": "string"
+                },
+                "folder": {
+                    "title": "Folder",
+                    "type": "string"
+                },
+                "project": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Project"
+                }
+            },
+            "required": [
+                "nodes",
+                "edges",
+                "title",
+                "folder"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_directory",
+        "description": "List directory contents with filtering and depth control.",
+        "parameters": {
+            "properties": {
+                "dir_name": {
+                    "default": "/",
+                    "title": "Dir Name",
+                    "type": "string"
+                },
+                "depth": {
+                    "default": 1,
+                    "title": "Depth",
+                    "type": "integer"
+                },
+                "file_name_glob": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "File Name Glob"
+                },
+                "project": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Project"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "edit_note",
+        "description": "Edit an existing markdown note using various operations like append, prepend, find_replace, or replace_section.",
+        "parameters": {
+            "properties": {
+                "identifier": {
+                    "title": "Identifier",
+                    "type": "string"
+                },
+                "operation": {
+                    "title": "Operation",
+                    "type": "string"
+                },
+                "content": {
+                    "title": "Content",
+                    "type": "string"
+                },
+                "section": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Section"
+                },
+                "find_text": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Find Text"
+                },
+                "expected_replacements": {
+                    "default": 1,
+                    "title": "Expected Replacements",
+                    "type": "integer"
+                },
+                "project": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Project"
+                }
+            },
+            "required": [
+                "identifier",
+                "operation",
+                "content"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "move_note",
+        "description": "Move a note to a new location, updating database and maintaining links.",
+        "parameters": {
+            "properties": {
+                "identifier": {
+                    "title": "Identifier",
+                    "type": "string"
+                },
+                "destination_path": {
+                    "title": "Destination Path",
+                    "type": "string"
+                },
+                "project": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Project"
+                }
+            },
+            "required": [
+                "identifier",
+                "destination_path"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "sync_status",
+        "description": "Check the status of file synchronization and background operations.\n    \n    Use this tool to:\n    - Check if file sync is in progress or completed\n    - Get detailed sync progress information  \n    - Understand if your files are fully indexed\n    - Get specific error details if sync operations failed\n    - Monitor initial project setup and legacy migration\n    \n    This covers all sync operations including:\n    - Initial project setup and file indexing\n    - Legacy project migration to unified database\n    - Ongoing file monitoring and updates\n    - Background processing of knowledge graphs\n    ",
+        "parameters": {
+            "properties": {
+                "project": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Project"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_memory_projects",
+        "description": "List all available projects with their status.\n\nShows all Basic Memory projects that are available, indicating which one\nis currently active and which is the default.\n\nReturns:\n    Formatted list of projects with status indicators\n\nExample:\n    list_memory_projects()",
+        "parameters": {
+            "properties": {
+                "_compatibility": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Compatibility"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "switch_project",
+        "description": "Switch to a different project context.\n\nChanges the active project context for all subsequent tool calls.\nShows a project summary after switching successfully.\n\nArgs:\n    project_name: Name of the project to switch to\n\nReturns:\n    Confirmation message with project summary\n\nExample:\n    switch_project(\"work-notes\")\n    switch_project(\"personal-journal\")",
+        "parameters": {
+            "properties": {
+                "project_name": {
+                    "title": "Project Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "project_name"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_current_project",
+        "description": "Show the currently active project and basic stats.\n\nDisplays which project is currently active and provides basic information\nabout it.\n\nReturns:\n    Current project name and basic statistics\n\nExample:\n    get_current_project()",
+        "parameters": {
+            "properties": {
+                "_compatibility": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Compatibility"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "set_default_project",
+        "description": "Set default project in config. Requires restart to take effect.\n\nUpdates the configuration to use a different default project. This change\nonly takes effect after restarting the Basic Memory server.\n\nArgs:\n    project_name: Name of the project to set as default\n\nReturns:\n    Confirmation message about config update\n\nExample:\n    set_default_project(\"work-notes\")",
+        "parameters": {
+            "properties": {
+                "project_name": {
+                    "title": "Project Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "project_name"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "create_memory_project",
+        "description": "Create a new Basic Memory project.\n\nCreates a new project with the specified name and path. The project directory\nwill be created if it doesn't exist. Optionally sets the new project as default.\n\nArgs:\n    project_name: Name for the new project (must be unique)\n    project_path: File system path where the project will be stored\n    set_default: Whether to set this project as the default (optional, defaults to False)\n\nReturns:\n    Confirmation message with project details\n\nExample:\n    create_memory_project(\"my-research\", \"~/Documents/research\")\n    create_memory_project(\"work-notes\", \"/home/user/work\", set_default=True)",
+        "parameters": {
+            "properties": {
+                "project_name": {
+                    "title": "Project Name",
+                    "type": "string"
+                },
+                "project_path": {
+                    "title": "Project Path",
+                    "type": "string"
+                },
+                "set_default": {
+                    "default": false,
+                    "title": "Set Default",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "project_name",
+                "project_path"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "delete_project",
+        "description": "Delete a Basic Memory project.\n\nRemoves a project from the configuration and database. This does NOT delete\nthe actual files on disk - only removes the project from Basic Memory's\nconfiguration and database records.\n\nArgs:\n    project_name: Name of the project to delete\n\nReturns:\n    Confirmation message about project deletion\n\nExample:\n    delete_project(\"old-project\")\n\nWarning:\n    This action cannot be undone. The project will need to be re-added\n    to access its content through Basic Memory again.",
+        "parameters": {
+            "properties": {
+                "project_name": {
+                    "title": "Project Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "project_name"
+            ],
+            "type": "object"
+        }
+    }
+]

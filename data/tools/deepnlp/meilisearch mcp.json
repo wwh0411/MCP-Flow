@@ -1,0 +1,537 @@
+[
+    {
+        "name": "meilisearch_get-connection-settings",
+        "description": "Get current Meilisearch connection settings",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false
+        }
+    },
+    {
+        "name": "meilisearch_update-connection-settings",
+        "description": "Update Meilisearch connection settings",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string"
+                },
+                "api_key": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false
+        }
+    },
+    {
+        "name": "meilisearch_health-check",
+        "description": "Check Meilisearch server health",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false
+        }
+    },
+    {
+        "name": "meilisearch_get-version",
+        "description": "Get Meilisearch version information",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false
+        }
+    },
+    {
+        "name": "meilisearch_get-stats",
+        "description": "Get database statistics",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false
+        }
+    },
+    {
+        "name": "meilisearch_create-index",
+        "description": "Create a new Meilisearch index",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "uid": {
+                    "type": "string"
+                },
+                "primaryKey": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "uid"
+            ],
+            "additionalProperties": false
+        }
+    },
+    {
+        "name": "meilisearch_list-indexes",
+        "description": "List all Meilisearch indexes",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false
+        }
+    },
+    {
+        "name": "meilisearch_delete-index",
+        "description": "Delete a Meilisearch index",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "uid": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "uid"
+            ],
+            "additionalProperties": false
+        }
+    },
+    {
+        "name": "meilisearch_get-documents",
+        "description": "Get documents from an index",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "indexUid": {
+                    "type": "string"
+                },
+                "offset": {
+                    "type": "integer"
+                },
+                "limit": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "indexUid"
+            ],
+            "additionalProperties": false
+        }
+    },
+    {
+        "name": "meilisearch_add-documents",
+        "description": "Add documents to an index",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "indexUid": {
+                    "type": "string"
+                },
+                "documents": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": true
+                    }
+                },
+                "primaryKey": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "indexUid",
+                "documents"
+            ],
+            "additionalProperties": false
+        }
+    },
+    {
+        "name": "meilisearch_get-settings",
+        "description": "Get current settings for an index",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "indexUid": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "indexUid"
+            ],
+            "additionalProperties": false
+        }
+    },
+    {
+        "name": "meilisearch_update-settings",
+        "description": "Update settings for an index",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "indexUid": {
+                    "type": "string"
+                },
+                "settings": {
+                    "type": "object",
+                    "additionalProperties": true
+                }
+            },
+            "required": [
+                "indexUid",
+                "settings"
+            ],
+            "additionalProperties": false
+        }
+    },
+    {
+        "name": "meilisearch_search",
+        "description": "Search through Meilisearch indices. If indexUid is not provided, it will search across all indices.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string"
+                },
+                "indexUid": {
+                    "type": "string"
+                },
+                "limit": {
+                    "type": "integer"
+                },
+                "offset": {
+                    "type": "integer"
+                },
+                "filter": {
+                    "type": "string"
+                },
+                "sort": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "additionalProperties": false
+        }
+    },
+    {
+        "name": "meilisearch_get-task",
+        "description": "Get information about a specific task",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "taskUid": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "taskUid"
+            ],
+            "additionalProperties": false
+        }
+    },
+    {
+        "name": "meilisearch_get-tasks",
+        "description": "Get list of tasks with optional filters",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer"
+                },
+                "from": {
+                    "type": "integer"
+                },
+                "reverse": {
+                    "type": "boolean"
+                },
+                "batchUids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "uids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "canceledBy": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "types": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "statuses": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "indexUids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "afterEnqueuedAt": {
+                    "type": "string"
+                },
+                "beforeEnqueuedAt": {
+                    "type": "string"
+                },
+                "afterStartedAt": {
+                    "type": "string"
+                },
+                "beforeStartedAt": {
+                    "type": "string"
+                },
+                "afterFinishedAt": {
+                    "type": "string"
+                },
+                "beforeFinishedAt": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false
+        }
+    },
+    {
+        "name": "meilisearch_cancel-tasks",
+        "description": "Cancel tasks based on filters",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "uids": {
+                    "type": "string"
+                },
+                "indexUids": {
+                    "type": "string"
+                },
+                "types": {
+                    "type": "string"
+                },
+                "statuses": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false
+        }
+    },
+    {
+        "name": "meilisearch_get-keys",
+        "description": "Get list of API keys",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "offset": {
+                    "type": "integer"
+                },
+                "limit": {
+                    "type": "integer"
+                }
+            },
+            "additionalProperties": false
+        }
+    },
+    {
+        "name": "meilisearch_create-key",
+        "description": "Create a new API key",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "actions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "indexes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "expiresAt": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "actions",
+                "indexes"
+            ],
+            "additionalProperties": false
+        }
+    },
+    {
+        "name": "meilisearch_delete-key",
+        "description": "Delete an API key",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "key"
+            ],
+            "additionalProperties": false
+        }
+    },
+    {
+        "name": "meilisearch_get-health-status",
+        "description": "Get comprehensive health status of Meilisearch",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false
+        }
+    },
+    {
+        "name": "meilisearch_get-index-metrics",
+        "description": "Get detailed metrics for an index",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "indexUid": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "indexUid"
+            ],
+            "additionalProperties": false
+        }
+    },
+    {
+        "name": "meilisearch_get-system-info",
+        "description": "Get system-level information",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false
+        }
+    },
+    {
+        "name": "meilisearch_create-chat-completion",
+        "description": "Create a conversational chat completion using Meilisearch's chat feature",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "workspace_uid": {
+                    "type": "string",
+                    "description": "Unique identifier of the chat workspace"
+                },
+                "messages": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "role": {
+                                "type": "string",
+                                "enum": [
+                                    "user",
+                                    "assistant",
+                                    "system"
+                                ]
+                            },
+                            "content": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "role",
+                            "content"
+                        ]
+                    },
+                    "description": "List of message objects comprising the chat history"
+                },
+                "model": {
+                    "type": "string",
+                    "default": "gpt-3.5-turbo",
+                    "description": "The model to use for completion"
+                },
+                "stream": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether to stream the response (currently must be true)"
+                }
+            },
+            "required": [
+                "workspace_uid",
+                "messages"
+            ],
+            "additionalProperties": false
+        }
+    },
+    {
+        "name": "meilisearch_get-chat-workspaces",
+        "description": "Get list of available chat workspaces",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "offset": {
+                    "type": "integer",
+                    "description": "Number of workspaces to skip"
+                },
+                "limit": {
+                    "type": "integer",
+                    "description": "Maximum number of workspaces to return"
+                }
+            },
+            "additionalProperties": false
+        }
+    },
+    {
+        "name": "meilisearch_get-chat-workspace-settings",
+        "description": "Get settings for a specific chat workspace",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "workspace_uid": {
+                    "type": "string",
+                    "description": "Unique identifier of the chat workspace"
+                }
+            },
+            "required": [
+                "workspace_uid"
+            ],
+            "additionalProperties": false
+        }
+    },
+    {
+        "name": "meilisearch_update-chat-workspace-settings",
+        "description": "Update settings for a specific chat workspace",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "workspace_uid": {
+                    "type": "string",
+                    "description": "Unique identifier of the chat workspace"
+                },
+                "settings": {
+                    "type": "object",
+                    "description": "Settings to update for the workspace",
+                    "additionalProperties": true
+                }
+            },
+            "required": [
+                "workspace_uid",
+                "settings"
+            ],
+            "additionalProperties": false
+        }
+    }
+]

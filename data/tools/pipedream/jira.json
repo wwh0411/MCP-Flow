@@ -1,0 +1,552 @@
+[
+    {
+        "name": "jira-add-attachment-to-issue",
+        "description": "Adds an attachment to an issue, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-attachments/#api-rest-api-3-issue-issueidorkey-attachments-post)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "cloudId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "issueIdOrKey": {
+                    "type": "string",
+                    "description": ""
+                },
+                "file": {
+                    "type": "string",
+                    "description": "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf)."
+                },
+                "syncDir": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "jira-add-comment-to-issue",
+        "description": "Adds a new comment to an issue, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-comments/#api-rest-api-3-issue-issueidorkey-comment-post)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "cloudId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "issueIdOrKey": {
+                    "type": "string",
+                    "description": ""
+                },
+                "body": {
+                    "type": "string",
+                    "description": "The comment text in [Atlassian Document Format](https://developer.atlassian.com/cloud/jira/platform/apis/document/structure/), e.g. `{\"type\":\"doc\",\"version\":1,\"content\":[{\"content\":[{\"text\":\"This is a comment\",\"type\":\"text\"}],\"type\":\"paragraph\"}]}`"
+                },
+                "visibility": {
+                    "type": "string",
+                    "description": "The group or role to which this comment is visible, See `Visibility` section of [doc](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-comments/#api-rest-api-3-issue-issueidorkey-comment-post)"
+                },
+                "properties": {
+                    "type": "string",
+                    "description": "A list of comment properties."
+                },
+                "additionalProperties": {
+                    "type": "string",
+                    "description": ""
+                },
+                "expand": {
+                    "type": "string",
+                    "description": "The Jira REST API uses resource expansion, which means that some parts of a resource are not returned unless specified in the request. This parameter accepts `renderedBody`, which returns the comment body rendered in HTML."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "jira-add-multiple-attachments-to-issue",
+        "description": "Adds multiple attachments to an issue, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-attachments/#api-rest-api-3-issue-issueidorkey-attachments-post)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "cloudId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "issueIdOrKey": {
+                    "type": "string",
+                    "description": ""
+                },
+                "files": {
+                    "type": "string",
+                    "description": "Provide either an array of file URLs or paths to files in the /tmp directory (for example, /tmp/myFile.pdf)."
+                },
+                "syncDir": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "jira-add-watcher-to-issue",
+        "description": "Adds a user as a watcher of an issue by passing the account ID of the user, For example, `5b10ac8d82e05b22cc7d4ef5`, If no user is specified the calling user is added. [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-watchers/#api-rest-api-3-issue-issueidorkey-watchers-post)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "cloudId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "issueIdOrKey": {
+                    "type": "string",
+                    "description": ""
+                },
+                "accountId": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "jira-assign-issue",
+        "description": "Assigns an issue to a user. [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-assignee-put)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "cloudId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "issueIdOrKey": {
+                    "type": "string",
+                    "description": ""
+                },
+                "accountId": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "jira-create-custom-field-options-context",
+        "description": "Create a context for custom field options. [See the documentation here](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-custom-field-options/#api-rest-api-3-field-fieldid-context-contextid-option-post).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "cloudId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "fieldId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "contextId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "options": {
+                    "type": "string",
+                    "description": "Options to create. Each option should be a JSON object with the following structure as an example: `{ \"value\": \"Manhattan\", \"optionId\": \"1000\", \"disabled\": true }` where the only required field is `value`."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "jira-create-version",
+        "description": "Creates a project version., [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-project-versions/#api-rest-api-3-version-post)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "cloudId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "projectID": {
+                    "type": "string",
+                    "description": ""
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The unique name of the version. Required when creating a version. The maximum length is 255 characters."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "The description of the version."
+                },
+                "archived": {
+                    "type": "string",
+                    "description": "Indicates that the version is archived."
+                },
+                "released": {
+                    "type": "string",
+                    "description": "Indicates that the version is released. If the version is released a request to release again is ignored. Not applicable when creating a version."
+                },
+                "startDate": {
+                    "type": "string",
+                    "description": "The start date of the version. Expressed in ISO 8601 format (yyyy-mm-dd)."
+                },
+                "releaseDate": {
+                    "type": "string",
+                    "description": "The release date of the version. Expressed in ISO 8601 format (yyyy-mm-dd)."
+                },
+                "moveUnfixedIssuesTo": {
+                    "type": "string",
+                    "description": "The URL of the self link to the version to which all unfixed issues are moved when a version is released. Not applicable when creating a version. Optional when updating a version."
+                },
+                "expand": {
+                    "type": "string",
+                    "description": "Use expand to include additional information about version in the response. This parameter accepts a comma-separated list. Expand options include:\n`operations` Returns the list of operations available for this version.\n`issuesstatus` Returns the count of issues in this version for each of the status categories `to do`, `in progress`, `done`, and `unmapped`."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "jira-delete-project",
+        "description": "Deletes a project, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-projects/#api-rest-api-3-project-projectidorkey-delete)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "cloudId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "projectID": {
+                    "type": "string",
+                    "description": ""
+                },
+                "enableUndo": {
+                    "type": "string",
+                    "description": "Whether this project is placed in the Jira recycle bin where it will be available for restoration."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "jira-get-all-projects",
+        "description": "Gets metadata on all projects, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/#api-rest-api-3-project-get)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "cloudId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "recent": {
+                    "type": "string",
+                    "description": "Returns the user's most recently accessed projects. You may specify the number of results to return up to a maximum of 20. If access is anonymous, then the recently accessed projects are based on the current HTTP session."
+                },
+                "properties": {
+                    "type": "string",
+                    "description": "Details of issue properties to be add or update, please provide an array of objects with keys and values."
+                },
+                "expand": {
+                    "type": "string",
+                    "description": "Use expand to include additional information in the response. This parameter accepts a comma-separated list. Expanded options include:\n`description` Returns the project description.\n`issueTypes` Returns all issue types associated with the project.\n`lead` Returns information about the project lead.\n`projectKeys` Returns all project keys associated with the project."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "jira-get-issue",
+        "description": "Gets the details for an issue. [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-get)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "cloudId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "issueIdOrKey": {
+                    "type": "string",
+                    "description": ""
+                },
+                "fields": {
+                    "type": "string",
+                    "description": "A list of fields to return for the issue. This parameter accepts a comma-separated list. Use it to retrieve a subset of fields.  All fields are returned by default. Allowed values:\n`*all` Returns all fields.\n`*navigable` Returns navigable fields.\nAny issue field, prefixed with a minus to exclude, as in `-description `."
+                },
+                "fieldsByKeys": {
+                    "type": "string",
+                    "description": "Whether `fields` in fields are referenced by keys rather than IDs. This parameter is useful where fields have been added by a connect app and a field's key may differ from its ID."
+                },
+                "properties": {
+                    "type": "string",
+                    "description": "A list of issue properties to return for the issue. This parameter accepts a comma-separated list. Allowed values:\n`*all` Returns all issue properties.\nAny issue property key, prefixed with a minus to exclude."
+                },
+                "updateHistory": {
+                    "type": "string",
+                    "description": "Whether the project in which the issue is created is added to the user's Recently viewed project list, as shown under Projects in Jira."
+                },
+                "expand": {
+                    "type": "string",
+                    "description": "Use expand to include additional information about the issues in the response. This parameter accepts a comma-separated list. Expand options include:\n`renderedFields` Returns field values rendered in HTML format.\n`names` Returns the display name of each field.\n`schema` Returns the schema describing a field type.\n`transitions` Returns all possible transitions for the issue.\n`editmeta` Returns information about how each field can be edited.\n`changelog` Returns a list of recent updates to an issue, sorted by date, starting from the most recent.\n`versionedRepresentations` Returns a JSON array for each version of a field's value, with the highest number representing the most recent version. Note: When included in the request, the fields parameter is ignored."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "jira-get-task",
+        "description": "Gets the status of a long-running asynchronous task, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-tasks/#api-rest-api-3-task-taskid-get)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "cloudId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "taskId": {
+                    "type": "string",
+                    "description": "The ID of the task to get details of. A task is a resource that represents a [long-running asynchronous tasks](https://developer.atlassian.com/cloud/jira/platform/rest/v3/intro/#async-operations)."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "jira-get-transitions",
+        "description": "Gets either all transitions or a transition that can be performed by the user on an issue, based on the issue's status, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-transitions-get)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "cloudId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "issueIdOrKey": {
+                    "type": "string",
+                    "description": ""
+                },
+                "transitionId": {
+                    "type": "string",
+                    "description": "The ID of the transition."
+                },
+                "skipRemoteOnlyCondition": {
+                    "type": "string",
+                    "description": "Whether transitions with the condition *Hide From User Condition* are included in the response."
+                },
+                "includeUnavailableTransitions": {
+                    "type": "string",
+                    "description": "Whether details of transitions that fail a condition are included in the response."
+                },
+                "sortByOpsBarAndStatus": {
+                    "type": "string",
+                    "description": "Whether the transitions are sorted by ops-bar sequence value first then category order (Todo, In Progress, Done) or only by ops-bar sequence value."
+                },
+                "expand": {
+                    "type": "string",
+                    "description": "Use expand to include additional information about transitions in the response. This parameter accepts `transitions.fields`, which returns information about the fields in the transition screen for each transition. Fields hidden from the screen are not returned. Use this information to populate the fields and update fields in [Transition issue](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-transitions-post)."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "jira-get-user",
+        "description": "Gets details of user, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-users/#api-rest-api-3-user-get)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "cloudId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "accountId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "expand": {
+                    "type": "string",
+                    "description": "Use expand to include additional information about users in the response. This parameter accepts a comma-separated list. Expand options include:\n*`groups` includes all groups and nested groups to which the user belongs.\n*`applicationRoles` includes details of all the applications to which the user has access."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "jira-get-users",
+        "description": "Gets details of a list of users. [See docs here](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-user-search/#api-rest-api-3-user-search-get)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "cloudId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "query": {
+                    "type": "string",
+                    "description": "Filter for a name or term"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "jira-list-issue-comments",
+        "description": "Lists all comments for an issue, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-comments/#api-rest-api-3-issue-issueidorkey-comment-get)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "cloudId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "issueIdOrKey": {
+                    "type": "string",
+                    "description": ""
+                },
+                "orderBy": {
+                    "type": "string",
+                    "description": "[Order](https://developer.atlassian.com/cloud/jira/platform/rest/v3/intro/#ordering) the results by a field. Accepts *created* to sort comments by their created date.\nValid values: `created`, `-created`, `+created`."
+                },
+                "expand": {
+                    "type": "string",
+                    "description": "Use expand to include additional information about comments in the response. This parameter accepts `renderedBody`, which returns the comment body rendered in HTML."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "jira-search-issues-with-jql",
+        "description": "Search for issues using JQL (Jira Query Language). [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-search/#api-rest-api-3-search-jql-get)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "cloudId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "jql": {
+                    "type": "string",
+                    "description": "The [JQL](https://support.atlassian.com/jira-software-cloud/docs/what-is-advanced-search-in-jira-cloud/) query to search for issues"
+                },
+                "maxResults": {
+                    "type": "number",
+                    "description": "Maximum number of issues to return (default: 50, max: 100)"
+                },
+                "fields": {
+                    "type": "string",
+                    "description": "Comma-separated list of fields to return for each issue"
+                },
+                "expand": {
+                    "type": "string",
+                    "description": "Use expand to include additional information about the issues in the response"
+                },
+                "properties": {
+                    "type": "string",
+                    "description": "A list of up to 5 issue properties to include in the results. This parameter accepts a comma-separated list."
+                },
+                "fieldsByKeys": {
+                    "type": "string",
+                    "description": "Reference fields by their key (rather than ID). The default is `false`."
+                },
+                "failFast": {
+                    "type": "string",
+                    "description": "Fail this request early if we can't retrieve all field data"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "jira-transition-issue",
+        "description": "Performs an issue transition and, if the transition has a screen, updates the fields from the transition screen, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-transitions-post)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "cloudId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "issueIdOrKey": {
+                    "type": "string",
+                    "description": ""
+                },
+                "transition": {
+                    "type": "string",
+                    "description": ""
+                },
+                "fields": {
+                    "type": "string",
+                    "description": ""
+                },
+                "update": {
+                    "type": "string",
+                    "description": "List of operations to perform on issue screen fields. Note that fields included in here cannot be included in fields."
+                },
+                "historyMetadata": {
+                    "type": "string",
+                    "description": "Additional issue history details, See `HistoryMetadata` section of [doc](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-transitions-post)"
+                },
+                "properties": {
+                    "type": "string",
+                    "description": "Details of issue properties to be add or update."
+                },
+                "additionalProperties": {
+                    "type": "string",
+                    "description": "Extra properties of any type may be provided to this object."
+                }
+            },
+            "required": [
+                "transition"
+            ]
+        }
+    },
+    {
+        "name": "jira-update-comment",
+        "description": "Updates a comment, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-comments/#api-rest-api-3-issue-issueidorkey-comment-id-put)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "cloudId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "issueIdOrKey": {
+                    "type": "string",
+                    "description": ""
+                },
+                "commentId": {
+                    "type": "string",
+                    "description": "The ID of the comment."
+                },
+                "body": {
+                    "type": "string",
+                    "description": "The comment text in [Atlassian Document Format](https://developer.atlassian.com/cloud/jira/platform/apis/document/structure/), e.g. `{\"type\":\"doc\",\"version\":1,\"content\":[{\"content\":[{\"text\":\"This is a comment\",\"type\":\"text\"}],\"type\":\"paragraph\"}]}`"
+                },
+                "visibility": {
+                    "type": "string",
+                    "description": "The group or role to which this comment is visible, See `Visibility` section of [doc](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-comments/#api-rest-api-3-issue-issueidorkey-comment-id-put)"
+                },
+                "properties": {
+                    "type": "string",
+                    "description": "Details of issue properties to be add or update, please provide an array of objects with keys and values."
+                },
+                "additionalProperties": {
+                    "type": "string",
+                    "description": ""
+                },
+                "notifyUsers": {
+                    "type": "string",
+                    "description": "Whether users are notified when a comment is updated."
+                },
+                "expand": {
+                    "type": "string",
+                    "description": "Use expand to include additional information about comments in the response. This parameter accepts `renderedBody`, which returns the comment body rendered in HTML."
+                }
+            },
+            "required": []
+        }
+    }
+]

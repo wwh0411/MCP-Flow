@@ -1,0 +1,121 @@
+[
+    {
+        "name": "interactive_request_user_input",
+        "description": "<description>\nSend a question to the user via a pop-up command prompt. **Crucial for clarifying requirements, confirming plans, or resolving ambiguity.**\nYou should call this tool whenever it has **any** uncertainty or needs clarification or confirmation, even for trivial or silly questions.\nFeel free to ask anything! **Proactive questioning is preferred over making assumptions.**\n</description>\n\n<importantNotes>\n- (!important!) **Use this tool FREQUENTLY** for any question that requires user input or confirmation.\n- (!important!) Continue to generate existing messages after user answers.\n- (!important!) Provide predefined options for quick selection if applicable.\n- (!important!) **Essential for validating assumptions before proceeding with significant actions (e.g., code edits, running commands).**\n</importantNotes>\n\n<whenToUseThisTool>\n- When you need clarification on user requirements or preferences\n- When multiple implementation approaches are possible and user input is needed\n- **Before making potentially impactful changes (code edits, file operations, complex commands)**\n- When you need to confirm assumptions before proceeding\n- When you need additional information not available in the current context\n- When validating potential solutions before implementation\n- When facing ambiguous instructions that require clarification\n- When seeking feedback on generated code or solutions\n- When needing permission to modify critical files or functionality\n- **Whenever you feel even slightly unsure about the user's intent or the correct next step.**\n</whenToUseThisTool>\n\n<features>\n- Pop-up command prompt display for user input\n- Returns user response or timeout notification (timeout defaults to 60 seconds))\n- Maintains context across user interactions\n- Handles empty responses gracefully\n- Properly formats prompt with project context\n</features>\n\n<bestPractices>\n- Keep questions concise and specific\n- Provide clear options when applicable\n- Do not ask the question if you have another tool that can answer the question\n  - e.g. when you searching file in the current repository, do not ask the question \"Do you want to search for a file in the current repository?\"\n  - e.g. prefer to use other tools to find the answer (Cursor tools or other MCP Server tools)\n- Limit questions to only what's necessary **to resolve the uncertainty**\n- Format complex questions into simple choices\n- Reference specific code or files when relevant\n- Indicate why the information is needed\n- Use appropriate urgency based on importance\n</bestPractices>\n\n<parameters>\n- projectName: Identifies the context/project making the request (used in prompt formatting)\n- message: The specific question for the user (appears in the prompt)\n- predefinedOptions: Predefined options for the user to choose from (optional)\n</parameters>\n\n<examples>\n- \"Should I implement the authentication using JWT or OAuth?\"\n- \"Do you want to use TypeScript interfaces or type aliases for this component?\"\n- \"I found three potential bugs. Should I fix them all or focus on the critical one first?\"\n- \"Can I refactor the database connection code to use connection pooling?\"\n- \"Is it acceptable to add React Router as a dependency?\"\n- \"I plan to modify function X in file Y. Is that correct?\"\n</examples>",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectName": {
+                    "type": "string",
+                    "description": "Identifies the context/project making the request (used in prompt formatting)"
+                },
+                "message": {
+                    "type": "string",
+                    "description": "The specific question for the user (appears in the prompt)"
+                },
+                "predefinedOptions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Predefined options for the user to choose from (optional)"
+                }
+            },
+            "required": [
+                "projectName",
+                "message"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "interactive_message_complete_notification",
+        "description": "<description>\nNotify when a response has completed. Use this tool **once** at the end of **each and every** message to signal completion to the user.\n</description>\n\n<importantNotes>\n- (!important!) **MANDATORY:** ONLY use this tool exactly once per message to signal completion. **Do not forget this step.**\n</importantNotes>\n\n<whenToUseThisTool>\n- When you've completed answering a user's query\n- When you've finished executing a task or a sequence of tool calls\n- When a multi-step process is complete\n- When you want to provide a summary of completed actions just before ending the response\n</whenToUseThisTool>\n\n<features>\n- Cross-platform OS notifications (Windows, macOS, Linux)\n- Reusable tool to signal end of message\n- Should be called exactly once per LLM response\n</features>\n\n<bestPractices>\n- Keep messages concise\n- Use projectName consistently to group notifications by context\n</bestPractices>\n\n<parameters>\n- projectName: Identifies the context/project making the notification (appears in notification title)\n- message: The specific notification text (appears in the body)\n</parameters>\n\n<examples>\n- { \"projectName\": \"MyApp\", \"message\": \"Feature implementation complete. All tests passing.\" }\n- { \"projectName\": \"MyLib\", \"message\": \"Analysis complete: 3 issues found and fixed.\" }\n</examples>",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectName": {
+                    "type": "string",
+                    "description": "Notification title"
+                },
+                "message": {
+                    "type": "string",
+                    "description": "Notification body"
+                }
+            },
+            "required": [
+                "projectName",
+                "message"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "interactive_start_intensive_chat",
+        "description": "<description>\nStart an intensive chat session for gathering multiple answers quickly from the user.\n**Highly recommended** for scenarios requiring a sequence of related inputs or confirmations.\nVery useful for gathering multiple answers from the user in a short period of time.\nEspecially useful for brainstorming ideas or discussing complex topics with the user.\n</description>\n\n<importantNotes>\n- (!important!) Opens a persistent console window that stays open for multiple questions.\n- (!important!) Returns a session ID that **must** be used for subsequent questions via 'ask_intensive_chat'.\n- (!important!) **Must** be closed with 'stop_intensive_chat' when finished gathering all inputs.\n- (!important!) After starting a session, **immediately** continue asking all necessary questions using 'ask_intensive_chat' within the **same response message**. Do not end the response until the chat is closed with 'stop_intensive_chat'. This creates a seamless conversational flow for the user.\n</importantNotes>\n\n<whenToUseThisTool>\n- When you need to collect a series of quick answers from the user (more than 2-3 questions)\n- When setting up a project with multiple configuration options\n- When guiding a user through a multi-step process requiring input at each stage\n- When gathering sequential user preferences\n- When you want to maintain context between multiple related questions efficiently\n- When brainstorming ideas with the user interactively\n</whenToUseThisTool>\n\n<features>\n- Opens a persistent console window for continuous interaction\n- Supports starting with an initial question\n- Configurable timeout for each question (set via -t/--timeout, defaults to 60 seconds)\n- Returns a session ID for subsequent interactions\n- Keeps full chat history visible to the user\n- Maintains state between questions\n</features>\n\n<bestPractices>\n- Use a descriptive session title related to the task\n- Start with a clear initial question when possible\n- Do not ask the question if you have another tool that can answer the question\n  - e.g. when you searching file in the current repository, do not ask the question \"Do you want to search for a file in the current repository?\"\n  - e.g. prefer to use other tools to find the answer (Cursor tools or other MCP Server tools)\n- Always store the returned session ID for later use\n- Always close the session when you're done with stop_intensive_chat\n</bestPractices>\n\n<parameters>\n- sessionTitle: Title for the intensive chat session (appears at the top of the console)\n</parameters>\n\n<examples>\n- Start session for project setup: { \"sessionTitle\": \"Project Configuration\" }\n</examples>",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "sessionTitle": {
+                    "type": "string",
+                    "description": "Title for the intensive chat session"
+                }
+            },
+            "required": [
+                "sessionTitle"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "interactive_ask_intensive_chat",
+        "description": "<description>\nAsk a new question in an active intensive chat session previously started with 'start_intensive_chat'.\n</description>\n\n<importantNotes>\n- (!important!) Requires a valid session ID from 'start_intensive_chat'.\n- (!important!) Supports predefined options for quick selection.\n- (!important!) Returns the user's answer or indicates if they didn't respond.\n- (!important!) **Use this repeatedly within the same response message** after 'start_intensive_chat' until all questions are asked.\n</importantNotes>\n\n<whenToUseThisTool>\n- When continuing a series of questions in an intensive chat session.\n- When you need the next piece of information in a multi-step process initiated via 'start_intensive_chat'.\n- When offering multiple choice options to the user within the session.\n- When gathering sequential information from the user within the session.\n</whenToUseThisTool>\n\n<features>\n- Adds a new question to an existing chat session\n- Supports predefined options for quick selection\n- Returns the user's response\n- Maintains the chat history in the console\n</features>\n\n<bestPractices>\n- Ask one clear question at a time\n- Provide predefined options when applicable\n- Don't ask overly complex questions\n- Keep questions focused on a single piece of information\n</bestPractices>\n\n<parameters>\n- sessionId: ID of the intensive chat session (from start_intensive_chat)\n- question: The question text to display to the user\n- predefinedOptions: Array of predefined options for the user to choose from (optional)\n</parameters>\n\n<examples>\n- Simple question: { \"sessionId\": \"abcd1234\", \"question\": \"What is your project named?\" }\n- With predefined options: { \"sessionId\": \"abcd1234\", \"question\": \"Would you like to use TypeScript?\", \"predefinedOptions\": [\"Yes\", \"No\"] }\n</examples>",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "sessionId": {
+                    "type": "string",
+                    "description": "ID of the intensive chat session"
+                },
+                "question": {
+                    "type": "string",
+                    "description": "Question to ask the user"
+                },
+                "predefinedOptions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Predefined options for the user to choose from (optional)"
+                }
+            },
+            "required": [
+                "sessionId",
+                "question"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "interactive_stop_intensive_chat",
+        "description": "<description>\n  Stop and close an active intensive chat session. **Must be called** after all questions have been asked using 'ask_intensive_chat'.\n</description>\n\n<importantNotes>\n- (!important!) Closes the console window for the intensive chat.\n- (!important!) Frees up system resources.\n- (!important!) **Should always be called** as the final step when finished with an intensive chat session, typically at the end of the response message where 'start_intensive_chat' was called.\n</importantNotes>\n\n<whenToUseThisTool>\n- When you've completed gathering all needed information via 'ask_intensive_chat'.\n- When the multi-step process requiring intensive chat is complete.\n- When you're ready to move on to processing the collected information.\n- When the user indicates they want to end the session (if applicable).\n- As the final action related to the intensive chat flow within a single response message.\n</whenToUseThisTool>\n\n<features>\n- Gracefully closes the console window\n- Cleans up system resources\n- Marks the session as complete\n</features>\n\n<bestPractices>\n- Always stop sessions when you're done to free resources\n- Provide a summary of the information collected before stopping\n</bestPractices>\n\n<parameters>\n- sessionId: ID of the intensive chat session to stop\n</parameters>\n\n<examples>\n- { \"sessionId\": \"abcd1234\" }\n</examples>",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "sessionId": {
+                    "type": "string",
+                    "description": "ID of the intensive chat session to stop"
+                }
+            },
+            "required": [
+                "sessionId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

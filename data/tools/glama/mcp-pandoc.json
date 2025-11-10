@@ -1,0 +1,73 @@
+[
+    {
+        "name": "mcp-pandoc_convert-contents",
+        "description": "Converts content between different formats. Transforms input content from any supported format into the specified output format.\n\n\ud83d\udea8 CRITICAL REQUIREMENTS - PLEASE READ:\n1. PDF Conversion:\n   * You MUST install TeX Live BEFORE attempting PDF conversion:\n   * Ubuntu/Debian: `sudo apt-get install texlive-xetex`\n   * macOS: `brew install texlive`\n   * Windows: Install MiKTeX or TeX Live from https://miktex.org/ or https://tug.org/texlive/\n   * PDF conversion will FAIL without this installation\n\n2. File Paths - EXPLICIT REQUIREMENTS:\n   * When asked to save or convert to a file, you MUST provide:\n     - Complete directory path\n     - Filename\n     - File extension\n   * Example request: 'Write a story and save as PDF'\n   * You MUST specify: '/path/to/story.pdf' or 'C:\\Documents\\story.pdf'\n   * The tool will NOT automatically generate filenames or extensions\n\n3. File Location After Conversion:\n   * After successful conversion, the tool will display the exact path where the file is saved\n   * Look for message: 'Content successfully converted and saved to: [file_path]'\n   * You can find your converted file at the specified location\n   * If no path is specified, files may be saved in system temp directory (/tmp/ on Unix systems)\n   * For better control, always provide explicit output file paths\n\nSupported formats:- Basic: txt, html, markdown, ipynb, odt- Advanced (REQUIRE complete file paths): pdf, docx, rst, latex, epub\u2705 CORRECT Usage Examples:\n1. 'Convert this text to HTML' (basic conversion)\n   - Tool will show converted content\n\n2. 'Save this text as PDF at /documents/story.pdf'\n   - Correct: specifies path + filename + extension\n   - Tool will show: 'Content successfully converted and saved to: /documents/story.pdf'\n\n\u274c INCORRECT Usage Examples:\n1. 'Save this as PDF in /documents/'\n   - Missing filename and extension\n2. 'Convert to PDF'\n   - Missing complete file path\n\nWhen requesting conversion, ALWAYS specify:\n1. The content or input file\n2. The desired output format\n3. For advanced formats: complete output path + filename + extension\nExample: 'Convert this markdown to PDF and save as /path/to/output.pdf'\n\n\ud83c\udfa8 DOCX STYLING (NEW FEATURE):\n4. Custom DOCX Styling with Reference Documents:\n   * Use reference_doc parameter to apply professional styling to DOCX output\n   * Create custom templates with your branding, fonts, and formatting\n   * Perfect for corporate reports, academic papers, and professional documents\n   * Example: 'Convert this report to DOCX using /templates/corporate-style.docx as reference and save as /reports/Q4-report.docx'\n\n\ud83c\udfaf PANDOC FILTERS (NEW FEATURE):\n5. Pandoc Filter Support:\n   * Use filters parameter to apply custom Pandoc filters during conversion\n   * Filters are Python scripts that modify document content during processing\n   * Perfect for Mermaid diagram conversion, custom styling, and content transformation\n   * Example: 'Convert this markdown with mermaid diagrams to DOCX using filters=[\"./filters/mermaid-to-png-vibrant.py\"] and save as /reports/diagram-report.docx'\n\n\ud83d\udccb Creating Reference Documents:\n   * Generate template: pandoc -o template.docx --print-default-data-file reference.docx\n   * Customize in Word/LibreOffice: fonts, colors, headers, margins\n   * Use for consistent branding across all documents\n\n\ud83d\udccb Filter Requirements:\n   * Filters must be executable Python scripts\n   * Use absolute paths or paths relative to current working directory\n   * Filters are applied in the order specified\n   * Common filters: mermaid conversion, color processing, table formatting\n\n\ud83d\udcc4 Defaults File Support (NEW FEATURE):\n7. Pandoc Defaults File Support:\n   * Use defaults_file parameter to specify a YAML configuration file\n   * Similar to using pandoc -d option in the command line\n   * Allows setting multiple options in a single file\n   * Options in the defaults file can include filters, reference-doc, and other Pandoc options\n   * Example: 'Convert this markdown to DOCX using defaults_file=\"/path/to/defaults.yaml\" and save as /reports/report.docx'\n\nNote: After conversion, always check the success message for the exact file location.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "contents": {
+                    "type": "string",
+                    "description": "The content to be converted (required if input_file not provided)"
+                },
+                "input_file": {
+                    "type": "string",
+                    "description": "Complete path to input file including filename and extension (e.g., '/path/to/input.md')"
+                },
+                "input_format": {
+                    "type": "string",
+                    "description": "Source format of the content (defaults to markdown)",
+                    "default": "markdown",
+                    "enum": [
+                        "markdown",
+                        "html",
+                        "pdf",
+                        "docx",
+                        "rst",
+                        "latex",
+                        "epub",
+                        "txt",
+                        "ipynb",
+                        "odt"
+                    ]
+                },
+                "output_format": {
+                    "type": "string",
+                    "description": "Desired output format (defaults to markdown)",
+                    "default": "markdown",
+                    "enum": [
+                        "markdown",
+                        "html",
+                        "pdf",
+                        "docx",
+                        "rst",
+                        "latex",
+                        "epub",
+                        "txt",
+                        "ipynb",
+                        "odt"
+                    ]
+                },
+                "output_file": {
+                    "type": "string",
+                    "description": "Complete path where to save the output including filename and extension (required for pdf, docx, rst, latex, epub formats)"
+                },
+                "reference_doc": {
+                    "type": "string",
+                    "description": "Path to a reference document to use for styling (supported for docx output format)"
+                },
+                "filters": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of Pandoc filter paths to apply during conversion. Filters are applied in the order specified."
+                },
+                "defaults_file": {
+                    "type": "string",
+                    "description": "Path to a Pandoc defaults file (YAML) containing conversion options. Similar to using pandoc -d option."
+                }
+            },
+            "additionalProperties": false
+        }
+    }
+]

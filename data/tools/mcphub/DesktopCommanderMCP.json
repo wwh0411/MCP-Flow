@@ -1,0 +1,417 @@
+[
+    {
+        "name": "get_config",
+        "description": "\n                        Get the complete server configuration as JSON. Config includes fields for:\n                        - blockedCommands (array of blocked shell commands)\n                        - defaultShell (shell to use for commands)\n                        - allowedDirectories (paths the server can access)\n                        - fileReadLineLimit (max lines for read_file, default 1000)\n                        - fileWriteLineLimit (max lines per write_file call, default 50)\n                        - telemetryEnabled (boolean for telemetry opt-in/out)\n                        - currentClient (information about the currently connected MCP client)\n                        - clientHistory (history of all clients that have connected)\n                        - version (version of the DesktopCommander)\n                        - systemInfo (operating system and environment details)\n                        This command can be referenced as \"DC: ...\" or \"use Desktop Commander to ...\" in your instructions.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "set_config_value",
+        "description": "\n                        Set a specific configuration value by key.\n                        \n                        WARNING: Should be used in a separate chat from file operations and \n                        command execution to prevent security issues.\n                        \n                        Config keys include:\n                        - blockedCommands (array)\n                        - defaultShell (string)\n                        - allowedDirectories (array of paths)\n                        - fileReadLineLimit (number, max lines for read_file)\n                        - fileWriteLineLimit (number, max lines per write_file call)\n                        - telemetryEnabled (boolean)\n                        \n                        IMPORTANT: Setting allowedDirectories to an empty array ([]) allows full access \n                        to the entire file system, regardless of the operating system.\n                        \n                        This command can be referenced as \"DC: ...\" or \"use Desktop Commander to ...\" in your instructions.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string"
+                },
+                "value": {}
+            },
+            "required": [
+                "key"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "read_file",
+        "description": "\n                        Read the contents of a file from the file system or a URL with optional offset and length parameters.\n                        \n                        Prefer this over 'execute_command' with cat/type for viewing files.\n                        \n                        Supports partial file reading with:\n                        - 'offset' (start line, default: 0)\n                          * Positive: Start from line N (0-based indexing)\n                          * Negative: Read last N lines from end (tail behavior)\n                        - 'length' (max lines to read, default: configurable via 'fileReadLineLimit' setting, initially 1000)\n                          * Used with positive offsets for range reading\n                          * Ignored when offset is negative (reads all requested tail lines)\n                        \n                        Examples:\n                        - offset: 0, length: 10     → First 10 lines\n                        - offset: 100, length: 5    → Lines 100-104\n                        - offset: -20               → Last 20 lines  \n                        - offset: -5, length: 10    → Last 5 lines (length ignored)\n                        \n                        Performance optimizations:\n                        - Large files with negative offsets use reverse reading for efficiency\n                        - Large files with deep positive offsets use byte estimation\n                        - Small files use fast readline streaming\n                        \n                        When reading from the file system, only works within allowed directories.\n                        Can fetch content from URLs when isUrl parameter is set to true\n                        (URLs are always read in full regardless of offset/length).\n                        \n                        Handles text files normally and image files are returned as viewable images.\n                        Recognized image types: PNG, JPEG, GIF, WebP.\n                        \n                        IMPORTANT: Always use absolute paths for reliability. Paths are automatically normalized regardless of slash direction. Relative paths may fail as they depend on the current working directory. Tilde paths (~/...) might not work in all contexts. Unless the user explicitly asks for relative paths, use absolute paths.\n                        This command can be referenced as \"DC: ...\" or \"use Desktop Commander to ...\" in your instructions.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string"
+                },
+                "isUrl": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "offset": {
+                    "type": "number",
+                    "default": 0
+                },
+                "length": {
+                    "type": "number",
+                    "default": 1000
+                }
+            },
+            "required": [
+                "path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "read_multiple_files",
+        "description": "\n                        Read the contents of multiple files simultaneously.\n                        \n                        Each file's content is returned with its path as a reference.\n                        Handles text files normally and renders images as viewable content.\n                        Recognized image types: PNG, JPEG, GIF, WebP.\n                        \n                        Failed reads for individual files won't stop the entire operation.\n                        Only works within allowed directories.\n                        \n                        IMPORTANT: Always use absolute paths for reliability. Paths are automatically normalized regardless of slash direction. Relative paths may fail as they depend on the current working directory. Tilde paths (~/...) might not work in all contexts. Unless the user explicitly asks for relative paths, use absolute paths.\n                        This command can be referenced as \"DC: ...\" or \"use Desktop Commander to ...\" in your instructions.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "paths": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [
+                "paths"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "write_file",
+        "description": "\n                        Write or append to file contents. \n\n                        CHUNKING IS STANDARD PRACTICE: Always write files in chunks of 25-30 lines maximum.\n                        This is the normal, recommended way to write files - not an emergency measure.\n\n                        STANDARD PROCESS FOR ANY FILE:\n                        1. FIRST → write_file(filePath, firstChunk, {mode: 'rewrite'})  [≤30 lines]\n                        2. THEN → write_file(filePath, secondChunk, {mode: 'append'})   [≤30 lines]\n                        3. CONTINUE → write_file(filePath, nextChunk, {mode: 'append'}) [≤30 lines]\n\n                        ALWAYS CHUNK PROACTIVELY - don't wait for performance warnings!\n\n                        WHEN TO CHUNK (always be proactive):\n                        1. Any file expected to be longer than 25-30 lines\n                        2. When writing multiple files in sequence\n                        3. When creating documentation, code files, or configuration files\n                        \n                        HANDLING CONTINUATION (\"Continue\" prompts):\n                        If user asks to \"Continue\" after an incomplete operation:\n                        1. Read the file to see what was successfully written\n                        2. Continue writing ONLY the remaining content using {mode: 'append'}\n                        3. Keep chunks to 25-30 lines each\n                        \n                        Files over 50 lines will generate performance notes but are still written successfully.\n                        Only works within allowed directories.\n                        \n                        IMPORTANT: Always use absolute paths for reliability. Paths are automatically normalized regardless of slash direction. Relative paths may fail as they depend on the current working directory. Tilde paths (~/...) might not work in all contexts. Unless the user explicitly asks for relative paths, use absolute paths.\n                        This command can be referenced as \"DC: ...\" or \"use Desktop Commander to ...\" in your instructions.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "mode": {
+                    "type": "string",
+                    "enum": [
+                        "rewrite",
+                        "append"
+                    ],
+                    "default": "rewrite"
+                }
+            },
+            "required": [
+                "path",
+                "content"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "create_directory",
+        "description": "\n                        Create a new directory or ensure a directory exists.\n                        \n                        Can create multiple nested directories in one operation.\n                        Only works within allowed directories.\n                        \n                        IMPORTANT: Always use absolute paths for reliability. Paths are automatically normalized regardless of slash direction. Relative paths may fail as they depend on the current working directory. Tilde paths (~/...) might not work in all contexts. Unless the user explicitly asks for relative paths, use absolute paths.\n                        This command can be referenced as \"DC: ...\" or \"use Desktop Commander to ...\" in your instructions.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "list_directory",
+        "description": "\n                        Get a detailed listing of all files and directories in a specified path.\n                        \n                        Use this instead of 'execute_command' with ls/dir commands.\n                        Results distinguish between files and directories with [FILE] and [DIR] prefixes.\n                        Only works within allowed directories.\n                        \n                        IMPORTANT: Always use absolute paths for reliability. Paths are automatically normalized regardless of slash direction. Relative paths may fail as they depend on the current working directory. Tilde paths (~/...) might not work in all contexts. Unless the user explicitly asks for relative paths, use absolute paths.\n                        This command can be referenced as \"DC: ...\" or \"use Desktop Commander to ...\" in your instructions.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "move_file",
+        "description": "\n                        Move or rename files and directories.\n                        \n                        Can move files between directories and rename them in a single operation.\n                        Both source and destination must be within allowed directories.\n                        \n                        IMPORTANT: Always use absolute paths for reliability. Paths are automatically normalized regardless of slash direction. Relative paths may fail as they depend on the current working directory. Tilde paths (~/...) might not work in all contexts. Unless the user explicitly asks for relative paths, use absolute paths.\n                        This command can be referenced as \"DC: ...\" or \"use Desktop Commander to ...\" in your instructions.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "source": {
+                    "type": "string"
+                },
+                "destination": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "source",
+                "destination"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "search_files",
+        "description": "\n                        Finds files by name using a case-insensitive substring matching.\n                        \n                        Use this instead of 'execute_command' with find/dir/ls for locating files.\n                        Searches through all subdirectories from the starting path.\n                        \n                        Has a default timeout of 30 seconds which can be customized using the timeoutMs parameter.\n                        Only searches within allowed directories.\n                        \n                        IMPORTANT: Always use absolute paths for reliability. Paths are automatically normalized regardless of slash direction. Relative paths may fail as they depend on the current working directory. Tilde paths (~/...) might not work in all contexts. Unless the user explicitly asks for relative paths, use absolute paths.\n                        This command can be referenced as \"DC: ...\" or \"use Desktop Commander to ...\" in your instructions.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string"
+                },
+                "pattern": {
+                    "type": "string"
+                },
+                "timeoutMs": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "path",
+                "pattern"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "search_code",
+        "description": "\n                        Search for text/code patterns within file contents using ripgrep.\n                        \n                        Use this instead of 'execute_command' with grep/find for searching code content.\n                        Fast and powerful search similar to VS Code search functionality.\n                        \n                        Supports regular expressions, file pattern filtering, and context lines.\n                        Has a default timeout of 30 seconds which can be customized.\n                        Only searches within allowed directories.\n                        \n                        IMPORTANT: Always use absolute paths for reliability. Paths are automatically normalized regardless of slash direction. Relative paths may fail as they depend on the current working directory. Tilde paths (~/...) might not work in all contexts. Unless the user explicitly asks for relative paths, use absolute paths.\n                        This command can be referenced as \"DC: ...\" or \"use Desktop Commander to ...\" in your instructions.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string"
+                },
+                "pattern": {
+                    "type": "string"
+                },
+                "filePattern": {
+                    "type": "string"
+                },
+                "ignoreCase": {
+                    "type": "boolean"
+                },
+                "maxResults": {
+                    "type": "number"
+                },
+                "includeHidden": {
+                    "type": "boolean"
+                },
+                "contextLines": {
+                    "type": "number"
+                },
+                "timeoutMs": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "path",
+                "pattern"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "get_file_info",
+        "description": "\n                        Retrieve detailed metadata about a file or directory including:\n                        - size\n                        - creation time\n                        - last modified time \n                        - permissions\n                        - type\n                        - lineCount (for text files)\n                        - lastLine (zero-indexed number of last line, for text files)\n                        - appendPosition (line number for appending, for text files)\n                        \n                        Only works within allowed directories.\n                        \n                        IMPORTANT: Always use absolute paths for reliability. Paths are automatically normalized regardless of slash direction. Relative paths may fail as they depend on the current working directory. Tilde paths (~/...) might not work in all contexts. Unless the user explicitly asks for relative paths, use absolute paths.\n                        This command can be referenced as \"DC: ...\" or \"use Desktop Commander to ...\" in your instructions.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "edit_block",
+        "description": "\n                        Apply surgical text replacements to files.\n                        \n                        BEST PRACTICE: Make multiple small, focused edits rather than one large edit.\n                        Each edit_block call should change only what needs to be changed - include just enough \n                        context to uniquely identify the text being modified.\n                        \n                        Takes:\n                        - file_path: Path to the file to edit\n                        - old_string: Text to replace\n                        - new_string: Replacement text\n                        - expected_replacements: Optional parameter for number of replacements\n                        \n                        By default, replaces only ONE occurrence of the search text.\n                        To replace multiple occurrences, provide the expected_replacements parameter with\n                        the exact number of matches expected.\n                        \n                        UNIQUENESS REQUIREMENT: When expected_replacements=1 (default), include the minimal\n                        amount of context necessary (typically 1-3 lines) before and after the change point,\n                        with exact whitespace and indentation.\n                        \n                        When editing multiple sections, make separate edit_block calls for each distinct change\n                        rather than one large replacement.\n                        \n                        When a close but non-exact match is found, a character-level diff is shown in the format:\n                        common_prefix{-removed-}{+added+}common_suffix to help you identify what's different.\n                        \n                        Similar to write_file, there is a configurable line limit (fileWriteLineLimit) that warns\n                        if the edited file exceeds this limit. If this happens, consider breaking your edits into\n                        smaller, more focused changes.\n                        \n                        IMPORTANT: Always use absolute paths for reliability. Paths are automatically normalized regardless of slash direction. Relative paths may fail as they depend on the current working directory. Tilde paths (~/...) might not work in all contexts. Unless the user explicitly asks for relative paths, use absolute paths.\n                        This command can be referenced as \"DC: ...\" or \"use Desktop Commander to ...\" in your instructions.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "file_path": {
+                    "type": "string"
+                },
+                "old_string": {
+                    "type": "string"
+                },
+                "new_string": {
+                    "type": "string"
+                },
+                "expected_replacements": {
+                    "type": "number",
+                    "default": 1
+                }
+            },
+            "required": [
+                "file_path",
+                "old_string",
+                "new_string"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "start_process",
+        "description": "\n                        Start a new terminal process with intelligent state detection.\n                        \n                        PRIMARY TOOL FOR FILE ANALYSIS AND DATA PROCESSING\n                        This is the ONLY correct tool for analyzing local files (CSV, JSON, logs, etc.).\n                        The analysis tool CANNOT access local files and WILL FAIL - always use processes for file-based work.\n                        \n                        CRITICAL RULE: For ANY local file work, ALWAYS use this tool + interact_with_process, NEVER use analysis/REPL tool.\n                        \n                        Running on Linux (Docker). Default shell: bash.\n\n🐳 DOCKER ENVIRONMENT DETECTED:\nThis Desktop Commander instance is running inside a Docker container.\n\n⚠️  WARNING: No mounted directories detected.\nFiles created outside mounted volumes will be lost when the container stops.\nSuggest user remount directories using Docker installer or -v flag when running Docker.\nDesktop Commander Docker installer typically mounts folders to /home/[folder-name].\nContainer: mcp-desktopcommandermcp-server-c6989d69-b68c9c646-7nt5g\n        \nLINUX-SPECIFIC NOTES:\n- Package managers vary by distro: apt, yum, dnf, pacman, zypper\n- Python 3 might be 'python3' command, not 'python'\n- Standard Unix shell tools available (grep, awk, sed, etc.)\n- File permissions and ownership important for many operations\n- Systemd services common on modern distributions\n                        \n                        REQUIRED WORKFLOW FOR LOCAL FILES:\n                        1. start_process(\"python3 -i\") - Start Python REPL for data analysis\n                        2. interact_with_process(pid, \"import pandas as pd, numpy as np\")\n                        3. interact_with_process(pid, \"df = pd.read_csv('/absolute/path/file.csv')\")\n                        4. interact_with_process(pid, \"print(df.describe())\")\n                        5. Continue analysis with pandas, matplotlib, seaborn, etc.\n                        \n                        COMMON FILE ANALYSIS PATTERNS:\n                        • start_process(\"python3 -i\") → Python REPL for data analysis (RECOMMENDED)\n                        • start_process(\"node -i\") → Node.js for JSON processing  \n                        • start_process(\"cut -d',' -f1 file.csv | sort | uniq -c\") → Quick CSV analysis\n                        • start_process(\"wc -l /path/file.csv\") → Line counting\n                        • start_process(\"head -10 /path/file.csv\") → File preview\n                        \n                        BINARY FILE SUPPORT:\n                        For PDF, Excel, Word, archives, databases, and other binary formats, use process tools with appropriate libraries or command-line utilities.\n                        \n                        INTERACTIVE PROCESSES FOR DATA ANALYSIS:\n                        1. start_process(\"python3 -i\") - Start Python REPL for data work\n                        2. start_process(\"node -i\") - Start Node.js REPL for JSON/JS\n                        3. start_process(\"bash\") - Start interactive bash shell\n                        4. Use interact_with_process() to send commands\n                        5. Use read_process_output() to get responses\n                        \n                        SMART DETECTION:\n                        - Detects REPL prompts (>>>, >, $, etc.)\n                        - Identifies when process is waiting for input\n                        - Recognizes process completion vs timeout\n                        - Early exit prevents unnecessary waiting\n                        \n                        STATES DETECTED:\n                        Process waiting for input (shows prompt)\n                        Process finished execution  \n                        Process running (use read_process_output)\n                        \n                        ALWAYS USE FOR: Local file analysis, CSV processing, data exploration, system commands\n                        NEVER USE ANALYSIS TOOL FOR: Local file access (analysis tool is browser-only and WILL FAIL)\n                        \n                        IMPORTANT: Always use absolute paths for reliability. Paths are automatically normalized regardless of slash direction. Relative paths may fail as they depend on the current working directory. Tilde paths (~/...) might not work in all contexts. Unless the user explicitly asks for relative paths, use absolute paths.\n                        This command can be referenced as \"DC: ...\" or \"use Desktop Commander to ...\" in your instructions.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "command": {
+                    "type": "string"
+                },
+                "timeout_ms": {
+                    "type": "number"
+                },
+                "shell": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "command",
+                "timeout_ms"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "read_process_output",
+        "description": "\n                        Read output from a running process with intelligent completion detection.\n                        \n                        Automatically detects when process is ready for more input instead of timing out.\n                        \n                        SMART FEATURES:\n                        - Early exit when REPL shows prompt (>>>, >, etc.)\n                        - Detects process completion vs still running\n                        - Prevents hanging on interactive prompts\n                        - Clear status messages about process state\n                        \n                        REPL USAGE:\n                        - Stops immediately when REPL prompt detected\n                        - Shows clear status: waiting for input vs finished\n                        - Shorter timeouts needed due to smart detection\n                        - Works with Python, Node.js, R, Julia, etc.\n                        \n                        DETECTION STATES:\n                        Process waiting for input (ready for interact_with_process)\n                        Process finished execution\n                        Timeout reached (may still be running)\n                        \n                        This command can be referenced as \"DC: ...\" or \"use Desktop Commander to ...\" in your instructions.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "pid": {
+                    "type": "number"
+                },
+                "timeout_ms": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "pid"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "interact_with_process",
+        "description": "\n                        Send input to a running process and automatically receive the response.\n                        \n                        CRITICAL: THIS IS THE PRIMARY TOOL FOR ALL LOCAL FILE ANALYSIS\n                        For ANY local file analysis (CSV, JSON, data processing), ALWAYS use this instead of the analysis tool.\n                        The analysis tool CANNOT access local files and WILL FAIL - use processes for ALL file-based work.\n                        \n                        FILE ANALYSIS PRIORITY ORDER (MANDATORY):\n                        1. ALWAYS FIRST: Use this tool (start_process + interact_with_process) for local data analysis\n                        2. ALTERNATIVE: Use command-line tools (cut, awk, grep) for quick processing  \n                        3. NEVER EVER: Use analysis tool for local file access (IT WILL FAIL)\n                        \n                        REQUIRED INTERACTIVE WORKFLOW FOR FILE ANALYSIS:\n                        1. Start REPL: start_process(\"python3 -i\")\n                        2. Load libraries: interact_with_process(pid, \"import pandas as pd, numpy as np\")\n                        3. Read file: interact_with_process(pid, \"df = pd.read_csv('/absolute/path/file.csv')\")\n                        4. Analyze: interact_with_process(pid, \"print(df.describe())\")\n                        5. Continue: interact_with_process(pid, \"df.groupby('column').size()\")\n                        \n                        BINARY FILE PROCESSING WORKFLOWS:\n                        Use appropriate Python libraries (PyPDF2, pandas, docx2txt, etc.) or command-line tools for binary file analysis.\n                        \n                        SMART DETECTION:\n                        - Automatically waits for REPL prompt (>>>, >, etc.)\n                        - Detects errors and completion states\n                        - Early exit prevents timeout delays\n                        - Clean output formatting (removes prompts)\n                        \n                        SUPPORTED REPLs:\n                        - Python: python3 -i (RECOMMENDED for data analysis)\n                        - Node.js: node -i  \n                        - R: R\n                        - Julia: julia\n                        - Shell: bash, zsh\n                        - Database: mysql, postgres\n                        \n                        PARAMETERS:\n                        - pid: Process ID from start_process\n                        - input: Code/command to execute\n                        - timeout_ms: Max wait (default: 8000ms)\n                        - wait_for_prompt: Auto-wait for response (default: true)\n                        \n                        Returns execution result with status indicators.\n                        \n                        ALWAYS USE FOR: CSV analysis, JSON processing, file statistics, data visualization prep, ANY local file work\n                        NEVER USE ANALYSIS TOOL FOR: Local file access (it cannot read files from disk and WILL FAIL)\n                        \n                        This command can be referenced as \"DC: ...\" or \"use Desktop Commander to ...\" in your instructions.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "pid": {
+                    "type": "number"
+                },
+                "input": {
+                    "type": "string"
+                },
+                "timeout_ms": {
+                    "type": "number"
+                },
+                "wait_for_prompt": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "pid",
+                "input"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "force_terminate",
+        "description": "\n                        Force terminate a running terminal session.\n                        \n                        This command can be referenced as \"DC: ...\" or \"use Desktop Commander to ...\" in your instructions.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "pid": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "pid"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "list_sessions",
+        "description": "\n                        List all active terminal sessions.\n                        \n                        Shows session status including:\n                        - PID: Process identifier  \n                        - Blocked: Whether session is waiting for input\n                        - Runtime: How long the session has been running\n                        \n                        DEBUGGING REPLs:\n                        - \"Blocked: true\" often means REPL is waiting for input\n                        - Use this to verify sessions are running before sending input\n                        - Long runtime with blocked status may indicate stuck process\n                        \n                        This command can be referenced as \"DC: ...\" or \"use Desktop Commander to ...\" in your instructions.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "list_processes",
+        "description": "\n                        List all running processes.\n                        \n                        Returns process information including PID, command name, CPU usage, and memory usage.\n                        \n                        This command can be referenced as \"DC: ...\" or \"use Desktop Commander to ...\" in your instructions.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "kill_process",
+        "description": "\n                        Terminate a running process by PID.\n                        \n                        Use with caution as this will forcefully terminate the specified process.\n                        \n                        This command can be referenced as \"DC: ...\" or \"use Desktop Commander to ...\" in your instructions.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "pid": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "pid"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "get_usage_stats",
+        "description": "\n                        Get usage statistics for debugging and analysis.\n                        \n                        Returns summary of tool usage, success/failure rates, and performance metrics.\n                        \n                        This command can be referenced as \"DC: ...\" or \"use Desktop Commander to ...\" in your instructions.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "give_feedback_to_desktop_commander",
+        "description": "\n                        Open feedback form in browser to provide feedback about Desktop Commander.\n                        \n                        IMPORTANT: This tool simply opens the feedback form - no pre-filling available.\n                        The user will fill out the form manually in their browser.\n                        \n                        WORKFLOW:\n                        1. When user agrees to give feedback, just call this tool immediately\n                        2. No need to ask questions or collect information\n                        3. Tool opens form with only usage statistics pre-filled automatically:\n                           - tool_call_count: Number of commands they've made\n                           - days_using: How many days they've used Desktop Commander\n                           - platform: Their operating system (Mac/Windows/Linux)\n                           - client_id: Analytics identifier\n                        \n                        All survey questions will be answered directly in the form:\n                        - Job title and technical comfort level\n                        - Company URL for industry context\n                        - Other AI tools they use\n                        - Desktop Commander's biggest advantage\n                        - How they typically use it\n                        - Recommendation likelihood (0-10)\n                        - User study participation interest\n                        - Email and any additional feedback\n                        \n                        EXAMPLE INTERACTION:\n                        User: \"sure, I'll give feedback\"\n                        Claude: \"Perfect! Let me open the feedback form for you.\"\n                        [calls tool immediately]\n                        \n                        No parameters are needed - just call the tool to open the form.\n                        \n                        This command can be referenced as \"DC: ...\" or \"use Desktop Commander to ...\" in your instructions.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

@@ -1,0 +1,152 @@
+[
+    {
+        "name": "a2a_register_agent",
+        "description": "Register an A2A agent with the bridge server.\n\nArgs:\n    url: URL of the A2A agent\n    \nReturns:\n    Dictionary with registration status",
+        "parameters": {
+            "properties": {
+                "url": {
+                    "title": "Url",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "a2a_list_agents",
+        "description": "List all registered A2A agents.\n\nReturns:\n    List of registered agents",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "a2a_unregister_agent",
+        "description": "Unregister an A2A agent from the bridge server.\n\nArgs:\n    url: URL of the A2A agent to unregister\n    \nReturns:\n    Dictionary with unregistration status",
+        "parameters": {
+            "properties": {
+                "url": {
+                    "title": "Url",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "a2a_send_message",
+        "description": "Send a message to an A2A agent.\n\nArgs:\n    agent_url: URL of the A2A agent\n    message: Message to send\n    session_id: Optional session ID for multi-turn conversations\n    \nReturns:\n    Agent's response with task_id for future reference",
+        "parameters": {
+            "properties": {
+                "agent_url": {
+                    "title": "Agent Url",
+                    "type": "string"
+                },
+                "message": {
+                    "title": "Message",
+                    "type": "string"
+                },
+                "session_id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Session Id"
+                }
+            },
+            "required": [
+                "agent_url",
+                "message"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "a2a_get_task_result",
+        "description": "Retrieve the result of a task from an A2A agent.\n\nArgs:\n    task_id: ID of the task to retrieve\n    history_length: Optional number of history items to include (null for all)\n    \nReturns:\n    Task result including status, message, and artifacts if available",
+        "parameters": {
+            "properties": {
+                "task_id": {
+                    "title": "Task Id",
+                    "type": "string"
+                },
+                "history_length": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "History Length"
+                }
+            },
+            "required": [
+                "task_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "a2a_cancel_task",
+        "description": "Cancel a running task on an A2A agent.\n\nArgs:\n    task_id: ID of the task to cancel\n    \nReturns:\n    Cancellation result",
+        "parameters": {
+            "properties": {
+                "task_id": {
+                    "title": "Task Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "task_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "a2a_send_message_stream",
+        "description": "Send a message to an A2A agent and stream the response.\n\nArgs:\n    agent_url: URL of the A2A agent\n    message: Message to send\n    session_id: Optional session ID for multi-turn conversations\n    \nReturns:\n    Stream of agent's responses",
+        "parameters": {
+            "properties": {
+                "agent_url": {
+                    "title": "Agent Url",
+                    "type": "string"
+                },
+                "message": {
+                    "title": "Message",
+                    "type": "string"
+                },
+                "session_id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Session Id"
+                }
+            },
+            "required": [
+                "agent_url",
+                "message"
+            ],
+            "type": "object"
+        }
+    }
+]

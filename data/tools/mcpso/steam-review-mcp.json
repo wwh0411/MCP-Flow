@@ -1,0 +1,88 @@
+[
+    {
+        "name": "steam-review-mcp_get_steam_review",
+        "description": "Retrieves reviews and game information for a specific Steam application. Returns formatted review data including review scores, positive/negative counts, review texts, and basic game information.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "appid": {
+                    "type": "string",
+                    "description": "Steam application ID"
+                },
+                "filter": {
+                    "type": "string",
+                    "default": "all",
+                    "description": "recent: sorted by creation time, updated: sorted by last updated time,all: (default) sorted by helpfulness, with sliding windows based on day_range parameter, will always find results to return."
+                },
+                "language": {
+                    "type": "string",
+                    "enum": [
+                        "all",
+                        "arabic",
+                        "bulgarian",
+                        "schinese",
+                        "tchinese",
+                        "czech",
+                        "danish",
+                        "dutch",
+                        "english",
+                        "finnish",
+                        "french",
+                        "german",
+                        "greek",
+                        "hungarian",
+                        "indonesian",
+                        "italian",
+                        "japanese",
+                        "koreana",
+                        "norwegian",
+                        "polish",
+                        "portuguese",
+                        "brazilian",
+                        "romanian",
+                        "russian",
+                        "spanish",
+                        "latam",
+                        "swedish",
+                        "thai",
+                        "turkish",
+                        "ukrainian",
+                        "vietnamese"
+                    ],
+                    "default": "all",
+                    "description": "Language filter (e.g. english, french, schinese). Default is all languages."
+                },
+                "day_range": {
+                    "type": "number",
+                    "default": 365,
+                    "description": "range from now to n days ago to look for helpful reviews. Only applicable for the all filter."
+                },
+                "cursor": {
+                    "type": "string",
+                    "default": "*",
+                    "description": "reviews are returned in batches of 20, so pass * for the first set, then the value of cursor that was returned in the response for the next set, etc. Note that cursor values may contain characters that need to be URLEncoded for use in the querystring."
+                },
+                "review_type": {
+                    "type": "string",
+                    "default": "all",
+                    "description": "all:all reviews (default), positive: only positive reviews, negative: only negative reviews"
+                },
+                "purchase_type": {
+                    "type": "string",
+                    "default": "steam",
+                    "description": "all: all reviews, non_steam_purchase: reviews written by users who did not pay for the product on Steam,steam: reviews written by users who paid for the product on Steam (default)"
+                },
+                "num_per_page": {
+                    "type": "number",
+                    "default": 50,
+                    "description": "number of reviews to get, max 100, default 50"
+                }
+            },
+            "required": [
+                "appid"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

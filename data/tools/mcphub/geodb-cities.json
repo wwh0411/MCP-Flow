@@ -1,0 +1,3949 @@
+[
+    {
+        "name": "admin_divisions",
+        "description": "Find administrative divisions, filtering by optional criteria. If no criteria are set, you will get back all known divisions with a population of at least 1000",
+        "parameters": {
+            "properties": {
+                "location": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only divisions near this location. Latitude/longitude in ISO-6709 format: ±DD.DDDD±DDD.DDDD",
+                    "title": "Location"
+                },
+                "radius": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The location radius within which to find divisions Default: 0",
+                    "title": "Radius"
+                },
+                "distanceUnit": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The unit of distance to use: MI | KM",
+                    "title": "Distanceunit"
+                },
+                "countryIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only divisions in these countries (comma-delimited country codes or WikiData ids)",
+                    "title": "Countryids"
+                },
+                "excludedCountryIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only divisions NOT in these countries (comma-delimited country codes or WikiData ids)",
+                    "title": "Excludedcountryids"
+                },
+                "timeZoneIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only divisions in these time-zones",
+                    "title": "Timezoneids"
+                },
+                "minPopulation": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only divisions having at least this population Default: 0",
+                    "title": "Minpopulation"
+                },
+                "maxPopulation": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only divisions having no more than this population Default: 0",
+                    "title": "Maxpopulation"
+                },
+                "namePrefix": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only divisions whose names start with this prefix. If languageCode is set, the prefix will be matched on the name as it appears in that language.",
+                    "title": "Nameprefix"
+                },
+                "namePrefixDefaultLangResults": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "When name-prefix matching, whether or not to match on names in the default language if a non-default language is requested",
+                    "title": "Nameprefixdefaultlangresults"
+                },
+                "languageCode": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results in this language",
+                    "title": "Languagecode"
+                },
+                "asciiMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results using ASCII characters",
+                    "title": "Asciimode"
+                },
+                "hateoasMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include HATEOAS-style links in results",
+                    "title": "Hateoasmode"
+                },
+                "includeDeleted": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Whether to include any divisions marked deleted: ALL | SINCE_YESTERDAY | SINCE_LAST_WEEK | NONE",
+                    "title": "Includedeleted"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The maximum number of results to retrieve Default: 0",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zero-ary offset into the results Default: 0",
+                    "title": "Offset"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "How to sort the results. Format: ±SORT_FIELD,±SORT_FIELD where SORT_FIELD = countryCode | elevation | name | population",
+                    "title": "Sort"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "admin_divisions_near_division",
+        "description": "Get divisions near the given administrative division, filtering by optional criteria.",
+        "parameters": {
+            "properties": {
+                "radius": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The location radius within which to find divisions Default: 100",
+                    "title": "Radius"
+                },
+                "distanceUnit": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The unit of distance to use: MI | KM",
+                    "title": "Distanceunit"
+                },
+                "countryIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only divisions in these countries (comma-delimited country codes or WikiData ids)",
+                    "title": "Countryids"
+                },
+                "excludedCountryIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only divisions NOT in these countries (comma-delimited country codes or WikiData ids)",
+                    "title": "Excludedcountryids"
+                },
+                "timeZoneIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only divisions in these time-zones",
+                    "title": "Timezoneids"
+                },
+                "minPopulation": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only divisions having at least this population Default: 0",
+                    "title": "Minpopulation"
+                },
+                "maxPopulation": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only divisions having no more than this population Default: 0",
+                    "title": "Maxpopulation"
+                },
+                "namePrefix": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only divisions whose names start with this prefix. If languageCode is set, the prefix will be matched on the name as it appears in that language.",
+                    "title": "Nameprefix"
+                },
+                "namePrefixDefaultLangResults": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "When name-prefix matching, whether or not to match on names in the default language if a non-default language is requested",
+                    "title": "Nameprefixdefaultlangresults"
+                },
+                "languageCode": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results in this language",
+                    "title": "Languagecode"
+                },
+                "asciiMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results using ASCII characters",
+                    "title": "Asciimode"
+                },
+                "hateoasMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include HATEOAS-style links in results",
+                    "title": "Hateoasmode"
+                },
+                "includeDeleted": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Whether to include any divisions marked deleted: ALL | SINCE_YESTERDAY | SINCE_LAST_WEEK | NONE",
+                    "title": "Includedeleted"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The maximum number of results to retrieve Default: 0",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zero-ary offset into the results Default: 0",
+                    "title": "Offset"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "How to sort the results. Format: ±SORT_FIELD,±SORT_FIELD where SORT_FIELD = countryCode | elevation | name | population",
+                    "title": "Sort"
+                }
+            },
+            "required": [
+                "radius"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "admin_divisions_near_location",
+        "description": "Get administrative divisions near the given location, filtering by optional criteria.",
+        "parameters": {
+            "properties": {
+                "radius": {
+                    "description": "The location radius within which to find divisions",
+                    "title": "Radius",
+                    "type": "string"
+                },
+                "distanceUnit": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The unit of distance to use: MI | KM",
+                    "title": "Distanceunit"
+                },
+                "countryIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only divisions in these countries (comma-delimited country codes or WikiData ids)",
+                    "title": "Countryids"
+                },
+                "excludedCountryIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only divisions NOT in these countries (comma-delimited country codes or WikiData ids)",
+                    "title": "Excludedcountryids"
+                },
+                "timeZoneIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only divisions in these time-zones",
+                    "title": "Timezoneids"
+                },
+                "minPopulation": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only divisions having at least this population Default: 0",
+                    "title": "Minpopulation"
+                },
+                "maxPopulation": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only divisions having no more than this population Default: 0",
+                    "title": "Maxpopulation"
+                },
+                "namePrefix": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only divisions whose names start with this prefix. If languageCode is set, the prefix will be matched on the name as it appears in that language.",
+                    "title": "Nameprefix"
+                },
+                "namePrefixDefaultLangResults": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "When name-prefix matching, whether or not to match on names in the default language if a non-default language is requested",
+                    "title": "Nameprefixdefaultlangresults"
+                },
+                "languageCode": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results in this language",
+                    "title": "Languagecode"
+                },
+                "asciiMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results using ASCII characters",
+                    "title": "Asciimode"
+                },
+                "hateoasMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include HATEOAS-style links in results",
+                    "title": "Hateoasmode"
+                },
+                "includeDeleted": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Whether to include any divisions marked deleted: ALL | SINCE_YESTERDAY | SINCE_LAST_WEEK | NONE",
+                    "title": "Includedeleted"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The maximum number of results to retrieve Default: 0",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zero-ary offset into the results Default: 0",
+                    "title": "Offset"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "How to sort the results. Format: ±SORT_FIELD,±SORT_FIELD where SORT_FIELD = countryCode | elevation | name | population",
+                    "title": "Sort"
+                }
+            },
+            "required": [
+                "radius"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "admin_division_details",
+        "description": "Get the details for a specific administrative division, including location coordinates, population, and elevation above sea-level (if available).",
+        "parameters": {
+            "properties": {
+                "languageCode": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results in this language",
+                    "title": "Languagecode"
+                },
+                "asciiMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results using ASCII characters",
+                    "title": "Asciimode"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "countries",
+        "description": "Find countries, filtering by optional criteria. If no criteria are set, you will get back all known countries.",
+        "parameters": {
+            "properties": {
+                "currencyCode": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only countries supporting this currency",
+                    "title": "Currencycode"
+                },
+                "namePrefix": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only countries whose names start with this prefix. If languageCode is set, the prefix will be matched on the name as it appears in that language.",
+                    "title": "Nameprefix"
+                },
+                "namePrefixDefaultLangResults": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "When name-prefix matching, whether or not to match on names in the default language if a non-default language is requested",
+                    "title": "Nameprefixdefaultlangresults"
+                },
+                "languageCode": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results in this language",
+                    "title": "Languagecode"
+                },
+                "asciiMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results using ASCII characters",
+                    "title": "Asciimode"
+                },
+                "hateoasMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include HATEOAS-style links in results",
+                    "title": "Hateoasmode"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The maximum number of results to retrieve",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zero-ary offset index into the results",
+                    "title": "Offset"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "How to sort the results. Format: ±SORT_FIELD where SORT_FIELD = code | name",
+                    "title": "Sort"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "country_details",
+        "description": "Get the details for a specific country, including number of regions.",
+        "parameters": {
+            "properties": {
+                "languageCode": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results in this language",
+                    "title": "Languagecode"
+                },
+                "asciiMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results using ASCII characters",
+                    "title": "Asciimode"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "country_places",
+        "description": "Get the places in the given country.",
+        "parameters": {
+            "properties": {
+                "types": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities for these types (comma-delimited): ADM2 | CITY | ISLAND",
+                    "title": "Types"
+                },
+                "timeZoneIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only places in these time-zones",
+                    "title": "Timezoneids"
+                },
+                "minPopulation": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only places having at least this population",
+                    "title": "Minpopulation"
+                },
+                "maxPopulation": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only places having no more than this population Default: 0",
+                    "title": "Maxpopulation"
+                },
+                "namePrefix": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only places whose names start with this prefix. If languageCode is set, the prefix will be matched on the name as it appears in that language.",
+                    "title": "Nameprefix"
+                },
+                "namePrefixDefaultLangResults": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "When name-prefix matching, whether or not to match on names in the default language if a non-default language is requested",
+                    "title": "Nameprefixdefaultlangresults"
+                },
+                "languageCode": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results in this language",
+                    "title": "Languagecode"
+                },
+                "asciiMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results using ASCII characters",
+                    "title": "Asciimode"
+                },
+                "hateoasMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include HATEOAS-style links in results",
+                    "title": "Hateoasmode"
+                },
+                "includeDeleted": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Whether to include any cities marked deleted: ALL | SINCE_YESTERDAY | SINCE_LAST_WEEK | NONE",
+                    "title": "Includedeleted"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The maximum number of results to retrieve",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zero-ary offset into the results",
+                    "title": "Offset"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "How to sort the results. Format: ±SORT_FIELD,±SORT_FIELD where SORT_FIELD = elevation | name | population",
+                    "title": "Sort"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "country_regions",
+        "description": "Find regions in a specific country, filtering by optional criteria. Regions can be states, provinces, districts, or otherwise major political divisions.",
+        "parameters": {
+            "properties": {
+                "namePrefix": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only regions whose names start with this prefix. If languageCode is set, the prefix will be matched on the name as it appears in that language.",
+                    "title": "Nameprefix"
+                },
+                "namePrefixDefaultLangResults": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "When name-prefix matching, whether or not to match on names in the default language if a non-default language is requested",
+                    "title": "Nameprefixdefaultlangresults"
+                },
+                "languageCode": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results in this language",
+                    "title": "Languagecode"
+                },
+                "asciiMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results using ASCII characters",
+                    "title": "Asciimode"
+                },
+                "hateoasMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include HATEOAS-style links in results",
+                    "title": "Hateoasmode"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The maximum number of results to retrieve Default: 0",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zero-ary offset index into the results Default: 0",
+                    "title": "Offset"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "How to sort the results. Format: ±SORT_FIELD where SORT_FIELD = fipsCode | isoCode | name",
+                    "title": "Sort"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "country_region_details",
+        "description": "Get the details of a specific country region, including number of cities.",
+        "parameters": {
+            "properties": {
+                "languageCode": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results in this language",
+                    "title": "Languagecode"
+                },
+                "asciiMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results using ASCII characters",
+                    "title": "Asciimode"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "country_region_cities",
+        "description": "Get the cities in the given region.",
+        "parameters": {
+            "properties": {
+                "types": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities for these types (comma-delimited): CITY | ADM2",
+                    "title": "Types"
+                },
+                "timeZoneIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities in these time-zones",
+                    "title": "Timezoneids"
+                },
+                "minPopulation": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities having at least this population",
+                    "title": "Minpopulation"
+                },
+                "maxPopulation": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities having no more than this population Default: 0",
+                    "title": "Maxpopulation"
+                },
+                "namePrefix": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities whose names start with this prefix. If languageCode is set, the prefix will be matched on the name as it appears in that language.",
+                    "title": "Nameprefix"
+                },
+                "namePrefixDefaultLangResults": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "When name-prefix matching, whether or not to match on names in the default language if a non-default language is requested",
+                    "title": "Nameprefixdefaultlangresults"
+                },
+                "languageCode": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results in this language",
+                    "title": "Languagecode"
+                },
+                "asciiMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results using ASCII characters",
+                    "title": "Asciimode"
+                },
+                "hateoasMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include HATEOAS-style links in results",
+                    "title": "Hateoasmode"
+                },
+                "includeDeleted": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Whether to include any cities marked deleted: ALL | SINCE_YESTERDAY | SINCE_LAST_WEEK | NONE",
+                    "title": "Includedeleted"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The maximum number of results to retrieve",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zero-ary offset into the results",
+                    "title": "Offset"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "How to sort the results. Format: ±SORT_FIELD,±SORT_FIELD where SORT_FIELD = elevation | name | population",
+                    "title": "Sort"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "country_region_divisions",
+        "description": "Get the administrative divisions in the given region.",
+        "parameters": {
+            "properties": {
+                "minPopulation": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities having at least this population",
+                    "title": "Minpopulation"
+                },
+                "maxPopulation": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only divisions having no more than this population Default: 0",
+                    "title": "Maxpopulation"
+                },
+                "namePrefix": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only divisions whose names start with this prefix. If languageCode is set, the prefix will be matched on the name as it appears in that language.",
+                    "title": "Nameprefix"
+                },
+                "namePrefixDefaultLangResults": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "When name-prefix matching, whether or not to match on names in the default language if a non-default language is requested",
+                    "title": "Nameprefixdefaultlangresults"
+                },
+                "languageCode": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results in this language",
+                    "title": "Languagecode"
+                },
+                "asciiMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results using ASCII characters",
+                    "title": "Asciimode"
+                },
+                "hateoasMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include HATEOAS-style links in results",
+                    "title": "Hateoasmode"
+                },
+                "includeDeleted": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Whether to include any cities marked deleted: ALL | SINCE_YESTERDAY | SINCE_LAST_WEEK | NONE",
+                    "title": "Includedeleted"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The maximum number of results to retrieve",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zero-ary offset into the results",
+                    "title": "Offset"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "How to sort the results. Format: ±SORT_FIELD,±SORT_FIELD where SORT_FIELD = elevation | name | population",
+                    "title": "Sort"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "country_region_places",
+        "description": "Get the places in the given region.",
+        "parameters": {
+            "properties": {
+                "types": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities for these types (comma-delimited): ADM2 | CITY | ISLAND",
+                    "title": "Types"
+                },
+                "timeZoneIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only places in these time-zones",
+                    "title": "Timezoneids"
+                },
+                "minPopulation": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only places having at least this population",
+                    "title": "Minpopulation"
+                },
+                "maxPopulation": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only places having no more than this population Default: 0",
+                    "title": "Maxpopulation"
+                },
+                "namePrefix": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only places whose names start with this prefix. If languageCode is set, the prefix will be matched on the name as it appears in that language.",
+                    "title": "Nameprefix"
+                },
+                "namePrefixDefaultLangResults": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "When name-prefix matching, whether or not to match on names in the default language if a non-default language is requested",
+                    "title": "Nameprefixdefaultlangresults"
+                },
+                "languageCode": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results in this language",
+                    "title": "Languagecode"
+                },
+                "asciiMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results using ASCII characters",
+                    "title": "Asciimode"
+                },
+                "hateoasMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include HATEOAS-style links in results",
+                    "title": "Hateoasmode"
+                },
+                "includeDeleted": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Whether to include any cities marked deleted: ALL | SINCE_YESTERDAY | SINCE_LAST_WEEK | NONE",
+                    "title": "Includedeleted"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The maximum number of results to retrieve",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zero-ary offset into the results",
+                    "title": "Offset"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "How to sort the results. Format: ±SORT_FIELD,±SORT_FIELD where SORT_FIELD = elevation | name | population",
+                    "title": "Sort"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "cities",
+        "description": "Find cities, filtering by optional criteria. If no criteria are set, you will get back all known cities with a population of at least 1000.",
+        "parameters": {
+            "properties": {
+                "types": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities for these types (comma-delimited): CITY | ADM2",
+                    "title": "Types"
+                },
+                "location": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities near this location. Latitude/longitude in ISO-6709 format: ±DD.DDDD±DDD.DDDD",
+                    "title": "Location"
+                },
+                "radius": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The location radius within which to find cities Default: 0",
+                    "title": "Radius"
+                },
+                "distanceUnit": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The unit of distance to use: MI | KM",
+                    "title": "Distanceunit"
+                },
+                "countryIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities in these countries (comma-delimited country codes or WikiData ids)",
+                    "title": "Countryids"
+                },
+                "excludedCountryIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities NOT in these countries (comma-delimited country codes or WikiData ids)",
+                    "title": "Excludedcountryids"
+                },
+                "timeZoneIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities in these time-zones",
+                    "title": "Timezoneids"
+                },
+                "minPopulation": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities having at least this population Default: 0",
+                    "title": "Minpopulation"
+                },
+                "maxPopulation": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities having no more than this population Default: 0",
+                    "title": "Maxpopulation"
+                },
+                "namePrefix": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities whose names start with this prefix. If languageCode is set, the prefix will be matched on the name as it appears in that language.",
+                    "title": "Nameprefix"
+                },
+                "namePrefixDefaultLangResults": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "When name-prefix matching, whether or not to match on names in the default language if a non-default language is requested.",
+                    "title": "Nameprefixdefaultlangresults"
+                },
+                "languageCode": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results in this language",
+                    "title": "Languagecode"
+                },
+                "asciiMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results using ASCII characters",
+                    "title": "Asciimode"
+                },
+                "hateoasMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include HATEOAS-style links in results",
+                    "title": "Hateoasmode"
+                },
+                "includeDeleted": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Whether to include any cities marked deleted: ALL | SINCE_YESTERDAY | SINCE_LAST_WEEK | NONE",
+                    "title": "Includedeleted"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The maximum number of results to retrieve Default: 0",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zero-ary offset into the results Default: 0",
+                    "title": "Offset"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "How to sort the results. Format: ±SORT_FIELD,±SORT_FIELD where SORT_FIELD = countryCode | elevation | name | population",
+                    "title": "Sort"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "cities_near_city",
+        "description": "Get cities near the given city, filtering by optional criteria.",
+        "parameters": {
+            "properties": {
+                "radius": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The location radius within which to find cities Default: 100",
+                    "title": "Radius"
+                },
+                "types": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities for these types (comma-delimited): CITY | ADM2",
+                    "title": "Types"
+                },
+                "distanceUnit": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The unit of distance to use: MI | KM",
+                    "title": "Distanceunit"
+                },
+                "countryIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities in these countries (comma-delimited country codes or WikiData ids)",
+                    "title": "Countryids"
+                },
+                "excludedCountryIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities NOT in these countries (comma-delimited country codes or WikiData ids)",
+                    "title": "Excludedcountryids"
+                },
+                "timeZoneIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities in these time-zones",
+                    "title": "Timezoneids"
+                },
+                "minPopulation": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities having at least this population Default: 0",
+                    "title": "Minpopulation"
+                },
+                "maxPopulation": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities having no more than this population Default: 0",
+                    "title": "Maxpopulation"
+                },
+                "namePrefix": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities whose names start with this prefix. If languageCode is set, the prefix will be matched on the name as it appears in that language.",
+                    "title": "Nameprefix"
+                },
+                "namePrefixDefaultLangResults": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "When name-prefix matching, whether or not to match on names in the default language if a non-default language is requested",
+                    "title": "Nameprefixdefaultlangresults"
+                },
+                "languageCode": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results in this language",
+                    "title": "Languagecode"
+                },
+                "asciiMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results using ASCII characters",
+                    "title": "Asciimode"
+                },
+                "hateoasMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include HATEOAS-style links in results",
+                    "title": "Hateoasmode"
+                },
+                "includeDeleted": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Whether to include any cities marked deleted: ALL | SINCE_YESTERDAY | SINCE_LAST_WEEK | NONE",
+                    "title": "Includedeleted"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The maximum number of results to retrieve Default: 0",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zero-ary offset into the results Default: 0",
+                    "title": "Offset"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "How to sort the results. Format: ±SORT_FIELD,±SORT_FIELD where SORT_FIELD = countryCode | elevation | name | population",
+                    "title": "Sort"
+                }
+            },
+            "required": [
+                "radius"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "cities_near_division",
+        "description": "Get cities near the given administrative division, filtering by optional criteria.",
+        "parameters": {
+            "properties": {
+                "radius": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The location radius within which to find cities Default: 100",
+                    "title": "Radius"
+                },
+                "types": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities for these types (comma-delimited): CITY | ADM2",
+                    "title": "Types"
+                },
+                "distanceUnit": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The unit of distance to use: MI | KM",
+                    "title": "Distanceunit"
+                },
+                "countryIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities in these countries (comma-delimited country codes or WikiData ids)",
+                    "title": "Countryids"
+                },
+                "excludedCountryIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities NOT in these countries (comma-delimited country codes or WikiData ids)",
+                    "title": "Excludedcountryids"
+                },
+                "timeZoneIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities in these time-zones",
+                    "title": "Timezoneids"
+                },
+                "minPopulation": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities having at least this population Default: 0",
+                    "title": "Minpopulation"
+                },
+                "maxPopulation": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities having no more than this population Default: 0",
+                    "title": "Maxpopulation"
+                },
+                "namePrefix": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities whose names start with this prefix. If languageCode is set, the prefix will be matched on the name as it appears in that language.",
+                    "title": "Nameprefix"
+                },
+                "namePrefixDefaultLangResults": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "When name-prefix matching, whether or not to match on names in the default language if a non-default language is requested",
+                    "title": "Nameprefixdefaultlangresults"
+                },
+                "languageCode": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results in this language",
+                    "title": "Languagecode"
+                },
+                "asciiMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results using ASCII characters",
+                    "title": "Asciimode"
+                },
+                "hateoasMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include HATEOAS-style links in results",
+                    "title": "Hateoasmode"
+                },
+                "includeDeleted": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Whether to include any cities marked deleted: ALL | SINCE_YESTERDAY | SINCE_LAST_WEEK | NONE",
+                    "title": "Includedeleted"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The maximum number of results to retrieve Default: 0",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zero-ary offset into the results Default: 0",
+                    "title": "Offset"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "How to sort the results. Format: ±SORT_FIELD,±SORT_FIELD where SORT_FIELD = countryCode | elevation | name | population",
+                    "title": "Sort"
+                }
+            },
+            "required": [
+                "radius"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "cities_near_location",
+        "description": "Get cities near the given location, filtering by optional criteria.",
+        "parameters": {
+            "properties": {
+                "radius": {
+                    "description": "The location radius within which to find cities",
+                    "title": "Radius",
+                    "type": "string"
+                },
+                "types": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities for these types (comma-delimited): CITY | ADM2",
+                    "title": "Types"
+                },
+                "distanceUnit": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The unit of distance to use: MI | KM",
+                    "title": "Distanceunit"
+                },
+                "countryIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities in these countries (comma-delimited country codes or WikiData ids)",
+                    "title": "Countryids"
+                },
+                "excludedCountryIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities NOT in these countries (comma-delimited country codes or WikiData ids)",
+                    "title": "Excludedcountryids"
+                },
+                "timeZoneIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities in these time-zones",
+                    "title": "Timezoneids"
+                },
+                "minPopulation": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities having at least this population Default: 0",
+                    "title": "Minpopulation"
+                },
+                "maxPopulation": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities having no more than this population Default: 0",
+                    "title": "Maxpopulation"
+                },
+                "namePrefix": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only cities whose names start with this prefix. If languageCode is set, the prefix will be matched on the name as it appears in that language.",
+                    "title": "Nameprefix"
+                },
+                "namePrefixDefaultLangResults": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "When name-prefix matching, whether or not to match on names in the default language if a non-default language is requested",
+                    "title": "Nameprefixdefaultlangresults"
+                },
+                "languageCode": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results in this language",
+                    "title": "Languagecode"
+                },
+                "asciiMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results using ASCII characters",
+                    "title": "Asciimode"
+                },
+                "hateoasMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include HATEOAS-style links in results",
+                    "title": "Hateoasmode"
+                },
+                "includeDeleted": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Whether to include any cities marked deleted: ALL | SINCE_YESTERDAY | SINCE_LAST_WEEK | NONE",
+                    "title": "Includedeleted"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The maximum number of results to retrieve Default: 0",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zero-ary offset into the results Default: 0",
+                    "title": "Offset"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "How to sort the results. Format: ±SORT_FIELD,±SORT_FIELD where SORT_FIELD = countryCode | elevation | name | population",
+                    "title": "Sort"
+                }
+            },
+            "required": [
+                "radius"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "city_details",
+        "description": "Get the details for a specific city, including location coordinates, population, and elevation above sea-level (if available).",
+        "parameters": {
+            "properties": {
+                "languageCode": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results in this language",
+                    "title": "Languagecode"
+                },
+                "asciiMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results using ASCII characters",
+                    "title": "Asciimode"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "city_located_in",
+        "description": "Get the details for the containing populated place (e.g., its county or other administrative division), including location coordinates, population, and elevation above sea-level (if available). Currently, this data is highly dependent on whether the Wikidata **locatedIn** relation is properly defined. If you see an issue, please propose a change to the corresponding Wikidata entry.",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "city_date_time",
+        "description": "Get the city current date-time in ISO-6801 format: yyyyMMdd'T'HHmmssZ",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "city_distance",
+        "description": "Gets the distance to the given city.",
+        "parameters": {
+            "properties": {
+                "fromCityId": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The distance from this city ",
+                    "title": "Fromcityid"
+                },
+                "distanceUnit": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The unit of distance: KM | MI [default] ",
+                    "title": "Distanceunit"
+                },
+                "toCityId": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The distance to this city ",
+                    "title": "Tocityid"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "city_time",
+        "description": "Get the city current time in ISO-8601 format: HHmmss.SSSZ",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "places",
+        "description": "Find places, filtering by optional criteria. If no criteria are set, you will get back all known places.",
+        "parameters": {
+            "properties": {
+                "types": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only places for these types (comma-delimited): ADM2 | CITY | ISLAND",
+                    "title": "Types"
+                },
+                "location": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only places near this location. Latitude/longitude in ISO-6709 format: ±DD.DDDD±DDD.DDDD",
+                    "title": "Location"
+                },
+                "radius": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The location radius within which to find places Default: 0",
+                    "title": "Radius"
+                },
+                "distanceUnit": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The unit of distance to use: MI | KM",
+                    "title": "Distanceunit"
+                },
+                "countryIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only places in these countries (comma-delimited country codes or WikiData ids)",
+                    "title": "Countryids"
+                },
+                "excludedCountryIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only places NOT in these countries (comma-delimited country codes or WikiData ids)",
+                    "title": "Excludedcountryids"
+                },
+                "timeZoneIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only places in these time-zones",
+                    "title": "Timezoneids"
+                },
+                "minPopulation": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only places having at least this population Default: 0",
+                    "title": "Minpopulation"
+                },
+                "maxPopulation": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only places having no more than this population Default: 0",
+                    "title": "Maxpopulation"
+                },
+                "namePrefix": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only places whose names start with this prefix. If languageCode is set, the prefix will be matched on the name as it appears in that language.",
+                    "title": "Nameprefix"
+                },
+                "namePrefixDefaultLangResults": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "When name-prefix matching, whether or not to match on names in the default language if a non-default language is requested.",
+                    "title": "Nameprefixdefaultlangresults"
+                },
+                "includeDeleted": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Whether to include any places marked deleted: ALL | SINCE_YESTERDAY | SINCE_LAST_WEEK | NONE",
+                    "title": "Includedeleted"
+                },
+                "languageCode": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results in this language",
+                    "title": "Languagecode"
+                },
+                "asciiMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results using ASCII characters",
+                    "title": "Asciimode"
+                },
+                "hateoasMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include HATEOAS-style links in results",
+                    "title": "Hateoasmode"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The maximum number of results to retrieve Default: 0",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zero-ary offset into the results Default: 0",
+                    "title": "Offset"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "How to sort the results. Format: ±SORT_FIELD,±SORT_FIELD where SORT_FIELD = countryCode | elevation | name | population",
+                    "title": "Sort"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "places_near_location",
+        "description": "Get places near the given location, filtering by optional criteria.",
+        "parameters": {
+            "properties": {
+                "radius": {
+                    "description": "The location radius within which to find places",
+                    "title": "Radius",
+                    "type": "string"
+                },
+                "types": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only places for these types (comma-delimited): ADM2 | CITY | ISLAND",
+                    "title": "Types"
+                },
+                "distanceUnit": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The unit of distance to use: MI | KM",
+                    "title": "Distanceunit"
+                },
+                "countryIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only places in these countries (comma-delimited country codes or WikiData ids)",
+                    "title": "Countryids"
+                },
+                "excludedCountryIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only places NOT in these countries (comma-delimited country codes or WikiData ids)",
+                    "title": "Excludedcountryids"
+                },
+                "timeZoneIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only places in these time-zones",
+                    "title": "Timezoneids"
+                },
+                "minPopulation": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only places having at least this population Default: 0",
+                    "title": "Minpopulation"
+                },
+                "maxPopulation": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only places having no more than this population Default: 0",
+                    "title": "Maxpopulation"
+                },
+                "namePrefix": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only places whose names start with this prefix. If languageCode is set, the prefix will be matched on the name as it appears in that language.",
+                    "title": "Nameprefix"
+                },
+                "namePrefixDefaultLangResults": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "When name-prefix matching, whether or not to match on names in the default language if a non-default language is requested",
+                    "title": "Nameprefixdefaultlangresults"
+                },
+                "languageCode": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results in this language",
+                    "title": "Languagecode"
+                },
+                "asciiMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results using ASCII characters",
+                    "title": "Asciimode"
+                },
+                "hateoasMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include HATEOAS-style links in results",
+                    "title": "Hateoasmode"
+                },
+                "includeDeleted": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Whether to include any places marked deleted: ALL | SINCE_YESTERDAY | SINCE_LAST_WEEK | NONE",
+                    "title": "Includedeleted"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The maximum number of results to retrieve Default: 0",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zero-ary offset into the results Default: 0",
+                    "title": "Offset"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "How to sort the results. Format: ±SORT_FIELD,±SORT_FIELD where SORT_FIELD = countryCode | elevation | name | population",
+                    "title": "Sort"
+                }
+            },
+            "required": [
+                "radius"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "places_near_place",
+        "description": "Get places near the given place, filtering by optional criteria.",
+        "parameters": {
+            "properties": {
+                "radius": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The location radius within which to find places Default: 0",
+                    "title": "Radius"
+                },
+                "types": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only places for these types (comma-delimited): ADM2 | CITY | ISLAND",
+                    "title": "Types"
+                },
+                "distanceUnit": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The unit of distance to use: MI | KM",
+                    "title": "Distanceunit"
+                },
+                "countryIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only places in these countries (comma-delimited country codes or WikiData ids)",
+                    "title": "Countryids"
+                },
+                "excludedCountryIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only places NOT in these countries (comma-delimited country codes or WikiData ids)",
+                    "title": "Excludedcountryids"
+                },
+                "timeZoneIds": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only places in these time-zones",
+                    "title": "Timezoneids"
+                },
+                "minPopulation": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only places having at least this population Default: 0",
+                    "title": "Minpopulation"
+                },
+                "maxPopulation": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only places having no more than this population Default: 0",
+                    "title": "Maxpopulation"
+                },
+                "namePrefix": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only places whose names start with this prefix. If languageCode is set, the prefix will be matched on the name as it appears in that language.",
+                    "title": "Nameprefix"
+                },
+                "namePrefixDefaultLangResults": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "When name-prefix matching, whether or not to match on names in the default language if a non-default language is requested",
+                    "title": "Nameprefixdefaultlangresults"
+                },
+                "languageCode": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results in this language",
+                    "title": "Languagecode"
+                },
+                "asciiMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results using ASCII characters",
+                    "title": "Asciimode"
+                },
+                "hateoasMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include HATEOAS-style links in results",
+                    "title": "Hateoasmode"
+                },
+                "includeDeleted": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Whether to include any places marked deleted: ALL | SINCE_YESTERDAY | SINCE_LAST_WEEK | NONE",
+                    "title": "Includedeleted"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zero-ary offset into the results Default: 0",
+                    "title": "Offset"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "How to sort the results. Format: ±SORT_FIELD,±SORT_FIELD where SORT_FIELD = countryCode | elevation | name | population",
+                    "title": "Sort"
+                }
+            },
+            "required": [
+                "radius"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "place_details",
+        "description": "Get the details for a specific place, including location coordinates, population, and elevation above sea-level (if available).",
+        "parameters": {
+            "properties": {
+                "languageCode": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results in this language",
+                    "title": "Languagecode"
+                },
+                "asciiMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Display results using ASCII characters",
+                    "title": "Asciimode"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "place_located_in",
+        "description": "Get the details for the containing populated place (e.g., its county or other administrative division), including location coordinates, population, and elevation above sea-level (if available). Currently, this data is highly dependent on whether the Wikidata **locatedIn** relation is properly defined. If you see an issue, please propose a change to the corresponding Wikidata entry.",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "place_date_time",
+        "description": "Get this place's current date-time in ISO-6801 format: yyyyMMdd'T'HHmmssZ",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "place_distance",
+        "description": "Gets this place's distance to the given place.",
+        "parameters": {
+            "properties": {
+                "distanceUnit": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The unit of distance: KM | MI [default] ",
+                    "title": "Distanceunit"
+                },
+                "toPlaceId": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The distance to this place ",
+                    "title": "Toplaceid"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "place_time",
+        "description": "Get this place's current time in ISO-8601 format: HHmmss.SSSZ",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "currencies",
+        "description": "Get currencies, filtering by optional criteria. If no criteria are set, you will get back all known currencies.",
+        "parameters": {
+            "properties": {
+                "countryId": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only currencies supported by this country",
+                    "title": "Countryid"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The maximum number of results to retrieve Default: 0",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zero-ary offset index into the results Default: 0",
+                    "title": "Offset"
+                },
+                "hateoasMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include HATEOAS-style links in results",
+                    "title": "Hateoasmode"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "languages",
+        "description": "Get all supported languages",
+        "parameters": {
+            "properties": {
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zero-ary offset index into the results",
+                    "title": "Offset"
+                },
+                "hateoasMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include HATEOAS-style links in results",
+                    "title": "Hateoasmode"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The maximum number of results to retrieve Default: 0",
+                    "title": "Limit"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "locales",
+        "description": "Get all known locales.",
+        "parameters": {
+            "properties": {
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The maximum number of results to retrieve",
+                    "title": "Limit"
+                },
+                "hateoasMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include HATEOAS-style links in results",
+                    "title": "Hateoasmode"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zero-ary offset index into the results",
+                    "title": "Offset"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "time_zones",
+        "description": "Get all known time-zones.",
+        "parameters": {
+            "properties": {
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The maximum number of results to retrieve Default: 0",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zero-ary offset index into the results",
+                    "title": "Offset"
+                },
+                "hateoasMode": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include HATEOAS-style links in results",
+                    "title": "Hateoasmode"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "time_zone",
+        "description": "Get the time-zone current time in ISO-6801 format: HHmmss.SSSZ",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "time_zone_date_time",
+        "description": "Get the timezone current date-time in ISO-6801 format: yyyyMMdd'T'HHmmssZ",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "time_zone_time",
+        "description": "Get the time-zone current time in ISO-6801 format: HHmmss.SSSZ",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    }
+]

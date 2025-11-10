@@ -1,0 +1,792 @@
+[
+    {
+        "name": "local-falcon-mcp_listLocalFalconScanReports",
+        "description": "ALWAYS USE THIS FIRST before running new scans. Shows all existing scan reports to check if the data you need already exists. Prevents duplicate scans and saves time. Check here before using runLocalFalconScan to see if a recent report is available. Lists reports with dates, keywords, and locations for easy identification. NOTE: If a scan shows a campaign_key, it means a campaign report exists with broader multi-location/keyword data. Campaign scans won't have separate location/keyword reports - all that data is consolidated in the campaign report instead.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "nextToken": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "local-falcon-mcp_getLocalFalconReport",
+        "description": "EXISTING REPORT VIEWER ONLY - Retrieves previously created scan reports. CANNOT create new reports. WARNING: Only use this if you have a report_key from listLocalFalconScanReports. If you need NEW ranking data, use runLocalFalconScan instead. Common mistake: DO NOT use this hoping to generate a report - it only displays reports that already exist. The report URL format (https://www.localfalcon.com/reports/view/XXXXX) contains the report_key needed. NOTE: If this scan was part of a campaign, there will be a corresponding campaign report available (but NO separate location/keyword reports). Campaign reports provide a broader view across multiple locations/keywords which may be more valuable for comprehensive analysis.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "reportKey": {
+                    "type": "string",
+                    "description": "The report key of the scan report."
+                }
+            },
+            "required": [
+                "reportKey"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "local-falcon-mcp_listAllLocalFalconLocations",
+        "description": "Lists all business locations already configured in the Local Falcon account. Check here BEFORE using getLocalFalconGoogleBusinessLocations - if the business is already in the account, you'll get the Place ID instantly without needing to search Google. Saves time and ensures consistency with previous scans.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "Search query. Matches against location name, address, Place ID, or store code."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "local-falcon-mcp_getLocalFalconGoogleBusinessLocations",
+        "description": "Searches Google for business listings to find Place IDs needed for runLocalFalconScan. ONLY use this if: 1) Place ID not found in previous scan reports, AND 2) Business not found in listAllLocalFalconLocations. This is the last resort for finding a Place ID. Returns multiple potential matches - verify you have the correct business before scanning.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "nextToken": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "Pagination token for additional results."
+                },
+                "query": {
+                    "type": "string",
+                    "description": "The query to search for."
+                },
+                "near": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "Narrow results by location. City, state, country, etc."
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "local-falcon-mcp_runLocalFalconScan",
+        "description": "Runs a scan at the specified coordinate point and gets ranking data for a specified business.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "placeId": {
+                    "type": "string",
+                    "description": "The Google Place ID of the business to match against in results."
+                },
+                "keyword": {
+                    "type": "string",
+                    "description": "The desired search term or keyword."
+                },
+                "lat": {
+                    "type": "string",
+                    "description": "The data point latitude value."
+                },
+                "lng": {
+                    "type": "string",
+                    "description": "The data point longitude value."
+                },
+                "gridSize": {
+                    "type": "string",
+                    "enum": [
+                        "3",
+                        "5",
+                        "7",
+                        "9",
+                        "11",
+                        "13",
+                        "15"
+                    ],
+                    "description": "The size of the grid."
+                },
+                "radius": {
+                    "type": "string",
+                    "description": "The radius of the grid from center point to outer most north/east/south/west point (0.1 to 100)."
+                },
+                "measurement": {
+                    "type": "string",
+                    "enum": [
+                        "mi",
+                        "km"
+                    ],
+                    "description": "The measurement unit of the radius (mi for miles, km for kilometers)."
+                },
+                "platform": {
+                    "type": "string",
+                    "enum": [
+                        "google",
+                        "apple",
+                        "gaio",
+                        "chatgpt"
+                    ],
+                    "description": "The platform to run the scan against."
+                },
+                "aiAnalysis": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether AI analysis should be generated for this scan (optional, defaults to false)."
+                }
+            },
+            "required": [
+                "placeId",
+                "keyword",
+                "lat",
+                "lng",
+                "gridSize",
+                "radius",
+                "measurement",
+                "platform"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "local-falcon-mcp_listLocalFalconCampaignReports",
+        "description": "Lists all campaign reports in your account. Campaigns are the primary way to organize and track rankings at scale. Can include: single location + single keyword, multiple locations + single keyword, single location + multiple keywords, or multiple locations + multiple keywords. Most campaigns run on automated schedules (daily, weekly, monthly) making them the preferred method for ongoing tracking, but can also be run manually. Campaign reports consolidate all data in one place - no separate location/keyword reports are generated for campaign scans. Check here to see scheduled scan activity and multi-location/keyword performance data.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "startDate": {
+                    "anyOf": [
+                        {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "A lower limit date of a Campaign run you wish to retrieve. Expects date formatted as MM/DD/YYYY."
+                },
+                "endDate": {
+                    "anyOf": [
+                        {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Upper limit date of a Campaign run or schedule you wish to retrieve. Expects date formatted as MM/DD/YYYY."
+                },
+                "placeId": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "Filter only results for specific Google Place ID. Supports multiple Google Place IDs, seperated by commas."
+                },
+                "nextToken": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "This parameter is used to get the next 'page' of results. The value used with the parameter is provided from a previous response by this endpoint if more 'pages' of results exist."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "local-falcon-mcp_listLocalFalconGuardReports",
+        "description": "Lists Falcon Guard reports IF they exist for your locations. Falcon Guard monitors Google Business Profile health and changes. NOTE: Not all locations have Guard reports. For OAuth-connected locations, reports include calls/clicks/directions data. For manually added locations, reports only show historical GBP changes.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "startDate": {
+                    "anyOf": [
+                        {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "A lower limit date you wish to retrieve. Expects date formatted as MM/DD/YYYY."
+                },
+                "endDate": {
+                    "anyOf": [
+                        {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Upper limit date you wish to retrieve. Expects date formatted as MM/DD/YYYY."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "local-falcon-mcp_getLocalFalconGuardReport",
+        "description": "Retrieves a Falcon Guard report IF it exists for the location given a place_id. Shows Google Business Profile monitoring data. OAuth-connected locations include full metrics (calls, clicks, directions) plus historical changes. Manually added locations only show historical GBP changes. Returns an error if Guard is not enabled for this location.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "placeId": {
+                    "type": "string",
+                    "description": "The place_id of the Falcon Guard Report you wish to retrieve."
+                }
+            },
+            "required": [
+                "placeId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "local-falcon-mcp_listLocalFalconTrendReports",
+        "description": "Lists all existing trend reports that are AUTO-GENERATED when you run multiple scans with identical settings (same place ID, keyword, lat/lng, grid size, radius, platform). Trend reports show ranking changes over time and only appear after at least 2 identical scans. Check here to see historical ranking trends for a single location and single keyword at a time.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "nextToken": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "placeId": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "keyword": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "local-falcon-mcp_listLocalFalconAutoScans",
+        "description": "Lists ONLY individually scheduled automatic scans. NOTE: This does NOT include campaign-scheduled scans, which are the more common way to schedule recurring scans. To see campaign schedules, use listLocalFalconCampaignReports instead. Most users schedule scans through campaigns for better organization and reporting.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "nextToken": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "placeId": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "keyword": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "grid_size": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "frequency": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "status": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "local-falcon-mcp_listLocalFalconLocationReports",
+        "description": "Lists all existing location reports that are AUTO-GENERATED after running runLocalFalconScan. NOTE: Location reports are NOT generated if the scan was initiated from a campaign (that data is included in the campaign report instead). These aggregate all scans for a specific business location. These will only be generated after a location has been scanned for at least 2 keywords outside of a campaign. ",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "placeId": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "The Place ID of the location."
+                },
+                "keyword": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "The keyword to search for."
+                },
+                "nextToken": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "Pagination token for additional results."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "local-falcon-mcp_getLocalFalconLocationReport",
+        "description": "Retrieves a single location report. A location report looks like https://www.localfalcon.com/reports/location/view/c60c325a8665c4a where c60c325a8665c4a is the report key. Retrieves an AUTO-GENERATED location report that aggregates scan data for a specific business location. These are automatically created with runLocalFalconScan EXCEPT when scans are run from campaigns (campaign reports contain this data instead). Cannot be created manually. These will only be generated after a location has been scanned for at least 2 keywords outside of a campaign.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "reportKey": {
+                    "type": "string",
+                    "description": "The report key of the location report."
+                }
+            },
+            "required": [
+                "reportKey"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "local-falcon-mcp_getLocalFalconTrendReport",
+        "description": "Retrieves an AUTO-GENERATED trend report showing ranking changes over time. A trend report looks like https://www.localfalcon.com/reports/trend/view/95290829819f6e8 where 95290829819f6e8 is the report key. These are automatically created when you run multiple scans with IDENTICAL settings (same place ID, keyword, coordinates, grid, radius, platform). Requires at least 2 identical scans to generate. Cannot be created manually.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "reportKey": {
+                    "type": "string",
+                    "description": "The report key of the trend report."
+                }
+            },
+            "required": [
+                "reportKey"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "local-falcon-mcp_listLocalFalconKeywordReports",
+        "description": "A keyword report looks like https://www.localfalcon.com/reports/keyword/view/754ffcb0f309938 where 754ffcb0f309938 is the report key. Lists all existing keyword reports that are AUTO-GENERATED after running runLocalFalconScan. NOTE: Keyword reports are NOT generated if the scan was initiated from a campaign (that data is included in the campaign report instead). These aggregate all scans for a specific keyword. These will only be generated after a keyword has been scanned for at least 2 locations outside of a campaign. ",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "nextToken": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "Pagination token for additional results."
+                },
+                "keyword": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "The keyword to search for."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "local-falcon-mcp_getLocalFalconKeywordReport",
+        "description": "Retrieves an AUTO-GENERATED keyword report that aggregates scan data for a specific keyword. These are automatically created with runLocalFalconScan EXCEPT when scans are run from campaigns (campaign reports contain this data instead). Cannot be created manually. These will only be generated after a keyword has been scanned for at least 2 locations outside of a campaign. ",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "reportKey": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "reportKey"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "local-falcon-mcp_getLocalFalconCompetitorReports",
+        "description": "Lists all existing competitor analysis reports that are AUTO-GENERATED after running runLocalFalconScan. Every scan automatically creates a competitor report showing top-ranking businesses in the area. You don't run these separately - they're created automatically with each scan.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "startDate": {
+                    "anyOf": [
+                        {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "A lower limit (oldest) date you wish to retrieve. Expects date formatted as MM/DD/YYYY."
+                },
+                "endDate": {
+                    "anyOf": [
+                        {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Upper limit (newest) date you wish to retrieve. Expects date formatted as MM/DD/YYYY."
+                },
+                "placeId": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "Filter only results for specific Google Place ID. Supports multiple Google Place IDs, seperated by commas."
+                },
+                "keyword": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "Filter only results similar to specified keyword (loose match)."
+                },
+                "gridSize": {
+                    "type": "string",
+                    "enum": [
+                        "3",
+                        "5",
+                        "7",
+                        "9",
+                        "11",
+                        "13",
+                        "15"
+                    ],
+                    "default": "3",
+                    "description": "Filter only for specific grid sizes. Expects 3, 5, 7, 9, 11, 13, or 15."
+                },
+                "nextToken": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "This parameter is used to get the next 'page' of results. The value used with the parameter is provided from a previous response by this endpoint if more 'pages' of results exist."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "local-falcon-mcp_getLocalFalconCompetitorReport",
+        "description": "Competitor reports look like https://www.localfalcon.com/reports/competitor/view/08116fb5331e258 where 08116fb5331e258 is the report_key. Retrieves an AUTO-GENERATED competitor report that was created when you ran a scan. Shows top-ranking competitors from that scan. These reports are automatically created with every runLocalFalconScan - you cannot create them separately. Use the report_key from getLocalFalconCompetitorReports to view competitor data from a specific scan.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "reportKey": {
+                    "type": "string",
+                    "description": "The report_key of the Competitor Report you wish to retrieve."
+                },
+                "lowDataMode": {
+                    "type": [
+                        "boolean",
+                        "null"
+                    ],
+                    "default": true,
+                    "description": "Set to false to retrieve more data."
+                }
+            },
+            "required": [
+                "reportKey"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "local-falcon-mcp_getLocalFalconGrid",
+        "description": "Helper tool that generates grid coordinates for use with getLocalFalconRankingAtCoordinate or getLocalFalconKeywordAtCoordinate. Creates an array of lat/lng points based on your specified grid size and radius. NOTE: This is only useful if you're doing manual single-point checks. For comprehensive ranking analysis, skip this and use runLocalFalconScan instead, which handles grid creation automatically and provides full reports.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "lat": {
+                    "type": "string",
+                    "description": "The latitude of the center of the grid."
+                },
+                "lng": {
+                    "type": "string",
+                    "description": "The longitude of the center of the grid."
+                },
+                "gridSize": {
+                    "type": "string",
+                    "description": "Expects 3, 5, 7, 9, 11, 13, or 15."
+                },
+                "radius": {
+                    "type": "string",
+                    "description": "The radius of the grid in meters. From 0.1 to 100."
+                },
+                "measurement": {
+                    "type": "string",
+                    "enum": [
+                        "mi",
+                        "km",
+                        "null",
+                        "undefined"
+                    ],
+                    "description": "Expects 'mi' or 'km'."
+                }
+            },
+            "required": [
+                "lat",
+                "lng",
+                "gridSize",
+                "radius",
+                "measurement"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "local-falcon-mcp_getLocalFalconRankingAtCoordinate",
+        "description": "SINGLE-POINT CHECK ONLY - LIMITED USE TOOL. Checks ranking at exactly ONE coordinate. NOT for comprehensive analysis. WARNING: This is like checking the weather by looking out one window - you miss the full picture. Only use for: debugging specific locations, verifying edge cases, or quick spot checks. For ANY serious ranking analysis, reporting, or visibility assessment, use runLocalFalconScan instead which provides complete geographic coverage. Never use this for client reports or strategic decisions.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "lat": {
+                    "type": "string",
+                    "description": "The latitude of the coordinate."
+                },
+                "lng": {
+                    "type": "string",
+                    "description": "The longitude of the coordinate."
+                },
+                "keyword": {
+                    "type": "string",
+                    "description": "The keyword to search for."
+                },
+                "zoom": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "The zoom level of the map. From 0 to 18.",
+                    "default": "13"
+                }
+            },
+            "required": [
+                "lat",
+                "lng",
+                "keyword"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "local-falcon-mcp_getLocalFalconKeywordAtCoordinate",
+        "description": "LIMITED TOOL - Shows raw search results at ONE SINGLE point without ranking analysis. Does not provide ranking positions or competitive insights. Only use for debugging or checking raw SERP data. For actual ranking analysis, use runLocalFalconScan.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "lat": {
+                    "type": "string",
+                    "description": "The latitude of the coordinate."
+                },
+                "lng": {
+                    "type": "string",
+                    "description": "The longitude of the coordinate."
+                },
+                "keyword": {
+                    "type": "string",
+                    "description": "The desired search term or keyword."
+                },
+                "zoom": {
+                    "type": "string",
+                    "description": "The desired zoom level of the map. From 0 to 18.",
+                    "default": "13"
+                }
+            },
+            "required": [
+                "lat",
+                "lng",
+                "keyword"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "local-falcon-mcp_getLocalFalconCampaignReport",
+        "description": "Campaign reports look like https://www.localfalcon.com/campaigns/view/0ee3c5869f3fa13 where 0ee3c5869f3fa13 is the report_key. Retrieves a specific campaign report that tracks multiple locations/keywords. Only for existing reports. Contains aggregated metrics (ARP, ATRP, SOLV), individual scan results, performance breakdowns by keyword and location, and scheduling info. Consolidates all data - no separate location/keyword reports exist for campaign scans.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "reportKey": {
+                    "type": "string",
+                    "description": "The report_key of the Campaign Report you wish to retrieve."
+                }
+            },
+            "required": [
+                "reportKey"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "local-falcon-mcp_searchForLocalFalconBusinessLocation",
+        "description": "Searches for business locations on the specified platform. Returns a list of locations that match the search term.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "term": {
+                    "type": "string",
+                    "description": "The business location name to search for"
+                },
+                "platform": {
+                    "type": "string",
+                    "enum": [
+                        "google",
+                        "apple"
+                    ],
+                    "default": "google",
+                    "description": "The platform to search against"
+                },
+                "proximity": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "Optional proximity filter (e.g., city, state, country)",
+                    "default": ""
+                }
+            },
+            "required": [
+                "term"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "local-falcon-mcp_saveLocalFalconBusinessLocationToAccount",
+        "description": "Saves a business location to your Local Falcon account. This is required to run a scan if it doesn't exist in your account.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "platform": {
+                    "type": "string",
+                    "enum": [
+                        "google",
+                        "apple"
+                    ],
+                    "default": "google",
+                    "description": "The platform to add the location from (google or apple)"
+                },
+                "placeId": {
+                    "type": "string",
+                    "description": "The Business Location ID to add"
+                },
+                "name": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "Business name (required for Apple)"
+                },
+                "lat": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "Latitude (required for Apple)"
+                },
+                "lng": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "description": "Longitude (required for Apple)"
+                }
+            },
+            "required": [
+                "placeId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "local-falcon-mcp_viewLocalFalconAccountInformation",
+        "description": "Retrieves Local Falcon account information. Returns user, credit package, subscription, and credits.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "returnField": {
+                    "anyOf": [
+                        {
+                            "type": "string",
+                            "enum": [
+                                "user",
+                                "credit package",
+                                "subscription",
+                                "credits",
+                                "null",
+                                "undefined"
+                            ]
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Optional specific return information"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

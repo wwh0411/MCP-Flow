@@ -1,0 +1,254 @@
+[
+    {
+        "name": "predictions",
+        "description": "This endpoint returns a list of the football predictions scheduled to start in the next 48hours. URL parameters can be specified to show past predictions or to filter by federation and prediction market.",
+        "parameters": {
+            "properties": {
+                "market": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Shows the predictions for a certain market. Defaults to \"classic\" if not provided",
+                    "title": "Market"
+                },
+                "iso_date": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Will filter the results by date. Can be used to show past results.",
+                    "title": "Iso Date"
+                },
+                "federation": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter the predictions by federation",
+                    "title": "Federation"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "prediction_details",
+        "description": "Grab all available predictions for a match id",
+        "parameters": {
+            "properties": {
+                "id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Default: 99999",
+                    "title": "Id"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "performance_stats_for_past_predictions",
+        "description": "Returns information about the accuracy of past predictions. (in the last day, 7 days, 14 days and 30 days) Can be additionally filtered by federation and market. If no market filter is provided it defaults to classic",
+        "parameters": {
+            "properties": {
+                "market": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Show stats for a different prediction market. Defaults to \"classic\" if not provided",
+                    "title": "Market"
+                },
+                "federation": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter stats by federation",
+                    "title": "Federation"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "head_to_head",
+        "description": "Shows head to head stats and previous encounters for the home and away team of an upcoming match.",
+        "parameters": {
+            "properties": {
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Limit the search to only X previous encounters. (max is 10) Default: 10",
+                    "title": "Limit"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "home_team_league_stats",
+        "description": "Shows the league table and stats for the home team of an upcoming match.",
+        "parameters": {
+            "properties": {
+                "id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "(use predictions endpoint to get list of IDs) Default: 81930",
+                    "title": "Id"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "home_team_last10_matches",
+        "description": "Grab the statistics and list of the last 10 matches played by the home team for a certain ID",
+        "parameters": {
+            "properties": {
+                "id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "(use predictions endpoint to get list of IDs) Default: 81930",
+                    "title": "Id"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "away_team_last10_matches",
+        "description": "Grab the statistics and list of the last 10 matches played by the away team for a certain ID",
+        "parameters": {
+            "properties": {
+                "id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "(use predictions endpoint to get list of IDs) Default: 81930",
+                    "title": "Id"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "away_team_league_stats",
+        "description": "Shows the league table and stats for the away team of an upcoming match.",
+        "parameters": {
+            "properties": {
+                "id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "(use predictions endpoint to get list of IDs) Default: 86397",
+                    "title": "Id"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_available_markets",
+        "description": "List all available markets and the ones that are enabled for your subscription plan",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_available_federations",
+        "description": "Returns an array of all the available federations.",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_list_of_fixture_ids",
+        "description": "Returns a list of fixture IDs that can be used to make requests to endpoints expecting a ID url parameter. Can be filtered by: - iso_date - market - federation",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    }
+]

@@ -1,0 +1,183 @@
+[
+    {
+        "name": "prompt",
+        "description": "Send a prompt to multiple LLM models",
+        "parameters": {
+            "properties": {
+                "text": {
+                    "description": "The prompt text",
+                    "title": "Text",
+                    "type": "string"
+                },
+                "models_prefixed_by_provider": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "List of models with provider prefixes (e.g., 'openai:gpt-4o' or 'o:gpt-4o'). If not provided, uses default models.",
+                    "title": "Models Prefixed By Provider"
+                }
+            },
+            "required": [
+                "text"
+            ],
+            "title": "PromptSchema",
+            "type": "object"
+        }
+    },
+    {
+        "name": "prompt_from_file",
+        "description": "Send a prompt from a file to multiple LLM models. IMPORTANT: You MUST provide an absolute file path (e.g., /path/to/file or C:\\path\\to\\file), not a relative path.",
+        "parameters": {
+            "properties": {
+                "abs_file_path": {
+                    "description": "Absolute path to the file containing the prompt (must be an absolute path, not relative)",
+                    "title": "Abs File Path",
+                    "type": "string"
+                },
+                "models_prefixed_by_provider": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "List of models with provider prefixes (e.g., 'openai:gpt-4o' or 'o:gpt-4o'). If not provided, uses default models.",
+                    "title": "Models Prefixed By Provider"
+                }
+            },
+            "required": [
+                "abs_file_path"
+            ],
+            "title": "PromptFromFileSchema",
+            "type": "object"
+        }
+    },
+    {
+        "name": "prompt_from_file_to_file",
+        "description": "Send a prompt from a file to multiple LLM models and save responses to files. IMPORTANT: You MUST provide absolute paths (e.g., /path/to/file or C:\\path\\to\\file) for both file and output directory, not relative paths.",
+        "parameters": {
+            "properties": {
+                "abs_file_path": {
+                    "description": "Absolute path to the file containing the prompt (must be an absolute path, not relative)",
+                    "title": "Abs File Path",
+                    "type": "string"
+                },
+                "models_prefixed_by_provider": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "List of models with provider prefixes (e.g., 'openai:gpt-4o' or 'o:gpt-4o'). If not provided, uses default models.",
+                    "title": "Models Prefixed By Provider"
+                },
+                "abs_output_dir": {
+                    "default": ".",
+                    "description": "Absolute directory path to save the response files to (must be an absolute path, not relative. Default: current directory)",
+                    "title": "Abs Output Dir",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "abs_file_path"
+            ],
+            "title": "PromptFromFileToFileSchema",
+            "type": "object"
+        }
+    },
+    {
+        "name": "ceo_and_board",
+        "description": "Send a prompt to multiple 'board member' models and have a 'CEO' model make a decision based on their responses. IMPORTANT: You MUST provide absolute paths (e.g., /path/to/file or C:\\path\\to\\file) for both file and output directory, not relative paths.",
+        "parameters": {
+            "properties": {
+                "abs_file_path": {
+                    "description": "Absolute path to the file containing the prompt (must be an absolute path, not relative)",
+                    "title": "Abs File Path",
+                    "type": "string"
+                },
+                "models_prefixed_by_provider": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "List of models with provider prefixes to act as board members. If not provided, uses default models.",
+                    "title": "Models Prefixed By Provider"
+                },
+                "abs_output_dir": {
+                    "default": ".",
+                    "description": "Absolute directory path to save the response files and CEO decision (must be an absolute path, not relative)",
+                    "title": "Abs Output Dir",
+                    "type": "string"
+                },
+                "ceo_model": {
+                    "default": "openai:o3",
+                    "description": "Model to use for the CEO decision in format 'provider:model'",
+                    "title": "Ceo Model",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "abs_file_path"
+            ],
+            "title": "CEOAndBoardSchema",
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_providers",
+        "description": "List all available LLM providers",
+        "parameters": {
+            "properties": {},
+            "title": "ListProvidersSchema",
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_models",
+        "description": "List all available models for a specific LLM provider",
+        "parameters": {
+            "properties": {
+                "provider": {
+                    "description": "Provider to list models for (e.g., 'openai' or 'o')",
+                    "title": "Provider",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "provider"
+            ],
+            "title": "ListModelsSchema",
+            "type": "object"
+        }
+    }
+]

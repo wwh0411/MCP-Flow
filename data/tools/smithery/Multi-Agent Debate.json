@@ -1,0 +1,42 @@
+[
+    {
+        "name": "multi-agent-debate-mcp_multiagentdebate",
+        "description": "Structured multi\u2011persona debate tool.\n\nCall sequence (typical):\n1. Each persona registers once with action:\"register\".\n2. Personas alternate action:\"argue\" (fresh point) or \"rebut\" (counter a targetAgentId).\n3. A special persona (or either side) issues action:\"judge\" with a verdict text\n   (first line should be \"pro\", \"con\", or \"inconclusive\").\n4. Set needsMoreRounds:false only when the debate is finished and a verdict stands.\n\nParameters:\n- agentId (string)            : \"pro\", \"con\", \"judge\", or any custom ID\n- round (int \u22651)              : Debate round number\n- action (string)             : \"register\" | \"argue\" | \"rebut\" | \"judge\"\n- content (string, optional)  : Argument text or verdict\n- targetAgentId (string opt.) : Agent being rebutted (only for action:\"rebut\")\n- needsMoreRounds (boolean)   : True if additional debate rounds desired",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "agentId": {
+                    "type": "string"
+                },
+                "round": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "action": {
+                    "type": "string",
+                    "enum": [
+                        "register",
+                        "argue",
+                        "rebut",
+                        "judge"
+                    ]
+                },
+                "content": {
+                    "type": "string"
+                },
+                "targetAgentId": {
+                    "type": "string"
+                },
+                "needsMoreRounds": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "agentId",
+                "round",
+                "action",
+                "needsMoreRounds"
+            ]
+        }
+    }
+]

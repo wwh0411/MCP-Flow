@@ -1,0 +1,80 @@
+[
+    {
+        "name": "taskwarrior_get_next_tasks",
+        "description": "Get a list of all pending tasks",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "project": {
+                    "type": "string",
+                    "pattern": "^[a-z.]+$"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "pattern": "^a-z$"
+                    }
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "taskwarrior_mark_task_done",
+        "description": "Mark a task as done (completed)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "identifier": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "identifier"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "taskwarrior_add_task",
+        "description": "Add a new task",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "due": {
+                    "type": "string"
+                },
+                "priority": {
+                    "type": "string",
+                    "enum": [
+                        "H",
+                        "M",
+                        "L"
+                    ]
+                },
+                "project": {
+                    "type": "string",
+                    "pattern": "^[a-z.]+$"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "pattern": "^a-z$"
+                    }
+                }
+            },
+            "required": [
+                "description"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

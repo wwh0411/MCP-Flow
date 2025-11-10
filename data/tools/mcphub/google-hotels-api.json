@@ -1,0 +1,336 @@
+[
+    {
+        "name": "search_hotels",
+        "description": "Use this tool to search for hotels and vacation rentals with Google Hotels search engine.",
+        "parameters": {
+            "properties": {
+                "q": {
+                    "description": "Parameter defines the search query. You can use anything that you would use in a regular Google Hotels search.",
+                    "title": "Q",
+                    "type": "string"
+                },
+                "check_in_date": {
+                    "description": "Parameter defines the check-in date. The format is YYYY-MM-DD. e.g. 2025-06-26",
+                    "title": "Check In Date",
+                    "type": "string"
+                },
+                "check_out_date": {
+                    "description": "Parameter defines the check-out date. The format is YYYY-MM-DD. e.g. 2025-06-27",
+                    "title": "Check Out Date",
+                    "type": "string"
+                },
+                "currency": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parameter defines the currency of the returned prices. Default to USD. Head to the Google Travel Currencies page for a full list of supported currency codes.",
+                    "title": "Currency"
+                },
+                "adults": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parameter defines the number of adults. Default to 2.",
+                    "title": "Adults"
+                },
+                "children": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parameter defines the number of children. Default to 0.",
+                    "title": "Children"
+                },
+                "children_ages": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parameter defines the ages of children. The age range is from 1 to 17, with children who haven't reached 1 year old being considered as 1. Example for single child only: 5. Example for multiple children (seperated by comma ,): 5,8,10. The number of children's ages specified must match the children.",
+                    "title": "Children Ages"
+                },
+                "sort_by": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parameter is used for sorting the results. Default is sort by Relevance. Available options: 3 - Lowest price, 8 - Highest rating, 13 - Most reviewed",
+                    "title": "Sort By"
+                },
+                "min_price": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Optional. Minimum price filter (integer or string like '$100').",
+                    "title": "Min Price"
+                },
+                "max_price": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Optional. Maximum price filter (integer or string like '$200').",
+                    "title": "Max Price"
+                },
+                "property_types": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parameter defines to include only certain type of property in the results. Head to the Google Hotels Property Types page for a full list of supported Hotels property types. For Vacation Rentals, please refer to the Google Vacation Rentals Property Types page for a full list of supported Vacation Rentals property types. Example for single property type only: 17. Example for multiple property types (seperated by comma ,): 17,12,18",
+                    "title": "Property Types"
+                },
+                "amenities": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parameter defines to include only results that offer specified amenities. Head to the Google Hotels Amenities page for a full list of supported Hotels amenities. For Vacation Rentals, please refer to the Google Vacation Rentals Amenities page for a full list of supported Vacation Rentals amenities. Example for single amenity only: 35. Example for multiple amenities (seperated by comma ,): 35,9,19",
+                    "title": "Amenities"
+                },
+                "rating": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parameter is used for filtering the results to certain rating. Available options: 7 - 3.5+, 8 - 4.0+, 9 - 4.5+",
+                    "title": "Rating"
+                },
+                "brands": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parameter defines the brands where you want your search to be concentrated. ID values are accessible inside brands array, located in our JSON output (e.g. brands[0].id). Example for single brand only: 33. Example for multiple brands (seperated by comma ,): 33,67,101. This parameter isn't available for Vacation Rentals.",
+                    "title": "Brands"
+                },
+                "hotel_class": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parameter defines to include only certain hotel class in the results. Available options: 2 - 2-star, 3 - 3-star, 4 - 4-star, 5 - 5-star. Example for single hotel class only: 2. Example for multiple hotel class (seperated by comma ,): 2,3,4. This parameter isn't available for Vacation Rentals.",
+                    "title": "Hotel Class"
+                },
+                "free_cancellation": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parameter defines to show results that offer free cancellation. This parameter isn't available for Vacation Rentals.",
+                    "title": "Free Cancellation"
+                },
+                "special_offers": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parameter defines to show results that have special offers. This parameter isn't available for Vacation Rentals.",
+                    "title": "Special Offers"
+                },
+                "eco_certified": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parameter defines to show results that are eco certified. This parameter isn't available for Vacation Rentals.",
+                    "title": "Eco Certified"
+                },
+                "vacation_rentals": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parameter defines to search for Vacation Rentals results. Default search is for Hotels.",
+                    "title": "Vacation Rentals"
+                },
+                "bedrooms": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parameter defines the minimum number of bedrooms. Default to 0. This parameter only available for Vacation Rentals.",
+                    "title": "Bedrooms"
+                },
+                "bathrooms": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parameter defines the minimum number of bathrooms. Default to 0. This parameter only available for Vacation Rentals.",
+                    "title": "Bathrooms"
+                },
+                "next_page_token": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parameter defines the next page token. It is used for retrieving the next page results.",
+                    "title": "Next Page Token"
+                },
+                "property_token": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parameter is used to get property details which consists of name, address, phone, prices, nearby places, and etc. You can find property_token from Google Hotels Properties API.",
+                    "title": "Property Token"
+                },
+                "no_cache": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parameter will force SerpApi to fetch the Google Hotels results even if a cached version is already present. A cache is served only if the query and all parameters are exactly the same. Cache expires after 1h. Cached searches are free, and are not counted towards your searches per month. It can be set to false (default) to allow results from the cache, or true to disallow results from the cache. no_cache and async parameters should not be used together.",
+                    "title": "No Cache"
+                },
+                "aasync": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parameter defines the way you want to submit your search to SerpApi. It can be set to false (default) to open an HTTP connection and keep it open until you got your search results, or true to just submit your search to SerpApi and retrieve them later. In this case, you'll need to use our Searches Archive API to retrieve your results. async and no_cache parameters should not be used together.",
+                    "title": "Aasync"
+                },
+                "zero_trace": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Enterprise only. Parameter enables ZeroTrace mode. It can be set to false (default) or true. Enable this mode to skip storing search parameters, search files, and search metadata on our servers. This may make debugging more difficult.",
+                    "title": "Zero Trace"
+                }
+            },
+            "required": [
+                "q",
+                "check_in_date",
+                "check_out_date"
+            ],
+            "type": "object"
+        }
+    }
+]

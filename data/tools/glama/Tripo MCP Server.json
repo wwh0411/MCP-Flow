@@ -1,0 +1,336 @@
+[
+    {
+        "name": "tripo-mcp_get_scene_info",
+        "description": "Get detailed information about the current Blender scene",
+        "parameters": {
+            "properties": {},
+            "title": "get_scene_infoArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "tripo-mcp_get_object_info",
+        "description": "\nGet detailed information about a specific object in the Blender scene.\n\nParameters:\n- object_name: The name of the object to get information about\n",
+        "parameters": {
+            "properties": {
+                "object_name": {
+                    "title": "Object Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "object_name"
+            ],
+            "title": "get_object_infoArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "tripo-mcp_create_object",
+        "description": "\nCreate a new object in the Blender scene.\n\nParameters:\n- type: Object type (CUBE, SPHERE, CYLINDER, PLANE, CONE, TORUS, EMPTY, CAMERA, LIGHT)\n- name: Optional name for the object\n- location: Optional [x, y, z] location coordinates\n- rotation: Optional [x, y, z] rotation in radians\n- scale: Optional [x, y, z] scale factors\n",
+        "parameters": {
+            "properties": {
+                "type": {
+                    "default": "CUBE",
+                    "title": "Type",
+                    "type": "string"
+                },
+                "name": {
+                    "default": null,
+                    "title": "Name",
+                    "type": "string"
+                },
+                "location": {
+                    "default": null,
+                    "items": {
+                        "type": "number"
+                    },
+                    "title": "Location",
+                    "type": "array"
+                },
+                "rotation": {
+                    "default": null,
+                    "items": {
+                        "type": "number"
+                    },
+                    "title": "Rotation",
+                    "type": "array"
+                },
+                "scale": {
+                    "default": null,
+                    "items": {
+                        "type": "number"
+                    },
+                    "title": "Scale",
+                    "type": "array"
+                }
+            },
+            "title": "create_objectArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "tripo-mcp_modify_object",
+        "description": "\nModify an existing object in the Blender scene.\n\nParameters:\n- name: Name of the object to modify\n- location: Optional [x, y, z] location coordinates\n- rotation: Optional [x, y, z] rotation in radians\n- scale: Optional [x, y, z] scale factors\n- visible: Optional boolean to set visibility\n",
+        "parameters": {
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string"
+                },
+                "location": {
+                    "default": null,
+                    "items": {
+                        "type": "number"
+                    },
+                    "title": "Location",
+                    "type": "array"
+                },
+                "rotation": {
+                    "default": null,
+                    "items": {
+                        "type": "number"
+                    },
+                    "title": "Rotation",
+                    "type": "array"
+                },
+                "scale": {
+                    "default": null,
+                    "items": {
+                        "type": "number"
+                    },
+                    "title": "Scale",
+                    "type": "array"
+                },
+                "visible": {
+                    "default": null,
+                    "title": "Visible",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "title": "modify_objectArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "tripo-mcp_delete_object",
+        "description": "\nDelete an object from the Blender scene.\n\nParameters:\n- name: Name of the object to delete\n",
+        "parameters": {
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "title": "delete_objectArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "tripo-mcp_set_material",
+        "description": "\nSet or create a material for an object.\n\nParameters:\n- object_name: Name of the object to apply the material to\n- material_name: Optional name of the material to use or create\n- color: Optional [R, G, B] color values (0.0-1.0)\n",
+        "parameters": {
+            "properties": {
+                "object_name": {
+                    "title": "Object Name",
+                    "type": "string"
+                },
+                "material_name": {
+                    "default": null,
+                    "title": "Material Name",
+                    "type": "string"
+                },
+                "color": {
+                    "default": null,
+                    "items": {
+                        "type": "number"
+                    },
+                    "title": "Color",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "object_name"
+            ],
+            "title": "set_materialArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "tripo-mcp_execute_blender_code",
+        "description": "\nExecute arbitrary Python code in Blender.\n\nParameters:\n- code: The Python code to execute\n",
+        "parameters": {
+            "properties": {
+                "code": {
+                    "title": "Code",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "code"
+            ],
+            "title": "execute_blender_codeArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "tripo-mcp_get_polyhaven_categories",
+        "description": "\nGet a list of categories for a specific asset type on Polyhaven.\n\nParameters:\n- asset_type: The type of asset to get categories for (hdris, textures, models, all)\n",
+        "parameters": {
+            "properties": {
+                "asset_type": {
+                    "default": "hdris",
+                    "title": "Asset Type",
+                    "type": "string"
+                }
+            },
+            "title": "get_polyhaven_categoriesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "tripo-mcp_search_polyhaven_assets",
+        "description": "\nSearch for assets on Polyhaven with optional filtering.\n\nParameters:\n- asset_type: Type of assets to search for (hdris, textures, models, all)\n- categories: Optional comma-separated list of categories to filter by\n\nReturns a list of matching assets with basic information.\n",
+        "parameters": {
+            "properties": {
+                "asset_type": {
+                    "default": "all",
+                    "title": "Asset Type",
+                    "type": "string"
+                },
+                "categories": {
+                    "default": null,
+                    "title": "Categories",
+                    "type": "string"
+                }
+            },
+            "title": "search_polyhaven_assetsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "tripo-mcp_download_polyhaven_asset",
+        "description": "\nDownload and import a Polyhaven asset into Blender.\n\nParameters:\n- asset_id: The ID of the asset to download\n- asset_type: The type of asset (hdris, textures, models)\n- resolution: The resolution to download (e.g., 1k, 2k, 4k)\n- file_format: Optional file format (e.g., hdr, exr for HDRIs; jpg, png for textures; gltf, fbx for models)\n\nReturns a message indicating success or failure.\n",
+        "parameters": {
+            "properties": {
+                "asset_id": {
+                    "title": "Asset Id",
+                    "type": "string"
+                },
+                "asset_type": {
+                    "title": "Asset Type",
+                    "type": "string"
+                },
+                "resolution": {
+                    "default": "1k",
+                    "title": "Resolution",
+                    "type": "string"
+                },
+                "file_format": {
+                    "default": null,
+                    "title": "File Format",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "asset_id",
+                "asset_type"
+            ],
+            "title": "download_polyhaven_assetArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "tripo-mcp_set_texture",
+        "description": "\nApply a previously downloaded Polyhaven texture to an object.\n\nParameters:\n- object_name: Name of the object to apply the texture to\n- texture_id: ID of the Polyhaven texture to apply (must be downloaded first)\n\nReturns a message indicating success or failure.\n",
+        "parameters": {
+            "properties": {
+                "object_name": {
+                    "title": "Object Name",
+                    "type": "string"
+                },
+                "texture_id": {
+                    "title": "Texture Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "object_name",
+                "texture_id"
+            ],
+            "title": "set_textureArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "tripo-mcp_get_polyhaven_status",
+        "description": "\nCheck if PolyHaven integration is enabled in Blender.\nReturns a message indicating whether PolyHaven features are available.\n",
+        "parameters": {
+            "properties": {},
+            "title": "get_polyhaven_statusArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "tripo-mcp_create_3d_model_from_text",
+        "description": "\nCreate a 3D model from a text description using the Tripo API.\n\nIMPORTANT: This tool initiates a 3D model generation task but does NOT wait for completion.\nAfter calling this tool, you MUST repeatedly call the get_task_status tool with the returned\ntask_id until the task status is SUCCESS or a terminal error state.\n\nTypical workflow:\n1. Call create_3d_model_from_text to start the task\n2. Get the task_id from the response\n3. Call get_task_status with the task_id\n4. If status is not SUCCESS, wait a moment and call get_task_status again\n5. Repeat until status is SUCCESS or a terminal error state\n6. When status is SUCCESS, use the pbr_model_url from the response\n\nArgs:\n    describe_the_look_of_object: A detailed description of the object to generate.\n    face_limit: The maximum number of faces in the model.\n    auto_size: Whether to automatically size the model.\n\nReturns:\n    A dictionary containing the task ID and instructions for checking the status.\n",
+        "parameters": {
+            "properties": {
+                "describe_the_look_of_object": {
+                    "title": "Describe The Look Of Object",
+                    "type": "string"
+                },
+                "face_limit": {
+                    "default": 8000,
+                    "title": "Face Limit",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "describe_the_look_of_object"
+            ],
+            "title": "create_3d_model_from_textArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "tripo-mcp_import_tripo_glb_model",
+        "description": "\nImport a GLB model from URL into Blender scene\n\nParameters:\n- glb_url: Download URL of the GLB model file\n\nReturns:\nResult message of the import operation\n",
+        "parameters": {
+            "properties": {
+                "glb_url": {
+                    "title": "Glb Url",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "glb_url"
+            ],
+            "title": "import_tripo_glb_modelArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "tripo-mcp_get_task_status",
+        "description": "\nGet the status of a 3D model generation task.\n\nIMPORTANT: This tool checks the status of a task started by create_3d_model_from_text.\nYou may need to call this tool MULTIPLE TIMES until the task completes.\n\nTypical workflow:\n1. Call this tool with the task_id from create_3d_model_from_text\n2. Check the status in the response:\n   - If status is SUCCESS, the task is complete and you can use the pbr_model_url\n   - If status is FAILED, CANCELLED, BANNED, or EXPIRED, the task failed\n   - If status is anything else, the task is still in progress\n3. If the task is still in progress, wait a moment and call this tool again\n\nArgs:\n    task_id: The ID of the task to check (obtained from create_3d_model_from_text).\n\nReturns:\n    A dictionary containing the task status and other information.\n",
+        "parameters": {
+            "properties": {
+                "task_id": {
+                    "title": "Task Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "task_id"
+            ],
+            "title": "get_task_statusArguments",
+            "type": "object"
+        }
+    }
+]

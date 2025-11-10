@@ -1,0 +1,1287 @@
+[
+    {
+        "name": "search",
+        "description": "Search biomedical literature, clinical trials, genetic variants, genes, drugs, and diseases.\n\n    ⚠️ IMPORTANT: Have you used the 'think' tool first? If not, STOP and use it NOW!\n    The 'think' tool is REQUIRED for proper research planning and should be your FIRST step.\n\n    This tool provides access to biomedical data from PubMed/PubTator3, ClinicalTrials.gov,\n    MyVariant.info, and the BioThings suite (MyGene.info, MyChem.info, MyDisease.info).\n    It supports two search modes:\n\n    ## 1. UNIFIED QUERY LANGUAGE\n    Use the 'query' parameter with field-based syntax for precise cross-domain searches.\n\n    Syntax:\n    - Basic: \"gene:BRAF\"\n    - AND logic: \"gene:BRAF AND disease:melanoma\"\n    - OR logic: \"gene:PTEN AND (R173 OR Arg173 OR 'position 173')\"\n    - Domain-specific: \"trials.condition:melanoma AND trials.phase:3\"\n\n    Common fields:\n    - Cross-domain: gene, disease, variant, chemical/drug\n    - Articles: pmid, title, abstract, journal, author\n    - Trials: trials.condition, trials.intervention, trials.phase, trials.status\n    - Variants: variants.hgvs, variants.rsid, variants.significance\n\n    Example:\n    ```\n    await search(\n        query=\"gene:BRAF AND disease:melanoma AND trials.phase:3\",\n        max_results_per_domain=20\n    )\n    ```\n\n    ## 2. DOMAIN-SPECIFIC SEARCH\n    Use the 'domain' parameter with specific filters for targeted searches.\n\n    Domains:\n    - \"article\": Search PubMed/PubTator3 for research articles and preprints ABOUT genes, variants, diseases, or chemicals\n    - \"trial\": Search ClinicalTrials.gov for clinical studies\n    - \"variant\": Search MyVariant.info for genetic variant DATABASE RECORDS (population frequency, clinical significance, etc.) - NOT for articles about variants!\n    - \"gene\": Search MyGene.info for gene information (symbol, name, function, aliases)\n    - \"drug\": Search MyChem.info for drug/chemical information (names, formulas, indications)\n    - \"disease\": Search MyDisease.info for disease information (names, definitions, synonyms)\n    - \"nci_organization\": Search NCI database for cancer centers, hospitals, and research sponsors (requires API key)\n    - \"nci_intervention\": Search NCI database for drugs, devices, procedures used in cancer trials (requires API key)\n    - \"nci_biomarker\": Search NCI database for biomarkers used in trial eligibility criteria (requires API key)\n    - \"nci_disease\": Search NCI controlled vocabulary for cancer conditions and terms (requires API key)\n\n    Example:\n    ```\n    await search(\n        domain=\"article\",\n        genes=[\"BRAF\", \"NRAS\"],\n        diseases=[\"melanoma\"],\n        page_size=50\n    )\n    ```\n\n    ## DOMAIN SELECTION EXAMPLES:\n    - To find ARTICLES about BRAF V600E mutation: domain=\"article\", genes=[\"BRAF\"], variants=[\"V600E\"]\n    - To find VARIANT DATA for BRAF mutations: domain=\"variant\", gene=\"BRAF\"\n    - To find articles about ERBB2 p.D277Y: domain=\"article\", genes=[\"ERBB2\"], variants=[\"p.D277Y\"]\n    - Common mistake: Using domain=\"variant\" when you want articles about a variant\n\n    ## IMPORTANT NOTES:\n    - For complex research questions, use the separate 'think' tool for systematic analysis\n    - The tool returns results in OpenAI MCP format: {\"results\": [{\"id\", \"title\", \"text\", \"url\"}, ...]}\n    - Search results do NOT include metadata (per OpenAI MCP specification)\n    - Use the fetch tool to get detailed metadata for specific records\n    - Use get_schema=True to explore available search fields\n    - Use explain_query=True to understand query parsing (unified mode)\n    - Domain-specific searches use AND logic for multiple values\n    - For OR logic, use the unified query language\n    - NEW: Article search keywords support OR with pipe separator: \"R173|Arg173|p.R173\"\n    - Remember: domain=\"article\" finds LITERATURE, domain=\"variant\" finds DATABASE RECORDS\n\n    ## RETURN FORMAT:\n    All search modes return results in this format:\n    ```json\n    {\n        \"results\": [\n            {\n                \"id\": \"unique_identifier\",\n                \"title\": \"Human-readable title\",\n                \"text\": \"Summary or snippet of content\",\n                \"url\": \"Link to full resource\"\n            }\n        ]\n    }\n    ```\n    ",
+        "parameters": {
+            "properties": {
+                "long": {
+                    "title": "long",
+                    "type": "string"
+                },
+                "diseases": {
+                    "title": "diseases",
+                    "type": "string"
+                },
+                "domain": {
+                    "title": "domain",
+                    "type": "string"
+                },
+                "api_key": {
+                    "title": "api_key",
+                    "type": "string"
+                },
+                "chemicals": {
+                    "title": "chemicals",
+                    "type": "string"
+                },
+                "keywords": {
+                    "title": "keywords",
+                    "type": "string"
+                },
+                "query": {
+                    "title": "Query",
+                    "type": "string"
+                },
+                "lat": {
+                    "title": "lat",
+                    "type": "string"
+                },
+                "distance": {
+                    "title": "distance",
+                    "type": "string"
+                },
+                "explain_query": {
+                    "title": "Explain Query",
+                    "type": "boolean"
+                },
+                "get_schema": {
+                    "title": "Get Schema",
+                    "type": "boolean"
+                },
+                "significance": {
+                    "title": "significance",
+                    "type": "string"
+                },
+                "conditions": {
+                    "title": "conditions",
+                    "type": "string"
+                },
+                "variants": {
+                    "title": "variants",
+                    "type": "string"
+                },
+                "max_results_per_domain": {
+                    "title": "max_results_per_domain",
+                    "type": "string"
+                },
+                "call_benefit": {
+                    "title": "call_benefit",
+                    "type": "string"
+                },
+                "recruiting_status": {
+                    "title": "recruiting_status",
+                    "type": "string"
+                },
+                "genes": {
+                    "title": "genes",
+                    "type": "string"
+                },
+                "phase": {
+                    "title": "phase",
+                    "type": "string"
+                },
+                "interventions": {
+                    "title": "interventions",
+                    "type": "string"
+                },
+                "page": {
+                    "default": 1,
+                    "title": "Page",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "default": 10,
+                    "title": "Page Size",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "long",
+                "diseases",
+                "domain",
+                "api_key",
+                "chemicals",
+                "keywords",
+                "query",
+                "lat",
+                "distance",
+                "explain_query",
+                "get_schema",
+                "significance",
+                "conditions",
+                "variants",
+                "max_results_per_domain",
+                "call_benefit",
+                "recruiting_status",
+                "genes",
+                "phase",
+                "interventions"
+            ],
+            "title": "searchArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "fetch",
+        "description": "Fetch comprehensive details for a specific biomedical record.\n\n    This tool retrieves full information for articles, clinical trials, genetic variants,\n    genes, drugs, or diseases using their unique identifiers. It returns data in a\n    standardized format suitable for detailed analysis and research.\n\n    ## IDENTIFIER FORMATS:\n    - Articles: PMID (PubMed ID) - e.g., \"35271234\" OR DOI - e.g., \"10.1101/2024.01.20.23288905\"\n    - Trials: NCT ID (ClinicalTrials.gov ID) - e.g., \"NCT04280705\"\n    - Variants: HGVS notation or dbSNP ID - e.g., \"chr7:g.140453136A>T\" or \"rs121913254\"\n    - Genes: Gene symbol or Entrez ID - e.g., \"BRAF\" or \"673\"\n    - Drugs: Drug name or ID - e.g., \"imatinib\" or \"DB00619\"\n    - Diseases: Disease name or ID - e.g., \"melanoma\" or \"MONDO:0005105\"\n    - NCI Organizations: NCI organization ID - e.g., \"NCI-2011-03337\"\n    - NCI Interventions: NCI intervention ID - e.g., \"INT123456\"\n    - NCI Diseases: NCI disease ID - e.g., \"C4872\"\n\n    The domain is automatically detected from the ID format if not provided:\n    - NCT* → trial\n    - Contains \"/\" with numeric prefix (DOI) → article\n    - Pure numeric → article (PMID)\n    - rs* or contains ':' or 'g.' → variant\n    - For genes, drugs, diseases: manual specification recommended\n\n    ## DOMAIN-SPECIFIC OPTIONS:\n\n    ### Articles (domain=\"article\"):\n    - Returns full article metadata, abstract, and full text when available\n    - Supports both PubMed articles (via PMID) and Europe PMC preprints (via DOI)\n    - Includes annotations for genes, diseases, chemicals, and variants (PubMed only)\n    - detail=\"full\" attempts to retrieve full text content (PubMed only)\n\n    ### Clinical Trials (domain=\"trial\"):\n    - detail=None or \"protocol\": Core study information\n    - detail=\"locations\": Study sites and contact information\n    - detail=\"outcomes\": Primary/secondary outcomes and results\n    - detail=\"references\": Related publications and citations\n    - detail=\"all\": Complete trial record with all sections\n\n    ### Variants (domain=\"variant\"):\n    - Returns comprehensive variant information including:\n      - Clinical significance and interpretations\n      - Population frequencies\n      - Gene/protein effects\n      - External database links\n    - detail parameter is ignored (always returns full data)\n\n    ### Genes (domain=\"gene\"):\n    - Returns gene information from MyGene.info including:\n      - Gene symbol, name, and type\n      - Entrez ID and Ensembl IDs\n      - Gene summary and aliases\n      - RefSeq information\n    - detail parameter is ignored (always returns full data)\n\n    ### Drugs (domain=\"drug\"):\n    - Returns drug/chemical information from MyChem.info including:\n      - Drug name and trade names\n      - Chemical formula and structure IDs\n      - Clinical indications\n      - Mechanism of action\n      - External database links (DrugBank, PubChem, ChEMBL)\n    - detail parameter is ignored (always returns full data)\n\n    ### Diseases (domain=\"disease\"):\n    - Returns disease information from MyDisease.info including:\n      - Disease name and definition\n      - MONDO ontology ID\n      - Disease synonyms\n      - Cross-references to other databases\n      - Associated phenotypes\n    - detail parameter is ignored (always returns full data)\n\n    ### NCI Organizations (domain=\"nci_organization\"):\n    - Returns organization information from NCI database including:\n      - Organization name and type\n      - Full address and contact information\n      - Research focus areas\n      - Associated clinical trials\n    - Requires NCI API key\n    - detail parameter is ignored (always returns full data)\n\n    ### NCI Interventions (domain=\"nci_intervention\"):\n    - Returns intervention information from NCI database including:\n      - Intervention name and type\n      - Synonyms and alternative names\n      - Mechanism of action (for drugs)\n      - FDA approval status\n      - Associated clinical trials\n    - Requires NCI API key\n    - detail parameter is ignored (always returns full data)\n\n    ### NCI Diseases (domain=\"nci_disease\"):\n    - Returns disease information from NCI controlled vocabulary including:\n      - Preferred disease name\n      - Disease category and classification\n      - All known synonyms\n      - Cross-reference codes (ICD, SNOMED)\n    - Requires NCI API key\n    - detail parameter is ignored (always returns full data)\n\n    ## RETURN FORMAT:\n    All fetch operations return a standardized format:\n    ```json\n    {\n        \"id\": \"unique_identifier\",\n        \"title\": \"Record title or name\",\n        \"text\": \"Full content or comprehensive description\",\n        \"url\": \"Link to original source\",\n        \"metadata\": {\n            // Domain-specific additional fields\n        }\n    }\n    ```\n\n    ## EXAMPLES:\n\n    Fetch article by PMID (domain auto-detected):\n    ```\n    await fetch(id=\"35271234\")\n    ```\n\n    Fetch article by DOI (domain auto-detected):\n    ```\n    await fetch(id=\"10.1101/2024.01.20.23288905\")\n    ```\n\n    Fetch complete trial information (domain auto-detected):\n    ```\n    await fetch(\n        id=\"NCT04280705\",\n        detail=\"all\"\n    )\n    ```\n\n    Fetch variant with clinical interpretations:\n    ```\n    await fetch(id=\"rs121913254\")\n    ```\n\n    Explicitly specify domain (optional):\n    ```\n    await fetch(\n        domain=\"variant\",\n        id=\"chr7:g.140453136A>T\"\n    )\n    ```\n    ",
+        "parameters": {
+            "properties": {
+                "call_benefit": {
+                    "title": "call_benefit",
+                    "type": "string"
+                },
+                "detail": {
+                    "title": "detail",
+                    "type": "string"
+                },
+                "api_key": {
+                    "title": "api_key",
+                    "type": "string"
+                },
+                "domain": {
+                    "title": "domain",
+                    "type": "string"
+                },
+                "id": {
+                    "title": "Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "call_benefit",
+                "detail",
+                "api_key",
+                "domain",
+                "id"
+            ],
+            "title": "fetchArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "think",
+        "description": "REQUIRED FIRST STEP: Perform structured sequential thinking for ANY biomedical research task.\n\n    🚨 IMPORTANT: You MUST use this tool BEFORE any search or fetch operations when:\n    - Researching ANY biomedical topic (genes, diseases, variants, trials)\n    - Planning to use multiple BioMCP tools\n    - Answering questions that require analysis or synthesis\n    - Comparing information from different sources\n    - Making recommendations or drawing conclusions\n\n    ⚠️ FAILURE TO USE THIS TOOL FIRST will result in:\n    - Incomplete or poorly structured analysis\n    - Missing important connections between data\n    - Suboptimal search strategies\n    - Overlooked critical information\n\n    Sequential thinking ensures you:\n    1. Fully understand the research question\n    2. Plan an optimal search strategy\n    3. Identify all relevant data sources\n    4. Structure your analysis properly\n    5. Deliver comprehensive, well-reasoned results\n\n    ## Usage Pattern:\n    1. Start with thoughtNumber=1 to initiate analysis\n    2. Progress through numbered thoughts sequentially\n    3. Adjust totalThoughts estimate as understanding develops\n    4. Set nextThoughtNeeded=False only when analysis is complete\n\n    ## Example:\n    ```python\n    # Initial analysis\n    await think(\n        thought=\"Breaking down the relationship between BRAF mutations and melanoma treatment resistance...\",\n        thoughtNumber=1,\n        totalThoughts=5,\n        nextThoughtNeeded=True\n    )\n\n    # Continue analysis\n    await think(\n        thought=\"Examining specific BRAF V600E mutation mechanisms...\",\n        thoughtNumber=2,\n        totalThoughts=5,\n        nextThoughtNeeded=True\n    )\n\n    # Final thought\n    await think(\n        thought=\"Synthesizing findings and proposing research directions...\",\n        thoughtNumber=5,\n        totalThoughts=5,\n        nextThoughtNeeded=False\n    )\n    ```\n\n    ## Important Notes:\n    - Each thought builds on previous ones within a session\n    - State is maintained throughout the MCP session\n    - Use thoughtful, detailed analysis in each step\n    - Revisions and branching are supported through the underlying implementation\n    ",
+        "parameters": {
+            "properties": {
+                "thoughtNumber": {
+                    "title": "Thoughtnumber",
+                    "type": "integer"
+                },
+                "totalThoughts": {
+                    "title": "Totalthoughts",
+                    "type": "integer"
+                },
+                "thought": {
+                    "title": "Thought",
+                    "type": "string"
+                },
+                "nextThoughtNeeded": {
+                    "default": true,
+                    "title": "Nextthoughtneeded",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "thoughtNumber",
+                "totalThoughts",
+                "thought"
+            ],
+            "title": "thinkArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "article_searcher",
+        "description": "Search PubMed/PubTator3 for research articles and preprints.\n\n    ⚠️ PREREQUISITE: Use the 'think' tool FIRST to plan your research strategy!\n\n    Use this tool to find scientific literature ABOUT genes, variants, diseases, or chemicals.\n    Results include articles from PubMed and optionally preprints from bioRxiv/medRxiv.\n\n    Important: This searches for ARTICLES ABOUT these topics, not database records.\n    For genetic variant database records, use variant_searcher instead.\n\n    Example usage:\n    - Find articles about BRAF mutations in melanoma\n    - Search for papers on a specific drug's effects\n    - Locate research on gene-disease associations\n    ",
+        "parameters": {
+            "properties": {
+                "diseases": {
+                    "title": "diseases",
+                    "type": "string"
+                },
+                "variants": {
+                    "title": "variants",
+                    "type": "string"
+                },
+                "genes": {
+                    "title": "genes",
+                    "type": "string"
+                },
+                "chemicals": {
+                    "title": "chemicals",
+                    "type": "string"
+                },
+                "keywords": {
+                    "title": "keywords",
+                    "type": "string"
+                },
+                "include_preprints": {
+                    "default": true,
+                    "title": "Include Preprints",
+                    "type": "boolean"
+                },
+                "include_cbioportal": {
+                    "default": true,
+                    "title": "Include Cbioportal",
+                    "type": "boolean"
+                },
+                "page": {
+                    "default": 1,
+                    "title": "Page",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "default": 10,
+                    "title": "Page Size",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "diseases",
+                "variants",
+                "genes",
+                "chemicals",
+                "keywords"
+            ],
+            "title": "article_searcherArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "article_getter",
+        "description": "Fetch detailed information for a specific article.\n\n    Retrieves the full abstract and available text for an article by its identifier.\n    Supports:\n    - PubMed IDs (PMID) for published articles\n    - PMC IDs for articles in PubMed Central\n    - DOIs for preprints from Europe PMC\n\n    Returns formatted text including:\n    - Title\n    - Abstract\n    - Full text (when available from PMC for published articles)\n    - Source information (PubMed or Europe PMC)\n    ",
+        "parameters": {
+            "properties": {
+                "pmid": {
+                    "title": "Pmid",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "pmid"
+            ],
+            "title": "article_getterArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "trial_searcher",
+        "description": "Search ClinicalTrials.gov for clinical studies.\n\n    ⚠️ PREREQUISITE: Use the 'think' tool FIRST to plan your research strategy!\n\n    Comprehensive search tool for finding clinical trials based on multiple criteria.\n    Supports filtering by conditions, interventions, location, phase, and eligibility.\n\n    Location search notes:\n    - Use either location term OR lat/long coordinates, not both\n    - For city-based searches, AI agents should geocode to lat/long first\n    - Distance parameter only works with lat/long coordinates\n\n    Returns a formatted list of matching trials with key details.\n    ",
+        "parameters": {
+            "properties": {
+                "long": {
+                    "title": "long",
+                    "type": "string"
+                },
+                "age_group": {
+                    "title": "age_group",
+                    "type": "string"
+                },
+                "other_terms": {
+                    "title": "other_terms",
+                    "type": "string"
+                },
+                "study_type": {
+                    "title": "study_type",
+                    "type": "string"
+                },
+                "healthy_volunteers": {
+                    "title": "healthy_volunteers",
+                    "type": "string"
+                },
+                "funder_type": {
+                    "title": "funder_type",
+                    "type": "string"
+                },
+                "lat": {
+                    "title": "lat",
+                    "type": "string"
+                },
+                "distance": {
+                    "title": "distance",
+                    "type": "string"
+                },
+                "location": {
+                    "title": "location",
+                    "type": "string"
+                },
+                "conditions": {
+                    "title": "conditions",
+                    "type": "string"
+                },
+                "recruiting_status": {
+                    "title": "recruiting_status",
+                    "type": "string"
+                },
+                "phase": {
+                    "title": "phase",
+                    "type": "string"
+                },
+                "interventions": {
+                    "title": "interventions",
+                    "type": "string"
+                },
+                "sex": {
+                    "title": "sex",
+                    "type": "string"
+                },
+                "page": {
+                    "default": 1,
+                    "title": "Page",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "default": 10,
+                    "title": "Page Size",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "long",
+                "age_group",
+                "other_terms",
+                "study_type",
+                "healthy_volunteers",
+                "funder_type",
+                "lat",
+                "distance",
+                "location",
+                "conditions",
+                "recruiting_status",
+                "phase",
+                "interventions",
+                "sex"
+            ],
+            "title": "trial_searcherArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "trial_getter",
+        "description": "Fetch comprehensive details for a specific clinical trial.\n\n    Retrieves all available information for a clinical trial by its NCT ID.\n    This includes protocol details, locations, outcomes, and references.\n\n    For specific sections only, use the specialized getter tools:\n    - trial_protocol_getter: Core protocol information\n    - trial_locations_getter: Site locations and contacts\n    - trial_outcomes_getter: Primary/secondary outcomes and results\n    - trial_references_getter: Publications and references\n    ",
+        "parameters": {
+            "properties": {
+                "nct_id": {
+                    "title": "Nct Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "nct_id"
+            ],
+            "title": "trial_getterArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "trial_protocol_getter",
+        "description": "Fetch core protocol information for a clinical trial.\n\n    Retrieves essential protocol details including:\n    - Official title and brief summary\n    - Study status and sponsor information\n    - Study design (type, phase, allocation, masking)\n    - Eligibility criteria\n    - Primary completion date\n    ",
+        "parameters": {
+            "properties": {
+                "nct_id": {
+                    "title": "Nct Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "nct_id"
+            ],
+            "title": "trial_protocol_getterArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "trial_references_getter",
+        "description": "Fetch publications and references for a clinical trial.\n\n    Retrieves all linked publications including:\n    - Published results papers\n    - Background literature\n    - Protocol publications\n    - Related analyses\n\n    Includes PubMed IDs when available for easy cross-referencing.\n    ",
+        "parameters": {
+            "properties": {
+                "nct_id": {
+                    "title": "Nct Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "nct_id"
+            ],
+            "title": "trial_references_getterArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "trial_outcomes_getter",
+        "description": "Fetch outcome measures and results for a clinical trial.\n\n    Retrieves detailed outcome information including:\n    - Primary outcome measures\n    - Secondary outcome measures\n    - Results data (if available)\n    - Adverse events (if reported)\n\n    Note: Results are only available for completed trials that have posted data.\n    ",
+        "parameters": {
+            "properties": {
+                "nct_id": {
+                    "title": "Nct Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "nct_id"
+            ],
+            "title": "trial_outcomes_getterArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "trial_locations_getter",
+        "description": "Fetch contact and location details for a clinical trial.\n\n    Retrieves all study locations including:\n    - Facility names and addresses\n    - Principal investigator information\n    - Contact details (when recruiting)\n    - Recruitment status by site\n\n    Useful for finding trials near specific locations or contacting study teams.\n    ",
+        "parameters": {
+            "properties": {
+                "nct_id": {
+                    "title": "Nct Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "nct_id"
+            ],
+            "title": "trial_locations_getterArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "variant_searcher",
+        "description": "Search MyVariant.info for genetic variant DATABASE RECORDS.\n\n    ⚠️ PREREQUISITE: Use the 'think' tool FIRST to plan your research strategy!\n\n    Important: This searches for variant DATABASE RECORDS (frequency, significance, etc.),\n    NOT articles about variants. For articles about variants, use article_searcher.\n\n    Searches the comprehensive variant database including:\n    - Population frequencies (gnomAD, 1000 Genomes, etc.)\n    - Clinical significance (ClinVar)\n    - Functional predictions (SIFT, PolyPhen, CADD)\n    - Gene and protein consequences\n\n    Search by various identifiers or filter by clinical/functional criteria.\n    ",
+        "parameters": {
+            "properties": {
+                "hgvsp": {
+                    "title": "hgvsp",
+                    "type": "string"
+                },
+                "hgvsc": {
+                    "title": "hgvsc",
+                    "type": "string"
+                },
+                "cadd_score_min": {
+                    "title": "cadd_score_min",
+                    "type": "string"
+                },
+                "rsid": {
+                    "title": "rsid",
+                    "type": "string"
+                },
+                "gene": {
+                    "title": "gene",
+                    "type": "string"
+                },
+                "frequency_min": {
+                    "title": "frequency_min",
+                    "type": "string"
+                },
+                "frequency_max": {
+                    "title": "frequency_max",
+                    "type": "string"
+                },
+                "significance": {
+                    "title": "significance",
+                    "type": "string"
+                },
+                "polyphen_prediction": {
+                    "title": "polyphen_prediction",
+                    "type": "string"
+                },
+                "sift_prediction": {
+                    "title": "sift_prediction",
+                    "type": "string"
+                },
+                "region": {
+                    "title": "region",
+                    "type": "string"
+                },
+                "consequence": {
+                    "title": "consequence",
+                    "type": "string"
+                },
+                "hgvs": {
+                    "title": "hgvs",
+                    "type": "string"
+                },
+                "include_cbioportal": {
+                    "default": true,
+                    "title": "Include Cbioportal",
+                    "type": "boolean"
+                },
+                "page": {
+                    "default": 1,
+                    "title": "Page",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "default": 10,
+                    "title": "Page Size",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "hgvsp",
+                "hgvsc",
+                "cadd_score_min",
+                "rsid",
+                "gene",
+                "frequency_min",
+                "frequency_max",
+                "significance",
+                "polyphen_prediction",
+                "sift_prediction",
+                "region",
+                "consequence",
+                "hgvs"
+            ],
+            "title": "variant_searcherArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "variant_getter",
+        "description": "Fetch comprehensive details for a specific genetic variant.\n\n    Retrieves all available information for a variant including:\n    - Gene location and consequences\n    - Population frequencies across databases\n    - Clinical significance from ClinVar\n    - Functional predictions\n    - External annotations (TCGA cancer data, conservation scores)\n\n    Accepts various ID formats:\n    - HGVS: NM_004333.4:c.1799T>A\n    - rsID: rs113488022\n    - MyVariant ID: chr7:g.140753336A>T\n    ",
+        "parameters": {
+            "properties": {
+                "variant_id": {
+                    "title": "Variant Id",
+                    "type": "string"
+                },
+                "include_external": {
+                    "default": true,
+                    "title": "Include External",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "variant_id"
+            ],
+            "title": "variant_getterArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "alphagenome_predictor",
+        "description": "Predict variant effects on gene regulation using Google DeepMind's AlphaGenome.\n\n    ⚠️ PREREQUISITE: Use the 'think' tool FIRST to plan your analysis strategy!\n\n    AlphaGenome provides state-of-the-art predictions for how genetic variants\n    affect gene regulation, including:\n    - Gene expression changes (RNA-seq)\n    - Chromatin accessibility impacts (ATAC-seq, DNase-seq)\n    - Splicing alterations\n    - Promoter activity changes (CAGE)\n\n    This tool requires:\n    1. AlphaGenome to be installed (see error message for instructions)\n    2. An API key from https://deepmind.google.com/science/alphagenome\n\n    API Key Options:\n    - Provide directly via the api_key parameter\n    - Or set ALPHAGENOME_API_KEY environment variable\n\n    Example usage:\n    - Predict regulatory effects of BRAF V600E mutation: chr7:140753336 A>T\n    - Assess non-coding variant impact on gene expression\n    - Evaluate promoter variants in specific tissues\n\n    Note: This is an optional tool that enhances variant interpretation\n    with AI predictions. Standard annotations remain available via variant_getter.\n    ",
+        "parameters": {
+            "properties": {
+                "reference": {
+                    "title": "Reference",
+                    "type": "string"
+                },
+                "chromosome": {
+                    "title": "Chromosome",
+                    "type": "string"
+                },
+                "api_key": {
+                    "title": "api_key",
+                    "type": "string"
+                },
+                "alternate": {
+                    "title": "Alternate",
+                    "type": "string"
+                },
+                "tissue_types": {
+                    "title": "tissue_types",
+                    "type": "string"
+                },
+                "position": {
+                    "title": "Position",
+                    "type": "integer"
+                },
+                "interval_size": {
+                    "default": 131072,
+                    "title": "Interval Size",
+                    "type": "integer"
+                },
+                "significance_threshold": {
+                    "default": 0.5,
+                    "title": "Significance Threshold",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "reference",
+                "chromosome",
+                "api_key",
+                "alternate",
+                "tissue_types",
+                "position"
+            ],
+            "title": "alphagenome_predictorArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "gene_getter",
+        "description": "Get detailed gene information from MyGene.info.\n\n    ⚠️ PREREQUISITE: Use the 'think' tool FIRST to understand your research goal!\n\n    Provides real-time gene annotations including:\n    - Official gene name and symbol\n    - Gene summary/description\n    - Aliases and alternative names\n    - Gene type (protein-coding, etc.)\n    - Links to external databases\n\n    This tool fetches CURRENT gene information from MyGene.info, ensuring\n    you always have the latest annotations and nomenclature.\n\n    Example usage:\n    - Get information about TP53 tumor suppressor\n    - Look up BRAF kinase gene details\n    - Find the official name for a gene by its alias\n\n    Note: For genetic variants, use variant_searcher. For articles about genes, use article_searcher.\n    ",
+        "parameters": {
+            "properties": {
+                "gene_id_or_symbol": {
+                    "title": "Gene Id Or Symbol",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "gene_id_or_symbol"
+            ],
+            "title": "gene_getterArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "disease_getter",
+        "description": "Get detailed disease information from MyDisease.info.\n\n    ⚠️ PREREQUISITE: Use the 'think' tool FIRST to understand your research goal!\n\n    Provides real-time disease annotations including:\n    - Official disease name and definition\n    - Disease synonyms and alternative names\n    - Ontology mappings (MONDO, DOID, OMIM, etc.)\n    - Associated phenotypes\n    - Links to disease databases\n\n    This tool fetches CURRENT disease information from MyDisease.info, ensuring\n    you always have the latest ontology mappings and definitions.\n\n    Example usage:\n    - Get the definition of GIST (Gastrointestinal Stromal Tumor)\n    - Look up synonyms for melanoma\n    - Find the MONDO ID for a disease by name\n\n    Note: For clinical trials about diseases, use trial_searcher. For articles about diseases, use article_searcher.\n    ",
+        "parameters": {
+            "properties": {
+                "disease_id_or_name": {
+                    "title": "Disease Id Or Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "disease_id_or_name"
+            ],
+            "title": "disease_getterArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "drug_getter",
+        "description": "Get detailed drug/chemical information from MyChem.info.\n\n    ⚠️ PREREQUISITE: Use the 'think' tool FIRST to understand your research goal!\n\n    This tool provides comprehensive drug information including:\n    - Chemical properties (formula, InChIKey)\n    - Drug identifiers (DrugBank, ChEMBL, PubChem)\n    - Trade names and brand names\n    - Clinical indications\n    - Mechanism of action\n    - Pharmacology details\n    - Links to drug databases\n\n    This tool fetches CURRENT drug information from MyChem.info, part of the\n    BioThings suite, ensuring you always have the latest drug data.\n\n    Example usage:\n    - Get information about imatinib (Gleevec)\n    - Look up details for DrugBank ID DB00619\n    - Find the mechanism of action for pembrolizumab\n\n    Note: For clinical trials about drugs, use trial_searcher. For articles about drugs, use article_searcher.\n    ",
+        "parameters": {
+            "properties": {
+                "drug_id_or_name": {
+                    "title": "Drug Id Or Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "drug_id_or_name"
+            ],
+            "title": "drug_getterArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "nci_organization_searcher",
+        "description": "Search for organizations in the NCI Clinical Trials database.\n\n    Searches the National Cancer Institute's curated database of organizations\n    involved in cancer clinical trials. This includes:\n    - Academic medical centers\n    - Community hospitals\n    - Industry sponsors\n    - Government facilities\n    - Research networks\n\n    Requires NCI API key from: https://clinicaltrialsapi.cancer.gov/\n\n    IMPORTANT: To avoid API errors, always use city AND state together when searching by location.\n    The NCI API has limitations on broad searches.\n\n    Example usage:\n    - Find cancer centers in Boston, MA (city AND state)\n    - Search for \"MD Anderson\" in Houston, TX\n    - List academic organizations in Cleveland, OH\n    - Search by organization name alone (without location)\n    ",
+        "parameters": {
+            "properties": {
+                "name": {
+                    "title": "name",
+                    "type": "string"
+                },
+                "city": {
+                    "title": "city",
+                    "type": "string"
+                },
+                "organization_type": {
+                    "title": "organization_type",
+                    "type": "string"
+                },
+                "state": {
+                    "title": "state",
+                    "type": "string"
+                },
+                "api_key": {
+                    "title": "api_key",
+                    "type": "string"
+                },
+                "page": {
+                    "default": 1,
+                    "title": "Page",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "default": 20,
+                    "title": "Page Size",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "name",
+                "city",
+                "organization_type",
+                "state",
+                "api_key"
+            ],
+            "title": "nci_organization_searcherArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "nci_organization_getter",
+        "description": "Get detailed information about a specific organization from NCI.\n\n    Retrieves comprehensive details about an organization including:\n    - Full name and aliases\n    - Address and contact information\n    - Organization type and role\n    - Associated clinical trials\n    - Research focus areas\n\n    Requires NCI API key from: https://clinicaltrialsapi.cancer.gov/\n\n    Example usage:\n    - Get details about a specific cancer center\n    - Find contact information for trial sponsors\n    - View organization's trial portfolio\n    ",
+        "parameters": {
+            "properties": {
+                "api_key": {
+                    "title": "api_key",
+                    "type": "string"
+                },
+                "organization_id": {
+                    "title": "Organization Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "api_key",
+                "organization_id"
+            ],
+            "title": "nci_organization_getterArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "nci_intervention_searcher",
+        "description": "Search for interventions in the NCI Clinical Trials database.\n\n    Searches the National Cancer Institute's curated database of interventions\n    used in cancer clinical trials. This includes:\n    - FDA-approved drugs\n    - Investigational agents\n    - Medical devices\n    - Surgical procedures\n    - Radiation therapies\n    - Behavioral interventions\n\n    Requires NCI API key from: https://clinicaltrialsapi.cancer.gov/\n\n    Example usage:\n    - Find all trials using pembrolizumab\n    - Search for CAR-T cell therapies\n    - List radiation therapy protocols\n    - Find dietary interventions\n    ",
+        "parameters": {
+            "properties": {
+                "intervention_type": {
+                    "title": "intervention_type",
+                    "type": "string"
+                },
+                "name": {
+                    "title": "name",
+                    "type": "string"
+                },
+                "api_key": {
+                    "title": "api_key",
+                    "type": "string"
+                },
+                "page_size": {
+                    "title": "page_size",
+                    "type": "string"
+                },
+                "synonyms": {
+                    "default": true,
+                    "title": "Synonyms",
+                    "type": "boolean"
+                },
+                "page": {
+                    "default": 1,
+                    "title": "Page",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "intervention_type",
+                "name",
+                "api_key",
+                "page_size"
+            ],
+            "title": "nci_intervention_searcherArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "nci_intervention_getter",
+        "description": "Get detailed information about a specific intervention from NCI.\n\n    Retrieves comprehensive details about an intervention including:\n    - Full name and synonyms\n    - Intervention type and category\n    - Mechanism of action (for drugs)\n    - FDA approval status\n    - Associated clinical trials\n    - Combination therapies\n\n    Requires NCI API key from: https://clinicaltrialsapi.cancer.gov/\n\n    Example usage:\n    - Get details about a specific drug\n    - Find all trials using a device\n    - View combination therapy protocols\n    ",
+        "parameters": {
+            "properties": {
+                "api_key": {
+                    "title": "api_key",
+                    "type": "string"
+                },
+                "intervention_id": {
+                    "title": "Intervention Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "api_key",
+                "intervention_id"
+            ],
+            "title": "nci_intervention_getterArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "nci_biomarker_searcher",
+        "description": "Search for biomarkers in the NCI Clinical Trials database.\n\n    Searches for biomarkers used in clinical trial eligibility criteria.\n    This is essential for precision medicine trials that select patients\n    based on specific biomarker characteristics.\n\n    Biomarker examples:\n    - Gene mutations (e.g., BRAF V600E, EGFR T790M)\n    - Protein expression (e.g., PD-L1 ≥ 50%, HER2 positive)\n    - Gene fusions (e.g., ALK fusion, ROS1 fusion)\n    - Other molecular markers (e.g., MSI-H, TMB-high)\n\n    Requires NCI API key from: https://clinicaltrialsapi.cancer.gov/\n\n    Note: Biomarker data availability may be limited in CTRP.\n    Results focus on biomarkers used in trial eligibility criteria.\n\n    Example usage:\n    - Search for PD-L1 expression biomarkers\n    - Find trials requiring EGFR mutations\n    - Look up biomarkers tested by NGS\n    - Search for HER2 expression markers\n    ",
+        "parameters": {
+            "properties": {
+                "biomarker_type": {
+                    "title": "biomarker_type",
+                    "type": "string"
+                },
+                "name": {
+                    "title": "name",
+                    "type": "string"
+                },
+                "api_key": {
+                    "title": "api_key",
+                    "type": "string"
+                },
+                "page": {
+                    "default": 1,
+                    "title": "Page",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "default": 20,
+                    "title": "Page Size",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "biomarker_type",
+                "name",
+                "api_key"
+            ],
+            "title": "nci_biomarker_searcherArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "nci_disease_searcher",
+        "description": "Search NCI's controlled vocabulary of cancer conditions.\n\n    Searches the National Cancer Institute's curated database of cancer\n    conditions and diseases used in clinical trials. This is different from\n    the general disease_getter tool which uses MyDisease.info.\n\n    NCI's disease vocabulary provides:\n    - Official cancer terminology used in trials\n    - Disease synonyms and alternative names\n    - Hierarchical disease classifications\n    - Standardized disease codes for trial matching\n\n    Requires NCI API key from: https://clinicaltrialsapi.cancer.gov/\n\n    Example usage:\n    - Search for specific cancer types (e.g., \"melanoma\")\n    - Find all lung cancer subtypes\n    - Look up official names for disease synonyms\n    - Get standardized disease terms for trial searches\n\n    Note: This is specifically for NCI's cancer disease vocabulary.\n    For general disease information, use the disease_getter tool.\n    ",
+        "parameters": {
+            "properties": {
+                "api_key": {
+                    "title": "api_key",
+                    "type": "string"
+                },
+                "name": {
+                    "title": "name",
+                    "type": "string"
+                },
+                "category": {
+                    "title": "category",
+                    "type": "string"
+                },
+                "include_synonyms": {
+                    "default": true,
+                    "title": "Include Synonyms",
+                    "type": "boolean"
+                },
+                "page": {
+                    "default": 1,
+                    "title": "Page",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "default": 20,
+                    "title": "Page Size",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "api_key",
+                "name",
+                "category"
+            ],
+            "title": "nci_disease_searcherArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "openfda_adverse_searcher",
+        "description": "Search FDA adverse event reports (FAERS) for drug safety information.\n\n    ⚠️ PREREQUISITE: Use the 'think' tool FIRST to plan your research strategy!\n\n    Searches FDA's Adverse Event Reporting System for:\n    - Drug side effects and adverse reactions\n    - Serious event reports (death, hospitalization, disability)\n    - Safety signal patterns across patient populations\n\n    Note: These reports do not establish causation - they are voluntary reports\n    that may contain incomplete or unverified information.\n    ",
+        "parameters": {
+            "properties": {
+                "drug": {
+                    "title": "drug",
+                    "type": "string"
+                },
+                "api_key": {
+                    "title": "api_key",
+                    "type": "string"
+                },
+                "reaction": {
+                    "title": "reaction",
+                    "type": "string"
+                },
+                "serious": {
+                    "title": "serious",
+                    "type": "string"
+                },
+                "limit": {
+                    "default": 25,
+                    "title": "Limit",
+                    "type": "integer"
+                },
+                "page": {
+                    "default": 1,
+                    "title": "Page",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "drug",
+                "api_key",
+                "reaction",
+                "serious"
+            ],
+            "title": "openfda_adverse_searcherArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "openfda_adverse_getter",
+        "description": "Get detailed information for a specific FDA adverse event report.\n\n    Retrieves complete details including:\n    - Patient demographics and medical history\n    - All drugs involved and dosages\n    - Complete list of adverse reactions\n    - Event narrative and outcomes\n    - Reporter information\n    ",
+        "parameters": {
+            "properties": {
+                "api_key": {
+                    "title": "api_key",
+                    "type": "string"
+                },
+                "report_id": {
+                    "title": "Report Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "api_key",
+                "report_id"
+            ],
+            "title": "openfda_adverse_getterArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "openfda_label_searcher",
+        "description": "Search FDA drug product labels (SPL) for prescribing information.\n\n    ⚠️ PREREQUISITE: Use the 'think' tool FIRST to plan your research strategy!\n\n    Searches official FDA drug labels for:\n    - Approved indications and usage\n    - Dosage and administration guidelines\n    - Contraindications and warnings\n    - Drug interactions and adverse reactions\n    - Special population considerations\n\n    Label sections include: indications, dosage, contraindications, warnings,\n    adverse, interactions, pregnancy, pediatric, geriatric, overdose\n    ",
+        "parameters": {
+            "properties": {
+                "name": {
+                    "title": "name",
+                    "type": "string"
+                },
+                "indication": {
+                    "title": "indication",
+                    "type": "string"
+                },
+                "api_key": {
+                    "title": "api_key",
+                    "type": "string"
+                },
+                "section": {
+                    "title": "section",
+                    "type": "string"
+                },
+                "boxed_warning": {
+                    "title": "Boxed Warning",
+                    "type": "boolean"
+                },
+                "limit": {
+                    "default": 25,
+                    "title": "Limit",
+                    "type": "integer"
+                },
+                "page": {
+                    "default": 1,
+                    "title": "Page",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "name",
+                "indication",
+                "api_key",
+                "section",
+                "boxed_warning"
+            ],
+            "title": "openfda_label_searcherArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "openfda_label_getter",
+        "description": "Get complete FDA drug label information by set ID.\n\n    Retrieves the full prescribing information including:\n    - Complete indications and usage text\n    - Detailed dosing instructions\n    - All warnings and precautions\n    - Clinical pharmacology and studies\n    - Manufacturing and storage information\n\n    Specify sections to retrieve specific parts, or leave empty for default key sections.\n    ",
+        "parameters": {
+            "properties": {
+                "api_key": {
+                    "title": "api_key",
+                    "type": "string"
+                },
+                "sections": {
+                    "title": "sections",
+                    "type": "string"
+                },
+                "set_id": {
+                    "title": "Set Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "api_key",
+                "sections",
+                "set_id"
+            ],
+            "title": "openfda_label_getterArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "openfda_device_searcher",
+        "description": "Search FDA device adverse event reports (MAUDE) for medical device issues.\n\n    ⚠️ PREREQUISITE: Use the 'think' tool FIRST to plan your research strategy!\n\n    Searches FDA's device adverse event database for:\n    - Device malfunctions and failures\n    - Patient injuries related to devices\n    - Genomic test and diagnostic device issues\n\n    By default, filters to genomic/diagnostic devices relevant to precision medicine.\n    Set genomics_only=False to search all medical devices.\n    ",
+        "parameters": {
+            "properties": {
+                "device": {
+                    "title": "device",
+                    "type": "string"
+                },
+                "product_code": {
+                    "title": "product_code",
+                    "type": "string"
+                },
+                "api_key": {
+                    "title": "api_key",
+                    "type": "string"
+                },
+                "manufacturer": {
+                    "title": "manufacturer",
+                    "type": "string"
+                },
+                "problem": {
+                    "title": "problem",
+                    "type": "string"
+                },
+                "genomics_only": {
+                    "default": true,
+                    "title": "Genomics Only",
+                    "type": "boolean"
+                },
+                "limit": {
+                    "default": 25,
+                    "title": "Limit",
+                    "type": "integer"
+                },
+                "page": {
+                    "default": 1,
+                    "title": "Page",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "device",
+                "product_code",
+                "api_key",
+                "manufacturer",
+                "problem"
+            ],
+            "title": "openfda_device_searcherArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "openfda_device_getter",
+        "description": "Get detailed information for a specific FDA device event report.\n\n    Retrieves complete device event details including:\n    - Device identification and specifications\n    - Complete event narrative\n    - Patient outcomes and impacts\n    - Manufacturer analysis and actions\n    - Remedial actions taken\n    ",
+        "parameters": {
+            "properties": {
+                "api_key": {
+                    "title": "api_key",
+                    "type": "string"
+                },
+                "mdr_report_key": {
+                    "title": "Mdr Report Key",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "api_key",
+                "mdr_report_key"
+            ],
+            "title": "openfda_device_getterArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "openfda_approval_searcher",
+        "description": "Search FDA drug approval records from Drugs@FDA database.\n\n    ⚠️ PREREQUISITE: Use the 'think' tool FIRST to plan your research strategy!\n\n    Returns information about:\n    - Application numbers and sponsors\n    - Brand and generic names\n    - Product formulations and strengths\n    - Marketing status and approval dates\n    - Submission history\n\n    Useful for verifying if a drug is FDA-approved and when.\n    ",
+        "parameters": {
+            "properties": {
+                "drug": {
+                    "title": "drug",
+                    "type": "string"
+                },
+                "api_key": {
+                    "title": "api_key",
+                    "type": "string"
+                },
+                "approval_year": {
+                    "title": "approval_year",
+                    "type": "string"
+                },
+                "application_number": {
+                    "title": "application_number",
+                    "type": "string"
+                },
+                "limit": {
+                    "default": 25,
+                    "title": "Limit",
+                    "type": "integer"
+                },
+                "page": {
+                    "default": 1,
+                    "title": "Page",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "drug",
+                "api_key",
+                "approval_year",
+                "application_number"
+            ],
+            "title": "openfda_approval_searcherArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "openfda_approval_getter",
+        "description": "Get detailed FDA drug approval information for a specific application.\n\n    Returns comprehensive approval details including:\n    - Full product list with dosage forms and strengths\n    - Complete submission history\n    - Marketing status timeline\n    - Therapeutic equivalence codes\n    - Pharmacologic class information\n    ",
+        "parameters": {
+            "properties": {
+                "application_number": {
+                    "title": "Application Number",
+                    "type": "string"
+                },
+                "api_key": {
+                    "title": "api_key",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "application_number",
+                "api_key"
+            ],
+            "title": "openfda_approval_getterArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "openfda_recall_searcher",
+        "description": "Search FDA drug recall records from the Enforcement database.\n\n    ⚠️ PREREQUISITE: Use the 'think' tool FIRST to plan your research strategy!\n\n    Returns recall information including:\n    - Classification (Class I, II, or III)\n    - Recall reason and description\n    - Product identification\n    - Distribution information\n    - Recalling firm details\n    - Current status\n\n    Class I = most serious (death/serious harm)\n    Class II = moderate (temporary/reversible harm)\n    Class III = least serious (unlikely to cause harm)\n    ",
+        "parameters": {
+            "properties": {
+                "drug": {
+                    "title": "drug",
+                    "type": "string"
+                },
+                "recall_class": {
+                    "title": "recall_class",
+                    "type": "string"
+                },
+                "status": {
+                    "title": "status",
+                    "type": "string"
+                },
+                "reason": {
+                    "title": "reason",
+                    "type": "string"
+                },
+                "api_key": {
+                    "title": "api_key",
+                    "type": "string"
+                },
+                "since_date": {
+                    "title": "since_date",
+                    "type": "string"
+                },
+                "limit": {
+                    "default": 25,
+                    "title": "Limit",
+                    "type": "integer"
+                },
+                "page": {
+                    "default": 1,
+                    "title": "Page",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "drug",
+                "recall_class",
+                "status",
+                "reason",
+                "api_key",
+                "since_date"
+            ],
+            "title": "openfda_recall_searcherArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "openfda_recall_getter",
+        "description": "Get detailed FDA drug recall information for a specific recall.\n\n    Returns complete recall details including:\n    - Full product description and code information\n    - Complete reason for recall\n    - Distribution pattern and locations\n    - Quantity of product recalled\n    - Firm information and actions taken\n    - Timeline of recall events\n    ",
+        "parameters": {
+            "properties": {
+                "api_key": {
+                    "title": "api_key",
+                    "type": "string"
+                },
+                "recall_number": {
+                    "title": "Recall Number",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "api_key",
+                "recall_number"
+            ],
+            "title": "openfda_recall_getterArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "openfda_shortage_searcher",
+        "description": "Search FDA drug shortage records.\n\n    ⚠️ PREREQUISITE: Use the 'think' tool FIRST to plan your research strategy!\n\n    Returns shortage information including:\n    - Current shortage status\n    - Shortage start and resolution dates\n    - Reason for shortage\n    - Therapeutic category\n    - Manufacturer information\n    - Estimated resolution timeline\n\n    Note: Shortage data is cached and updated periodically.\n    Check FDA.gov for most current information.\n    ",
+        "parameters": {
+            "properties": {
+                "drug": {
+                    "title": "drug",
+                    "type": "string"
+                },
+                "api_key": {
+                    "title": "api_key",
+                    "type": "string"
+                },
+                "therapeutic_category": {
+                    "title": "therapeutic_category",
+                    "type": "string"
+                },
+                "status": {
+                    "title": "status",
+                    "type": "string"
+                },
+                "limit": {
+                    "default": 25,
+                    "title": "Limit",
+                    "type": "integer"
+                },
+                "page": {
+                    "default": 1,
+                    "title": "Page",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "drug",
+                "api_key",
+                "therapeutic_category",
+                "status"
+            ],
+            "title": "openfda_shortage_searcherArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "openfda_shortage_getter",
+        "description": "Get detailed FDA drug shortage information for a specific drug.\n\n    Returns comprehensive shortage details including:\n    - Complete timeline of shortage\n    - Detailed reason for shortage\n    - All affected manufacturers\n    - Alternative products if available\n    - Resolution status and estimates\n    - Additional notes and recommendations\n\n    Data is updated periodically from FDA shortage database.\n    ",
+        "parameters": {
+            "properties": {
+                "drug": {
+                    "title": "Drug",
+                    "type": "string"
+                },
+                "api_key": {
+                    "title": "api_key",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "drug",
+                "api_key"
+            ],
+            "title": "openfda_shortage_getterArguments",
+            "type": "object"
+        }
+    }
+]

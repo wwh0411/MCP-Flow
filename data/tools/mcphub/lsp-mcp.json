@@ -1,0 +1,2369 @@
+[
+    {
+        "name": "lsp_info",
+        "description": "Returns information about the the LSP tools available. This is useful for debugging which programming languages are supported.",
+        "parameters": {
+            "type": "object"
+        }
+    },
+    {
+        "name": "file_contents_to_uri",
+        "description": "Creates a URI given some file contents to be used in the LSP methods that require a URI. This is only required if the file is not on the filesystem. Otherwise you may pass the file path directly.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "file_contents": {
+                    "type": "string",
+                    "description": "The contents of the file"
+                },
+                "programming_language": {
+                    "type": "string",
+                    "description": "The programming language of the file"
+                }
+            },
+            "required": [
+                "file_contents"
+            ]
+        }
+    },
+    {
+        "name": "codeLens_resolve",
+        "description": "method: codeLens/resolve\nA request to resolve a command for a given code lens.",
+        "parameters": {
+            "description": "The method's params.",
+            "additionalProperties": false,
+            "properties": {
+                "command": {
+                    "description": "The command this code lens represents.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "arguments": {
+                            "description": "Arguments that the command handler should be\r\ninvoked with.",
+                            "items": {},
+                            "type": "array"
+                        },
+                        "command": {
+                            "description": "The identifier of the actual command handler.",
+                            "type": "string"
+                        },
+                        "title": {
+                            "description": "Title of the command, like `save`.",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "title",
+                        "command"
+                    ],
+                    "type": "object"
+                },
+                "data": {
+                    "description": "An data entry field that is preserved on a code lens item between\r\na [CodeLensRequest](#CodeLensRequest) and a [CodeLensResolveRequest]\r\n(#CodeLensResolveRequest)"
+                },
+                "range": {
+                    "additionalProperties": false,
+                    "description": "A range in a text document expressed as (zero-based) start and end positions.\r\n\r\nIf you want to specify a range that contains a line including the line ending\r\ncharacter(s) then use an end position denoting the start of the next line.\r\nFor example:\r\n```ts\r\n{\r\n     start: { line: 5, character: 23 }\r\n     end : { line 6, character : 0 }\r\n}\r\n``` \n The Range namespace provides helper functions to work with\r\n[Range](#Range) literals.",
+                    "properties": {
+                        "end": {
+                            "description": "The range's end position.",
+                            "additionalProperties": false,
+                            "properties": {
+                                "character": {
+                                    "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                                    "type": "number"
+                                },
+                                "line": {
+                                    "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                                    "type": "number"
+                                }
+                            },
+                            "required": [
+                                "line",
+                                "character"
+                            ],
+                            "type": "object"
+                        },
+                        "start": {
+                            "description": "The range's start position",
+                            "additionalProperties": false,
+                            "properties": {
+                                "character": {
+                                    "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                                    "type": "number"
+                                },
+                                "line": {
+                                    "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                                    "type": "number"
+                                }
+                            },
+                            "required": [
+                                "line",
+                                "character"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "start",
+                        "end"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "range"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "completionItem_resolve",
+        "description": "method: completionItem/resolve\nRequest to resolve additional information for a given completion item.The request's\nparameter is of type {@link CompletionItem} the response\nis of type {@link CompletionItem} or a Thenable that resolves to such.",
+        "parameters": {
+            "additionalProperties": false,
+            "description": "A completion item represents a text snippet that is\r\nproposed to complete text that is being typed. \n The CompletionItem namespace provides functions to deal with\r\ncompletion items.",
+            "properties": {
+                "additionalTextEdits": {
+                    "description": "An optional array of additional [text edits](#TextEdit) that are applied when\r\nselecting this completion. Edits must not overlap (including the same insert position)\r\nwith the main [edit](#CompletionItem.textEdit) nor with themselves.\r\n\r\nAdditional text edits should be used to change text unrelated to the current cursor position\r\n(for example adding an import statement at the top of the file if the completion item will\r\ninsert an unqualified type).",
+                    "items": {
+                        "additionalProperties": false,
+                        "description": "A text edit applicable to a text document. \n The TextEdit namespace provides helper function to create replace,\r\ninsert and delete edits more easily.",
+                        "properties": {
+                            "newText": {
+                                "description": "The string to be inserted. For delete operations use an\r\nempty string.",
+                                "type": "string"
+                            },
+                            "range": {
+                                "description": "The range of the text document to be manipulated. To insert\r\ntext into a document create a range where start === end.",
+                                "additionalProperties": false,
+                                "properties": {
+                                    "end": {
+                                        "description": "The range's end position.",
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "character": {
+                                                "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                                                "type": "number"
+                                            },
+                                            "line": {
+                                                "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                                                "type": "number"
+                                            }
+                                        },
+                                        "required": [
+                                            "line",
+                                            "character"
+                                        ],
+                                        "type": "object"
+                                    },
+                                    "start": {
+                                        "description": "The range's start position",
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "character": {
+                                                "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                                                "type": "number"
+                                            },
+                                            "line": {
+                                                "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                                                "type": "number"
+                                            }
+                                        },
+                                        "required": [
+                                            "line",
+                                            "character"
+                                        ],
+                                        "type": "object"
+                                    }
+                                },
+                                "required": [
+                                    "start",
+                                    "end"
+                                ],
+                                "type": "object"
+                            }
+                        },
+                        "required": [
+                            "range",
+                            "newText"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "command": {
+                    "description": "An optional [command](#Command) that is executed *after* inserting this completion. *Note* that\r\nadditional modifications to the current document should be described with the\r\n[additionalTextEdits](#CompletionItem.additionalTextEdits)-property.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "arguments": {
+                            "description": "Arguments that the command handler should be\r\ninvoked with.",
+                            "items": {},
+                            "type": "array"
+                        },
+                        "command": {
+                            "description": "The identifier of the actual command handler.",
+                            "type": "string"
+                        },
+                        "title": {
+                            "description": "Title of the command, like `save`.",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "title",
+                        "command"
+                    ],
+                    "type": "object"
+                },
+                "commitCharacters": {
+                    "description": "An optional set of characters that when pressed while this completion is active will accept it first and\r\nthen type that character. *Note* that all commit characters should have `length=1` and that superfluous\r\ncharacters will be ignored.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "data": {
+                    "description": "An data entry field that is preserved on a completion item between\r\na [CompletionRequest](#CompletionRequest) and a [CompletionResolveRequest]\r\n(#CompletionResolveRequest)"
+                },
+                "deprecated": {
+                    "description": "Indicates if this item is deprecated.",
+                    "type": "boolean"
+                },
+                "detail": {
+                    "description": "A human-readable string with additional information\r\nabout this item, like type or symbol information.",
+                    "type": "string"
+                },
+                "documentation": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "additionalProperties": false,
+                            "description": "A `MarkupContent` literal represents a string value which content is interpreted base on its\r\nkind flag. Currently the protocol supports `plaintext` and `markdown` as markup kinds.\r\n\r\nIf the kind is `markdown` then the value can contain fenced code blocks like in GitHub issues.\r\nSee https://help.github.com/articles/creating-and-highlighting-code-blocks/#syntax-highlighting\r\n\r\nHere is an example how such a string can be constructed using JavaScript / TypeScript:\r\n```ts\r\nlet markdown: MarkdownContent = {\r\n  kind: MarkupKind.Markdown,\r\nvalue: [\r\n\t\t'# Header',\r\n\t\t'Some text',\r\n\t\t'```typescript',\r\n\t\t'someCode();',\r\n\t\t'```'\r\n].join('\\n')\r\n};\r\n```\r\n\r\n*Please Note* that clients might sanitize the return markdown. A client could decide to\r\nremove HTML from the markdown to avoid script execution.",
+                            "properties": {
+                                "kind": {
+                                    "description": "Describes the content type that a client supports in various\r\nresult literals like `Hover`, `ParameterInfo` or `CompletionItem`.\r\n\r\nPlease note that `MarkupKinds` must not start with a `$`. This kinds\r\nare reserved for internal usage.",
+                                    "enum": [
+                                        "plaintext",
+                                        "markdown"
+                                    ],
+                                    "type": "string"
+                                },
+                                "value": {
+                                    "description": "The content itself",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "kind",
+                                "value"
+                            ],
+                            "type": "object"
+                        }
+                    ],
+                    "description": "A human-readable string that represents a doc-comment."
+                },
+                "filterText": {
+                    "description": "A string that should be used when filtering a set of\r\ncompletion items. When `falsy` the [label](#CompletionItem.label)\r\nis used.",
+                    "type": "string"
+                },
+                "insertText": {
+                    "description": "A string that should be inserted into a document when selecting\r\nthis completion. When `falsy` the [label](#CompletionItem.label)\r\nis used.\r\n\r\nThe `insertText` is subject to interpretation by the client side.\r\nSome tools might not take the string literally. For example\r\nVS Code when code complete is requested in this example `con<cursor position>`\r\nand a completion item with an `insertText` of `console` is provided it\r\nwill only insert `sole`. Therefore it is recommended to use `textEdit` instead\r\nsince it avoids additional client side interpretation.",
+                    "type": "string"
+                },
+                "insertTextFormat": {
+                    "description": "The format of the insert text. The format applies to both the `insertText` property\r\nand the `newText` property of a provided `textEdit`.",
+                    "enum": [
+                        1,
+                        2
+                    ],
+                    "type": "number"
+                },
+                "kind": {
+                    "description": "The kind of a completion entry.",
+                    "enum": [
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10,
+                        11,
+                        12,
+                        13,
+                        14,
+                        15,
+                        16,
+                        17,
+                        18,
+                        19,
+                        20,
+                        21,
+                        22,
+                        23,
+                        24,
+                        25
+                    ],
+                    "type": "number"
+                },
+                "label": {
+                    "description": "The label of this completion item. By default\r\nalso the text that is inserted when selecting\r\nthis completion.",
+                    "type": "string"
+                },
+                "preselect": {
+                    "description": "Select this item when showing.\r\n\r\n*Note* that only one completion item can be selected and that the\r\ntool / client decides which item that is. The rule is that the *first*\r\nitem of those that match best is selected.",
+                    "type": "boolean"
+                },
+                "sortText": {
+                    "description": "A string that should be used when comparing this item\r\nwith other items. When `falsy` the [label](#CompletionItem.label)\r\nis used.",
+                    "type": "string"
+                },
+                "tags": {
+                    "description": "Tags for this completion item.",
+                    "items": {
+                        "description": "Completion item tags are extra annotations that tweak the rendering of a completion\r\nitem.",
+                        "enum": [
+                            1
+                        ],
+                        "type": "number"
+                    },
+                    "type": "array"
+                },
+                "textEdit": {
+                    "additionalProperties": false,
+                    "description": "A text edit applicable to a text document. \n The TextEdit namespace provides helper function to create replace,\r\ninsert and delete edits more easily.",
+                    "properties": {
+                        "newText": {
+                            "description": "The string to be inserted. For delete operations use an\r\nempty string.",
+                            "type": "string"
+                        },
+                        "range": {
+                            "description": "The range of the text document to be manipulated. To insert\r\ntext into a document create a range where start === end.",
+                            "additionalProperties": false,
+                            "properties": {
+                                "end": {
+                                    "description": "The range's end position.",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "character": {
+                                            "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                                            "type": "number"
+                                        },
+                                        "line": {
+                                            "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                                            "type": "number"
+                                        }
+                                    },
+                                    "required": [
+                                        "line",
+                                        "character"
+                                    ],
+                                    "type": "object"
+                                },
+                                "start": {
+                                    "description": "The range's start position",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "character": {
+                                            "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                                            "type": "number"
+                                        },
+                                        "line": {
+                                            "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                                            "type": "number"
+                                        }
+                                    },
+                                    "required": [
+                                        "line",
+                                        "character"
+                                    ],
+                                    "type": "object"
+                                }
+                            },
+                            "required": [
+                                "start",
+                                "end"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "range",
+                        "newText"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "label"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "documentLink_resolve",
+        "description": "method: documentLink/resolve\nRequest to resolve additional information for a given document link. The request's\nparameter is of type {@link DocumentLink} the response\nis of type {@link DocumentLink} or a Thenable that resolves to such.",
+        "parameters": {
+            "description": "The method's params.",
+            "additionalProperties": false,
+            "properties": {
+                "data": {
+                    "description": "A data entry field that is preserved on a document link between a\r\nDocumentLinkRequest and a DocumentLinkResolveRequest."
+                },
+                "range": {
+                    "additionalProperties": false,
+                    "description": "A range in a text document expressed as (zero-based) start and end positions.\r\n\r\nIf you want to specify a range that contains a line including the line ending\r\ncharacter(s) then use an end position denoting the start of the next line.\r\nFor example:\r\n```ts\r\n{\r\n     start: { line: 5, character: 23 }\r\n     end : { line 6, character : 0 }\r\n}\r\n``` \n The Range namespace provides helper functions to work with\r\n[Range](#Range) literals.",
+                    "properties": {
+                        "end": {
+                            "description": "The range's end position.",
+                            "additionalProperties": false,
+                            "properties": {
+                                "character": {
+                                    "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                                    "type": "number"
+                                },
+                                "line": {
+                                    "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                                    "type": "number"
+                                }
+                            },
+                            "required": [
+                                "line",
+                                "character"
+                            ],
+                            "type": "object"
+                        },
+                        "start": {
+                            "description": "The range's start position",
+                            "additionalProperties": false,
+                            "properties": {
+                                "character": {
+                                    "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                                    "type": "number"
+                                },
+                                "line": {
+                                    "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                                    "type": "number"
+                                }
+                            },
+                            "required": [
+                                "line",
+                                "character"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "start",
+                        "end"
+                    ],
+                    "type": "object"
+                },
+                "target": {
+                    "description": "The uri this link points to.",
+                    "type": "string"
+                },
+                "tooltip": {
+                    "description": "The tooltip text when you hover over this link.\r\n\r\nIf a tooltip is provided, is will be displayed in a string that includes instructions on how to\r\ntrigger the link, such as `{0} (ctrl + click)`. The specific instructions vary depending on OS,\r\nuser settings, and localization.",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "range"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "textDocument_codeAction",
+        "description": "method: textDocument/codeAction\nA request to provide commands for the given text document and range.",
+        "parameters": {
+            "description": "The method's params.",
+            "additionalProperties": false,
+            "properties": {
+                "context": {
+                    "description": "Context carrying additional information.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "diagnostics": {
+                            "description": "An array of diagnostics known on the client side overlapping the range provided to the\r\n`textDocument/codeAction` request. They are provied so that the server knows which\r\nerrors are currently presented to the user for the given range. There is no guarantee\r\nthat these accurately reflect the error state of the resource. The primary parameter\r\nto compute code actions is the provided range.",
+                            "items": {
+                                "additionalProperties": false,
+                                "description": "Represents a diagnostic, such as a compiler error or warning. Diagnostic objects\r\nare only valid in the scope of a resource. \n The Diagnostic namespace provides helper functions to work with\r\n[Diagnostic](#Diagnostic) literals.",
+                                "properties": {
+                                    "code": {
+                                        "description": "The diagnostic's code, which usually appear in the user interface.",
+                                        "type": [
+                                            "number",
+                                            "string"
+                                        ]
+                                    },
+                                    "message": {
+                                        "description": "The diagnostic's message. It usually appears in the user interface",
+                                        "type": "string"
+                                    },
+                                    "range": {
+                                        "description": "The range at which the message applies",
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "end": {
+                                                "description": "The range's end position.",
+                                                "additionalProperties": false,
+                                                "properties": {
+                                                    "character": {
+                                                        "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                                                        "type": "number"
+                                                    },
+                                                    "line": {
+                                                        "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                                                        "type": "number"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "line",
+                                                    "character"
+                                                ],
+                                                "type": "object"
+                                            },
+                                            "start": {
+                                                "description": "The range's start position",
+                                                "additionalProperties": false,
+                                                "properties": {
+                                                    "character": {
+                                                        "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                                                        "type": "number"
+                                                    },
+                                                    "line": {
+                                                        "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                                                        "type": "number"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "line",
+                                                    "character"
+                                                ],
+                                                "type": "object"
+                                            }
+                                        },
+                                        "required": [
+                                            "start",
+                                            "end"
+                                        ],
+                                        "type": "object"
+                                    },
+                                    "relatedInformation": {
+                                        "description": "An array of related diagnostic information, e.g. when symbol-names within\r\na scope collide all definitions can be marked via this property.",
+                                        "items": {
+                                            "additionalProperties": false,
+                                            "description": "Represents a related message and source code location for a diagnostic. This should be\r\nused to point to code locations that cause or related to a diagnostics, e.g when duplicating\r\na symbol in a scope. \n The DiagnosticRelatedInformation namespace provides helper functions to work with\r\n[DiagnosticRelatedInformation](#DiagnosticRelatedInformation) literals.",
+                                            "properties": {
+                                                "location": {
+                                                    "description": "The location of this related diagnostic information.",
+                                                    "additionalProperties": false,
+                                                    "properties": {
+                                                        "range": {
+                                                            "additionalProperties": false,
+                                                            "description": "A range in a text document expressed as (zero-based) start and end positions.\r\n\r\nIf you want to specify a range that contains a line including the line ending\r\ncharacter(s) then use an end position denoting the start of the next line.\r\nFor example:\r\n```ts\r\n{\r\n     start: { line: 5, character: 23 }\r\n     end : { line 6, character : 0 }\r\n}\r\n``` \n The Range namespace provides helper functions to work with\r\n[Range](#Range) literals.",
+                                                            "properties": {
+                                                                "end": {
+                                                                    "description": "The range's end position.",
+                                                                    "additionalProperties": false,
+                                                                    "properties": {
+                                                                        "character": {
+                                                                            "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                                                                            "type": "number"
+                                                                        },
+                                                                        "line": {
+                                                                            "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                                                                            "type": "number"
+                                                                        }
+                                                                    },
+                                                                    "required": [
+                                                                        "line",
+                                                                        "character"
+                                                                    ],
+                                                                    "type": "object"
+                                                                },
+                                                                "start": {
+                                                                    "description": "The range's start position",
+                                                                    "additionalProperties": false,
+                                                                    "properties": {
+                                                                        "character": {
+                                                                            "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                                                                            "type": "number"
+                                                                        },
+                                                                        "line": {
+                                                                            "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                                                                            "type": "number"
+                                                                        }
+                                                                    },
+                                                                    "required": [
+                                                                        "line",
+                                                                        "character"
+                                                                    ],
+                                                                    "type": "object"
+                                                                }
+                                                            },
+                                                            "required": [
+                                                                "start",
+                                                                "end"
+                                                            ],
+                                                            "type": "object"
+                                                        },
+                                                        "uri": {
+                                                            "description": "A tagging type for string properties that are actually URIs.",
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "uri",
+                                                        "range"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "message": {
+                                                    "description": "The message of this related diagnostic information.",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "location",
+                                                "message"
+                                            ],
+                                            "type": "object"
+                                        },
+                                        "type": "array"
+                                    },
+                                    "severity": {
+                                        "description": "The diagnostic's severity. Can be omitted. If omitted it is up to the\r\nclient to interpret diagnostics as error, warning, info or hint.",
+                                        "enum": [
+                                            1,
+                                            2,
+                                            3,
+                                            4
+                                        ],
+                                        "type": "number"
+                                    },
+                                    "source": {
+                                        "description": "A human-readable string describing the source of this\r\ndiagnostic, e.g. 'typescript' or 'super lint'. It usually\r\nappears in the user interface.",
+                                        "type": "string"
+                                    },
+                                    "tags": {
+                                        "description": "Additional metadata about the diagnostic.",
+                                        "items": {
+                                            "description": "The diagnostic tags.",
+                                            "enum": [
+                                                1,
+                                                2
+                                            ],
+                                            "type": "number"
+                                        },
+                                        "type": "array"
+                                    }
+                                },
+                                "required": [
+                                    "range",
+                                    "message"
+                                ],
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        "only": {
+                            "description": "Requested kind of actions to return.\r\n\r\nActions not of this kind are filtered out by the client before being shown. So servers\r\ncan omit computing them.",
+                            "items": {
+                                "description": "The kind of a code action.\r\n\r\nKinds are a hierarchical list of identifiers separated by `.`, e.g. `\"refactor.extract.function\"`.\r\n\r\nThe set of kinds is open and client needs to announce the kinds it supports to the server during\r\ninitialization. \n A set of predefined code action kinds",
+                                "type": "string"
+                            },
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "diagnostics"
+                    ],
+                    "type": "object"
+                },
+                "range": {
+                    "additionalProperties": false,
+                    "description": "A range in a text document expressed as (zero-based) start and end positions.\r\n\r\nIf you want to specify a range that contains a line including the line ending\r\ncharacter(s) then use an end position denoting the start of the next line.\r\nFor example:\r\n```ts\r\n{\r\n     start: { line: 5, character: 23 }\r\n     end : { line 6, character : 0 }\r\n}\r\n``` \n The Range namespace provides helper functions to work with\r\n[Range](#Range) literals.",
+                    "properties": {
+                        "end": {
+                            "description": "The range's end position.",
+                            "additionalProperties": false,
+                            "properties": {
+                                "character": {
+                                    "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                                    "type": "number"
+                                },
+                                "line": {
+                                    "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                                    "type": "number"
+                                }
+                            },
+                            "required": [
+                                "line",
+                                "character"
+                            ],
+                            "type": "object"
+                        },
+                        "start": {
+                            "description": "The range's start position",
+                            "additionalProperties": false,
+                            "properties": {
+                                "character": {
+                                    "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                                    "type": "number"
+                                },
+                                "line": {
+                                    "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                                    "type": "number"
+                                }
+                            },
+                            "required": [
+                                "line",
+                                "character"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "start",
+                        "end"
+                    ],
+                    "type": "object"
+                },
+                "textDocument": {
+                    "description": "The document in which the command was invoked.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "uri": {
+                            "description": "A tagging type for string properties that are actually URIs.",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "uri"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "textDocument",
+                "range",
+                "context"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "textDocument_codeLens",
+        "description": "method: textDocument/codeLens\nA request to provide code lens for the given text document.",
+        "parameters": {
+            "description": "The method's params.",
+            "additionalProperties": false,
+            "properties": {
+                "textDocument": {
+                    "description": "The document to request code lens for.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "uri": {
+                            "description": "A tagging type for string properties that are actually URIs.",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "uri"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "textDocument"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "textDocument_colorPresentation",
+        "description": "method: textDocument/colorPresentation\nA request to list all presentation for a color. The request's\nparameter is of type {@link ColorPresentationParams} the\nresponse is of type {@link ColorInformation ColorInformation[]} or a Thenable\nthat resolves to such.",
+        "parameters": {
+            "description": "The method's params.",
+            "additionalProperties": false,
+            "properties": {
+                "color": {
+                    "description": "The color to request presentations for.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "alpha": {
+                            "description": "The alpha component of this color in the range [0-1].",
+                            "type": "number"
+                        },
+                        "blue": {
+                            "description": "The blue component of this color in the range [0-1].",
+                            "type": "number"
+                        },
+                        "green": {
+                            "description": "The green component of this color in the range [0-1].",
+                            "type": "number"
+                        },
+                        "red": {
+                            "description": "The red component of this color in the range [0-1].",
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "red",
+                        "green",
+                        "blue",
+                        "alpha"
+                    ],
+                    "type": "object"
+                },
+                "range": {
+                    "additionalProperties": false,
+                    "description": "A range in a text document expressed as (zero-based) start and end positions.\r\n\r\nIf you want to specify a range that contains a line including the line ending\r\ncharacter(s) then use an end position denoting the start of the next line.\r\nFor example:\r\n```ts\r\n{\r\n     start: { line: 5, character: 23 }\r\n     end : { line 6, character : 0 }\r\n}\r\n``` \n The Range namespace provides helper functions to work with\r\n[Range](#Range) literals.",
+                    "properties": {
+                        "end": {
+                            "description": "The range's end position.",
+                            "additionalProperties": false,
+                            "properties": {
+                                "character": {
+                                    "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                                    "type": "number"
+                                },
+                                "line": {
+                                    "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                                    "type": "number"
+                                }
+                            },
+                            "required": [
+                                "line",
+                                "character"
+                            ],
+                            "type": "object"
+                        },
+                        "start": {
+                            "description": "The range's start position",
+                            "additionalProperties": false,
+                            "properties": {
+                                "character": {
+                                    "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                                    "type": "number"
+                                },
+                                "line": {
+                                    "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                                    "type": "number"
+                                }
+                            },
+                            "required": [
+                                "line",
+                                "character"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "start",
+                        "end"
+                    ],
+                    "type": "object"
+                },
+                "textDocument": {
+                    "description": "The text document.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "uri": {
+                            "description": "A tagging type for string properties that are actually URIs.",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "uri"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "textDocument",
+                "color",
+                "range"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "textDocument_completion",
+        "description": "method: textDocument/completion\nRequest to request completion at a given text document position. The request's\nparameter is of type {@link TextDocumentPosition} the response\nis of type {@link CompletionItem CompletionItem[]} or {@link CompletionList}\nor a Thenable that resolves to such.\n\nThe request can delay the computation of the {@link CompletionItem.detail `detail`}\nand {@link CompletionItem.documentation `documentation`} properties to the `completionItem/resolve`\nrequest. However, properties that are needed for the initial sorting and filtering, like `sortText`,\n`filterText`, `insertText`, and `textEdit`, must not be changed during resolve.",
+        "parameters": {
+            "description": "The method's params.",
+            "additionalProperties": false,
+            "properties": {
+                "context": {
+                    "description": "The completion context. This is only available it the client specifies\nto send this using the client capability `textDocument.completion.contextSupport === true`",
+                    "additionalProperties": false,
+                    "properties": {
+                        "triggerCharacter": {
+                            "description": "The trigger character (a single character) that has trigger code complete.\nIs undefined if `triggerKind !== CompletionTriggerKind.TriggerCharacter`",
+                            "type": "string"
+                        },
+                        "triggerKind": {
+                            "description": "How the completion was triggered.",
+                            "enum": [
+                                1,
+                                2,
+                                3
+                            ],
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "triggerKind"
+                    ],
+                    "type": "object"
+                },
+                "position": {
+                    "description": "The position inside the text document.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "character": {
+                            "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                            "type": "number"
+                        },
+                        "line": {
+                            "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "line",
+                        "character"
+                    ],
+                    "type": "object"
+                },
+                "textDocument": {
+                    "description": "The text document.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "uri": {
+                            "description": "A tagging type for string properties that are actually URIs.",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "uri"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "position",
+                "textDocument"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "textDocument_declaration",
+        "description": "method: textDocument/declaration\nA request to resolve the type definition locations of a symbol at a given text\ndocument position. The request's parameter is of type {@link TextDocumentPositionParams}\nthe response is of type {@link Declaration} or a typed array of {@link DeclarationLink}\nor a Thenable that resolves to such.",
+        "parameters": {
+            "description": "The method's params.",
+            "additionalProperties": false,
+            "properties": {
+                "position": {
+                    "description": "The position inside the text document.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "character": {
+                            "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                            "type": "number"
+                        },
+                        "line": {
+                            "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "line",
+                        "character"
+                    ],
+                    "type": "object"
+                },
+                "textDocument": {
+                    "description": "The text document.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "uri": {
+                            "description": "A tagging type for string properties that are actually URIs.",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "uri"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "textDocument",
+                "position"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "textDocument_definition",
+        "description": "method: textDocument/definition\nA request to resolve the definition location of a symbol at a given text\ndocument position. The request's parameter is of type {@link TextDocumentPosition}\nthe response is of either type {@link Definition} or a typed array of\n{@link DefinitionLink} or a Thenable that resolves to such.",
+        "parameters": {
+            "description": "The method's params.",
+            "additionalProperties": false,
+            "properties": {
+                "position": {
+                    "description": "The position inside the text document.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "character": {
+                            "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                            "type": "number"
+                        },
+                        "line": {
+                            "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "line",
+                        "character"
+                    ],
+                    "type": "object"
+                },
+                "textDocument": {
+                    "description": "The text document.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "uri": {
+                            "description": "A tagging type for string properties that are actually URIs.",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "uri"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "textDocument",
+                "position"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "textDocument_documentColor",
+        "description": "method: textDocument/documentColor\nA request to list all color symbols found in a given text document. The request's\nparameter is of type {@link DocumentColorParams} the\nresponse is of type {@link ColorInformation ColorInformation[]} or a Thenable\nthat resolves to such.",
+        "parameters": {
+            "description": "The method's params.",
+            "additionalProperties": false,
+            "properties": {
+                "textDocument": {
+                    "description": "The text document.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "uri": {
+                            "description": "A tagging type for string properties that are actually URIs.",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "uri"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "textDocument"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "textDocument_documentHighlight",
+        "description": "method: textDocument/documentHighlight\nRequest to resolve a {@link DocumentHighlight} for a given\ntext document position. The request's parameter is of type {@link TextDocumentPosition}\nthe request response is an array of type {@link DocumentHighlight}\nor a Thenable that resolves to such.",
+        "parameters": {
+            "description": "The method's params.",
+            "additionalProperties": false,
+            "properties": {
+                "position": {
+                    "description": "The position inside the text document.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "character": {
+                            "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                            "type": "number"
+                        },
+                        "line": {
+                            "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "line",
+                        "character"
+                    ],
+                    "type": "object"
+                },
+                "textDocument": {
+                    "description": "The text document.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "uri": {
+                            "description": "A tagging type for string properties that are actually URIs.",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "uri"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "textDocument",
+                "position"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "textDocument_documentLink",
+        "description": "method: textDocument/documentLink\nA request to provide document links",
+        "parameters": {
+            "description": "The method's params.",
+            "additionalProperties": false,
+            "properties": {
+                "textDocument": {
+                    "description": "The document to provide document links for.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "uri": {
+                            "description": "A tagging type for string properties that are actually URIs.",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "uri"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "textDocument"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "textDocument_documentSymbol",
+        "description": "method: textDocument/documentSymbol\nA request to list all symbols found in a given text document. The request's\nparameter is of type {@link TextDocumentIdentifier} the\nresponse is of type {@link SymbolInformation SymbolInformation[]} or a Thenable\nthat resolves to such.",
+        "parameters": {
+            "description": "The method's params.",
+            "additionalProperties": false,
+            "properties": {
+                "textDocument": {
+                    "description": "The text document.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "uri": {
+                            "description": "A tagging type for string properties that are actually URIs.",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "uri"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "textDocument"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "textDocument_foldingRange",
+        "description": "method: textDocument/foldingRange\nA request to provide folding ranges in a document. The request's\nparameter is of type {@link FoldingRangeParams}, the\nresponse is of type {@link FoldingRangeList} or a Thenable\nthat resolves to such.",
+        "parameters": {
+            "description": "The method's params.",
+            "additionalProperties": false,
+            "properties": {
+                "textDocument": {
+                    "description": "The text document.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "uri": {
+                            "description": "A tagging type for string properties that are actually URIs.",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "uri"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "textDocument"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "textDocument_formatting",
+        "description": "method: textDocument/formatting\nA request to format a whole document.",
+        "parameters": {
+            "description": "The method's params.",
+            "additionalProperties": false,
+            "properties": {
+                "options": {
+                    "description": "The format options",
+                    "additionalProperties": {
+                        "anyOf": [
+                            {
+                                "type": "boolean"
+                            },
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "not": {}
+                            }
+                        ],
+                        "description": "Signature for further properties."
+                    },
+                    "properties": {
+                        "insertFinalNewline": {
+                            "description": "Insert a newline character at the end of the file if one does not exist.",
+                            "type": "boolean"
+                        },
+                        "insertSpaces": {
+                            "description": "Prefer spaces over tabs.",
+                            "type": "boolean"
+                        },
+                        "tabSize": {
+                            "description": "Size of a tab in spaces.",
+                            "type": "number"
+                        },
+                        "trimFinalNewlines": {
+                            "description": "Trim all newlines after the final newline at the end of the file.",
+                            "type": "boolean"
+                        },
+                        "trimTrailingWhitespace": {
+                            "description": "Trim trailing whitespaces on a line.",
+                            "type": "boolean"
+                        }
+                    },
+                    "required": [
+                        "tabSize",
+                        "insertSpaces"
+                    ],
+                    "type": "object"
+                },
+                "textDocument": {
+                    "description": "The document to format.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "uri": {
+                            "description": "A tagging type for string properties that are actually URIs.",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "uri"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "textDocument",
+                "options"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "textDocument_hover",
+        "description": "method: textDocument/hover\nRequest to request hover information at a given text document position. The request's\nparameter is of type {@link TextDocumentPosition} the response is of\ntype {@link Hover} or a Thenable that resolves to such.",
+        "parameters": {
+            "description": "The method's params.",
+            "additionalProperties": false,
+            "properties": {
+                "position": {
+                    "description": "The position inside the text document.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "character": {
+                            "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                            "type": "number"
+                        },
+                        "line": {
+                            "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "line",
+                        "character"
+                    ],
+                    "type": "object"
+                },
+                "textDocument": {
+                    "description": "The text document.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "uri": {
+                            "description": "A tagging type for string properties that are actually URIs.",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "uri"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "textDocument",
+                "position"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "textDocument_implementation",
+        "description": "method: textDocument/implementation\nA request to resolve the implementation locations of a symbol at a given text\ndocument position. The request's parameter is of type {@link TextDocumentPositionParams}\nthe response is of type {@link Definition} or a Thenable that resolves to such.",
+        "parameters": {
+            "description": "The method's params.",
+            "additionalProperties": false,
+            "properties": {
+                "position": {
+                    "description": "The position inside the text document.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "character": {
+                            "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                            "type": "number"
+                        },
+                        "line": {
+                            "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "line",
+                        "character"
+                    ],
+                    "type": "object"
+                },
+                "textDocument": {
+                    "description": "The text document.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "uri": {
+                            "description": "A tagging type for string properties that are actually URIs.",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "uri"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "textDocument",
+                "position"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "textDocument_onTypeFormatting",
+        "description": "method: textDocument/onTypeFormatting\nA request to format a document on type.",
+        "parameters": {
+            "description": "The method's params.",
+            "additionalProperties": false,
+            "properties": {
+                "ch": {
+                    "description": "The character that has been typed.",
+                    "type": "string"
+                },
+                "options": {
+                    "description": "The format options.",
+                    "additionalProperties": {
+                        "anyOf": [
+                            {
+                                "type": "boolean"
+                            },
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "not": {}
+                            }
+                        ],
+                        "description": "Signature for further properties."
+                    },
+                    "properties": {
+                        "insertFinalNewline": {
+                            "description": "Insert a newline character at the end of the file if one does not exist.",
+                            "type": "boolean"
+                        },
+                        "insertSpaces": {
+                            "description": "Prefer spaces over tabs.",
+                            "type": "boolean"
+                        },
+                        "tabSize": {
+                            "description": "Size of a tab in spaces.",
+                            "type": "number"
+                        },
+                        "trimFinalNewlines": {
+                            "description": "Trim all newlines after the final newline at the end of the file.",
+                            "type": "boolean"
+                        },
+                        "trimTrailingWhitespace": {
+                            "description": "Trim trailing whitespaces on a line.",
+                            "type": "boolean"
+                        }
+                    },
+                    "required": [
+                        "tabSize",
+                        "insertSpaces"
+                    ],
+                    "type": "object"
+                },
+                "position": {
+                    "description": "The position at which this request was send.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "character": {
+                            "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                            "type": "number"
+                        },
+                        "line": {
+                            "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "line",
+                        "character"
+                    ],
+                    "type": "object"
+                },
+                "textDocument": {
+                    "description": "The document to format.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "uri": {
+                            "description": "A tagging type for string properties that are actually URIs.",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "uri"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "textDocument",
+                "position",
+                "ch",
+                "options"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "textDocument_prepareRename",
+        "description": "method: textDocument/prepareRename\nA request to test and perform the setup necessary for a rename.\n\n@since 3.16 - support for default behavior",
+        "parameters": {
+            "description": "The method's params.",
+            "additionalProperties": false,
+            "properties": {
+                "position": {
+                    "description": "The position inside the text document.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "character": {
+                            "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                            "type": "number"
+                        },
+                        "line": {
+                            "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "line",
+                        "character"
+                    ],
+                    "type": "object"
+                },
+                "textDocument": {
+                    "description": "The text document.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "uri": {
+                            "description": "A tagging type for string properties that are actually URIs.",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "uri"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "textDocument",
+                "position"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "textDocument_rangeFormatting",
+        "description": "method: textDocument/rangeFormatting\nA request to format a range in a document.",
+        "parameters": {
+            "description": "The method's params.",
+            "additionalProperties": false,
+            "properties": {
+                "options": {
+                    "description": "The format options",
+                    "additionalProperties": {
+                        "anyOf": [
+                            {
+                                "type": "boolean"
+                            },
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "not": {}
+                            }
+                        ],
+                        "description": "Signature for further properties."
+                    },
+                    "properties": {
+                        "insertFinalNewline": {
+                            "description": "Insert a newline character at the end of the file if one does not exist.",
+                            "type": "boolean"
+                        },
+                        "insertSpaces": {
+                            "description": "Prefer spaces over tabs.",
+                            "type": "boolean"
+                        },
+                        "tabSize": {
+                            "description": "Size of a tab in spaces.",
+                            "type": "number"
+                        },
+                        "trimFinalNewlines": {
+                            "description": "Trim all newlines after the final newline at the end of the file.",
+                            "type": "boolean"
+                        },
+                        "trimTrailingWhitespace": {
+                            "description": "Trim trailing whitespaces on a line.",
+                            "type": "boolean"
+                        }
+                    },
+                    "required": [
+                        "tabSize",
+                        "insertSpaces"
+                    ],
+                    "type": "object"
+                },
+                "range": {
+                    "additionalProperties": false,
+                    "description": "A range in a text document expressed as (zero-based) start and end positions.\r\n\r\nIf you want to specify a range that contains a line including the line ending\r\ncharacter(s) then use an end position denoting the start of the next line.\r\nFor example:\r\n```ts\r\n{\r\n     start: { line: 5, character: 23 }\r\n     end : { line 6, character : 0 }\r\n}\r\n``` \n The Range namespace provides helper functions to work with\r\n[Range](#Range) literals.",
+                    "properties": {
+                        "end": {
+                            "description": "The range's end position.",
+                            "additionalProperties": false,
+                            "properties": {
+                                "character": {
+                                    "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                                    "type": "number"
+                                },
+                                "line": {
+                                    "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                                    "type": "number"
+                                }
+                            },
+                            "required": [
+                                "line",
+                                "character"
+                            ],
+                            "type": "object"
+                        },
+                        "start": {
+                            "description": "The range's start position",
+                            "additionalProperties": false,
+                            "properties": {
+                                "character": {
+                                    "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                                    "type": "number"
+                                },
+                                "line": {
+                                    "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                                    "type": "number"
+                                }
+                            },
+                            "required": [
+                                "line",
+                                "character"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "start",
+                        "end"
+                    ],
+                    "type": "object"
+                },
+                "textDocument": {
+                    "description": "The document to format.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "uri": {
+                            "description": "A tagging type for string properties that are actually URIs.",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "uri"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "textDocument",
+                "range",
+                "options"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "textDocument_references",
+        "description": "method: textDocument/references\nA request to resolve project-wide references for the symbol denoted\nby the given text document position. The request's parameter is of\ntype {@link ReferenceParams} the response is of type\n{@link Location Location[]} or a Thenable that resolves to such.",
+        "parameters": {
+            "description": "The method's params.",
+            "additionalProperties": false,
+            "properties": {
+                "context": {
+                    "additionalProperties": false,
+                    "description": "Value-object that contains additional information when\r\nrequesting references.",
+                    "properties": {
+                        "includeDeclaration": {
+                            "description": "Include the declaration of the current symbol.",
+                            "type": "boolean"
+                        }
+                    },
+                    "required": [
+                        "includeDeclaration"
+                    ],
+                    "type": "object"
+                },
+                "position": {
+                    "description": "The position inside the text document.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "character": {
+                            "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                            "type": "number"
+                        },
+                        "line": {
+                            "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "line",
+                        "character"
+                    ],
+                    "type": "object"
+                },
+                "textDocument": {
+                    "description": "The text document.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "uri": {
+                            "description": "A tagging type for string properties that are actually URIs.",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "uri"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "context",
+                "position",
+                "textDocument"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "textDocument_rename",
+        "description": "method: textDocument/rename\nA request to rename a symbol.",
+        "parameters": {
+            "description": "The method's params.",
+            "additionalProperties": false,
+            "properties": {
+                "newName": {
+                    "description": "The new name of the symbol. If the given name is not valid the\nrequest must return a [ResponseError](#ResponseError) with an\nappropriate message set.",
+                    "type": "string"
+                },
+                "position": {
+                    "description": "The position at which this request was sent.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "character": {
+                            "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                            "type": "number"
+                        },
+                        "line": {
+                            "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "line",
+                        "character"
+                    ],
+                    "type": "object"
+                },
+                "textDocument": {
+                    "description": "The document to rename.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "uri": {
+                            "description": "A tagging type for string properties that are actually URIs.",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "uri"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "textDocument",
+                "position",
+                "newName"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "textDocument_signatureHelp",
+        "description": "method: textDocument/signatureHelp\n",
+        "parameters": {
+            "description": "The method's params.",
+            "additionalProperties": false,
+            "properties": {
+                "position": {
+                    "description": "The position inside the text document.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "character": {
+                            "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                            "type": "number"
+                        },
+                        "line": {
+                            "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "line",
+                        "character"
+                    ],
+                    "type": "object"
+                },
+                "textDocument": {
+                    "description": "The text document.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "uri": {
+                            "description": "A tagging type for string properties that are actually URIs.",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "uri"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "textDocument",
+                "position"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "textDocument_typeDefinition",
+        "description": "method: textDocument/typeDefinition\nA request to resolve the type definition locations of a symbol at a given text\ndocument position. The request's parameter is of type {@link TextDocumentPositionParams}\nthe response is of type {@link Definition} or a Thenable that resolves to such.",
+        "parameters": {
+            "description": "The method's params.",
+            "additionalProperties": false,
+            "properties": {
+                "position": {
+                    "description": "The position inside the text document.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "character": {
+                            "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                            "type": "number"
+                        },
+                        "line": {
+                            "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "line",
+                        "character"
+                    ],
+                    "type": "object"
+                },
+                "textDocument": {
+                    "description": "The text document.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "uri": {
+                            "description": "A tagging type for string properties that are actually URIs.",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "uri"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "textDocument",
+                "position"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "textDocument_willSaveWaitUntil",
+        "description": "method: textDocument/willSaveWaitUntil\nA document will save request is sent from the client to the server before\nthe document is actually saved. The request can return an array of TextEdits\nwhich will be applied to the text document before it is saved. Please note that\nclients might drop results if computing the text edits took too long or if a\nserver constantly fails on this request. This is done to keep the save fast and\nreliable.",
+        "parameters": {
+            "description": "The method's params.",
+            "additionalProperties": false,
+            "properties": {
+                "reason": {
+                    "description": "The 'TextDocumentSaveReason'.",
+                    "enum": [
+                        1,
+                        2,
+                        3
+                    ],
+                    "type": "number"
+                },
+                "textDocument": {
+                    "description": "The document that will be saved.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "uri": {
+                            "description": "A tagging type for string properties that are actually URIs.",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "uri"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "textDocument",
+                "reason"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "window_showMessageRequest",
+        "description": "method: window/showMessageRequest\nThe show message request is sent from the server to the client to show a message\nand a set of options actions to the user.",
+        "parameters": {
+            "description": "The method's params.",
+            "additionalProperties": false,
+            "properties": {
+                "actions": {
+                    "description": "The message action items to present.",
+                    "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                            "title": {
+                                "description": "A short title like 'Retry', 'Open Log' etc.",
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "title"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "message": {
+                    "description": "The actual message",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "The message type. See {@link MessageType}",
+                    "enum": [
+                        1,
+                        2,
+                        3,
+                        4
+                    ],
+                    "type": "number"
+                }
+            },
+            "required": [
+                "type",
+                "message"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "workspace_applyEdit",
+        "description": "method: workspace/applyEdit\nA request sent from the server to the client to modified certain resources.",
+        "parameters": {
+            "description": "The method's params.",
+            "additionalProperties": false,
+            "properties": {
+                "edit": {
+                    "description": "The edits to apply.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "changes": {
+                            "additionalProperties": {
+                                "items": {
+                                    "additionalProperties": false,
+                                    "description": "A text edit applicable to a text document. \n The TextEdit namespace provides helper function to create replace,\r\ninsert and delete edits more easily.",
+                                    "properties": {
+                                        "newText": {
+                                            "description": "The string to be inserted. For delete operations use an\r\nempty string.",
+                                            "type": "string"
+                                        },
+                                        "range": {
+                                            "description": "The range of the text document to be manipulated. To insert\r\ntext into a document create a range where start === end.",
+                                            "additionalProperties": false,
+                                            "properties": {
+                                                "end": {
+                                                    "description": "The range's end position.",
+                                                    "additionalProperties": false,
+                                                    "properties": {
+                                                        "character": {
+                                                            "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                                                            "type": "number"
+                                                        },
+                                                        "line": {
+                                                            "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                                                            "type": "number"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "line",
+                                                        "character"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "start": {
+                                                    "description": "The range's start position",
+                                                    "additionalProperties": false,
+                                                    "properties": {
+                                                        "character": {
+                                                            "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                                                            "type": "number"
+                                                        },
+                                                        "line": {
+                                                            "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                                                            "type": "number"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "line",
+                                                        "character"
+                                                    ],
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "required": [
+                                                "start",
+                                                "end"
+                                            ],
+                                            "type": "object"
+                                        }
+                                    },
+                                    "required": [
+                                        "range",
+                                        "newText"
+                                    ],
+                                    "type": "object"
+                                },
+                                "type": "array"
+                            },
+                            "description": "Holds changes to existing resources.",
+                            "type": "object"
+                        },
+                        "documentChanges": {
+                            "description": "Depending on the client capability `workspace.workspaceEdit.resourceOperations` document changes\r\nare either an array of `TextDocumentEdit`s to express changes to n different text documents\r\nwhere each text document edit addresses a specific version of a text document. Or it can contain\r\nabove `TextDocumentEdit`s mixed with create, rename and delete file / folder operations.\r\n\r\nWhether a client supports versioned document edits is expressed via\r\n`workspace.workspaceEdit.documentChanges` client capability.\r\n\r\nIf a client neither supports `documentChanges` nor `workspace.workspaceEdit.resourceOperations` then\r\nonly plain `TextEdit`s using the `changes` property are supported.",
+                            "items": {
+                                "anyOf": [
+                                    {
+                                        "additionalProperties": false,
+                                        "description": "Describes textual changes on a text document. \n The TextDocumentEdit namespace provides helper function to create\r\nan edit that manipulates a text document.",
+                                        "properties": {
+                                            "edits": {
+                                                "description": "The edits to be applied.",
+                                                "items": {
+                                                    "additionalProperties": false,
+                                                    "description": "A text edit applicable to a text document. \n The TextEdit namespace provides helper function to create replace,\r\ninsert and delete edits more easily.",
+                                                    "properties": {
+                                                        "newText": {
+                                                            "description": "The string to be inserted. For delete operations use an\r\nempty string.",
+                                                            "type": "string"
+                                                        },
+                                                        "range": {
+                                                            "description": "The range of the text document to be manipulated. To insert\r\ntext into a document create a range where start === end.",
+                                                            "additionalProperties": false,
+                                                            "properties": {
+                                                                "end": {
+                                                                    "description": "The range's end position.",
+                                                                    "additionalProperties": false,
+                                                                    "properties": {
+                                                                        "character": {
+                                                                            "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                                                                            "type": "number"
+                                                                        },
+                                                                        "line": {
+                                                                            "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                                                                            "type": "number"
+                                                                        }
+                                                                    },
+                                                                    "required": [
+                                                                        "line",
+                                                                        "character"
+                                                                    ],
+                                                                    "type": "object"
+                                                                },
+                                                                "start": {
+                                                                    "description": "The range's start position",
+                                                                    "additionalProperties": false,
+                                                                    "properties": {
+                                                                        "character": {
+                                                                            "description": "Character offset on a line in a document (zero-based). Assuming that the line is\r\nrepresented as a string, the `character` value represents the gap between the\r\n`character` and `character + 1`.\r\n\r\nIf the character value is greater than the line length it defaults back to the\r\nline length.\r\nIf a line number is negative, it defaults to 0.",
+                                                                            "type": "number"
+                                                                        },
+                                                                        "line": {
+                                                                            "description": "Line position in a document (zero-based).\r\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\r\nIf a line number is negative, it defaults to 0.",
+                                                                            "type": "number"
+                                                                        }
+                                                                    },
+                                                                    "required": [
+                                                                        "line",
+                                                                        "character"
+                                                                    ],
+                                                                    "type": "object"
+                                                                }
+                                                            },
+                                                            "required": [
+                                                                "start",
+                                                                "end"
+                                                            ],
+                                                            "type": "object"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "range",
+                                                        "newText"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "type": "array"
+                                            },
+                                            "textDocument": {
+                                                "description": "The text document to change.",
+                                                "additionalProperties": false,
+                                                "properties": {
+                                                    "uri": {
+                                                        "description": "The text document's uri.",
+                                                        "type": "string"
+                                                    },
+                                                    "version": {
+                                                        "description": "The version number of this document. If a versioned text document identifier\r\nis sent from the server to the client and the file is not open in the editor\r\n(the server has not received an open notification before) the server can send\r\n`null` to indicate that the version is unknown and the content on disk is the\r\ntruth (as speced with document content ownership).",
+                                                        "type": [
+                                                            "number",
+                                                            "null"
+                                                        ]
+                                                    }
+                                                },
+                                                "required": [
+                                                    "uri",
+                                                    "version"
+                                                ],
+                                                "type": "object"
+                                            }
+                                        },
+                                        "required": [
+                                            "textDocument",
+                                            "edits"
+                                        ],
+                                        "type": "object"
+                                    },
+                                    {
+                                        "additionalProperties": false,
+                                        "description": "Create file operation.",
+                                        "properties": {
+                                            "kind": {
+                                                "description": "A create",
+                                                "enum": [
+                                                    "create"
+                                                ],
+                                                "type": "string"
+                                            },
+                                            "options": {
+                                                "description": "Additional options",
+                                                "additionalProperties": false,
+                                                "properties": {
+                                                    "ignoreIfExists": {
+                                                        "description": "Ignore if exists.",
+                                                        "type": "boolean"
+                                                    },
+                                                    "overwrite": {
+                                                        "description": "Overwrite existing file. Overwrite wins over `ignoreIfExists`",
+                                                        "type": "boolean"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "uri": {
+                                                "description": "The resource to create.",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "kind",
+                                            "uri"
+                                        ],
+                                        "type": "object"
+                                    },
+                                    {
+                                        "additionalProperties": false,
+                                        "description": "Rename file operation",
+                                        "properties": {
+                                            "kind": {
+                                                "description": "A rename",
+                                                "enum": [
+                                                    "rename"
+                                                ],
+                                                "type": "string"
+                                            },
+                                            "newUri": {
+                                                "description": "The new location.",
+                                                "type": "string"
+                                            },
+                                            "oldUri": {
+                                                "description": "The old (existing) location.",
+                                                "type": "string"
+                                            },
+                                            "options": {
+                                                "description": "Rename options.",
+                                                "additionalProperties": false,
+                                                "properties": {
+                                                    "ignoreIfExists": {
+                                                        "description": "Ignores if target exists.",
+                                                        "type": "boolean"
+                                                    },
+                                                    "overwrite": {
+                                                        "description": "Overwrite target if existing. Overwrite wins over `ignoreIfExists`",
+                                                        "type": "boolean"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "required": [
+                                            "kind",
+                                            "newUri",
+                                            "oldUri"
+                                        ],
+                                        "type": "object"
+                                    },
+                                    {
+                                        "additionalProperties": false,
+                                        "description": "Delete file operation",
+                                        "properties": {
+                                            "kind": {
+                                                "description": "A delete",
+                                                "enum": [
+                                                    "delete"
+                                                ],
+                                                "type": "string"
+                                            },
+                                            "options": {
+                                                "description": "Delete options.",
+                                                "additionalProperties": false,
+                                                "properties": {
+                                                    "ignoreIfNotExists": {
+                                                        "description": "Ignore the operation if the file doesn't exist.",
+                                                        "type": "boolean"
+                                                    },
+                                                    "recursive": {
+                                                        "description": "Delete the content recursively if a folder is denoted.",
+                                                        "type": "boolean"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "uri": {
+                                                "description": "The file to delete.",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "kind",
+                                            "uri"
+                                        ],
+                                        "type": "object"
+                                    }
+                                ]
+                            },
+                            "type": "array"
+                        }
+                    },
+                    "type": "object"
+                },
+                "label": {
+                    "description": "An optional label of the workspace edit. This label is\npresented in the user interface for example on an undo\nstack to undo the workspace edit.",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "edit"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "workspace_configuration",
+        "description": "method: workspace/configuration\nThe 'workspace/configuration' request is sent from the server to the client to fetch a certain\nconfiguration setting.\n\nThis pull model replaces the old push model were the client signaled configuration change via an\nevent. If the server still needs to react to configuration changes (since the server caches the\nresult of `workspace/configuration` requests) the server should register for an empty configuration\nchange event and empty the cache if such an event is received.",
+        "parameters": {
+            "description": "The method's params.",
+            "additionalProperties": false,
+            "properties": {
+                "items": {
+                    "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                            "scopeUri": {
+                                "description": "The scope to get the configuration section for.",
+                                "type": "string"
+                            },
+                            "section": {
+                                "description": "The configuration section asked for.",
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "items"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "workspace_executeCommand",
+        "description": "method: workspace/executeCommand\nA request send from the client to the server to execute a command. The request might return\na workspace edit which the client will apply to the workspace.",
+        "parameters": {
+            "description": "The method's params.",
+            "additionalProperties": false,
+            "properties": {
+                "arguments": {
+                    "description": "Arguments that the command should be invoked with.",
+                    "items": {},
+                    "type": "array"
+                },
+                "command": {
+                    "description": "The identifier of the actual command handler.",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "command"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "workspace_symbol",
+        "description": "method: workspace/symbol\nA request to list project-wide symbols matching the query string given\nby the {@link WorkspaceSymbolParams}. The response is\nof type {@link SymbolInformation SymbolInformation[]} or a Thenable that\nresolves to such.\n\n@since 3.17.0 - support for WorkspaceSymbol in the returned data. Clients\n need to advertise support for WorkspaceSymbols via the client capability\n `workspace.symbol.resolveSupport`.\n",
+        "parameters": {
+            "description": "The method's params.",
+            "additionalProperties": false,
+            "properties": {
+                "query": {
+                    "description": "A query string to filter symbols by. Clients may send an empty\nstring here to request all symbols.",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "workspace_workspaceFolders",
+        "description": "method: workspace/workspaceFolders\nThe `workspace/workspaceFolders` is sent from the server to the client to fetch the open workspace folders.",
+        "parameters": {
+            "type": "object"
+        }
+    }
+]

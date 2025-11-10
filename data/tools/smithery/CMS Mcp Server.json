@@ -1,0 +1,95 @@
+[
+    {
+        "name": "cms-mcp_create_webflow_blog_post",
+        "description": "Create a blog post in Webflow. This tool automatically analyzes the blog post content, creates the necessary collection fields if they don't exist, and posts the blog content. No need to specify collection fields - they are generated automatically based on the blog post data.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "webflowToken": {
+                    "type": "string",
+                    "description": "Webflow API token"
+                },
+                "siteId": {
+                    "type": "string",
+                    "description": "Webflow site ID"
+                },
+                "collectionName": {
+                    "type": "string",
+                    "description": "Name of the blog collection"
+                },
+                "blogPost": {
+                    "type": "object",
+                    "properties": {
+                        "title": {
+                            "type": "string",
+                            "description": "Blog post title"
+                        },
+                        "slug": {
+                            "type": "string",
+                            "description": "Blog post slug"
+                        },
+                        "content": {
+                            "type": "string",
+                            "description": "Blog post content (HTML)"
+                        },
+                        "excerpt": {
+                            "type": "string",
+                            "description": "Blog post excerpt"
+                        },
+                        "publishDate": {
+                            "type": "string",
+                            "description": "Publish date (ISO format)"
+                        },
+                        "author": {
+                            "type": "string",
+                            "description": "Author name"
+                        },
+                        "tags": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Blog post tags"
+                        },
+                        "featuredImage": {
+                            "type": "string",
+                            "description": "Featured image URL"
+                        },
+                        "customFields": {
+                            "type": "object",
+                            "additionalProperties": {},
+                            "description": "Additional custom field values"
+                        }
+                    },
+                    "required": [
+                        "title",
+                        "slug",
+                        "content"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Blog post data"
+                },
+                "publishAfterCreation": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to publish the site after creating the post"
+                },
+                "customDomains": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Custom domains to publish to"
+                }
+            },
+            "required": [
+                "webflowToken",
+                "siteId",
+                "collectionName",
+                "blogPost"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

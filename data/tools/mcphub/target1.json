@@ -1,0 +1,491 @@
+[
+    {
+        "name": "auto_complete",
+        "description": "Get suggestion by term or phrase",
+        "parameters": {
+            "properties": {
+                "q": {
+                    "description": "Any familiar term or phrase to search for products",
+                    "title": "Q",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "q"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "v2_list",
+        "description": "List all root and sub categories",
+        "parameters": {
+            "properties": {
+                "category": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Used to list child categories, you need to parse the value of target field (taxonomy_nodes->actions->target) OR children->node_id returned right in this endpoint, such as : ...?category=5xtg6",
+                    "title": "Category"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "categories_list",
+        "description": "List all root and sub categories",
+        "parameters": {
+            "properties": {
+                "category": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Used to list child categories, you need to parse the value of target field returned right in this endpoint, such as : ...?category=5xtg6",
+                    "title": "Category"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "products_search_by_barcode",
+        "description": "Search product by barcode",
+        "parameters": {
+            "properties": {
+                "store_id": {
+                    "description": "The value of location_id returned in …/stores/list endpoint",
+                    "title": "Store Id",
+                    "type": "string"
+                },
+                "barcode": {
+                    "description": "The barcode",
+                    "title": "Barcode",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "store_id",
+                "barcode"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "v3_get_details",
+        "description": "Get detail information of product",
+        "parameters": {
+            "properties": {
+                "tcin": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The value of tcin field returned in .../products/v2/list or .../products/search-by-barcode endpoint Default: 54191097",
+                    "title": "Tcin"
+                },
+                "store_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The value of location_id returned in .../stores/list endpoint Default: 911",
+                    "title": "Store Id"
+                }
+            },
+            "required": [
+                "tcin",
+                "store_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "v2_list_recommended",
+        "description": "List more products to consider",
+        "parameters": {
+            "properties": {
+                "tcins": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The value of tcin field returned in .../products/list endpoint Default: 54191097",
+                    "title": "Tcins"
+                },
+                "store_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The value of location_id returned in .../stores/list endpoint Default: 911",
+                    "title": "Store Id"
+                }
+            },
+            "required": [
+                "tcins",
+                "store_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "products_list_recommended",
+        "description": "List more products to consider",
+        "parameters": {
+            "properties": {
+                "tcins": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The value of tcin field returned in .../products/list endpoint Default: 54191097",
+                    "title": "Tcins"
+                },
+                "store_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The value of location_id returned in .../stores/list endpoint Default: 911",
+                    "title": "Store Id"
+                }
+            },
+            "required": [
+                "tcins",
+                "store_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "products_list",
+        "description": "List products in specific store with options and filters",
+        "parameters": {
+            "properties": {
+                "storeId": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The value of location_id returned in .../stores/list endpoint Default: 911",
+                    "title": "Storeid"
+                },
+                "endecaId": {
+                    "description": "You need to parse the value of target field returned in .../categories/list endpoint, such as : ...?category=o9rnh. Please notice that do NOT use searchTerm and endecaId parameters together, searchTerm OR endecaId is required.",
+                    "title": "Endecaid",
+                    "type": "string"
+                },
+                "pageSize": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For paging purpose, maximum 20 items per page. Default: 20",
+                    "title": "Pagesize"
+                },
+                "pageNumber": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For paging purpose Default: 1",
+                    "title": "Pagenumber"
+                },
+                "sortBy": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "One of the following is allowed relevance|newest|RatingHigh|bestselling|PriceLow|PriceHigh",
+                    "title": "Sortby"
+                },
+                "searchTerm": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search for products by term or phrase, such as : macbook air. Please notice that do NOT use searchTerm and endecaId parameters together, searchTerm OR endecaId is required.",
+                    "title": "Searchterm"
+                },
+                "storeSearch": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only search for In-store products",
+                    "title": "Storesearch"
+                },
+                "facets": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Look for suitable values returned under facetView/Entry/ExtendedData/value JSON object, separated by comma for multiple options, such as : 5tal2,q643lesaelr,etc...",
+                    "title": "Facets"
+                }
+            },
+            "required": [
+                "storeId",
+                "endecaId"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "products_list_collection",
+        "description": "List whole collection relating to a product",
+        "parameters": {
+            "properties": {
+                "tcin": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The value of tcin field returned in .../products/list endpoint Default: 54191097",
+                    "title": "Tcin"
+                },
+                "store_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The value of location_id returned in .../stores/list endpoint Default: 911",
+                    "title": "Store Id"
+                }
+            },
+            "required": [
+                "tcin",
+                "store_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "products_get_details",
+        "description": "Get detail information of product",
+        "parameters": {
+            "properties": {
+                "tcin": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The value of tcin field returned in .../products/list endpoint Default: 54191097",
+                    "title": "Tcin"
+                },
+                "store_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The value of location_id returned in .../stores/list endpoint Default: 911",
+                    "title": "Store Id"
+                }
+            },
+            "required": [
+                "tcin",
+                "store_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "v2_get_details",
+        "description": "Get detail information of product",
+        "parameters": {
+            "properties": {
+                "tcin": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The value of tcin field returned in .../products/list endpoint Default: 54191097",
+                    "title": "Tcin"
+                },
+                "store_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The value of location_id returned in .../stores/list endpoint Default: 911",
+                    "title": "Store Id"
+                }
+            },
+            "required": [
+                "tcin",
+                "store_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "reviews_list",
+        "description": "List reviews relating to a product",
+        "parameters": {
+            "properties": {
+                "tcin": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The value of tcin field returned in .../products/list endpoint Default: 54191097",
+                    "title": "Tcin"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "One of the following is allowed time_desc|helpfulness_desc|rating_desc|rating_asc",
+                    "title": "Sort"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For paging purpose, maximum items per page is 30 Default: 30",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For paging purpose Default: 0",
+                    "title": "Offset"
+                }
+            },
+            "required": [
+                "tcin"
+            ],
+            "type": "object"
+        }
+    }
+]

@@ -1,0 +1,850 @@
+[
+    {
+        "name": "get_config",
+        "description": "Get information about the user's space, including all of the possible values that can be provided to other endpoints. This includes available assignees, dartboards, folders, statuses, tags, priorities, sizes, and all custom property definitions.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    },
+    {
+        "name": "create_task",
+        "description": "Create a new task in Dart. You can specify title, description, status, priority, size, dates, dartboard, assignees, tags, parent task, custom properties, and task relationships.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "description": "The title of the task (required)"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "A longer description of the task, which can include markdown formatting"
+                },
+                "dartboard": {
+                    "type": "string",
+                    "description": "The title of the dartboard (project or list of tasks)"
+                },
+                "parentId": {
+                    "type": "string",
+                    "description": "The ID of the parent task",
+                    "pattern": "^[a-zA-Z0-9]{12}$"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "The status from the list of available statuses"
+                },
+                "type": {
+                    "type": "string",
+                    "description": "The type of the task from the list of available types"
+                },
+                "assignees": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Array of assignee names or emails (if workspace allows multiple assignees)"
+                },
+                "assignee": {
+                    "type": "string",
+                    "description": "Single assignee name or email (if workspace doesn't allow multiple assignees)"
+                },
+                "priority": {
+                    "type": "string",
+                    "description": "The priority (Critical, High, Medium, or Low)"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Array of tags to apply to the task"
+                },
+                "size": {
+                    "type": [
+                        "string",
+                        "number",
+                        "null"
+                    ],
+                    "description": "The size which represents the amount of work needed"
+                },
+                "startAt": {
+                    "type": "string",
+                    "description": "The start date in ISO format (should be at 9:00am in user's timezone)"
+                },
+                "dueAt": {
+                    "type": "string",
+                    "description": "The due date in ISO format (should be at 9:00am in user's timezone)"
+                },
+                "customProperties": {
+                    "type": "object",
+                    "description": "Custom properties to apply to the task. Use the property names from the config. Examples: { 'customCheckboxProperty': true, 'customTextProperty': 'Some text', 'customNumberProperty': 5, 'customSelectProperty': 'Option Name', 'customDatesProperty': '2025-05-10', 'customDatesPropertyWithRange': ['2025-05-01', '2025-05-30'], 'customMultiselectProperty': ['option1', 'option2'], 'customUserProperty': 'user@example.com', 'customMultipleUserProperty': ['user1@example.com', 'user2@example.com'], 'customTimeTrackingProperty': '1:30:00' }",
+                    "additionalProperties": {
+                        "oneOf": [
+                            {
+                                "title": "CustomPropertyCheckbox",
+                                "type": "boolean"
+                            },
+                            {
+                                "title": "CustomPropertyDatesRange",
+                                "type": [
+                                    "array",
+                                    "null"
+                                ],
+                                "items": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ]
+                                }
+                            },
+                            {
+                                "title": "CustomPropertyDatesSingle",
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            {
+                                "title": "CustomPropertyMultiselect",
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            {
+                                "title": "CustomPropertyNumber",
+                                "type": [
+                                    "number",
+                                    "null"
+                                ]
+                            },
+                            {
+                                "title": "CustomPropertySelect",
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            {
+                                "title": "CustomPropertyStatus",
+                                "type": "string"
+                            },
+                            {
+                                "title": "CustomPropertyText",
+                                "type": "string"
+                            },
+                            {
+                                "title": "CustomPropertyTimeTracking",
+                                "type": "string",
+                                "pattern": "^[0-9]+:[0-5][0-9]:[0-5][0-9]$",
+                                "description": "Duration in HH:MM:SS format"
+                            },
+                            {
+                                "title": "CustomPropertyUserMultiple",
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            {
+                                "title": "CustomPropertyUserSingle",
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            }
+                        ]
+                    },
+                    "required": []
+                },
+                "taskRelationships": {
+                    "type": "object",
+                    "description": "Task relationships including subtasks, blockers, duplicates, and related tasks",
+                    "properties": {
+                        "subtaskIds": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "pattern": "^[a-zA-Z0-9]{12}$"
+                            },
+                            "description": "List of task IDs that are subtasks of this task"
+                        },
+                        "blockerIds": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "pattern": "^[a-zA-Z0-9]{12}$"
+                            },
+                            "description": "List of task IDs that block this task"
+                        },
+                        "blockingIds": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "pattern": "^[a-zA-Z0-9]{12}$"
+                            },
+                            "description": "List of task IDs that this task blocks"
+                        },
+                        "duplicateIds": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "pattern": "^[a-zA-Z0-9]{12}$"
+                            },
+                            "description": "List of task IDs that are duplicates of this task"
+                        },
+                        "relatedIds": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "pattern": "^[a-zA-Z0-9]{12}$"
+                            },
+                            "description": "List of task IDs that are related to this task"
+                        }
+                    },
+                    "required": []
+                }
+            },
+            "required": [
+                "title"
+            ]
+        }
+    },
+    {
+        "name": "list_tasks",
+        "description": "List tasks from Dart with optional filtering parameters. You can filter by assignee, status, dartboard, priority, due date, and more.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "assignee": {
+                    "type": "string",
+                    "description": "Filter by assignee name or email"
+                },
+                "assigneeId": {
+                    "type": "string",
+                    "description": "Filter by assignee ID",
+                    "pattern": "^[a-zA-Z0-9]{12}$"
+                },
+                "dartboard": {
+                    "type": "string",
+                    "description": "Filter by dartboard title"
+                },
+                "dartboardId": {
+                    "type": "string",
+                    "description": "Filter by dartboard ID",
+                    "pattern": "^[a-zA-Z0-9]{12}$"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Filter by description content"
+                },
+                "dueAtAfter": {
+                    "type": "string",
+                    "description": "Filter by due date after (ISO format)"
+                },
+                "dueAtBefore": {
+                    "type": "string",
+                    "description": "Filter by due date before (ISO format)"
+                },
+                "ids": {
+                    "type": "string",
+                    "description": "Filter by IDs"
+                },
+                "inTrash": {
+                    "type": "boolean",
+                    "description": "Filter by trash status"
+                },
+                "isCompleted": {
+                    "type": "boolean",
+                    "description": "Filter by completion status"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Number of results per page"
+                },
+                "offset": {
+                    "type": "number",
+                    "description": "Initial index for pagination"
+                },
+                "parentId": {
+                    "type": "string",
+                    "description": "Filter by parent task ID",
+                    "pattern": "^[a-zA-Z0-9]{12}$"
+                },
+                "priority": {
+                    "type": "string",
+                    "description": "Filter by priority"
+                },
+                "size": {
+                    "type": "number",
+                    "description": "Filter by task size"
+                },
+                "startAtAfter": {
+                    "type": "string",
+                    "description": "Filter by start date after (ISO format)"
+                },
+                "startAtBefore": {
+                    "type": "string",
+                    "description": "Filter by start date before (ISO format)"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "Filter by status"
+                },
+                "statusId": {
+                    "type": "string",
+                    "description": "Filter by status ID",
+                    "pattern": "^[a-zA-Z0-9]{12}$"
+                },
+                "tag": {
+                    "type": "string",
+                    "description": "Filter by tag"
+                },
+                "tagId": {
+                    "type": "string",
+                    "description": "Filter by tag ID",
+                    "pattern": "^[a-zA-Z0-9]{12}$"
+                },
+                "title": {
+                    "type": "string",
+                    "description": "Filter by title"
+                },
+                "type": {
+                    "type": "string",
+                    "description": "Filter by task type"
+                },
+                "typeId": {
+                    "type": "string",
+                    "description": "Filter by task type ID",
+                    "pattern": "^[a-zA-Z0-9]{12}$"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "get_task",
+        "description": "Retrieve an existing task by its ID. Returns the task's information including title, description, status, priority, dates, custom properties, and more.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "The 12-character alphanumeric ID of the task",
+                    "pattern": "^[a-zA-Z0-9]{12}$"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "update_task",
+        "description": "Update an existing task. You can modify any of its properties including title, description, status, priority, dates, assignees, tags, custom properties, and task relationships.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "The 12-character alphanumeric ID of the task",
+                    "pattern": "^[a-zA-Z0-9]{12}$"
+                },
+                "title": {
+                    "type": "string",
+                    "description": "The title of the task"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "A longer description of the task, which can include markdown formatting"
+                },
+                "dartboard": {
+                    "type": "string",
+                    "description": "The title of the dartboard (project or list of tasks)"
+                },
+                "parentId": {
+                    "type": "string",
+                    "description": "The ID of the parent task",
+                    "pattern": "^[a-zA-Z0-9]{12}$"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "The status from the list of available statuses"
+                },
+                "type": {
+                    "type": "string",
+                    "description": "The type of the task from the list of available types"
+                },
+                "assignees": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Array of assignee names or emails (if workspace allows multiple assignees)"
+                },
+                "assignee": {
+                    "type": "string",
+                    "description": "Single assignee name or email (if workspace doesn't allow multiple assignees)"
+                },
+                "priority": {
+                    "type": "string",
+                    "description": "The priority (Critical, High, Medium, or Low)"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Array of tags to apply to the task"
+                },
+                "size": {
+                    "type": [
+                        "string",
+                        "number",
+                        "null"
+                    ],
+                    "description": "The size which represents the amount of work needed"
+                },
+                "startAt": {
+                    "type": "string",
+                    "description": "The start date in ISO format (should be at 9:00am in user's timezone)"
+                },
+                "dueAt": {
+                    "type": "string",
+                    "description": "The due date in ISO format (should be at 9:00am in user's timezone)"
+                },
+                "customProperties": {
+                    "type": "object",
+                    "description": "Custom properties to apply to the task. Use the property names from the config. Examples: { 'customCheckboxProperty': true, 'customTextProperty': 'Some text', 'customNumberProperty': 5, 'customSelectProperty': 'Option Name', 'customDatesProperty': '2025-05-10', 'customDatesPropertyWithRange': ['2025-05-01', '2025-05-30'], 'customMultiselectProperty': ['option1', 'option2'], 'customUserProperty': 'user@example.com', 'customMultipleUserProperty': ['user1@example.com', 'user2@example.com'], 'customTimeTrackingProperty': '1:30:00' }",
+                    "additionalProperties": {
+                        "oneOf": [
+                            {
+                                "title": "CustomPropertyCheckbox",
+                                "type": "boolean"
+                            },
+                            {
+                                "title": "CustomPropertyDatesRange",
+                                "type": [
+                                    "array",
+                                    "null"
+                                ],
+                                "items": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ]
+                                }
+                            },
+                            {
+                                "title": "CustomPropertyDatesSingle",
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            {
+                                "title": "CustomPropertyMultiselect",
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            {
+                                "title": "CustomPropertyNumber",
+                                "type": [
+                                    "number",
+                                    "null"
+                                ]
+                            },
+                            {
+                                "title": "CustomPropertySelect",
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            {
+                                "title": "CustomPropertyStatus",
+                                "type": "string"
+                            },
+                            {
+                                "title": "CustomPropertyText",
+                                "type": "string"
+                            },
+                            {
+                                "title": "CustomPropertyTimeTracking",
+                                "type": "string",
+                                "pattern": "^[0-9]+:[0-5][0-9]:[0-5][0-9]$",
+                                "description": "Duration in HH:MM:SS format"
+                            },
+                            {
+                                "title": "CustomPropertyUserMultiple",
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            {
+                                "title": "CustomPropertyUserSingle",
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            }
+                        ]
+                    },
+                    "required": []
+                },
+                "taskRelationships": {
+                    "type": "object",
+                    "description": "Task relationships including subtasks, blockers, duplicates, and related tasks",
+                    "properties": {
+                        "subtaskIds": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "pattern": "^[a-zA-Z0-9]{12}$"
+                            },
+                            "description": "List of task IDs that are subtasks of this task"
+                        },
+                        "blockerIds": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "pattern": "^[a-zA-Z0-9]{12}$"
+                            },
+                            "description": "List of task IDs that block this task"
+                        },
+                        "blockingIds": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "pattern": "^[a-zA-Z0-9]{12}$"
+                            },
+                            "description": "List of task IDs that this task blocks"
+                        },
+                        "duplicateIds": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "pattern": "^[a-zA-Z0-9]{12}$"
+                            },
+                            "description": "List of task IDs that are duplicates of this task"
+                        },
+                        "relatedIds": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "pattern": "^[a-zA-Z0-9]{12}$"
+                            },
+                            "description": "List of task IDs that are related to this task"
+                        }
+                    },
+                    "required": []
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "delete_task",
+        "description": "Move an existing task to the trash, where it can be recovered if needed. Nothing else about the task will be changed.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "The 12-character alphanumeric ID of the task",
+                    "pattern": "^[a-zA-Z0-9]{12}$"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "create_doc",
+        "description": "Create a new doc in Dart. You can specify title, text content, and folder.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "description": "The title of the doc (required)"
+                },
+                "text": {
+                    "type": "string",
+                    "description": "The text content of the doc, which can include markdown formatting"
+                },
+                "folder": {
+                    "type": "string",
+                    "description": "The title of the folder to place the doc in"
+                }
+            },
+            "required": [
+                "title"
+            ]
+        }
+    },
+    {
+        "name": "list_docs",
+        "description": "List docs from Dart with optional filtering parameters. You can filter by folder, title, text content, and more.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "folder": {
+                    "type": "string",
+                    "description": "Filter by folder title"
+                },
+                "folderId": {
+                    "type": "string",
+                    "description": "Filter by folder ID",
+                    "pattern": "^[a-zA-Z0-9]{12}$"
+                },
+                "ids": {
+                    "type": "string",
+                    "description": "Filter by IDs"
+                },
+                "inTrash": {
+                    "type": "boolean",
+                    "description": "Filter by trash status"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Number of results per page"
+                },
+                "offset": {
+                    "type": "number",
+                    "description": "Initial index for pagination"
+                },
+                "text": {
+                    "type": "string",
+                    "description": "Filter by text content"
+                },
+                "title": {
+                    "type": "string",
+                    "description": "Filter by title"
+                },
+                "o": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "-created_at",
+                            "-order",
+                            "-title",
+                            "-updated_at",
+                            "created_at",
+                            "order",
+                            "title",
+                            "updated_at"
+                        ]
+                    },
+                    "description": "Ordering options (use - prefix for descending)"
+                },
+                "s": {
+                    "type": "string",
+                    "description": "Search by title, text, or folder title"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "get_doc",
+        "description": "Retrieve an existing doc by its ID. Returns the doc's information including title, text content, folder, and more.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "The 12-character alphanumeric ID of the doc",
+                    "pattern": "^[a-zA-Z0-9]{12}$"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "update_doc",
+        "description": "Update an existing doc. You can modify its title, text content, and folder.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "The 12-character alphanumeric ID of the doc",
+                    "pattern": "^[a-zA-Z0-9]{12}$"
+                },
+                "title": {
+                    "type": "string",
+                    "description": "The title of the doc"
+                },
+                "text": {
+                    "type": "string",
+                    "description": "The text content of the doc, which can include markdown formatting"
+                },
+                "folder": {
+                    "type": "string",
+                    "description": "The title of the folder to place the doc in"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "delete_doc",
+        "description": "Move an existing doc to the trash, where it can be recovered if needed. Nothing else about the doc will be changed.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "The 12-character alphanumeric ID of the doc",
+                    "pattern": "^[a-zA-Z0-9]{12}$"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "add_task_comment",
+        "description": "Add a comment to an existing task without modifying the task description. Comments support markdown formatting.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "taskId": {
+                    "type": "string",
+                    "description": "The 12-character alphanumeric ID of the task",
+                    "pattern": "^[a-zA-Z0-9]{12}$"
+                },
+                "text": {
+                    "type": "string",
+                    "description": "The full content of the comment, which can include markdown formatting."
+                }
+            },
+            "required": [
+                "taskId",
+                "text"
+            ]
+        }
+    },
+    {
+        "name": "list_task_comments",
+        "description": "List comments from Dart with optional filtering parameters. You can filter by author, task, text content, dates, and more.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "taskId": {
+                    "type": "string",
+                    "description": "Filter by task ID"
+                },
+                "author": {
+                    "type": "string",
+                    "description": "Filter by author name or email"
+                },
+                "authorId": {
+                    "type": "string",
+                    "description": "Filter by author ID"
+                },
+                "ids": {
+                    "type": "string",
+                    "description": "Filter by comment IDs"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Number of results per page"
+                },
+                "offset": {
+                    "type": "number",
+                    "description": "Initial index for pagination"
+                },
+                "parentId": {
+                    "type": "string",
+                    "description": "Filter by parent comment ID"
+                },
+                "publishedAtAfter": {
+                    "type": "string",
+                    "description": "Filter by published date after (ISO format)"
+                },
+                "publishedAtBefore": {
+                    "type": "string",
+                    "description": "Filter by published date before (ISO format)"
+                },
+                "task": {
+                    "type": "string",
+                    "description": "Filter by task title"
+                },
+                "text": {
+                    "type": "string",
+                    "description": "Filter by comment text content"
+                }
+            },
+            "required": [
+                "taskId"
+            ]
+        }
+    },
+    {
+        "name": "get_dartboard",
+        "description": "Retrieve an existing dartboard by its ID. Returns the dartboard's information including title, description, and all tasks within it.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "The 12-character alphanumeric ID of the dartboard",
+                    "pattern": "^[a-zA-Z0-9]{12}$"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "get_folder",
+        "description": "Retrieve an existing folder by its ID. Returns the folder's information including title, description, and all docs within it.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "The 12-character alphanumeric ID of the folder",
+                    "pattern": "^[a-zA-Z0-9]{12}$"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "get_view",
+        "description": "Retrieve an existing view by its ID. Returns the view's information including title, description, and all tasks within it.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "The 12-character alphanumeric ID of the view",
+                    "pattern": "^[a-zA-Z0-9]{12}$"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    }
+]

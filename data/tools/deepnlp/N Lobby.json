@@ -1,0 +1,266 @@
+[
+    {
+        "name": "nlobby_get_news",
+        "description": "Retrieve school news",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "string",
+                    "description": "Filter by category (optional)"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of news items to retrieve (optional, default: 10)",
+                    "minimum": 1,
+                    "default": 10
+                },
+                "sort": {
+                    "type": "string",
+                    "description": "Sort order: 'newest' (default), 'oldest', 'title-asc', 'title-desc'",
+                    "enum": [
+                        "newest",
+                        "oldest",
+                        "title-asc",
+                        "title-desc"
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "name": "nlobby_get_news_detail",
+        "description": "Retrieve detailed information for a specific news article",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "newsId": {
+                    "type": "string",
+                    "description": "The ID of the news article to retrieve"
+                },
+                "markAsRead": {
+                    "type": "boolean",
+                    "description": "Mark the news article as read (optional, default: false)",
+                    "default": false
+                }
+            },
+            "required": [
+                "newsId"
+            ]
+        }
+    },
+    {
+        "name": "nlobby_get_required_courses",
+        "description": "Retrieve required courses information with detailed progress tracking",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "grade": {
+                    "type": "number",
+                    "description": "Filter by grade level (1, 2, or 3) (optional)"
+                },
+                "semester": {
+                    "type": "string",
+                    "description": "Filter by term year (e.g., \"2024\", \"2025\") (optional)"
+                },
+                "category": {
+                    "type": "string",
+                    "description": "Filter by curriculum category (e.g., \"\u56fd\u8a9e\", \"\u6570\u5b66\", \"\u82f1\u8a9e\") (optional)"
+                }
+            }
+        }
+    },
+    {
+        "name": "nlobby_get_schedule",
+        "description": "Get school schedule for a specific date (backward compatibility)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "date": {
+                    "type": "string",
+                    "description": "Date in YYYY-MM-DD format (optional, defaults to today)"
+                }
+            }
+        }
+    },
+    {
+        "name": "nlobby_get_calendar_events",
+        "description": "Get calendar events with advanced options",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "calendar_type": {
+                    "type": "string",
+                    "enum": [
+                        "personal",
+                        "school"
+                    ],
+                    "description": "Type of calendar to retrieve (personal or school)",
+                    "default": "personal"
+                },
+                "from_date": {
+                    "type": "string",
+                    "description": "Start date in YYYY-MM-DD format (optional). If only from_date is provided, it will be treated as a single day."
+                },
+                "to_date": {
+                    "type": "string",
+                    "description": "End date in YYYY-MM-DD format (optional). Must be at least 1 day after from_date when both are provided."
+                },
+                "period": {
+                    "type": "string",
+                    "enum": [
+                        "today",
+                        "week",
+                        "month"
+                    ],
+                    "description": "Predefined period (optional, overrides from/to dates). Use \"today\" for single day queries."
+                }
+            }
+        }
+    },
+    {
+        "name": "nlobby_test_calendar_endpoints",
+        "description": "Test both personal and school calendar endpoints",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "from_date": {
+                    "type": "string",
+                    "description": "Start date in YYYY-MM-DD format (optional). If only from_date is provided, it will be treated as a single day."
+                },
+                "to_date": {
+                    "type": "string",
+                    "description": "End date in YYYY-MM-DD format (optional). Must be at least 1 day after from_date when both are provided."
+                }
+            }
+        }
+    },
+    {
+        "name": "nlobby_set_cookies",
+        "description": "Set authentication cookies for N Lobby access",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "cookies": {
+                    "type": "string",
+                    "description": "Cookie string from authenticated N Lobby session"
+                }
+            },
+            "required": [
+                "cookies"
+            ]
+        }
+    },
+    {
+        "name": "nlobby_check_cookies",
+        "description": "Check if authentication cookies are set",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "nlobby_health_check",
+        "description": "Check if N Lobby API connection is working",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "nlobby_debug_connection",
+        "description": "Debug N Lobby connection with detailed information",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "endpoint": {
+                    "type": "string",
+                    "description": "Endpoint to test (default: /news)",
+                    "default": "/news"
+                }
+            }
+        }
+    },
+    {
+        "name": "nlobby_test_page_content",
+        "description": "Test page content retrieval and show sample content",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "endpoint": {
+                    "type": "string",
+                    "description": "Endpoint to test (default: /news)",
+                    "default": "/news"
+                },
+                "length": {
+                    "type": "number",
+                    "description": "Number of characters to show (default: 1000)",
+                    "default": 1000
+                }
+            }
+        }
+    },
+    {
+        "name": "nlobby_test_trpc_endpoint",
+        "description": "Test specific tRPC endpoint with detailed response",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "method": {
+                    "type": "string",
+                    "description": "tRPC method to test (e.g., news.getUnreadNewsCount, user.updateLastAccess)",
+                    "default": "user.updateLastAccess"
+                },
+                "params": {
+                    "type": "string",
+                    "description": "JSON string of parameters (optional)"
+                }
+            }
+        }
+    },
+    {
+        "name": "nlobby_verify_authentication",
+        "description": "Verify authentication status and cookie synchronization across all clients",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "nlobby_interactive_login",
+        "description": "Open browser for manual login to N Lobby (no credentials required)",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "nlobby_login_help",
+        "description": "Get help and troubleshooting tips for N Lobby login",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "description": "Your email address (optional, for personalized help)"
+                }
+            }
+        }
+    },
+    {
+        "name": "nlobby_mark_news_as_read",
+        "description": "Mark a news article as read",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "The ID of the news article to mark as read"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    }
+]

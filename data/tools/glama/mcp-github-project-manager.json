@@ -1,0 +1,1513 @@
+[
+    {
+        "name": "github-project-manager_create_roadmap",
+        "description": "Create a project roadmap with milestones and tasks",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "project": {
+                    "type": "object",
+                    "properties": {
+                        "title": {
+                            "type": "string"
+                        },
+                        "shortDescription": {
+                            "type": "string"
+                        },
+                        "visibility": {
+                            "enum": [
+                                "private",
+                                "public"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "title",
+                        "visibility"
+                    ]
+                },
+                "milestones": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "milestone": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "dueDate": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "title",
+                                    "description"
+                                ]
+                            },
+                            "issues": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "milestone",
+                            "issues"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "project",
+                "milestones"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_plan_sprint",
+        "description": "Plan a new sprint with selected issues",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "sprint": {
+                    "type": "object",
+                    "properties": {
+                        "title": {
+                            "type": "string"
+                        },
+                        "startDate": {
+                            "type": "string"
+                        },
+                        "endDate": {
+                            "type": "string"
+                        },
+                        "goals": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "required": [
+                        "title",
+                        "startDate",
+                        "endDate",
+                        "goals"
+                    ]
+                },
+                "issueIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [
+                "sprint",
+                "issueIds"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_get_milestone_metrics",
+        "description": "Get progress metrics for a specific milestone",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "milestoneId": {
+                    "type": "string"
+                },
+                "includeIssues": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "milestoneId",
+                "includeIssues"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_get_sprint_metrics",
+        "description": "Get progress metrics for a specific sprint",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "sprintId": {
+                    "type": "string"
+                },
+                "includeIssues": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "sprintId",
+                "includeIssues"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_get_overdue_milestones",
+        "description": "Get a list of overdue milestones",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "number"
+                },
+                "includeIssues": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "limit",
+                "includeIssues"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_get_upcoming_milestones",
+        "description": "Get a list of upcoming milestones within a time frame",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "daysAhead": {
+                    "type": "number"
+                },
+                "limit": {
+                    "type": "number"
+                },
+                "includeIssues": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "daysAhead",
+                "limit",
+                "includeIssues"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_create_project",
+        "description": "Create a new GitHub project",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string"
+                },
+                "shortDescription": {
+                    "type": "string"
+                },
+                "owner": {
+                    "type": "string"
+                },
+                "visibility": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "title",
+                "owner",
+                "visibility"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_list_projects",
+        "description": "List GitHub projects",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string"
+                },
+                "limit": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "status"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_get_project",
+        "description": "Get details of a specific GitHub project",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "projectId"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_update_project",
+        "description": "Update an existing GitHub project",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectId": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "visibility": {
+                    "enum": [
+                        "private",
+                        "public"
+                    ]
+                },
+                "status": {
+                    "enum": [
+                        "active",
+                        "closed"
+                    ]
+                }
+            },
+            "required": [
+                "projectId"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_delete_project",
+        "description": "Delete a GitHub project",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "projectId"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_create_milestone",
+        "description": "Create a new milestone",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "dueDate": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "title",
+                "description"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_list_milestones",
+        "description": "List milestones",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string"
+                },
+                "sort": {
+                    "type": "string"
+                },
+                "direction": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "status"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_update_milestone",
+        "description": "Update a GitHub milestone",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "milestoneId": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "dueDate": {
+                    "type": "string"
+                },
+                "state": {
+                    "enum": [
+                        "open",
+                        "closed"
+                    ]
+                }
+            },
+            "required": [
+                "milestoneId",
+                "dueDate"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_delete_milestone",
+        "description": "Delete a GitHub milestone",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "milestoneId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "milestoneId"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_create_issue",
+        "description": "Create a new GitHub issue",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "milestoneId": {
+                    "type": "string"
+                },
+                "assignees": {
+                    "type": "string"
+                },
+                "labels": {
+                    "type": "string"
+                },
+                "priority": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "title",
+                "description",
+                "assignees",
+                "labels"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_list_issues",
+        "description": "List GitHub issues",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string"
+                },
+                "milestone": {
+                    "type": "string"
+                },
+                "labels": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "assignee": {
+                    "type": "string"
+                },
+                "sort": {
+                    "type": "string"
+                },
+                "direction": {
+                    "type": "string"
+                },
+                "limit": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "status"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_get_issue",
+        "description": "Get details of a specific GitHub issue",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "issueId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "issueId"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_update_issue",
+        "description": "Update a GitHub issue",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "issueId": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "status": {
+                    "enum": [
+                        "open",
+                        "closed"
+                    ]
+                },
+                "milestoneId": {
+                    "type": "string"
+                },
+                "assignees": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "labels": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [
+                "issueId",
+                "milestoneId"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_create_sprint",
+        "description": "Create a new development sprint",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "startDate": {
+                    "type": "string"
+                },
+                "endDate": {
+                    "type": "string"
+                },
+                "issueIds": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "title",
+                "description",
+                "startDate",
+                "endDate",
+                "issueIds"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_list_sprints",
+        "description": "List all sprints",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "status"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_get_current_sprint",
+        "description": "Get the currently active sprint",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "includeIssues": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "includeIssues"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_update_sprint",
+        "description": "Update a development sprint",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "sprintId": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "startDate": {
+                    "type": "string"
+                },
+                "endDate": {
+                    "type": "string"
+                },
+                "status": {
+                    "enum": [
+                        "planned",
+                        "active",
+                        "completed"
+                    ]
+                }
+            },
+            "required": [
+                "sprintId"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_add_issues_to_sprint",
+        "description": "Add issues to an existing sprint",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "sprintId": {
+                    "type": "string"
+                },
+                "issueIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [
+                "sprintId",
+                "issueIds"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_remove_issues_from_sprint",
+        "description": "Remove issues from a sprint",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "sprintId": {
+                    "type": "string"
+                },
+                "issueIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [
+                "sprintId",
+                "issueIds"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_create_project_field",
+        "description": "Create a custom field for a GitHub project",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectId": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "text",
+                        "number",
+                        "date",
+                        "single_select",
+                        "iteration",
+                        "milestone",
+                        "assignees",
+                        "labels"
+                    ]
+                },
+                "options": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "color": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "name"
+                        ]
+                    }
+                },
+                "description": {
+                    "type": "string"
+                },
+                "required": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "projectId",
+                "name",
+                "type"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_list_project_fields",
+        "description": "List all fields in a GitHub project",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "projectId"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_update_project_field",
+        "description": "Update a custom field in a GitHub project",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectId": {
+                    "type": "string"
+                },
+                "fieldId": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "options": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "color": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "name"
+                        ]
+                    }
+                },
+                "required": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "projectId",
+                "fieldId"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_create_project_view",
+        "description": "Create a new view for a GitHub project",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectId": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "layout": {
+                    "enum": [
+                        "board",
+                        "table",
+                        "timeline",
+                        "roadmap"
+                    ]
+                }
+            },
+            "required": [
+                "projectId",
+                "name",
+                "layout"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_list_project_views",
+        "description": "List all views in a GitHub project",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "projectId"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_update_project_view",
+        "description": "Update a view in a GitHub project",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectId": {
+                    "type": "string"
+                },
+                "viewId": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "layout": {
+                    "enum": [
+                        "board",
+                        "table",
+                        "timeline",
+                        "roadmap"
+                    ]
+                }
+            },
+            "required": [
+                "projectId",
+                "viewId"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_add_project_item",
+        "description": "Add an item to a GitHub project",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectId": {
+                    "type": "string"
+                },
+                "contentId": {
+                    "type": "string"
+                },
+                "contentType": {
+                    "enum": [
+                        "issue",
+                        "pull_request"
+                    ]
+                }
+            },
+            "required": [
+                "projectId",
+                "contentId",
+                "contentType"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_remove_project_item",
+        "description": "Remove an item from a GitHub project",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectId": {
+                    "type": "string"
+                },
+                "itemId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "projectId",
+                "itemId"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_list_project_items",
+        "description": "List all items in a GitHub project",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectId": {
+                    "type": "string"
+                },
+                "limit": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "projectId"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_set_field_value",
+        "description": "Set a field value for a GitHub project item. Supports all field types: TEXT, NUMBER, DATE, SINGLE_SELECT, ITERATION, MILESTONE, ASSIGNEES, LABELS",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectId": {
+                    "type": "string"
+                },
+                "itemId": {
+                    "type": "string"
+                },
+                "fieldId": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "projectId",
+                "itemId",
+                "fieldId",
+                "value"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_get_field_value",
+        "description": "Get a field value for a GitHub project item. Supports reading all field types: TEXT, NUMBER, DATE, SINGLE_SELECT, ITERATION, MILESTONE, ASSIGNEES, LABELS",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectId": {
+                    "type": "string"
+                },
+                "itemId": {
+                    "type": "string"
+                },
+                "fieldId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "projectId",
+                "itemId",
+                "fieldId"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_create_label",
+        "description": "Create a new GitHub label",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "color": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "color"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_list_labels",
+        "description": "List all GitHub labels",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "string"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "github-project-manager_add_feature",
+        "description": "Add a new feature to an existing PRD or project, analyze its impact, and expand it into actionable tasks with complete lifecycle management",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "featureIdea": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "targetPRD": {
+                    "type": "string"
+                },
+                "targetProject": {
+                    "type": "string"
+                },
+                "businessJustification": {
+                    "type": "string"
+                },
+                "targetUsers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "requestedBy": {
+                    "type": "string"
+                },
+                "autoApprove": {
+                    "type": "string"
+                },
+                "expandToTasks": {
+                    "type": "string"
+                },
+                "createLifecycle": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "featureIdea",
+                "description",
+                "requestedBy",
+                "autoApprove",
+                "expandToTasks",
+                "createLifecycle"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_generate_prd",
+        "description": "Generate a comprehensive Product Requirements Document (PRD) from a project idea using AI analysis and industry best practices",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectIdea": {
+                    "type": "string"
+                },
+                "projectName": {
+                    "type": "string"
+                },
+                "targetUsers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "timeline": {
+                    "type": "string"
+                },
+                "complexity": {
+                    "type": "string"
+                },
+                "author": {
+                    "type": "string"
+                },
+                "stakeholders": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "includeResearch": {
+                    "type": "string"
+                },
+                "industryContext": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "projectIdea",
+                "projectName",
+                "complexity",
+                "author",
+                "includeResearch"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_parse_prd",
+        "description": "Parse a Product Requirements Document (PRD) and generate a comprehensive list of actionable development tasks with AI-powered analysis, similar to claude-task-master functionality",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "prdContent": {
+                    "type": "string"
+                },
+                "maxTasks": {
+                    "type": "string"
+                },
+                "includeSubtasks": {
+                    "type": "string"
+                },
+                "autoEstimate": {
+                    "type": "string"
+                },
+                "autoPrioritize": {
+                    "type": "string"
+                },
+                "autoDetectDependencies": {
+                    "type": "string"
+                },
+                "targetComplexity": {
+                    "type": "number"
+                },
+                "teamSkills": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "projectType": {
+                    "type": "string"
+                },
+                "createLifecycle": {
+                    "type": "string"
+                },
+                "createTraceabilityMatrix": {
+                    "type": "string"
+                },
+                "includeUseCases": {
+                    "type": "string"
+                },
+                "projectId": {
+                    "type": "string"
+                },
+                "enhancedGeneration": {
+                    "type": "string"
+                },
+                "contextLevel": {
+                    "type": "string"
+                },
+                "includeBusinessContext": {
+                    "type": "string"
+                },
+                "includeTechnicalContext": {
+                    "type": "string"
+                },
+                "includeImplementationGuidance": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "prdContent",
+                "maxTasks",
+                "includeSubtasks",
+                "autoEstimate",
+                "autoPrioritize",
+                "autoDetectDependencies",
+                "createLifecycle",
+                "createTraceabilityMatrix",
+                "includeUseCases",
+                "enhancedGeneration",
+                "contextLevel",
+                "includeBusinessContext",
+                "includeTechnicalContext",
+                "includeImplementationGuidance"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_get_next_task",
+        "description": "Get AI-powered recommendations for the next task to work on based on priorities, dependencies, team capacity, and current project state",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectId": {
+                    "type": "string"
+                },
+                "featureId": {
+                    "type": "string"
+                },
+                "assignee": {
+                    "type": "string"
+                },
+                "teamSkills": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "sprintCapacity": {
+                    "type": "number"
+                },
+                "currentPhase": {
+                    "enum": [
+                        "planning",
+                        "development",
+                        "testing",
+                        "review",
+                        "deployment"
+                    ]
+                },
+                "excludeBlocked": {
+                    "type": "string"
+                },
+                "maxComplexity": {
+                    "type": "number"
+                },
+                "includeAnalysis": {
+                    "type": "string"
+                },
+                "limit": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "excludeBlocked",
+                "includeAnalysis",
+                "limit"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_analyze_task_complexity",
+        "description": "Perform detailed AI-powered analysis of task complexity, effort estimation, risk assessment, and provide actionable recommendations",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "taskTitle": {
+                    "type": "string"
+                },
+                "taskDescription": {
+                    "type": "string"
+                },
+                "currentEstimate": {
+                    "type": "number"
+                },
+                "teamExperience": {
+                    "type": "string"
+                },
+                "projectContext": {
+                    "type": "string"
+                },
+                "includeBreakdown": {
+                    "type": "string"
+                },
+                "includeRisks": {
+                    "type": "string"
+                },
+                "includeRecommendations": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "taskTitle",
+                "taskDescription",
+                "teamExperience",
+                "includeBreakdown",
+                "includeRisks",
+                "includeRecommendations"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_expand_task",
+        "description": "Break down a complex task into smaller, manageable subtasks with AI-powered analysis, dependency detection, and implementation recommendations",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "taskTitle": {
+                    "type": "string"
+                },
+                "taskDescription": {
+                    "type": "string"
+                },
+                "currentComplexity": {
+                    "type": "number"
+                },
+                "maxSubtasks": {
+                    "type": "string"
+                },
+                "maxDepth": {
+                    "type": "string"
+                },
+                "targetComplexity": {
+                    "type": "string"
+                },
+                "includeEstimates": {
+                    "type": "string"
+                },
+                "includeDependencies": {
+                    "type": "string"
+                },
+                "includeAcceptanceCriteria": {
+                    "type": "string"
+                },
+                "projectType": {
+                    "type": "string"
+                },
+                "teamSkills": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [
+                "taskTitle",
+                "taskDescription",
+                "currentComplexity",
+                "maxSubtasks",
+                "maxDepth",
+                "targetComplexity",
+                "includeEstimates",
+                "includeDependencies",
+                "includeAcceptanceCriteria"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_enhance_prd",
+        "description": "Enhance an existing PRD with AI-powered improvements, adding missing elements, improving clarity, and providing comprehensive analysis",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "prdContent": {
+                    "type": "string"
+                },
+                "enhancementType": {
+                    "enum": [
+                        "comprehensive",
+                        "technical",
+                        "user_focused",
+                        "business_focused"
+                    ]
+                },
+                "focusAreas": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "includeResearch": {
+                    "type": "string"
+                },
+                "targetAudience": {
+                    "type": "string"
+                },
+                "industryContext": {
+                    "type": "string"
+                },
+                "addMissingElements": {
+                    "type": "string"
+                },
+                "improveExisting": {
+                    "type": "string"
+                },
+                "validateQuality": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "prdContent",
+                "enhancementType",
+                "includeResearch",
+                "targetAudience",
+                "addMissingElements",
+                "improveExisting",
+                "validateQuality"
+            ]
+        }
+    },
+    {
+        "name": "github-project-manager_create_traceability_matrix",
+        "description": "Create a comprehensive requirements traceability matrix linking PRD business requirements \u2192 features \u2192 use cases \u2192 tasks with full bidirectional traceability",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectId": {
+                    "type": "string"
+                },
+                "prdContent": {
+                    "type": "string"
+                },
+                "features": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "title": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "priority": {
+                                "enum": [
+                                    "critical",
+                                    "high",
+                                    "medium",
+                                    "low"
+                                ]
+                            },
+                            "userStories": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "acceptanceCriteria": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "estimatedComplexity": {
+                                "type": "number"
+                            }
+                        },
+                        "required": [
+                            "id",
+                            "title",
+                            "description",
+                            "priority",
+                            "userStories",
+                            "acceptanceCriteria",
+                            "estimatedComplexity"
+                        ]
+                    }
+                },
+                "tasks": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "title": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "complexity": {
+                                "type": "number"
+                            },
+                            "estimatedHours": {
+                                "type": "number"
+                            },
+                            "priority": {
+                                "enum": [
+                                    "critical",
+                                    "high",
+                                    "medium",
+                                    "low"
+                                ]
+                            }
+                        },
+                        "required": [
+                            "id",
+                            "title",
+                            "description",
+                            "complexity",
+                            "estimatedHours",
+                            "priority"
+                        ]
+                    }
+                },
+                "includeUseCases": {
+                    "type": "string"
+                },
+                "includeTraceabilityLinks": {
+                    "type": "string"
+                },
+                "includeCoverageAnalysis": {
+                    "type": "string"
+                },
+                "validateCompleteness": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "projectId",
+                "prdContent",
+                "features",
+                "tasks",
+                "includeUseCases",
+                "includeTraceabilityLinks",
+                "includeCoverageAnalysis",
+                "validateCompleteness"
+            ]
+        }
+    }
+]

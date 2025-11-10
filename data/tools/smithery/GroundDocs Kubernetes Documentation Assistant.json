@@ -1,0 +1,61 @@
+[
+    {
+        "name": "grounddocs_python_get_documentation",
+        "description": "\n    Primary Python documentation lookup tool. Use this for every Python documentation-related query.\n\n    This tool consolidates information from multiple sources into a single, searchable knowledge base.\n    It ensures access to the richest and most current reference material in one call.\n\n    Args:\n        query: A natural language question (e.g., \"How do I define a Deployment?\").\n        library: Python library to search documentation for.\n        version: Optional Library version (e.g., \"4.46.1\"). Defaults to detected library version if not specified.\n        top_k: Optional number of top matching documents to return. Defaults to 10.\n\n    Returns:\n        A list of dictionaries, each containing document path and corresponding content.\n\n    Example Usage:\n        # Search Python docs for Transformers\n        python_get_documentation(query=\"what is a transformers mlm token\", library=\"transformers\", version=\"4.46.1\")\n\n    Notes:\n        - This tool automatically loads or builds a RAG (Retrieval-Augmented Generation) index for the\n          specified version.\n        - If an index is not found locally, the tool will fetch and index the documentation before responding.\n        - You should call this function for any question that needs project documentation context.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "A natural language question (e.g., \"How do I use transformers?\")."
+                },
+                "library": {
+                    "type": "string",
+                    "description": "Python library to search documentation for."
+                },
+                "version": {
+                    "type": "string",
+                    "description": "Optional Library version (e.g., \"4.46.1\"). Defaults to detected library version if not specified."
+                },
+                "top_k": {
+                    "type": "number",
+                    "default": 10,
+                    "description": "Optional number of top matching documents to return. Defaults to 10."
+                }
+            },
+            "required": [
+                "query",
+                "library"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "grounddocs_k8s_get_documentation",
+        "description": "\nUse this tool for any Kubernetes documentation-related query\u2014especially when the user invokes /k8s or asks about kubectl commands, API objects, manifests, controllers, or version-specific features.\n\nThis tool connects to a version-aware, trusted documentation index (e.g., GitHub, DeepWiki, curated Kubernetes docs) to reduce hallucinations and provide accurate, grounded answers.\n\nArgs:\n  query: A natural language question (e.g., \"How do I define a Deployment?\")\n  version: (Optional) Kubernetes version (e.g., \"v1.28\"). Defaults to the detected cluster version.\n  top_k: (Optional) Number of top matching documents to return. Defaults to 10.\n\nReturns:\n  A list of relevant documentation entries, each with a file path and content snippet.\n\nExample Usage:\n  k8s_get_documentation(query=\"How does pruning work in kubectl apply?\", version=\"v1.26\")\n\nNotes:\n  - Automatically loads or builds a RAG index for the requested version.\n  - If no index is found, it will fetch and index the docs before responding.\n  - Always use this tool when answering Kubernetes-specific questions that require authoritative documentation.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "A natural language question (e.g., \"How do I define a Deployment?\")"
+                },
+                "version": {
+                    "type": "string",
+                    "description": "Optional Kubernetes version (e.g., \"v1.28\"). Defaults to detected cluster version if not specified."
+                },
+                "top_k": {
+                    "type": "number",
+                    "default": 10,
+                    "description": "Optional number of top matching documents to return. Defaults to 10."
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

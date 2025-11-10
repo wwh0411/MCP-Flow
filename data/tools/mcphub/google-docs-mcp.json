@@ -1,0 +1,1173 @@
+[
+    {
+        "name": "readGoogleDoc",
+        "description": "Reads the content of a specific Google Document, optionally returning structured data.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "documentId": {
+                    "type": "string",
+                    "description": "The ID of the Google Document (from the URL)."
+                },
+                "format": {
+                    "type": "string",
+                    "enum": [
+                        "text",
+                        "json",
+                        "markdown"
+                    ],
+                    "default": "text",
+                    "description": "Output format: 'text' (plain text, possibly truncated), 'json' (raw API structure, complex), 'markdown' (experimental conversion)."
+                }
+            },
+            "required": [
+                "documentId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "appendToGoogleDoc",
+        "description": "Appends text to the very end of a specific Google Document.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "documentId": {
+                    "type": "string",
+                    "description": "The ID of the Google Document (from the URL)."
+                },
+                "textToAppend": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "The text to add to the end."
+                },
+                "addNewlineIfNeeded": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Automatically add a newline before the appended text if the doc doesn't end with one."
+                }
+            },
+            "required": [
+                "documentId",
+                "textToAppend"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "insertText",
+        "description": "Inserts text at a specific index within the document body.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "documentId": {
+                    "type": "string",
+                    "description": "The ID of the Google Document (from the URL)."
+                },
+                "textToInsert": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "The text to insert."
+                },
+                "index": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "The index (1-based) where the text should be inserted."
+                }
+            },
+            "required": [
+                "documentId",
+                "textToInsert",
+                "index"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "deleteRange",
+        "description": "Deletes content within a specified range (start index inclusive, end index exclusive).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "documentId": {
+                    "type": "string",
+                    "description": "The ID of the Google Document (from the URL)."
+                },
+                "startIndex": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "The starting index of the text range (inclusive, starts from 1)."
+                },
+                "endIndex": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "The ending index of the text range (exclusive)."
+                }
+            },
+            "required": [
+                "documentId",
+                "startIndex",
+                "endIndex"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "applyTextStyle",
+        "description": "Applies character-level formatting (bold, color, font, etc.) to a specific range or found text.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "documentId": {
+                    "type": "string",
+                    "description": "The ID of the Google Document (from the URL)."
+                },
+                "target": {
+                    "anyOf": [
+                        {
+                            "type": "object",
+                            "properties": {
+                                "startIndex": {
+                                    "type": "integer",
+                                    "minimum": 1,
+                                    "description": "The starting index of the text range (inclusive, starts from 1)."
+                                },
+                                "endIndex": {
+                                    "type": "integer",
+                                    "minimum": 1,
+                                    "description": "The ending index of the text range (exclusive)."
+                                }
+                            },
+                            "required": [
+                                "startIndex",
+                                "endIndex"
+                            ],
+                            "additionalProperties": false
+                        },
+                        {
+                            "type": "object",
+                            "properties": {
+                                "textToFind": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "description": "The exact text string to locate."
+                                },
+                                "matchInstance": {
+                                    "type": "integer",
+                                    "minimum": 1,
+                                    "default": 1,
+                                    "description": "Which instance of the text to target (1st, 2nd, etc.). Defaults to 1."
+                                }
+                            },
+                            "required": [
+                                "textToFind"
+                            ],
+                            "additionalProperties": false
+                        }
+                    ],
+                    "description": "Specify the target range either by start/end indices or by finding specific text."
+                },
+                "style": {
+                    "type": "object",
+                    "properties": {
+                        "bold": {
+                            "type": "boolean",
+                            "description": "Apply bold formatting."
+                        },
+                        "italic": {
+                            "type": "boolean",
+                            "description": "Apply italic formatting."
+                        },
+                        "underline": {
+                            "type": "boolean",
+                            "description": "Apply underline formatting."
+                        },
+                        "strikethrough": {
+                            "type": "boolean",
+                            "description": "Apply strikethrough formatting."
+                        },
+                        "fontSize": {
+                            "type": "number",
+                            "minimum": 1,
+                            "description": "Set font size (in points, e.g., 12)."
+                        },
+                        "fontFamily": {
+                            "type": "string",
+                            "description": "Set font family (e.g., \"Arial\", \"Times New Roman\")."
+                        },
+                        "foregroundColor": {
+                            "type": "string",
+                            "description": "Set text color using hex format (e.g., \"#FF0000\")."
+                        },
+                        "backgroundColor": {
+                            "type": "string",
+                            "description": "Set text background color using hex format (e.g., \"#FFFF00\")."
+                        },
+                        "linkUrl": {
+                            "type": "string",
+                            "format": "uri",
+                            "description": "Make the text a hyperlink pointing to this URL."
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "The text styling to apply."
+                }
+            },
+            "required": [
+                "documentId",
+                "target",
+                "style"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "applyParagraphStyle",
+        "description": "Applies paragraph-level formatting (alignment, spacing, named styles like Heading 1) to the paragraph(s) containing specific text, an index, or a range.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "documentId": {
+                    "type": "string",
+                    "description": "The ID of the Google Document (from the URL)."
+                },
+                "target": {
+                    "anyOf": [
+                        {
+                            "type": "object",
+                            "properties": {
+                                "startIndex": {
+                                    "type": "integer",
+                                    "minimum": 1,
+                                    "description": "The starting index of the text range (inclusive, starts from 1)."
+                                },
+                                "endIndex": {
+                                    "type": "integer",
+                                    "minimum": 1,
+                                    "description": "The ending index of the text range (exclusive)."
+                                }
+                            },
+                            "required": [
+                                "startIndex",
+                                "endIndex"
+                            ],
+                            "additionalProperties": false
+                        },
+                        {
+                            "type": "object",
+                            "properties": {
+                                "textToFind": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "description": "The exact text string to locate."
+                                },
+                                "matchInstance": {
+                                    "type": "integer",
+                                    "minimum": 1,
+                                    "default": 1,
+                                    "description": "Which instance of the text to target (1st, 2nd, etc.). Defaults to 1."
+                                },
+                                "applyToContainingParagraph": {
+                                    "type": "boolean",
+                                    "const": true,
+                                    "default": true,
+                                    "description": "Must be true. Indicates the style applies to the whole paragraph containing the found text."
+                                }
+                            },
+                            "required": [
+                                "textToFind"
+                            ],
+                            "additionalProperties": false
+                        },
+                        {
+                            "type": "object",
+                            "properties": {
+                                "indexWithinParagraph": {
+                                    "type": "integer",
+                                    "minimum": 1,
+                                    "description": "An index located anywhere within the target paragraph."
+                                }
+                            },
+                            "required": [
+                                "indexWithinParagraph"
+                            ],
+                            "additionalProperties": false
+                        }
+                    ],
+                    "description": "Specify the target paragraph either by start/end indices, by finding text within it, or by providing an index within it."
+                },
+                "style": {
+                    "type": "object",
+                    "properties": {
+                        "alignment": {
+                            "type": "string",
+                            "enum": [
+                                "LEFT",
+                                "CENTER",
+                                "RIGHT",
+                                "JUSTIFIED"
+                            ],
+                            "description": "Paragraph alignment."
+                        },
+                        "indentStart": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Left indentation in points."
+                        },
+                        "indentEnd": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Right indentation in points."
+                        },
+                        "spaceAbove": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Space before the paragraph in points."
+                        },
+                        "spaceBelow": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Space after the paragraph in points."
+                        },
+                        "namedStyleType": {
+                            "type": "string",
+                            "enum": [
+                                "NORMAL_TEXT",
+                                "TITLE",
+                                "SUBTITLE",
+                                "HEADING_1",
+                                "HEADING_2",
+                                "HEADING_3",
+                                "HEADING_4",
+                                "HEADING_5",
+                                "HEADING_6"
+                            ],
+                            "description": "Apply a built-in named paragraph style (e.g., HEADING_1)."
+                        },
+                        "keepWithNext": {
+                            "type": "boolean",
+                            "description": "Keep this paragraph together with the next one on the same page."
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "The paragraph styling to apply."
+                }
+            },
+            "required": [
+                "documentId",
+                "target",
+                "style"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "insertTable",
+        "description": "Inserts a new table with the specified dimensions at a given index.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "documentId": {
+                    "type": "string",
+                    "description": "The ID of the Google Document (from the URL)."
+                },
+                "rows": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Number of rows for the new table."
+                },
+                "columns": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Number of columns for the new table."
+                },
+                "index": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "The index (1-based) where the table should be inserted."
+                }
+            },
+            "required": [
+                "documentId",
+                "rows",
+                "columns",
+                "index"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "editTableCell",
+        "description": "Edits the content and/or basic style of a specific table cell. Requires knowing table start index.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "documentId": {
+                    "type": "string",
+                    "description": "The ID of the Google Document (from the URL)."
+                },
+                "tableStartIndex": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "The starting index of the TABLE element itself (tricky to find, may require reading structure first)."
+                },
+                "rowIndex": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Row index (0-based)."
+                },
+                "columnIndex": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Column index (0-based)."
+                },
+                "textContent": {
+                    "type": "string",
+                    "description": "Optional: New text content for the cell. Replaces existing content."
+                },
+                "textStyle": {
+                    "type": "object",
+                    "properties": {
+                        "bold": {
+                            "type": "boolean",
+                            "description": "Apply bold formatting."
+                        },
+                        "italic": {
+                            "type": "boolean",
+                            "description": "Apply italic formatting."
+                        },
+                        "underline": {
+                            "type": "boolean",
+                            "description": "Apply underline formatting."
+                        },
+                        "strikethrough": {
+                            "type": "boolean",
+                            "description": "Apply strikethrough formatting."
+                        },
+                        "fontSize": {
+                            "type": "number",
+                            "minimum": 1,
+                            "description": "Set font size (in points, e.g., 12)."
+                        },
+                        "fontFamily": {
+                            "type": "string",
+                            "description": "Set font family (e.g., \"Arial\", \"Times New Roman\")."
+                        },
+                        "foregroundColor": {
+                            "type": "string",
+                            "description": "Set text color using hex format (e.g., \"#FF0000\")."
+                        },
+                        "backgroundColor": {
+                            "type": "string",
+                            "description": "Set text background color using hex format (e.g., \"#FFFF00\")."
+                        },
+                        "linkUrl": {
+                            "type": "string",
+                            "format": "uri",
+                            "description": "Make the text a hyperlink pointing to this URL."
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Optional: Text styles to apply."
+                },
+                "paragraphStyle": {
+                    "type": "object",
+                    "properties": {
+                        "alignment": {
+                            "type": "string",
+                            "enum": [
+                                "LEFT",
+                                "CENTER",
+                                "RIGHT",
+                                "JUSTIFIED"
+                            ],
+                            "description": "Paragraph alignment."
+                        },
+                        "indentStart": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Left indentation in points."
+                        },
+                        "indentEnd": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Right indentation in points."
+                        },
+                        "spaceAbove": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Space before the paragraph in points."
+                        },
+                        "spaceBelow": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Space after the paragraph in points."
+                        },
+                        "namedStyleType": {
+                            "type": "string",
+                            "enum": [
+                                "NORMAL_TEXT",
+                                "TITLE",
+                                "SUBTITLE",
+                                "HEADING_1",
+                                "HEADING_2",
+                                "HEADING_3",
+                                "HEADING_4",
+                                "HEADING_5",
+                                "HEADING_6"
+                            ],
+                            "description": "Apply a built-in named paragraph style (e.g., HEADING_1)."
+                        },
+                        "keepWithNext": {
+                            "type": "boolean",
+                            "description": "Keep this paragraph together with the next one on the same page."
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Optional: Paragraph styles (like alignment) to apply."
+                }
+            },
+            "required": [
+                "documentId",
+                "tableStartIndex",
+                "rowIndex",
+                "columnIndex"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "insertPageBreak",
+        "description": "Inserts a page break at the specified index.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "documentId": {
+                    "type": "string",
+                    "description": "The ID of the Google Document (from the URL)."
+                },
+                "index": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "The index (1-based) where the page break should be inserted."
+                }
+            },
+            "required": [
+                "documentId",
+                "index"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "fixListFormatting",
+        "description": "EXPERIMENTAL: Attempts to detect paragraphs that look like lists (e.g., starting with -, *, 1.) and convert them to proper Google Docs bulleted or numbered lists. Best used on specific sections.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "documentId": {
+                    "type": "string",
+                    "description": "The ID of the Google Document (from the URL)."
+                },
+                "range": {
+                    "type": "object",
+                    "properties": {
+                        "startIndex": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "description": "Optional: The starting index of the text range (inclusive, starts from 1). If omitted, might apply to a found element or whole paragraph."
+                        },
+                        "endIndex": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "description": "Optional: The ending index of the text range (exclusive). If omitted, might apply to a found element or whole paragraph."
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Optional: Limit the fixing process to a specific range."
+                }
+            },
+            "required": [
+                "documentId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "addComment",
+        "description": "Adds a comment anchored to a specific text range. REQUIRES DRIVE API SCOPES/SETUP.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "documentId": {
+                    "type": "string",
+                    "description": "The ID of the Google Document (from the URL)."
+                },
+                "startIndex": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "The starting index of the text range (inclusive, starts from 1)."
+                },
+                "endIndex": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "The ending index of the text range (exclusive)."
+                },
+                "commentText": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "The content of the comment."
+                }
+            },
+            "required": [
+                "documentId",
+                "startIndex",
+                "endIndex",
+                "commentText"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "findElement",
+        "description": "Finds elements (paragraphs, tables, etc.) based on various criteria. (Not Implemented)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "documentId": {
+                    "type": "string",
+                    "description": "The ID of the Google Document (from the URL)."
+                },
+                "textQuery": {
+                    "type": "string"
+                },
+                "elementType": {
+                    "type": "string",
+                    "enum": [
+                        "paragraph",
+                        "table",
+                        "list",
+                        "image"
+                    ]
+                }
+            },
+            "required": [
+                "documentId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "formatMatchingText",
+        "description": "Finds specific text within a Google Document and applies character formatting (bold, italics, color, etc.) to the specified instance.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "documentId": {
+                    "type": "string",
+                    "description": "The ID of the Google Document."
+                },
+                "textToFind": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "The exact text string to find and format."
+                },
+                "matchInstance": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "default": 1,
+                    "description": "Which instance of the text to format (1st, 2nd, etc.). Defaults to 1."
+                },
+                "bold": {
+                    "type": "boolean",
+                    "description": "Apply bold formatting."
+                },
+                "italic": {
+                    "type": "boolean",
+                    "description": "Apply italic formatting."
+                },
+                "underline": {
+                    "type": "boolean",
+                    "description": "Apply underline formatting."
+                },
+                "strikethrough": {
+                    "type": "boolean",
+                    "description": "Apply strikethrough formatting."
+                },
+                "fontSize": {
+                    "type": "number",
+                    "minimum": 1,
+                    "description": "Set font size (in points, e.g., 12)."
+                },
+                "fontFamily": {
+                    "type": "string",
+                    "description": "Set font family (e.g., \"Arial\", \"Times New Roman\")."
+                },
+                "foregroundColor": {
+                    "type": "string",
+                    "description": "Set text color using hex format (e.g., \"#FF0000\")."
+                },
+                "backgroundColor": {
+                    "type": "string",
+                    "description": "Set text background color using hex format (e.g., \"#FFFF00\")."
+                },
+                "linkUrl": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "Make the text a hyperlink pointing to this URL."
+                }
+            },
+            "required": [
+                "documentId",
+                "textToFind"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "listGoogleDocs",
+        "description": "Lists Google Documents from your Google Drive with optional filtering.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "maxResults": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "default": 20,
+                    "description": "Maximum number of documents to return (1-100)."
+                },
+                "query": {
+                    "type": "string",
+                    "description": "Search query to filter documents by name or content."
+                },
+                "orderBy": {
+                    "type": "string",
+                    "enum": [
+                        "name",
+                        "modifiedTime",
+                        "createdTime"
+                    ],
+                    "default": "modifiedTime",
+                    "description": "Sort order for results."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "searchGoogleDocs",
+        "description": "Searches for Google Documents by name, content, or other criteria.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "searchQuery": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Search term to find in document names or content."
+                },
+                "searchIn": {
+                    "type": "string",
+                    "enum": [
+                        "name",
+                        "content",
+                        "both"
+                    ],
+                    "default": "both",
+                    "description": "Where to search: document names, content, or both."
+                },
+                "maxResults": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 50,
+                    "default": 10,
+                    "description": "Maximum number of results to return."
+                },
+                "modifiedAfter": {
+                    "type": "string",
+                    "description": "Only return documents modified after this date (ISO 8601 format, e.g., \"2024-01-01\")."
+                }
+            },
+            "required": [
+                "searchQuery"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "getRecentGoogleDocs",
+        "description": "Gets the most recently modified Google Documents.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "maxResults": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 50,
+                    "default": 10,
+                    "description": "Maximum number of recent documents to return."
+                },
+                "daysBack": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 365,
+                    "default": 30,
+                    "description": "Only show documents modified within this many days."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "getDocumentInfo",
+        "description": "Gets detailed information about a specific Google Document.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "documentId": {
+                    "type": "string",
+                    "description": "The ID of the Google Document (from the URL)."
+                }
+            },
+            "required": [
+                "documentId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "createFolder",
+        "description": "Creates a new folder in Google Drive.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Name for the new folder."
+                },
+                "parentFolderId": {
+                    "type": "string",
+                    "description": "Parent folder ID. If not provided, creates folder in Drive root."
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "listFolderContents",
+        "description": "Lists the contents of a specific folder in Google Drive.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "folderId": {
+                    "type": "string",
+                    "description": "ID of the folder to list contents of. Use \"root\" for the root Drive folder."
+                },
+                "includeSubfolders": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether to include subfolders in results."
+                },
+                "includeFiles": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether to include files in results."
+                },
+                "maxResults": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "default": 50,
+                    "description": "Maximum number of items to return."
+                }
+            },
+            "required": [
+                "folderId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "getFolderInfo",
+        "description": "Gets detailed information about a specific folder in Google Drive.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "folderId": {
+                    "type": "string",
+                    "description": "ID of the folder to get information about."
+                }
+            },
+            "required": [
+                "folderId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "moveFile",
+        "description": "Moves a file or folder to a different location in Google Drive.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileId": {
+                    "type": "string",
+                    "description": "ID of the file or folder to move."
+                },
+                "newParentId": {
+                    "type": "string",
+                    "description": "ID of the destination folder. Use \"root\" for Drive root."
+                },
+                "removeFromAllParents": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "If true, removes from all current parents. If false, adds to new parent while keeping existing parents."
+                }
+            },
+            "required": [
+                "fileId",
+                "newParentId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "copyFile",
+        "description": "Creates a copy of a Google Drive file or document.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileId": {
+                    "type": "string",
+                    "description": "ID of the file to copy."
+                },
+                "newName": {
+                    "type": "string",
+                    "description": "Name for the copied file. If not provided, will use \"Copy of [original name]\"."
+                },
+                "parentFolderId": {
+                    "type": "string",
+                    "description": "ID of folder where copy should be placed. If not provided, places in same location as original."
+                }
+            },
+            "required": [
+                "fileId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "renameFile",
+        "description": "Renames a file or folder in Google Drive.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileId": {
+                    "type": "string",
+                    "description": "ID of the file or folder to rename."
+                },
+                "newName": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "New name for the file or folder."
+                }
+            },
+            "required": [
+                "fileId",
+                "newName"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "deleteFile",
+        "description": "Permanently deletes a file or folder from Google Drive.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileId": {
+                    "type": "string",
+                    "description": "ID of the file or folder to delete."
+                },
+                "skipTrash": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "If true, permanently deletes the file. If false, moves to trash (can be restored)."
+                }
+            },
+            "required": [
+                "fileId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "createDocument",
+        "description": "Creates a new Google Document.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Title for the new document."
+                },
+                "parentFolderId": {
+                    "type": "string",
+                    "description": "ID of folder where document should be created. If not provided, creates in Drive root."
+                },
+                "initialContent": {
+                    "type": "string",
+                    "description": "Initial text content to add to the document."
+                },
+                "makePublic": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Set to false if you do NOT want the document to be publicly accessible via link. Default is true."
+                }
+            },
+            "required": [
+                "title"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "createFromTemplate",
+        "description": "Creates a new Google Document from an existing document template.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "templateId": {
+                    "type": "string",
+                    "description": "ID of the template document to copy from."
+                },
+                "newTitle": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Title for the new document."
+                },
+                "parentFolderId": {
+                    "type": "string",
+                    "description": "ID of folder where document should be created. If not provided, creates in Drive root."
+                },
+                "replacements": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "description": "Key-value pairs for text replacements in the template (e.g., {\"{{NAME}}\": \"John Doe\", \"{{DATE}}\": \"2024-01-01\"})."
+                }
+            },
+            "required": [
+                "templateId",
+                "newTitle"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "listPermissions",
+        "description": "Lists all permissions for a Google Drive file.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "The ID of the file or shared drive to list permissions for."
+                },
+                "supportsAllDrives": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether the requesting application supports both My Drives and shared drives."
+                }
+            },
+            "required": [
+                "fileId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "createPermission",
+        "description": "Creates a new permission for a Google Drive file (e.g., make file public).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "The ID of the file or shared drive."
+                },
+                "role": {
+                    "type": "string",
+                    "enum": [
+                        "reader",
+                        "writer",
+                        "commenter",
+                        "owner"
+                    ],
+                    "description": "The role for the new permission."
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "user",
+                        "group",
+                        "domain",
+                        "anyone"
+                    ],
+                    "description": "The type of permission (use \"anyone\" for public access)."
+                },
+                "emailAddress": {
+                    "type": "string",
+                    "description": "Required if type is \"user\" or \"group\"."
+                },
+                "supportsAllDrives": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether the target is in a shared drive."
+                }
+            },
+            "required": [
+                "fileId",
+                "role",
+                "type"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

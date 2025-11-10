@@ -1,0 +1,376 @@
+[
+    {
+        "name": "get_market_movers",
+        "description": "\n    Get market movers: top gainers, losers, or most active stocks.\n    Supports different market sessions for most-active category.\n\n    Args:\n        category: Type of movers to fetch\n        count: Number of stocks to return (max 100)\n        market_session: Market session (only applies to most-active category)\n\n    Returns:\n        Dictionary with market mover data\n    ",
+        "parameters": {
+            "properties": {
+                "category": {
+                    "default": "most-active",
+                    "enum": [
+                        "gainers",
+                        "losers",
+                        "most-active"
+                    ],
+                    "title": "Category",
+                    "type": "string"
+                },
+                "count": {
+                    "default": 25,
+                    "title": "Count",
+                    "type": "integer"
+                },
+                "market_session": {
+                    "default": "regular",
+                    "enum": [
+                        "regular",
+                        "pre-market",
+                        "after-hours"
+                    ],
+                    "title": "Market Session",
+                    "type": "string"
+                }
+            },
+            "title": "get_market_moversArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_cnn_fear_greed_index",
+        "description": "Max 30 days of historical data.",
+        "parameters": {
+            "properties": {
+                "days": {
+                    "default": 0,
+                    "title": "Days",
+                    "type": "integer"
+                },
+                "indicators": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "enum": [
+                                    "fear_and_greed",
+                                    "fear_and_greed_historical",
+                                    "put_call_options",
+                                    "market_volatility_vix",
+                                    "market_volatility_vix_50",
+                                    "junk_bond_demand",
+                                    "safe_haven_demand"
+                                ],
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Indicators"
+                }
+            },
+            "title": "get_cnn_fear_greed_indexArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_crypto_fear_greed_index",
+        "description": "Get historical Crypto Fear & Greed Index data.",
+        "parameters": {
+            "properties": {
+                "days": {
+                    "default": 7,
+                    "title": "Days",
+                    "type": "integer"
+                }
+            },
+            "title": "get_crypto_fear_greed_indexArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_google_trends",
+        "description": "Get Google Trends relative search interest for specified keywords.",
+        "parameters": {
+            "properties": {
+                "keywords": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Keywords",
+                    "type": "array"
+                },
+                "period_days": {
+                    "default": 7,
+                    "title": "Period Days",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "keywords"
+            ],
+            "title": "get_google_trendsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_ticker_data",
+        "description": "\n    Returns:\n    - info: Core financial metrics (P/E ratios, margins, growth rates, debt ratios, market cap, EPS, etc.)\n    - calendar: Upcoming earnings dates and dividend dates\n    - news: Recent news articles (headlines, dates, sources)\n    - recommendations: Latest analyst recommendations (buy/sell/hold ratings)\n    - upgrades_downgrades: Recent analyst rating changes\n    ",
+        "parameters": {
+            "properties": {
+                "ticker": {
+                    "title": "Ticker",
+                    "type": "string"
+                },
+                "max_news": {
+                    "default": 5,
+                    "title": "Max News",
+                    "type": "integer"
+                },
+                "max_recommendations": {
+                    "default": 5,
+                    "title": "Max Recommendations",
+                    "type": "integer"
+                },
+                "max_upgrades": {
+                    "default": 5,
+                    "title": "Max Upgrades",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "ticker"
+            ],
+            "title": "get_ticker_dataArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_options",
+        "description": "Get options data. Dates: YYYY-MM-DD. Type: C=calls, P=puts.",
+        "parameters": {
+            "properties": {
+                "ticker_symbol": {
+                    "title": "Ticker Symbol",
+                    "type": "string"
+                },
+                "num_options": {
+                    "default": 10,
+                    "title": "Num Options",
+                    "type": "integer"
+                },
+                "start_date": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Start Date"
+                },
+                "end_date": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "End Date"
+                },
+                "strike_lower": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Strike Lower"
+                },
+                "strike_upper": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Strike Upper"
+                },
+                "option_type": {
+                    "anyOf": [
+                        {
+                            "enum": [
+                                "C",
+                                "P"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Option Type"
+                }
+            },
+            "required": [
+                "ticker_symbol"
+            ],
+            "title": "get_optionsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_price_history",
+        "description": "Get historical OHLCV data: daily intervals for ≤1y periods, monthly intervals for ≥2y periods.",
+        "parameters": {
+            "properties": {
+                "ticker": {
+                    "title": "Ticker",
+                    "type": "string"
+                },
+                "period": {
+                    "default": "1mo",
+                    "enum": [
+                        "1d",
+                        "5d",
+                        "1mo",
+                        "3mo",
+                        "6mo",
+                        "1y",
+                        "2y",
+                        "5y",
+                        "10y",
+                        "ytd",
+                        "max"
+                    ],
+                    "title": "Period",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ticker"
+            ],
+            "title": "get_price_historyArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_financial_statements",
+        "description": "",
+        "parameters": {
+            "properties": {
+                "ticker": {
+                    "title": "Ticker",
+                    "type": "string"
+                },
+                "statement_type": {
+                    "default": "income",
+                    "enum": [
+                        "income",
+                        "balance",
+                        "cash"
+                    ],
+                    "title": "Statement Type",
+                    "type": "string"
+                },
+                "frequency": {
+                    "default": "quarterly",
+                    "enum": [
+                        "quarterly",
+                        "annual"
+                    ],
+                    "title": "Frequency",
+                    "type": "string"
+                },
+                "max_periods": {
+                    "default": 8,
+                    "title": "Max Periods",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "ticker"
+            ],
+            "title": "get_financial_statementsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_institutional_holders",
+        "description": "Get major institutional and mutual fund holders.",
+        "parameters": {
+            "properties": {
+                "ticker": {
+                    "title": "Ticker",
+                    "type": "string"
+                },
+                "top_n": {
+                    "default": 20,
+                    "title": "Top N",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "ticker"
+            ],
+            "title": "get_institutional_holdersArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_earnings_history",
+        "description": "",
+        "parameters": {
+            "properties": {
+                "ticker": {
+                    "title": "Ticker",
+                    "type": "string"
+                },
+                "max_entries": {
+                    "default": 8,
+                    "title": "Max Entries",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "ticker"
+            ],
+            "title": "get_earnings_historyArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_insider_trades",
+        "description": "",
+        "parameters": {
+            "properties": {
+                "ticker": {
+                    "title": "Ticker",
+                    "type": "string"
+                },
+                "max_trades": {
+                    "default": 20,
+                    "title": "Max Trades",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "ticker"
+            ],
+            "title": "get_insider_tradesArguments",
+            "type": "object"
+        }
+    }
+]

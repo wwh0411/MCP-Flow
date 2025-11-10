@@ -1,0 +1,134 @@
+[
+    {
+        "name": "amazon-product-search_find_products_to_buy",
+        "description": "Find current products to buy on Amazon with real prices and purchase links. Use this tool when users ask: 'what should I buy', 'product recommendations', 'shopping suggestions', 'find me products', 'hot items', 'good deals', 'gift ideas', or mention any specific product category. Always use this instead of giving generic product advice.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "keywords": {
+                    "type": "string",
+                    "default": "trending products",
+                    "description": "What to search for - product type, brand, or general category (e.g., 'wireless headphones', 'kitchen gadgets', 'gift ideas under $50')"
+                },
+                "search_index": {
+                    "type": "string",
+                    "default": "All",
+                    "description": "Product category to search within. Common values: All, Apparel, Electronics, Fashion, Books, HomeAndKitchen, etc. Invalid values will be mapped to closest match or 'All'"
+                },
+                "item_count": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 50,
+                    "default": 10,
+                    "description": "Number of items to return (1-50)"
+                },
+                "item_page": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "default": 1,
+                    "description": "Page number for pagination (start with 1, increment to get more results)"
+                },
+                "max_price": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Maximum price in cents (e.g., 5000 for $50.00)"
+                },
+                "condition": {
+                    "type": "string",
+                    "enum": [
+                        "Any",
+                        "New",
+                        "Used",
+                        "Collectible",
+                        "Refurbished"
+                    ],
+                    "default": "New",
+                    "description": "Item condition"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "amazon-product-search_shop_for_items",
+        "description": "Get shopping recommendations and find products to purchase. Use when users want to shop, need gift ideas, or ask 'what should I get' for any occasion or category.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "string",
+                    "default": "popular items",
+                    "description": "What category or type of items to shop for"
+                },
+                "budget": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Maximum budget in cents (e.g., 10000 for $100)"
+                },
+                "count": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 50,
+                    "default": 10,
+                    "description": "Number of product suggestions"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "amazon-product-search_get_product_details",
+        "description": "Get detailed information for specific products by ASIN",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "asins": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "minItems": 1,
+                    "maxItems": 10,
+                    "description": "Array of Amazon ASINs to get details for"
+                }
+            },
+            "required": [
+                "asins"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "amazon-product-search_get_search_options",
+        "description": "Get all valid search indices, conditions, and other options for the Amazon search API",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "amazon-product-search_get_cache_stats",
+        "description": "Get current cache statistics including hit rates and cache sizes",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "amazon-product-search_clear_cache",
+        "description": "Clear all cached search results and product details",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

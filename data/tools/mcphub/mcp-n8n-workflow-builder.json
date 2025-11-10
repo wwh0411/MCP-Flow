@@ -1,0 +1,427 @@
+[
+    {
+        "name": "list_workflows",
+        "description": "List all workflows from n8n with essential metadata only (ID, name, status, dates, node count, tags). Optimized for performance to prevent large data transfers.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "random_string": {
+                    "type": "string",
+                    "description": "Dummy parameter for no-parameter tools"
+                },
+                "instance": {
+                    "type": "string",
+                    "description": "Optional instance name to override automatic instance selection (e.g., 'highway', 'onvex')"
+                }
+            }
+        }
+    },
+    {
+        "name": "execute_workflow",
+        "description": "Manually execute a workflow by ID",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "The ID of the workflow to execute"
+                },
+                "runData": {
+                    "type": "object",
+                    "description": "Optional data to pass to the workflow"
+                },
+                "instance": {
+                    "type": "string",
+                    "description": "Optional instance name to override automatic instance selection"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "create_workflow",
+        "description": "Create a new workflow in n8n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The name of the workflow to create"
+                },
+                "nodes": {
+                    "type": "array",
+                    "description": "Array of workflow nodes to create. Each node must have type and name.",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "type": {
+                                "type": "string",
+                                "description": "The node type (e.g. \"n8n-nodes-base.code\", \"n8n-nodes-base.httpRequest\")"
+                            },
+                            "name": {
+                                "type": "string",
+                                "description": "The display name of the node"
+                            },
+                            "parameters": {
+                                "type": "object",
+                                "description": "Node-specific configuration parameters"
+                            }
+                        },
+                        "required": [
+                            "type",
+                            "name"
+                        ]
+                    }
+                },
+                "connections": {
+                    "type": "array",
+                    "description": "Array of connections between nodes. Each connection defines how data flows from source to target node. This field is critical for workflow functionality. Without connections, the workflow nodes will not interact with each other. Example: [{\"source\":\"Node1\",\"target\":\"Node2\"}]",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "source": {
+                                "type": "string",
+                                "description": "The source node name or ID"
+                            },
+                            "target": {
+                                "type": "string",
+                                "description": "The target node name or ID"
+                            },
+                            "sourceOutput": {
+                                "type": "number",
+                                "default": 0,
+                                "description": "Output index from the source node (default: 0)"
+                            },
+                            "targetInput": {
+                                "type": "number",
+                                "default": 0,
+                                "description": "Input index of the target node (default: 0)"
+                            }
+                        },
+                        "required": [
+                            "source",
+                            "target"
+                        ]
+                    }
+                },
+                "instance": {
+                    "type": "string",
+                    "description": "Optional instance name to override automatic instance selection"
+                }
+            },
+            "required": [
+                "nodes",
+                "name",
+                "connections"
+            ]
+        }
+    },
+    {
+        "name": "get_workflow",
+        "description": "Get a workflow by ID",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "The ID of the workflow to retrieve"
+                },
+                "instance": {
+                    "type": "string",
+                    "description": "Optional instance name to override automatic instance selection"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "update_workflow",
+        "description": "Update an existing workflow",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "The ID of the workflow to update"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The new name for the workflow"
+                },
+                "nodes": {
+                    "type": "array",
+                    "description": "Array of workflow nodes. See create_workflow for detailed structure."
+                },
+                "connections": {
+                    "type": "array",
+                    "description": "Array of node connections. See create_workflow for detailed structure."
+                },
+                "instance": {
+                    "type": "string",
+                    "description": "Optional instance name to override automatic instance selection"
+                }
+            },
+            "required": [
+                "id",
+                "name",
+                "nodes"
+            ]
+        }
+    },
+    {
+        "name": "delete_workflow",
+        "description": "Delete a workflow by ID",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "The ID of the workflow to delete"
+                },
+                "instance": {
+                    "type": "string",
+                    "description": "Optional instance name to override automatic instance selection"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "activate_workflow",
+        "description": "Activate a workflow by ID",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "The ID of the workflow to activate"
+                },
+                "instance": {
+                    "type": "string",
+                    "description": "Optional instance name to override automatic instance selection"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "deactivate_workflow",
+        "description": "Deactivate a workflow by ID",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "The ID of the workflow to deactivate"
+                },
+                "instance": {
+                    "type": "string",
+                    "description": "Optional instance name to override automatic instance selection"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "list_executions",
+        "description": "List all executions from n8n with optional filters",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "includeData": {
+                    "type": "boolean",
+                    "description": "Whether to include execution data in the response"
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "error",
+                        "success",
+                        "waiting"
+                    ],
+                    "description": "Filter executions by status (error, success, or waiting)"
+                },
+                "workflowId": {
+                    "type": "string",
+                    "description": "Filter executions by workflow ID"
+                },
+                "projectId": {
+                    "type": "string",
+                    "description": "Filter executions by project ID"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of executions to return"
+                },
+                "cursor": {
+                    "type": "string",
+                    "description": "Cursor for pagination"
+                },
+                "instance": {
+                    "type": "string",
+                    "description": "Optional instance name to override automatic instance selection"
+                }
+            }
+        }
+    },
+    {
+        "name": "get_execution",
+        "description": "Get details of a specific execution by ID",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "number",
+                    "description": "The ID of the execution to retrieve"
+                },
+                "includeData": {
+                    "type": "boolean",
+                    "description": "Whether to include execution data in the response"
+                },
+                "instance": {
+                    "type": "string",
+                    "description": "Optional instance name to override automatic instance selection"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "delete_execution",
+        "description": "Delete an execution by ID",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "number",
+                    "description": "The ID of the execution to delete"
+                },
+                "instance": {
+                    "type": "string",
+                    "description": "Optional instance name to override automatic instance selection"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "create_tag",
+        "description": "Create a new tag",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The name of the tag to create"
+                },
+                "instance": {
+                    "type": "string",
+                    "description": "Optional instance name to override automatic instance selection"
+                }
+            },
+            "required": [
+                "name"
+            ]
+        }
+    },
+    {
+        "name": "get_tags",
+        "description": "Get all tags",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "cursor": {
+                    "type": "string",
+                    "description": "Cursor for pagination"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of tags to return"
+                },
+                "instance": {
+                    "type": "string",
+                    "description": "Optional instance name to override automatic instance selection"
+                }
+            }
+        }
+    },
+    {
+        "name": "get_tag",
+        "description": "Get a tag by ID",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "The ID of the tag to retrieve"
+                },
+                "instance": {
+                    "type": "string",
+                    "description": "Optional instance name to override automatic instance selection"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "update_tag",
+        "description": "Update a tag",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "The ID of the tag to update"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The new name for the tag"
+                },
+                "instance": {
+                    "type": "string",
+                    "description": "Optional instance name to override automatic instance selection"
+                }
+            },
+            "required": [
+                "id",
+                "name"
+            ]
+        }
+    },
+    {
+        "name": "delete_tag",
+        "description": "Delete a tag",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "The ID of the tag to delete"
+                },
+                "instance": {
+                    "type": "string",
+                    "description": "Optional instance name to override automatic instance selection"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    }
+]

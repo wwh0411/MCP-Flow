@@ -1,0 +1,94 @@
+[
+    {
+        "name": "atlas-docs-mcp_list_docs",
+        "description": "Lists all available documentation libraries and frameworks. Use this as your first step to discover available documentation sets. Returns name, description and source url for each documentation set. Required before using other documentation tools since you need the docName.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "atlas-docs-mcp_search_docs",
+        "description": "Searches a documentation set for specific content. Use this to find pages containing particular keywords, concepts, or topics. Returns matching pages ranked by relevance with their paths and descriptions. Follow up with get_docs_page to get full content.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "docName": {
+                    "type": "string",
+                    "description": "Name of the documentation set"
+                },
+                "query": {
+                    "type": "string",
+                    "description": "Search query to find relevant pages within the documentation set"
+                }
+            },
+            "required": [
+                "docName",
+                "query"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "atlas-docs-mcp_get_docs_index",
+        "description": "Retrieves a condensed, LLM-friendly index of the pages in a documentation set. Use this for initial exploration to understand what's covered and identify relevant pages. Returns a markdown page with a list of available pages. Follow up with get_docs_page to get full content.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "docName": {
+                    "type": "string",
+                    "description": "Name of the documentation set"
+                }
+            },
+            "required": [
+                "docName"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "atlas-docs-mcp_get_docs_page",
+        "description": "Retrieves a specific documentation page's content using its relative path. Use this to get detailed information about a known topic, after identifying the relevant page through get_docs_index or search_docs. Returns the complete content of a single documentation page.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "docName": {
+                    "type": "string",
+                    "description": "Name of the documentation set"
+                },
+                "pagePath": {
+                    "type": "string",
+                    "description": "The root-relative path of the specific documentation page (e.g., '/guides/getting-started', '/api/authentication')"
+                }
+            },
+            "required": [
+                "docName",
+                "pagePath"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "atlas-docs-mcp_get_docs_full",
+        "description": "Retrieves the complete documentation content in a single consolidated file. Use this when you need comprehensive knowledge or need to analyze the full documentation context. Returns a large volume of text - consider using get_docs_page or search_docs for targeted information.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "docName": {
+                    "type": "string",
+                    "description": "Name of the documentation set"
+                }
+            },
+            "required": [
+                "docName"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

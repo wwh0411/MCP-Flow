@@ -1,0 +1,315 @@
+[
+    {
+        "name": "finance-tools_get_ticker_data",
+        "description": "Get comprehensive report for ticker: overview, news, metrics, sector / industry valuation, performance, dates, analyst recommendations, and upgrades/downgrades.",
+        "parameters": {
+            "properties": {
+                "ticker": {
+                    "title": "Ticker",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ticker"
+            ],
+            "title": "get_ticker_dataArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "finance-tools_get_price_history",
+        "description": "Get historical price data digest for specified period. There're two kinds of response mode:\n1. The period mode. It will generate a digest for LLM consumption. Usually get at least 3 months, 6 months or more.\nThe response includes OCHLCV samples, Technical Indicators (by ta-lib) , Risk Metrics, and other quantitative analysis.\n2. The start_date and end_date mode. Once the start_date (yyyy-mm-dd) and end_date (yyyy-mm-dd) are specified, it will generate a raw OCHLCV data in the slot.\nAnd no digest will be generated in this mode. Useful for checking the price history of a specific short date range.\n",
+        "parameters": {
+            "properties": {
+                "ticker": {
+                    "title": "Ticker",
+                    "type": "string"
+                },
+                "period": {
+                    "default": "6mo",
+                    "enum": [
+                        "1d",
+                        "5d",
+                        "1mo",
+                        "3mo",
+                        "6mo",
+                        "1y",
+                        "2y",
+                        "5y",
+                        "10y",
+                        "ytd",
+                        "max"
+                    ],
+                    "title": "Period",
+                    "type": "string"
+                },
+                "start_date": {
+                    "default": "",
+                    "title": "Start Date",
+                    "type": "string"
+                },
+                "end_date": {
+                    "default": "",
+                    "title": "End Date",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ticker"
+            ],
+            "title": "get_price_historyArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "finance-tools_get_financial_statements",
+        "description": "Get financial statements. Types: income, balance, cash. Frequency: quarterly, annual.",
+        "parameters": {
+            "properties": {
+                "ticker": {
+                    "title": "Ticker",
+                    "type": "string"
+                },
+                "statement_type": {
+                    "default": "income",
+                    "enum": [
+                        "income",
+                        "balance",
+                        "cash"
+                    ],
+                    "title": "Statement Type",
+                    "type": "string"
+                },
+                "frequency": {
+                    "default": "quarterly",
+                    "enum": [
+                        "quarterly",
+                        "annual"
+                    ],
+                    "title": "Frequency",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ticker"
+            ],
+            "title": "get_financial_statementsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "finance-tools_get_earnings_history",
+        "description": "Get earnings history with estimates and surprises.",
+        "parameters": {
+            "properties": {
+                "ticker": {
+                    "title": "Ticker",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ticker"
+            ],
+            "title": "get_earnings_historyArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "finance-tools_get_ticker_news_tool",
+        "description": "For getting yahoo financial news of a ticker. Useful for getting latest news, especially for doing deep research.",
+        "parameters": {
+            "properties": {
+                "ticker": {
+                    "title": "Ticker",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ticker"
+            ],
+            "title": "get_ticker_news_toolArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "finance-tools_super_option_tool",
+        "description": "\nAnalyzes and summarizes option data for a given ticker.\n\nThis function retrieves option indicators and Greeks for the specified ticker,\ngenerates a digest summarizing key metrics, and formats a table of key option\ndata including last trade date, strike, option type, open interest, volume,\nand implied volatility.\n\nArgs:\n    ticker: Stock ticker symbol.\n\n",
+        "parameters": {
+            "properties": {
+                "ticker": {
+                    "title": "Ticker",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ticker"
+            ],
+            "title": "super_option_toolArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "finance-tools_get_top25_holders",
+        "description": "\nGet top 25 institutional holders and their changes for a given stock ticker.\n",
+        "parameters": {
+            "properties": {
+                "ticker": {
+                    "title": "Ticker",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ticker"
+            ],
+            "title": "get_top25_holdersArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "finance-tools_get_insider_trades",
+        "description": "\nGet recent insider trading activity.\n",
+        "parameters": {
+            "properties": {
+                "ticker": {
+                    "title": "Ticker",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ticker"
+            ],
+            "title": "get_insider_tradesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "finance-tools_get_overall_sentiment_tool",
+        "description": "\nGet comprehensive market sentiment indicators including:\n- CNN Fear & Greed Index (score and rating)\n- Market RSI (Relative Strength Index)\n- VIX (Volatility Index)\n\nReturns:\n    str: Formatted string containing all three indicators with their current values\n",
+        "parameters": {
+            "properties": {},
+            "title": "get_overall_sentiment_toolArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "finance-tools_get_historical_fng_tool",
+        "description": "\nGet historical CNN Fear & Greed Index data for a specified number of days.\n\nParameters:\n    days (int): Number of days of historical data to retrieve (limited by the API).\n\nReturns:\n    str: Historical Fear & Greed Index values for the specified period.\n",
+        "parameters": {
+            "properties": {
+                "days": {
+                    "title": "Days",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "days"
+            ],
+            "title": "get_historical_fng_toolArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "finance-tools_analyze_fng_trend",
+        "description": "\nAnalyze trends in CNN Fear & Greed Index over specified days.\n\nParameters:\n    days (int): Number of days to analyze (limited by available data).\n\nReturns:\n    str: A string containing the analysis results, including latest value,\n         average value, trend direction, and number of data points analyzed.\n",
+        "parameters": {
+            "properties": {
+                "days": {
+                    "title": "Days",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "days"
+            ],
+            "title": "analyze_fng_trendArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "finance-tools_calculate",
+        "description": "Calculate the result of a mathematical expression. Support python math syntax and numpy.\n> \"2 * 3 + 4\"\n> \"sin(pi/2)\"\n> \"sqrt(16)\"\n> \"np.mean([1, 2, 3])\"\n",
+        "parameters": {
+            "properties": {
+                "expression": {
+                    "title": "Expression",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "expression"
+            ],
+            "title": "calculateArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "finance-tools_get_current_time",
+        "description": "Get the current time in ISO 8601 format.",
+        "parameters": {
+            "properties": {},
+            "title": "get_current_timeArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "finance-tools_get_fred_series",
+        "description": "Get a FRED series by its ID. However the data is not always the latest, so use with caution!!!",
+        "parameters": {
+            "properties": {
+                "series_id": {
+                    "title": "series_id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "series_id"
+            ],
+            "title": "get_fred_seriesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "finance-tools_search_fred_series",
+        "description": "Search for the most popular FRED series by keyword. Useful for finding key data by name. Like GDP, CPI, etc. However the data is not always the latest.  ",
+        "parameters": {
+            "properties": {
+                "query": {
+                    "title": "query",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "title": "search_fred_seriesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "finance-tools_cnbc_news_feed",
+        "description": "Get the latest breaking stock market news from CNBC. Useful to have an overview for the day. Include the Fed rate prediction from Fed watch and key macro indicators. ",
+        "parameters": {
+            "properties": {},
+            "title": "cnbc_news_feedArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "finance-tools_social_media_feed",
+        "description": "Get most discussed stocks and investments opinions from reddit. Useful to know what investors are talking about. \nkeywords is optional. Set keywords to match the specific topic you are interested in, by 'OR' operator, e.g. ['tsla', 'tesla'],  ['tesla', 'spacex'], ['AAPL', 'apple', 'tim cook', 'cook']\nNo keywords will return the most discussed stocks and investments. ",
+        "parameters": {
+            "properties": {
+                "keywords": {
+                    "default": null,
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Keywords",
+                    "type": "array"
+                }
+            },
+            "title": "social_media_feedArguments",
+            "type": "object"
+        }
+    }
+]

@@ -1,0 +1,4232 @@
+[
+    {
+        "name": "miro_list-boards",
+        "description": "List all available Miro boards",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of boards to return (default: 50)"
+                },
+                "offset": {
+                    "type": "number",
+                    "description": "Offset for pagination (default: 0)"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_create-board",
+        "description": "Create a new Miro board with specified name and sharing policies",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Name of the board to create"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description of the board"
+                },
+                "sharingPolicy": {
+                    "type": "string",
+                    "enum": [
+                        "private",
+                        "view",
+                        "comment",
+                        "edit"
+                    ],
+                    "description": "Sharing policy for the board"
+                },
+                "teamId": {
+                    "type": "string",
+                    "description": "Team ID to assign the board to"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_update-board",
+        "description": "Update an existing Miro board with new settings",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that you want to update"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "New name for the board"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "New description for the board"
+                },
+                "sharingPolicy": {
+                    "type": "string",
+                    "enum": [
+                        "private",
+                        "view",
+                        "comment",
+                        "edit"
+                    ],
+                    "description": "New sharing policy for the board"
+                },
+                "teamId": {
+                    "type": "string",
+                    "description": "New team ID to assign the board to"
+                }
+            },
+            "required": [
+                "boardId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_delete-board",
+        "description": "Delete a Miro board by its ID. Deleted boards go to Trash (on paid plans) and can be restored via UI within 90 days after deletion.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that you want to delete"
+                }
+            },
+            "required": [
+                "boardId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_copy-board",
+        "description": "Create a copy of an existing Miro board with optional new settings",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "copyFrom": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that you want to copy"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name for the new copied board"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description for the new copied board"
+                },
+                "sharingPolicy": {
+                    "type": "string",
+                    "enum": [
+                        "private",
+                        "view",
+                        "comment",
+                        "edit"
+                    ],
+                    "description": "Sharing policy for the new copied board"
+                },
+                "teamId": {
+                    "type": "string",
+                    "description": "Team ID to assign the new copied board to"
+                }
+            },
+            "required": [
+                "copyFrom"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-specific-board",
+        "description": "Retrieve information about a specific Miro board by its ID",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that you want to retrieve"
+                }
+            },
+            "required": [
+                "boardId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-items-on-board",
+        "description": "Retrieve all items on a specific Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board whose items you want to retrieve"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of items to return (default: 50)"
+                },
+                "offset": {
+                    "type": "number",
+                    "description": "Offset for pagination (default: 0)"
+                }
+            },
+            "required": [
+                "boardId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-specific-item",
+        "description": "Retrieve information about a specific item on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the item"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the item that you want to retrieve"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_update-item-position",
+        "description": "Update the position or parent of a specific item on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the item"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the item that you want to update"
+                },
+                "position": {
+                    "type": "object",
+                    "properties": {
+                        "x": {
+                            "type": "number",
+                            "description": "X coordinate of the item"
+                        },
+                        "y": {
+                            "type": "number",
+                            "description": "Y coordinate of the item"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "New position coordinates for the item"
+                },
+                "parentId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the new parent item"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_delete-item",
+        "description": "Delete a specific item from a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the item"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the item that you want to delete"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_create-app-card-item",
+        "description": "Create a new app card item on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board where the app card will be created"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "title": {
+                            "type": "string",
+                            "description": "Title of the app card"
+                        },
+                        "description": {
+                            "type": "string",
+                            "description": "Description of the app card"
+                        },
+                        "status": {
+                            "type": "string",
+                            "description": "Status text of the app card"
+                        },
+                        "fields": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "value": {
+                                        "type": "string",
+                                        "description": "Value of the field"
+                                    },
+                                    "iconShape": {
+                                        "type": "string",
+                                        "description": "Shape of the icon"
+                                    },
+                                    "fillColor": {
+                                        "type": "string",
+                                        "description": "Fill color of the field"
+                                    },
+                                    "textColor": {
+                                        "type": "string",
+                                        "description": "Color of the text"
+                                    }
+                                },
+                                "required": [
+                                    "value"
+                                ],
+                                "additionalProperties": false
+                            },
+                            "description": "Custom fields to display on the app card"
+                        }
+                    },
+                    "required": [
+                        "title"
+                    ],
+                    "additionalProperties": false,
+                    "description": "The content and configuration of the app card"
+                },
+                "position": {
+                    "type": "object",
+                    "properties": {
+                        "x": {
+                            "type": "number",
+                            "description": "X coordinate of the app card"
+                        },
+                        "y": {
+                            "type": "number",
+                            "description": "Y coordinate of the app card"
+                        }
+                    },
+                    "required": [
+                        "x",
+                        "y"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Position of the app card on the board"
+                },
+                "geometry": {
+                    "type": "object",
+                    "properties": {
+                        "width": {
+                            "type": "number",
+                            "description": "Width of the app card"
+                        },
+                        "height": {
+                            "type": "number",
+                            "description": "Height of the app card"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Dimensions of the app card"
+                }
+            },
+            "required": [
+                "boardId",
+                "data",
+                "position"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-app-card-item",
+        "description": "Retrieve information about a specific app card item on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the app card"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the app card that you want to retrieve"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_update-app-card-item",
+        "description": "Update an existing app card item on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the app card"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the app card that you want to update"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "title": {
+                            "type": "string",
+                            "description": "Updated title of the app card"
+                        },
+                        "description": {
+                            "type": "string",
+                            "description": "Updated description of the app card"
+                        },
+                        "status": {
+                            "type": "string",
+                            "description": "Updated status text of the app card"
+                        },
+                        "fields": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "value": {
+                                        "type": "string",
+                                        "description": "Value of the field"
+                                    },
+                                    "iconShape": {
+                                        "type": "string",
+                                        "description": "Shape of the icon"
+                                    },
+                                    "fillColor": {
+                                        "type": "string",
+                                        "description": "Fill color of the field"
+                                    },
+                                    "textColor": {
+                                        "type": "string",
+                                        "description": "Color of the text"
+                                    }
+                                },
+                                "required": [
+                                    "value"
+                                ],
+                                "additionalProperties": false
+                            },
+                            "description": "Updated custom fields to display on the app card"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "The updated content and configuration of the app card"
+                },
+                "position": {
+                    "type": "object",
+                    "properties": {
+                        "x": {
+                            "type": "number",
+                            "description": "Updated X coordinate of the app card"
+                        },
+                        "y": {
+                            "type": "number",
+                            "description": "Updated Y coordinate of the app card"
+                        }
+                    },
+                    "required": [
+                        "x",
+                        "y"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Updated position of the app card on the board"
+                },
+                "geometry": {
+                    "type": "object",
+                    "properties": {
+                        "width": {
+                            "type": "number",
+                            "description": "Updated width of the app card"
+                        },
+                        "height": {
+                            "type": "number",
+                            "description": "Updated height of the app card"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Updated dimensions of the app card"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_delete-app-card-item",
+        "description": "Delete a specific app card item from a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the app card"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the app card that you want to delete"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_create-card-item",
+        "description": "Create a new card item on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board where the card will be created"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "title": {
+                            "type": "string",
+                            "description": "Title of the card"
+                        },
+                        "description": {
+                            "type": "string",
+                            "description": "Description of the card"
+                        },
+                        "assigneeId": {
+                            "type": "string",
+                            "description": "User ID of the assignee"
+                        },
+                        "dueDate": {
+                            "type": "string",
+                            "description": "Due date for the card (ISO 8601 format)"
+                        }
+                    },
+                    "required": [
+                        "title"
+                    ],
+                    "additionalProperties": false,
+                    "description": "The content and configuration of the card"
+                },
+                "position": {
+                    "type": "object",
+                    "properties": {
+                        "x": {
+                            "type": "number",
+                            "description": "X coordinate of the card"
+                        },
+                        "y": {
+                            "type": "number",
+                            "description": "Y coordinate of the card"
+                        }
+                    },
+                    "required": [
+                        "x",
+                        "y"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Position of the card on the board"
+                },
+                "geometry": {
+                    "type": "object",
+                    "properties": {
+                        "width": {
+                            "type": "number",
+                            "description": "Width of the card"
+                        },
+                        "height": {
+                            "type": "number",
+                            "description": "Height of the card"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Dimensions of the card"
+                },
+                "style": {
+                    "type": "object",
+                    "properties": {
+                        "fillColor": {
+                            "type": "string",
+                            "description": "Fill color of the card"
+                        },
+                        "textColor": {
+                            "type": "string",
+                            "description": "Color of the text on the card"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Style configuration of the card"
+                }
+            },
+            "required": [
+                "boardId",
+                "data",
+                "position"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-card-item",
+        "description": "Retrieve information about a specific card item on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the card"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the card that you want to retrieve"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_update-card-item",
+        "description": "Update an existing card item on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the card"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the card that you want to update"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "title": {
+                            "type": "string",
+                            "description": "Updated title of the card"
+                        },
+                        "description": {
+                            "type": "string",
+                            "description": "Updated description of the card"
+                        },
+                        "assigneeId": {
+                            "type": "string",
+                            "description": "Updated user ID of the assignee"
+                        },
+                        "dueDate": {
+                            "type": "string",
+                            "description": "Updated due date for the card (ISO 8601 format)"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "The updated content and configuration of the card"
+                },
+                "position": {
+                    "type": "object",
+                    "properties": {
+                        "x": {
+                            "type": "number",
+                            "description": "Updated X coordinate of the card"
+                        },
+                        "y": {
+                            "type": "number",
+                            "description": "Updated Y coordinate of the card"
+                        }
+                    },
+                    "required": [
+                        "x",
+                        "y"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Updated position of the card on the board"
+                },
+                "geometry": {
+                    "type": "object",
+                    "properties": {
+                        "width": {
+                            "type": "number",
+                            "description": "Updated width of the card"
+                        },
+                        "height": {
+                            "type": "number",
+                            "description": "Updated height of the card"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Updated dimensions of the card"
+                },
+                "style": {
+                    "type": "object",
+                    "properties": {
+                        "fillColor": {
+                            "type": "string",
+                            "description": "Updated fill color of the card"
+                        },
+                        "textColor": {
+                            "type": "string",
+                            "description": "Updated color of the text on the card"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Updated style configuration of the card"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_delete-card-item",
+        "description": "Delete a specific card item from a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the card"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the card that you want to delete"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_create-connector",
+        "description": "Create a new connector between items on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board where the connector will be created"
+                },
+                "startItem": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string",
+                            "description": "ID of the item at the start of the connector"
+                        }
+                    },
+                    "required": [
+                        "id"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Start item of the connector"
+                },
+                "endItem": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string",
+                            "description": "ID of the item at the end of the connector"
+                        }
+                    },
+                    "required": [
+                        "id"
+                    ],
+                    "additionalProperties": false,
+                    "description": "End item of the connector"
+                },
+                "style": {
+                    "type": "object",
+                    "properties": {
+                        "strokeColor": {
+                            "type": "string",
+                            "description": "Color of the connector stroke"
+                        },
+                        "strokeWidth": {
+                            "type": "number",
+                            "description": "Width of the connector stroke"
+                        },
+                        "strokeStyle": {
+                            "type": "string",
+                            "description": "Style of the connector stroke (normal, dashed, etc.)"
+                        },
+                        "startStrokeCap": {
+                            "type": "string",
+                            "description": "Start stroke cap style"
+                        },
+                        "endStrokeCap": {
+                            "type": "string",
+                            "description": "End stroke cap style"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Style configuration of the connector"
+                }
+            },
+            "required": [
+                "boardId",
+                "startItem",
+                "endItem"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-connectors",
+        "description": "Retrieve all connectors on a specific Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board whose connectors you want to retrieve"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of connectors to return (default: 50)"
+                },
+                "cursor": {
+                    "type": "string",
+                    "description": "Cursor for pagination"
+                }
+            },
+            "required": [
+                "boardId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-specific-connector",
+        "description": "Retrieve information about a specific connector on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the connector"
+                },
+                "connectorId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the connector that you want to retrieve"
+                }
+            },
+            "required": [
+                "boardId",
+                "connectorId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_update-connector",
+        "description": "Update an existing connector on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the connector"
+                },
+                "connectorId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the connector that you want to update"
+                },
+                "startItem": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string",
+                            "description": "ID of the item at the start of the connector"
+                        }
+                    },
+                    "required": [
+                        "id"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Start item of the connector"
+                },
+                "endItem": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string",
+                            "description": "ID of the item at the end of the connector"
+                        }
+                    },
+                    "required": [
+                        "id"
+                    ],
+                    "additionalProperties": false,
+                    "description": "End item of the connector"
+                },
+                "style": {
+                    "type": "object",
+                    "properties": {
+                        "strokeColor": {
+                            "type": "string",
+                            "description": "Updated color of the connector stroke"
+                        },
+                        "strokeWidth": {
+                            "type": "number",
+                            "description": "Updated width of the connector stroke"
+                        },
+                        "strokeStyle": {
+                            "type": "string",
+                            "description": "Updated style of the connector stroke (normal, dashed, etc.)"
+                        },
+                        "startStrokeCap": {
+                            "type": "string",
+                            "description": "Updated start stroke cap style"
+                        },
+                        "endStrokeCap": {
+                            "type": "string",
+                            "description": "Updated end stroke cap style"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Updated style configuration of the connector"
+                }
+            },
+            "required": [
+                "boardId",
+                "connectorId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_delete-connector",
+        "description": "Delete a specific connector from a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the connector"
+                },
+                "connectorId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the connector that you want to delete"
+                }
+            },
+            "required": [
+                "boardId",
+                "connectorId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_create-sticky-note-item",
+        "description": "Create a new sticky note item on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board where the sticky note will be created"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "content": {
+                            "type": "string",
+                            "description": "Text content of the sticky note"
+                        },
+                        "shape": {
+                            "type": "string",
+                            "description": "Shape of the sticky note (square, rectangle, circle, triangle, rhombus)"
+                        }
+                    },
+                    "required": [
+                        "content"
+                    ],
+                    "additionalProperties": false,
+                    "description": "The content and configuration of the sticky note"
+                },
+                "position": {
+                    "type": "object",
+                    "properties": {
+                        "x": {
+                            "type": "number",
+                            "description": "X coordinate of the sticky note"
+                        },
+                        "y": {
+                            "type": "number",
+                            "description": "Y coordinate of the sticky note"
+                        },
+                        "origin": {
+                            "type": "string",
+                            "description": "Origin of the sticky note (center, top-left, etc.)"
+                        },
+                        "relativeTo": {
+                            "type": "string",
+                            "description": "Reference point (canvas_center, etc.)"
+                        }
+                    },
+                    "required": [
+                        "x",
+                        "y"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Position of the sticky note on the board"
+                },
+                "geometry": {
+                    "type": "object",
+                    "properties": {
+                        "width": {
+                            "type": "number",
+                            "description": "Width of the sticky note"
+                        },
+                        "height": {
+                            "type": "number",
+                            "description": "Height of the sticky note"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Dimensions of the sticky note"
+                },
+                "style": {
+                    "type": "object",
+                    "properties": {
+                        "fillColor": {
+                            "type": "string",
+                            "description": "Fill color of the sticky note (use predefined values like 'light_yellow', 'light_green', etc.)"
+                        },
+                        "textAlign": {
+                            "type": "string",
+                            "description": "Alignment of the text (left, center, right)"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Style configuration of the sticky note"
+                }
+            },
+            "required": [
+                "boardId",
+                "data",
+                "position"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-sticky-note-item",
+        "description": "Retrieve information about a specific sticky note item on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the sticky note"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the sticky note that you want to retrieve"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_update-sticky-note-item",
+        "description": "Update an existing sticky note item on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the sticky note"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the sticky note that you want to update"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "content": {
+                            "type": "string",
+                            "description": "Updated text content of the sticky note"
+                        },
+                        "shape": {
+                            "type": "string",
+                            "description": "Updated shape of the sticky note (square, rectangle, circle, triangle, rhombus)"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Updated content and configuration of the sticky note"
+                },
+                "position": {
+                    "type": "object",
+                    "properties": {
+                        "x": {
+                            "type": "number",
+                            "description": "Updated X coordinate of the sticky note"
+                        },
+                        "y": {
+                            "type": "number",
+                            "description": "Updated Y coordinate of the sticky note"
+                        },
+                        "origin": {
+                            "type": "string",
+                            "description": "Origin of the sticky note (center, top-left, etc.)"
+                        },
+                        "relativeTo": {
+                            "type": "string",
+                            "description": "Reference point (canvas_center, etc.)"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Updated position of the sticky note on the board"
+                },
+                "geometry": {
+                    "type": "object",
+                    "properties": {
+                        "width": {
+                            "type": "number",
+                            "description": "Updated width of the sticky note"
+                        },
+                        "height": {
+                            "type": "number",
+                            "description": "Updated height of the sticky note"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Updated dimensions of the sticky note"
+                },
+                "style": {
+                    "type": "object",
+                    "properties": {
+                        "fillColor": {
+                            "type": "string",
+                            "description": "Updated fill color of the sticky note (use predefined values)"
+                        },
+                        "textAlign": {
+                            "type": "string",
+                            "description": "Updated alignment of the text (left, center, right)"
+                        },
+                        "textColor": {
+                            "type": "string",
+                            "description": "Updated color of the text on the sticky note"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Updated style configuration of the sticky note"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_delete-sticky-note-item",
+        "description": "Delete a specific sticky note item from a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the sticky note"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the sticky note that you want to delete"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_create-frame",
+        "description": "Create a new frame on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board where the frame will be created"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "title": {
+                            "type": "string",
+                            "description": "Title of the frame. This title appears at the top of the frame."
+                        },
+                        "format": {
+                            "type": "string",
+                            "description": "Format of the frame. Only 'custom' is supported currently."
+                        },
+                        "type": {
+                            "type": "string",
+                            "description": "Type of the frame. Only 'freeform' is supported currently."
+                        },
+                        "showContent": {
+                            "type": "boolean",
+                            "description": "Hide or reveal the content inside a frame (Enterprise plan only)."
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "The content and configuration of the frame"
+                },
+                "position": {
+                    "type": "object",
+                    "properties": {
+                        "x": {
+                            "type": "number",
+                            "description": "X coordinate of the frame"
+                        },
+                        "y": {
+                            "type": "number",
+                            "description": "Y coordinate of the frame"
+                        }
+                    },
+                    "required": [
+                        "x",
+                        "y"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Position of the frame on the board"
+                },
+                "geometry": {
+                    "type": "object",
+                    "properties": {
+                        "width": {
+                            "type": "number",
+                            "description": "Width of the frame"
+                        },
+                        "height": {
+                            "type": "number",
+                            "description": "Height of the frame"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Dimensions of the frame"
+                },
+                "style": {
+                    "type": "object",
+                    "properties": {
+                        "fillColor": {
+                            "type": "string",
+                            "description": "Fill color for the frame. Hex values like #f5f6f8, #d5f692, etc."
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Style configuration of the frame"
+                }
+            },
+            "required": [
+                "boardId",
+                "data",
+                "position"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-frame-item",
+        "description": "Retrieve information for a specific frame on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the frame that you want to retrieve"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the frame that you want to retrieve"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_update-frame-item",
+        "description": "Update a frame on a Miro board based on the data, style, or geometry properties provided in the request body",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board where you want to update the frame"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the frame that you want to update"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "title": {
+                            "type": "string",
+                            "description": "Title of the frame. This title appears at the top of the frame."
+                        },
+                        "format": {
+                            "type": "string",
+                            "description": "Format of the frame. Only 'custom' is supported currently."
+                        },
+                        "type": {
+                            "type": "string",
+                            "description": "Type of the frame. Only 'freeform' is supported currently."
+                        },
+                        "showContent": {
+                            "type": "boolean",
+                            "description": "Hide or reveal the content inside a frame (Enterprise plan only)."
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "The updated content and configuration of the frame"
+                },
+                "position": {
+                    "type": "object",
+                    "properties": {
+                        "x": {
+                            "type": "number",
+                            "description": "X coordinate of the frame"
+                        },
+                        "y": {
+                            "type": "number",
+                            "description": "Y coordinate of the frame"
+                        }
+                    },
+                    "required": [
+                        "x",
+                        "y"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Updated position of the frame on the board"
+                },
+                "geometry": {
+                    "type": "object",
+                    "properties": {
+                        "width": {
+                            "type": "number",
+                            "description": "Width of the frame"
+                        },
+                        "height": {
+                            "type": "number",
+                            "description": "Height of the frame"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Updated dimensions of the frame"
+                },
+                "style": {
+                    "type": "object",
+                    "properties": {
+                        "fillColor": {
+                            "type": "string",
+                            "description": "Fill color for the frame. Hex values like #f5f6f8, #d5f692, etc."
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Updated style configuration of the frame"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_delete-frame-item",
+        "description": "Delete a frame from a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board from which you want to delete the frame"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the frame that you want to delete"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_create-document-item",
+        "description": "Create a new document item on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board where the document will be created"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "url": {
+                            "type": "string",
+                            "description": "URL of the document to be added to the board"
+                        },
+                        "title": {
+                            "type": "string",
+                            "description": "Title of the document"
+                        }
+                    },
+                    "required": [
+                        "url"
+                    ],
+                    "additionalProperties": false,
+                    "description": "The content and configuration of the document"
+                },
+                "position": {
+                    "type": "object",
+                    "properties": {
+                        "x": {
+                            "type": "number",
+                            "description": "X coordinate of the document"
+                        },
+                        "y": {
+                            "type": "number",
+                            "description": "Y coordinate of the document"
+                        }
+                    },
+                    "required": [
+                        "x",
+                        "y"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Position of the document on the board"
+                },
+                "geometry": {
+                    "type": "object",
+                    "properties": {
+                        "width": {
+                            "type": "number",
+                            "description": "Width of the document"
+                        },
+                        "height": {
+                            "type": "number",
+                            "description": "Height of the document"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Dimensions of the document"
+                }
+            },
+            "required": [
+                "boardId",
+                "data",
+                "position"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-document-item",
+        "description": "Retrieve information about a specific document item on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the document"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the document that you want to retrieve"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_update-document-item",
+        "description": "Update an existing document item on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the document"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the document that you want to update"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "url": {
+                            "type": "string",
+                            "description": "Updated URL of the document"
+                        },
+                        "title": {
+                            "type": "string",
+                            "description": "Updated title of the document"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "The updated content and configuration of the document"
+                },
+                "position": {
+                    "type": "object",
+                    "properties": {
+                        "x": {
+                            "type": "number",
+                            "description": "Updated X coordinate of the document"
+                        },
+                        "y": {
+                            "type": "number",
+                            "description": "Updated Y coordinate of the document"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Updated position of the document on the board"
+                },
+                "geometry": {
+                    "type": "object",
+                    "properties": {
+                        "width": {
+                            "type": "number",
+                            "description": "Updated width of the document"
+                        },
+                        "height": {
+                            "type": "number",
+                            "description": "Updated height of the document"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Updated dimensions of the document"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_delete-document-item",
+        "description": "Delete a specific document item from a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the document"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the document that you want to delete"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_create-text-item",
+        "description": "Create a new text item on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board where the text will be created"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "content": {
+                            "type": "string",
+                            "description": "Text content of the text item"
+                        }
+                    },
+                    "required": [
+                        "content"
+                    ],
+                    "additionalProperties": false,
+                    "description": "The content of the text item"
+                },
+                "position": {
+                    "type": "object",
+                    "properties": {
+                        "x": {
+                            "type": "number",
+                            "description": "X coordinate of the text item"
+                        },
+                        "y": {
+                            "type": "number",
+                            "description": "Y coordinate of the text item"
+                        }
+                    },
+                    "required": [
+                        "x",
+                        "y"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Position of the text item on the board"
+                },
+                "geometry": {
+                    "type": "object",
+                    "properties": {
+                        "width": {
+                            "type": "number",
+                            "description": "Width of the text item"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Dimensions of the text item"
+                },
+                "style": {
+                    "type": "object",
+                    "properties": {
+                        "color": {
+                            "type": "string",
+                            "description": "Color of the text"
+                        },
+                        "fontSize": {
+                            "type": "number",
+                            "description": "Font size of the text"
+                        },
+                        "textAlign": {
+                            "type": "string",
+                            "description": "Alignment of the text (left, center, right)"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Style configuration of the text item"
+                }
+            },
+            "required": [
+                "boardId",
+                "data",
+                "position"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-text-item",
+        "description": "Retrieve information about a specific text item on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the text item"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the text item that you want to retrieve"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_update-text-item",
+        "description": "Update an existing text item on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the text item"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the text item that you want to update"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "content": {
+                            "type": "string",
+                            "description": "Updated text content of the text item"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "The updated content of the text item"
+                },
+                "position": {
+                    "type": "object",
+                    "properties": {
+                        "x": {
+                            "type": "number",
+                            "description": "Updated X coordinate of the text item"
+                        },
+                        "y": {
+                            "type": "number",
+                            "description": "Updated Y coordinate of the text item"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Updated position of the text item on the board"
+                },
+                "geometry": {
+                    "type": "object",
+                    "properties": {
+                        "width": {
+                            "type": "number",
+                            "description": "Updated width of the text item"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Updated dimensions of the text item"
+                },
+                "style": {
+                    "type": "object",
+                    "properties": {
+                        "color": {
+                            "type": "string",
+                            "description": "Updated color of the text"
+                        },
+                        "fontSize": {
+                            "type": "number",
+                            "description": "Updated font size of the text"
+                        },
+                        "textAlign": {
+                            "type": "string",
+                            "description": "Updated alignment of the text (left, center, right)"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Updated style configuration of the text item"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_delete-text-item",
+        "description": "Delete a specific text item from a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the text item"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the text item that you want to delete"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_create-items-in-bulk",
+        "description": "Create multiple items on a Miro board in a single operation",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board where the items will be created"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "const": "sticky_note"
+                                    },
+                                    "data": {
+                                        "type": "object",
+                                        "properties": {
+                                            "content": {
+                                                "type": "string",
+                                                "description": "Text content of the sticky note"
+                                            },
+                                            "shape": {
+                                                "type": "string",
+                                                "enum": [
+                                                    "square",
+                                                    "rectangle"
+                                                ],
+                                                "description": "Shape of the sticky note"
+                                            }
+                                        },
+                                        "required": [
+                                            "content"
+                                        ],
+                                        "additionalProperties": false
+                                    },
+                                    "position": {
+                                        "type": "object",
+                                        "properties": {
+                                            "x": {
+                                                "type": "number",
+                                                "description": "X coordinate"
+                                            },
+                                            "y": {
+                                                "type": "number",
+                                                "description": "Y coordinate"
+                                            }
+                                        },
+                                        "required": [
+                                            "x",
+                                            "y"
+                                        ],
+                                        "additionalProperties": false
+                                    },
+                                    "style": {
+                                        "type": "object",
+                                        "properties": {
+                                            "fillColor": {
+                                                "type": "string",
+                                                "description": "Fill color of the sticky note"
+                                            },
+                                            "textAlign": {
+                                                "type": "string",
+                                                "enum": [
+                                                    "left",
+                                                    "center",
+                                                    "right"
+                                                ],
+                                                "description": "Text alignment"
+                                            }
+                                        },
+                                        "additionalProperties": false
+                                    }
+                                },
+                                "required": [
+                                    "type",
+                                    "data",
+                                    "position"
+                                ],
+                                "additionalProperties": false
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "const": "card"
+                                    },
+                                    "data": {
+                                        "type": "object",
+                                        "properties": {
+                                            "title": {
+                                                "type": "string",
+                                                "description": "Title of the card"
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "Description of the card"
+                                            },
+                                            "assigneeId": {
+                                                "type": "string",
+                                                "description": "User ID of the assignee"
+                                            },
+                                            "dueDate": {
+                                                "type": "string",
+                                                "description": "Due date in ISO 8601 format"
+                                            }
+                                        },
+                                        "required": [
+                                            "title"
+                                        ],
+                                        "additionalProperties": false
+                                    },
+                                    "position": {
+                                        "type": "object",
+                                        "properties": {
+                                            "x": {
+                                                "type": "number",
+                                                "description": "X coordinate"
+                                            },
+                                            "y": {
+                                                "type": "number",
+                                                "description": "Y coordinate"
+                                            }
+                                        },
+                                        "required": [
+                                            "x",
+                                            "y"
+                                        ],
+                                        "additionalProperties": false
+                                    },
+                                    "style": {
+                                        "type": "object",
+                                        "properties": {
+                                            "fillColor": {
+                                                "type": "string",
+                                                "description": "Fill color"
+                                            },
+                                            "textColor": {
+                                                "type": "string",
+                                                "description": "Text color"
+                                            }
+                                        },
+                                        "additionalProperties": false
+                                    }
+                                },
+                                "required": [
+                                    "type",
+                                    "data",
+                                    "position"
+                                ],
+                                "additionalProperties": false
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "const": "text"
+                                    },
+                                    "data": {
+                                        "type": "object",
+                                        "properties": {
+                                            "content": {
+                                                "type": "string",
+                                                "description": "Text content"
+                                            }
+                                        },
+                                        "required": [
+                                            "content"
+                                        ],
+                                        "additionalProperties": false
+                                    },
+                                    "position": {
+                                        "type": "object",
+                                        "properties": {
+                                            "x": {
+                                                "type": "number",
+                                                "description": "X coordinate"
+                                            },
+                                            "y": {
+                                                "type": "number",
+                                                "description": "Y coordinate"
+                                            }
+                                        },
+                                        "required": [
+                                            "x",
+                                            "y"
+                                        ],
+                                        "additionalProperties": false
+                                    },
+                                    "style": {
+                                        "type": "object",
+                                        "properties": {
+                                            "color": {
+                                                "type": "string",
+                                                "description": "Text color (hex format, e.g. #000000)"
+                                            },
+                                            "fontSize": {
+                                                "type": "number",
+                                                "description": "Font size"
+                                            },
+                                            "textAlign": {
+                                                "type": "string",
+                                                "enum": [
+                                                    "left",
+                                                    "center",
+                                                    "right"
+                                                ],
+                                                "description": "Text alignment"
+                                            }
+                                        },
+                                        "additionalProperties": false
+                                    }
+                                },
+                                "required": [
+                                    "type",
+                                    "data",
+                                    "position"
+                                ],
+                                "additionalProperties": false
+                            }
+                        ]
+                    },
+                    "description": "Array of items to create"
+                }
+            },
+            "required": [
+                "boardId",
+                "items"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_create-image-item-using-url",
+        "description": "Create a new image item on a Miro board using a URL",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board where the image will be created"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "url": {
+                            "type": "string",
+                            "description": "URL of the image to be added to the board"
+                        },
+                        "title": {
+                            "type": "string",
+                            "description": "Title of the image"
+                        }
+                    },
+                    "required": [
+                        "url"
+                    ],
+                    "additionalProperties": false,
+                    "description": "The content and configuration of the image"
+                },
+                "position": {
+                    "type": "object",
+                    "properties": {
+                        "x": {
+                            "type": "number",
+                            "description": "X coordinate of the image"
+                        },
+                        "y": {
+                            "type": "number",
+                            "description": "Y coordinate of the image"
+                        },
+                        "origin": {
+                            "type": "string",
+                            "description": "Origin of the image (center, top-left, etc.)"
+                        },
+                        "relativeTo": {
+                            "type": "string",
+                            "description": "Reference point (canvas_center, etc.)"
+                        }
+                    },
+                    "required": [
+                        "x",
+                        "y"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Position of the image on the board"
+                },
+                "geometry": {
+                    "type": "object",
+                    "properties": {
+                        "width": {
+                            "type": "number",
+                            "description": "Width of the image"
+                        },
+                        "height": {
+                            "type": "number",
+                            "description": "Height of the image"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Dimensions of the image"
+                }
+            },
+            "required": [
+                "boardId",
+                "data",
+                "position"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_create-image-item-using-file",
+        "description": "Create a new image item on a Miro board using file from device or from chat",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board where the image will be created"
+                },
+                "imageData": {
+                    "type": "string",
+                    "description": "Base64 encoded image data from the chat"
+                },
+                "position": {
+                    "type": "object",
+                    "properties": {
+                        "x": {
+                            "type": "number",
+                            "description": "X coordinate of the image"
+                        },
+                        "y": {
+                            "type": "number",
+                            "description": "Y coordinate of the image"
+                        },
+                        "origin": {
+                            "type": "string",
+                            "description": "Origin of the image (center, top-left, etc.)"
+                        },
+                        "relativeTo": {
+                            "type": "string",
+                            "description": "Reference point (canvas_center, etc.)"
+                        }
+                    },
+                    "required": [
+                        "x",
+                        "y"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Position of the image on the board"
+                },
+                "title": {
+                    "type": "string",
+                    "description": "Title of the image"
+                }
+            },
+            "required": [
+                "boardId",
+                "imageData",
+                "position"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-image-item",
+        "description": "Retrieve information about a specific image item on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the image"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the image that you want to retrieve"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_update-image-item",
+        "description": "Update an existing image item on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board where you want to update the item"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the image that you want to update"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "title": {
+                            "type": "string",
+                            "description": "Updated title of the image"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "The updated content of the image"
+                },
+                "position": {
+                    "type": "object",
+                    "properties": {
+                        "x": {
+                            "type": "number",
+                            "description": "Updated X coordinate of the image"
+                        },
+                        "y": {
+                            "type": "number",
+                            "description": "Updated Y coordinate of the image"
+                        },
+                        "origin": {
+                            "type": "string",
+                            "description": "Updated origin of the image (center, top-left, etc.)"
+                        },
+                        "relativeTo": {
+                            "type": "string",
+                            "description": "Updated reference point (canvas_center, etc.)"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Updated position of the image on the board"
+                },
+                "geometry": {
+                    "type": "object",
+                    "properties": {
+                        "width": {
+                            "type": "number",
+                            "description": "Updated width of the image"
+                        },
+                        "height": {
+                            "type": "number",
+                            "description": "Updated height of the image"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Updated dimensions of the image"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_update-image-item-using-file",
+        "description": "Update an existing image item on a Miro board using file from device",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board where you want to update the item"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the image that you want to update"
+                },
+                "filePath": {
+                    "type": "string",
+                    "description": "Path to the new image file on the device"
+                },
+                "title": {
+                    "type": "string",
+                    "description": "Updated title of the image"
+                },
+                "position": {
+                    "type": "object",
+                    "properties": {
+                        "x": {
+                            "type": "number",
+                            "description": "Updated X coordinate of the image"
+                        },
+                        "y": {
+                            "type": "number",
+                            "description": "Updated Y coordinate of the image"
+                        },
+                        "origin": {
+                            "type": "string",
+                            "description": "Updated origin of the image (center, top-left, etc.)"
+                        },
+                        "relativeTo": {
+                            "type": "string",
+                            "description": "Updated reference point (canvas_center, etc.)"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Updated position of the image on the board"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId",
+                "filePath"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_delete-image-item",
+        "description": "Delete a specific image item from a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the image"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the image that you want to delete"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_create-shape-item",
+        "description": "Create a new shape item on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board where the shape will be created"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "description": "Type of the shape (rectangle, circle, triangle, etc.)"
+                        },
+                        "content": {
+                            "type": "string",
+                            "description": "Text content to display inside the shape"
+                        }
+                    },
+                    "required": [
+                        "type"
+                    ],
+                    "additionalProperties": false,
+                    "description": "The content and configuration of the shape"
+                },
+                "position": {
+                    "type": "object",
+                    "properties": {
+                        "x": {
+                            "type": "number",
+                            "description": "X coordinate of the shape"
+                        },
+                        "y": {
+                            "type": "number",
+                            "description": "Y coordinate of the shape"
+                        },
+                        "origin": {
+                            "type": "string",
+                            "description": "Origin of the shape (center, top-left, etc.)"
+                        },
+                        "relativeTo": {
+                            "type": "string",
+                            "description": "Reference point (canvas_center, etc.)"
+                        }
+                    },
+                    "required": [
+                        "x",
+                        "y"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Position of the shape on the board"
+                },
+                "geometry": {
+                    "type": "object",
+                    "properties": {
+                        "width": {
+                            "type": "number",
+                            "description": "Width of the shape"
+                        },
+                        "height": {
+                            "type": "number",
+                            "description": "Height of the shape"
+                        }
+                    },
+                    "required": [
+                        "width",
+                        "height"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Dimensions of the shape"
+                },
+                "style": {
+                    "type": "object",
+                    "properties": {
+                        "borderColor": {
+                            "type": "string",
+                            "description": "Color of the shape border (hex format, e.g. #000000)"
+                        },
+                        "borderWidth": {
+                            "type": "number",
+                            "description": "Width of the shape border"
+                        },
+                        "borderStyle": {
+                            "type": "string",
+                            "description": "Style of the shape border (normal, dashed, etc.)"
+                        },
+                        "borderOpacity": {
+                            "type": "number",
+                            "description": "Opacity of the shape border (0-1)"
+                        },
+                        "fillColor": {
+                            "type": "string",
+                            "description": "Fill color of the shape (hex format, e.g. #000000)"
+                        },
+                        "fillOpacity": {
+                            "type": "number",
+                            "description": "Opacity of the shape fill (0-1)"
+                        },
+                        "textColor": {
+                            "type": "string",
+                            "description": "Color of the text in the shape (hex format, e.g. #000000)"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Style configuration of the shape"
+                }
+            },
+            "required": [
+                "boardId",
+                "data",
+                "position",
+                "geometry"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-shape-item",
+        "description": "Retrieve information about a specific shape item on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the shape"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the shape that you want to retrieve"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_update-shape-item",
+        "description": "Update an existing shape item on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the shape"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the shape that you want to update"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "description": "Updated type of the shape (rectangle, circle, triangle, etc.)"
+                        },
+                        "content": {
+                            "type": "string",
+                            "description": "Updated text content to display inside the shape"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "The updated content and configuration of the shape"
+                },
+                "position": {
+                    "type": "object",
+                    "properties": {
+                        "x": {
+                            "type": "number",
+                            "description": "Updated X coordinate of the shape"
+                        },
+                        "y": {
+                            "type": "number",
+                            "description": "Updated Y coordinate of the shape"
+                        },
+                        "origin": {
+                            "type": "string",
+                            "description": "Origin of the shape (center, top-left, etc.)"
+                        },
+                        "relativeTo": {
+                            "type": "string",
+                            "description": "Reference point (canvas_center, etc.)"
+                        }
+                    },
+                    "required": [
+                        "x",
+                        "y"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Updated position of the shape on the board"
+                },
+                "geometry": {
+                    "type": "object",
+                    "properties": {
+                        "width": {
+                            "type": "number",
+                            "description": "Updated width of the shape"
+                        },
+                        "height": {
+                            "type": "number",
+                            "description": "Updated height of the shape"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Updated dimensions of the shape"
+                },
+                "style": {
+                    "type": "object",
+                    "properties": {
+                        "borderColor": {
+                            "type": "string",
+                            "description": "Updated color of the shape border (hex format, e.g. #000000)"
+                        },
+                        "borderWidth": {
+                            "type": "number",
+                            "description": "Updated width of the shape border"
+                        },
+                        "borderStyle": {
+                            "type": "string",
+                            "description": "Updated style of the shape border (normal, dashed, etc.)"
+                        },
+                        "borderOpacity": {
+                            "type": "number",
+                            "description": "Updated opacity of the shape border (0-1)"
+                        },
+                        "fillColor": {
+                            "type": "string",
+                            "description": "Updated fill color of the shape (hex format, e.g. #000000)"
+                        },
+                        "fillOpacity": {
+                            "type": "number",
+                            "description": "Updated opacity of the shape fill (0-1)"
+                        },
+                        "textColor": {
+                            "type": "string",
+                            "description": "Updated color of the text in the shape (hex format, e.g. #000000)"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Updated style configuration of the shape"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_delete-shape-item",
+        "description": "Delete a specific shape item from a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the shape"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the shape that you want to delete"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_create-embed-item",
+        "description": "Create a new embed item on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board where the embed will be created"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "url": {
+                            "type": "string",
+                            "description": "URL to be embedded on the board"
+                        },
+                        "mode": {
+                            "type": "string",
+                            "description": "Mode of the embed (normal, inline, etc.)"
+                        }
+                    },
+                    "required": [
+                        "url"
+                    ],
+                    "additionalProperties": false,
+                    "description": "The content and configuration of the embed"
+                },
+                "position": {
+                    "type": "object",
+                    "properties": {
+                        "x": {
+                            "type": "number",
+                            "description": "X coordinate of the embed"
+                        },
+                        "y": {
+                            "type": "number",
+                            "description": "Y coordinate of the embed"
+                        },
+                        "origin": {
+                            "type": "string",
+                            "description": "Origin of the embed (center, top-left, etc.)"
+                        },
+                        "relativeTo": {
+                            "type": "string",
+                            "description": "Reference point (canvas_center, etc.)"
+                        }
+                    },
+                    "required": [
+                        "x",
+                        "y"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Position of the embed on the board"
+                },
+                "geometry": {
+                    "type": "object",
+                    "properties": {
+                        "width": {
+                            "type": "number",
+                            "description": "Width of the embed"
+                        },
+                        "height": {
+                            "type": "number",
+                            "description": "Height of the embed"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Dimensions of the embed"
+                }
+            },
+            "required": [
+                "boardId",
+                "data",
+                "position",
+                "geometry"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-embed-item",
+        "description": "Retrieve information about a specific embed item on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the embed"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the embed that you want to retrieve"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_update-embed-item",
+        "description": "Update an existing embed item on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the embed"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the embed that you want to update"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "mode": {
+                            "type": "string",
+                            "description": "Updated mode of the embed (normal, inline, etc.)"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "The updated configuration of the embed"
+                },
+                "position": {
+                    "type": "object",
+                    "properties": {
+                        "x": {
+                            "type": "number",
+                            "description": "Updated X coordinate of the embed"
+                        },
+                        "y": {
+                            "type": "number",
+                            "description": "Updated Y coordinate of the embed"
+                        },
+                        "origin": {
+                            "type": "string",
+                            "description": "Origin of the embed (center, top-left, etc.)"
+                        },
+                        "relativeTo": {
+                            "type": "string",
+                            "description": "Reference point (canvas_center, etc.)"
+                        }
+                    },
+                    "required": [
+                        "x",
+                        "y"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Updated position of the embed on the board"
+                },
+                "geometry": {
+                    "type": "object",
+                    "properties": {
+                        "width": {
+                            "type": "number",
+                            "description": "Updated width of the embed"
+                        },
+                        "height": {
+                            "type": "number",
+                            "description": "Updated height of the embed"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Updated dimensions of the embed"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_delete-embed-item",
+        "description": "Delete a specific embed item from a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the embed"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the embed that you want to delete"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_create-tag",
+        "description": "Create a new tag on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board where the tag will be created"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "title": {
+                            "type": "string",
+                            "description": "Title of the tag"
+                        }
+                    },
+                    "required": [
+                        "title"
+                    ],
+                    "additionalProperties": false,
+                    "description": "The content and configuration of the tag"
+                },
+                "fillColor": {
+                    "type": "string",
+                    "description": "Fill color of the tag (hex format, e.g. #000000)"
+                }
+            },
+            "required": [
+                "boardId",
+                "data"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-tag",
+        "description": "Retrieve information about a specific tag on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the tag"
+                },
+                "tagId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the tag that you want to retrieve"
+                }
+            },
+            "required": [
+                "boardId",
+                "tagId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-all-tags",
+        "description": "Retrieve all tags on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board for which you want to retrieve all tags"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of tags to return (default: 50)"
+                },
+                "offset": {
+                    "type": "number",
+                    "description": "Offset for pagination (default: 0)"
+                }
+            },
+            "required": [
+                "boardId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_update-tag",
+        "description": "Update an existing tag on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the tag"
+                },
+                "tagId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the tag that you want to update"
+                },
+                "title": {
+                    "type": "string",
+                    "description": "Updated title of the tag"
+                },
+                "fillColor": {
+                    "type": "string",
+                    "description": "Updated fill color of the tag (hex format, e.g. #000000)"
+                }
+            },
+            "required": [
+                "boardId",
+                "tagId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_delete-tag",
+        "description": "Delete a specific tag from a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the tag"
+                },
+                "tagId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the tag that you want to delete"
+                }
+            },
+            "required": [
+                "boardId",
+                "tagId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_attach-tag",
+        "description": "Attach a tag to an item on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the tag and item"
+                },
+                "tagId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the tag that you want to attach"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the item to which you want to attach the tag"
+                }
+            },
+            "required": [
+                "boardId",
+                "tagId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_detach-tag",
+        "description": "Detach a tag from an item on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the tag and item"
+                },
+                "tagId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the tag that you want to detach"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the item from which you want to detach the tag"
+                }
+            },
+            "required": [
+                "boardId",
+                "tagId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-item-tags",
+        "description": "Retrieve all tags attached to a specific item on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board that contains the item"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the item whose tags you want to retrieve"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-all-board-members",
+        "description": "Retrieve all members of a specific Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "ID of the board to retrieve members from"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of members to retrieve (default: 50)"
+                },
+                "offset": {
+                    "type": "number",
+                    "description": "Offset for pagination (default: 0)"
+                }
+            },
+            "required": [
+                "boardId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-specific-board-member",
+        "description": "Retrieve details of a specific member on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "ID of the board"
+                },
+                "memberId": {
+                    "type": "string",
+                    "description": "ID of the specific board member to retrieve"
+                }
+            },
+            "required": [
+                "boardId",
+                "memberId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_remove-board-member",
+        "description": "Remove a specific member from a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "ID of the board"
+                },
+                "memberId": {
+                    "type": "string",
+                    "description": "ID of the board member to remove"
+                }
+            },
+            "required": [
+                "boardId",
+                "memberId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_share-board",
+        "description": "Share a Miro board with specific access level and optional team assignment",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "ID of the board to share"
+                },
+                "accessLevel": {
+                    "type": "string",
+                    "enum": [
+                        "private",
+                        "view",
+                        "comment",
+                        "edit"
+                    ],
+                    "description": "Access level for shared board"
+                },
+                "teamId": {
+                    "type": "string",
+                    "description": "Team ID to assign the board to"
+                }
+            },
+            "required": [
+                "boardId",
+                "accessLevel"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_update-board-member",
+        "description": "Update a specific member's role or status on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "ID of the board"
+                },
+                "memberId": {
+                    "type": "string",
+                    "description": "ID of the board member to update"
+                },
+                "role": {
+                    "type": "string",
+                    "enum": [
+                        "member",
+                        "admin",
+                        "owner"
+                    ],
+                    "description": "New role for the board member"
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "active",
+                        "pending",
+                        "blocked"
+                    ],
+                    "description": "New status for the board member"
+                }
+            },
+            "required": [
+                "boardId",
+                "memberId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_create-group",
+        "description": "Create a new group on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "ID of the board where the group will be created"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "items": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "List of item IDs to include in the group"
+                        }
+                    },
+                    "required": [
+                        "items"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Group data with item IDs to include in the group"
+                }
+            },
+            "required": [
+                "boardId",
+                "data"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-all-groups",
+        "description": "Retrieve all groups on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "ID of the board whose groups you want to retrieve"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of groups to return (default: 50)"
+                },
+                "cursor": {
+                    "type": "string",
+                    "description": "Cursor for pagination"
+                }
+            },
+            "required": [
+                "boardId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-group",
+        "description": "Retrieve information about a specific group on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "ID of the board that contains the group"
+                },
+                "groupId": {
+                    "type": "string",
+                    "description": "ID of the group that you want to retrieve"
+                }
+            },
+            "required": [
+                "boardId",
+                "groupId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-group-items",
+        "description": "Retrieve all items in a specific group on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "ID of the board that contains the group"
+                },
+                "groupId": {
+                    "type": "string",
+                    "description": "ID of the group whose items you want to retrieve"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of items to return (default: 50)"
+                },
+                "cursor": {
+                    "type": "string",
+                    "description": "Cursor for pagination"
+                }
+            },
+            "required": [
+                "boardId",
+                "groupId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_update-group",
+        "description": "Update a specific group on a Miro board with new items",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "ID of the board that contains the group"
+                },
+                "groupId": {
+                    "type": "string",
+                    "description": "ID of the group that you want to update"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "items": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Updated list of item IDs to include in the group"
+                        }
+                    },
+                    "required": [
+                        "items"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Updated group data with item IDs to include in the group"
+                }
+            },
+            "required": [
+                "boardId",
+                "groupId",
+                "data"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_ungroup-items",
+        "description": "Ungroup a specific group on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "ID of the board that contains the group"
+                },
+                "groupId": {
+                    "type": "string",
+                    "description": "ID of the group that you want to ungroup"
+                },
+                "deleteItems": {
+                    "type": "boolean",
+                    "description": "Indicates whether the items should be removed. By default, false."
+                }
+            },
+            "required": [
+                "boardId",
+                "groupId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_delete-group",
+        "description": "Delete a specific group from a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "ID of the board that contains the group"
+                },
+                "groupId": {
+                    "type": "string",
+                    "description": "ID of the group that you want to delete"
+                },
+                "deleteItems": {
+                    "type": "boolean",
+                    "description": "Indicates whether the items should be removed. Set to true to delete items in the group, false to keep them"
+                }
+            },
+            "required": [
+                "boardId",
+                "groupId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_create-items-in-bulk-using-file",
+        "description": "Create multiple items on a Miro board in a single operation using a JSON file from device",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board where the items will be created"
+                },
+                "fileData": {
+                    "type": "string",
+                    "description": "Base64 encoded JSON file data containing items to create"
+                }
+            },
+            "required": [
+                "boardId",
+                "fileData"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_create-mindmap-node",
+        "description": "Create a new mind map node on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board where you want to create the node"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "content": {
+                            "type": "string",
+                            "description": "Text content for the mind map node"
+                        },
+                        "parentId": {
+                            "type": "string",
+                            "description": "ID of the parent node (if this is a child node)"
+                        },
+                        "style": {
+                            "type": "object",
+                            "properties": {
+                                "fillColor": {
+                                    "type": "string",
+                                    "description": "Fill color for the node"
+                                },
+                                "textColor": {
+                                    "type": "string",
+                                    "description": "Text color for the node"
+                                }
+                            },
+                            "additionalProperties": false
+                        }
+                    },
+                    "required": [
+                        "content"
+                    ],
+                    "additionalProperties": false,
+                    "description": "The content and style configuration of the mind map node"
+                },
+                "position": {
+                    "type": "object",
+                    "properties": {
+                        "x": {
+                            "type": "number",
+                            "description": "X coordinate of the node"
+                        },
+                        "y": {
+                            "type": "number",
+                            "description": "Y coordinate of the node"
+                        }
+                    },
+                    "required": [
+                        "x",
+                        "y"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Position of the node on the board"
+                }
+            },
+            "required": [
+                "boardId",
+                "data",
+                "position"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-mindmap-node",
+        "description": "Retrieve information about a specific mind map node on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board from which you want to retrieve a mind map node"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the mind map node that you want to retrieve"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-mindmap-nodes",
+        "description": "Retrieve a list of mind map nodes on a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board from which you want to retrieve mind map nodes"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of results to return (default: 50)"
+                },
+                "cursor": {
+                    "type": "string",
+                    "description": "Cursor for pagination"
+                }
+            },
+            "required": [
+                "boardId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_delete-mindmap-node",
+        "description": "Delete a mind map node from a Miro board",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the board from which you want to delete the mind map node"
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Unique identifier (ID) of the mind map node that you want to delete"
+                }
+            },
+            "required": [
+                "boardId",
+                "itemId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-board-classification",
+        "description": "Retrieves board classification for a board (Enterprise only)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "orgId": {
+                    "type": "string",
+                    "description": "id of the organization"
+                },
+                "teamId": {
+                    "type": "string",
+                    "description": "id of the team"
+                },
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier of the board that you want to retrieve"
+                }
+            },
+            "required": [
+                "orgId",
+                "teamId",
+                "boardId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_update-board-classification",
+        "description": "Updates board classification for an existing board (Enterprise only)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "orgId": {
+                    "type": "string",
+                    "description": "id of the organization"
+                },
+                "teamId": {
+                    "type": "string",
+                    "description": "id of the team"
+                },
+                "boardId": {
+                    "type": "string",
+                    "description": "Unique identifier of the board that you want to update"
+                },
+                "labelId": {
+                    "type": "string",
+                    "description": "Unique identifier of the classification label to apply"
+                }
+            },
+            "required": [
+                "orgId",
+                "teamId",
+                "boardId",
+                "labelId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_create-board-export-job",
+        "description": "Creates an export job for one or more boards (Enterprise only)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "orgId": {
+                    "type": "string",
+                    "description": "Unique identifier of the organization"
+                },
+                "requestId": {
+                    "type": "string",
+                    "description": "Unique identifier of the board export job"
+                },
+                "boardIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Array of board IDs to export"
+                },
+                "format": {
+                    "type": "string",
+                    "enum": [
+                        "pdf",
+                        "csv"
+                    ],
+                    "description": "Export format (default: pdf)"
+                }
+            },
+            "required": [
+                "orgId",
+                "requestId",
+                "boardIds"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-board-export-job-status",
+        "description": "Retrieves the status of a board export job (Enterprise only)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "orgId": {
+                    "type": "string",
+                    "description": "Unique identifier of the organization"
+                },
+                "jobId": {
+                    "type": "string",
+                    "description": "Unique identifier of the board export job"
+                }
+            },
+            "required": [
+                "orgId",
+                "jobId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-board-export-job-results",
+        "description": "Retrieves the results of a board export job (Enterprise only)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "orgId": {
+                    "type": "string",
+                    "description": "Unique identifier of the organization"
+                },
+                "jobId": {
+                    "type": "string",
+                    "description": "Unique identifier of the job"
+                }
+            },
+            "required": [
+                "orgId",
+                "jobId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-audit-logs",
+        "description": "Retrieves a page of audit events from the last 90 days (Enterprise only)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "createdAfter": {
+                    "type": "string",
+                    "description": "Retrieve audit logs created after this date (ISO 8601 format)"
+                },
+                "createdBefore": {
+                    "type": "string",
+                    "description": "Retrieve audit logs created before this date (ISO 8601 format)"
+                },
+                "cursor": {
+                    "type": "string",
+                    "description": "Cursor for pagination"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of results to return (default: 100)"
+                },
+                "sorting": {
+                    "type": "string",
+                    "enum": [
+                        "ASC",
+                        "DESC"
+                    ],
+                    "description": "Sort order for results (default: ASC)"
+                }
+            },
+            "required": [
+                "createdAfter",
+                "createdBefore"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-organization-info",
+        "description": "Retrieves organization information (Enterprise only)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "orgId": {
+                    "type": "string",
+                    "description": "id of the organization"
+                }
+            },
+            "required": [
+                "orgId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-organization-members",
+        "description": "Retrieves a list of members for an organization (Enterprise only)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "orgId": {
+                    "type": "string",
+                    "description": "id of the organization"
+                },
+                "emails": {
+                    "type": "string",
+                    "description": "Filter by comma-separated email addresses"
+                },
+                "role": {
+                    "type": "string",
+                    "enum": [
+                        "organization_internal_admin",
+                        "organization_internal_user",
+                        "organization_external_user",
+                        "organization_team_guest_user",
+                        "unknown"
+                    ],
+                    "description": "Filter by user role"
+                },
+                "license": {
+                    "type": "string",
+                    "enum": [
+                        "full",
+                        "occasional",
+                        "free",
+                        "free_restricted",
+                        "full_trial",
+                        "unknown"
+                    ],
+                    "description": "Filter by license type"
+                },
+                "active": {
+                    "type": "boolean",
+                    "description": "Filter by active status"
+                },
+                "cursor": {
+                    "type": "string",
+                    "description": "Cursor for pagination"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of results to return"
+                }
+            },
+            "required": [
+                "orgId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-organization-member",
+        "description": "Retrieves information about a specific organization member (Enterprise only)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "orgId": {
+                    "type": "string",
+                    "description": "id of the organization"
+                },
+                "memberId": {
+                    "type": "string",
+                    "description": "id of the organization member"
+                }
+            },
+            "required": [
+                "orgId",
+                "memberId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_add-project-member",
+        "description": "Adds a member to a project (Enterprise only)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "orgId": {
+                    "type": "string",
+                    "description": "The ID of the organization to which the project belongs"
+                },
+                "teamId": {
+                    "type": "string",
+                    "description": "The ID of the team to which the project belongs"
+                },
+                "projectId": {
+                    "type": "string",
+                    "description": "The ID of the project to which you want to add a user"
+                },
+                "email": {
+                    "type": "string",
+                    "description": "Email ID of the user to add to the project"
+                },
+                "role": {
+                    "type": "string",
+                    "enum": [
+                        "owner",
+                        "editor",
+                        "commenter",
+                        "viewer"
+                    ],
+                    "description": "Role to assign to the user"
+                }
+            },
+            "required": [
+                "orgId",
+                "teamId",
+                "projectId",
+                "email",
+                "role"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-project-member",
+        "description": "Retrieves information about a specific project member (Enterprise only)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "orgId": {
+                    "type": "string",
+                    "description": "The ID of the organization to which the project belongs"
+                },
+                "teamId": {
+                    "type": "string",
+                    "description": "The ID of the team to which the project belongs"
+                },
+                "projectId": {
+                    "type": "string",
+                    "description": "The ID of the project from which you want to retrieve specific member information"
+                },
+                "memberId": {
+                    "type": "string",
+                    "description": "The ID of the member for which you want to retrieve information"
+                }
+            },
+            "required": [
+                "orgId",
+                "teamId",
+                "projectId",
+                "memberId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_remove-project-member",
+        "description": "Removes a member from a project (Enterprise only)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "orgId": {
+                    "type": "string",
+                    "description": "The ID of the organization to which the project belongs"
+                },
+                "teamId": {
+                    "type": "string",
+                    "description": "The ID of the team to which the project belongs"
+                },
+                "projectId": {
+                    "type": "string",
+                    "description": "The ID of the project from which you want to remove a member"
+                },
+                "memberId": {
+                    "type": "string",
+                    "description": "The ID of the member that you want to remove from a project"
+                }
+            },
+            "required": [
+                "orgId",
+                "teamId",
+                "projectId",
+                "memberId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-all-cases",
+        "description": "Retrieves the list of eDiscovery cases in an organization (Enterprise only)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "number",
+                    "description": "The maximum number of items in the result list"
+                },
+                "orgId": {
+                    "type": "string",
+                    "description": "The ID of the organization for which you want to retrieve the list of cases"
+                },
+                "cursor": {
+                    "type": "string",
+                    "description": "Cursor for pagination"
+                }
+            },
+            "required": [
+                "limit",
+                "orgId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-case",
+        "description": "Retrieves information about a specific eDiscovery case (Enterprise only)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "orgId": {
+                    "type": "string",
+                    "description": "The ID of the organization for which you want to retrieve the case information"
+                },
+                "caseId": {
+                    "type": "string",
+                    "description": "The ID of the case you want to retrieve"
+                }
+            },
+            "required": [
+                "orgId",
+                "caseId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-all-legal-holds",
+        "description": "Retrieves the list of all legal holds within a case (Enterprise only)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "number",
+                    "description": "The maximum number of items in the result list"
+                },
+                "orgId": {
+                    "type": "string",
+                    "description": "The ID of the organization for which you want to retrieve the list of legal holds"
+                },
+                "caseId": {
+                    "type": "string",
+                    "description": "The ID of the case for which you want to retrieve the list of legal holds"
+                },
+                "cursor": {
+                    "type": "string",
+                    "description": "Cursor for pagination"
+                }
+            },
+            "required": [
+                "limit",
+                "orgId",
+                "caseId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-legal-hold",
+        "description": "Retrieves information about a specific legal hold (Enterprise only)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "orgId": {
+                    "type": "string",
+                    "description": "The ID of the organization for which you want to retrieve the legal hold information"
+                },
+                "caseId": {
+                    "type": "string",
+                    "description": "The ID of the case for which you want to retrieve the legal hold information"
+                },
+                "legalHoldId": {
+                    "type": "string",
+                    "description": "The ID of the legal hold you want to retrieve"
+                }
+            },
+            "required": [
+                "orgId",
+                "caseId",
+                "legalHoldId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-legal-hold-content-items",
+        "description": "Retrieves the list of content items under legal hold (Enterprise only)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "orgId": {
+                    "type": "string",
+                    "description": "The ID of the organization for which you want to retrieve the list of content items under hold"
+                },
+                "caseId": {
+                    "type": "string",
+                    "description": "The ID of the case for which you want to retrieve the list of content items under hold"
+                },
+                "legalHoldId": {
+                    "type": "string",
+                    "description": "The ID of the legal hold for which you want to retrieve the list of content items under hold"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "The maximum number of items in the result list"
+                },
+                "cursor": {
+                    "type": "string",
+                    "description": "Cursor for pagination"
+                }
+            },
+            "required": [
+                "orgId",
+                "caseId",
+                "legalHoldId",
+                "limit"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "miro_get-board-content-logs",
+        "description": "Retrieves content change logs of board items (Enterprise only)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "orgId": {
+                    "type": "string",
+                    "description": "Unique identifier of the organization"
+                },
+                "from": {
+                    "type": "string",
+                    "description": "Start date for filtering (ISO 8601 format)"
+                },
+                "to": {
+                    "type": "string",
+                    "description": "End date for filtering (ISO 8601 format)"
+                },
+                "boardIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of board IDs to filter by"
+                },
+                "emails": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of user emails to filter by"
+                },
+                "cursor": {
+                    "type": "string",
+                    "description": "Cursor for pagination"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of results to return"
+                },
+                "sorting": {
+                    "type": "string",
+                    "enum": [
+                        "asc",
+                        "desc"
+                    ],
+                    "description": "Sort order for results"
+                }
+            },
+            "required": [
+                "orgId",
+                "from",
+                "to"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

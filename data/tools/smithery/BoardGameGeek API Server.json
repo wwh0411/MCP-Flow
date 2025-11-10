@@ -1,0 +1,226 @@
+[
+    {
+        "name": "bgg-mcp_bgg-collection",
+        "description": "Find the details about a specific users board game collection on BoardGameGeek (BGG)",
+        "parameters": {
+            "properties": {
+                "fortrade": {
+                    "description": "Filters for games that are marked for trade in the collection",
+                    "type": "boolean"
+                },
+                "hasparts": {
+                    "description": "Filters for games that have spare parts or not in the collection",
+                    "type": "boolean"
+                },
+                "maxbggrating": {
+                    "description": "Filters based on the maximum global BoardGameGeek (BGG) rating of the games in the collection",
+                    "type": "number"
+                },
+                "maxplays": {
+                    "description": "Filters based on the maximum number of plays of the games in the collection",
+                    "type": "number"
+                },
+                "maxrating": {
+                    "description": "Filters based on the maximum personal rating of the games in the collection",
+                    "type": "number"
+                },
+                "minbggrating": {
+                    "description": "Filters based on the minimum global BoardGameGeek (BGG) rating of the games in the collection",
+                    "type": "number"
+                },
+                "minplays": {
+                    "description": "Filters based on the minimum number of plays of the games in the collection",
+                    "type": "number"
+                },
+                "minrating": {
+                    "description": "Filters based on the minimum personal rating of the games in the collection",
+                    "type": "number"
+                },
+                "owned": {
+                    "description": "Filters for owned games in the collection (default: true if no ownership filters specified)",
+                    "type": "boolean"
+                },
+                "played": {
+                    "description": "Filters for games that have recorded plays in the collection",
+                    "type": "boolean"
+                },
+                "preordered": {
+                    "description": "Filters for preordered games in the collection",
+                    "type": "boolean"
+                },
+                "rated": {
+                    "description": "Filters for games that are rated in the collection",
+                    "type": "boolean"
+                },
+                "subtype": {
+                    "description": "Whether to search for base games or expansions",
+                    "enum": [
+                        "boardgame",
+                        "boardgameexpansion"
+                    ],
+                    "type": "string"
+                },
+                "username": {
+                    "description": "The username of the BoardGameGeek (BGG) user who owns the collection. When the user refers to themselves (me, my, I), use 'SELF' as the value.",
+                    "type": "string"
+                },
+                "wanttobuy": {
+                    "description": "Filters for games that the user wants to buy in the collection",
+                    "type": "boolean"
+                },
+                "wanttoplay": {
+                    "description": "Filters for games that the user wants to play in the collection",
+                    "type": "boolean"
+                },
+                "wishlist": {
+                    "description": "Filters for wishlisted games in the collection",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "username"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "bgg-mcp_bgg-details",
+        "description": "Find the details about a specific board game on BoardGameGeek (BGG)",
+        "parameters": {
+            "properties": {
+                "full_details": {
+                    "description": "Return the complete BGG API response instead of essential info. WARNING: This returns significantly more data and can overload AI context windows. ONLY set this to true if the user explicitly requests 'full details', 'complete data', or similar. Default behavior returns essential info which is sufficient for most use cases.",
+                    "type": "boolean"
+                },
+                "id": {
+                    "description": "The BoardGameGeek ID of the board game",
+                    "type": "number"
+                },
+                "name": {
+                    "description": "The name of the board game",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "bgg-mcp_bgg-hot",
+        "description": "Find the current board game hotness on BoardGameGeek (BGG)",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "bgg-mcp_bgg-price",
+        "description": "Get current prices for board games from multiple retailers using BGG IDs",
+        "parameters": {
+            "properties": {
+                "currency": {
+                    "description": "Currency code: DKK, GBP, SEK, EUR, or USD (default: USD)",
+                    "type": "string"
+                },
+                "destination": {
+                    "description": "Destination country: DK, SE, GB, DE, or US (default: US)",
+                    "type": "string"
+                },
+                "ids": {
+                    "description": "Comma-separated BGG IDs (e.g., '12,844,2096,13857')",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ids"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "bgg-mcp_bgg-recommender",
+        "description": "Get game recommendations based on a specific game using either the BoardGameGeek (BGG) ID or name directly. ID is preferred for faster responses.",
+        "parameters": {
+            "properties": {
+                "id": {
+                    "description": "BoardGameGeek (BGG) ID of the game to base recommendations on (preferred for speed)",
+                    "type": "string"
+                },
+                "min_votes": {
+                    "description": "Minimum votes threshold for recommendation quality (default: 30)",
+                    "type": "number"
+                },
+                "name": {
+                    "description": "Name of the game to base recommendations on (slower than using ID)",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "bgg-mcp_bgg-search",
+        "description": "Search for board games on BoardGameGeek (BGG) by name or part of a name using a broad search (e.g., 'Catan', 'Ticket to Ride')",
+        "parameters": {
+            "properties": {
+                "limit": {
+                    "description": "Maximum number of results to return (default: 30)",
+                    "type": "number"
+                },
+                "query": {
+                    "description": "Game name to search for on BoardGameGeek (BGG)",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "Filter by type (default: all, options: 'boardgame' (aka base game), 'boardgameexpansion', or 'all')",
+                    "enum": [
+                        "all",
+                        "boardgame",
+                        "boardgameexpansion"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "bgg-mcp_bgg-trade-finder",
+        "description": "Find what games user1 owns that user2 has on their wishlist. Shows potential trading opportunities.",
+        "parameters": {
+            "properties": {
+                "user1": {
+                    "description": "BGG username whose collection will be checked. When the user refers to themselves (me, my, I), use 'SELF' as the value.",
+                    "type": "string"
+                },
+                "user2": {
+                    "description": "BGG username whose wishlist will be checked against user1's collection",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user1",
+                "user2"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "bgg-mcp_bgg-user",
+        "description": "Find details about a specific user on BoardGameGeek (BGG)",
+        "parameters": {
+            "properties": {
+                "username": {
+                    "description": "The username of the BoardGameGeek (BGG) user. When the user refers to themselves (me, my, I), use 'SELF' as the value.",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "username"
+            ],
+            "type": "object"
+        }
+    }
+]

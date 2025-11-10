@@ -1,0 +1,157 @@
+[
+    {
+        "name": "super-shell-mcp_get_platform_info",
+        "description": "Get information about the current platform and shell",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "super-shell-mcp_execute_command",
+        "description": "Execute a shell command on the current platform",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "command": {
+                    "type": "string",
+                    "description": "The command to execute"
+                },
+                "args": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Command arguments"
+                }
+            },
+            "required": [
+                "command"
+            ]
+        }
+    },
+    {
+        "name": "super-shell-mcp_get_whitelist",
+        "description": "Get the list of whitelisted commands",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "super-shell-mcp_add_to_whitelist",
+        "description": "Add a command to the whitelist",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "command": {
+                    "type": "string",
+                    "description": "The command to whitelist"
+                },
+                "securityLevel": {
+                    "type": "string",
+                    "enum": [
+                        "safe",
+                        "requires_approval",
+                        "forbidden"
+                    ],
+                    "description": "Security level for the command"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description of the command"
+                }
+            },
+            "required": [
+                "command",
+                "securityLevel"
+            ]
+        }
+    },
+    {
+        "name": "super-shell-mcp_update_security_level",
+        "description": "Update the security level of a whitelisted command",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "command": {
+                    "type": "string",
+                    "description": "The command to update"
+                },
+                "securityLevel": {
+                    "type": "string",
+                    "enum": [
+                        "safe",
+                        "requires_approval",
+                        "forbidden"
+                    ],
+                    "description": "New security level for the command"
+                }
+            },
+            "required": [
+                "command",
+                "securityLevel"
+            ]
+        }
+    },
+    {
+        "name": "super-shell-mcp_remove_from_whitelist",
+        "description": "Remove a command from the whitelist",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "command": {
+                    "type": "string",
+                    "description": "The command to remove from whitelist"
+                }
+            },
+            "required": [
+                "command"
+            ]
+        }
+    },
+    {
+        "name": "super-shell-mcp_get_pending_commands",
+        "description": "Get the list of commands pending approval",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "super-shell-mcp_approve_command",
+        "description": "Approve a pending command",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "commandId": {
+                    "type": "string",
+                    "description": "ID of the command to approve"
+                }
+            },
+            "required": [
+                "commandId"
+            ]
+        }
+    },
+    {
+        "name": "super-shell-mcp_deny_command",
+        "description": "Deny a pending command",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "commandId": {
+                    "type": "string",
+                    "description": "ID of the command to deny"
+                },
+                "reason": {
+                    "type": "string",
+                    "description": "Reason for denial"
+                }
+            },
+            "required": [
+                "commandId"
+            ]
+        }
+    }
+]

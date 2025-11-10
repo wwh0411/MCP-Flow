@@ -1,0 +1,76 @@
+[
+    {
+        "name": "mcp-hn_get_stories",
+        "description": "Get stories from Hacker News. The options are `top`, `new`, `ask_hn`, `show_hn` for types of stories. This doesn't include the comments. Use `get_story_info` to get the comments.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "story_type": {
+                    "type": "string",
+                    "description": "Type of stories to get, one of: `top`, `new`, `ask_hn`, `show_hn`"
+                },
+                "num_stories": {
+                    "type": "integer",
+                    "description": "Number of stories to get"
+                }
+            }
+        }
+    },
+    {
+        "name": "mcp-hn_get_user_info",
+        "description": "Get user info from Hacker News, including the stories they've submitted",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "user_name": {
+                    "type": "string",
+                    "description": "Username of the user"
+                },
+                "num_stories": {
+                    "type": "integer",
+                    "description": "Number of stories to get, defaults to 10"
+                }
+            },
+            "required": [
+                "user_name"
+            ]
+        }
+    },
+    {
+        "name": "mcp-hn_search_stories",
+        "description": "Search stories from Hacker News. It is generally recommended to use simpler queries to get a broader set of results (less than 5 words). Very targetted queries may not return any results.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Search query"
+                },
+                "search_by_date": {
+                    "type": "boolean",
+                    "description": "Search by date, defaults to False. If this is False, then we search by relevance, then points, then number of comments."
+                },
+                "num_results": {
+                    "type": "integer",
+                    "description": "Number of results to get, defaults to 10"
+                }
+            },
+            "required": [
+                "query"
+            ]
+        }
+    },
+    {
+        "name": "mcp-hn_get_story_info",
+        "description": "Get detailed story info from Hacker News, including the comments",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "story_id": {
+                    "type": "integer",
+                    "description": "Story ID"
+                }
+            }
+        }
+    }
+]

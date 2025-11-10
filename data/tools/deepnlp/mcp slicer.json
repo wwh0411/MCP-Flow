@@ -1,0 +1,49 @@
+[
+    {
+        "name": "slicer_list_nodes",
+        "description": "\nList MRML nodes via the Slicer Web Server API.\n\nThe filter_type parameter specifies the type of node information to retrieve.\nPossible values include \"names\" (node names), \"ids\" (node IDs), and \"properties\" (node properties).\nThe default value is \"names\".\n\nThe class_name, name, and id parameters are optional and can be used to further filter nodes.\nThe class_name parameter allows filtering nodes by class name.\nThe name parameter allows filtering nodes by name.\nThe id parameter allows filtering nodes by ID.\n\nExamples:\n- List the names of all nodes: {\"tool\": \"list_nodes\", \"arguments\": {\"filter_type\": \"names\"}}\n- List the IDs of nodes of a specific class: {\"tool\": \"list_nodes\", \"arguments\": {\"filter_type\": \"ids\", \"class_name\": \"vtkMRMLModelNode\"}}\n- List the properties of nodes with a specific name: {\"tool\": \"list_nodes\", \"arguments\": {\"filter_type\": \"properties\", \"name\": \"MyModel\"}}\n- List nodes with a specific ID: {\"tool\": \"list_nodes\", \"arguments\": {\"filter_type\": \"ids\", \"id\": \"vtkMRMLModelNode123\"}}\n\nReturns a dictionary containing node information.\nIf filter_type is \"names\" or \"ids\", the returned dictionary contains a \"nodes\" key, whose value is a list containing node names or IDs.\nExample: {\"nodes\": [\"node1\", \"node2\", ...]} or {\"nodes\": [\"id1\", \"id2\", ...]}\nIf filter_type is \"properties\", the returned dictionary contains a \"nodes\" key, whose value is a dictionary containing node properties.\nExample: {\"nodes\": {\"node1\": {\"property1\": \"value1\", \"property2\": \"value2\"}, ...}}\nIf an error occurs, a dictionary containing an \"error\" key is returned, whose value is a string describing the error.\n",
+        "parameters": {
+            "properties": {
+                "filter_type": {
+                    "default": "names",
+                    "title": "Filter Type",
+                    "type": "string"
+                },
+                "class_name": {
+                    "default": null,
+                    "title": "Class Name",
+                    "type": "string"
+                },
+                "name": {
+                    "default": null,
+                    "title": "Name",
+                    "type": "string"
+                },
+                "id": {
+                    "default": null,
+                    "title": "Id",
+                    "type": "string"
+                }
+            },
+            "title": "list_nodesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "slicer_execute_python_code",
+        "description": "\nExecute Python code in 3D Slicer.\n\nParameters:\ncode (str): The Python code to execute.\n\nThe code parameter is a string containing the Python code to be executed in 3D Slicer's Python environment.\nThe code should be executable by Python's `exec()` function. To get return values, the code should assign the result to a variable named `__execResult`.\n\nExamples:\n- Create a sphere model: {\"tool\": \"execute_python_code\", \"arguments\": {\"code\": \"sphere = slicer.vtkMRMLModelNode(); slicer.mrmlScene.AddNode(sphere); sphere.SetName('MySphere'); __execResult = sphere.GetID()\"}}\n- Get the number of nodes in the current scene: {\"tool\": \"execute_python_code\", \"arguments\": {\"code\": \"__execResult = len(slicer.mrmlScene.GetNodes())\"}}\n- Calculate 1+1: {\"tool\": \"execute_python_code\", \"arguments\": {\"code\": \"__execResult = 1 + 1\"}}\n\nReturns:\n    dict: A dictionary containing the execution result.\n\n    If the code execution is successful, the dictionary will contain the following key-value pairs:\n    - \"success\": True\n    - \"message\": The result of the code execution. If the code assigns the result to `__execResult`, the value of `__execResult` is returned, otherwise it returns empty.\n\n    If the code execution fails, the dictionary will contain the following key-value pairs:\n    - \"success\": False\n    - \"message\": A string containing an error message indicating the cause of the failure. The error message may come from the Slicer Web Server or the Python interpreter.\n\nExamples:\n- Successful execution: {\"success\": True, \"message\": 2}  # Assuming the result of 1+1 is 2\n- Successful execution: {\"success\": True, \"message\": \"vtkMRMLScene1\"} # Assuming the created sphere id is vtkMRMLScene1\n- Python execution error: {\"success\": False, \"message\": \"Server error: name 'slicer' is not defined\"}\n- Connection error: {\"success\": False, \"message\": \"Connection error: ...\"}\n- HTTP error: {\"success\": False, \"message\": \"HTTP Error 404: Not Found\"}\n",
+        "parameters": {
+            "properties": {
+                "code": {
+                    "title": "Code",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "code"
+            ],
+            "title": "execute_python_codeArguments",
+            "type": "object"
+        }
+    }
+]

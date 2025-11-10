@@ -1,0 +1,849 @@
+[
+    {
+        "name": "excel-mcp-server_apply_formula",
+        "description": "\n    Apply Excel formula to cell.\n    Excel formula will write to cell with verification.\n    ",
+        "parameters": {
+            "properties": {
+                "filepath": {
+                    "title": "Filepath",
+                    "type": "string"
+                },
+                "sheet_name": {
+                    "title": "Sheet Name",
+                    "type": "string"
+                },
+                "cell": {
+                    "title": "Cell",
+                    "type": "string"
+                },
+                "formula": {
+                    "title": "Formula",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "filepath",
+                "sheet_name",
+                "cell",
+                "formula"
+            ],
+            "title": "apply_formulaArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "excel-mcp-server_validate_formula_syntax",
+        "description": "Validate Excel formula syntax without applying it.",
+        "parameters": {
+            "properties": {
+                "filepath": {
+                    "title": "Filepath",
+                    "type": "string"
+                },
+                "sheet_name": {
+                    "title": "Sheet Name",
+                    "type": "string"
+                },
+                "cell": {
+                    "title": "Cell",
+                    "type": "string"
+                },
+                "formula": {
+                    "title": "Formula",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "filepath",
+                "sheet_name",
+                "cell",
+                "formula"
+            ],
+            "title": "validate_formula_syntaxArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "excel-mcp-server_format_range",
+        "description": "Apply formatting to a range of cells.",
+        "parameters": {
+            "properties": {
+                "filepath": {
+                    "title": "Filepath",
+                    "type": "string"
+                },
+                "sheet_name": {
+                    "title": "Sheet Name",
+                    "type": "string"
+                },
+                "start_cell": {
+                    "title": "Start Cell",
+                    "type": "string"
+                },
+                "end_cell": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "End Cell"
+                },
+                "bold": {
+                    "default": false,
+                    "title": "Bold",
+                    "type": "boolean"
+                },
+                "italic": {
+                    "default": false,
+                    "title": "Italic",
+                    "type": "boolean"
+                },
+                "underline": {
+                    "default": false,
+                    "title": "Underline",
+                    "type": "boolean"
+                },
+                "font_size": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Font Size"
+                },
+                "font_color": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Font Color"
+                },
+                "bg_color": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Bg Color"
+                },
+                "border_style": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Border Style"
+                },
+                "border_color": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Border Color"
+                },
+                "number_format": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Number Format"
+                },
+                "alignment": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Alignment"
+                },
+                "wrap_text": {
+                    "default": false,
+                    "title": "Wrap Text",
+                    "type": "boolean"
+                },
+                "merge_cells": {
+                    "default": false,
+                    "title": "Merge Cells",
+                    "type": "boolean"
+                },
+                "protection": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": true,
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Protection"
+                },
+                "conditional_format": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": true,
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Conditional Format"
+                }
+            },
+            "required": [
+                "filepath",
+                "sheet_name",
+                "start_cell"
+            ],
+            "title": "format_rangeArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "excel-mcp-server_read_data_from_excel",
+        "description": "\n    Read data from Excel worksheet with cell metadata including validation rules.\n    \n    Args:\n        filepath: Path to Excel file\n        sheet_name: Name of worksheet\n        start_cell: Starting cell (default A1)\n        end_cell: Ending cell (optional, auto-expands if not provided)\n        preview_only: Whether to return preview only\n    \n    Returns:  \n    JSON string containing structured cell data with validation metadata.\n    Each cell includes: address, value, row, column, and validation info (if any).\n    ",
+        "parameters": {
+            "properties": {
+                "filepath": {
+                    "title": "Filepath",
+                    "type": "string"
+                },
+                "sheet_name": {
+                    "title": "Sheet Name",
+                    "type": "string"
+                },
+                "start_cell": {
+                    "default": "A1",
+                    "title": "Start Cell",
+                    "type": "string"
+                },
+                "end_cell": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "End Cell"
+                },
+                "preview_only": {
+                    "default": false,
+                    "title": "Preview Only",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "filepath",
+                "sheet_name"
+            ],
+            "title": "read_data_from_excelArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "excel-mcp-server_write_data_to_excel",
+        "description": "\n    Write data to Excel worksheet.\n    Excel formula will write to cell without any verification.\n\n    PARAMETERS:  \n    filepath: Path to Excel file\n    sheet_name: Name of worksheet to write to\n    data: List of lists containing data to write to the worksheet, sublists are assumed to be rows\n    start_cell: Cell to start writing to, default is \"A1\"\n  \n    ",
+        "parameters": {
+            "properties": {
+                "filepath": {
+                    "title": "Filepath",
+                    "type": "string"
+                },
+                "sheet_name": {
+                    "title": "Sheet Name",
+                    "type": "string"
+                },
+                "data": {
+                    "items": {
+                        "items": {},
+                        "type": "array"
+                    },
+                    "title": "Data",
+                    "type": "array"
+                },
+                "start_cell": {
+                    "default": "A1",
+                    "title": "Start Cell",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "filepath",
+                "sheet_name",
+                "data"
+            ],
+            "title": "write_data_to_excelArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "excel-mcp-server_create_workbook",
+        "description": "Create new Excel workbook.",
+        "parameters": {
+            "properties": {
+                "filepath": {
+                    "title": "Filepath",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "filepath"
+            ],
+            "title": "create_workbookArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "excel-mcp-server_create_worksheet",
+        "description": "Create new worksheet in workbook.",
+        "parameters": {
+            "properties": {
+                "filepath": {
+                    "title": "Filepath",
+                    "type": "string"
+                },
+                "sheet_name": {
+                    "title": "Sheet Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "filepath",
+                "sheet_name"
+            ],
+            "title": "create_worksheetArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "excel-mcp-server_create_chart",
+        "description": "Create chart in worksheet.",
+        "parameters": {
+            "properties": {
+                "filepath": {
+                    "title": "Filepath",
+                    "type": "string"
+                },
+                "sheet_name": {
+                    "title": "Sheet Name",
+                    "type": "string"
+                },
+                "data_range": {
+                    "title": "Data Range",
+                    "type": "string"
+                },
+                "chart_type": {
+                    "title": "Chart Type",
+                    "type": "string"
+                },
+                "target_cell": {
+                    "title": "Target Cell",
+                    "type": "string"
+                },
+                "title": {
+                    "default": "",
+                    "title": "Title",
+                    "type": "string"
+                },
+                "x_axis": {
+                    "default": "",
+                    "title": "X Axis",
+                    "type": "string"
+                },
+                "y_axis": {
+                    "default": "",
+                    "title": "Y Axis",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "filepath",
+                "sheet_name",
+                "data_range",
+                "chart_type",
+                "target_cell"
+            ],
+            "title": "create_chartArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "excel-mcp-server_create_pivot_table",
+        "description": "Create pivot table in worksheet.",
+        "parameters": {
+            "properties": {
+                "filepath": {
+                    "title": "Filepath",
+                    "type": "string"
+                },
+                "sheet_name": {
+                    "title": "Sheet Name",
+                    "type": "string"
+                },
+                "data_range": {
+                    "title": "Data Range",
+                    "type": "string"
+                },
+                "rows": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Rows",
+                    "type": "array"
+                },
+                "values": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Values",
+                    "type": "array"
+                },
+                "columns": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Columns"
+                },
+                "agg_func": {
+                    "default": "mean",
+                    "title": "Agg Func",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "filepath",
+                "sheet_name",
+                "data_range",
+                "rows",
+                "values"
+            ],
+            "title": "create_pivot_tableArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "excel-mcp-server_create_table",
+        "description": "Creates a native Excel table from a specified range of data.",
+        "parameters": {
+            "properties": {
+                "filepath": {
+                    "title": "Filepath",
+                    "type": "string"
+                },
+                "sheet_name": {
+                    "title": "Sheet Name",
+                    "type": "string"
+                },
+                "data_range": {
+                    "title": "Data Range",
+                    "type": "string"
+                },
+                "table_name": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Table Name"
+                },
+                "table_style": {
+                    "default": "TableStyleMedium9",
+                    "title": "Table Style",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "filepath",
+                "sheet_name",
+                "data_range"
+            ],
+            "title": "create_tableArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "excel-mcp-server_copy_worksheet",
+        "description": "Copy worksheet within workbook.",
+        "parameters": {
+            "properties": {
+                "filepath": {
+                    "title": "Filepath",
+                    "type": "string"
+                },
+                "source_sheet": {
+                    "title": "Source Sheet",
+                    "type": "string"
+                },
+                "target_sheet": {
+                    "title": "Target Sheet",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "filepath",
+                "source_sheet",
+                "target_sheet"
+            ],
+            "title": "copy_worksheetArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "excel-mcp-server_delete_worksheet",
+        "description": "Delete worksheet from workbook.",
+        "parameters": {
+            "properties": {
+                "filepath": {
+                    "title": "Filepath",
+                    "type": "string"
+                },
+                "sheet_name": {
+                    "title": "Sheet Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "filepath",
+                "sheet_name"
+            ],
+            "title": "delete_worksheetArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "excel-mcp-server_rename_worksheet",
+        "description": "Rename worksheet in workbook.",
+        "parameters": {
+            "properties": {
+                "filepath": {
+                    "title": "Filepath",
+                    "type": "string"
+                },
+                "old_name": {
+                    "title": "Old Name",
+                    "type": "string"
+                },
+                "new_name": {
+                    "title": "New Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "filepath",
+                "old_name",
+                "new_name"
+            ],
+            "title": "rename_worksheetArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "excel-mcp-server_get_workbook_metadata",
+        "description": "Get metadata about workbook including sheets, ranges, etc.",
+        "parameters": {
+            "properties": {
+                "filepath": {
+                    "title": "Filepath",
+                    "type": "string"
+                },
+                "include_ranges": {
+                    "default": false,
+                    "title": "Include Ranges",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "filepath"
+            ],
+            "title": "get_workbook_metadataArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "excel-mcp-server_merge_cells",
+        "description": "Merge a range of cells.",
+        "parameters": {
+            "properties": {
+                "filepath": {
+                    "title": "Filepath",
+                    "type": "string"
+                },
+                "sheet_name": {
+                    "title": "Sheet Name",
+                    "type": "string"
+                },
+                "start_cell": {
+                    "title": "Start Cell",
+                    "type": "string"
+                },
+                "end_cell": {
+                    "title": "End Cell",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "filepath",
+                "sheet_name",
+                "start_cell",
+                "end_cell"
+            ],
+            "title": "merge_cellsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "excel-mcp-server_unmerge_cells",
+        "description": "Unmerge a range of cells.",
+        "parameters": {
+            "properties": {
+                "filepath": {
+                    "title": "Filepath",
+                    "type": "string"
+                },
+                "sheet_name": {
+                    "title": "Sheet Name",
+                    "type": "string"
+                },
+                "start_cell": {
+                    "title": "Start Cell",
+                    "type": "string"
+                },
+                "end_cell": {
+                    "title": "End Cell",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "filepath",
+                "sheet_name",
+                "start_cell",
+                "end_cell"
+            ],
+            "title": "unmerge_cellsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "excel-mcp-server_get_merged_cells",
+        "description": "Get merged cells in a worksheet.",
+        "parameters": {
+            "properties": {
+                "filepath": {
+                    "title": "Filepath",
+                    "type": "string"
+                },
+                "sheet_name": {
+                    "title": "Sheet Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "filepath",
+                "sheet_name"
+            ],
+            "title": "get_merged_cellsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "excel-mcp-server_copy_range",
+        "description": "Copy a range of cells to another location.",
+        "parameters": {
+            "properties": {
+                "filepath": {
+                    "title": "Filepath",
+                    "type": "string"
+                },
+                "sheet_name": {
+                    "title": "Sheet Name",
+                    "type": "string"
+                },
+                "source_start": {
+                    "title": "Source Start",
+                    "type": "string"
+                },
+                "source_end": {
+                    "title": "Source End",
+                    "type": "string"
+                },
+                "target_start": {
+                    "title": "Target Start",
+                    "type": "string"
+                },
+                "target_sheet": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Target Sheet"
+                }
+            },
+            "required": [
+                "filepath",
+                "sheet_name",
+                "source_start",
+                "source_end",
+                "target_start"
+            ],
+            "title": "copy_rangeArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "excel-mcp-server_delete_range",
+        "description": "Delete a range of cells and shift remaining cells.",
+        "parameters": {
+            "properties": {
+                "filepath": {
+                    "title": "Filepath",
+                    "type": "string"
+                },
+                "sheet_name": {
+                    "title": "Sheet Name",
+                    "type": "string"
+                },
+                "start_cell": {
+                    "title": "Start Cell",
+                    "type": "string"
+                },
+                "end_cell": {
+                    "title": "End Cell",
+                    "type": "string"
+                },
+                "shift_direction": {
+                    "default": "up",
+                    "title": "Shift Direction",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "filepath",
+                "sheet_name",
+                "start_cell",
+                "end_cell"
+            ],
+            "title": "delete_rangeArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "excel-mcp-server_validate_excel_range",
+        "description": "Validate if a range exists and is properly formatted.",
+        "parameters": {
+            "properties": {
+                "filepath": {
+                    "title": "Filepath",
+                    "type": "string"
+                },
+                "sheet_name": {
+                    "title": "Sheet Name",
+                    "type": "string"
+                },
+                "start_cell": {
+                    "title": "Start Cell",
+                    "type": "string"
+                },
+                "end_cell": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "End Cell"
+                }
+            },
+            "required": [
+                "filepath",
+                "sheet_name",
+                "start_cell"
+            ],
+            "title": "validate_excel_rangeArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "excel-mcp-server_get_data_validation_info",
+        "description": "\n    Get all data validation rules in a worksheet.\n    \n    This tool helps identify which cell ranges have validation rules\n    and what types of validation are applied.\n    \n    Args:\n        filepath: Path to Excel file\n        sheet_name: Name of worksheet\n        \n    Returns:\n        JSON string containing all validation rules in the worksheet\n    ",
+        "parameters": {
+            "properties": {
+                "filepath": {
+                    "title": "Filepath",
+                    "type": "string"
+                },
+                "sheet_name": {
+                    "title": "Sheet Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "filepath",
+                "sheet_name"
+            ],
+            "title": "get_data_validation_infoArguments",
+            "type": "object"
+        }
+    }
+]

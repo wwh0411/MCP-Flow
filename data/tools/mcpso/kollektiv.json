@@ -1,0 +1,34 @@
+[
+    {
+        "name": "kollektiv_execute_rag_search",
+        "description": "Performs a semantic RAG search over the user\u2019s uploaded documents. Invoke this tool when\n        additional factual context is required. \n        \n        Tool requirements:\n        - Provide a search query containing concise, one or multiple search phrases relevant to the user\u2019s current intent.\n        - Search phrases should not contain any metadata, structural cues, instructions, tasks, or other filler language.\n        \n        How this tool works:\n        - The search string is passed as-is to the backend retriever (no modification, summarization, or formatting).\n        - The retriever performs embedding-based matching and returns a summary response generated based on retrieved document chunks (if found).\n        \n        What to include in the query:\n        - Only high-signal search phrases that would help retrieve relevant information.\n        - Precise phrasing aligned with user\u2019s true intent.\n        \n        What NOT to include:\n        - Filenames, metadata, or structural cues (e.g., \"section 2\", \".pdf\").\n        - Tasks, questions to the assistant, summaries, or filler language.\n        \n        Bad examples (and why they fail):\n        - \"Please summarize startup_docs.pdf\" \u2192 includes filename, command\n        - \"Can you explain what this document says about taxes?\" \u2192 vague, conversational\n        - \"Find in section 2 the rules\" \u2192 structural cue without semantic meaning\n        - \"Compare the two guides\" \u2192 ambiguous, requires reference\n        \n        If no search results are found:\n        - try rephrasing the query in a different way\n        ",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "rag_query": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "A RAG query to conduct semantic search over user's uploaded documents. \n            \n\t\t\tDO:\n\t\t\t- Extract key terms, acronyms, or concrete questions.\n\t\t\t- Use natural phrases as if searching a semantic index.\n\t\t\t- Preserve the user's intent with maximum compression.\n\t\t\t\n\t\t\tDO NOT:\n\t\t\t- Include filenames, file types, or source names (e.g., .pdf, .docx, etc.).\n\t\t\t- Add summaries, paraphrased answers, greetings, tasks, or commands.\n\t\t\t- Mention document structure or metadata (e.g., 'section', 'title', 'from file X').\n\t\t\t- Instructions (e.g. 'citing each page')\n"
+                },
+                "context": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "\nSupplemental context that helps the RAG agent refine the search.\n\nWhat to supply:\n\u2022 Conversation-specific intent  (if any)\n  e.g. \"User is comparing scaled-dot attention to additive attention.\"\n\u2022 User preferences or domain (if known)\n  e.g. \"User prefers concise mathematical derivations.\"\n\u2022 File scope hints  (if known)\n  e.g. \"Relevant docs: attention_paper.pdf, transformer_notes.md\"\n\nWhat **not** to supply:\n\u2022 The search query itself (rag_query already has that)  \n\u2022 Analysis, answers, or commentary  \n\u2022 Irrelevant chat history\n\nIf no context is available, pass the string \"No context provided\".\n"
+                }
+            },
+            "required": [
+                "rag_query",
+                "context"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "kollektiv_list_uploaded_documents",
+        "description": "Returns the list of documents current user has previously uploaded to Kollektiv. It takes no parameters.",
+        "parameters": {
+            "type": "object"
+        }
+    }
+]

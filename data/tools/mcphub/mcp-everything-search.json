@@ -1,0 +1,68 @@
+[
+    {
+        "name": "search",
+        "description": "Universal file search tool for Linux\n\nCurrent Implementation:\nUsing locate with Unix-style search capabilities\n\nSearch Syntax Guide:\nLinux Locate Search Syntax:\n\nBasic Usage:\n- Simple pattern: locate filename\n- Case-insensitive: -i pattern\n- Regular expressions: -r pattern\n- Existing files only: -e pattern\n- Count matches: -c pattern\n\nPattern Wildcards:\n- * matches any characters\n- ? matches single character\n- [] matches character classes\n\nExamples:\n- locate -i \"*.pdf\"\n- locate -r \"/home/.*\\.txt$\"\n- locate -c \"*.doc\"\n\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "base": {
+                    "description": "Base search parameters common to all platforms.",
+                    "properties": {
+                        "query": {
+                            "description": "Search query string. See platform-specific documentation for syntax details.",
+                            "title": "Query",
+                            "type": "string"
+                        },
+                        "max_results": {
+                            "default": 100,
+                            "description": "Maximum number of results to return (1-1000)",
+                            "maximum": 1000,
+                            "minimum": 1,
+                            "title": "Max Results",
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "query"
+                    ],
+                    "title": "BaseSearchQuery",
+                    "type": "object"
+                },
+                "linux_params": {
+                    "description": "Linux-specific search parameters for locate.",
+                    "properties": {
+                        "ignore_case": {
+                            "default": true,
+                            "description": "Ignore case distinctions (-i parameter)",
+                            "title": "Ignore Case",
+                            "type": "boolean"
+                        },
+                        "regex_search": {
+                            "default": false,
+                            "description": "Use regular expressions in patterns (-r parameter)",
+                            "title": "Regex Search",
+                            "type": "boolean"
+                        },
+                        "existing_files": {
+                            "default": true,
+                            "description": "Only output existing files (-e parameter)",
+                            "title": "Existing Files",
+                            "type": "boolean"
+                        },
+                        "count_only": {
+                            "default": false,
+                            "description": "Only display count of matches (-c parameter)",
+                            "title": "Count Only",
+                            "type": "boolean"
+                        }
+                    },
+                    "title": "LinuxSpecificParams",
+                    "type": "object"
+                }
+            },
+            "required": [
+                "base"
+            ]
+        }
+    }
+]

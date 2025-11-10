@@ -1,0 +1,296 @@
+[
+    {
+        "name": "memory-palace-mcp_create_palace",
+        "description": "Create a new memory palace with a specific theme",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The name of the memory palace"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description of the palace"
+                },
+                "theme": {
+                    "type": "string",
+                    "enum": [
+                        "ancient",
+                        "modern",
+                        "nature",
+                        "space",
+                        "underwater",
+                        "library"
+                    ],
+                    "description": "Visual theme of the palace"
+                }
+            },
+            "required": [
+                "name"
+            ]
+        }
+    },
+    {
+        "name": "memory-palace-mcp_list_palaces",
+        "description": "List all memory palaces",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "memory-palace-mcp_create_room",
+        "description": "Create a new room in a memory palace",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The name of the room"
+                },
+                "palaceId": {
+                    "type": "string",
+                    "description": "ID of the palace this room belongs to"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description of the room"
+                },
+                "position": {
+                    "type": "object",
+                    "properties": {
+                        "x": {
+                            "type": "number",
+                            "description": "X coordinate"
+                        },
+                        "y": {
+                            "type": "number",
+                            "description": "Y coordinate"
+                        },
+                        "z": {
+                            "type": "number",
+                            "description": "Z coordinate (floor level)"
+                        }
+                    },
+                    "required": [
+                        "x",
+                        "y"
+                    ],
+                    "description": "Position in the palace"
+                },
+                "color": {
+                    "type": "string",
+                    "description": "Color of the room (hex code)"
+                },
+                "size": {
+                    "type": "string",
+                    "enum": [
+                        "small",
+                        "medium",
+                        "large"
+                    ],
+                    "description": "Size of the room"
+                }
+            },
+            "required": [
+                "name",
+                "palaceId",
+                "position"
+            ]
+        }
+    },
+    {
+        "name": "memory-palace-mcp_add_memory_item",
+        "description": "Add a memory item to a room with visual cues",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "description": "Title of the memory item"
+                },
+                "content": {
+                    "type": "string",
+                    "description": "The actual content/information to remember"
+                },
+                "roomId": {
+                    "type": "string",
+                    "description": "ID of the room where this item will be placed"
+                },
+                "position": {
+                    "type": "object",
+                    "properties": {
+                        "x": {
+                            "type": "number",
+                            "description": "X coordinate within the room"
+                        },
+                        "y": {
+                            "type": "number",
+                            "description": "Y coordinate within the room"
+                        },
+                        "z": {
+                            "type": "number",
+                            "description": "Z coordinate (height)"
+                        }
+                    },
+                    "required": [
+                        "x",
+                        "y"
+                    ],
+                    "description": "Position within the room"
+                },
+                "visualCue": {
+                    "type": "object",
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "enum": [
+                                "image",
+                                "icon",
+                                "color",
+                                "shape"
+                            ],
+                            "description": "Type of visual cue"
+                        },
+                        "value": {
+                            "type": "string",
+                            "description": "The visual cue value (URL, icon name, color code, or shape name)"
+                        },
+                        "description": {
+                            "type": "string",
+                            "description": "Description of the visual cue"
+                        }
+                    },
+                    "required": [
+                        "type",
+                        "value"
+                    ],
+                    "description": "Visual cue to help remember this item"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Tags for categorization"
+                },
+                "importance": {
+                    "type": "string",
+                    "enum": [
+                        "low",
+                        "medium",
+                        "high",
+                        "critical"
+                    ],
+                    "description": "Importance level"
+                }
+            },
+            "required": [
+                "title",
+                "content",
+                "roomId",
+                "position",
+                "visualCue"
+            ]
+        }
+    },
+    {
+        "name": "memory-palace-mcp_create_journey",
+        "description": "Create a memory journey through rooms",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Name of the memory journey"
+                },
+                "palaceId": {
+                    "type": "string",
+                    "description": "ID of the palace for this journey"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description of the journey"
+                },
+                "roomIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Array of room IDs in the order to visit them"
+                },
+                "difficulty": {
+                    "type": "string",
+                    "enum": [
+                        "beginner",
+                        "intermediate",
+                        "advanced"
+                    ],
+                    "description": "Difficulty level"
+                }
+            },
+            "required": [
+                "name",
+                "palaceId",
+                "roomIds"
+            ]
+        }
+    },
+    {
+        "name": "memory-palace-mcp_take_journey",
+        "description": "Take a memory journey and review items",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "journeyId": {
+                    "type": "string",
+                    "description": "ID of the journey to take"
+                }
+            },
+            "required": [
+                "journeyId"
+            ]
+        }
+    },
+    {
+        "name": "memory-palace-mcp_search_memories",
+        "description": "Search for memory items by content or tags",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Search query"
+                }
+            },
+            "required": [
+                "query"
+            ]
+        }
+    },
+    {
+        "name": "memory-palace-mcp_get_palace_layout",
+        "description": "Get detailed layout of a palace with all rooms and items",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "palaceId": {
+                    "type": "string",
+                    "description": "ID of the palace"
+                }
+            },
+            "required": [
+                "palaceId"
+            ]
+        }
+    },
+    {
+        "name": "memory-palace-mcp_get_statistics",
+        "description": "Get statistics about all memory palaces",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    }
+]

@@ -1,0 +1,760 @@
+[
+    {
+        "name": "autocomplete",
+        "description": "Find locations by query",
+        "parameters": {
+            "properties": {
+                "query": {
+                    "description": "Query parameter",
+                    "title": "Query",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_by_location",
+        "description": "Find rooms at a location",
+        "parameters": {
+            "properties": {
+                "location": {
+                    "description": "Location (city, region, suburb, etc.)",
+                    "title": "Location",
+                    "type": "string"
+                },
+                "checkin": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Check-in date",
+                    "title": "Checkin"
+                },
+                "checkout": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Check-out date",
+                    "title": "Checkout"
+                },
+                "adults": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Number of adult guests (13 years and over) Default: 1",
+                    "title": "Adults"
+                },
+                "children": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of children (2-12 years) Default: 0",
+                    "title": "Children"
+                },
+                "infants": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of infants (under 2 years) Default: 0",
+                    "title": "Infants"
+                },
+                "pets": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of pets Default: 0",
+                    "title": "Pets"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Page of results returned Allowed values: 1-8 Default: 1",
+                    "title": "Page"
+                },
+                "currency": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Price currency, default: USD",
+                    "title": "Currency"
+                },
+                "min_beds": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Minimum number of beds",
+                    "title": "Min Beds"
+                },
+                "min_bedrooms": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Minimum number of bedrooms",
+                    "title": "Min Bedrooms"
+                }
+            },
+            "required": [
+                "location",
+                "checkin",
+                "checkout",
+                "adults"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_by_geo_coordinates",
+        "description": "Find rooms in a rectangles bounded by provided coordinates",
+        "parameters": {
+            "properties": {
+                "ne_lat": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Latitude of the northeastern corner of the search area Default: 52.51",
+                    "title": "Ne Lat"
+                },
+                "ne_lng": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Longitude of the northeastern corner of the search area Default: 13.41",
+                    "title": "Ne Lng"
+                },
+                "sw_lat": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Latitude of the southwestern corner of the search area Default: 52.41",
+                    "title": "Sw Lat"
+                },
+                "sw_lng": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Longitude of the southwestern corner of the search area Default: 13.31",
+                    "title": "Sw Lng"
+                },
+                "checkin": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Check-in date",
+                    "title": "Checkin"
+                },
+                "checkout": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Check-out date",
+                    "title": "Checkout"
+                },
+                "adults": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Number of adult guests (13 years and over) Default: 1",
+                    "title": "Adults"
+                },
+                "children": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of children (2-12 years) Default: 0",
+                    "title": "Children"
+                },
+                "infants": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of infants (under 2 years) Default: 0",
+                    "title": "Infants"
+                },
+                "pets": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of pets Default: 0",
+                    "title": "Pets"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Returned page of results. Allowed values: 1-8 Default: 1",
+                    "title": "Page"
+                },
+                "currency": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Price currency, default: USD",
+                    "title": "Currency"
+                },
+                "min_beds": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Minimum number of beds",
+                    "title": "Min Beds"
+                },
+                "min_bedrooms": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Minimum number of bedrooms",
+                    "title": "Min Bedrooms"
+                }
+            },
+            "required": [
+                "ne_lat",
+                "ne_lng",
+                "sw_lat",
+                "sw_lng",
+                "checkin",
+                "checkout",
+                "adults"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_listing_details",
+        "description": "Get listing details, availability and price for selected interval",
+        "parameters": {
+            "properties": {
+                "listing_id": {
+                    "description": "The ID of Airbnb listing",
+                    "title": "Listing Id",
+                    "type": "string"
+                },
+                "checkin": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Check-in date",
+                    "title": "Checkin"
+                },
+                "checkout": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Check-out date",
+                    "title": "Checkout"
+                },
+                "adults": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of adult guests (13 years and over) Default: 0",
+                    "title": "Adults"
+                },
+                "children": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of children (2-12 years)",
+                    "title": "Children"
+                },
+                "infants": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of infants (under 2 years)",
+                    "title": "Infants"
+                },
+                "pets": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of pets",
+                    "title": "Pets"
+                },
+                "locale": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Locale, default: en",
+                    "title": "Locale"
+                },
+                "currency": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Price currency, default: USD",
+                    "title": "Currency"
+                }
+            },
+            "required": [
+                "listing_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "calendar",
+        "description": "Returns availability and prices of a listing",
+        "parameters": {
+            "properties": {
+                "room_id": {
+                    "description": "",
+                    "title": "Room Id",
+                    "type": "string"
+                },
+                "currency": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Price currency, default: USD",
+                    "title": "Currency"
+                },
+                "year": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Calendar year, default: current year",
+                    "title": "Year"
+                },
+                "month": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Calendar month, default: current month",
+                    "title": "Month"
+                },
+                "count": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Returned number of months, default: 12, max: 12",
+                    "title": "Count"
+                }
+            },
+            "required": [
+                "room_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_full_airbnb_list",
+        "description": "Fetch up to 200 Airbnb listings for the given search by fetching the first 5 pages in parallel (page size is 40).",
+        "parameters": {
+            "properties": {
+                "location": {
+                    "description": "Location (city, region, suburb, etc.)",
+                    "title": "Location",
+                    "type": "string"
+                },
+                "checkin": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Check-in date",
+                    "title": "Checkin"
+                },
+                "checkout": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Check-out date",
+                    "title": "Checkout"
+                },
+                "adults": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Number of adult guests (13 years and over). Default: 1",
+                    "title": "Adults"
+                },
+                "children": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of children (2-12 years). Default: 0",
+                    "title": "Children"
+                },
+                "infants": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of infants (under 2 years). Default: 0",
+                    "title": "Infants"
+                },
+                "pets": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of pets. Default: 0",
+                    "title": "Pets"
+                },
+                "currency": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Price currency. Default: USD",
+                    "title": "Currency"
+                },
+                "min_beds": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Minimum number of beds",
+                    "title": "Min Beds"
+                },
+                "min_bedrooms": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Minimum number of bedrooms",
+                    "title": "Min Bedrooms"
+                }
+            },
+            "required": [
+                "location",
+                "checkin",
+                "checkout",
+                "adults"
+            ],
+            "type": "object"
+        }
+    }
+]

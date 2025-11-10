@@ -1,0 +1,202 @@
+[
+    {
+        "name": "list_assets",
+        "description": "Returns a list of assets available given a bodytype and assettype",
+        "parameters": {
+            "properties": {
+                "bodytype_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Body type identification number (e.g. 1101) Default: 1101",
+                    "title": "Bodytype Id"
+                },
+                "assettype": {
+                    "description": "Asset type (e.g. top)",
+                    "title": "Assettype",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "bodytype_id",
+                "assettype"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_asset_types",
+        "description": "Return list of asset types that are available for the given body type identifier.",
+        "parameters": {
+            "properties": {
+                "bodytype_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Body type identification number (e.g. 1101) Default: 1101",
+                    "title": "Bodytype Id"
+                }
+            },
+            "required": [
+                "bodytype_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_body_types",
+        "description": "Returns a list of avatar body types that are available to choose when creating your avatar",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "create_avatar",
+        "description": "Create a new DoppelMe avatar. On successful creation, you will receive a doppelme_key. Use this key and the Update Avatar endpoint to specify clothes, hairstyles etc.",
+        "parameters": {
+            "properties": {
+                "data": {
+                    "additionalProperties": true,
+                    "default": null,
+                    "description": "",
+                    "title": "Data",
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "delete_avatar",
+        "description": "Delete created avatar.",
+        "parameters": {
+            "properties": {
+                "doppelme_key": {
+                    "description": "The id of the avatar you wish to delete",
+                    "title": "Doppelme Key",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "doppelme_key"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "add_asset_item",
+        "description": "Add an item to your avatar. Note that you can only update avatars that you have created yourself.",
+        "parameters": {
+            "properties": {
+                "doppelme_key": {
+                    "description": "The identifier of the avatar that you wish to update.",
+                    "title": "Doppelme Key",
+                    "type": "string"
+                },
+                "asset_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The asset_id that you wish to add to your avatar Default: 59",
+                    "title": "Asset Id"
+                }
+            },
+            "required": [
+                "doppelme_key",
+                "asset_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "add_asset_colour",
+        "description": "Set the colour of asset (if asset is colourable). Note that you can only update avatars that you have created yourself.",
+        "parameters": {
+            "properties": {
+                "doppelme_key": {
+                    "description": "The id of the avatar that you wish to update",
+                    "title": "Doppelme Key",
+                    "type": "string"
+                },
+                "asset_type": {
+                    "description": "Specify the asset type (e.g. top, hair etc.)",
+                    "title": "Asset Type",
+                    "type": "string"
+                },
+                "colour": {
+                    "description": "Colour in 6-digit hex format",
+                    "title": "Colour",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "doppelme_key",
+                "asset_type",
+                "colour"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "remove_asset",
+        "description": "Remove an item from an avatar. Note that you can only update avatars that you have created yourself.",
+        "parameters": {
+            "properties": {
+                "doppelme_key": {
+                    "description": "The identifier of the avatar that you wish to update.",
+                    "title": "Doppelme Key",
+                    "type": "string"
+                },
+                "asset_type": {
+                    "description": "The asset type (e.g.top, hair) to be removed from the avatar",
+                    "title": "Asset Type",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "doppelme_key",
+                "asset_type"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "set_skin_colour",
+        "description": "Change the skin colour of your avatar. Note that you can only edit avatars that you have created yourself",
+        "parameters": {
+            "properties": {
+                "doppelme_key": {
+                    "description": "The id of the avatar that you wish to update",
+                    "title": "Doppelme Key",
+                    "type": "string"
+                },
+                "colour": {
+                    "description": "Colour in 6-digit hex format",
+                    "title": "Colour",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "doppelme_key",
+                "colour"
+            ],
+            "type": "object"
+        }
+    }
+]

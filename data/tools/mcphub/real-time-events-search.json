@@ -1,0 +1,81 @@
+[
+    {
+        "name": "search_events",
+        "description": "Search for local public events in real-time. Supports filters and options as available on Google Events (i.e date and online filters).",
+        "parameters": {
+            "properties": {
+                "query": {
+                    "description": "Search query / keyword.",
+                    "title": "Query",
+                    "type": "string"
+                },
+                "date": {
+                    "default": null,
+                    "description": "Return events in a certain date / time period. Default: any Allowed values: any, today, tomorrow, week, weekend, next_week, month, next_month",
+                    "enum": [
+                        "any",
+                        "today",
+                        "tomorrow",
+                        "week",
+                        "weekend",
+                        "next_week",
+                        "month",
+                        "next_month",
+                        null
+                    ],
+                    "title": "Date"
+                },
+                "is_virtual": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If true, only virtual events will be returned. Default: false",
+                    "title": "Is Virtual"
+                },
+                "start": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of results to skip (for pagination). Default: 0 Allowed values: positive integers Default: 0",
+                    "title": "Start"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "event_details",
+        "description": "Get the details of a specific event by Event ID (i.e. *event_id* field of an event).",
+        "parameters": {
+            "properties": {
+                "event_id": {
+                    "description": "The ID of the event to fetch (i.e. event_id field of an event).",
+                    "title": "Event Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "event_id"
+            ],
+            "type": "object"
+        }
+    }
+]

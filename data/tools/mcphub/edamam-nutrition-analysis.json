@@ -1,0 +1,48 @@
+[
+    {
+        "name": "api_nutrition_data",
+        "description": "This returns the nutritional analysis for the specified food text by extracting information from a short unstructured food text (usually an ingredient line and returns the following structured data for the text: quantity, measure and food,) and if available: diet, health and allergen labels for the text. With the built in food logging feature, this allows for change of context. For example, “rice” will normally be matched to raw rice while, with the food logging feature on, it will match to ready to eat ‘cooked rice.’ <b>Access Point:</b> https://api.edamam.com/api/nutrition-data",
+        "parameters": {
+            "properties": {
+                "ingr": {
+                    "description": "The ingredient.",
+                    "title": "Ingr",
+                    "type": "string"
+                },
+                "nutrition_type": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Select between the cooking and food logging processor.",
+                    "title": "Nutrition Type"
+                }
+            },
+            "required": [
+                "ingr"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "api_nutrition_details",
+        "description": "This returns the nutritional information based on a POST request of the recipe content. The POST request submits the recipe content, specifically the recipe title and ingredient list. The response the API returns, will contain the nutritional analysis for the recipe based on the information provided. <b>Access Point:</b> https://api.edamam.com/api/nutrition-details",
+        "parameters": {
+            "properties": {
+                "data": {
+                    "additionalProperties": true,
+                    "default": null,
+                    "description": "",
+                    "title": "Data",
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        }
+    }
+]

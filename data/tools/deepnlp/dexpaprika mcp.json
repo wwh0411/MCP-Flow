@@ -1,0 +1,368 @@
+[
+    {
+        "name": "dexpaprika_getNetworks",
+        "description": "REQUIRED FIRST STEP: Get all supported blockchain networks. Always call this first to see available networks before using any network-specific functions. Returns network IDs like \"ethereum\", \"solana\", etc.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "dexpaprika_getNetworkDexes",
+        "description": "Get available DEXes on a specific network. First call getNetworks to see valid network IDs.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "network": {
+                    "type": "string",
+                    "description": "Network ID from getNetworks (e.g., \"ethereum\", \"solana\")"
+                },
+                "page": {
+                    "type": "number",
+                    "default": 0,
+                    "description": "Page number for pagination"
+                },
+                "limit": {
+                    "type": "number",
+                    "default": 10,
+                    "description": "Number of items per page"
+                }
+            },
+            "required": [
+                "network"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "dexpaprika_getNetworkPools",
+        "description": "PRIMARY POOL FUNCTION: Get top liquidity pools on a specific network. This is the MAIN way to get pool data - there is NO global pools function. Use this instead of any \"getTopPools\" or \"getAllPools\" concepts.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "network": {
+                    "type": "string",
+                    "description": "Network ID from getNetworks (required) - e.g., \"ethereum\", \"solana\""
+                },
+                "page": {
+                    "type": "number",
+                    "default": 0,
+                    "description": "Page number for pagination"
+                },
+                "limit": {
+                    "type": "number",
+                    "default": 10,
+                    "description": "Number of items per page (max 100)"
+                },
+                "sort": {
+                    "type": "string",
+                    "enum": [
+                        "asc",
+                        "desc"
+                    ],
+                    "default": "desc",
+                    "description": "Sort order"
+                },
+                "orderBy": {
+                    "type": "string",
+                    "enum": [
+                        "volume_usd",
+                        "price_usd",
+                        "transactions",
+                        "last_price_change_usd_24h",
+                        "created_at"
+                    ],
+                    "default": "volume_usd",
+                    "description": "Field to order by"
+                }
+            },
+            "required": [
+                "network"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "dexpaprika_getDexPools",
+        "description": "Get pools from a specific DEX on a network. First use getNetworks, then getNetworkDexes to find valid DEX IDs.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "network": {
+                    "type": "string",
+                    "description": "Network ID from getNetworks (e.g., \"ethereum\", \"solana\")"
+                },
+                "dex": {
+                    "type": "string",
+                    "description": "DEX identifier from getNetworkDexes (e.g., \"uniswap_v3\")"
+                },
+                "page": {
+                    "type": "number",
+                    "default": 0,
+                    "description": "Page number for pagination"
+                },
+                "limit": {
+                    "type": "number",
+                    "default": 10,
+                    "description": "Number of items per page (max 100)"
+                },
+                "sort": {
+                    "type": "string",
+                    "enum": [
+                        "asc",
+                        "desc"
+                    ],
+                    "default": "desc",
+                    "description": "Sort order"
+                },
+                "orderBy": {
+                    "type": "string",
+                    "enum": [
+                        "volume_usd",
+                        "price_usd",
+                        "transactions",
+                        "last_price_change_usd_24h",
+                        "created_at"
+                    ],
+                    "default": "volume_usd",
+                    "description": "Field to order by"
+                }
+            },
+            "required": [
+                "network",
+                "dex"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "dexpaprika_getPoolDetails",
+        "description": "Get detailed information about a specific pool. Requires network ID from getNetworks and a pool address.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "network": {
+                    "type": "string",
+                    "description": "Network ID from getNetworks (e.g., \"ethereum\", \"solana\")"
+                },
+                "poolAddress": {
+                    "type": "string",
+                    "description": "Pool address or identifier"
+                },
+                "inversed": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to invert the price ratio"
+                }
+            },
+            "required": [
+                "network",
+                "poolAddress"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "dexpaprika_getTokenDetails",
+        "description": "Get detailed information about a specific token on a network. First use getNetworks to get valid network IDs.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "network": {
+                    "type": "string",
+                    "description": "Network ID from getNetworks (e.g., \"ethereum\", \"solana\")"
+                },
+                "tokenAddress": {
+                    "type": "string",
+                    "description": "Token address or identifier"
+                }
+            },
+            "required": [
+                "network",
+                "tokenAddress"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "dexpaprika_getTokenPools",
+        "description": "Get liquidity pools containing a specific token on a network. Great for finding where a token is traded.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "network": {
+                    "type": "string",
+                    "description": "Network ID from getNetworks (e.g., \"ethereum\", \"solana\")"
+                },
+                "tokenAddress": {
+                    "type": "string",
+                    "description": "Token address or identifier"
+                },
+                "page": {
+                    "type": "number",
+                    "default": 0,
+                    "description": "Page number for pagination"
+                },
+                "limit": {
+                    "type": "number",
+                    "default": 10,
+                    "description": "Number of items per page (max 100)"
+                },
+                "sort": {
+                    "type": "string",
+                    "enum": [
+                        "asc",
+                        "desc"
+                    ],
+                    "default": "desc",
+                    "description": "Sort order"
+                },
+                "orderBy": {
+                    "type": "string",
+                    "enum": [
+                        "volume_usd",
+                        "price_usd",
+                        "transactions",
+                        "last_price_change_usd_24h",
+                        "created_at"
+                    ],
+                    "default": "volume_usd",
+                    "description": "Field to order by"
+                },
+                "reorder": {
+                    "type": "boolean",
+                    "description": "If true, reorders the pool so that the specified token becomes the primary token for all metrics"
+                },
+                "address": {
+                    "type": "string",
+                    "description": "Filter pools that contain this additional token address"
+                }
+            },
+            "required": [
+                "network",
+                "tokenAddress"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "dexpaprika_getPoolOHLCV",
+        "description": "Get historical price data (OHLCV) for a pool - essential for price analysis, backtesting, and visualization. Requires network and pool address.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "network": {
+                    "type": "string",
+                    "description": "Network ID from getNetworks (e.g., \"ethereum\", \"solana\")"
+                },
+                "poolAddress": {
+                    "type": "string",
+                    "description": "Pool address or identifier"
+                },
+                "start": {
+                    "type": "string",
+                    "description": "Start time for historical data (Unix timestamp, RFC3339 timestamp, or yyyy-mm-dd format)"
+                },
+                "end": {
+                    "type": "string",
+                    "description": "End time for historical data (max 1 year from start)"
+                },
+                "limit": {
+                    "type": "number",
+                    "default": 1,
+                    "description": "Number of data points to retrieve (max 366) - adjust for different analysis needs"
+                },
+                "interval": {
+                    "type": "string",
+                    "default": "24h",
+                    "description": "Interval granularity: 1m, 5m, 10m, 15m, 30m, 1h, 6h, 12h, 24h"
+                },
+                "inversed": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to invert the price ratio for alternative pair perspective (e.g., ETH/USDC vs USDC/ETH)"
+                }
+            },
+            "required": [
+                "network",
+                "poolAddress",
+                "start"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "dexpaprika_getPoolTransactions",
+        "description": "Get recent transactions for a specific pool. Shows swaps, adds, removes. Requires network and pool address.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "network": {
+                    "type": "string",
+                    "description": "Network ID from getNetworks (e.g., \"ethereum\", \"solana\")"
+                },
+                "poolAddress": {
+                    "type": "string",
+                    "description": "Pool address or identifier"
+                },
+                "page": {
+                    "type": "number",
+                    "default": 0,
+                    "description": "Page number for pagination (up to 100 pages)"
+                },
+                "limit": {
+                    "type": "number",
+                    "default": 10,
+                    "description": "Number of items per page (max 100)"
+                },
+                "cursor": {
+                    "type": "string",
+                    "description": "Transaction ID used for cursor-based pagination"
+                }
+            },
+            "required": [
+                "network",
+                "poolAddress"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "dexpaprika_search",
+        "description": "Search across ALL networks for tokens, pools, and DEXes by name, symbol, or address. Good starting point when you don't know the specific network.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Search term (e.g., \"uniswap\", \"bitcoin\", or a token address)"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "dexpaprika_getStats",
+        "description": "Get high-level statistics about the DexPaprika ecosystem: total networks, DEXes, pools, and tokens available.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

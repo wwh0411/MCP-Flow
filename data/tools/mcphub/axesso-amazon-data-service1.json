@@ -1,0 +1,603 @@
+[
+    {
+        "name": "product_details",
+        "description": "Retrieve product details from Amazon using the product URL.",
+        "parameters": {
+            "properties": {
+                "url": {
+                    "description": "Amazon product URL to fetch details for.",
+                    "title": "Url",
+                    "type": "string"
+                },
+                "merchant": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "merchant id",
+                    "title": "Merchant"
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_products",
+        "description": "Search for products on Amazon by keyword and return ASINs. Supports filtering by category, sort order, and more.",
+        "parameters": {
+            "properties": {
+                "domainCode": {
+                    "description": "Amazon domain suffix (e.g., com, de, fr, co.uk).",
+                    "title": "Domaincode",
+                    "type": "string"
+                },
+                "keyword": {
+                    "description": "keyword used for the search",
+                    "title": "Keyword",
+                    "type": "string"
+                },
+                "page": {
+                    "description": "Parameter for Pagination",
+                    "title": "Page",
+                    "type": "string"
+                },
+                "excludeSponsored": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Set true to exclude sponsored products",
+                    "title": "Excludesponsored"
+                },
+                "sortBy": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "sorting for the search results",
+                    "title": "Sortby"
+                },
+                "withCache": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If true, proxy for same searchterm will be cached and used for next page. Might increase the response quality.",
+                    "title": "Withcache"
+                },
+                "category": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Pass the amazon category which should used for the search. Valid category list can found on the amazon website on the search selection box. Important: If the passed category is not a valid amazon category, the response will be empty",
+                    "title": "Category"
+                },
+                "browseNode": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Define the current browsing node (category or sub-category). E.g. pass 10158976011 to get Amazon Resale",
+                    "title": "Browsenode"
+                },
+                "nodeHierarchy": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Further category nodes hierarchy. Can be a single category number or a comma separated list, e.g. 3375251,10158976011,706814011,11051400011",
+                    "title": "Nodehierarchy"
+                }
+            },
+            "required": [
+                "domainCode",
+                "keyword",
+                "page"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_full_product_list",
+        "description": "Fetch the complete product list: fetch 13 pages in batches of 3, with retry and delay to avoid rate limiting. Merge all product results.",
+        "parameters": {
+            "properties": {
+                "domainCode": {
+                    "description": "e.g. com / de / fr / co.uk",
+                    "title": "Domaincode",
+                    "type": "string"
+                },
+                "keyword": {
+                    "description": "keyword used for the search",
+                    "title": "Keyword",
+                    "type": "string"
+                },
+                "excludeSponsored": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Set true to exclude sponsored products",
+                    "title": "Excludesponsored"
+                },
+                "sortBy": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "sorting for the search results",
+                    "title": "Sortby"
+                },
+                "withCache": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If true, proxy for same searchterm will be cached and used for next page. Might increase the response quality.",
+                    "title": "Withcache"
+                },
+                "category": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Pass the amazon category which should used for the search. Valid category list can found on the amazon website on the search selection box. Important: If the passed category is not a valid amazon category, the response will be empty",
+                    "title": "Category"
+                },
+                "browseNode": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Define the current browsing node (category or sub-category). E.g. pass 10158976011 to get Amazon Resale",
+                    "title": "Browsenode"
+                },
+                "nodeHierarchy": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Further category nodes hierarchy. Can be a single category number or a comma separated list, e.g. 3375251,10158976011,706814011,11051400011",
+                    "title": "Nodehierarchy"
+                }
+            },
+            "required": [
+                "domainCode",
+                "keyword"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "reviews",
+        "description": "Retrieve product reviews from Amazon using ASIN.",
+        "parameters": {
+            "properties": {
+                "domainCode": {
+                    "description": "Amazon domain suffix (e.g., com, de, fr, co.uk).",
+                    "title": "Domaincode",
+                    "type": "string"
+                },
+                "asin": {
+                    "description": "asin used for the lookup",
+                    "title": "Asin",
+                    "type": "string"
+                },
+                "sortBy": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Sorting of review results",
+                    "title": "Sortby"
+                },
+                "filters": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Optional semicolon-separated list of review filters.",
+                    "title": "Filters"
+                }
+            },
+            "required": [
+                "domainCode",
+                "asin"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "deals",
+        "description": "Lookup current deals available on Amazon (Today's Deals / Top Deals, Best Deals, and Lightning Deals) for different marketplaces using various filter options like department, price and discount.",
+        "parameters": {
+            "properties": {
+                "domainCode": {
+                    "description": "all available marketplaces like com, de, co.uk, fr, it and other",
+                    "title": "Domaincode",
+                    "type": "string"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Use this parameter to request deals page by page. Each page includes up to 30 deals Default: 1",
+                    "title": "Page"
+                },
+                "departments": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Returns deals within this provided department. Department id can be either fetched from amazon page via browser or using our API endpoint 'dealFilter'",
+                    "title": "Departments"
+                },
+                "discountRange": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Returns deals within a this discount range. Find an overview of the possible values in our endpoint 'dealFilter' Valid values are 1, 2, 3, 4,5",
+                    "title": "Discountrange"
+                },
+                "minProductStarRating": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Returns deals within a this review range. Find an overview of the possible values in our endpoint 'dealFilter' Valid values are 1, 2, 3, 4",
+                    "title": "Minproductstarrating"
+                },
+                "priceRange": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Returns deals within a this price range. Find an overview of the possible values in our endpoint 'dealFilter' Valid values are 1, 2, 3, 4, 5",
+                    "title": "Pricerange"
+                },
+                "primeEarly": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Returns prime early deals only",
+                    "title": "Primeearly"
+                },
+                "primeExclusive": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Returns prime exclusive deals only",
+                    "title": "Primeexclusive"
+                }
+            },
+            "required": [
+                "domainCode",
+                "page"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "deals_filter",
+        "description": "Filter options which can be used in 'deals' endpoint",
+        "parameters": {
+            "properties": {
+                "domainCode": {
+                    "description": "All available marketplaces like com, de, co.uk, fr, it and other",
+                    "title": "Domaincode",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "domainCode"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "offers",
+        "description": "Lookup offer on Amazon from different seller for the specified product",
+        "parameters": {
+            "properties": {
+                "page": {
+                    "description": "Number of pages to return",
+                    "title": "Page",
+                    "type": "string"
+                },
+                "domainCode": {
+                    "description": "e.g. com / de / fr / co.uk",
+                    "title": "Domaincode",
+                    "type": "string"
+                },
+                "asin": {
+                    "description": "asin to lookup",
+                    "title": "Asin",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "page",
+                "domainCode",
+                "asin"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "best_seller",
+        "description": "Lookup best seller list on Amazon by providing url and page.",
+        "parameters": {
+            "properties": {
+                "url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "url used for the lookup",
+                    "title": "Url"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parameter used for pagination",
+                    "title": "Page"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "seller_details",
+        "description": "Lookup seller details on Amazon based on sellerid and domain",
+        "parameters": {
+            "properties": {
+                "sellerId": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "id of the seller used for the lookup",
+                    "title": "Sellerid"
+                },
+                "domainCode": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Domain code of the amazon page",
+                    "title": "Domaincode"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "seller_products",
+        "description": "Lookup all products on Amazon for a given seller page by page.",
+        "parameters": {
+            "properties": {
+                "domainCode": {
+                    "description": "domain code of the amazon page",
+                    "title": "Domaincode",
+                    "type": "string"
+                },
+                "sellerId": {
+                    "description": "seller id used for the lookup",
+                    "title": "Sellerid",
+                    "type": "string"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Parameter used for pagination Default: 1",
+                    "title": "Page"
+                }
+            },
+            "required": [
+                "domainCode",
+                "sellerId",
+                "page"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "profile",
+        "description": "Retrieve detailed profile information on Amazon, including user reviews and other relevant data.",
+        "parameters": {
+            "properties": {
+                "path": {
+                    "description": "Path to the user profile. Can be obtained from \"Reviews\" endpoint, e.g. /gp/profile/amzn1.account.AFZFUKCD5Z5RKCEO3E7ODCL2SURQ/ref=cm_cr_dp_d_gw_tr?ie=UTF8",
+                    "title": "Path",
+                    "type": "string"
+                },
+                "domainCode": {
+                    "description": "Supports nearly all amazon marketplaces like com / de / fr / co.uk / it / es /ca / co.uk etc.",
+                    "title": "Domaincode",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "path",
+                "domainCode"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "healthcheck",
+        "description": "test",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "review_details",
+        "description": "Retrieve in-depth review details from Amazon, including ratings, review text, author information, and timestamps.",
+        "parameters": {
+            "properties": {
+                "reviewId": {
+                    "description": "",
+                    "title": "Reviewid",
+                    "type": "string"
+                },
+                "domainCode": {
+                    "description": "",
+                    "title": "Domaincode",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "reviewId",
+                "domainCode"
+            ],
+            "type": "object"
+        }
+    }
+]

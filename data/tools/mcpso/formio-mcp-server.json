@@ -1,0 +1,268 @@
+[
+    {
+        "name": "mcp-formio_create_role",
+        "description": "\nCreate a new role in the FormIO system.\n\nThis function allows you to create a new role by providing a JSON structure\nthat defines the role's properties and permissions. The JSON structure is sent\nto the FormIO API which then creates and stores the role.\n\nArgs:\n    role_info (dict): The role definition in JSON format.\n    token (str): The JWT token for authentication.\n\nReturns:\n    Union[dict, CallToolResult]: The created role object on success,\n    or a CallToolResult describing the error.\n",
+        "parameters": {
+            "properties": {
+                "role_info": {
+                    "additionalProperties": true,
+                    "title": "Role Info",
+                    "type": "object"
+                },
+                "token": {
+                    "title": "Token",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "role_info",
+                "token"
+            ],
+            "title": "create_roleArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "mcp-formio_update_existing_role",
+        "description": "\nUpdate an existing role in the FormIO system.\n\nThis function allows you to update an existing role by providing the role ID\nand a JSON structure that defines the updated properties and permissions.\nThe JSON structure is sent to the FormIO API which then updates the role.\n\nArgs:\n    role_id (str): The ID of the role to update.\n    role_info (dict): The updated role definition in JSON format.\n    token (str): The JWT token for authentication.\n\nReturns:\n    Union[dict, CallToolResult]: The updated role object on success,\n    or a CallToolResult describing the error.\n",
+        "parameters": {
+            "properties": {
+                "role_id": {
+                    "title": "Role Id",
+                    "type": "string"
+                },
+                "role_info": {
+                    "additionalProperties": true,
+                    "title": "Role Info",
+                    "type": "object"
+                },
+                "token": {
+                    "title": "Token",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "role_id",
+                "role_info",
+                "token"
+            ],
+            "title": "update_existing_roleArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "mcp-formio_get_roles_list",
+        "description": "\nRetrieve a list of roles from the FormIO API.\n\nThis function fetches the roles available in the FormIO system. Roles are\nused to manage permissions and access control for users and groups within\nthe FormIO platform.\n\nArgs:\n    token (str): The JWT token for authentication.\n\nReturns:\n    Union[dict, CallToolResult]: A dictionary containing the list of roles,\n    or a CallToolResult if the request failed.\n",
+        "parameters": {
+            "properties": {
+                "token": {
+                    "title": "Token",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "token"
+            ],
+            "title": "get_roles_listArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "mcp-formio_create_form_submission",
+        "description": "\nCreate a new submission for a specific form in the FormIO system.\n\nThis function allows you to create a submission by providing the form ID and\nthe data to be submitted. The data should match the structure defined in the\nform's schema. The submission will be stored in the FormIO system.\n\nArgs:\n    form_id (str): The ID of the form to which the submission belongs.\n    data (dict): The submission data in JSON format.\n    token (str): The JWT token for authentication.\n\nReturns:\n    Union[dict, CallToolResult]: A dictionary containing the created submission,\n    or a CallToolResult if the request failed.\n",
+        "parameters": {
+            "properties": {
+                "form_id": {
+                    "title": "Form Id",
+                    "type": "string"
+                },
+                "data": {
+                    "additionalProperties": true,
+                    "title": "Data",
+                    "type": "object"
+                },
+                "token": {
+                    "title": "Token",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "form_id",
+                "data",
+                "token"
+            ],
+            "title": "create_form_submissionArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "mcp-formio_load_form_submission",
+        "description": "\nRetrieve a specific submission from the FormIO API.\n\nThis function allows you to fetch a specific submission for a given form by\nproviding the form ID and submission ID. The retrieved submission data can\nbe used for various purposes, such as displaying or processing the submitted\ninformation.\n\nArgs:\n    form_id (str): The ID of the form to which the submission belongs.\n    submission_id (str): The ID of the submission to retrieve.\n    token (str): The JWT token for authentication.\n\nReturns:\n    Union[dict, CallToolResult]: A dictionary containing the submission data,\n    or a CallToolResult if the request failed.\n",
+        "parameters": {
+            "properties": {
+                "form_id": {
+                    "title": "Form Id",
+                    "type": "string"
+                },
+                "submission_id": {
+                    "title": "Submission Id",
+                    "type": "string"
+                },
+                "token": {
+                    "title": "Token",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "form_id",
+                "submission_id",
+                "token"
+            ],
+            "title": "load_form_submissionArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "mcp-formio_get_paginated_form_submissions",
+        "description": "\nRetrieve a paginated list of submissions for a specific form from the FormIO API.\n\nThis function allows you to fetch submissions for a specific form with pagination\nsupport. You can specify how many submissions to retrieve and how many to skip,\nwhich is useful for implementing paginated listings or navigating through large\ncollections of submissions.\n\nArgs:\n    form_id (str): The ID of the form to which the submissions belong.\n    limit (int): The maximum number of submissions to return.\n    skip (int): The number of submissions to skip (offset).\n    token (str): The JWT token for authentication.\n\nReturns:\n    Union[dict, CallToolResult]: A dictionary containing the list of submissions and the total count,\n    or a CallToolResult if the request failed.\n",
+        "parameters": {
+            "properties": {
+                "form_id": {
+                    "title": "Form Id",
+                    "type": "string"
+                },
+                "limit": {
+                    "title": "Limit",
+                    "type": "integer"
+                },
+                "skip": {
+                    "title": "Skip",
+                    "type": "integer"
+                },
+                "token": {
+                    "title": "Token",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "form_id",
+                "limit",
+                "skip",
+                "token"
+            ],
+            "title": "get_paginated_form_submissionsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "mcp-formio_create_user",
+        "description": "\nRegister a new user in the FormIO system.\n\nThis function allows you to create a new user by providing an email and password.\nThe user will be registered in the FormIO system and can then log in using the\nprovided credentials.\n\nArgs:\n    email (str): The email for the new user.\n    password (str): The password for the new user.\n\nReturns:\n    Union[dict, CallToolResult]: A dictionary containing the user information and JWT token,\n    or a CallToolResult if the request failed.\n",
+        "parameters": {
+            "properties": {
+                "email": {
+                    "title": "Email",
+                    "type": "string"
+                },
+                "password": {
+                    "title": "Password",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "email",
+                "password"
+            ],
+            "title": "create_userArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "mcp-formio_authenticate_user",
+        "description": "\nAuthenticate an user and retrieve a JWT token.\n\nThis function sends a login request to the FormIO API and retrieves a JWT token\nfor subsequent authenticated requests. The token is essential for accessing\nprotected resources in the FormIO system.\n\nArgs:\n    email (str): The email for authentication.\n    password (str): The password for authentication.\n\nReturns:\n    Union[dict, CallToolResult]: A dictionary containing the JWT token and user information,\n    or a CallToolResult if the request failed.\n",
+        "parameters": {
+            "properties": {
+                "email": {
+                    "title": "Email",
+                    "type": "string"
+                },
+                "password": {
+                    "title": "Password",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "email",
+                "password"
+            ],
+            "title": "authenticate_userArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "mcp-formio_authenticate_admin",
+        "description": "\nAuthenticate an admin and retrieve a JWT token.\n\nThis function sends a login request to the FormIO API and retrieves a JWT token\nfor subsequent authenticated requests. The token is essential for accessing\nprotected resources in the FormIO system.\n\nArgs:\n    email (str): The email for authentication.\n    password (str): The password for authentication.\n\nReturns:\n    Union[dict, CallToolResult]: A dictionary containing the JWT token and user information,\n    or a CallToolResult if the request failed.\n",
+        "parameters": {
+            "properties": {
+                "email": {
+                    "title": "Email",
+                    "type": "string"
+                },
+                "password": {
+                    "title": "Password",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "email",
+                "password"
+            ],
+            "title": "authenticate_adminArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "mcp-formio_get_paginated_forms",
+        "description": "\nRetrieve a paginated list of forms from the FormIO API.\nThis function fetches forms with pagination support, allowing you to specify\nhow many forms to retrieve and how many to skip, which is useful for implementing\npaginated listings or navigating through large collections of forms.\nArgs:\n    limit (int): The maximum number of forms to return.\n    skip (int): The number of forms to skip (offset).\n\nReturns:\n    Union[dict, CallToolResult]: A dictionary containing the list of forms and the total count,\n    or a CallToolResult describing the error.\n",
+        "parameters": {
+            "properties": {
+                "limit": {
+                    "title": "Limit",
+                    "type": "integer"
+                },
+                "skip": {
+                    "title": "Skip",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "limit",
+                "skip"
+            ],
+            "title": "get_paginated_formsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "mcp-formio_create_form",
+        "description": "\nCreate a new form in the FormIO system.\n\nThis function allows you to create a form by providing a JSON structure that defines\nthe form's components, layout, validation rules, and other properties. The JSON structure\nis sent to the FormIO API which then creates and stores the form.\n\nArgs:\n    data (dict): The form definition in JSON format, including components like:\n        - Input fields (text, email, number, etc.)\n        - Layout elements (columns, panels, tabs)\n        - Validation rules\n        - Submission settings\n    token (str): The JWT token for authentication.\n\nReturns:\n    Union[dict, CallToolResult]: The created form object on success,\n    or a CallToolResult describing the error.\n",
+        "parameters": {
+            "properties": {
+                "data": {
+                    "additionalProperties": true,
+                    "title": "Data",
+                    "type": "object"
+                },
+                "token": {
+                    "title": "Token",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "data",
+                "token"
+            ],
+            "title": "create_formArguments",
+            "type": "object"
+        }
+    }
+]

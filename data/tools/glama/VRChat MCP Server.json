@@ -1,0 +1,668 @@
+[
+    {
+        "name": "vrchat-mcp_vrchat_get_current_user",
+        "description": "Retrieve your own VRChat user information",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "vrchat-mcp_vrchat_send_friend_request",
+        "description": "Send a friend request to another user.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "userId": {
+                    "type": "string",
+                    "minLength": 1
+                }
+            },
+            "required": [
+                "userId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "vrchat-mcp_vrchat_get_friends_list",
+        "description": "Retrieve a list of VRChat friend information. The following information can be retrieved:\n    - \"bio\"\n    - \"bioLinks\"\n    - \"currentAvatarImageUrl\"\n    - \"currentAvatarThumbnailImageUrl\"\n    - \"currentAvatarTags\"\n    - \"developerType\"\n    - \"displayName\"\n    - \"fallbackAvatar\"\n    - \"id\"\n    - \"isFriend\"\n    - \"last_platform\"\n    - \"last_login\"\n    - \"profilePicOverride\"\n    - \"pronouns\"\n    - \"status\"\n    - \"statusDescription\"\n    - \"tags\"\n    - \"userIcon\"\n    - \"location\"\n    - \"friendKey\"",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "offset": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "n": {
+                    "type": "number",
+                    "minimum": 1,
+                    "maximum": 100
+                },
+                "offline": {
+                    "type": "boolean"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "vrchat-mcp_vrchat_select_avatar",
+        "description": "Select and switch to a specific avatar by its ID.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "avatarId": {
+                    "type": "string",
+                    "description": "The ID of the avatar to select"
+                }
+            },
+            "required": [
+                "avatarId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "vrchat-mcp_vrchat_search_avatars",
+        "description": "Search and list avatars by query filters. You can only search your own or featured avatars. It is not possible as a normal user to search other people's avatars.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "featured": {
+                    "type": "boolean"
+                },
+                "sort": {
+                    "type": "string",
+                    "enum": [
+                        "popularity",
+                        "heat",
+                        "trust",
+                        "shuffle",
+                        "random",
+                        "favorites",
+                        "reportScore",
+                        "reportCount",
+                        "publicationDate",
+                        "labsPublicationDate",
+                        "created",
+                        "_created_at",
+                        "updated",
+                        "_updated_at",
+                        "order",
+                        "relevance",
+                        "magic",
+                        "name"
+                    ]
+                },
+                "user": {
+                    "type": "string",
+                    "enum": [
+                        "me"
+                    ]
+                },
+                "userId": {
+                    "type": "string"
+                },
+                "n": {
+                    "type": "number",
+                    "minimum": 1,
+                    "maximum": 100
+                },
+                "order": {
+                    "type": "string",
+                    "enum": [
+                        "ascending",
+                        "descending"
+                    ]
+                },
+                "offset": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "tag": {
+                    "type": "string"
+                },
+                "notag": {
+                    "type": "string"
+                },
+                "releaseStatus": {
+                    "type": "string",
+                    "enum": [
+                        "public",
+                        "private",
+                        "hidden",
+                        "all"
+                    ]
+                },
+                "maxUnityVersion": {
+                    "type": "string"
+                },
+                "minUnityVersion": {
+                    "type": "string"
+                },
+                "platform": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "vrchat-mcp_vrchat_list_favorited_worlds",
+        "description": "List favorited worlds by query filters.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "featured": {
+                    "type": "boolean",
+                    "description": "Filters on featured results"
+                },
+                "sort": {
+                    "type": "string",
+                    "enum": [
+                        "popularity",
+                        "heat",
+                        "trust",
+                        "shuffle",
+                        "random",
+                        "favorites",
+                        "reportScore",
+                        "reportCount",
+                        "publicationDate",
+                        "labsPublicationDate",
+                        "created",
+                        "_created_at",
+                        "updated",
+                        "_updated_at",
+                        "order",
+                        "relevance",
+                        "magic",
+                        "name"
+                    ],
+                    "description": "The sort order of the results"
+                },
+                "n": {
+                    "type": "number",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "description": "The number of objects to return, min 1, max 100"
+                },
+                "order": {
+                    "type": "string",
+                    "enum": [
+                        "ascending",
+                        "descending"
+                    ],
+                    "description": "Sort results in ascending or descending order"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "vrchat-mcp_vrchat_search_worlds",
+        "description": "Search and list worlds by query filters.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "featured": {
+                    "type": "boolean",
+                    "description": "Return featured worlds only"
+                },
+                "sort": {
+                    "type": "string",
+                    "enum": [
+                        "popularity",
+                        "heat",
+                        "trust",
+                        "shuffle",
+                        "random",
+                        "favorites",
+                        "reportScore",
+                        "reportCount",
+                        "publicationDate",
+                        "labsPublicationDate",
+                        "created",
+                        "_created_at",
+                        "updated",
+                        "_updated_at",
+                        "order",
+                        "relevance",
+                        "magic",
+                        "name"
+                    ],
+                    "description": "Sort worlds by a specific criteria"
+                },
+                "user": {
+                    "type": "string",
+                    "enum": [
+                        "me"
+                    ],
+                    "description": "Filter by the specified user, currently only supports \"me\" to see your own worlds"
+                },
+                "userId": {
+                    "type": "string",
+                    "description": "Filter worlds by a specific VRChat user ID"
+                },
+                "n": {
+                    "type": "number",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "description": "Number of worlds to return, from 1 to 100"
+                },
+                "order": {
+                    "type": "string",
+                    "enum": [
+                        "ascending",
+                        "descending"
+                    ],
+                    "description": "Sort results in ascending or descending order"
+                },
+                "offset": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Offset for pagination, minimum 0"
+                },
+                "search": {
+                    "type": "string",
+                    "description": "Search worlds by name or other text fields"
+                },
+                "tag": {
+                    "type": "string",
+                    "description": "Filter worlds by a specific tag"
+                },
+                "notag": {
+                    "type": "string",
+                    "description": "Exclude worlds with a specific tag"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "vrchat-mcp_vrchat_get_instance",
+        "description": "Get information about a specific instance. Note: Detailed information about instance members is only available if you are the instance owner.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "worldId": {
+                    "type": "string",
+                    "description": "Must be a valid world ID."
+                },
+                "instanceId": {
+                    "type": "string",
+                    "description": "Must be a valid instance ID."
+                }
+            },
+            "required": [
+                "worldId",
+                "instanceId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "vrchat-mcp_vrchat_create_instance",
+        "description": "Create a new instance of a world.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "worldId": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "public",
+                        "hidden",
+                        "friends",
+                        "private",
+                        "group"
+                    ]
+                },
+                "region": {
+                    "type": "string",
+                    "enum": [
+                        "us",
+                        "use",
+                        "eu",
+                        "jp",
+                        "unknown"
+                    ],
+                    "default": "us"
+                },
+                "ownerId": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "roleIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "groupAccessType": {
+                    "type": "string",
+                    "enum": [
+                        "members",
+                        "plus",
+                        "public"
+                    ]
+                },
+                "queueEnabled": {
+                    "type": "boolean"
+                },
+                "closedAt": {
+                    "type": "string"
+                },
+                "canRequestInvite": {
+                    "type": "boolean"
+                },
+                "hardClose": {
+                    "type": "boolean"
+                },
+                "inviteOnly": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "worldId",
+                "type"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "vrchat-mcp_vrchat_join_group",
+        "description": "Join a VRChat group by ID",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "groupId": {
+                    "type": "string",
+                    "description": "Must be a valid group ID"
+                }
+            },
+            "required": [
+                "groupId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "vrchat-mcp_vrchat_search_groups",
+        "description": "Search VRChat groups by name or shortCode",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Query to search for, can be either Group Name or Group shortCode"
+                },
+                "offset": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "A zero-based offset from the default object sorting"
+                },
+                "n": {
+                    "type": "number",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "description": "The number of objects to return"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "vrchat-mcp_vrchat_list_favorite_groups",
+        "description": "Returns a list of favorite groups owned by a user.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "n": {
+                    "type": "number",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "default": 60,
+                    "description": "Number of favorite groups to return (1-100). Default is 60."
+                },
+                "offset": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Skip this many favorite groups before beginning to return results."
+                },
+                "ownerId": {
+                    "type": "string",
+                    "description": "Filter by owner ID. If not provided, returns current user's favorite groups."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "vrchat-mcp_vrchat_list_favorites",
+        "description": "Returns a list of favorites.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "n": {
+                    "type": "number",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "default": 60,
+                    "description": "Number of favorites to return (1-100). Default is 60."
+                },
+                "offset": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Skip this many favorites before beginning to return results."
+                },
+                "type": {
+                    "type": "string",
+                    "description": "Filter by favorite type (\"world\", \"friend\", or \"avatar\")."
+                },
+                "tag": {
+                    "type": "string",
+                    "description": "Filter by tag (e.g., \"group_0\", \"group_1\")."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "vrchat-mcp_vrchat_add_favorite",
+        "description": "Add a new favorite.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "world",
+                        "friend",
+                        "avatar"
+                    ],
+                    "description": "FavoriteType. Default: friend, Allowed: world | friend | avatar"
+                },
+                "favoriteId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Must be either AvatarID, WorldID or UserID"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "minItems": 1,
+                    "description": "Tags indicate which group this favorite belongs to. Adding multiple groups makes it show up in all. Removing it from one in that case removes it from all."
+                }
+            },
+            "required": [
+                "type",
+                "favoriteId",
+                "tags"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "vrchat-mcp_vrchat_list_invite_messages",
+        "description": "Returns a list of all the users Invite Messages. Admin Credentials are required to view messages of other users!",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "userId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Must be a valid user ID"
+                },
+                "messageType": {
+                    "type": "string",
+                    "enum": [
+                        "message",
+                        "response",
+                        "request",
+                        "requestResponse"
+                    ],
+                    "description": "The type of message to fetch"
+                }
+            },
+            "required": [
+                "userId",
+                "messageType"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "vrchat-mcp_vrchat_request_invite",
+        "description": "Request an invite from a user. IMPORTANT: Always obtain explicit permission from the user before sending an invite request. Note that invite requests cannot be sent to users in private instances. Returns the Notification of type requestInvite that was sent.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "userId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Must be a valid user ID"
+                },
+                "instanceId": {
+                    "type": "string",
+                    "description": "The instance ID to use when requesting an invite"
+                },
+                "messageSlot": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 11,
+                    "description": "Slot number of the Request Message to use when request an invite"
+                }
+            },
+            "required": [
+                "userId",
+                "instanceId",
+                "messageSlot"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "vrchat-mcp_vrchat_get_invite_message",
+        "description": "Returns a specific invite message. Admin Credentials are required to view messages of other users!\n\n    Message type refers to a different collection of messages:\n    - message = Message during a normal invite\n    - response = Message when replying to a message\n    - request = Message when requesting an invite\n    - requestResponse = Message when replying to a request for invite\n    ",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "userId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Must be a valid user ID."
+                },
+                "messageType": {
+                    "type": "string",
+                    "enum": [
+                        "message",
+                        "response",
+                        "request",
+                        "requestResponse"
+                    ],
+                    "default": "message",
+                    "description": "The type of message to fetch. Must be a valid InviteMessageType."
+                },
+                "slot": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 11,
+                    "description": "Slot number of the message to fetch."
+                }
+            },
+            "required": [
+                "userId",
+                "slot"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "vrchat-mcp_vrchat_get_notifications",
+        "description": "Retrieve a list of VRChat notifications.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "description": "Only send notifications of this type. Use \"all\" for all types. This parameter no longer does anything and is deprecated."
+                },
+                "sent": {
+                    "type": "boolean",
+                    "description": "Return notifications sent by the user. Must be false or omitted."
+                },
+                "hidden": {
+                    "type": "boolean",
+                    "description": "Whether to return hidden or non-hidden notifications. True only allowed on type \"friendRequest\"."
+                },
+                "after": {
+                    "type": "string",
+                    "description": "Only return notifications sent after this Date. Ignored if type is \"friendRequest\"."
+                },
+                "n": {
+                    "type": "number",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "description": "The number of objects to return. Default: 60, Max: 100"
+                },
+                "offset": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "A zero-based offset from the default object sorting from where to start."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

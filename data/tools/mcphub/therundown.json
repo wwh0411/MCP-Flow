@@ -1,0 +1,384 @@
+[
+    {
+        "name": "affiliates",
+        "description": "Get affiliates (aka sportsbooks). The `affiliate_id` value of each sportsbook is used as the key in the `lines` or `line_periods` events response. For example, `5Dimes` has an `affiliate_id` of `1`, so their lines are available with the key of `1` in the `events` endpoints responses.",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "sports",
+        "description": "Get available sports. Sports may or may not have events depending on season and what is available on sportsbooks.",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "events",
+        "description": "The /sports/{sport-id}/events/{date} endpoint to request events for a particular sport on a particular date. The current odds and markets will be returned when available. To get historical odds for each market, use the individual `moneyline`, `spread`, and `total` endpoints in the `Lines` endpoints group. The date range defaults to UTC unless an offset query parameter is specified, which is the offset from UTC in minutes. For example, if the request is meant to be made from CDT, the offset should be offset=300 (5 hours). Specifying optional include values may be used to get lines for all markets (instead of just full-game by default) in addition to scores or the team names from specific sportsbooks. To request multiple, simply add multiple values and duplicate the include= parameter in the request like so: `?include=all_periods&include=scores`. When `include=all_periods` is used, the key for the lines changes from lines to line_periods. An optional offset in minutes from UTC may be sent in the request to group events by date with an offset. For example, if you are in CDT and want to see events grouped by date in CDT, then specify ?offset=300. Any value of 0.0001 represents the value NotPublished. This means that the sportsbook currently has not published a price or wager for this event, or that the line was removed.",
+        "parameters": {
+            "properties": {
+                "include": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "(Optional) Specifies whether the response should include all available markets (halves/quarters/periods) instead of just full-game by default.",
+                    "title": "Include"
+                },
+                "affiliate_ids": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Affiliate Ids"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The offset in minutes from the provided date. The default offset is UTC.",
+                    "title": "Offset"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "divisions",
+        "description": "Get divisions for a sport",
+        "parameters": {
+            "properties": {
+                "sportID": {
+                    "description": "",
+                    "title": "Sportid",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "sportID"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "conferences",
+        "description": "Get conferences for a sport",
+        "parameters": {
+            "properties": {
+                "sportID": {
+                    "description": "",
+                    "title": "Sportid",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "sportID"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "teams",
+        "description": "Teams provides a list of teams that are included in the `normalized_teams` attribute of the events responses.",
+        "parameters": {
+            "properties": {
+                "sportID": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Default: 2",
+                    "title": "Sportid"
+                }
+            },
+            "required": [
+                "sportID"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "v2_event_markets",
+        "description": "Get markets for an event. Optionally provide participant_ids and participant_types and market_ids. If market_ids are not provided, they will default to 1,2,3.",
+        "parameters": {
+            "properties": {
+                "participant_ids": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Participant Ids"
+                },
+                "participant_type": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Participant Type"
+                },
+                "market_ids": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Market Ids"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "v2_markets",
+        "description": "Get available markets for an event. Optionally provide participant_type and participant_ids",
+        "parameters": {
+            "properties": {
+                "event_id": {
+                    "description": "",
+                    "title": "Event Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "event_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "v2_players",
+        "description": "Players by team",
+        "parameters": {
+            "properties": {
+                "team_id": {
+                    "description": "",
+                    "title": "Team Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "team_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "v2_market_participants",
+        "description": "Get participants for the markets for an event. Optionally provide a list of market_ids",
+        "parameters": {
+            "properties": {
+                "event_id": {
+                    "description": "",
+                    "title": "Event Id",
+                    "type": "string"
+                },
+                "market_ids": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Market Ids"
+                }
+            },
+            "required": [
+                "event_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "v2_team_season_stats",
+        "description": "Season stats for a team",
+        "parameters": {
+            "properties": {
+                "team_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Default: 11",
+                    "title": "Team Id"
+                }
+            },
+            "required": [
+                "team_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "v2_player_season_stats",
+        "description": "Player season stats for a taem",
+        "parameters": {
+            "properties": {
+                "team_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Default: 11",
+                    "title": "Team Id"
+                }
+            },
+            "required": [
+                "team_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "v2_player_game_stats",
+        "description": "Player stats for the event_id",
+        "parameters": {
+            "properties": {
+                "event_id": {
+                    "description": "",
+                    "title": "Event Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "event_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "v2_team_game_stats",
+        "description": "Team stats for the event_id",
+        "parameters": {
+            "properties": {
+                "event_id": {
+                    "description": "",
+                    "title": "Event Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "event_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "v2_stats",
+        "description": "Get all available stats. Optionally filter by sport_id",
+        "parameters": {
+            "properties": {
+                "sport_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Default: 2",
+                    "title": "Sport Id"
+                }
+            },
+            "required": [
+                "sport_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "schedules",
+        "description": "Get the schedule for a sportID. Use the `from` parameter to change the starting date in the format of `yyyy-mm-dd` (ex: `2020-09-20`), which defaults to today. Use a `limit` parameter to set the number of events returned in the response. The max is `500` and the default is `50`. The schedules are ordered by `date_event` ascending, so send the largest or last `date_event` value current response to get the next available page.",
+        "parameters": {
+            "properties": {
+                "_from": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Date (yyyy-mm-dd)",
+                    "title": "From"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max value is 500. Default is 50 Default: 100",
+                    "title": "Limit"
+                }
+            },
+            "type": "object"
+        }
+    }
+]

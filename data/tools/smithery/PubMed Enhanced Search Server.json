@@ -1,0 +1,141 @@
+[
+    {
+        "name": "pubmed-mcp-smithery_search_pubmed",
+        "description": "\n    Search the PubMed database using specified keywords and optional journal name.\n    \n    This function allows users to search the PubMed database by providing keywords\n    and an optional journal name. It returns a specified number of\n    results in a formatted dictionary.\n    \n    Parameters:\n    - keywords (List[str]): Keywords to search for in PubMed without field restrictions.\n    - journal (Optional[str]): Journal name to limit the search to a specific journal.\n    - num_results (int): Maximum number of results to return. Default is 10.\n    - sort_by (str): Sort order for results. Options: \"relevance\" (default), \"date_desc\" (newest first), \"date_asc\" (oldest first).\n    \n    Returns:\n    - Dict[str, Any]: A dictionary containing the success status, a list of results with PubMed IDs,\n      links, abstracts, and the total number of results found.\n    ",
+        "parameters": {
+            "properties": {
+                "keywords": {
+                    "default": [],
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Keywords",
+                    "type": "array"
+                },
+                "journal": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Journal"
+                },
+                "num_results": {
+                    "default": 10,
+                    "title": "Num Results",
+                    "type": "integer"
+                },
+                "sort_by": {
+                    "default": "relevance",
+                    "title": "Sort By",
+                    "type": "string"
+                }
+            },
+            "title": "search_pubmedArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "pubmed-mcp-smithery_get_mesh_terms",
+        "description": "\n    Get MeSH (Medical Subject Headings) terms related to a search word.\n    \n    This function queries the PubMed MeSH database to find relevant medical terminology\n    that matches the provided search term. Useful for finding standardized medical terms.\n    \n    Parameters:\n    - search_word (str): The word or phrase to search for in the MeSH database.\n    \n    Returns:\n    - Dict[str, Any]: A dictionary containing success status and a list of MeSH terms.\n    ",
+        "parameters": {
+            "properties": {
+                "search_word": {
+                    "title": "Search Word",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "search_word"
+            ],
+            "title": "get_mesh_termsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "pubmed-mcp-smithery_get_pubmed_count",
+        "description": "\n    Get the number of PubMed results for multiple search terms.\n    \n    This function queries PubMed and returns the count of results for each provided search term.\n    Useful for comparing the prevalence of different medical terms or concepts in the literature.\n    \n    Parameters:\n    - search_terms (List[str]): List of search terms to query in PubMed.\n    \n    Returns:\n    - Dict[str, Any]: A dictionary containing success status and counts for each search term.\n    ",
+        "parameters": {
+            "properties": {
+                "search_terms": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Search Terms",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "search_terms"
+            ],
+            "title": "get_pubmed_countArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "pubmed-mcp-smithery_format_paper_details",
+        "description": "\n    Fetch and format details of multiple PubMed articles.\n    \n    This function retrieves details for a list of PubMed IDs and formats them\n    into a list of dictionaries containing article information.\n    \n    Parameters:\n    - pubmed_ids (List[str]): A list of PubMed IDs to fetch details for.\n    \n    Returns:\n    - List[Dict[str, Any]]: A list of dictionaries, each containing details of a PubMed article.\n    ",
+        "parameters": {
+            "properties": {
+                "pubmed_ids": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Pubmed Ids",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "pubmed_ids"
+            ],
+            "title": "format_paper_detailsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "pubmed-mcp-smithery_pico_search",
+        "description": "\n    Perform PICO (Population, Intervention, Comparison, Outcome) based PubMed search with synonyms.\n    \n    This function takes lists of terms for each PICO element, combines them with OR within each element,\n    and then performs various AND combinations between elements. Returns search queries and result counts.\n    \n    Parameters:\n    - p_terms (List[str]): Population terms/synonyms (at least 2 recommended)\n    - i_terms (List[str]): Intervention terms/synonyms (at least 2 recommended)\n    - c_terms (List[str]): Comparison terms/synonyms (optional, at least 2 recommended if provided)\n    - o_terms (List[str]): Outcome terms/synonyms (optional, at least 2 recommended if provided)\n    \n    Returns:\n    - Dict[str, Any]: A dictionary containing individual element searches and combination searches with queries and result counts\n    ",
+        "parameters": {
+            "properties": {
+                "p_terms": {
+                    "default": [],
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "P Terms",
+                    "type": "array"
+                },
+                "i_terms": {
+                    "default": [],
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "I Terms",
+                    "type": "array"
+                },
+                "c_terms": {
+                    "default": [],
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "C Terms",
+                    "type": "array"
+                },
+                "o_terms": {
+                    "default": [],
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "O Terms",
+                    "type": "array"
+                }
+            },
+            "title": "pico_searchArguments",
+            "type": "object"
+        }
+    }
+]

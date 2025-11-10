@@ -1,0 +1,229 @@
+[
+    {
+        "name": "where_is_my_train_mcp_find_station",
+        "description": "Advanced station search with fuzzy matching, accessibility info, and nearby amenities",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Station name or partial name to search for"
+                },
+                "include_accessibility": {
+                    "type": "boolean",
+                    "description": "Include wheelchair accessibility information"
+                },
+                "include_amenities": {
+                    "type": "boolean",
+                    "description": "Include nearby amenities like restrooms, WiFi"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "where_is_my_train_mcp_next_trains",
+        "description": "Real-time train arrivals with delay predictions, crowding levels, and service alerts",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "station": {
+                    "type": "string",
+                    "description": "Station name to get arrivals for"
+                },
+                "direction": {
+                    "type": "string",
+                    "enum": [
+                        "uptown",
+                        "downtown",
+                        "manhattan",
+                        "brooklyn",
+                        "queens",
+                        "bronx"
+                    ],
+                    "description": "Filter by direction"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of arrivals to return"
+                },
+                "line": {
+                    "type": "string",
+                    "description": "Filter by specific train line"
+                }
+            },
+            "required": [
+                "station"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "where_is_my_train_mcp_service_status",
+        "description": "Comprehensive service status with performance metrics, on-time rates, and system-wide health indicators",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "line": {
+                    "type": "string",
+                    "description": "Filter by specific train line"
+                },
+                "include_metrics": {
+                    "type": "boolean",
+                    "description": "Include performance metrics like on-time percentage"
+                },
+                "time_range": {
+                    "type": "string",
+                    "enum": [
+                        "current",
+                        "today",
+                        "week"
+                    ],
+                    "description": "Time range for status information"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "where_is_my_train_mcp_subway_alerts",
+        "description": "Detailed service alerts with impact analysis, affected stations, and estimated resolution times",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "line": {
+                    "type": "string",
+                    "description": "Filter alerts by specific train line"
+                },
+                "active_only": {
+                    "type": "boolean",
+                    "description": "Show only currently active alerts"
+                },
+                "category": {
+                    "type": "string",
+                    "enum": [
+                        "ALL",
+                        "DELAYS",
+                        "SUSPENSIONS",
+                        "REROUTES",
+                        "PLANNED_WORK",
+                        "ACCESSIBILITY"
+                    ],
+                    "description": "Filter by alert category"
+                },
+                "severity": {
+                    "type": "string",
+                    "enum": [
+                        "ALL",
+                        "CRITICAL",
+                        "MAJOR",
+                        "MINOR",
+                        "PLANNED"
+                    ],
+                    "description": "Filter by alert severity"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "where_is_my_train_mcp_station_transfers",
+        "description": "Find all train line transfer options at a specific subway station",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "station": {
+                    "type": "string",
+                    "description": "Station name to find transfers for"
+                }
+            },
+            "required": [
+                "station"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "where_is_my_train_mcp_nearest_station",
+        "description": "Find closest subway stations with walking directions, accessibility info, and real-time service status",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "location": {
+                    "type": "string",
+                    "description": "Address, landmark, or neighborhood"
+                },
+                "lat": {
+                    "type": "number",
+                    "description": "Latitude coordinate"
+                },
+                "lon": {
+                    "type": "number",
+                    "description": "Longitude coordinate"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of stations to return"
+                },
+                "radius": {
+                    "type": "number",
+                    "description": "Search radius in meters"
+                },
+                "accessible_only": {
+                    "type": "boolean",
+                    "description": "Return only wheelchair accessible stations"
+                },
+                "include_walking_directions": {
+                    "type": "boolean",
+                    "description": "Include basic walking directions to stations"
+                },
+                "service_filter": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Only return stations served by specific lines"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "where_is_my_train_mcp_service_disruptions",
+        "description": "Get comprehensive service disruption information with impact analysis, alternative routes, and estimated resolution times",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "line": {
+                    "type": "string",
+                    "description": "Filter by specific train line"
+                },
+                "location": {
+                    "type": "string",
+                    "description": "Filter disruptions affecting a specific area or station"
+                },
+                "severity": {
+                    "type": "string",
+                    "enum": [
+                        "ALL",
+                        "CRITICAL",
+                        "MAJOR",
+                        "MINOR"
+                    ],
+                    "description": "Filter by disruption severity"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

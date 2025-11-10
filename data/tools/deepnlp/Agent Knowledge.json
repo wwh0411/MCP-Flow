@@ -1,0 +1,1052 @@
+[
+    {
+        "name": "agent-knowledge_create_snapshot",
+        "description": "Create a snapshot (backup) of Elasticsearch indices with comprehensive options and repository management",
+        "parameters": {
+            "properties": {
+                "snapshot_name": {
+                    "description": "Name for the snapshot (must be unique)",
+                    "title": "Snapshot Name",
+                    "type": "string"
+                },
+                "repository": {
+                    "default": "backup_repository",
+                    "description": "Repository name to store the snapshot",
+                    "title": "Repository",
+                    "type": "string"
+                },
+                "indices": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Comma-separated list of indices to backup (default: all indices)",
+                    "title": "Indices"
+                },
+                "ignore_unavailable": {
+                    "default": true,
+                    "description": "Whether to ignore unavailable indices",
+                    "title": "Ignore Unavailable",
+                    "type": "boolean"
+                },
+                "include_global_state": {
+                    "default": true,
+                    "description": "Whether to include cluster global state",
+                    "title": "Include Global State",
+                    "type": "boolean"
+                },
+                "wait_for_completion": {
+                    "default": true,
+                    "description": "Whether to wait for snapshot completion",
+                    "title": "Wait For Completion",
+                    "type": "boolean"
+                },
+                "description": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Optional description for the snapshot",
+                    "title": "Description"
+                }
+            },
+            "required": [
+                "snapshot_name"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent-knowledge_restore_snapshot",
+        "description": "Restore indices from an Elasticsearch snapshot with comprehensive options and conflict resolution",
+        "parameters": {
+            "properties": {
+                "snapshot_name": {
+                    "description": "Name of the snapshot to restore from",
+                    "title": "Snapshot Name",
+                    "type": "string"
+                },
+                "repository": {
+                    "default": "backup_repository",
+                    "description": "Repository containing the snapshot",
+                    "title": "Repository",
+                    "type": "string"
+                },
+                "indices": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Comma-separated list of indices to restore (default: all from snapshot)",
+                    "title": "Indices"
+                },
+                "ignore_unavailable": {
+                    "default": true,
+                    "description": "Whether to ignore unavailable indices",
+                    "title": "Ignore Unavailable",
+                    "type": "boolean"
+                },
+                "include_global_state": {
+                    "default": false,
+                    "description": "Whether to restore cluster global state",
+                    "title": "Include Global State",
+                    "type": "boolean"
+                },
+                "wait_for_completion": {
+                    "default": true,
+                    "description": "Whether to wait for restore completion",
+                    "title": "Wait For Completion",
+                    "type": "boolean"
+                },
+                "rename_pattern": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Pattern to rename restored indices (e.g., 'restored_%s')",
+                    "title": "Rename Pattern"
+                },
+                "index_settings": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "JSON string of index settings to override",
+                    "title": "Index Settings"
+                }
+            },
+            "required": [
+                "snapshot_name"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent-knowledge_list_snapshots",
+        "description": "List all snapshots in an Elasticsearch repository with detailed information and status",
+        "parameters": {
+            "properties": {
+                "repository": {
+                    "default": "backup_repository",
+                    "description": "Repository name to list snapshots from",
+                    "title": "Repository",
+                    "type": "string"
+                },
+                "verbose": {
+                    "default": true,
+                    "description": "Whether to show detailed information for each snapshot",
+                    "title": "Verbose",
+                    "type": "boolean"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent-knowledge_create_index_metadata",
+        "description": "Create metadata documentation for an Elasticsearch index to ensure proper governance and documentation",
+        "parameters": {
+            "properties": {
+                "index_name": {
+                    "description": "Name of the index to document",
+                    "title": "Index Name",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "Detailed description of the index purpose and content",
+                    "title": "Description",
+                    "type": "string"
+                },
+                "purpose": {
+                    "description": "Primary purpose and use case for this index",
+                    "title": "Purpose",
+                    "type": "string"
+                },
+                "data_types": {
+                    "default": [],
+                    "description": "Types of data stored in this index (e.g., 'documents', 'logs', 'metrics')",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Data Types",
+                    "type": "array"
+                },
+                "usage_pattern": {
+                    "default": "mixed",
+                    "description": "How the index is accessed (e.g., 'read-heavy', 'write-heavy', 'mixed')",
+                    "title": "Usage Pattern",
+                    "type": "string"
+                },
+                "retention_policy": {
+                    "default": "No specific policy",
+                    "description": "Data retention policy and lifecycle management",
+                    "title": "Retention Policy",
+                    "type": "string"
+                },
+                "related_indices": {
+                    "default": [],
+                    "description": "Names of related or dependent indices",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Related Indices",
+                    "type": "array"
+                },
+                "tags": {
+                    "default": [],
+                    "description": "Tags for categorizing and organizing indices",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Tags",
+                    "type": "array"
+                },
+                "created_by": {
+                    "default": "Unknown",
+                    "description": "Team or person responsible for this index",
+                    "title": "Created By",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "index_name",
+                "description",
+                "purpose"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent-knowledge_update_index_metadata",
+        "description": "Update existing metadata documentation for an Elasticsearch index",
+        "parameters": {
+            "properties": {
+                "index_name": {
+                    "description": "Name of the index to update metadata for",
+                    "title": "Index Name",
+                    "type": "string"
+                },
+                "description": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Updated description of the index purpose and content",
+                    "title": "Description"
+                },
+                "purpose": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Updated primary purpose and use case",
+                    "title": "Purpose"
+                },
+                "data_types": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Updated types of data stored in this index",
+                    "title": "Data Types"
+                },
+                "usage_pattern": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Updated access pattern",
+                    "title": "Usage Pattern"
+                },
+                "retention_policy": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Updated data retention policy",
+                    "title": "Retention Policy"
+                },
+                "related_indices": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Updated related or dependent indices",
+                    "title": "Related Indices"
+                },
+                "tags": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Updated tags for categorization",
+                    "title": "Tags"
+                },
+                "updated_by": {
+                    "default": "Unknown",
+                    "description": "Person or team making this update",
+                    "title": "Updated By",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "index_name"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent-knowledge_delete_index_metadata",
+        "description": "Delete metadata documentation for an Elasticsearch index",
+        "parameters": {
+            "properties": {
+                "index_name": {
+                    "description": "Name of the index to remove metadata for",
+                    "title": "Index Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "index_name"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent-knowledge_delete_document",
+        "description": "Delete a document from Elasticsearch index by document ID",
+        "parameters": {
+            "properties": {
+                "index": {
+                    "description": "Name of the Elasticsearch index containing the document",
+                    "title": "Index",
+                    "type": "string"
+                },
+                "doc_id": {
+                    "description": "Document ID to delete from the index",
+                    "title": "Doc Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "index",
+                "doc_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent-knowledge_get_document",
+        "description": "Retrieve a specific document from Elasticsearch index by document ID",
+        "parameters": {
+            "properties": {
+                "index": {
+                    "description": "Name of the Elasticsearch index containing the document",
+                    "title": "Index",
+                    "type": "string"
+                },
+                "doc_id": {
+                    "description": "Document ID to retrieve from the index",
+                    "title": "Doc Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "index",
+                "doc_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent-knowledge_index_document",
+        "description": "Index a document into Elasticsearch with smart duplicate prevention and intelligent document ID generation. \ud83d\udca1 RECOMMENDED: Use 'create_document_template' tool first to generate a proper document structure and avoid validation errors.",
+        "parameters": {
+            "properties": {
+                "index": {
+                    "description": "Name of the Elasticsearch index to store the document",
+                    "title": "Index",
+                    "type": "string"
+                },
+                "document": {
+                    "additionalProperties": true,
+                    "description": "Document data to index as JSON object. \ud83d\udca1 RECOMMENDED: Use 'create_document_template' tool first to generate proper document format.",
+                    "title": "Document",
+                    "type": "object"
+                },
+                "doc_id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Optional document ID - if not provided, smart ID will be generated",
+                    "title": "Doc Id"
+                },
+                "validate_schema": {
+                    "default": true,
+                    "description": "Whether to validate document structure for knowledge base format",
+                    "title": "Validate Schema",
+                    "type": "boolean"
+                },
+                "check_duplicates": {
+                    "default": true,
+                    "description": "Check for existing documents with similar title before indexing",
+                    "title": "Check Duplicates",
+                    "type": "boolean"
+                },
+                "force_index": {
+                    "default": false,
+                    "description": "Force indexing even if potential duplicates are found. \ud83d\udca1 TIP: Set to True if content is genuinely new and not in knowledge base to avoid multiple tool calls",
+                    "title": "Force Index",
+                    "type": "boolean"
+                },
+                "use_ai_similarity": {
+                    "default": true,
+                    "description": "Use AI to analyze content similarity and provide intelligent recommendations",
+                    "title": "Use Ai Similarity",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "index",
+                "document"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent-knowledge_validate_document_schema",
+        "description": "Validate document structure against knowledge base schema and provide formatting guidance",
+        "parameters": {
+            "properties": {
+                "document": {
+                    "additionalProperties": true,
+                    "description": "Document object to validate against knowledge base schema format",
+                    "title": "Document",
+                    "type": "object"
+                }
+            },
+            "required": [
+                "document"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent-knowledge_create_document_template",
+        "description": "Create a properly structured document template for knowledge base with AI-generated metadata and formatting",
+        "parameters": {
+            "properties": {
+                "title": {
+                    "description": "Document title for the knowledge base entry",
+                    "title": "Title",
+                    "type": "string"
+                },
+                "content": {
+                    "default": "",
+                    "description": "Document content for AI analysis and metadata generation",
+                    "title": "Content",
+                    "type": "string"
+                },
+                "priority": {
+                    "default": "medium",
+                    "description": "Priority level for the document",
+                    "pattern": "^(high|medium|low)$",
+                    "title": "Priority",
+                    "type": "string"
+                },
+                "source_type": {
+                    "default": "markdown",
+                    "description": "Type of source content",
+                    "pattern": "^(markdown|code|config|documentation|tutorial)$",
+                    "title": "Source Type",
+                    "type": "string"
+                },
+                "tags": {
+                    "default": [],
+                    "description": "Additional manual tags (will be merged with AI-generated tags)",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Tags",
+                    "type": "array"
+                },
+                "summary": {
+                    "default": "",
+                    "description": "Brief summary description of the document content",
+                    "title": "Summary",
+                    "type": "string"
+                },
+                "key_points": {
+                    "default": [],
+                    "description": "Additional manual key points (will be merged with AI-generated points)",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Key Points",
+                    "type": "array"
+                },
+                "related": {
+                    "default": [],
+                    "description": "List of related document IDs or references",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Related",
+                    "type": "array"
+                },
+                "use_ai_enhancement": {
+                    "default": true,
+                    "description": "Use AI to generate intelligent tags and key points",
+                    "title": "Use Ai Enhancement",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "title"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent-knowledge_create_index",
+        "description": "Create a new Elasticsearch index with optional mapping and settings configuration",
+        "parameters": {
+            "properties": {
+                "index": {
+                    "description": "Name of the new Elasticsearch index to create",
+                    "title": "Index",
+                    "type": "string"
+                },
+                "mapping": {
+                    "additionalProperties": true,
+                    "description": "Index mapping configuration defining field types and properties",
+                    "title": "Mapping",
+                    "type": "object"
+                },
+                "settings": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": true,
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Optional index settings for shards, replicas, analysis, etc.",
+                    "title": "Settings"
+                }
+            },
+            "required": [
+                "index",
+                "mapping"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent-knowledge_delete_index",
+        "description": "Delete an Elasticsearch index and all its documents permanently",
+        "parameters": {
+            "properties": {
+                "index": {
+                    "description": "Name of the Elasticsearch index to delete",
+                    "title": "Index",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "index"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent-knowledge_list_indices",
+        "description": "List all available Elasticsearch indices with document count and size statistics",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent-knowledge_search",
+        "description": "Search documents in Elasticsearch index with advanced filtering, pagination, and time-based sorting capabilities",
+        "parameters": {
+            "properties": {
+                "index": {
+                    "description": "Name of the Elasticsearch index to search",
+                    "title": "Index",
+                    "type": "string"
+                },
+                "query": {
+                    "description": "Search query text to find matching documents",
+                    "title": "Query",
+                    "type": "string"
+                },
+                "size": {
+                    "default": 10,
+                    "description": "Maximum number of results to return",
+                    "maximum": 1000,
+                    "minimum": 1,
+                    "title": "Size",
+                    "type": "integer"
+                },
+                "fields": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Specific fields to include in search results",
+                    "title": "Fields"
+                },
+                "date_from": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Start date filter in ISO format (YYYY-MM-DD)",
+                    "title": "Date From"
+                },
+                "date_to": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "End date filter in ISO format (YYYY-MM-DD)",
+                    "title": "Date To"
+                },
+                "time_period": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Predefined time period filter (e.g., '7d', '1m', '1y')",
+                    "title": "Time Period"
+                },
+                "sort_by_time": {
+                    "default": "desc",
+                    "description": "Sort order by timestamp",
+                    "pattern": "^(asc|desc)$",
+                    "title": "Sort By Time",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "index",
+                "query"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent-knowledge_batch_index_directory",
+        "description": "Batch index all documents from a directory into Elasticsearch with AI-enhanced metadata generation and comprehensive file processing",
+        "parameters": {
+            "properties": {
+                "index": {
+                    "description": "Name of the Elasticsearch index to store the documents",
+                    "title": "Index",
+                    "type": "string"
+                },
+                "directory_path": {
+                    "description": "Path to directory containing documents to index",
+                    "title": "Directory Path",
+                    "type": "string"
+                },
+                "file_pattern": {
+                    "default": "*.md",
+                    "description": "File pattern to match (e.g., '*.md', '*.txt', '*')",
+                    "title": "File Pattern",
+                    "type": "string"
+                },
+                "validate_schema": {
+                    "default": true,
+                    "description": "Whether to validate document structure for knowledge base format",
+                    "title": "Validate Schema",
+                    "type": "boolean"
+                },
+                "recursive": {
+                    "default": true,
+                    "description": "Whether to search subdirectories recursively",
+                    "title": "Recursive",
+                    "type": "boolean"
+                },
+                "skip_existing": {
+                    "default": false,
+                    "description": "Skip files that already exist in index (check by filename)",
+                    "title": "Skip Existing",
+                    "type": "boolean"
+                },
+                "max_file_size": {
+                    "default": 1048576,
+                    "description": "Maximum file size in bytes to process",
+                    "maximum": 10485760,
+                    "minimum": 1,
+                    "title": "Max File Size",
+                    "type": "integer"
+                },
+                "use_ai_enhancement": {
+                    "default": true,
+                    "description": "Use AI to generate intelligent tags and key points for each document",
+                    "title": "Use Ai Enhancement",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "index",
+                "directory_path"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent-knowledge_get_config",
+        "description": "Get the complete configuration from config.json file with formatted display",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent-knowledge_update_config",
+        "description": "Update configuration with section-specific changes or full configuration replacement",
+        "parameters": {
+            "properties": {
+                "config_section": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The top-level section of the config to update (e.g., 'security')",
+                    "title": "Config Section"
+                },
+                "config_key": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The key within the section to update (e.g., 'allowed_base_directory')",
+                    "title": "Config Key"
+                },
+                "config_value": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The new value for the specified key",
+                    "title": "Config Value"
+                },
+                "full_config": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": true,
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Full configuration object to save. Replaces the entire config",
+                    "title": "Full Config"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent-knowledge_validate_config",
+        "description": "Validate configuration object structure, types, and values with comprehensive error reporting",
+        "parameters": {
+            "properties": {
+                "config": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": true,
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Configuration object to validate. If not provided, validates current config",
+                    "title": "Config"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent-knowledge_reload_config",
+        "description": "Reload configuration from config.json file and reinitialize all components with updated settings",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent-knowledge_setup_elasticsearch",
+        "description": "Auto-setup Elasticsearch using Docker with optional Kibana and force recreate options",
+        "parameters": {
+            "properties": {
+                "include_kibana": {
+                    "default": true,
+                    "description": "Also setup Kibana (default: true)",
+                    "title": "Include Kibana",
+                    "type": "boolean"
+                },
+                "force_recreate": {
+                    "default": false,
+                    "description": "Force recreate containers even if they exist",
+                    "title": "Force Recreate",
+                    "type": "boolean"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent-knowledge_elasticsearch_status",
+        "description": "Check status of Elasticsearch and Kibana containers with detailed configuration information",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent-knowledge_server_status",
+        "description": "Check current server status, version, and available updates with comprehensive system information",
+        "parameters": {
+            "properties": {
+                "check_updates": {
+                    "default": true,
+                    "description": "Check for available updates from PyPI",
+                    "title": "Check Updates",
+                    "type": "boolean"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent-knowledge_server_upgrade",
+        "description": "Upgrade this MCP server when installed via uvx with automatic configuration backup and restoration",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent-knowledge_ask_user_advice",
+        "description": "Ask user for advice when agent encounters uncertainty, problems, or needs guidance. Use this when you're unsure about something or need human input to proceed properly.",
+        "parameters": {
+            "properties": {
+                "problem_description": {
+                    "default": "",
+                    "description": "Clear description of the problem or uncertainty you're facing",
+                    "title": "Problem Description",
+                    "type": "string"
+                },
+                "context_information": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Additional context or information that might help the user understand the situation",
+                    "title": "Context Information"
+                },
+                "specific_question": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Specific question you want to ask the user",
+                    "title": "Specific Question"
+                },
+                "options_considered": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Options or approaches you've already considered",
+                    "title": "Options Considered"
+                },
+                "urgency_level": {
+                    "default": "normal",
+                    "description": "Urgency level of the advice needed",
+                    "title": "Urgency Level",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent-knowledge_reset_config",
+        "description": "Reset config.json to defaults from config.default.json (manual reset - overwrites current config)",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent-knowledge_ask_mcp_advice",
+        "description": "Advanced project guidance using AI-filtered knowledge from .knowledges directory",
+        "parameters": {
+            "properties": {
+                "intended_action": {
+                    "description": "What you intend to do (e.g., 'implement feature', 'fix bug', 'deploy')",
+                    "title": "Intended Action",
+                    "type": "string"
+                },
+                "task_description": {
+                    "description": "Detailed description of the specific task",
+                    "title": "Task Description",
+                    "type": "string"
+                },
+                "scope": {
+                    "default": "project",
+                    "description": "Scope of guidance needed",
+                    "title": "Scope",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "intended_action",
+                "task_description"
+            ],
+            "type": "object"
+        }
+    }
+]

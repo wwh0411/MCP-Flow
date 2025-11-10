@@ -1,0 +1,300 @@
+[
+    {
+        "name": "npm-helper_search_npm",
+        "description": "Search for npm packages",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string"
+                },
+                "maxResults": {
+                    "type": "number",
+                    "default": 10
+                }
+            },
+            "required": [
+                "query"
+            ]
+        }
+    },
+    {
+        "name": "npm-helper_fetch_package_content",
+        "description": "Fetch detailed content from an npm package page URL",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "url"
+            ]
+        }
+    },
+    {
+        "name": "npm-helper_get_package_versions",
+        "description": "Get available versions for an npm package",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "packageName": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "packageName"
+            ]
+        }
+    },
+    {
+        "name": "npm-helper_get_package_details",
+        "description": "Get detailed information about an npm package",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "packageName": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "packageName"
+            ]
+        }
+    },
+    {
+        "name": "npm-helper_check_updates",
+        "description": "Scan package.json for outdated dependencies",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "packagePath": {
+                    "type": "string"
+                },
+                "filter": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "reject": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "target": {
+                    "type": "string",
+                    "enum": [
+                        "latest",
+                        "newest",
+                        "greatest",
+                        "minor",
+                        "patch",
+                        "semver"
+                    ]
+                },
+                "peer": {
+                    "type": "boolean"
+                },
+                "minimal": {
+                    "type": "boolean"
+                },
+                "packageManager": {
+                    "type": "string",
+                    "enum": [
+                        "npm",
+                        "yarn",
+                        "pnpm",
+                        "deno",
+                        "bun",
+                        "staticRegistry"
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "name": "npm-helper_upgrade_packages",
+        "description": "Upgrade dependencies in package.json",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "packagePath": {
+                    "type": "string"
+                },
+                "upgradeType": {
+                    "type": "string",
+                    "enum": [
+                        "latest",
+                        "newest",
+                        "greatest",
+                        "minor",
+                        "patch",
+                        "semver"
+                    ]
+                },
+                "peer": {
+                    "type": "boolean"
+                },
+                "minimal": {
+                    "type": "boolean"
+                },
+                "packageManager": {
+                    "type": "string",
+                    "enum": [
+                        "npm",
+                        "yarn",
+                        "pnpm",
+                        "deno",
+                        "bun",
+                        "staticRegistry"
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "name": "npm-helper_filter_updates",
+        "description": "Check/upgrade updates for specific packages",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "packagePath": {
+                    "type": "string"
+                },
+                "filter": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "upgrade": {
+                    "type": "boolean"
+                },
+                "minimal": {
+                    "type": "boolean"
+                },
+                "packageManager": {
+                    "type": "string",
+                    "enum": [
+                        "npm",
+                        "yarn",
+                        "pnpm",
+                        "deno",
+                        "bun",
+                        "staticRegistry"
+                    ]
+                }
+            },
+            "required": [
+                "filter"
+            ]
+        }
+    },
+    {
+        "name": "npm-helper_resolve_conflicts",
+        "description": "Handle dependency conflicts (uses 'peer' strategy)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "packagePath": {
+                    "type": "string"
+                },
+                "upgrade": {
+                    "type": "boolean"
+                },
+                "minimal": {
+                    "type": "boolean"
+                },
+                "packageManager": {
+                    "type": "string",
+                    "enum": [
+                        "npm",
+                        "yarn",
+                        "pnpm",
+                        "deno",
+                        "bun",
+                        "staticRegistry"
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "name": "npm-helper_set_version_constraints",
+        "description": "Configure version upgrade rules for dependencies",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "packagePath": {
+                    "type": "string"
+                },
+                "target": {
+                    "type": "string",
+                    "enum": [
+                        "latest",
+                        "newest",
+                        "greatest",
+                        "minor",
+                        "patch",
+                        "semver"
+                    ]
+                },
+                "removeRange": {
+                    "type": "boolean"
+                },
+                "upgrade": {
+                    "type": "boolean"
+                },
+                "minimal": {
+                    "type": "boolean"
+                },
+                "packageManager": {
+                    "type": "string",
+                    "enum": [
+                        "npm",
+                        "yarn",
+                        "pnpm",
+                        "deno",
+                        "bun",
+                        "staticRegistry"
+                    ]
+                }
+            },
+            "required": [
+                "target"
+            ]
+        }
+    },
+    {
+        "name": "npm-helper_run_doctor",
+        "description": "Iteratively install upgrades and run tests",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "packagePath": {
+                    "type": "string"
+                },
+                "doctorInstall": {
+                    "type": "string"
+                },
+                "doctorTest": {
+                    "type": "string"
+                },
+                "packageManager": {
+                    "type": "string",
+                    "enum": [
+                        "npm",
+                        "yarn",
+                        "pnpm",
+                        "deno",
+                        "bun",
+                        "staticRegistry"
+                    ]
+                }
+            }
+        }
+    }
+]

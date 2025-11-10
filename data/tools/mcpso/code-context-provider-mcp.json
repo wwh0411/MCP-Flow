@@ -1,0 +1,48 @@
+[
+    {
+        "name": "code-context-provider-mcp_get_code_context",
+        "description": "Returns Complete Context of a given project directory, including directory tree, and code symbols. Useful for getting a quick overview of a project. Use this tool when you need to get a comprehensive overview of a project's codebase. Useful at the start of a new task.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "absolutePath": {
+                    "type": "string",
+                    "description": "Absolute path to the directory to analyze. For windows, it is recommended to use forward slashes to avoid escaping (e.g. C:/Users/username/Documents/project/src)"
+                },
+                "analyzeJs": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to analyze JavaScript/TypeScript and Python files. Returns the count of functions, variables, classes, imports, and exports in the codebase."
+                },
+                "includeSymbols": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to include code symbols in the response. Returns the code symbols for each file."
+                },
+                "symbolType": {
+                    "type": "string",
+                    "enum": [
+                        "functions",
+                        "variables",
+                        "classes",
+                        "imports",
+                        "exports",
+                        "all"
+                    ],
+                    "default": "all",
+                    "description": "Type of symbols to include if includeSymbols is true. Otherwise, returns only the directory tree."
+                },
+                "maxDepth": {
+                    "type": "number",
+                    "default": 5,
+                    "description": "Maximum directory depth for code analysis (default: 5 levels). Directory tree will still be built for all levels. Reduce the depth if you only need a quick overview of the project."
+                }
+            },
+            "required": [
+                "absolutePath"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

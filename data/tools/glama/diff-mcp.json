@@ -1,0 +1,85 @@
+[
+    {
+        "name": "diff_diff",
+        "description": "compare text or data and get a readable diff",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "state": {
+                    "type": "object",
+                    "properties": {
+                        "left": {
+                            "anyOf": [
+                                {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "additionalProperties": {}
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "array",
+                                    "items": {}
+                                }
+                            ],
+                            "description": "The left side of the diff."
+                        },
+                        "leftFormat": {
+                            "type": "string",
+                            "enum": [
+                                "text",
+                                "json",
+                                "json5",
+                                "yaml",
+                                "toml",
+                                "xml",
+                                "html"
+                            ],
+                            "default": "json5",
+                            "description": "format of left side of the diff"
+                        },
+                        "right": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/properties/state/properties/left/anyOf/0"
+                                },
+                                {
+                                    "$ref": "#/properties/state/properties/left/anyOf/1"
+                                }
+                            ],
+                            "description": "The right side of the diff (to compare with the left side)."
+                        },
+                        "rightFormat": {
+                            "$ref": "#/properties/state/properties/leftFormat",
+                            "description": "format of right side of the diff"
+                        },
+                        "outputFormat": {
+                            "type": "string",
+                            "enum": [
+                                "text",
+                                "json",
+                                "jsonpatch"
+                            ],
+                            "default": "text",
+                            "description": "The output format. text: (default) human readable text diff, json: a compact json diff (jsondiffpatch delta format), jsonpatch: json patch diff (RFC 6902)"
+                        }
+                    },
+                    "required": [
+                        "left",
+                        "right"
+                    ],
+                    "additionalProperties": false
+                }
+            },
+            "required": [
+                "state"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

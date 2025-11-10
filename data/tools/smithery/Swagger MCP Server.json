@@ -1,0 +1,675 @@
+[
+    {
+        "name": "swagger-mcp-server_parse-swagger",
+        "description": "Parse Swagger/OpenAPI document and return API operation information.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "Swagger/OpenAPI document URL"
+                },
+                "headers": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "description": "Request headers"
+                },
+                "includeSchemas": {
+                    "type": "boolean",
+                    "description": "Whether to include schema definitions"
+                },
+                "includeDetails": {
+                    "type": "boolean",
+                    "description": "Whether to include all details like request bodies, responses, etc."
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "swagger-mcp-server_parse-swagger-optimized",
+        "description": "Parse Swagger/OpenAPI document using optimized parser with caching and large document support.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "Swagger/OpenAPI document URL"
+                },
+                "headers": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "description": "Request headers"
+                },
+                "includeSchemas": {
+                    "type": "boolean",
+                    "description": "Whether to include schema definitions"
+                },
+                "includeDetails": {
+                    "type": "boolean",
+                    "description": "Whether to include all details like request bodies, responses, etc."
+                },
+                "skipValidation": {
+                    "type": "boolean",
+                    "description": "Whether to skip validation, used for handling non-fully compliant API documents"
+                },
+                "useCache": {
+                    "type": "boolean",
+                    "description": "Whether to use cache"
+                },
+                "cacheTTLMinutes": {
+                    "type": "number",
+                    "description": "Cache TTL in minutes"
+                },
+                "lazyLoading": {
+                    "type": "boolean",
+                    "description": "Whether to use lazy loading for schema parsing"
+                },
+                "filterTag": {
+                    "type": "string",
+                    "description": "Filter operations by tag"
+                },
+                "pathPrefix": {
+                    "type": "string",
+                    "description": "Filter operations by path prefix"
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "swagger-mcp-server_parse-swagger-lite",
+        "description": "Lightweight parsing of Swagger/OpenAPI document, faster but returns only basic information (suitable for large documents).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "Swagger/OpenAPI document URL"
+                },
+                "headers": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "description": "Request headers"
+                },
+                "includeSchemas": {
+                    "type": "boolean",
+                    "description": "Whether to include schema definitions"
+                },
+                "includeDetails": {
+                    "type": "boolean",
+                    "description": "Whether to include all details like request bodies, responses, etc."
+                },
+                "skipValidation": {
+                    "type": "boolean",
+                    "description": "Whether to skip validation, used for handling non-fully compliant API documents"
+                },
+                "useCache": {
+                    "type": "boolean",
+                    "description": "Whether to use cache"
+                },
+                "cacheTTLMinutes": {
+                    "type": "number",
+                    "description": "Cache TTL in minutes"
+                },
+                "lazyLoading": {
+                    "type": "boolean",
+                    "description": "Whether to use lazy loading for schema parsing"
+                },
+                "filterTag": {
+                    "type": "string",
+                    "description": "Filter operations by tag"
+                },
+                "pathPrefix": {
+                    "type": "string",
+                    "description": "Filter operations by path prefix"
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "swagger-mcp-server_generate-typescript-types",
+        "description": "Generate TypeScript type definitions from Swagger/OpenAPI document.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "swaggerUrl": {
+                    "type": "string",
+                    "description": "Swagger/OpenAPI document URL"
+                },
+                "outputDir": {
+                    "type": "string",
+                    "description": "Output directory"
+                },
+                "overwrite": {
+                    "type": "boolean",
+                    "description": "Whether to overwrite existing files"
+                },
+                "filePrefix": {
+                    "type": "string",
+                    "description": "File prefix"
+                },
+                "fileSuffix": {
+                    "type": "string",
+                    "description": "File suffix"
+                },
+                "useNamespace": {
+                    "type": "boolean",
+                    "description": "Whether to use namespace for wrapping types"
+                },
+                "namespace": {
+                    "type": "string",
+                    "description": "Namespace name"
+                },
+                "generateEnums": {
+                    "type": "boolean",
+                    "description": "Whether to generate enum types"
+                },
+                "strictTypes": {
+                    "type": "boolean",
+                    "description": "Whether to use strict types"
+                },
+                "excludeSchemas": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Array of schema names to exclude"
+                },
+                "includeSchemas": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Array of schema names to include"
+                },
+                "generateIndex": {
+                    "type": "boolean",
+                    "description": "Whether to generate an index file"
+                },
+                "headers": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "description": "Request headers"
+                },
+                "useCache": {
+                    "type": "boolean",
+                    "description": "Whether to use cache"
+                },
+                "cacheTTLMinutes": {
+                    "type": "number",
+                    "description": "Cache TTL in minutes"
+                },
+                "skipValidation": {
+                    "type": "boolean",
+                    "description": "Whether to skip validation"
+                },
+                "lazyLoading": {
+                    "type": "boolean",
+                    "description": "Whether to use lazy loading"
+                }
+            },
+            "required": [
+                "swaggerUrl"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "swagger-mcp-server_generate-typescript-types-optimized",
+        "description": "Generate TypeScript type definitions from Swagger/OpenAPI document with optimized options for caching and large document support.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "swaggerUrl": {
+                    "type": "string",
+                    "description": "Swagger/OpenAPI document URL"
+                },
+                "outputDir": {
+                    "type": "string",
+                    "description": "Output directory"
+                },
+                "overwrite": {
+                    "type": "boolean",
+                    "description": "Whether to overwrite existing files"
+                },
+                "filePrefix": {
+                    "type": "string",
+                    "description": "File prefix"
+                },
+                "fileSuffix": {
+                    "type": "string",
+                    "description": "File suffix"
+                },
+                "useNamespace": {
+                    "type": "boolean",
+                    "description": "Whether to use namespace for wrapping types"
+                },
+                "namespace": {
+                    "type": "string",
+                    "description": "Namespace name"
+                },
+                "generateEnums": {
+                    "type": "boolean",
+                    "description": "Whether to generate enum types"
+                },
+                "strictTypes": {
+                    "type": "boolean",
+                    "description": "Whether to use strict types"
+                },
+                "excludeSchemas": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Array of schema names to exclude"
+                },
+                "includeSchemas": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Array of schema names to include"
+                },
+                "generateIndex": {
+                    "type": "boolean",
+                    "description": "Whether to generate an index file"
+                },
+                "headers": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "description": "Request headers"
+                },
+                "useCache": {
+                    "type": "boolean",
+                    "description": "Whether to use cache"
+                },
+                "cacheTTLMinutes": {
+                    "type": "number",
+                    "description": "Cache TTL in minutes"
+                },
+                "skipValidation": {
+                    "type": "boolean",
+                    "description": "Whether to skip validation"
+                },
+                "lazyLoading": {
+                    "type": "boolean",
+                    "description": "Whether to use lazy loading"
+                }
+            },
+            "required": [
+                "swaggerUrl"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "swagger-mcp-server_generate-api-client",
+        "description": "Generate API client code from Swagger/OpenAPI document.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "swaggerUrl": {
+                    "type": "string",
+                    "description": "Swagger/OpenAPI document URL"
+                },
+                "outputDir": {
+                    "type": "string",
+                    "description": "Output directory"
+                },
+                "overwrite": {
+                    "type": "boolean",
+                    "description": "Whether to overwrite existing files"
+                },
+                "filePrefix": {
+                    "type": "string",
+                    "description": "File prefix"
+                },
+                "fileSuffix": {
+                    "type": "string",
+                    "description": "File suffix"
+                },
+                "clientType": {
+                    "type": "string",
+                    "enum": [
+                        "axios",
+                        "fetch",
+                        "react-query"
+                    ],
+                    "description": "API client technology stack"
+                },
+                "generateTypeImports": {
+                    "type": "boolean",
+                    "description": "Whether to generate type imports"
+                },
+                "typesImportPath": {
+                    "type": "string",
+                    "description": "Types import path"
+                },
+                "groupBy": {
+                    "type": "string",
+                    "enum": [
+                        "tag",
+                        "path",
+                        "none"
+                    ],
+                    "description": "Grouping method"
+                },
+                "includeTags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Include tags filter"
+                },
+                "excludeTags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Exclude tags filter"
+                },
+                "headers": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "description": "Request headers"
+                }
+            },
+            "required": [
+                "swaggerUrl"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "swagger-mcp-server_generate-api-client-optimized",
+        "description": "Generate API client code from Swagger/OpenAPI document (optimized version with caching and large document support).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "swaggerUrl": {
+                    "type": "string",
+                    "description": "Swagger/OpenAPI document URL"
+                },
+                "outputDir": {
+                    "type": "string",
+                    "description": "Output directory"
+                },
+                "overwrite": {
+                    "type": "boolean",
+                    "description": "Whether to overwrite existing files"
+                },
+                "filePrefix": {
+                    "type": "string",
+                    "description": "File prefix"
+                },
+                "fileSuffix": {
+                    "type": "string",
+                    "description": "File suffix"
+                },
+                "clientType": {
+                    "type": "string",
+                    "enum": [
+                        "axios",
+                        "fetch",
+                        "react-query"
+                    ],
+                    "description": "API client technology stack"
+                },
+                "generateTypeImports": {
+                    "type": "boolean",
+                    "description": "Whether to generate type imports"
+                },
+                "typesImportPath": {
+                    "type": "string",
+                    "description": "Types import path"
+                },
+                "groupBy": {
+                    "type": "string",
+                    "enum": [
+                        "tag",
+                        "path",
+                        "none"
+                    ],
+                    "description": "Grouping method"
+                },
+                "includeTags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Include tags filter"
+                },
+                "excludeTags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Exclude tags filter"
+                },
+                "headers": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "description": "Request headers"
+                },
+                "useCache": {
+                    "type": "boolean",
+                    "description": "Whether to use cache"
+                },
+                "cacheTTLMinutes": {
+                    "type": "number",
+                    "description": "Cache TTL in minutes"
+                },
+                "skipValidation": {
+                    "type": "boolean",
+                    "description": "Whether to skip validation"
+                },
+                "lazyLoading": {
+                    "type": "boolean",
+                    "description": "Whether to use lazy loading"
+                }
+            },
+            "required": [
+                "swaggerUrl"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "swagger-mcp-server_file_writer",
+        "description": "Write content to the specified file path, with support for automatic directory creation",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "filePath": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Complete path of the file"
+                },
+                "content": {
+                    "type": "string",
+                    "description": "Content to be written to the file"
+                },
+                "createDirs": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether to automatically create parent directories if they do not exist"
+                },
+                "append": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to append to an existing file instead of overwriting it"
+                },
+                "encoding": {
+                    "type": "string",
+                    "default": "utf8",
+                    "description": "File encoding"
+                }
+            },
+            "required": [
+                "filePath",
+                "content"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "swagger-mcp-server_template-list",
+        "description": "Get available code generation template list",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "all",
+                        "api-client",
+                        "typescript-types",
+                        "config-file"
+                    ],
+                    "description": "Template type filter"
+                },
+                "framework": {
+                    "type": "string",
+                    "enum": [
+                        "axios",
+                        "fetch",
+                        "react-query",
+                        "swr",
+                        "angular",
+                        "vue"
+                    ],
+                    "description": "Framework type filter (only for API client and config file templates)"
+                },
+                "includeContent": {
+                    "type": "boolean",
+                    "description": "Whether to include template content"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "swagger-mcp-server_template-get",
+        "description": "Get specific template content",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Template ID"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "swagger-mcp-server_template-save",
+        "description": "Save or update template",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Template ID"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Template name"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "api-client",
+                        "typescript-types",
+                        "config-file"
+                    ],
+                    "description": "Template type"
+                },
+                "framework": {
+                    "type": "string",
+                    "enum": [
+                        "axios",
+                        "fetch",
+                        "react-query",
+                        "swr",
+                        "angular",
+                        "vue"
+                    ],
+                    "description": "Framework type (only for API client and config file templates)"
+                },
+                "content": {
+                    "type": "string",
+                    "description": "Template content"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Template description"
+                }
+            },
+            "required": [
+                "id",
+                "name",
+                "type",
+                "content"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "swagger-mcp-server_template-delete",
+        "description": "Delete custom template",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Template ID"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

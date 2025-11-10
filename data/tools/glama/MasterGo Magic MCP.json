@@ -1,0 +1,104 @@
+[
+    {
+        "name": "mastergo-magic-mcp_version_0_1_1",
+        "description": "the current version is 0.1.1",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mastergo-magic-mcp_mcp__getDsl",
+        "description": "\n\"Use this tool to retrieve the DSL (Domain Specific Language) data from MasterGo design files and the rules you must follow when generating code.\nThis tool is useful when you need to analyze the structure of a design, understand component hierarchy, or extract design properties.\nYou can provide either:\n1. fileId and layerId directly, or\n2. a short link (like https://{domain}/goto/LhGgBAK)\nThis tool returns the raw DSL data in JSON format that you can then parse and analyze.\nThis tool also returns the rules you must follow when generating code.\nThe DSL data can also be used to transform and generate code for different frameworks.\"\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileId": {
+                    "type": "string",
+                    "description": "MasterGo design file ID (format: file/<fileId> in MasterGo URL). Required if shortLink is not provided."
+                },
+                "layerId": {
+                    "type": "string",
+                    "description": "Layer ID of the specific component or element to retrieve (format: ?layer_id=<layerId> / file=<fileId> in MasterGo URL). Required if shortLink is not provided."
+                },
+                "shortLink": {
+                    "type": "string",
+                    "description": "Short link (like https://{domain}/goto/LhGgBAK)."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mastergo-magic-mcp_mcp__getComponentLink",
+        "description": "When the data returned by mcp__getDsl contains a non-empty componentDocumentLinks array, this tool is used to sequentially retrieve URLs from the componentDocumentLinks array and then obtain component documentation data. The returned document data is used for you to generate frontend code based on components.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "Component documentation link URL, from the componentDocumentLinks property, please ensure the URL is valid"
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mastergo-magic-mcp_mcp__getMeta",
+        "description": "\nUse this tool when the user intends to build a complete website or needs to obtain high-level site\nconfiguration information. You must provide a fileld and layerld to identify the specific design element.\nThis tool returns the rules and results of the site and page. The rules is a markdown file, you must\nfollow the rules and use the results to analyze the site and page.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileId": {
+                    "type": "string",
+                    "description": "MasterGo design file ID (format: file/<fileId> in MasterGo URL)"
+                },
+                "layerId": {
+                    "type": "string",
+                    "description": "Layer ID of the specific component or element to retrieve (format: ?layer_id=<layerId> / file=<fileId> in MasterGo URL)"
+                }
+            },
+            "required": [
+                "fileId",
+                "layerId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mastergo-magic-mcp_mcp__getComponentGenerator",
+        "description": "\nUsers need to actively call this tool to get the component development workflow. When Generator is mentioned, please actively call this tool.\nThis tool provides a structured workflow for component development following best practices.\nYou must provide an absolute rootPath of workspace to save workflow files.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "rootPath": {
+                    "type": "string",
+                    "description": "The root path of the project, if the user does not provide, you can use the current directory as the root path"
+                },
+                "fileId": {
+                    "type": "string",
+                    "description": "MasterGo design file ID (format: file/<fileId> in MasterGo URL)"
+                },
+                "layerId": {
+                    "type": "string",
+                    "description": "Layer ID of the specific component or element to retrieve (format: ?layer_id=<layerId> / file=<fileId> in MasterGo URL)"
+                }
+            },
+            "required": [
+                "rootPath",
+                "fileId",
+                "layerId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

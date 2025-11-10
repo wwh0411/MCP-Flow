@@ -1,0 +1,1007 @@
+[
+    {
+        "name": "search",
+        "description": "Search local businesses on Google Maps with an option to pull emails and social profile links from their website (see the `extract_emails_and_contacts` parameter below).",
+        "parameters": {
+            "properties": {
+                "query": {
+                    "description": "Search query / keyword Examples: Plumbers near New-York, USA Bars in 94102, USA",
+                    "title": "Query",
+                    "type": "string"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Maximum number of businesses to return. Default: 20 Allowed values: 1-500 Default: 20",
+                    "title": "Limit"
+                },
+                "lat": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Latitude of the coordinates point from which the query is applied - recommended to use so that results are biased towards this location. Defaults to some central location in the region (see the region parameter). Default: 37.359428",
+                    "title": "Lat"
+                },
+                "lng": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Longitude of the coordinates point from which the query is applied - recommended to use so that results are biased towards this location. Defaults to some central location in the region (see the region parameter). Default: -121.925337",
+                    "title": "Lng"
+                },
+                "zoom": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Zoom level on which to make the search (the viewport is determined by lat, lng and zoom). Default: 13",
+                    "title": "Zoom"
+                },
+                "language": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Set the language of the results. For a list of supported language codes see https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes . Default: en",
+                    "title": "Language"
+                },
+                "region": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Query Google Maps from a particular region or country. For a list of supported region/country codes see https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes (Alpha-2 code). Default: us",
+                    "title": "Region"
+                },
+                "subtypes": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Find businesses with specific subtypes, specified as a comma separated list of types (business categories). For the complete list of types, see https://daltonluka.com/blog/google-my-business-categories. Examples: Plumber,Carpenter,Electrician Night club,Dance club,Bar,Pub",
+                    "title": "Subtypes"
+                },
+                "verified": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only return verified businesses",
+                    "title": "Verified"
+                },
+                "business_status": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Find businesses with specific status, specified as a comma separated list of the following values: OPEN, CLOSED_TEMPORARILY, CLOSED. Examples: OPEN CLOSED_TEMPORARILY,CLOSED",
+                    "title": "Business Status"
+                },
+                "extract_emails_and_contacts": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Extract emails, contacts and social profiles for each business in the response. In case true, businesses will be enriched with a emails_and_contacts field with emails, phones, Facebook, LinkedIn, Instagram and other social profiles. Default: false Note: in case true, the endpoint will scrape emails and contacts from the business website (in case non-empty) - For each such business, the API will charge an additional credit.",
+                    "title": "Extract Emails And Contacts"
+                },
+                "fields": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A comma separated list of business fields to include in the response (field projection). By default all fields are returned. Example: business_id,type,phone_number,full_address",
+                    "title": "Fields"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_in_area",
+        "description": "Search businesses in a specific geographic area defined by a center coordinate point and zoom level. To see it in action, make a query on Google Maps, wait for the results to show, move the map or change the zoom and click \"Search this area\" at the top.",
+        "parameters": {
+            "properties": {
+                "query": {
+                    "description": "Search query / keyword",
+                    "title": "Query",
+                    "type": "string"
+                },
+                "lat": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Latitude of the center coordinate point of the area to search in. Default: 37.359428",
+                    "title": "Lat"
+                },
+                "lng": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Longitude of the center coordinate point of the area to search in. Default: -121.925337",
+                    "title": "Lng"
+                },
+                "zoom": {
+                    "description": "Zoom level on which to make the search (the search area / viewport is determined by lat, lng and zoom on a 1000x1000 screen).",
+                    "title": "Zoom",
+                    "type": "string"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Maximum number of businesses to return. Default: 20 Allowed values: 1-500 Default: 20",
+                    "title": "Limit"
+                },
+                "language": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Set the language of the results. For a list of supported language codes see https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes . Default: en",
+                    "title": "Language"
+                },
+                "region": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Query Google Maps from a particular region or country. For a list of supported region/country codes see https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes (Alpha-2 code). Default: us",
+                    "title": "Region"
+                },
+                "subtypes": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Find businesses with specific subtypes, specified as a comma separated list of types (business categories). For the complete list of types, see https://daltonluka.com/blog/google-my-business-categories. Examples: Plumber,Carpenter,Electrician Night club,Dance club,Bar,Pub",
+                    "title": "Subtypes"
+                },
+                "extract_emails_and_contacts": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Extract emails, contacts and social profiles for each business in the response. In case true, businesses will be enriched with a emails_and_contacts field with emails, phones, Facebook, LinkedIn, Instagram and other social profiles. Default: false Note: in case true, the endpoint will scrape emails and contacts from the business website (in case non-empty) - For each such business, the API will charge an additional credit.",
+                    "title": "Extract Emails And Contacts"
+                },
+                "fields": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A comma separated list of business fields to include in the response (field projection). By default all fields are returned. Example: business_id,type,phone_number,full_address",
+                    "title": "Fields"
+                }
+            },
+            "required": [
+                "query",
+                "lat",
+                "lng",
+                "zoom"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_nearby",
+        "description": "Search businesses near by specific geographic coordinates. To see it in action, right click on a specific point in the map on Google Maps and select \"Search nearby\", enter a query and search.",
+        "parameters": {
+            "properties": {
+                "query": {
+                    "description": "Search query / keyword Examples: Bars and pubs Plumbers",
+                    "title": "Query",
+                    "type": "string"
+                },
+                "lat": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Latitude of the geographic coordinates to search near by. Default: 37.359428",
+                    "title": "Lat"
+                },
+                "lng": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Longitude of the geographic coordinates to search near by. Default: -121.925337",
+                    "title": "Lng"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Maximum number of businesses to return. Default: 20 Allowed values: 1-500 Default: 20",
+                    "title": "Limit"
+                },
+                "language": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Set the language of the results. For a list of supported language codes see https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes . Default: en",
+                    "title": "Language"
+                },
+                "region": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Query Google Maps from a particular region or country. For a list of supported region/country codes see https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes (Alpha-2 code). Default: us",
+                    "title": "Region"
+                },
+                "subtypes": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Find businesses with specific subtypes, specified as a comma separated list of types (business categories). For the complete list of types, see https://daltonluka.com/blog/google-my-business-categories. Examples: Plumber,Carpenter,Electrician Night club,Dance club,Bar,Pub",
+                    "title": "Subtypes"
+                },
+                "extract_emails_and_contacts": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Extract emails, contacts and social profiles for each business in the response. In case true, businesses will be enriched with a emails_and_contacts field with emails, phones, Facebook, LinkedIn, Instagram and other social profiles. Default: false Note: in case true, the endpoint will scrape emails and contacts from the business website (in case non-empty) - For each such business, the API will charge an additional credit.",
+                    "title": "Extract Emails And Contacts"
+                },
+                "fields": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A comma separated list of business fields to include in the response (field projection). By default all fields are returned. Example: business_id,type,phone_number,full_address",
+                    "title": "Fields"
+                }
+            },
+            "required": [
+                "query",
+                "lat",
+                "lng"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "business_details",
+        "description": "Get full business details including emails and social contacts. Supports batching of up to 20 Business Ids.",
+        "parameters": {
+            "properties": {
+                "business_id": {
+                    "description": "Unique Business Id. Accepts google_id / business_id or place_id. Examples: 0x880fd393d427a591:0x8cba02d713a995ed ChIJkaUn1JPTD4gR7ZWpE9cCuow In addition, batching of up to 20 Business Ids is supported in a single request using a comma separated list (e.g. business_id=id1,id2).",
+                    "title": "Business Id",
+                    "type": "string"
+                },
+                "extract_emails_and_contacts": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Whether to extract emails, contacts and social profiles for the business. In case true, businesses will be enriched with a emails_and_contacts field, potentially containing emails, phones, Facebook, LinkedIn, Instagram and other social profiles. Default: true",
+                    "title": "Extract Emails And Contacts"
+                },
+                "extract_share_link": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Whether to extract place's share link for the business. In case true, businesses will be enriched with a share_link field containing a shortened Google URL for sharing (e.g. https://goo.gl/maps/oxndE8SVaNU5CV6p6). Default: false",
+                    "title": "Extract Share Link"
+                },
+                "fields": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A comma separated list of business fields to include in the response (field projection). By default all fields are returned. Example: business_id,type,phone_number,full_address",
+                    "title": "Fields"
+                },
+                "region": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Query Google Maps from a particular region or country. For a list of supported region/country codes see https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes (Alpha-2 code). Default: us",
+                    "title": "Region"
+                },
+                "language": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Set the language of the results. For a list of supported language codes see https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes . Default: en",
+                    "title": "Language"
+                },
+                "coordinates": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Geographic coordinates of the location from which the query is applied - recommended to use so that results are biased towards this location. Defaults to some central location in the region (see the region parameter).",
+                    "title": "Coordinates"
+                }
+            },
+            "required": [
+                "business_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "business_reviews",
+        "description": "Get all / paginate business reviews by Business Id.",
+        "parameters": {
+            "properties": {
+                "business_id": {
+                    "description": "Unique Business Id. Accepts google_id / business_id or place_id. Examples: 0x880fd393d427a591:0x8cba02d713a995ed ChIJkaUn1JPTD4gR7ZWpE9cCuow",
+                    "title": "Business Id",
+                    "type": "string"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Maximum number of business reviews to return. Default: 20 Allowed values: 1-1000 Default: 5",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of business reviews to skip (for pagination/scrolling). Default: 0 Default: 0",
+                    "title": "Offset"
+                },
+                "translate_reviews": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Whether to translate reviews to the language specified as the language parameter (defaults to false).",
+                    "title": "Translate Reviews"
+                },
+                "query": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Return reviews matching a text query.",
+                    "title": "Query"
+                },
+                "sort_by": {
+                    "default": null,
+                    "description": "How to sort the reviews in the results. Default: most_relevant Allowed values: most_relevant, newest, highest_ranking, lowest_ranking",
+                    "enum": [
+                        "most_relevant",
+                        "newest",
+                        "highest_ranking",
+                        "lowest_ranking",
+                        null
+                    ],
+                    "title": "Sort By"
+                },
+                "fields": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A comma separated list of review fields to include in the response (field projection). By default all fields are returned. Example: review_id,review_text,rating",
+                    "title": "Fields"
+                },
+                "region": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Query Google Maps from a particular region or country. For a list of supported region/country codes see https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes (Alpha-2 code). Default: us",
+                    "title": "Region"
+                },
+                "language": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Set the language of the results. For a list of supported language codes see https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes . Default: en",
+                    "title": "Language"
+                }
+            },
+            "required": [
+                "business_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "business_review_details",
+        "description": "Get the details of a specific review by Google Id / Business Id or Google Place Id and Review Author Id.",
+        "parameters": {
+            "properties": {
+                "business_id": {
+                    "description": "The Business Id of the business for which the review belongs. Accepts google_id / business_id or place_id. Examples: 0x880fd393d427a591:0x8cba02d713a995ed ChIJkaUn1JPTD4gR7ZWpE9cCuow",
+                    "title": "Business Id",
+                    "type": "string"
+                },
+                "review_author_id": {
+                    "description": "Review author id (i.e review author_id field). In addition, batching of up to 20 Review Author Ids is supported in a single request using a comma separated list (e.g. review_author_id=id1,id2).",
+                    "title": "Review Author Id",
+                    "type": "string"
+                },
+                "region": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Query Google Maps from a particular region or country. For a list of supported region/country codes see https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes (Alpha-2 code). Default: us",
+                    "title": "Region"
+                },
+                "language": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Set the language of the results. For a list of supported language codes see https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes . Default: en",
+                    "title": "Language"
+                }
+            },
+            "required": [
+                "business_id",
+                "review_author_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "business_photos",
+        "description": "Get business photos by Business Id.",
+        "parameters": {
+            "properties": {
+                "business_id": {
+                    "description": "Unique Business Id. Accepts google_id / business_id or place_id. Examples: 0x880fd393d427a591:0x8cba02d713a995ed ChIJkaUn1JPTD4gR7ZWpE9cCuow",
+                    "title": "Business Id",
+                    "type": "string"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Maximum number of business photos to return. Default: 20 Allowed values: 1-100 Default: 20",
+                    "title": "Limit"
+                },
+                "cursor": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Specify the cursor obtained from the previous request to get the next of result page (use for pagination).",
+                    "title": "Cursor"
+                },
+                "is_video": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only return video type media (type=video) or not. Default: false",
+                    "title": "Is Video"
+                },
+                "region": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Query Google Maps from a particular region or country. For a list of supported region/country codes see https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes (Alpha-2 code). Default: us",
+                    "title": "Region"
+                },
+                "fields": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A comma separated list of review fields to include in the response (field projection). By default all fields are returned. Example: type,photo_url",
+                    "title": "Fields"
+                }
+            },
+            "required": [
+                "business_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "business_photo_details",
+        "description": "Get extra details about a business photo - caption, owner name and avatar, and more information. Supports batching of up to 20 Photo Ids.",
+        "parameters": {
+            "properties": {
+                "business_id": {
+                    "description": "The Business Id of the business for which the photo belongs. Accepts google_id / business_id or place_id. Examples: 0x880fd393d427a591:0x8cba02d713a995ed ChIJkaUn1JPTD4gR7ZWpE9cCuow",
+                    "title": "Business Id",
+                    "type": "string"
+                },
+                "photo_id": {
+                    "description": "Photo Id of the photo to fetch. In addition, batching of up to 20 Photo Ids is supported in a single request using a comma separated list (e.g. photo_id=id1,id2).",
+                    "title": "Photo Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "business_id",
+                "photo_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "business_posts",
+        "description": "Get all / paginate Business Owner Posts (\"From the owner\" section on Google Maps) by Business Id, sorted chronologically.",
+        "parameters": {
+            "properties": {
+                "business_id": {
+                    "description": "Unique Business Id. Accepts google_id / business_id or place_id. Examples: 0x880fd393d427a591:0x8cba02d713a995ed ChIJkaUn1JPTD4gR7ZWpE9cCuow",
+                    "title": "Business Id",
+                    "type": "string"
+                },
+                "cursor": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Specify the cursor obtained from the previous request to get the next of result page (use for pagination).",
+                    "title": "Cursor"
+                },
+                "region": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Query Google Maps from a particular region or country. For a list of supported region/country codes see https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes (Alpha-2 code). Default: us",
+                    "title": "Region"
+                },
+                "language": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Set the language of the results. For a list of supported language codes see https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes . Default: en",
+                    "title": "Language"
+                }
+            },
+            "required": [
+                "business_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "reverse_geocoding",
+        "description": "Get the details of a place or address in a specific geographic location by latitude and longitude (reverse geocoding). This endpoint implements the \"What's here?\" functionality available on Google Maps (right click on the map).",
+        "parameters": {
+            "properties": {
+                "lat": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Default: 40.6958453",
+                    "title": "Lat"
+                },
+                "lng": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Default: -73.9799119",
+                    "title": "Lng"
+                },
+                "region": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Query Google Maps from a particular region or country. For a list of supported region/country codes see https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes (Alpha-2 code). Default: us",
+                    "title": "Region"
+                },
+                "language": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Set the language of the results. For a list of supported language codes see https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes . Default: en",
+                    "title": "Language"
+                },
+                "fields": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A comma separated list of business fields to include in the response (field projection). By default all fields are returned. Example: business_id,type,phone_number,full_address",
+                    "title": "Fields"
+                }
+            },
+            "required": [
+                "lat",
+                "lng"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "bulk_search",
+        "description": "Search local businesses on Google Maps. Batching of up to 20 queries is supported in a single request.",
+        "parameters": {
+            "properties": {
+                "data": {
+                    "additionalProperties": true,
+                    "default": null,
+                    "description": "",
+                    "title": "Data",
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "autocomplete",
+        "description": "Returns place/address, business and query predictions for text-based geographic queries.",
+        "parameters": {
+            "properties": {
+                "query": {
+                    "description": "Search query",
+                    "title": "Query",
+                    "type": "string"
+                },
+                "region": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Return results biased to a particular region. For a list of supported region/country codes see https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes (Alpha-2 code). Default: us",
+                    "title": "Region"
+                },
+                "language": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Set the language of the results. For a list of supported language codes see https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2 . Default: en",
+                    "title": "Language"
+                },
+                "coordinates": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Geographic coordinates of the location from which the query is applied - recommended to use so that results are biased towards this location. Defaults to some central location in the region (see the region parameter).",
+                    "title": "Coordinates"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "type": "object"
+        }
+    }
+]

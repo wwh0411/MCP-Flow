@@ -1,0 +1,264 @@
+[
+    {
+        "name": "flight_status",
+        "description": "Gets information about the status of the nearest (either in past or in future) flight or about flight departing or arriving on the day specified (local time), operated: - under specified flight number; or - by an aircraft with specified registration; or - under specified ATC-callsign; or - by an aircraft with specified Mode-S 24-bit ICAO Transponder address.",
+        "parameters": {
+            "properties": {
+                "number": {
+                    "description": "Flight number (with or without spaces, IATA or ICAO, any case formats are acceptable, e.g. KL1395, Klm 1395)",
+                    "title": "Number",
+                    "type": "string"
+                },
+                "withAircraftImage": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Should include aircraft image.",
+                    "title": "Withaircraftimage"
+                },
+                "withLocation": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Should include real-time positional data, e.g.: location, speed, altitude, etc., if available",
+                    "title": "Withlocation"
+                }
+            },
+            "required": [
+                "number"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "flight_history_schedule",
+        "description": "**What is the history or schedule of a specific flight within a specific range of dates in past or in future?** This endpoint is the similar to the *Flight status* endpoints. The only difference is that instead of returning the flight data on a single day, it ** returns the list of flights operating within a selected range of dates.** All limitations and considerations applicable to *Flight status* endpoint are applicable to this endpoint as well.",
+        "parameters": {
+            "properties": {
+                "number": {
+                    "description": "Flight number (with or without spaces, IATA or ICAO, any case formats are acceptable, e.g. KL1395, Klm 1395)",
+                    "title": "Number",
+                    "type": "string"
+                },
+                "dateFromLocal": {
+                    "description": "Beginning of the range of local dates of departure or arrival (in format: YYYY-MM-DD, e.g.: 2019-08-29). Maximum/minimum allowable value is determined by the current data coverage limitations and your pricing plan.",
+                    "title": "Datefromlocal",
+                    "type": "string"
+                },
+                "dateToLocal": {
+                    "description": "End of the range of local dates of departure or arrival (in format: YYYY-MM-DD, e.g.: 2019-08-29). Maximum/minimum allowable value is determined by the current data coverage limitations and your pricing plan. This date must be bigger than the dateFromLocal. The maximum difference between this date and dateFromLocal is limited and is determined by your pricing plan (ranging from 7 to 30 days as per moment of writing).",
+                    "title": "Datetolocal",
+                    "type": "string"
+                },
+                "dateLocalRole": {
+                    "default": null,
+                    "description": "If set to Both (default, recommended for best results) then the dateFromLocal and dateToLocal parameters shall be considered as both departure and arrival dates. If a flight departs OR arrives on dates within the specified range (in the local timezone of the origin or destination, respectively), it will be returned. If set to Departure then the dateFromLocal and dateToLocal parameters shall be considered as departure dates only. Only the flights departing on dates within the specified rang(in the local timezone of origin) will be returned. If set to Arrival then the dateFromLocal and dateToLocal parameters shall be considered as arrival dates only. Only the flights arriving on dates within the specified rangd (in the local timezone of destination) will be returned.",
+                    "enum": [
+                        "Both",
+                        "Arrival",
+                        "Departure",
+                        null
+                    ],
+                    "title": "Datelocalrole"
+                }
+            },
+            "required": [
+                "number",
+                "dateFromLocal",
+                "dateToLocal"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "fidsairport_departures_and_arrivals",
+        "description": "**What are current departures or arrivals at the airport?** or **What is the flight schedule at the airport?** or **What is flight history at the airport?** Flights may contain live updates with corresponding information related to the actual progress of the flight (including actual/estimated arrival/departure times). In this case this endpoint serves as a FIDS endpoint. Presense of live updates is subject to data coverage: not all airports have this coverage in our system. Otherwise the flight information will be limited to schedule only and will not be updated with time. Much more airports have this coverage. To check if airport is tracked and on which level, use `/health/services/airports/{icao}/feeds` endpoint. You can also use `/health/services/feeds/{service}/airports` to get the list of supported airports for this or that layer of coverage. To learn more about the data coverage, refer to https://www.aerodatabox.com/data-coverage. Returns: the list of arriving and/or departing flights scheduled and/or planned and/or commenced within a time range specified relatively to the current local time at the airport.",
+        "parameters": {
+            "properties": {
+                "code": {
+                    "description": "a 3-character IATA-code of the airport (e.g.: AMS, SFO, LAX, etc.).",
+                    "title": "Code",
+                    "type": "string"
+                },
+                "offsetMinutes": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Beginning of the search range expressed in minutes relative to the current time at the airport Default: -120",
+                    "title": "Offsetminutes"
+                },
+                "durationMinutes": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Length (duration) of the search range expressed in minutes Default: 720",
+                    "title": "Durationminutes"
+                },
+                "withLeg": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If set to true, will include movement information from airport opposite in this flight leg (airport of origin for arriving flight or airport of destination for departing flight). In this case, Movement property will be replaced with Departure and Arrival properties for each flight. Default: false.",
+                    "title": "Withleg"
+                },
+                "direction": {
+                    "default": null,
+                    "description": "Direction of flights: Arrival, Departure or Both (default)",
+                    "enum": [
+                        "Both",
+                        "Arrival",
+                        "Departure",
+                        null
+                    ],
+                    "title": "Direction"
+                },
+                "withCancelled": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If set to true, result will include cancelled, divered, likely cancelled (CanceledUncertain) flights. Default: true.",
+                    "title": "Withcancelled"
+                },
+                "withCodeshared": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If set to true, result will include flights with all code-shared statuses. Otherwise, code-sharing flights will be excluded. For airports, where no information about code-share statuses of flights are supplied (all flights are CodeshareStatus=Unknown), complex filtering will be applied to determine which flights are likely to be operational (caution: false results are possible).",
+                    "title": "Withcodeshared"
+                },
+                "withCargo": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If set to true, result will include cargo flights (subject to availability).",
+                    "title": "Withcargo"
+                },
+                "withPrivate": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If set to true, result will include private flights (subject to availability).",
+                    "title": "Withprivate"
+                },
+                "withLocation": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If set to true, each currently active flight within the result will be populated with its present real-time location, altitude, speed and track (subject to availability).",
+                    "title": "Withlocation"
+                }
+            },
+            "required": [
+                "code"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "flight_departure_dates",
+        "description": "**On which days the flight operates?** or **What is the flight schedule?** Get flight departure dates for a flight operated: , operated: - under specified flight number; or - by an aircraft with specified registration; or - under specified ATC-callsign; or - by an aircraft with specified Mode-S 24-bit ICAO Transponder address. Returns: Array of local departure dates in (YYYY-MM-DD).",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_flight_numbers_by_term",
+        "description": "Returns: Distinct list of available flight numbers which start with the search query.",
+        "parameters": {
+            "properties": {
+                "q": {
+                    "description": "Search query (min. 2 non whitespace characters length)",
+                    "title": "Q",
+                    "type": "string"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Maximum number of items to be returned (max. 100, default = 10)",
+                    "title": "Limit"
+                }
+            },
+            "required": [
+                "q"
+            ],
+            "type": "object"
+        }
+    }
+]

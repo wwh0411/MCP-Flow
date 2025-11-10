@@ -1,0 +1,572 @@
+[
+    {
+        "name": "github-create-branch",
+        "description": "Create a new branch in a Github repo. [See the documentation](https://docs.github.com/en/rest/git/refs?apiVersion=2022-11-28#create-a-reference)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "repoFullname": {
+                    "type": "string",
+                    "description": ""
+                },
+                "branchName": {
+                    "type": "string",
+                    "description": "The name of the new branch that will be created"
+                },
+                "branchSha": {
+                    "type": "string",
+                    "description": "The source branch that will be used to create the new branch. Defaults to the repository's default branch (usually `main` or `master`)"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "github-create-gist",
+        "description": "Allows you to add a new gist with one or more files. [See the documentation](https://docs.github.com/en/rest/gists/gists?apiVersion=2022-11-28#create-a-gist)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "description": "The description of the gist"
+                },
+                "files": {
+                    "type": "string",
+                    "description": "The files that will be added to the gist. The key is the file name and the value is the content of the file. Ex: `{\"file1.txt\": \"content of file 1\", \"file2.txt\": \"content of file 2\"}`"
+                },
+                "public": {
+                    "type": "string",
+                    "description": "Indicates whether the gist is public or not"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "github-create-issue",
+        "description": "Create a new issue in a Gihub repo. [See the documentation](https://docs.github.com/en/rest/issues/issues#create-an-issue)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "repoFullname": {
+                    "type": "string",
+                    "description": ""
+                },
+                "title": {
+                    "type": "string",
+                    "description": "The title of the issue"
+                },
+                "body": {
+                    "type": "string",
+                    "description": "The text body of the issue"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "github-create-issue-comment",
+        "description": "Create a new comment in a issue. [See the documentation](https://docs.github.com/en/rest/issues/comments#create-an-issue-comment)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "repoFullname": {
+                    "type": "string",
+                    "description": ""
+                },
+                "issueNumber": {
+                    "type": "string",
+                    "description": "The number that identifies the issue."
+                },
+                "body": {
+                    "type": "string",
+                    "description": "The contents of the comment"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "github-create-or-update-file-contents",
+        "description": "Create or update a file in a repository. [See the documentation](https://docs.github.com/en/rest/repos/contents#create-or-update-file-contents)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "repoFullname": {
+                    "type": "string",
+                    "description": ""
+                },
+                "path": {
+                    "type": "string",
+                    "description": "The full path of the file to create. *If the file already exists, it will be updated.* Example: `path/to/file.txt`"
+                },
+                "fileContent": {
+                    "type": "string",
+                    "description": "The raw contents of the file. *If the file already exists, the entire file will be overwritten.*"
+                },
+                "commitMessage": {
+                    "type": "string",
+                    "description": "The commit message for this change."
+                },
+                "branch": {
+                    "type": "string",
+                    "description": "The branch to use. Defaults to the repository's default branch (usually `main` or `master`)"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "github-create-pull-request",
+        "description": "Creates a new pull request for a specified repository. [See the documentation](https://docs.github.com/en/rest/pulls/pulls#create-a-pull-request)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "repoFullname": {
+                    "type": "string",
+                    "description": "The base repository, where the pull request will be created."
+                },
+                "base": {
+                    "type": "string",
+                    "description": "The base branch, where the changes will be received."
+                },
+                "headRepo": {
+                    "type": "string",
+                    "description": "The head repository, where the changes originate from. This can, but does not have to, be the same repository."
+                },
+                "head": {
+                    "type": "string",
+                    "description": "The head branch, where the changes originate from"
+                },
+                "body": {
+                    "type": "string",
+                    "description": "The text description of the pull request."
+                },
+                "maintainerCanModify": {
+                    "type": "string",
+                    "description": "Indicates whether [maintainers can modify](https://docs.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/) the pull request."
+                },
+                "draft": {
+                    "type": "string",
+                    "description": "Indicates whether the pull request is a draft. See \"[Draft Pull Requests](https://docs.github.com/articles/about-pull-requests#draft-pull-requests)\" in the GitHub Help documentation to learn more."
+                },
+                "title": {
+                    "type": "string",
+                    "description": "The title of the pull request."
+                },
+                "issue": {
+                    "type": "string",
+                    "description": "An issue in the repository to convert to a pull request. The issue title, body, and comments will become the title, body, and comments on the new pull request."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "github-create-repository",
+        "description": "Creates a new repository for the authenticated user. [See the documentation](https://docs.github.com/en/rest/repos/repos#create-a-repository-for-the-authenticated-user)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The name of the repository."
+                },
+                "teamId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "description": {
+                    "type": "string",
+                    "description": "A short description of the repository."
+                },
+                "homepage": {
+                    "type": "string",
+                    "description": "A URL with more information about the repository."
+                },
+                "private": {
+                    "type": "string",
+                    "description": "Whether the repository is private."
+                },
+                "hasIssues": {
+                    "type": "string",
+                    "description": "Whether issues are enabled."
+                },
+                "hasProjects": {
+                    "type": "string",
+                    "description": "Whether projects are enabled."
+                },
+                "hasWiki": {
+                    "type": "string",
+                    "description": "Whether the wiki is enabled."
+                },
+                "hasDiscussions": {
+                    "type": "string",
+                    "description": "Whether discussions are enabled."
+                },
+                "autoInit": {
+                    "type": "string",
+                    "description": "Whether the repository is initialized with a minimal README."
+                },
+                "hasDownloads": {
+                    "type": "string",
+                    "description": "Whether downloads are enabled."
+                },
+                "isTemplate": {
+                    "type": "string",
+                    "description": "Whether this repository acts as a template that can be used to generate new repositories."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "github-create-workflow-dispatch",
+        "description": "Creates a new workflow dispatch event. [See the documentation](https://docs.github.com/en/rest/actions/workflows?apiVersion=2022-11-28#create-a-workflow-dispatch-event)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "repoFullname": {
+                    "type": "string",
+                    "description": ""
+                },
+                "workflowId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "ref": {
+                    "type": "string",
+                    "description": "The git reference for the workflow. The reference can be a branch or tag name."
+                },
+                "inputs": {
+                    "type": "string",
+                    "description": "Input keys and values configured in the workflow file. The maximum number of properties is 10. Any default properties configured in the workflow file will be used when inputs are omitted."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "github-disable-workflow",
+        "description": "Disables a workflow and sets the **state** of the workflow to **disabled_manually**. [See the documentation](https://docs.github.com/en/rest/actions/workflows?apiVersion=2022-11-28#disable-a-workflow)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "repoFullname": {
+                    "type": "string",
+                    "description": ""
+                },
+                "workflowId": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "github-enable-workflow",
+        "description": "Enables a workflow and sets the **state** of the workflow to **active**. [See the documentation](https://docs.github.com/en/rest/actions/workflows?apiVersion=2022-11-28#enable-a-workflow)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "repoFullname": {
+                    "type": "string",
+                    "description": ""
+                },
+                "workflowId": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "github-get-commit",
+        "description": "Get a commit in a Github repo. [See the documentation](https://docs.github.com/en/rest/commits/commits?apiVersion=2022-11-28#get-a-commit)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "repoFullname": {
+                    "type": "string",
+                    "description": ""
+                },
+                "commitSha": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "github-get-issue-assignees",
+        "description": "Get assignees for an issue in a Gihub repo. [See the documentation](https://docs.github.com/en/rest/issues/issues#get-an-issue)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "repoFullname": {
+                    "type": "string",
+                    "description": ""
+                },
+                "issueNumber": {
+                    "type": "string",
+                    "description": "The number that identifies the issue."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "github-get-repository",
+        "description": "Get information for a specific repository. [See the documentation](https://docs.github.com/en/rest/repos/repos#get-a-repository)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "repoFullname": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "github-get-repository-content",
+        "description": "Get the content of a file or directory in a specific repository. [See the documentation](https://docs.github.com/en/rest/repos/contents#get-repository-content)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "repoFullname": {
+                    "type": "string",
+                    "description": ""
+                },
+                "path": {
+                    "type": "string",
+                    "description": "The file path or directory to retrieve. Defaults to the repository's root directory."
+                },
+                "mediaType": {
+                    "type": "string",
+                    "description": "The media type of the response. [See the documentation](https://docs.github.com/en/rest/repos/contents?apiVersion=2022-11-28#get-repository-content) for more information."
+                },
+                "branch": {
+                    "type": "string",
+                    "description": "The branch to use. Defaults to the repository's default branch (usually `main` or `master`)"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "github-get-reviewers",
+        "description": "Get reviewers for a PR ([see documentation](https://docs.github.com/en/rest/pulls/reviews#list-reviews-for-a-pull-request)) or Commit SHA ([see documentation](https://docs.github.com/en/rest/commits/commits#list-pull-requests-associated-with-a-commit)).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "repoFullname": {
+                    "type": "string",
+                    "description": ""
+                },
+                "prOrCommit": {
+                    "type": "string",
+                    "description": "Whether to get reviewers for a [pull request](https://docs.github.com/en/rest/pulls/reviews#list-reviews-for-a-pull-request) or a [commit SHA](https://docs.github.com/en/rest/commits/commits#list-pull-requests-associated-with-a-commit)."
+                },
+                "reviewStates": {
+                    "type": "string",
+                    "description": "Filter by these review states"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "github-get-workflow-run",
+        "description": "Gets a specific workflow run. [See the documentation](https://docs.github.com/en/rest/actions/workflow-runs?apiVersion=2022-11-28#get-a-workflow-run)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "repoFullname": {
+                    "type": "string",
+                    "description": ""
+                },
+                "workflowRunId": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "github-list-commits",
+        "description": "List commits in a Github repo. [See the documentation](https://docs.github.com/en/rest/commits/commits?apiVersion=2022-11-28#list-commits)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "repoFullname": {
+                    "type": "string",
+                    "description": ""
+                },
+                "sha": {
+                    "type": "string",
+                    "description": "SHA or branch to start listing commits from. Default: the repository's default branch (usually main)."
+                },
+                "path": {
+                    "type": "string",
+                    "description": "Only commits containing this file path will be returned"
+                },
+                "author": {
+                    "type": "string",
+                    "description": "GitHub username or email address to use to filter by commit author."
+                },
+                "committer": {
+                    "type": "string",
+                    "description": "GitHub username or email address to use to filter by commit committer"
+                },
+                "since": {
+                    "type": "string",
+                    "description": "Only show results that were last updated after the given time. This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`"
+                },
+                "until": {
+                    "type": "string",
+                    "description": "Only commits before this date will be returned. This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`"
+                },
+                "maxResults": {
+                    "type": "number",
+                    "description": "The maximum number of results to return. Defaults: `100`"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "github-list-releases",
+        "description": "List releases for a repository [See the documentation](https://docs.github.com/en/rest/releases/releases?apiVersion=2022-11-28#list-releases)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "repoFullname": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "github-list-workflow-runs",
+        "description": "List workflowRuns for a repository [See the documentation](https://docs.github.com/en/rest/actions/workflow-runs?apiVersion=2022-11-28#list-workflow-runs-for-a-repository)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "repoFullname": {
+                    "type": "string",
+                    "description": ""
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "The maximum quantity to be returned."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "github-search-issues-and-pull-requests",
+        "description": "Find issues and pull requests by state and keyword. [See the documentation](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "infoBox": {
+                    "type": "string",
+                    "description": ""
+                },
+                "query": {
+                    "type": "string",
+                    "description": "The query contains one or more search keywords and qualifiers. [See the documentation](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests) for more information and examples"
+                },
+                "maxResults": {
+                    "type": "number",
+                    "description": "The maximum amount of items to retrieve"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "github-star-repo",
+        "description": "Star a repository. [See the docs](https://docs.github.com/en/rest/activity/starring?apiVersion=2022-11-28#star-a-repository-for-the-authenticated-user) for more info.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "repoFullname": {
+                    "type": "string",
+                    "description": "The name of the repository (not case sensitive). The format should be `owner/repo` (for example, `PipedreamHQ/pipedream`)."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "github-update-gist",
+        "description": "Allows you to update a gist's description and to update, delete, or rename gist files. [See the documentation](https://docs.github.com/en/rest/gists/gists?apiVersion=2022-11-28#update-a-gist)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "infoAlert": {
+                    "type": "string",
+                    "description": ""
+                },
+                "gistId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "description": {
+                    "type": "string",
+                    "description": "The description of the gist"
+                },
+                "files": {
+                    "type": "string",
+                    "description": "The gist files to be updated, renamed, or deleted. Each key must match the current filename (including extension) of the targeted gist file. For example: `hello.py`. To delete a file, set the whole file to null. For example: `hello.py : null`"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "github-update-project-v2-item-status",
+        "description": "Update the status of an item in the selected Project (V2). [See the documentation](https://docs.github.com/en/graphql/reference/mutations#updateprojectv2itemfieldvalue)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "org": {
+                    "type": "string",
+                    "description": ""
+                },
+                "repo": {
+                    "type": "string",
+                    "description": ""
+                },
+                "project": {
+                    "type": "string",
+                    "description": ""
+                },
+                "item": {
+                    "type": "string",
+                    "description": ""
+                },
+                "status": {
+                    "type": "string",
+                    "description": "The status to set for the item"
+                },
+                "moveToTop": {
+                    "type": "string",
+                    "description": "If true, moves the item to the top of the column instead of the bottom."
+                }
+            },
+            "required": []
+        }
+    }
+]

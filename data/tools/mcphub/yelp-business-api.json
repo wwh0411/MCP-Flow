@@ -1,0 +1,337 @@
+[
+    {
+        "name": "search_yelp",
+        "description": "Use the same search box on yelp.com",
+        "parameters": {
+            "properties": {
+                "location": {
+                    "description": "Enter exact locations. For example, use Roosevelt, NY not Roosevelt only.",
+                    "title": "Location",
+                    "type": "string"
+                },
+                "search_term": {
+                    "description": "Enter any search term you want, just like on Yelp. Ex. Coffee shop, Pizza shop, electrician, or plumber Ex. Black Owned Saloon, Mexican pizza shop",
+                    "title": "Search Term",
+                    "type": "string"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of results per page. Max: 40 Default: 10. Default: 10",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If offset is set to 0, it means start from zero. If offset is set to 20, it means to start showing after 20 results. Default: 0",
+                    "title": "Offset"
+                },
+                "business_details_type": {
+                    "default": null,
+                    "description": "Basic: provides basic info's about the businesses. Advanced: provides in-depth information about the businesses (it's like using /search and /each business details endpoints at the same time) Advanced option costs 2 requests per call.",
+                    "enum": [
+                        "basic",
+                        "advanced",
+                        null
+                    ],
+                    "title": "Business Details Type"
+                }
+            },
+            "required": [
+                "location",
+                "search_term"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "business_details",
+        "description": "Scrape By Yelp URL: Ex. https://www.yelp.com/biz/capital-blossom-day-spa-washington or by business ids found from /search endpoint. You can get these business urls from the \"/search\" endpoint('YelpURL')",
+        "parameters": {
+            "properties": {
+                "business_url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Get the business details by Yelp Business URL.",
+                    "title": "Business Url"
+                },
+                "business_ids": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Get business details from business_id found from /search endpoint. Separate each using a comma. You can put up to 39 business ids on each request. Ex. BCUhfgjbVVvjs0ro4ATRsg,wj7ekipyvssV3Ok7p8zxGg, V2_qfjnwAVWqIphf7y866w",
+                    "title": "Business Ids"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "reviews",
+        "description": "Get business reviews by url or id",
+        "parameters": {
+            "properties": {
+                "business_url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Enter any business url from yelp.com (any subdomain)",
+                    "title": "Business Url"
+                },
+                "business_id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Enter any business ID found from /search endpoint",
+                    "title": "Business Id"
+                },
+                "reviews_per_page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max value could be: 45 Default: 20",
+                    "title": "Reviews Per Page"
+                },
+                "end_cursor": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For first page: Default is set to None For next pages, if hasNextPage = true : Input the end_cursor value found from the response of the previous page to get reviews of the next page. Ex. end_cursor = eyJ2ZXJzaW9uIjoxLCJ0eXBlIjoib2Zmc2V0Iiwib2Zmc2V0Ijo0NH0",
+                    "title": "End Cursor"
+                },
+                "sort_by": {
+                    "default": null,
+                    "description": "",
+                    "enum": [
+                        "Yelp_sort",
+                        "Newest_first",
+                        "Oldest_first",
+                        "Highest_rated",
+                        "Lowest_rated",
+                        "Elites",
+                        null
+                    ],
+                    "title": "Sort By"
+                },
+                "rating_filter": {
+                    "default": null,
+                    "description": "",
+                    "enum": [
+                        "All_ratings",
+                        "5_stars",
+                        "4_stars",
+                        "3_stars",
+                        "2_stars",
+                        "1_star",
+                        null
+                    ],
+                    "title": "Rating Filter"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_menus",
+        "description": "Get restaurant menus if present on yelp",
+        "parameters": {
+            "properties": {
+                "business_id": {
+                    "description": "Find restaurant menus if present on the Yelp website. Menus on personal websites cannot be collected.",
+                    "title": "Business Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "business_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "popular_dishes",
+        "description": "Get popular_dish list of a restaurant when available on the website.",
+        "parameters": {
+            "properties": {
+                "business_id": {
+                    "description": "Get popular dishes from a restaurant when available on the website. Input business_id.",
+                    "title": "Business Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "business_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "business_url_to_id",
+        "description": "Find biz id from url.",
+        "parameters": {
+            "properties": {
+                "business_url": {
+                    "description": "Enter url to find the business id.",
+                    "title": "Business Url",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "business_url"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "upcheck",
+        "description": "Check if the api status is live!",
+        "parameters": {
+            "properties": {
+                "check": {
+                    "description": "",
+                    "title": "Check",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "check"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_full_yelp_list",
+        "description": "Search and return all results on yelp.com",
+        "parameters": {
+            "properties": {
+                "location": {
+                    "description": "Enter exact locations. For example, use Roosevelt, NY not Roosevelt only.",
+                    "title": "Location",
+                    "type": "string"
+                },
+                "search_term": {
+                    "description": "Enter any search term you want, just like on Yelp. Ex. Coffee shop, Pizza shop, electrician, or plumber Ex. Black Owned Saloon, Mexican pizza shop",
+                    "title": "Search Term",
+                    "type": "string"
+                },
+                "start_page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Start page number",
+                    "title": "Start Page"
+                },
+                "end_page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "End page number (inclusive)",
+                    "title": "End Page"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of results per page. Max: 40 Default: 10",
+                    "title": "Limit"
+                },
+                "business_details_type": {
+                    "default": null,
+                    "description": "Basic: provides basic info's about the businesses. Advanced: provides in-depth information about the businesses (it's like using /search and /each business details endpoints at the same time) Advanced option costs 2 requests per call.",
+                    "enum": [
+                        "basic",
+                        "advanced",
+                        null
+                    ],
+                    "title": "Business Details Type"
+                }
+            },
+            "required": [
+                "location",
+                "search_term"
+            ],
+            "type": "object"
+        }
+    }
+]

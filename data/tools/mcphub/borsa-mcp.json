@@ -1,0 +1,1477 @@
+[
+    {
+        "name": "find_ticker_code",
+        "description": "BIST STOCKS: Search companies by name to find ticker codes. STOCKS ONLY - use get_kripto_exchange_info for crypto.",
+        "parameters": {
+            "properties": {
+                "sirket_adi_veya_kodu": {
+                    "description": "Company name or ticker to search (e.g. 'Garanti', 'Aselsan', 'GARAN'). Case-insensitive, supports Turkish chars.",
+                    "examples": [
+                        "GARAN",
+                        "Garanti",
+                        "Aselsan",
+                        "TUPRS"
+                    ],
+                    "minLength": 2,
+                    "title": "Sirket Adi Veya Kodu",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "sirket_adi_veya_kodu"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_sirket_profili",
+        "description": "BIST STOCKS: Get company/index profile with financial metrics and sector info. STOCKS ONLY - use get_kripto_ticker for crypto.",
+        "parameters": {
+            "properties": {
+                "ticker_kodu": {
+                    "description": "BIST ticker: stock (GARAN, ASELS) or index (XU100, XBANK). No .IS suffix needed.",
+                    "examples": [
+                        "GARAN",
+                        "ASELS",
+                        "TUPRS",
+                        "XU100",
+                        "XBANK"
+                    ],
+                    "pattern": "^[A-Z0-9]{2,6}$",
+                    "title": "Ticker Kodu",
+                    "type": "string"
+                },
+                "mynet_detaylari": {
+                    "default": false,
+                    "description": "Include Turkish details: management, shareholders, subsidiaries. False=faster response.",
+                    "title": "Mynet Detaylari",
+                    "type": "boolean"
+                },
+                "format": {
+                    "default": "full",
+                    "description": "Response format: 'full' for complete data, 'compact' for shortened field names and reduced size.",
+                    "enum": [
+                        "full",
+                        "compact"
+                    ],
+                    "title": "Format",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ticker_kodu"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_bilanco",
+        "description": "BIST STOCKS: Get company balance sheet with assets, liabilities, equity. STOCKS ONLY - crypto companies don't publish balance sheets.",
+        "parameters": {
+            "properties": {
+                "ticker_kodu": {
+                    "description": "BIST ticker: stock (GARAN, AKBNK) or index (XU100, XBANK). No .IS suffix.",
+                    "examples": [
+                        "GARAN",
+                        "AKBNK",
+                        "XU100"
+                    ],
+                    "pattern": "^[A-Z]{2,6}$",
+                    "title": "Ticker Kodu",
+                    "type": "string"
+                },
+                "periyot": {
+                    "default": "annual",
+                    "description": "'annual' for yearly data, 'quarterly' for recent quarters. Annual=trends, quarterly=recent.",
+                    "enum": [
+                        "annual",
+                        "quarterly"
+                    ],
+                    "title": "Periyot",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ticker_kodu"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_kar_zarar_tablosu",
+        "description": "BIST STOCKS: Get company income statement with revenue, profit, margins. STOCKS ONLY - crypto companies don't publish income statements.",
+        "parameters": {
+            "properties": {
+                "ticker_kodu": {
+                    "description": "BIST ticker: stock (GARAN, TUPRS) or index (XU100, XBANK). No .IS suffix.",
+                    "title": "Ticker Kodu",
+                    "type": "string"
+                },
+                "periyot": {
+                    "default": "annual",
+                    "description": "'annual' for yearly statements, 'quarterly' for quarters. Annual=trends, quarterly=recent.",
+                    "enum": [
+                        "annual",
+                        "quarterly"
+                    ],
+                    "title": "Periyot",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ticker_kodu"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_nakit_akisi_tablosu",
+        "description": "BIST STOCKS: Get company cash flow statement with operating/investing/financing flows. STOCKS ONLY.",
+        "parameters": {
+            "properties": {
+                "ticker_kodu": {
+                    "description": "BIST ticker: stock (GARAN, EREGL) or index (XU100, XBANK). No .IS suffix.",
+                    "title": "Ticker Kodu",
+                    "type": "string"
+                },
+                "periyot": {
+                    "default": "annual",
+                    "description": "'annual' for yearly cash flows, 'quarterly' for quarters. Annual=long-term patterns, quarterly=seasonal.",
+                    "enum": [
+                        "annual",
+                        "quarterly"
+                    ],
+                    "title": "Periyot",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ticker_kodu"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_finansal_veri",
+        "description": "BIST STOCKS: Get stock/index historical OHLCV data for prices, volumes, charts. STOCKS ONLY - use get_kripto_ohlc for crypto.",
+        "parameters": {
+            "properties": {
+                "ticker_kodu": {
+                    "description": "BIST ticker: stock (GARAN, TUPRS) or index (XU100, XBANK). No .IS suffix.",
+                    "examples": [
+                        "GARAN",
+                        "TUPRS",
+                        "XU100",
+                        "XBANK"
+                    ],
+                    "pattern": "^[A-Z]{2,6}$",
+                    "title": "Ticker Kodu",
+                    "type": "string"
+                },
+                "zaman_araligi": {
+                    "default": "1mo",
+                    "description": "Time period: 1d/5d/1mo/3mo/6mo/1y/2y/5y/ytd/max. Trading=1d-1mo, analysis=3mo-1y, trends=2y-max.",
+                    "enum": [
+                        "1d",
+                        "5d",
+                        "1mo",
+                        "3mo",
+                        "6mo",
+                        "1y",
+                        "2y",
+                        "5y",
+                        "ytd",
+                        "max"
+                    ],
+                    "title": "Zaman Araligi",
+                    "type": "string"
+                },
+                "format": {
+                    "default": "full",
+                    "description": "Response format: 'full' for complete data, 'compact' for shortened field names and reduced size.",
+                    "enum": [
+                        "full",
+                        "compact"
+                    ],
+                    "title": "Format",
+                    "type": "string"
+                },
+                "array_format": {
+                    "default": false,
+                    "description": "Use ultra-compact array format for OHLCV data. Saves 60-70% tokens. Format: [date, open, high, low, close, volume].",
+                    "title": "Array Format",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "ticker_kodu"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_analist_tahminleri",
+        "description": "BIST STOCKS: Get analyst recommendations with buy/sell ratings and price targets. STOCKS ONLY.",
+        "parameters": {
+            "properties": {
+                "ticker_kodu": {
+                    "description": "BIST ticker: stock (GARAN, TUPRS) or index (XU100, XBANK). No .IS suffix.",
+                    "title": "Ticker Kodu",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ticker_kodu"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_temettu_ve_aksiyonlar",
+        "description": "BIST STOCKS: Get stock dividends and corporate actions with dividend history, splits. STOCKS ONLY.",
+        "parameters": {
+            "properties": {
+                "ticker_kodu": {
+                    "description": "BIST ticker: stock (GARAN, AKBNK) or index (XU100, XBANK). No .IS suffix.",
+                    "title": "Ticker Kodu",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ticker_kodu"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_hizli_bilgi",
+        "description": "BIST STOCKS: Get stock/index quick metrics with P/E, market cap, ratios. STOCKS ONLY - use get_kripto_ticker for crypto.",
+        "parameters": {
+            "properties": {
+                "ticker_kodu": {
+                    "description": "BIST ticker: stock (GARAN, TUPRS) or index (XU100, XBANK). No .IS suffix.",
+                    "title": "Ticker Kodu",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ticker_kodu"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_kazanc_takvimi",
+        "description": "Get BIST stock earnings calendar: upcoming/past earnings dates, growth. STOCKS ONLY.",
+        "parameters": {
+            "properties": {
+                "ticker_kodu": {
+                    "description": "BIST ticker: stock (GARAN, AKBNK) or index (XU100, XBANK). No .IS suffix.",
+                    "title": "Ticker Kodu",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ticker_kodu"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_teknik_analiz",
+        "description": "Get BIST stock/index technical analysis: indicators, signals, trends. STOCKS ONLY - use get_kripto_ohlc for crypto.",
+        "parameters": {
+            "properties": {
+                "ticker_kodu": {
+                    "description": "BIST ticker: stock (GARAN, ASELS) or index (XU100, XBANK). No .IS suffix.",
+                    "title": "Ticker Kodu",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ticker_kodu"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_sektor_karsilastirmasi",
+        "description": "Get BIST sector comparison: performance, valuations, rankings. STOCKS ONLY.",
+        "parameters": {
+            "properties": {
+                "ticker_listesi": {
+                    "description": "BIST tickers list for sector analysis (e.g., ['GARAN', 'AKBNK'] banking). No .IS suffix. Min 3 tickers.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Ticker Listesi",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "ticker_listesi"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_kap_haberleri",
+        "description": "Get BIST company KAP news: official announcements, regulatory filings. STOCKS ONLY.",
+        "parameters": {
+            "properties": {
+                "ticker_kodu": {
+                    "description": "The BIST ticker code of the company or index (e.g., 'GARAN', 'ASELS', 'AEFES' for stocks; 'XU100', 'XBANK', 'XK100' for indices). Do not include '.IS' suffix.",
+                    "title": "Ticker Kodu",
+                    "type": "string"
+                },
+                "haber_sayisi": {
+                    "default": 10,
+                    "description": "Number of recent KAP news items to retrieve (1-20). Default is 10 for optimal performance.",
+                    "title": "Haber Sayisi",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "ticker_kodu"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_kap_haber_detayi",
+        "description": "Get detailed KAP news content: full announcement text in markdown. STOCKS ONLY.",
+        "parameters": {
+            "properties": {
+                "haber_url": {
+                    "description": "KAP news URL from get_kap_haberleri output. Must be valid Mynet Finans URL.",
+                    "title": "Haber Url",
+                    "type": "string"
+                },
+                "sayfa_numarasi": {
+                    "default": 1,
+                    "description": "Page number for large documents (1-based). Documents over 5000 characters are automatically paginated.",
+                    "title": "Sayfa Numarasi",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "haber_url"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_katilim_finans_uygunluk",
+        "description": "Get BIST stock Islamic finance compatibility: Sharia compliance assessment. STOCKS ONLY.",
+        "parameters": {
+            "properties": {
+                "ticker_kodu": {
+                    "description": "The ticker code of the company to check for participation finance compatibility (e.g., 'ARCLK', 'GARAN')",
+                    "title": "Ticker Kodu",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ticker_kodu"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_endeks_kodu",
+        "description": "Search BIST index codes by name: find index symbols like XU100, XBANK. INDICES ONLY.",
+        "parameters": {
+            "properties": {
+                "endeks_adi_veya_kodu": {
+                    "description": "Enter the index name or code to find BIST indices. You can search using: index name (e.g., 'Bankacılık', 'Teknoloji'), partial name (e.g., 'BIST 100'), or index code (e.g., 'XU100', 'XBANK'). Search is case-insensitive and supports Turkish characters.",
+                    "title": "Endeks Adi Veya Kodu",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "endeks_adi_veya_kodu"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_endeks_sirketleri",
+        "description": "Get companies in BIST index: list of stocks in index like XU100, XBANK. INDICES ONLY.",
+        "parameters": {
+            "properties": {
+                "endeks_kodu": {
+                    "description": "The index code to get company details for (e.g., 'XU100', 'XBANK', 'BIST 100')",
+                    "title": "Endeks Kodu",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "endeks_kodu"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_funds",
+        "description": "Search Turkish mutual funds: find funds by name/category with performance data. FUNDS ONLY.",
+        "parameters": {
+            "properties": {
+                "search_term": {
+                    "description": "Fund name, code, or founder (e.g., 'Garanti Hisse', 'TGE', 'QNB'). Turkish chars supported.",
+                    "examples": [
+                        "Garanti Hisse",
+                        "altın",
+                        "teknoloji",
+                        "TGE",
+                        "QNB Finans"
+                    ],
+                    "minLength": 2,
+                    "title": "Search Term",
+                    "type": "string"
+                },
+                "limit": {
+                    "default": 20,
+                    "description": "Maximum results (default: 20, max: 50).",
+                    "maximum": 50,
+                    "minimum": 1,
+                    "title": "Limit",
+                    "type": "integer"
+                },
+                "fund_category": {
+                    "default": "all",
+                    "description": "Fund category: 'all', 'debt', 'equity', 'mixed', 'precious_metals', 'money_market', etc.",
+                    "enum": [
+                        "all",
+                        "debt",
+                        "variable",
+                        "basket",
+                        "guaranteed",
+                        "real_estate",
+                        "venture",
+                        "equity",
+                        "mixed",
+                        "participation",
+                        "precious_metals",
+                        "money_market",
+                        "flexible"
+                    ],
+                    "title": "Fund Category",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "search_term"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_fund_detail",
+        "description": "Get Turkish fund details: comprehensive fund info, performance, metrics. FUNDS ONLY.",
+        "parameters": {
+            "properties": {
+                "fund_code": {
+                    "description": "The TEFAS fund code (e.g., 'TGE', 'AFA', 'IPB'). Use search_funds to find the correct fund code first.",
+                    "title": "Fund Code",
+                    "type": "string"
+                },
+                "include_price_history": {
+                    "default": false,
+                    "description": "Include detailed price history (1-week, 1-month, 3-month, 6-month). Default is False for faster response.",
+                    "title": "Include Price History",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "fund_code"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_fund_performance",
+        "description": "Get Turkish fund historical performance: returns over time periods. FUNDS ONLY.",
+        "parameters": {
+            "properties": {
+                "fund_code": {
+                    "description": "The TEFAS fund code (e.g., 'TGE', 'AFA', 'IPB', 'AAK').",
+                    "title": "Fund Code",
+                    "type": "string"
+                },
+                "start_date": {
+                    "default": null,
+                    "description": "Start date in YYYY-MM-DD format (default: 1 year ago). Example: '2024-01-01'",
+                    "title": "Start Date",
+                    "type": "string"
+                },
+                "end_date": {
+                    "default": null,
+                    "description": "End date in YYYY-MM-DD format (default: today). Example: '2024-12-31'",
+                    "title": "End Date",
+                    "type": "string"
+                },
+                "format": {
+                    "default": "full",
+                    "description": "Response format: 'full' for complete data, 'compact' for shortened field names and reduced size.",
+                    "enum": [
+                        "full",
+                        "compact"
+                    ],
+                    "title": "Format",
+                    "type": "string"
+                },
+                "array_format": {
+                    "default": false,
+                    "description": "Use ultra-compact array format for performance data. Saves 60-70% tokens. Format: [date, price, portfolio_value, shares, investors].",
+                    "title": "Array Format",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "fund_code"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_fund_portfolio",
+        "description": "Get Turkish fund portfolio allocation: asset breakdown over time. FUNDS ONLY.",
+        "parameters": {
+            "properties": {
+                "fund_code": {
+                    "description": "The TEFAS fund code (e.g., 'TGE', 'AFA', 'IPB', 'AAK').",
+                    "title": "Fund Code",
+                    "type": "string"
+                },
+                "start_date": {
+                    "default": null,
+                    "description": "Start date in YYYY-MM-DD format (default: 1 week ago). Example: '2024-06-15'",
+                    "title": "Start Date",
+                    "type": "string"
+                },
+                "end_date": {
+                    "default": null,
+                    "description": "End date in YYYY-MM-DD format (default: today). Example: '2024-06-22'",
+                    "title": "End Date",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "fund_code"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "compare_funds",
+        "description": "Compare Turkish mutual funds: side-by-side performance analysis. FUNDS ONLY.",
+        "parameters": {
+            "properties": {
+                "fund_type": {
+                    "default": "EMK",
+                    "description": "Fund type: 'YAT' (Investment Funds), 'EMK' (Pension Funds), 'BYF' (ETFs), 'GYF' (REITs), 'GSYF' (Venture Capital).",
+                    "title": "Fund Type",
+                    "type": "string"
+                },
+                "start_date": {
+                    "default": null,
+                    "description": "Start date in DD.MM.YYYY format (e.g., '25.05.2025'). If not provided, defaults to 30 days ago.",
+                    "title": "Start Date",
+                    "type": "string"
+                },
+                "end_date": {
+                    "default": null,
+                    "description": "End date in DD.MM.YYYY format (e.g., '20.06.2025'). If not provided, defaults to today.",
+                    "title": "End Date",
+                    "type": "string"
+                },
+                "periods": {
+                    "default": [
+                        "1A",
+                        "3A",
+                        "6A",
+                        "YB",
+                        "1Y"
+                    ],
+                    "description": "List of return periods: '1A' (1 month), '3A' (3 months), '6A' (6 months), 'YB' (year-to-date), '1Y' (1 year), '3Y' (3 years), '5Y' (5 years).",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Periods",
+                    "type": "array"
+                },
+                "founder": {
+                    "default": "Tümü",
+                    "description": "Filter by fund management company. Use 'Tümü' for all, or specific codes like 'AKP' (AK Portföy), 'GPY' (Garanti Portföy), 'ISP' (İş Portföy), etc.",
+                    "title": "Founder",
+                    "type": "string"
+                },
+                "fund_codes": {
+                    "default": null,
+                    "description": "Optional list of specific fund codes to compare (e.g., ['AFO', 'EUN']). If provided, only these funds will be included in results.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Fund Codes",
+                    "type": "array"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_fon_mevzuati",
+        "description": "Get Turkish fund regulations: legal compliance guide for investment funds. REGULATIONS ONLY.",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_kripto_exchange_info",
+        "description": "CRYPTO BtcTurk: Get exchange info with trading pairs, currencies, limits. CRYPTO ONLY - use find_ticker_code for stocks.",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_kripto_ticker",
+        "description": "CRYPTO BtcTurk: Get crypto price data with current prices, 24h changes, volumes. CRYPTO ONLY - use get_hizli_bilgi for stocks.",
+        "parameters": {
+            "properties": {
+                "pair_symbol": {
+                    "default": null,
+                    "description": "Crypto pair (BTCTRY, ETHUSDT) or leave empty for all pairs.",
+                    "examples": [
+                        "BTCTRY",
+                        "ETHUSDT",
+                        "ADATRY",
+                        "AVAXTR"
+                    ],
+                    "pattern": "^[A-Z]{3,8}$",
+                    "title": "Pair Symbol",
+                    "type": "string"
+                },
+                "quote_currency": {
+                    "default": null,
+                    "description": "Filter by quote currency (TRY, USDT, BTC). Only if pair_symbol empty.",
+                    "enum": [
+                        "TRY",
+                        "USDT",
+                        "BTC",
+                        "ETH",
+                        "USD",
+                        "EUR"
+                    ],
+                    "title": "Quote Currency",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_kripto_orderbook",
+        "description": "CRYPTO BtcTurk: Get crypto order book with bid/ask prices and quantities. CRYPTO ONLY - stock order books unavailable.",
+        "parameters": {
+            "properties": {
+                "pair_symbol": {
+                    "description": "Trading pair symbol (e.g., 'BTCTRY', 'ETHUSDT')",
+                    "title": "Pair Symbol",
+                    "type": "string"
+                },
+                "limit": {
+                    "default": 100,
+                    "description": "Number of orders (max 100)",
+                    "title": "Limit",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "pair_symbol"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_kripto_trades",
+        "description": "CRYPTO BtcTurk: Get recent crypto trades with prices, amounts, timestamps. CRYPTO ONLY - use get_finansal_veri for stocks.",
+        "parameters": {
+            "properties": {
+                "pair_symbol": {
+                    "description": "Trading pair symbol (e.g., 'BTCTRY', 'ETHUSDT')",
+                    "title": "Pair Symbol",
+                    "type": "string"
+                },
+                "last": {
+                    "default": 50,
+                    "description": "Number of recent trades to return (max 50)",
+                    "title": "Last",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "pair_symbol"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_kripto_ohlc",
+        "description": "CRYPTO BtcTurk: Get crypto OHLC chart data with open/high/low/close prices. CRYPTO ONLY - use get_finansal_veri for stocks.",
+        "parameters": {
+            "properties": {
+                "pair": {
+                    "description": "Trading pair symbol (BTCTRY, ETHUSDT, ADATRY).",
+                    "examples": [
+                        "BTCTRY",
+                        "ETHUSDT",
+                        "ADATRY",
+                        "AVAXTR"
+                    ],
+                    "pattern": "^[A-Z]{3,8}$",
+                    "title": "Pair",
+                    "type": "string"
+                },
+                "from_time": {
+                    "default": null,
+                    "description": "Start time: Unix timestamp or human-readable date (2025-01-01, 2025-01-01 15:30:00). Optional, defaults to 30 days ago.",
+                    "examples": [
+                        "2025-01-01",
+                        "2025-01-01 15:30:00",
+                        "1704067200"
+                    ],
+                    "title": "From Time",
+                    "type": "string"
+                },
+                "to_time": {
+                    "default": null,
+                    "description": "End time: Unix timestamp or human-readable date (2025-01-02, 2025-01-02 16:00:00). Optional, defaults to now.",
+                    "examples": [
+                        "2025-01-02",
+                        "2025-01-02 16:00:00",
+                        "1704153600"
+                    ],
+                    "title": "To Time",
+                    "type": "string"
+                },
+                "format": {
+                    "default": "full",
+                    "description": "Response format: 'full' for complete data, 'compact' for shortened field names and reduced size.",
+                    "enum": [
+                        "full",
+                        "compact"
+                    ],
+                    "title": "Format",
+                    "type": "string"
+                },
+                "array_format": {
+                    "default": false,
+                    "description": "Use ultra-compact array format for OHLCV data. Saves 60-70% tokens. Format: [timestamp, open, high, low, close, volume].",
+                    "title": "Array Format",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "pair"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_kripto_kline",
+        "description": "CRYPTO BtcTurk: Get crypto candlestick data with OHLCV arrays for charts. CRYPTO ONLY - use get_teknik_analiz for stocks.",
+        "parameters": {
+            "properties": {
+                "symbol": {
+                    "description": "Crypto symbol (BTCTRY, ETHUSDT, ADATRY).",
+                    "examples": [
+                        "BTCTRY",
+                        "ETHUSDT",
+                        "ADATRY",
+                        "AVAXTR"
+                    ],
+                    "pattern": "^[A-Z]{3,8}$",
+                    "title": "Symbol",
+                    "type": "string"
+                },
+                "resolution": {
+                    "description": "Time resolution: 1M,5M,15M,30M,1H,4H,1D,1W for chart intervals.",
+                    "examples": [
+                        "1M",
+                        "15M",
+                        "1H",
+                        "1D"
+                    ],
+                    "pattern": "^(1M|5M|15M|30M|1H|4H|1D|1W)$",
+                    "title": "Resolution",
+                    "type": "string"
+                },
+                "from_time": {
+                    "default": null,
+                    "description": "Start time: Unix timestamp or human-readable date (2025-01-01, 2025-01-01 15:30:00). Optional, defaults to 7 days ago.",
+                    "examples": [
+                        "2025-01-01",
+                        "2025-01-01 15:30:00",
+                        "1704067200"
+                    ],
+                    "title": "From Time",
+                    "type": "string"
+                },
+                "to_time": {
+                    "default": null,
+                    "description": "End time: Unix timestamp or human-readable date (2025-01-02, 2025-01-02 16:00:00). Optional, defaults to now.",
+                    "examples": [
+                        "2025-01-02",
+                        "2025-01-02 16:00:00",
+                        "1704153600"
+                    ],
+                    "title": "To Time",
+                    "type": "string"
+                },
+                "format": {
+                    "default": "full",
+                    "description": "Response format: 'full' for complete data, 'compact' for shortened field names and reduced size.",
+                    "enum": [
+                        "full",
+                        "compact"
+                    ],
+                    "title": "Format",
+                    "type": "string"
+                },
+                "array_format": {
+                    "default": false,
+                    "description": "Use ultra-compact array format for OHLCV data. Saves 60-70% tokens. Format: [timestamp, open, high, low, close, volume].",
+                    "title": "Array Format",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "symbol",
+                "resolution"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_kripto_teknik_analiz",
+        "description": "CRYPTO BtcTurk: Get crypto technical analysis with RSI, MACD, signals. CRYPTO ONLY - use get_teknik_analiz for stocks.",
+        "parameters": {
+            "properties": {
+                "symbol": {
+                    "description": "Crypto symbol (BTCTRY, ETHUSDT, ADATRY).",
+                    "examples": [
+                        "BTCTRY",
+                        "ETHUSDT",
+                        "ADATRY",
+                        "AVAXTR"
+                    ],
+                    "pattern": "^[A-Z]{3,8}$",
+                    "title": "Symbol",
+                    "type": "string"
+                },
+                "resolution": {
+                    "default": "1D",
+                    "description": "Chart resolution: 1M,5M,15M,30M,1H,4H,1D,1W for analysis.",
+                    "examples": [
+                        "1H",
+                        "4H",
+                        "1D"
+                    ],
+                    "pattern": "^(1M|5M|15M|30M|1H|4H|1D|1W)$",
+                    "title": "Resolution",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "symbol"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_coinbase_exchange_info",
+        "description": "CRYPTO Coinbase: Get global exchange info with trading pairs and currencies. CRYPTO ONLY - use find_ticker_code for stocks.",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_coinbase_ticker",
+        "description": "CRYPTO Coinbase: Get global crypto price data with USD/EUR prices. CRYPTO ONLY - use get_hizli_bilgi for stocks.",
+        "parameters": {
+            "properties": {
+                "product_id": {
+                    "default": null,
+                    "description": "Coinbase product ID (BTC-USD, ETH-EUR) or leave empty for all products.",
+                    "examples": [
+                        "BTC-USD",
+                        "ETH-EUR",
+                        "ADA-USD",
+                        "BTC-USDC"
+                    ],
+                    "pattern": "^[A-Z]{2,6}-[A-Z]{2,4}$",
+                    "title": "Product Id",
+                    "type": "string"
+                },
+                "quote_currency": {
+                    "default": null,
+                    "description": "Filter by quote currency (USD, EUR, USDC). Only if product_id empty.",
+                    "examples": [
+                        "USD",
+                        "EUR",
+                        "USDC",
+                        "USDT"
+                    ],
+                    "pattern": "^[A-Z]{2,4}$",
+                    "title": "Quote Currency",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_coinbase_orderbook",
+        "description": "CRYPTO Coinbase: Get global crypto order book with USD/EUR bid/ask prices. CRYPTO ONLY - stock order books unavailable.",
+        "parameters": {
+            "properties": {
+                "product_id": {
+                    "description": "Coinbase product ID (e.g., 'BTC-USD', 'ETH-EUR').",
+                    "examples": [
+                        "BTC-USD",
+                        "ETH-EUR",
+                        "ADA-USD",
+                        "BTC-USDC"
+                    ],
+                    "pattern": "^[A-Z]{2,6}-[A-Z]{2,4}$",
+                    "title": "Product Id",
+                    "type": "string"
+                },
+                "limit": {
+                    "default": 100,
+                    "description": "Number of orders to return (default: 100, max: 100).",
+                    "maximum": 100,
+                    "minimum": 1,
+                    "title": "Limit",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "product_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_coinbase_trades",
+        "description": "CRYPTO Coinbase: Get recent global crypto trades with USD/EUR prices. CRYPTO ONLY - use get_finansal_veri for stocks.",
+        "parameters": {
+            "properties": {
+                "product_id": {
+                    "description": "Coinbase product ID (e.g., 'BTC-USD', 'ETH-EUR').",
+                    "examples": [
+                        "BTC-USD",
+                        "ETH-EUR",
+                        "ADA-USD",
+                        "SOL-USD"
+                    ],
+                    "pattern": "^[A-Z]{2,6}-[A-Z]{2,4}$",
+                    "title": "Product Id",
+                    "type": "string"
+                },
+                "limit": {
+                    "default": 100,
+                    "description": "Number of recent trades to return (default: 100, max: 100).",
+                    "maximum": 100,
+                    "minimum": 1,
+                    "title": "Limit",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "product_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_coinbase_ohlc",
+        "description": "CRYPTO Coinbase: Get global crypto OHLC data for USD/EUR charts. CRYPTO ONLY - use get_finansal_veri for stocks.",
+        "parameters": {
+            "properties": {
+                "product_id": {
+                    "description": "Coinbase product ID (e.g., 'BTC-USD', 'ETH-EUR').",
+                    "examples": [
+                        "BTC-USD",
+                        "ETH-EUR",
+                        "ADA-USD",
+                        "SOL-USD"
+                    ],
+                    "pattern": "^[A-Z]{2,6}-[A-Z]{2,4}$",
+                    "title": "Product Id",
+                    "type": "string"
+                },
+                "start": {
+                    "default": null,
+                    "description": "Start time (ISO format: 2024-01-01T00:00:00Z) - optional.",
+                    "examples": [
+                        "2024-01-01T00:00:00Z",
+                        "2024-06-01T12:00:00Z"
+                    ],
+                    "title": "Start",
+                    "type": "string"
+                },
+                "end": {
+                    "default": null,
+                    "description": "End time (ISO format: 2024-01-01T00:00:00Z) - optional.",
+                    "examples": [
+                        "2024-01-31T23:59:59Z",
+                        "2024-06-30T12:00:00Z"
+                    ],
+                    "title": "End",
+                    "type": "string"
+                },
+                "granularity": {
+                    "default": "ONE_HOUR",
+                    "description": "Candle granularity: ONE_MINUTE, FIVE_MINUTE, FIFTEEN_MINUTE, ONE_HOUR, SIX_HOUR, ONE_DAY.",
+                    "examples": [
+                        "ONE_HOUR",
+                        "ONE_DAY",
+                        "FIFTEEN_MINUTE"
+                    ],
+                    "title": "Granularity",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "product_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_coinbase_server_time",
+        "description": "CRYPTO Coinbase: Get global server time and API status. CRYPTO ONLY - informational tool.",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_coinbase_teknik_analiz",
+        "description": "CRYPTO Coinbase: Get crypto technical analysis with RSI, MACD, Bollinger Bands, signals. CRYPTO ONLY - use get_teknik_analiz for stocks.",
+        "parameters": {
+            "properties": {
+                "product_id": {
+                    "description": "Coinbase trading pair (BTC-USD, ETH-EUR, ADA-USD, SOL-GBP). Use hyphen format.",
+                    "examples": [
+                        "BTC-USD",
+                        "ETH-EUR",
+                        "ADA-USD",
+                        "SOL-GBP",
+                        "DOGE-USD"
+                    ],
+                    "pattern": "^[A-Z]{2,10}-[A-Z]{3,4}$",
+                    "title": "Product Id",
+                    "type": "string"
+                },
+                "granularity": {
+                    "default": "1D",
+                    "description": "Chart timeframe: 1M, 5M, 15M, 30M, 1H, 4H, 6H, 1D, 1W (default: 1D).",
+                    "title": "Granularity",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "product_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_dovizcom_guncel",
+        "description": "CURRENCY & COMMODITIES: Get current exchange rate or commodity price from doviz.com.",
+        "parameters": {
+            "properties": {
+                "asset": {
+                    "description": "Asset symbol: USD, EUR, GBP, gram-altin (Turkish gold), ons (troy ounce gold), BRENT (oil), diesel, gasoline, lpg, etc.",
+                    "enum": [
+                        "USD",
+                        "EUR",
+                        "GBP",
+                        "JPY",
+                        "CHF",
+                        "CAD",
+                        "AUD",
+                        "gram-altin",
+                        "gumus",
+                        "ons",
+                        "XAG-USD",
+                        "XPT-USD",
+                        "XPD-USD",
+                        "BRENT",
+                        "WTI",
+                        "diesel",
+                        "gasoline",
+                        "lpg"
+                    ],
+                    "examples": [
+                        "USD",
+                        "EUR",
+                        "gram-altin",
+                        "ons",
+                        "BRENT",
+                        "diesel",
+                        "gasoline",
+                        "lpg"
+                    ],
+                    "title": "Asset",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "asset"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_dovizcom_dakikalik",
+        "description": "CURRENCY & COMMODITIES: Get minute data for currencies/metals only. DO NOT use for fuel assets (gasoline, diesel, lpg).",
+        "parameters": {
+            "properties": {
+                "asset": {
+                    "description": "Asset symbol for minute data. BEST: USD, EUR, GBP, gram-altin, ons. AVOID: diesel, gasoline, lpg (no minute data).",
+                    "enum": [
+                        "USD",
+                        "EUR",
+                        "GBP",
+                        "JPY",
+                        "CHF",
+                        "CAD",
+                        "AUD",
+                        "gram-altin",
+                        "gumus",
+                        "ons",
+                        "XAG-USD",
+                        "XPT-USD",
+                        "XPD-USD",
+                        "BRENT",
+                        "WTI",
+                        "diesel",
+                        "gasoline",
+                        "lpg"
+                    ],
+                    "examples": [
+                        "USD",
+                        "EUR",
+                        "gram-altin",
+                        "ons",
+                        "BRENT"
+                    ],
+                    "title": "Asset",
+                    "type": "string"
+                },
+                "limit": {
+                    "default": 60,
+                    "description": "Number of data points to fetch (1-60 minutes of data).",
+                    "maximum": 60,
+                    "minimum": 1,
+                    "title": "Limit",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "asset"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_dovizcom_arsiv",
+        "description": "CURRENCY & COMMODITIES: Get historical OHLC data from doviz.com for custom date range.",
+        "parameters": {
+            "properties": {
+                "asset": {
+                    "description": "Asset symbol: USD, EUR, GBP, gram-altin (Turkish gold), ons (troy ounce gold), BRENT (oil), diesel, gasoline, lpg, etc.",
+                    "enum": [
+                        "USD",
+                        "EUR",
+                        "GBP",
+                        "JPY",
+                        "CHF",
+                        "CAD",
+                        "AUD",
+                        "gram-altin",
+                        "gumus",
+                        "ons",
+                        "XAG-USD",
+                        "XPT-USD",
+                        "XPD-USD",
+                        "BRENT",
+                        "WTI",
+                        "diesel",
+                        "gasoline",
+                        "lpg"
+                    ],
+                    "examples": [
+                        "USD",
+                        "EUR",
+                        "gram-altin",
+                        "ons",
+                        "BRENT",
+                        "diesel",
+                        "gasoline",
+                        "lpg"
+                    ],
+                    "title": "Asset",
+                    "type": "string"
+                },
+                "start_date": {
+                    "description": "Start date in YYYY-MM-DD format (e.g., '2024-01-01').",
+                    "examples": [
+                        "2024-01-01",
+                        "2024-06-01"
+                    ],
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                    "title": "Start Date",
+                    "type": "string"
+                },
+                "end_date": {
+                    "description": "End date in YYYY-MM-DD format (e.g., '2024-12-31').",
+                    "examples": [
+                        "2024-12-31",
+                        "2024-06-30"
+                    ],
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                    "title": "End Date",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "asset",
+                "start_date",
+                "end_date"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_economic_calendar",
+        "description": "ECONOMIC CALENDAR: Get Turkish economic events calendar from Doviz.com (unemployment, inflation, PMI data).",
+        "parameters": {
+            "properties": {
+                "start_date": {
+                    "description": "Start date in YYYY-MM-DD format (e.g., '2025-06-15').",
+                    "examples": [
+                        "2025-06-15",
+                        "2025-06-30",
+                        "2025-07-01"
+                    ],
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                    "title": "Start Date",
+                    "type": "string"
+                },
+                "end_date": {
+                    "description": "End date in YYYY-MM-DD format (e.g., '2025-06-21').",
+                    "examples": [
+                        "2025-06-21",
+                        "2025-07-06",
+                        "2025-07-31"
+                    ],
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                    "title": "End Date",
+                    "type": "string"
+                },
+                "high_importance_only": {
+                    "default": true,
+                    "description": "Include only high importance economic events (default: True).",
+                    "title": "High Importance Only",
+                    "type": "boolean"
+                },
+                "country_filter": {
+                    "default": "TR,US",
+                    "description": "Country filter: 'TR' (Türkiye), 'US' (ABD), 'EU' (Euro Bölgesi), 'CN' (Çin), 'DE' (Almanya), 'GB' (Birleşik Krallık), 'IT' (İtalya), 'FR' (Fransa), 'JP' (Japonya), 'KR' (Güney Kore), 'ZA' (Güney Afrika), 'BR' (Brezilya), 'AU' (Avustralya), 'CA' (Kanada), 'RU' (Rusya), 'IN' (Hindistan), or other ISO country codes.",
+                    "examples": [
+                        "TR",
+                        "US",
+                        "TR,US",
+                        "EU",
+                        "CN",
+                        "DE"
+                    ],
+                    "title": "Country Filter",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "start_date",
+                "end_date"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_turkiye_enflasyon",
+        "description": "TCMB: Get Turkish inflation data (TÜFE/ÜFE) with date range filtering and statistics.",
+        "parameters": {
+            "properties": {
+                "inflation_type": {
+                    "default": "tufe",
+                    "description": "Inflation type: 'tufe' for Consumer Price Index (TÜFE), 'ufe' for Producer Price Index (ÜFE).",
+                    "enum": [
+                        "tufe",
+                        "ufe"
+                    ],
+                    "title": "Inflation Type",
+                    "type": "string"
+                },
+                "start_date": {
+                    "anyOf": [
+                        {
+                            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Start date filter (YYYY-MM-DD format). Example: '2024-01-01'",
+                    "examples": [
+                        "2024-01-01",
+                        "2023-06-01",
+                        "2025-01-01"
+                    ],
+                    "title": "Start Date"
+                },
+                "end_date": {
+                    "anyOf": [
+                        {
+                            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "End date filter (YYYY-MM-DD format). Example: '2024-12-31'",
+                    "examples": [
+                        "2024-12-31",
+                        "2025-06-30",
+                        "2025-12-31"
+                    ],
+                    "title": "End Date"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "maximum": 500,
+                            "minimum": 1,
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Maximum records to return (default: no limit).",
+                    "examples": [
+                        12,
+                        24,
+                        50
+                    ],
+                    "title": "Limit"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_enflasyon_hesapla",
+        "description": "TCMB: Calculate cumulative inflation between two dates using official TCMB data.",
+        "parameters": {
+            "properties": {
+                "start_year": {
+                    "description": "Starting year (1982-2025). TCMB calculator data starts from 1982.",
+                    "examples": [
+                        2020,
+                        2021,
+                        2022,
+                        2023
+                    ],
+                    "maximum": 2025,
+                    "minimum": 1982,
+                    "title": "Start Year",
+                    "type": "integer"
+                },
+                "start_month": {
+                    "description": "Starting month (1-12). 1=January, 12=December.",
+                    "examples": [
+                        1,
+                        6,
+                        12
+                    ],
+                    "maximum": 12,
+                    "minimum": 1,
+                    "title": "Start Month",
+                    "type": "integer"
+                },
+                "end_year": {
+                    "description": "Ending year (1982-current). Must be after start year.",
+                    "examples": [
+                        2024,
+                        2025
+                    ],
+                    "maximum": 2025,
+                    "minimum": 1982,
+                    "title": "End Year",
+                    "type": "integer"
+                },
+                "end_month": {
+                    "description": "Ending month (1-12). End date must be after start date.",
+                    "examples": [
+                        1,
+                        6,
+                        12
+                    ],
+                    "maximum": 12,
+                    "minimum": 1,
+                    "title": "End Month",
+                    "type": "integer"
+                },
+                "basket_value": {
+                    "default": 100.0,
+                    "description": "Initial basket value in Turkish Lira (default: 100.0 TL).",
+                    "examples": [
+                        100.0,
+                        1000.0,
+                        10000.0
+                    ],
+                    "minimum": 0.01,
+                    "title": "Basket Value",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "start_year",
+                "start_month",
+                "end_year",
+                "end_month"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_system_prompt",
+        "description": "Use this tool to read Borsa MCP system prompt before calling any tool of Borsa MCP.",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    }
+]

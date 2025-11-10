@@ -1,0 +1,280 @@
+[
+    {
+        "name": "recipes_auto_complete",
+        "description": "Get auto complete suggestions by name or ingredients",
+        "parameters": {
+            "properties": {
+                "prefix": {
+                    "description": "Food name or ingredient",
+                    "title": "Prefix",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "prefix"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "recipes_list",
+        "description": "List recipes by option filters or name",
+        "parameters": {
+            "properties": {
+                "_from": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The offset of items to be ignored in response for paging Default: 0",
+                    "title": "From"
+                },
+                "size": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Number of items returned per response Default: 20",
+                    "title": "Size"
+                },
+                "tags": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Get suitable values from /tags/list API",
+                    "title": "Tags"
+                },
+                "q": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Name of food or, ingredients to search by",
+                    "title": "Q"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Leave empty to sort by popular as default OR one of the following : approved_at:desc|approved_at:asc",
+                    "title": "Sort"
+                }
+            },
+            "required": [
+                "_from",
+                "size"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "recipes_list_similarities",
+        "description": "List similar recipes by specific recipe id",
+        "parameters": {
+            "properties": {
+                "recipe_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The id value of any recipe returned in recipes/list API Default: 8138",
+                    "title": "Recipe Id"
+                }
+            },
+            "required": [
+                "recipe_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "recipes_get_more_info",
+        "description": "Get more information of recipe if available, such as : ingredients, nutrition info, preparation, etc... This endpoint returns 404 status code, it means there is no more information to obtain. * .../recipes/list already returns ingredients, nutrition info, preparation, etc...",
+        "parameters": {
+            "properties": {
+                "id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The id value of any recipe returned in recipes/list API Default: 8138",
+                    "title": "Id"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "tips_list",
+        "description": "This endpoint is used to load tips (reviews)",
+        "parameters": {
+            "properties": {
+                "id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The value of recipe id returned in .../recipes/list .../feeds/list .../recipes/list-similarities endpoints Default: 3562",
+                    "title": "Id"
+                },
+                "_from": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The offset of items to be ignored in response for paging Default: 0",
+                    "title": "From"
+                },
+                "size": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of items returned per response Default: 30",
+                    "title": "Size"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "tags_list",
+        "description": "List supported tags name for filtering in recipes/list API",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "feeds_list",
+        "description": "List latest feeds about new food, recipes,etc...",
+        "parameters": {
+            "properties": {
+                "size": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Number of items returned per response Default: 5",
+                    "title": "Size"
+                },
+                "timezone": {
+                    "description": "The timezone of your location in format of +/- hhmm",
+                    "title": "Timezone",
+                    "type": "string"
+                },
+                "vegetarian": {
+                    "description": "List vegetarian food only",
+                    "title": "Vegetarian",
+                    "type": "boolean"
+                },
+                "_from": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The offset of items to be ignored in response for paging Default: 0",
+                    "title": "From"
+                }
+            },
+            "required": [
+                "size",
+                "timezone",
+                "vegetarian",
+                "_from"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "recipes_detail",
+        "description": "Get more information of recipe if available, such as : ingredients, nutrition info, preparation, etc...",
+        "parameters": {
+            "properties": {
+                "id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The id value of any recipe returned in recipes/list API Default: 5586",
+                    "title": "Id"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "type": "object"
+        }
+    }
+]

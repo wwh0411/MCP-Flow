@@ -1,0 +1,152 @@
+[
+    {
+        "name": "read_table_rows",
+        "description": "\n    Read rows from a Supabase table with optional filtering, ordering, and limiting.\n    \n    Use this tool to query data from a specific table in the Supabase database.\n    You can select specific columns, filter rows based on conditions, limit the number\n    of results, and order the results.\n    \n    Args:\n        ctx: The MCP context\n        table_name: Name of the table to read from\n        columns: Comma-separated list of columns to select (default: \"*\" for all columns)\n        filters: Dictionary of column-value pairs to filter rows (default: None)\n        limit: Maximum number of rows to return (default: None)\n        order_by: Column to order results by (default: None)\n        ascending: Whether to sort in ascending order (default: True)\n        \n    Returns:\n        List of dictionaries, each representing a row from the table\n        \n    Example:\n        To get all users: read_table_rows(table_name=\"users\")\n        To get specific columns: read_table_rows(table_name=\"users\", columns=\"id,name,email\")\n        To filter rows: read_table_rows(table_name=\"users\", filters={\"is_active\": True})\n        To limit results: read_table_rows(table_name=\"users\", limit=10)\n        To order results: read_table_rows(table_name=\"users\", order_by=\"created_at\", ascending=False)\n    ",
+        "parameters": {
+            "properties": {
+                "table_name": {
+                    "title": "Table Name",
+                    "type": "string"
+                },
+                "columns": {
+                    "default": "*",
+                    "title": "Columns",
+                    "type": "string"
+                },
+                "filters": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": true,
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Filters"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Limit"
+                },
+                "order_by": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Order By"
+                },
+                "ascending": {
+                    "default": true,
+                    "title": "Ascending",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "table_name"
+            ],
+            "title": "read_table_rowsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "create_table_records",
+        "description": "\n    Create one or multiple records in a Supabase table.\n    \n    Use this tool to insert new data into a specific table in the Supabase database.\n    You can insert a single record or multiple records at once.\n    \n    Args:\n        ctx: The MCP context\n        table_name: Name of the table to insert records into\n        records: A dictionary for a single record or a list of dictionaries for multiple records\n        \n    Returns:\n        Dictionary containing the created records and metadata\n        \n    Example:\n        To create a single record:\n            create_table_records(\n                table_name=\"users\",\n                records={\"name\": \"John Doe\", \"email\": \"john@example.com\"}\n            )\n            \n        To create multiple records:\n            create_table_records(\n                table_name=\"users\",\n                records=[\n                    {\"name\": \"John Doe\", \"email\": \"john@example.com\"},\n                    {\"name\": \"Jane Smith\", \"email\": \"jane@example.com\"}\n                ]\n            )\n    ",
+        "parameters": {
+            "properties": {
+                "table_name": {
+                    "title": "Table Name",
+                    "type": "string"
+                },
+                "records": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": true,
+                            "type": "object"
+                        },
+                        {
+                            "items": {
+                                "additionalProperties": true,
+                                "type": "object"
+                            },
+                            "type": "array"
+                        }
+                    ],
+                    "title": "Records"
+                }
+            },
+            "required": [
+                "table_name",
+                "records"
+            ],
+            "title": "create_table_recordsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "update_table_records",
+        "description": "\n    Update records in a Supabase table that match the specified filters.\n    \n    Use this tool to modify existing data in a specific table in the Supabase database.\n    You provide the new values and filter conditions to identify which records to update.\n    \n    Args:\n        ctx: The MCP context\n        table_name: Name of the table to update records in\n        updates: Dictionary of column-value pairs with the new values\n        filters: Dictionary of column-value pairs to filter which rows to update\n        \n    Returns:\n        Dictionary containing the updated records and metadata\n        \n    Example:\n        To update all active users' status:\n            update_table_records(\n                table_name=\"users\",\n                updates={\"status\": \"premium\"},\n                filters={\"is_active\": True}\n            )\n    ",
+        "parameters": {
+            "properties": {
+                "table_name": {
+                    "title": "Table Name",
+                    "type": "string"
+                },
+                "updates": {
+                    "additionalProperties": true,
+                    "title": "Updates",
+                    "type": "object"
+                },
+                "filters": {
+                    "additionalProperties": true,
+                    "title": "Filters",
+                    "type": "object"
+                }
+            },
+            "required": [
+                "table_name",
+                "updates",
+                "filters"
+            ],
+            "title": "update_table_recordsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "delete_table_records",
+        "description": "\n    Delete records from a Supabase table that match the specified filters.\n    \n    Use this tool to remove data from a specific table in the Supabase database.\n    You provide filter conditions to identify which records to delete.\n    \n    Args:\n        ctx: The MCP context\n        table_name: Name of the table to delete records from\n        filters: Dictionary of column-value pairs to filter which rows to delete\n        \n    Returns:\n        Dictionary containing the deleted records and metadata\n        \n    Example:\n        To delete inactive users:\n            delete_table_records(\n                table_name=\"users\",\n                filters={\"is_active\": False}\n            )\n    ",
+        "parameters": {
+            "properties": {
+                "table_name": {
+                    "title": "Table Name",
+                    "type": "string"
+                },
+                "filters": {
+                    "additionalProperties": true,
+                    "title": "Filters",
+                    "type": "object"
+                }
+            },
+            "required": [
+                "table_name",
+                "filters"
+            ],
+            "title": "delete_table_recordsArguments",
+            "type": "object"
+        }
+    }
+]

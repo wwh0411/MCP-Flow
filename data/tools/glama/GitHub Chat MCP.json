@@ -1,0 +1,63 @@
+[
+    {
+        "name": "github-chat_index_repository",
+        "description": "Index a GitHub repository to analyze its codebase. This must be done before asking questions about the repository.",
+        "parameters": {
+            "properties": {
+                "repo_url": {
+                    "description": "The GitHub repository URL to index (format: https://github.com/username/repo).",
+                    "title": "Repo Url",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "repo_url"
+            ],
+            "title": "index_repositoryArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "github-chat_query_repository",
+        "description": "Ask questions about a GitHub repository and receive detailed AI responses. The repository must be indexed first.",
+        "parameters": {
+            "properties": {
+                "repo_url": {
+                    "description": "The GitHub repository URL to query (format: https://github.com/username/repo).",
+                    "title": "Repo Url",
+                    "type": "string"
+                },
+                "question": {
+                    "description": "The question to ask about the repository.",
+                    "title": "Question",
+                    "type": "string"
+                },
+                "conversation_history": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "additionalProperties": {
+                                    "type": "string"
+                                },
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Previous conversation history for multi-turn conversations.",
+                    "title": "Conversation History"
+                }
+            },
+            "required": [
+                "repo_url",
+                "question"
+            ],
+            "title": "query_repositoryArguments",
+            "type": "object"
+        }
+    }
+]

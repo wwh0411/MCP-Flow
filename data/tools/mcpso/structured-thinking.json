@@ -1,0 +1,188 @@
+[
+    {
+        "name": "structured-thinking_capture_thought",
+        "description": "Stores a new thought in memory and in the thought history and runs a pipeline to classify the thought, return metacognitive feedback, and retrieve relevant thoughts.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "thought": {
+                    "type": "string",
+                    "description": "The content of the current thought"
+                },
+                "thought_number": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "Current position in the sequence"
+                },
+                "total_thoughts": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "Expected total number of thoughts"
+                },
+                "next_thought_needed": {
+                    "type": "boolean",
+                    "description": "Whether another thought should follow"
+                },
+                "stage": {
+                    "type": "string",
+                    "description": "Current thinking stage (e.g., 'Problem Definition', 'Analysis')"
+                },
+                "is_revision": {
+                    "type": "boolean",
+                    "description": "Whether this revises a previous thought"
+                },
+                "revises_thought": {
+                    "type": "integer",
+                    "description": "Number of thought being revised"
+                },
+                "branch_from_thought": {
+                    "type": "integer",
+                    "description": "Starting point for a new thought branch"
+                },
+                "branch_id": {
+                    "type": "string",
+                    "description": "Identifier for the current branch"
+                },
+                "needs_more_thoughts": {
+                    "type": "boolean",
+                    "description": "Whether additional thoughts are needed"
+                },
+                "score": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Quality score (0.0 to 1.0)"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Categories or labels for the thought"
+                }
+            },
+            "required": [
+                "thought",
+                "thought_number",
+                "total_thoughts",
+                "next_thought_needed",
+                "stage"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "structured-thinking_revise_thought",
+        "description": "Revises a thought in memory and in the thought history.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "thought": {
+                    "type": "string",
+                    "description": "The content of the current thought"
+                },
+                "thought_number": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "Current position in the sequence"
+                },
+                "total_thoughts": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "Expected total number of thoughts"
+                },
+                "next_thought_needed": {
+                    "type": "boolean",
+                    "description": "Whether another thought should follow"
+                },
+                "stage": {
+                    "type": "string",
+                    "description": "Current thinking stage (e.g., 'Problem Definition', 'Analysis')"
+                },
+                "is_revision": {
+                    "type": "boolean",
+                    "description": "Whether this revises a previous thought"
+                },
+                "revises_thought": {
+                    "type": "integer",
+                    "description": "Number of thought being revised"
+                },
+                "branch_from_thought": {
+                    "type": "integer",
+                    "description": "Starting point for a new thought branch"
+                },
+                "branch_id": {
+                    "type": "string",
+                    "description": "Identifier for the current branch"
+                },
+                "needs_more_thoughts": {
+                    "type": "boolean",
+                    "description": "Whether additional thoughts are needed"
+                },
+                "score": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Quality score (0.0 to 1.0)"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Categories or labels for the thought"
+                },
+                "thought_id": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "The ID of the thought to revise"
+                }
+            },
+            "required": [
+                "thought_id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "structured-thinking_retrieve_relevant_thoughts",
+        "description": "Finds thoughts from long-term storage that share tags with the specified thought.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "thought_id": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "The ID of the thought to find related thoughts for"
+                }
+            },
+            "required": [
+                "thought_id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "structured-thinking_get_thinking_summary",
+        "description": "Generate a comprehensive summary of the entire thinking process.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "structured-thinking_clear_thinking_history",
+        "description": "Clear all recorded thoughts and reset the server state.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

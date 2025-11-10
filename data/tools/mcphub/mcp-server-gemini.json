@@ -1,0 +1,248 @@
+[
+    {
+        "name": "generate_text",
+        "description": "Generate text using Google Gemini with advanced features",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "prompt": {
+                    "type": "string",
+                    "description": "The prompt to send to Gemini"
+                },
+                "model": {
+                    "type": "string",
+                    "description": "Specific Gemini model to use",
+                    "enum": [
+                        "gemini-2.5-pro",
+                        "gemini-2.5-flash",
+                        "gemini-2.5-flash-lite",
+                        "gemini-2.0-flash",
+                        "gemini-2.0-flash-lite",
+                        "gemini-2.0-pro-experimental",
+                        "gemini-1.5-pro",
+                        "gemini-1.5-flash"
+                    ],
+                    "default": "gemini-2.5-flash"
+                },
+                "systemInstruction": {
+                    "type": "string",
+                    "description": "System instruction to guide model behavior"
+                },
+                "temperature": {
+                    "type": "number",
+                    "description": "Temperature for generation (0-2)",
+                    "default": 0.7,
+                    "minimum": 0,
+                    "maximum": 2
+                },
+                "maxTokens": {
+                    "type": "number",
+                    "description": "Maximum tokens to generate",
+                    "default": 2048
+                },
+                "topK": {
+                    "type": "number",
+                    "description": "Top-k sampling parameter",
+                    "default": 40
+                },
+                "topP": {
+                    "type": "number",
+                    "description": "Top-p (nucleus) sampling parameter",
+                    "default": 0.95
+                },
+                "jsonMode": {
+                    "type": "boolean",
+                    "description": "Enable JSON mode for structured output",
+                    "default": false
+                },
+                "jsonSchema": {
+                    "type": "object",
+                    "description": "JSON schema for structured output (when jsonMode is true)"
+                },
+                "grounding": {
+                    "type": "boolean",
+                    "description": "Enable Google Search grounding for up-to-date information",
+                    "default": false
+                },
+                "safetySettings": {
+                    "type": "array",
+                    "description": "Safety settings for content filtering",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "category": {
+                                "type": "string",
+                                "enum": [
+                                    "HARM_CATEGORY_HARASSMENT",
+                                    "HARM_CATEGORY_HATE_SPEECH",
+                                    "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                                    "HARM_CATEGORY_DANGEROUS_CONTENT"
+                                ]
+                            },
+                            "threshold": {
+                                "type": "string",
+                                "enum": [
+                                    "BLOCK_NONE",
+                                    "BLOCK_ONLY_HIGH",
+                                    "BLOCK_MEDIUM_AND_ABOVE",
+                                    "BLOCK_LOW_AND_ABOVE"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "conversationId": {
+                    "type": "string",
+                    "description": "ID for maintaining conversation context"
+                }
+            },
+            "required": [
+                "prompt"
+            ]
+        }
+    },
+    {
+        "name": "analyze_image",
+        "description": "Analyze images using Gemini vision capabilities",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "prompt": {
+                    "type": "string",
+                    "description": "Question or instruction about the image"
+                },
+                "imageUrl": {
+                    "type": "string",
+                    "description": "URL of the image to analyze"
+                },
+                "imageBase64": {
+                    "type": "string",
+                    "description": "Base64-encoded image data (alternative to URL)"
+                },
+                "model": {
+                    "type": "string",
+                    "description": "Vision-capable Gemini model",
+                    "enum": [
+                        "gemini-2.5-pro",
+                        "gemini-2.5-flash",
+                        "gemini-2.0-flash"
+                    ],
+                    "default": "gemini-2.5-flash"
+                }
+            },
+            "required": [
+                "prompt"
+            ],
+            "oneOf": [
+                {
+                    "required": [
+                        "imageUrl"
+                    ]
+                },
+                {
+                    "required": [
+                        "imageBase64"
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "name": "count_tokens",
+        "description": "Count tokens for a given text with a specific model",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "text": {
+                    "type": "string",
+                    "description": "Text to count tokens for"
+                },
+                "model": {
+                    "type": "string",
+                    "description": "Model to use for token counting",
+                    "enum": [
+                        "gemini-2.5-pro",
+                        "gemini-2.5-flash",
+                        "gemini-2.5-flash-lite",
+                        "gemini-2.0-flash",
+                        "gemini-2.0-flash-lite",
+                        "gemini-2.0-pro-experimental",
+                        "gemini-1.5-pro",
+                        "gemini-1.5-flash"
+                    ],
+                    "default": "gemini-2.5-flash"
+                }
+            },
+            "required": [
+                "text"
+            ]
+        }
+    },
+    {
+        "name": "list_models",
+        "description": "List all available Gemini models and their capabilities",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "filter": {
+                    "type": "string",
+                    "description": "Filter models by capability",
+                    "enum": [
+                        "all",
+                        "thinking",
+                        "vision",
+                        "grounding",
+                        "json_mode"
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "name": "embed_text",
+        "description": "Generate embeddings for text using Gemini embedding models",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "text": {
+                    "type": "string",
+                    "description": "Text to generate embeddings for"
+                },
+                "model": {
+                    "type": "string",
+                    "description": "Embedding model to use",
+                    "enum": [
+                        "text-embedding-004",
+                        "text-multilingual-embedding-002"
+                    ],
+                    "default": "text-embedding-004"
+                }
+            },
+            "required": [
+                "text"
+            ]
+        }
+    },
+    {
+        "name": "get_help",
+        "description": "Get help and usage information for the Gemini MCP server",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "topic": {
+                    "type": "string",
+                    "description": "Help topic to get information about",
+                    "enum": [
+                        "overview",
+                        "tools",
+                        "models",
+                        "parameters",
+                        "examples",
+                        "quick-start"
+                    ],
+                    "default": "overview"
+                }
+            }
+        }
+    }
+]

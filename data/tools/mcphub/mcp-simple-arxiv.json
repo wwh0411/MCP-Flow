@@ -1,0 +1,61 @@
+[
+    {
+        "name": "search_papers",
+        "description": "\nSearch for papers on arXiv by title and abstract content.\n\nYou can use advanced search syntax:\n- Search in title: ti:\"search terms\"\n- Search in abstract: abs:\"search terms\"\n- Search by author: au:\"author name\"\n- Combine terms with: AND, OR, ANDNOT\n- Filter by category: cat:cs.AI (use list_categories tool to see available categories)\n\nExamples:\n- \"machine learning\"  (searches all fields)\n- ti:\"neural networks\" AND cat:cs.AI  (title with category)\n- au:bengio AND ti:\"deep learning\"  (author and title)\n    ",
+        "parameters": {
+            "properties": {
+                "query": {
+                    "title": "Query",
+                    "type": "string"
+                },
+                "max_results": {
+                    "default": 10,
+                    "title": "Max Results",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_paper_data",
+        "description": "Get detailed information about a specific paper including abstract and available formats.",
+        "parameters": {
+            "properties": {
+                "paper_id": {
+                    "title": "Paper Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "paper_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_categories",
+        "description": "List all available arXiv categories and how to use them in search.",
+        "parameters": {
+            "properties": {
+                "primary_category": {
+                    "default": null,
+                    "title": "Primary Category",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "update_categories",
+        "description": "Update the stored category taxonomy by fetching the latest version from arxiv.org",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    }
+]

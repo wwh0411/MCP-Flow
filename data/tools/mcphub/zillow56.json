@@ -1,0 +1,4049 @@
+[
+    {
+        "name": "search",
+        "description": "Search for filtered properties by neighborhood, city, or ZIP code. PS : To search for an address of a property, use the \"/search_address\" endpoint. For a list of properties, you can select the output format (JSON , CSV , XLSX) using the optional \"output\" parameter.",
+        "parameters": {
+            "properties": {
+                "location": {
+                    "description": "Location can be an address, neighborhood, city, or ZIP code.",
+                    "title": "Location",
+                    "type": "string"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Page"
+                },
+                "output": {
+                    "default": null,
+                    "description": "Output format possible values : json (Default value) :Data in a JSON format csv : URL to the generated CSV file xlsx : URL to the generated XLSX (excel) file",
+                    "enum": [
+                        "json",
+                        "csv",
+                        "xlsx",
+                        null
+                    ],
+                    "title": "Output"
+                },
+                "status": {
+                    "default": null,
+                    "description": "Status type of the properties Default : forSale -forSale -forRent -recentlySold",
+                    "enum": [
+                        "forSale",
+                        "forRent",
+                        "recentlySold",
+                        null
+                    ],
+                    "title": "Status"
+                },
+                "sortSelection": {
+                    "default": null,
+                    "description": "Sorting possible values : days: Newest (Default value), saved: Date Saved, listingstatus: Listing Status, mostrecentchange: Most Recent Change, globalrelevanceex: Homes for You, featured: Verified Source, priced: Price (High to Low), pricea: Price (Low to High), paymentd: Payment (High to Low), paymenta: Payment (Low to High), beds: Bedrooms, baths: Bathrooms, size: Square Feet, lot: Lot Size, zest: Zestimate (High to Low), zesta: Zestimate (Low to High),",
+                    "enum": [
+                        "priorityscore",
+                        "saved",
+                        "listingstatus",
+                        "mostrecentchange",
+                        "globalrelevanceex",
+                        "featured",
+                        "priced",
+                        "pricea",
+                        "paymentd",
+                        "paymenta",
+                        "days",
+                        "beds",
+                        "baths",
+                        "size",
+                        "lot",
+                        "zest",
+                        "zesta",
+                        null
+                    ],
+                    "title": "Sortselection"
+                },
+                "listing_type": {
+                    "default": null,
+                    "description": "Listing Type possible values : by_agent : By agent (Default value) by_owner_other : By owner & other (for off market properties)",
+                    "enum": [
+                        "by_agent",
+                        "by_owner_other",
+                        null
+                    ],
+                    "title": "Listing Type"
+                },
+                "isSingleFamily": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Issinglefamily"
+                },
+                "isMultiFamily": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Ismultifamily"
+                },
+                "isApartment": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Isapartment"
+                },
+                "isCondo": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Iscondo"
+                },
+                "isManufactured": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Ismanufactured"
+                },
+                "isTownhouse": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Istownhouse"
+                },
+                "isLotLand": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Islotland"
+                },
+                "doz": {
+                    "default": null,
+                    "description": "Days on Zillow (For Sale/Rent listings)/ Sold In Last (Sold listings) Possible values : any: Any, 1: 1 day, 7: 7 days, 14: 14 days, 30: 30 days, 90: 90 days, 6m: 6 months, 12m: 12 months, 24m: 24 months, 36m: 36 months",
+                    "enum": [
+                        "any",
+                        "1",
+                        "7",
+                        "14",
+                        "30",
+                        "90",
+                        "6m",
+                        "12m",
+                        "24m",
+                        "36m",
+                        null
+                    ],
+                    "title": "Doz"
+                },
+                "price_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Price Min"
+                },
+                "price_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Price Max"
+                },
+                "sqft_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Sqft Min"
+                },
+                "sqft_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Sqft Max"
+                },
+                "monthlyPayment_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Monthlypayment Min"
+                },
+                "monthlyPayment_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Monthlypayment Max"
+                },
+                "beds_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Beds Min"
+                },
+                "beds_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Beds Max"
+                },
+                "baths_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Baths Min"
+                },
+                "baths_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Baths Max"
+                },
+                "hoa_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Hoa Min"
+                },
+                "hoa_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Hoa Max"
+                },
+                "hasPool": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Haspool"
+                },
+                "hasGarage": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Hasgarage"
+                },
+                "built_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Built Min"
+                },
+                "built_max": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Built Max"
+                },
+                "isForSaleByOwner": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Isforsalebyowner"
+                },
+                "isForSaleByAgent": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Isforsalebyagent"
+                },
+                "isCityView": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Iscityview"
+                },
+                "isWaterfront": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Iswaterfront"
+                },
+                "isPublicSchool": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Ispublicschool"
+                },
+                "isPrivateSchool": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Isprivateschool"
+                },
+                "isMountainView": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Ismountainview"
+                },
+                "singleStory": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Singlestory"
+                },
+                "onlyPriceReduction": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Onlypricereduction"
+                },
+                "onlyRentalAcceptsApplications": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Onlyrentalacceptsapplications"
+                },
+                "isZillowOwnedOnly": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Iszillowownedonly"
+                },
+                "hasAirConditioning": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Hasairconditioning"
+                },
+                "isMiddleSchool": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Ismiddleschool"
+                },
+                "isWaterView": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Iswaterview"
+                },
+                "onlyRentalIncomeRestricted": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Onlyrentalincomerestricted"
+                },
+                "isComingSoon": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Iscomingsoon"
+                },
+                "isForSaleForeclosure": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Isforsaleforeclosure"
+                },
+                "onlyWithPhotos": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Onlywithphotos"
+                },
+                "onlyRentalCatsAllowed": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Onlyrentalcatsallowed"
+                },
+                "onlyRentalPetsAllowed": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Onlyrentalpetsallowed"
+                },
+                "onlyRentalSmallDogsAllowed": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Onlyrentalsmalldogsallowed"
+                },
+                "onlyRentalLargeDogsAllowed": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Onlyrentallargedogsallowed"
+                },
+                "isAuction": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Isauction"
+                },
+                "is3dHome": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Is3Dhome"
+                },
+                "isNewConstruction": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Isnewconstruction"
+                },
+                "parkingSpots_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Parkingspots Min"
+                },
+                "greatSchoolsRating_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Greatschoolsrating Min"
+                },
+                "isElementarySchool": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Iselementaryschool"
+                },
+                "isParkView": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Isparkview"
+                },
+                "enableSchools": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Enableschools"
+                },
+                "lotSize_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "in sqft Default: 0",
+                    "title": "Lotsize Min"
+                },
+                "lotSize_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "in sqft Default: 0",
+                    "title": "Lotsize Max"
+                },
+                "keywords": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Keywords"
+                }
+            },
+            "required": [
+                "location"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_address",
+        "description": "Search for a property by address.",
+        "parameters": {
+            "properties": {
+                "address": {
+                    "description": "",
+                    "title": "Address",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "address"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_polygon",
+        "description": "Search for filtered properties by polygon coordinates. For a list of properties, you can select the output format (JSON , CSV , XLSX) using the optional \"output\" parameter.",
+        "parameters": {
+            "properties": {
+                "polygon": {
+                    "description": "It is required if the location is empty. Format: lat lng,lat1 lng1,lat2 lng2 34.03959576441558 -118.50636536779786,34.0418716916327 -118.50276047888184,34.042440663894304 -118.49846894445801,34.04201393505594 -118.49417741003418,34.04087598099002 -118.4897142142334,34.03945351693672 -118.48525101843262,34.03788877892429 -118.48095948400879,34.03618175908096 -118.47683961096192,34.034190192514366 -118.47271973791504,34.031629538228394 -118.46962983312989,34.02835747861639 -118.4677415579834,34.02465847668084 -118.46671158972168,34.02081703478521 -118.46636826696778,34.01697541902413 -118.46636826696778,34.01341821237762 -118.4673982352295,34.011283816847104 -118.47100312414551,34.01057233974687 -118.47563798132325,34.01043004361143 -118.47992951574707,34.01071463564384 -118.48439271154786,34.01156840601794 -118.48868424597168,34.01270675316253 -118.49297578039551,34.01398737545716 -118.49709565344239,34.01555255425154 -118.50104386511231,34.01754455825562 -118.50464875402832,34.02039019717532 -118.50756699743653,34.02352028980117 -118.50962693395996,34.02707707311613 -118.51065690222168,34.03063370735633 -118.50997025671387,34.034190192514366 -118.5091119498291,34.03774652858273 -118.50825364294434,34.03959576441558 -118.50636536779786 Last pair must be equal to first pair.",
+                    "title": "Polygon",
+                    "type": "string"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Page"
+                },
+                "output": {
+                    "default": null,
+                    "description": "Output format possible values : json (Default value) :Data in a JSON format csv : URL to the generated CSV file xlsx : URL to the generated XLSX (excel) file",
+                    "enum": [
+                        "json",
+                        "csv",
+                        "xlsx",
+                        null
+                    ],
+                    "title": "Output"
+                },
+                "status": {
+                    "default": null,
+                    "description": "Status type of the properties Default : forSale -forSale -forRent -recentlySold",
+                    "enum": [
+                        "forSale",
+                        "forRent",
+                        "recentlySold",
+                        null
+                    ],
+                    "title": "Status"
+                },
+                "sortSelection": {
+                    "default": null,
+                    "description": "Sorting possible values : days: Newest (Default value), saved: Date Saved, listingstatus: Listing Status, mostrecentchange: Most Recent Change, globalrelevanceex: Homes for You, featured: Verified Source, priced: Price (High to Low), pricea: Price (Low to High), paymentd: Payment (High to Low), paymenta: Payment (Low to High), beds: Bedrooms, baths: Bathrooms, size: Square Feet, lot: Lot Size, zest: Zestimate (High to Low), zesta: Zestimate (Low to High),",
+                    "enum": [
+                        "priorityscore",
+                        "saved",
+                        "listingstatus",
+                        "mostrecentchange",
+                        "globalrelevanceex",
+                        "featured",
+                        "priced",
+                        "pricea",
+                        "paymentd",
+                        "paymenta",
+                        "days",
+                        "beds",
+                        "baths",
+                        "size",
+                        "lot",
+                        "zest",
+                        "zesta",
+                        null
+                    ],
+                    "title": "Sortselection"
+                },
+                "listing_type": {
+                    "default": null,
+                    "description": "Listing Type possible values : by_agent : By agent (Default value) by_owner_other : By owner & other (for off market properties)",
+                    "enum": [
+                        "by_agent",
+                        "by_owner_other",
+                        null
+                    ],
+                    "title": "Listing Type"
+                },
+                "isSingleFamily": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Issinglefamily"
+                },
+                "isMultiFamily": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Ismultifamily"
+                },
+                "isApartment": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Isapartment"
+                },
+                "isCondo": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Iscondo"
+                },
+                "isManufactured": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Ismanufactured"
+                },
+                "isTownhouse": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Istownhouse"
+                },
+                "isLotLand": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Islotland"
+                },
+                "doz": {
+                    "default": null,
+                    "description": "Days on Zillow (For Sale/Rent listings)/ Sold In Last (Sold listings) Possible values : any: Any, 1: 1 day, 7: 7 days, 14: 14 days, 30: 30 days, 90: 90 days, 6m: 6 months, 12m: 12 months, 24m: 24 months, 36m: 36 months",
+                    "enum": [
+                        "any",
+                        "1",
+                        "7",
+                        "14",
+                        "30",
+                        "90",
+                        "6m",
+                        "12m",
+                        "24m",
+                        "36m",
+                        null
+                    ],
+                    "title": "Doz"
+                },
+                "price_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Price Min"
+                },
+                "price_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Price Max"
+                },
+                "sqft_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Sqft Min"
+                },
+                "sqft_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Sqft Max"
+                },
+                "monthlyPayment_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Monthlypayment Min"
+                },
+                "monthlyPayment_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Monthlypayment Max"
+                },
+                "beds_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Beds Min"
+                },
+                "beds_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Beds Max"
+                },
+                "baths_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Baths Min"
+                },
+                "baths_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Baths Max"
+                },
+                "hoa_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Hoa Min"
+                },
+                "hoa_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Hoa Max"
+                },
+                "hasPool": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Haspool"
+                },
+                "hasGarage": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Hasgarage"
+                },
+                "built_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Built Min"
+                },
+                "built_max": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Built Max"
+                },
+                "isForSaleByOwner": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Isforsalebyowner"
+                },
+                "isForSaleByAgent": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Isforsalebyagent"
+                },
+                "isCityView": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Iscityview"
+                },
+                "isWaterfront": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Iswaterfront"
+                },
+                "isPublicSchool": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Ispublicschool"
+                },
+                "isPrivateSchool": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Isprivateschool"
+                },
+                "isMountainView": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Ismountainview"
+                },
+                "singleStory": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Singlestory"
+                },
+                "onlyPriceReduction": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Onlypricereduction"
+                },
+                "onlyRentalAcceptsApplications": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Onlyrentalacceptsapplications"
+                },
+                "isZillowOwnedOnly": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Iszillowownedonly"
+                },
+                "hasAirConditioning": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Hasairconditioning"
+                },
+                "isMiddleSchool": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Ismiddleschool"
+                },
+                "isWaterView": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Iswaterview"
+                },
+                "onlyRentalIncomeRestricted": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Onlyrentalincomerestricted"
+                },
+                "isComingSoon": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Iscomingsoon"
+                },
+                "isForSaleForeclosure": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Isforsaleforeclosure"
+                },
+                "onlyWithPhotos": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Onlywithphotos"
+                },
+                "onlyRentalCatsAllowed": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Onlyrentalcatsallowed"
+                },
+                "onlyRentalPetsAllowed": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Onlyrentalpetsallowed"
+                },
+                "onlyRentalSmallDogsAllowed": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Onlyrentalsmalldogsallowed"
+                },
+                "onlyRentalLargeDogsAllowed": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Onlyrentallargedogsallowed"
+                },
+                "isAuction": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Isauction"
+                },
+                "is3dHome": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Is3Dhome"
+                },
+                "isNewConstruction": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Isnewconstruction"
+                },
+                "parkingSpots_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Parkingspots Min"
+                },
+                "greatSchoolsRating_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Greatschoolsrating Min"
+                },
+                "isElementarySchool": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Iselementaryschool"
+                },
+                "isParkView": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Isparkview"
+                },
+                "enableSchools": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Enableschools"
+                },
+                "lotSize_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "in sqft Default: 0",
+                    "title": "Lotsize Max"
+                },
+                "keywords": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Keywords"
+                }
+            },
+            "required": [
+                "polygon"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_mls",
+        "description": "Search for properties by their MLS ID.",
+        "parameters": {
+            "properties": {
+                "mls": {
+                    "description": "",
+                    "title": "Mls",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "mls"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_coordinates",
+        "description": "Search for filtered properties by coordinates. You can select the output format (JSON , CSV , XLSX) using the optional \"output\" parameter.",
+        "parameters": {
+            "properties": {
+                "lat": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Latitude Default: 34.01822",
+                    "title": "Lat"
+                },
+                "long": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Longitude Default: -118.504744",
+                    "title": "Long"
+                },
+                "d": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Diameter in miles. Default: 1",
+                    "title": "D"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Page"
+                },
+                "status": {
+                    "default": null,
+                    "description": "Status type of the properties Default : forSale -forSale -forRent -recentlySold",
+                    "enum": [
+                        "forSale",
+                        "forRent",
+                        "recentlySold",
+                        null
+                    ],
+                    "title": "Status"
+                },
+                "output": {
+                    "default": null,
+                    "description": "Output format possible values : json (Default value) :Data in a JSON format csv : URL to the generated CSV file xlsx : URL to the generated XLSX (excel) file",
+                    "enum": [
+                        "json",
+                        "csv",
+                        "xlsx",
+                        null
+                    ],
+                    "title": "Output"
+                },
+                "sort": {
+                    "default": null,
+                    "description": "Sorting possible values : priorityscore: Default, saved: Date Saved, listingstatus: Listing Status, mostrecentchange: Most Recent Change, globalrelevanceex: Homes for You, featured: Verified Source, priced: Price (High to Low), pricea: Price (Low to High), paymentd: Payment (High to Low), paymenta: Payment (Low to High), days: Newest, beds: Bedrooms, baths: Bathrooms, size: Square Feet, lot: Lot Size, zest: Zestimate (High to Low), zesta: Zestimate (Low to High),",
+                    "enum": [
+                        "priorityscore",
+                        "saved",
+                        "listingstatus",
+                        "mostrecentchange",
+                        "globalrelevanceex",
+                        "featured",
+                        "priced",
+                        "pricea",
+                        "paymentd",
+                        "paymenta",
+                        "days",
+                        "beds",
+                        "baths",
+                        "size",
+                        "lot",
+                        "zest",
+                        "zesta",
+                        null
+                    ],
+                    "title": "Sort"
+                },
+                "listing_type": {
+                    "default": null,
+                    "description": "Listing Type possible values : By agent (Default value) By owner & other (for off market properties)",
+                    "enum": [
+                        "by_agent",
+                        "by_owner_other",
+                        null
+                    ],
+                    "title": "Listing Type"
+                },
+                "isSingleFamily": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Issinglefamily"
+                },
+                "isMultiFamily": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Ismultifamily"
+                },
+                "isApartment": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Isapartment"
+                },
+                "isCondo": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Iscondo"
+                },
+                "isManufactured": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Ismanufactured"
+                },
+                "isTownhouse": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Istownhouse"
+                },
+                "isLotLand": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Islotland"
+                },
+                "doz": {
+                    "default": null,
+                    "description": "Days on Zillow possible values : any: Any, 1: 1 day, 7: 7 days, 14: 14 days, 30: 30 days, 90: 90 days, 6m: 6 months, 12m: 12 months, 24m: 24 months, 36m: 36 months",
+                    "enum": [
+                        "any",
+                        "1",
+                        "7",
+                        "14",
+                        "30",
+                        "90",
+                        "6m",
+                        "12m",
+                        "24m",
+                        "36m",
+                        null
+                    ],
+                    "title": "Doz"
+                },
+                "price_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Price Min"
+                },
+                "price_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Price Max"
+                },
+                "sqft_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Sqft Min"
+                },
+                "sqft_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Sqft Max"
+                },
+                "monthlyPayment_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Monthlypayment Min"
+                },
+                "monthlyPayment_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Monthlypayment Max"
+                },
+                "beds_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Beds Min"
+                },
+                "beds_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Beds Max"
+                },
+                "baths_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Baths Min"
+                },
+                "baths_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Baths Max"
+                },
+                "hoa_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Hoa Min"
+                },
+                "hoa_max": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Hoa Max"
+                },
+                "hasPool": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Haspool"
+                },
+                "hasGarage": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Hasgarage"
+                },
+                "built_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Built Min"
+                },
+                "built_max": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Built Max"
+                },
+                "isForSaleByOwner": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Isforsalebyowner"
+                },
+                "isForSaleByAgent": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Isforsalebyagent"
+                },
+                "isCityView": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Iscityview"
+                },
+                "isWaterfront": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Iswaterfront"
+                },
+                "isPublicSchool": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Ispublicschool"
+                },
+                "isPrivateSchool": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Isprivateschool"
+                },
+                "isMountainView": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Ismountainview"
+                },
+                "singleStory": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Singlestory"
+                },
+                "onlyPriceReduction": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Onlypricereduction"
+                },
+                "onlyRentalAcceptsApplications": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Onlyrentalacceptsapplications"
+                },
+                "isZillowOwnedOnly": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Iszillowownedonly"
+                },
+                "hasAirConditioning": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Hasairconditioning"
+                },
+                "isMiddleSchool": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Ismiddleschool"
+                },
+                "isWaterView": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Iswaterview"
+                },
+                "onlyRentalIncomeRestricted": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Onlyrentalincomerestricted"
+                },
+                "isComingSoon": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Iscomingsoon"
+                },
+                "isForSaleForeclosure": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Isforsaleforeclosure"
+                },
+                "onlyWithPhotos": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Onlywithphotos"
+                },
+                "onlyRentalCatsAllowed": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Onlyrentalcatsallowed"
+                },
+                "onlyRentalPetsAllowed": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Onlyrentalpetsallowed"
+                },
+                "onlyRentalSmallDogsAllowed": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Onlyrentalsmalldogsallowed"
+                },
+                "onlyRentalLargeDogsAllowed": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Onlyrentallargedogsallowed"
+                },
+                "isAuction": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Isauction"
+                },
+                "is3dHome": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Is3Dhome"
+                },
+                "isNewConstruction": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Isnewconstruction"
+                },
+                "greatSchoolsRating_min": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Greatschoolsrating Min"
+                },
+                "isElementarySchool": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Iselementaryschool"
+                },
+                "isParkView": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Isparkview"
+                },
+                "enableSchools": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Enableschools"
+                },
+                "keywords": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Keywords"
+                }
+            },
+            "required": [
+                "lat",
+                "long",
+                "d"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_url",
+        "description": "Get a list of properties by providing the zillow search results URL You can select the output format (JSON , CSV , XLSX) using the optional \"output\" parameter.",
+        "parameters": {
+            "properties": {
+                "url": {
+                    "description": "",
+                    "title": "Url",
+                    "type": "string"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 3",
+                    "title": "Page"
+                },
+                "output": {
+                    "default": null,
+                    "description": "Output format possible values : json (Default value) :Data in a JSON format csv : URL to the generated CSV file xlsx : URL to the generated XLSX (excel) file",
+                    "enum": [
+                        "json",
+                        "csv",
+                        "xlsx",
+                        null
+                    ],
+                    "title": "Output"
+                },
+                "listing_type": {
+                    "default": null,
+                    "description": "Listing Type possible values : By agent (Default value) By owner & other (for off market properties)",
+                    "enum": [
+                        "by_agent",
+                        "by_owner_other",
+                        null
+                    ],
+                    "title": "Listing Type"
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "property_v2_property_details_by_zpid",
+        "description": "Get a property's details by its zpid",
+        "parameters": {
+            "properties": {
+                "zpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zpid can be extracted from the searching endpoints (/search , /search_url…), or from a property's URL.",
+                    "title": "Zpid"
+                },
+                "url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Property details URL - eg :https://www.zillow.com/homedetails/15626-Laurel-Heights-Dr-Houston-TX-77084/28253016_zpid/",
+                    "title": "Url"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "property",
+        "description": "Get a property's details by its zpid",
+        "parameters": {
+            "properties": {
+                "zpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zpid can be extracted from the searching endpoints (/search , /search_url…), or from a property's URL.",
+                    "title": "Zpid"
+                },
+                "url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Property details URL - eg :https://www.zillow.com/homedetails/15626-Laurel-Heights-Dr-Houston-TX-77084/28253016_zpid/",
+                    "title": "Url"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "photos",
+        "description": "Returns a property's photos with different sizes and types.",
+        "parameters": {
+            "properties": {
+                "zpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zpid can be extracted from the searching endpoints (/search , /search_url…), or from a property's URL.",
+                    "title": "Zpid"
+                },
+                "url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Property details URL - eg :https://www.zillow.com/homedetails/15626-Laurel-Heights-Dr-Houston-TX-77084/28253016_zpid/",
+                    "title": "Url"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "schools",
+        "description": "Nearby schools of a property by ZPID",
+        "parameters": {
+            "properties": {
+                "zpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zpid can be extracted from the searching endpoints (/search , /search_url…), or from a property's URL.",
+                    "title": "Zpid"
+                },
+                "url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Property details URL - eg :https://www.zillow.com/homedetails/15626-Laurel-Heights-Dr-Houston-TX-77084/28253016_zpid/",
+                    "title": "Url"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "walk_transit_bike_score",
+        "description": "Get Walk, Transit and Bike Score of a property by zpid",
+        "parameters": {
+            "properties": {
+                "zpid": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zpid can be extracted from the searching endpoints (/search , /search_url…), or from a property's URL. Default: 20485700",
+                    "title": "Zpid"
+                },
+                "url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Property details URL - eg :https://www.zillow.com/homedetails/15626-Laurel-Heights-Dr-Houston-TX-77084/28253016_zpid/",
+                    "title": "Url"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "zestimate_history",
+        "description": "Zestimate history by zpid",
+        "parameters": {
+            "properties": {
+                "zpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zpid can be extracted from the searching endpoints (/search , /search_url…), or from a property's URL.",
+                    "title": "Zpid"
+                },
+                "url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Property details URL - eg :https://www.zillow.com/homedetails/15626-Laurel-Heights-Dr-Houston-TX-77084/28253016_zpid/",
+                    "title": "Url"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "price_tax_history",
+        "description": "Price and Tax history of a property by ZPID",
+        "parameters": {
+            "properties": {
+                "zpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zpid can be extracted from the searching endpoints (/search , /search_url…), or from a property's URL.",
+                    "title": "Zpid"
+                },
+                "url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Property details URL - eg :https://www.zillow.com/homedetails/15626-Laurel-Heights-Dr-Houston-TX-77084/28253016_zpid/",
+                    "title": "Url"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "rent_estimate",
+        "description": "Returns a property's rent zestimate and it's comparable properties in the same area.",
+        "parameters": {
+            "properties": {
+                "address": {
+                    "description": "",
+                    "title": "Address",
+                    "type": "string"
+                },
+                "activeTypes": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "SimilarFloorPlans filter: Possible values: any (Default) active (Active Rentals) inactive (Inactive Rentals)",
+                    "title": "Activetypes"
+                },
+                "activatedDays": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "[SIMILARFLOORPLANS] Filter for Active Rentals within X days: Possible values: any (Default) 30 (Within 30 days) 15 (Within 15 days) 7 (Within 7 days)",
+                    "title": "Activateddays"
+                },
+                "deactivatedDays": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "[SIMILARFLOORPLANS] Filter for inactive rentals within X days: Possible values: 30 (Within 30 days (max)) 15 (Within 15 days) 7 (Within 7 days)",
+                    "title": "Deactivateddays"
+                },
+                "distanceInMiles": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "[SIMILARFLOORPLANS] Filter for distance in Miles: Possible values: any 1 2 3 4 5",
+                    "title": "Distanceinmiles"
+                },
+                "propertyTypes": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "[SIMILARFLOORPLANS] Filter for Property Types: (To choose multiple values separate with comma eg : house,condo) Possible values: any (Default) apartment house townhouse condo",
+                    "title": "Propertytypes"
+                },
+                "bedrooms": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "[SIMILARFLOORPLANS] Filter for number of bedrooms: (To choose multiple values separate with comma eg : 0,1,2) Possible values: 0 1 2 3 4plus",
+                    "title": "Bedrooms"
+                },
+                "pets": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "[SIMILARFLOORPLANS] Filter for Pets: (To choose multiple values separate with comma eg : dogs,cats) Possible values: any (Default) dogs cats",
+                    "title": "Pets"
+                },
+                "laundry": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "[SIMILARFLOORPLANS] Filter for Laundry: (To choose multiple values separate with comma eg : inUnit,shared) Possible values: any (Default) inUnit shared",
+                    "title": "Laundry"
+                },
+                "amenities": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "[SIMILARFLOORPLANS] Filter for amenities: (To choose multiple values separate with comma eg : cooling,parking) Possible values: any (Default) cooling heating parking",
+                    "title": "Amenities"
+                }
+            },
+            "required": [
+                "address"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "similar_properties",
+        "description": "List of similar for sale properties by Zpid or URL or address",
+        "parameters": {
+            "properties": {
+                "zpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zpid can be extracted from the searching endpoints (/search , /search_url...), or from a property's URL.",
+                    "title": "Zpid"
+                },
+                "url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Property details URL - eg :https://www.zillow.com/homedetails/15626-Laurel-Heights-Dr-Houston-TX-77084/28253016_zpid/",
+                    "title": "Url"
+                },
+                "address": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Address"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "similar_sold_properties",
+        "description": "List of similar sold properties by Zpid or URL or address",
+        "parameters": {
+            "properties": {
+                "zpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zpid can be extracted from the searching endpoints (/search , /search_url...), or from a property's URL.",
+                    "title": "Zpid"
+                },
+                "url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Property details URL - eg :https://www.zillow.com/homedetails/15626-Laurel-Heights-Dr-Houston-TX-77084/28253016_zpid/",
+                    "title": "Url"
+                },
+                "address": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Address"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "similar_rent_properties",
+        "description": "List of similar for rent properties by Zpid or URL or address",
+        "parameters": {
+            "properties": {
+                "zpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zpid can be extracted from the searching endpoints (/search , /search_url...), or from a property's URL.",
+                    "title": "Zpid"
+                },
+                "url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Property details URL - eg :https://www.zillow.com/homedetails/15626-Laurel-Heights-Dr-Houston-TX-77084/28253016_zpid/",
+                    "title": "Url"
+                },
+                "address": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Address"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "market_sale_overview",
+        "description": "This endpoint delivers a comprehensive snapshot and historical trends of the housing market in a given region using metrics aligned with the Zillow Home Value Index (ZHVI) framework",
+        "parameters": {
+            "properties": {
+                "location": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Location"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "zhvi_range",
+        "description": "This endpoint provides monthly historical data for the Zillow Home Value Index (ZHVI) for a specified region. The ZHVI is a proprietary metric that captures median home values across a wide variety of geographies and housing types, reflecting trends in the real estate market over time.",
+        "parameters": {
+            "properties": {
+                "location": {
+                    "description": "",
+                    "title": "Location",
+                    "type": "string"
+                },
+                "type": {
+                    "default": null,
+                    "description": "Home type",
+                    "enum": [
+                        "all",
+                        "single_family",
+                        "condo",
+                        "all_unadjusted",
+                        null
+                    ],
+                    "title": "Type"
+                }
+            },
+            "required": [
+                "location"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "market_data",
+        "description": "Get market rental data of a location by city or ZIP",
+        "parameters": {
+            "properties": {
+                "location": {
+                    "description": "",
+                    "title": "Location",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "location"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_for_agents",
+        "description": "Search for agents by location and name",
+        "parameters": {
+            "properties": {
+                "location": {
+                    "description": "",
+                    "title": "Location",
+                    "type": "string"
+                },
+                "name": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Name"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Page"
+                },
+                "specialty": {
+                    "default": null,
+                    "description": "",
+                    "enum": [
+                        "Any",
+                        "BuyersAgent",
+                        "ListingAgent",
+                        "Relocation",
+                        "Foreclosure",
+                        "ShortSale",
+                        "Consulting",
+                        "Other",
+                        null
+                    ],
+                    "title": "Specialty"
+                },
+                "language": {
+                    "default": null,
+                    "description": "",
+                    "enum": [
+                        "English",
+                        "Arabic",
+                        "Bengali",
+                        "Cantonese",
+                        "Farsi",
+                        "French",
+                        "German",
+                        "Greek",
+                        "Hebrew",
+                        "Hindi",
+                        "Hungarian",
+                        "Italian",
+                        "Japanese",
+                        "Korean",
+                        "Mandarin",
+                        "Polish",
+                        "Portuguese",
+                        "Russian",
+                        "Spanish",
+                        "Tagalog",
+                        "Thai",
+                        "Turkish",
+                        "Vietnamese",
+                        null
+                    ],
+                    "title": "Language"
+                }
+            },
+            "required": [
+                "location"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent_details_by_username",
+        "description": "Get agent's details by username(contact infos, active listings and reviews etc). PS : username is the profile link Example : username : Pardee-Properties for https://www.zillow.com/profile/Pardee-Properties/",
+        "parameters": {
+            "properties": {
+                "username": {
+                    "description": "",
+                    "title": "Username",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "username"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent_reviews",
+        "description": "Get agent reviews by the agent's zuid",
+        "parameters": {
+            "properties": {
+                "zuid": {
+                    "description": "",
+                    "title": "Zuid",
+                    "type": "string"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Page"
+                }
+            },
+            "required": [
+                "zuid"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent_spast_sales",
+        "description": "Get agent's past sales by zuid",
+        "parameters": {
+            "properties": {
+                "zuid": {
+                    "description": "The zuid can be extracted from the agent's details \\\"/agent\\\"",
+                    "title": "Zuid",
+                    "type": "string"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Page"
+                }
+            },
+            "required": [
+                "zuid"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent_sactive_listings",
+        "description": "Get agent's active listings by zuid",
+        "parameters": {
+            "properties": {
+                "zuid": {
+                    "description": "",
+                    "title": "Zuid",
+                    "type": "string"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Page"
+                }
+            },
+            "required": [
+                "zuid"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent_srental_listings",
+        "description": "Get agent's rental listings by zuid",
+        "parameters": {
+            "properties": {
+                "zuid": {
+                    "description": "",
+                    "title": "Zuid",
+                    "type": "string"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Page"
+                }
+            },
+            "required": [
+                "zuid"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "lender_search",
+        "description": "Search for Lenders",
+        "parameters": {
+            "properties": {
+                "location": {
+                    "description": "City, State or Zip. Only lenders licensed in the state will be displayed.",
+                    "title": "Location",
+                    "type": "string"
+                },
+                "lenderName": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Lendername"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Page"
+                }
+            },
+            "required": [
+                "location"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "lender_details",
+        "description": "Get lender details",
+        "parameters": {
+            "properties": {
+                "screenName": {
+                    "description": "",
+                    "title": "Screenname",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "screenName"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "lender_reviews",
+        "description": "Get lender reviews",
+        "parameters": {
+            "properties": {
+                "screenName": {
+                    "description": "",
+                    "title": "Screenname",
+                    "type": "string"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Page"
+                }
+            },
+            "required": [
+                "screenName"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "other_professionals_reviews",
+        "description": "Get reviews of a professional by their zuid (found in `/other_professionals/details` result)",
+        "parameters": {
+            "properties": {
+                "zuid": {
+                    "description": "",
+                    "title": "Zuid",
+                    "type": "string"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Page"
+                },
+                "size": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Size"
+                }
+            },
+            "required": [
+                "zuid"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "other_professionals_details",
+        "description": "Get details of a professional by username (found in `/other_professionals/search` results)",
+        "parameters": {
+            "properties": {
+                "username": {
+                    "description": "",
+                    "title": "Username",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "username"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "other_professionals_search",
+        "description": "Search for professoinals (property managers, inspectors,photographers,home_improvement,etc) by location or name",
+        "parameters": {
+            "properties": {
+                "type": {
+                    "description": "",
+                    "enum": [
+                        "property_managers",
+                        "home_improvement",
+                        "inspectors",
+                        "photographers",
+                        "other"
+                    ],
+                    "title": "Type",
+                    "type": "string"
+                },
+                "location": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Location"
+                },
+                "name": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Name"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Page"
+                }
+            },
+            "required": [
+                "type"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "builders_search",
+        "description": "Searchfor builders by location or name",
+        "parameters": {
+            "properties": {
+                "location": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Location"
+                },
+                "name": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Name"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Page"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "builders_details",
+        "description": "Get details of builders by their builderId (found in `builders/search` results)",
+        "parameters": {
+            "properties": {
+                "builderId": {
+                    "description": "",
+                    "title": "Builderid",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "builderId"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "builders_community_cards",
+        "description": "Get community cards of a builder by their builderId (found in `builders/search` results)",
+        "parameters": {
+            "properties": {
+                "builderId": {
+                    "description": "",
+                    "title": "Builderid",
+                    "type": "string"
+                },
+                "regionId": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Regionid"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Page"
+                }
+            },
+            "required": [
+                "builderId"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "builders_reviews",
+        "description": "Get reviews of a builder by their builderId (found in `builders/search` results)",
+        "parameters": {
+            "properties": {
+                "builderId": {
+                    "description": "",
+                    "title": "Builderid",
+                    "type": "string"
+                },
+                "regionId": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Regionid"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Page"
+                }
+            },
+            "required": [
+                "builderId"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "mortgage_rates",
+        "description": "Get mortgage rates",
+        "parameters": {
+            "properties": {
+                "program": {
+                    "description": "The loan program. You can select one or two programs, separated by commas. Available: Fixed30Year, Fixed20Year, Fixed15Year, Fixed10Year, ARM3, ARM5, ARM7, HomeEquity30Year, HomeEquity30YearDueIn15, HomeEquity15Year, HELOC20Year, HELOC15Year, HELOC10Year",
+                    "enum": [
+                        "Fixed30Year",
+                        "Fixed20Year",
+                        "Fixed15Year",
+                        "Fixed10Year",
+                        "ARM3",
+                        "ARM5",
+                        "ARM7",
+                        "HomeEquity30Year",
+                        "HomeEquity30YearDueIn15",
+                        "HomeEquity15Year",
+                        "HELOC20Year",
+                        "HELOC15Year",
+                        "HELOC10Year"
+                    ],
+                    "title": "Program",
+                    "type": "string"
+                },
+                "state": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The state abbreviation. AK,AL,AR,AS,AZ,CA,CO,CT,DC,DE,FL,GA, GU,HI,IA,ID,IL,IN,KS,KY,LA,MA,MD,ME,MH, MI,MN,MO,MP,MS,MT,NC,ND,NE, NH,NJ,NM,NV,NY,OH,OK,OR,PA,PR,RI,SC,SD,TN,TX,UT,VA,VI,VT,WA,WI,WV,WY,US",
+                    "title": "State"
+                },
+                "refinance": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Refinance"
+                },
+                "loanType": {
+                    "default": null,
+                    "description": "",
+                    "enum": [
+                        "Conventional",
+                        "FHA",
+                        "VA",
+                        "USDA",
+                        "Other",
+                        "Jumbo",
+                        null
+                    ],
+                    "title": "Loantype"
+                },
+                "loanAmount": {
+                    "default": null,
+                    "description": "Micro < $100,000 SmallConforming $100,000 - $200,000 Conforming > $200,000 SuperConforming Jumbo",
+                    "enum": [
+                        "Conforming",
+                        "SmallConforming",
+                        "SuperConforming",
+                        "Jumbo",
+                        "Micro",
+                        null
+                    ],
+                    "title": "Loanamount"
+                },
+                "loanToValue": {
+                    "default": null,
+                    "description": "Normal < 80% High > 80% < 95% VeryHigh >= 95%",
+                    "enum": [
+                        "Normal",
+                        "High",
+                        "VeryHigh",
+                        null
+                    ],
+                    "title": "Loantovalue"
+                },
+                "creditScore": {
+                    "default": null,
+                    "description": "Low < 680 credit score. High > 680 < 740 VeryHigh > 740",
+                    "enum": [
+                        "Low",
+                        "High",
+                        "VeryHigh",
+                        null
+                    ],
+                    "title": "Creditscore"
+                },
+                "duration": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "From 0 to 4000 Default: 30",
+                    "title": "Duration"
+                }
+            },
+            "required": [
+                "program"
+            ],
+            "type": "object"
+        }
+    }
+]

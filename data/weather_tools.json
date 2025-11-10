@@ -1,0 +1,836 @@
+{
+  "tools": [
+    {
+      "name": "realtime_weather_api",
+      "description": "Current weather or realtime weather API method allows a user to get up to date current weather information in json and xml. The data is returned as a Current Object.",
+      "parameters": {
+        "properties": {
+          "q": {
+            "description": "Query parameter based on which data is sent back. It could be following: Latitude and Longitude (Decimal degree) e.g: q=48.8567,2.3508 city name e.g.: q=Paris US zip e.g.: q=10001 UK postcode e.g: q=SW1 Canada postal code e.g: q=G2J metar: e.g: q=metar:EGLL iata:<3 digit airport code> e.g: q=iata:DXB auto:ip IP lookup e.g: q=auto:ip IP address (IPv4 and IPv6 supported) e.g: q=100.0.0.1",
+            "title": "Q",
+            "type": "string"
+          }
+        },
+        "required": [
+          "q"
+        ],
+        "type": "object"
+      },
+      "source": "mcphub"
+    },
+    {
+      "name": "forecast_weather_api",
+      "description": "Forecast weather API method returns upto next 14 day weather forecast and weather alert as json. It contains astronomy data, day weather forecast and hourly interval weather information for a given city.",
+      "parameters": {
+        "properties": {
+          "q": {
+            "description": "Query parameter based on which data is sent back. It could be following: Latitude and Longitude (Decimal degree) e.g: q=48.8567,2.3508 city name e.g.: q=Paris US zip e.g.: q=10001 UK postcode e.g: q=SW1 Canada postal code e.g: q=G2J metar: e.g: q=metar:EGLL iata:<3 digit airport code> e.g: q=iata:DXB auto:ip IP lookup e.g: q=auto:ip IP address (IPv4 and IPv6 supported) e.g: q=100.0.0.1",
+            "title": "Q",
+            "type": "string"
+          },
+          "days": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Number of days of forecast required. Default: 3",
+            "title": "Days"
+          },
+          "lang": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Returns 'condition:text' field in API in the desired language ",
+            "title": "Lang"
+          },
+          "dt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "If passing 'dt', it should be between today and next 10 day in yyyy-MM-dd format. ",
+            "title": "Dt"
+          }
+        },
+        "required": [
+          "q"
+        ],
+        "type": "object"
+      },
+      "source": "mcphub"
+    },
+    {
+      "name": "history_weather_api",
+      "description": "History weather API method returns historical weather for a date on or after 1st Jan, 2010 (depending upon subscription level) as json.",
+      "parameters": {
+        "properties": {
+          "q": {
+            "description": "Query parameter based on which data is sent back. It could be following: Latitude and Longitude (Decimal degree) e.g: q=48.8567,2.3508 city name e.g.: q=Paris US zip e.g.: q=10001 UK postcode e.g: q=SW1 Canada postal code e.g: q=G2J metar: e.g: q=metar:EGLL iata:<3 digit airport code> e.g: q=iata:DXB auto:ip IP lookup e.g: q=auto:ip IP address (IPv4 and IPv6 supported) e.g: q=100.0.0.1",
+            "title": "Q",
+            "type": "string"
+          },
+          "dt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "format": "date-time",
+                "type": "string"
+              }
+            ],
+            "description": "For history API 'dt' should be on or after 1st Jan, 2010 in yyyy-MM-dd format ",
+            "title": "Dt"
+          },
+          "lang": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Returns 'condition:text' field in API in the desired language",
+            "title": "Lang"
+          },
+          "hour": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Restricting history output to a specific hour in a given day. Default: 0",
+            "title": "Hour"
+          },
+          "end_dt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Restrict date output for History API method. Should be on or after 1st Jan, 2010. Make sure end_dt is equal to or greater than 'dt'. ",
+            "title": "End Dt"
+          }
+        },
+        "required": [
+          "q",
+          "dt"
+        ],
+        "type": "object"
+      },
+      "source": "mcphub"
+    },
+    {
+      "name": "marine_weather_api",
+      "description": "Marine weather API returns upto next 7 day marine and sailing weather forecast and tide data for global marine/sea points.",
+      "parameters": {
+        "properties": {
+          "q": {
+            "description": "Query parameter based on which data is sent back. It could be following: Latitude and Longitude (Decimal degree) e.g: q=48.8567,2.3508 city name e.g.: q=Paris US zip e.g.: q=10001 UK postcode e.g: q=SW1 Canada postal code e.g: q=G2J metar: e.g: q=metar:EGLL iata:<3 digit airport code> e.g: q=iata:DXB auto:ip IP lookup e.g: q=auto:ip IP address (IPv4 and IPv6 supported) e.g: q=100.0.0.1",
+            "title": "Q",
+            "type": "string"
+          },
+          "days": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Default: 1",
+            "title": "Days"
+          },
+          "lang": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "",
+            "title": "Lang"
+          }
+        },
+        "required": [
+          "q"
+        ],
+        "type": "object"
+      },
+      "source": "mcphub"
+    },
+    {
+      "name": "future_weather_api",
+      "description": "Future weather API method returns weather in a 3 hourly interval in future for a date between 14 days and 300 days from today in the future.",
+      "parameters": {
+        "properties": {
+          "q": {
+            "description": "Query parameter based on which data is sent back. It could be following: Latitude and Longitude (Decimal degree) e.g: q=48.8567,2.3508 city name e.g.: q=Paris US zip e.g.: q=10001 UK postcode e.g: q=SW1 Canada postal code e.g: q=G2J metar: e.g: q=metar:EGLL iata:<3 digit airport code> e.g: q=iata:DXB auto:ip IP lookup e.g: q=auto:ip IP address (IPv4 and IPv6 supported) e.g: q=100.0.0.1",
+            "title": "Q",
+            "type": "string"
+          },
+          "dt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "format": "date-time",
+                "type": "string"
+              }
+            ],
+            "description": "'dt' should be between 14 days and 300 days from today in the future in yyyy-MM-dd format (i.e. dt=2023-01-01) ",
+            "title": "Dt"
+          },
+          "lang": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Returns 'condition:text' field in API in the desired language ",
+            "title": "Lang"
+          }
+        },
+        "required": [
+          "q",
+          "dt"
+        ],
+        "type": "object"
+      },
+      "source": "mcphub"
+    },
+    {
+      "name": "search_autocomplete_api",
+      "description": "Search or Autocomplete API returns matching cities and towns.",
+      "parameters": {
+        "properties": {
+          "q": {
+            "description": "Query parameter based on which data is sent back. It could be following: Latitude and Longitude (Decimal degree) e.g: q=48.8567,2.3508 city name e.g.: q=Paris US zip e.g.: q=10001 UK postcode e.g: q=SW1 Canada postal code e.g: q=G2J metar: e.g: q=metar:EGLL iata:<3 digit airport code> e.g: q=iata:DXB auto:ip IP lookup e.g: q=auto:ip IP address (IPv4 and IPv6 supported) e.g: q=100.0.0.1",
+            "title": "Q",
+            "type": "string"
+          }
+        },
+        "required": [
+          "q"
+        ],
+        "type": "object"
+      },
+      "source": "mcphub"
+    },
+    {
+      "name": "time_zone_api",
+      "description": "Time Zone API method allows a user to get up to date time zone and local time information in json.",
+      "parameters": {
+        "properties": {
+          "q": {
+            "description": "Query parameter based on which data is sent back. It could be following: Latitude and Longitude (Decimal degree) e.g: q=48.8567,2.3508 city name e.g.: q=Paris US zip e.g.: q=10001 UK postcode e.g: q=SW1 Canada postal code e.g: q=G2J metar: e.g: q=metar:EGLL iata:<3 digit airport code> e.g: q=iata:DXB auto:ip IP lookup e.g: q=auto:ip IP address (IPv4 and IPv6 supported) e.g: q=100.0.0.1",
+            "title": "Q",
+            "type": "string"
+          }
+        },
+        "required": [
+          "q"
+        ],
+        "type": "object"
+      },
+      "source": "mcphub"
+    },
+    {
+      "name": "iplookup_api",
+      "description": "IP Lookup API method allows a user to get up to date information for an IP address in json.",
+      "parameters": {
+        "properties": {
+          "q": {
+            "description": "e.g: q=auto:ip IP address (IPv4 and IPv6 supported) e.g: q=100.0.0.1",
+            "title": "Q",
+            "type": "string"
+          }
+        },
+        "required": [
+          "q"
+        ],
+        "type": "object"
+      },
+      "source": "mcphub"
+    },
+    {
+      "name": "astronomy_api",
+      "description": "Astronomy API method allows a user to get up to date information for sunrise, sunset, moonrise, moonset, moon phase and illumination in json.",
+      "parameters": {
+        "properties": {
+          "q": {
+            "description": "Query parameter based on which data is sent back. It could be following: Latitude and Longitude (Decimal degree) e.g: q=48.8567,2.3508 city name e.g.: q=Paris US zip e.g.: q=10001 UK postcode e.g: q=SW1 Canada postal code e.g: q=G2J metar: e.g: q=metar:EGLL iata:<3 digit airport code> e.g: q=iata:DXB auto:ip IP lookup e.g: q=auto:ip IP address (IPv4 and IPv6 supported) e.g: q=100.0.0.1",
+            "title": "Q",
+            "type": "string"
+          },
+          "dt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Date",
+            "title": "Dt"
+          }
+        },
+        "required": [
+          "q"
+        ],
+        "type": "object"
+      },
+      "source": "mcphub"
+    },
+    {
+      "name": "sports_api",
+      "description": "Sports API method allows a user to get listing of all upcoming sports events for football, cricket and golf in json.",
+      "parameters": {
+        "properties": {
+          "q": {
+            "description": "",
+            "title": "Q",
+            "type": "string"
+          }
+        },
+        "required": [
+          "q"
+        ],
+        "type": "object"
+      },
+      "source": "mcphub"
+    },
+    {
+      "name": "alerts_api",
+      "description": "Alerts API returns alerts and warnings issued by government agencies (USA, UK, Europe and Rest of the World) as an array if available for the location provided.",
+      "parameters": {
+        "properties": {
+          "q": {
+            "description": "",
+            "title": "Q",
+            "type": "string"
+          }
+        },
+        "required": [
+          "q"
+        ],
+        "type": "object"
+      },
+      "source": "mcphub"
+    },
+    {
+      "name": "current_weather",
+      "description": "\n\t\t\tThe service retrieves the current weather for a specified city and returns only HTML and CSS code designed \n\t\t\tfor displaying weather information directly on a canvas. No additional comments should be included after the response. \n\t\t\tIt processes the city's name, gathers weather data such as temperature, humidity, wind speed, and general weather conditions, \n\t\t\tand then generates a structured HTML layout along with appropriate CSS styles. This HTML must be rendered visually on the canvas. \n\t\t\tAfter receiving the response, the text inside the HTML should be translated into the language of the request.\n\t\t",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "city": {
+            "description": "\n\t\t\t\tThe name of the city. This field is required and must be provided in English. \n\t\t\t\tOnly one city is allowed, and it must be the last one provided by the user.\n\t\t\t",
+            "type": "string"
+          }
+        },
+        "required": [
+          "city"
+        ]
+      },
+      "source": "mcphub"
+    },
+    {
+      "name": "day_forecast",
+      "description": "3 hour interval - 5 day forecast for a given lat/lon",
+      "parameters": {
+        "properties": {
+          "lat": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "description": "Latitude (Degrees) Default: 35.5",
+            "title": "Lat"
+          },
+          "lon": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "description": "Longitude (degrees) Default: -78.5",
+            "title": "Lon"
+          },
+          "units": {
+            "default": null,
+            "description": "I = Imperial, S = Scientific, M = Metric (Default)",
+            "enum": [
+              "imperial",
+              "metric",
+              null
+            ],
+            "title": "Units"
+          },
+          "lang": {
+            "default": null,
+            "description": "Language for weather condition",
+            "enum": [
+              "en",
+              "ar",
+              "az",
+              "be",
+              "bg",
+              "bs",
+              "ca",
+              "cs",
+              "de",
+              "fi",
+              "fr",
+              "el",
+              "es",
+              "et",
+              "hr",
+              "hu",
+              "id",
+              "it",
+              "is",
+              "kw",
+              "nb",
+              "nl",
+              "pl",
+              "pt",
+              "ro",
+              "ru",
+              "sk",
+              "sl",
+              "sr",
+              "sv",
+              "tr",
+              "uk",
+              "zh",
+              "zh-tw",
+              null
+            ],
+            "title": "Lang"
+          }
+        },
+        "required": [
+          "lat",
+          "lon"
+        ],
+        "type": "object"
+      },
+      "source": "mcphub"
+    },
+    {
+      "name": "current_weather_data_of_alocation",
+      "description": "Returns the current (most recent) weather observation of a given location",
+      "parameters": {
+        "properties": {
+          "lon": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "description": "Longitude Default: 38.5",
+            "title": "Lon"
+          },
+          "lat": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "description": "Latitude Default: -78.5",
+            "title": "Lat"
+          },
+          "units": {
+            "default": null,
+            "description": "I = Imperial, S = Scientific, M = Metric (Default)",
+            "enum": [
+              "imperial",
+              "metric",
+              null
+            ],
+            "title": "Units"
+          },
+          "lang": {
+            "default": null,
+            "description": "Language",
+            "enum": [
+              "en",
+              "ar",
+              "az",
+              "be",
+              "bg",
+              "bs",
+              "ca",
+              "cs",
+              "de",
+              "fi",
+              "fr",
+              "el",
+              "es",
+              "et",
+              "hr",
+              "hu",
+              "id",
+              "it",
+              "is",
+              "kw",
+              "nb",
+              "nl",
+              "pl",
+              "pt",
+              "ro",
+              "ru",
+              "sk",
+              "sl",
+              "sr",
+              "sv",
+              "tr",
+              "uk",
+              "zh",
+              "zh-tw",
+              null
+            ],
+            "title": "Lang"
+          }
+        },
+        "required": [
+          "lon",
+          "lat"
+        ],
+        "type": "object"
+      },
+      "source": "mcphub"
+    },
+    {
+      "name": "hour_minutely_forecast",
+      "description": "Retrieve a 60 minute \"Nowcast\" for precipitation, and snowfall",
+      "parameters": {
+        "properties": {
+          "lat": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "description": "Default: 35.5",
+            "title": "Lat"
+          },
+          "lon": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "description": "Default: -78.5",
+            "title": "Lon"
+          },
+          "units": {
+            "default": null,
+            "description": "metric (Default), imperial",
+            "enum": [
+              "metric",
+              "imperial",
+              null
+            ],
+            "title": "Units"
+          }
+        },
+        "required": [
+          "lat",
+          "lon"
+        ],
+        "type": "object"
+      },
+      "source": "mcphub"
+    },
+    {
+      "name": "hour_forecast",
+      "description": "Returns a forecast for up to 120 hours in the future (default 48 hours)",
+      "parameters": {
+        "properties": {
+          "lat": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "description": "Latitude Default: 38.5",
+            "title": "Lat"
+          },
+          "lon": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "description": "Longitude Default: -78.5",
+            "title": "Lon"
+          },
+          "lang": {
+            "default": null,
+            "description": "Language for weather description",
+            "enum": [
+              "en",
+              "ar",
+              "az",
+              "be",
+              "bg",
+              "bs",
+              "ca",
+              "cs",
+              "de",
+              "fi",
+              "fr",
+              "el",
+              "es",
+              "et",
+              "hr",
+              "hu",
+              "id",
+              "it",
+              "is",
+              "kw",
+              "nb",
+              "nl",
+              "pl",
+              "pt",
+              "ro",
+              "ru",
+              "sk",
+              "sl",
+              "sr",
+              "sv",
+              "tr",
+              "uk",
+              "zh",
+              "zh-tw",
+              null
+            ],
+            "title": "Lang"
+          },
+          "hours": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Limit number of forecast hours",
+            "title": "Hours"
+          },
+          "units": {
+            "default": null,
+            "description": "I = Imperial, S = Scientific, M = Metric (Default)",
+            "enum": [
+              "imperial",
+              "metric",
+              null
+            ],
+            "title": "Units"
+          }
+        },
+        "required": [
+          "lat",
+          "lon"
+        ],
+        "type": "object"
+      },
+      "source": "mcphub"
+    },
+    {
+      "name": "severe_weather_alerts",
+      "description": "Get servere weather alerts from local meteorlogical agencies (US, EU, and Isreal supported )",
+      "parameters": {
+        "properties": {
+          "lat": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "description": "Latitude Default: 38.5",
+            "title": "Lat"
+          },
+          "lon": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "description": "Longitude Default: -78.5",
+            "title": "Lon"
+          }
+        },
+        "required": [
+          "lat",
+          "lon"
+        ],
+        "type": "object"
+      },
+      "source": "mcphub"
+    },
+    {
+      "name": "weather360_get_live_weather",
+      "description": "\n    Get live weather detailes for a given latitude and longitude.\n    ",
+      "parameters": {
+        "properties": {
+          "latitude": {
+            "title": "Latitude",
+            "type": "number"
+          },
+          "longitude": {
+            "title": "Longitude",
+            "type": "number"
+          }
+        },
+        "required": [
+          "latitude",
+          "longitude"
+        ],
+        "title": "get_live_weatherArguments",
+        "type": "object"
+      },
+      "source": "smithery"
+    },
+    {
+      "name": "weather-forecast-mcp-mevy_get_live_temp",
+      "description": "\n    Get live temperature for a given latitude and longitude.\n    ",
+      "parameters": {
+        "properties": {
+          "latitude": {
+            "title": "Latitude",
+            "type": "number"
+          },
+          "longitude": {
+            "title": "Longitude",
+            "type": "number"
+          }
+        },
+        "required": [
+          "latitude",
+          "longitude"
+        ],
+        "title": "get_live_tempArguments",
+        "type": "object"
+      },
+      "source": "smithery"
+    },
+    {
+      "name": "weatherapi0_getLiveTemperature",
+      "description": "\n    Get live temperature for a specific location.\n\n    Args:\n        latitude: The latitude coordinate (e.g., 40.7128 for New York)\n        longitude: The longitude coordinate (e.g., -74.0060 for New York)\n\n    Returns:\n        A dictionary containing temperature information or an error message\n    ",
+      "parameters": {
+        "properties": {
+          "latitude": {
+            "title": "Latitude",
+            "type": "number"
+          },
+          "longitude": {
+            "title": "Longitude",
+            "type": "number"
+          }
+        },
+        "required": [
+          "latitude",
+          "longitude"
+        ],
+        "title": "getLiveTemperatureArguments",
+        "type": "object"
+      },
+      "source": "smithery"
+    }
+  ]
+}

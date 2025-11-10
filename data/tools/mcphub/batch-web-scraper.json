@@ -1,0 +1,48 @@
+[
+    {
+        "name": "batch_scrape",
+        "description": "Scrape the URLs in parallel to get their full text content in HTML or Markdown format. Returns an array of page contents in the same order as the input URLs, under the \"result\" JSON key. A page may be an empty string if the timeout was exceeded.",
+        "parameters": {
+            "properties": {
+                "urls": {
+                    "description": "An array of URL strings to scrape. Maximum 10 URLs.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Urls",
+                    "type": "array"
+                },
+                "timeout": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": 15,
+                    "description": "The desired number of seconds (default 15) to give webpages to respond and load. Note that the total request time may exceed this due to network and processing latency.",
+                    "title": "Timeout"
+                },
+                "format": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": "markdown",
+                    "description": "Option to return web pages as `html` or `markdown` (default).",
+                    "title": "Format"
+                }
+            },
+            "required": [
+                "urls"
+            ],
+            "type": "object"
+        }
+    }
+]

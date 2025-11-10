@@ -1,0 +1,39 @@
+[
+    {
+        "name": "search_pubmed",
+        "description": "Search PubMed for medical and life sciences research articles.\n\nYou can use these search features:\n- Simple keyword search: \"covid vaccine\"\n- Field-specific search:\n  - Title search: [Title]\n  - Author search: [Author]\n  - MeSH terms: [MeSH Terms]\n  - Journal: [Journal]\n- Date ranges: Add year or date range like \"2020:2024[Date - Publication]\"\n- Combine terms with AND, OR, NOT\n- Use quotation marks for exact phrases\n\nExamples:\n- \"covid vaccine\" - basic search\n- \"breast cancer\"[Title] AND \"2023\"[Date - Publication]\n- \"Smith J\"[Author] AND \"diabetes\"\n- \"RNA\"[MeSH Terms] AND \"therapy\"\n\nThe search will return:\n- Paper titles\n- Authors\n- Publication details\n- Abstract preview (when available)\n- Links to full text (when available)\n- DOI when available\n- Keywords and MeSH terms\n\nNote: Use quotes around multi-word terms for best results.",
+        "parameters": {
+            "properties": {
+                "query": {
+                    "title": "Query",
+                    "type": "string"
+                },
+                "max_results": {
+                    "default": 10,
+                    "title": "Max Results",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_paper_fulltext",
+        "description": "Get full text of a PubMed article using its ID.\n\nThis tool attempts to retrieve the complete text of the paper if available through PubMed Central.\nIf the paper is not available in PMC, it will return a message explaining why and provide information\nabout where the text might be available (e.g., through DOI).\n\nExample usage:\nget_paper_fulltext(pmid=\"39661433\")\n\nReturns:\n- If successful: The complete text of the paper\n- If not available: A clear message explaining why (e.g., \"not in PMC\", \"requires journal access\")",
+        "parameters": {
+            "properties": {
+                "pmid": {
+                    "title": "Pmid",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "pmid"
+            ],
+            "type": "object"
+        }
+    }
+]

@@ -1,0 +1,395 @@
+[
+    {
+        "name": "gnnepcsaft_batch_convert_pure_density_to_kg_per_m3",
+        "description": "Convert a list of density from `mol/m\u00b3` to `kg/m\u00b3`\n\nArgs:\n    density_list (List[float]): List of density in `mol/m\u00b3`\n    molecular_weight_list (List[float]): List of molecular weight in `g/mol`\n",
+        "parameters": {
+            "properties": {
+                "density_list": {
+                    "items": {
+                        "type": "number"
+                    },
+                    "title": "Density List",
+                    "type": "array"
+                },
+                "molecular_weight_list": {
+                    "items": {
+                        "type": "number"
+                    },
+                    "title": "Molecular Weight List",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "density_list",
+                "molecular_weight_list"
+            ],
+            "title": "batch_convert_pure_density_to_kg_per_m3Arguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "gnnepcsaft_batch_critical_points",
+        "description": "\nCalculates critical points `[Temperature (K), Pressure (Pa), Density (mol/m\u00b3)]` with ePC-SAFT\nfor a list of SMILES. The GNNePCSAFT model is used to predict ePCSAFT parameters.\n\nArgs:\n    smiles_list (List[str]): List of SMILES\n",
+        "parameters": {
+            "properties": {
+                "smiles_list": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Smiles List",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "smiles_list"
+            ],
+            "title": "batch_critical_pointsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "gnnepcsaft_batch_inchi_to_smiles",
+        "description": "Transform a list of InChI to SMILES.\n\nArgs:\n    inchi_list (List[str]): List of InChI\n",
+        "parameters": {
+            "properties": {
+                "inchi_list": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Inchi List",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "inchi_list"
+            ],
+            "title": "batch_inchi_to_smilesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "gnnepcsaft_batch_molecular_weights",
+        "description": "Calcultes molecular weight in `g/mol` for a list of SMILES\n\nArgs:\n  smiles (List[str]): SMILES of the molecules.\n",
+        "parameters": {
+            "properties": {
+                "smiles": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Smiles",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "smiles"
+            ],
+            "title": "batch_molecular_weightsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "gnnepcsaft_batch_pa_to_bar",
+        "description": "Convert a list of pressure from `Pa` to `bar`.\n\nArgs:\n    pressure_in_pa_list (List[float]): List of pressure in `Pa`\n",
+        "parameters": {
+            "properties": {
+                "pressure_in_pa_list": {
+                    "items": {
+                        "type": "number"
+                    },
+                    "title": "Pressure In Pa List",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "pressure_in_pa_list"
+            ],
+            "title": "batch_pa_to_barArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "gnnepcsaft_batch_predict_epcsaft_parameters",
+        "description": "Predict ePC-SAFT parameters\n`[m, sigma, epsilon/kB, kappa_ab, epsilon_ab/kB, dipole moment, na, nb]`\nfor a list of SMILES with the GNNePCSAFT model.\n\nArgs:\n  smiles (List[str]): SMILES of the molecules.\n",
+        "parameters": {
+            "properties": {
+                "smiles": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Smiles",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "smiles"
+            ],
+            "title": "batch_predict_epcsaft_parametersArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "gnnepcsaft_batch_pure_density",
+        "description": "Calculates pure liquid density in `kg/m\u00b3` with ePC-SAFT for a list of SMILES.\nThe state is the same for all molecules. The GNNePCSAFT model is used to predict\nePCSAFT parameters.\n\nArgs:\n    smiles_list (List[str]): List of SMILES\n    state: A list with\n     `[Temperature (K), Pressure (Pa)]`\n",
+        "parameters": {
+            "properties": {
+                "smiles_list": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Smiles List",
+                    "type": "array"
+                },
+                "state": {
+                    "items": {
+                        "type": "number"
+                    },
+                    "title": "State",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "smiles_list",
+                "state"
+            ],
+            "title": "batch_pure_densityArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "gnnepcsaft_batch_pure_h_lv",
+        "description": "Calculates pure liquid enthalpy of vaporization in `kJ/mol`\nwith ePC-SAFT for a list of SMILES.\nThe temperature is the same for all molecules.\nThe GNNePCSAFT model is used to predict\nePCSAFT parameters.\n\nArgs:\n    smiles_list (List[str]): List of SMILES\n    temperature: `Temperature (K)`\n",
+        "parameters": {
+            "properties": {
+                "smiles_list": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Smiles List",
+                    "type": "array"
+                },
+                "temperature": {
+                    "title": "Temperature",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "smiles_list",
+                "temperature"
+            ],
+            "title": "batch_pure_h_lvArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "gnnepcsaft_batch_pure_vapor_pressure",
+        "description": "Calculates pure vapor pressure in `Pa` with ePC-SAFT for a list of SMILES.\nThe temperature is the same for all molecules. The GNNePCSAFT model is used to predict\nePCSAFT parameters.\n\nArgs:\n    smiles_list (List[str]): List of SMILES\n    temperature: `Temperature (K)`\n",
+        "parameters": {
+            "properties": {
+                "smiles_list": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Smiles List",
+                    "type": "array"
+                },
+                "temperature": {
+                    "title": "Temperature",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "smiles_list",
+                "temperature"
+            ],
+            "title": "batch_pure_vapor_pressureArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "gnnepcsaft_batch_smiles_to_inchi",
+        "description": "Transform a list of SMILES to InChI.\n\nArgs:\n    smiles_list (List[str]): List of SMILES\n",
+        "parameters": {
+            "properties": {
+                "smiles_list": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Smiles List",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "smiles_list"
+            ],
+            "title": "batch_smiles_to_inchiArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "gnnepcsaft_mixture_density",
+        "description": "Calculates mixture liquid density (mol/m\u00b3) with ePC-SAFT.\n\nArgs:\n    parameters: A list of\n     `[m, sigma, epsilon/kB, kappa_ab, epsilon_ab/kB, dipole moment, na, nb, MW]`\n     for each component of the mixture\n    state: A list with the state of the mixture\n     `[Temperature (K), Pressure (Pa), mole_fractions_1, mole_fractions_2, ...]`\n    kij_matrix: A matrix of binary interaction parameters\n",
+        "parameters": {
+            "properties": {
+                "parameters": {
+                    "items": {
+                        "items": {
+                            "type": "number"
+                        },
+                        "type": "array"
+                    },
+                    "title": "Parameters",
+                    "type": "array"
+                },
+                "state": {
+                    "items": {
+                        "type": "number"
+                    },
+                    "title": "State",
+                    "type": "array"
+                },
+                "kij_matrix": {
+                    "items": {
+                        "items": {
+                            "type": "number"
+                        },
+                        "type": "array"
+                    },
+                    "title": "Kij Matrix",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "parameters",
+                "state",
+                "kij_matrix"
+            ],
+            "title": "mixture_densityArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "gnnepcsaft_mixture_phase",
+        "description": "\nGiven the bubble/dew point of the mixture and the system pressure,\nreturn the phase of the mixture.\nAll pressures must be in the same unit.\n\nArgs:\n    bubble_point (float): The calculated bubble point of the mixture.\n    dew_point (float): The calculated dew point of the mixture.\n    system_pressure (float): The actual system pressure.\n",
+        "parameters": {
+            "properties": {
+                "bubble_point": {
+                    "title": "Bubble Point",
+                    "type": "number"
+                },
+                "dew_point": {
+                    "title": "Dew Point",
+                    "type": "number"
+                },
+                "system_pressure": {
+                    "title": "System Pressure",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "bubble_point",
+                "dew_point",
+                "system_pressure"
+            ],
+            "title": "mixture_phaseArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "gnnepcsaft_mixture_vapor_pressure",
+        "description": "Calculates mixture `(Bubble point (Pa), Dew point (Pa))` with ePC-SAFT.\n\nArgs:\n    parameters: A list of\n     `[m, sigma, epsilon/kB, kappa_ab, epsilon_ab/kB, dipole moment, na, nb, MW]`\n     for each component of the mixture\n    state: A list with the state of the mixture\n     `[Temperature (K), Pressure (Pa), mole_fractions_1, molefractions_2, ...]`.\n     The pressure should be any `float` value since it's not used in the calculation.\n    kij_matrix: A matrix of binary interaction parameters.\n",
+        "parameters": {
+            "properties": {
+                "parameters": {
+                    "items": {
+                        "items": {
+                            "type": "number"
+                        },
+                        "type": "array"
+                    },
+                    "title": "Parameters",
+                    "type": "array"
+                },
+                "state": {
+                    "items": {
+                        "type": "number"
+                    },
+                    "title": "State",
+                    "type": "array"
+                },
+                "kij_matrix": {
+                    "items": {
+                        "items": {
+                            "type": "number"
+                        },
+                        "type": "array"
+                    },
+                    "title": "Kij Matrix",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "parameters",
+                "state",
+                "kij_matrix"
+            ],
+            "title": "mixture_vapor_pressureArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "gnnepcsaft_pubchem_description",
+        "description": "\nLook for information on PubChem for the SMILES.\n\nArgs:\n    smiles (str): The SMILES of the molecule.\n",
+        "parameters": {
+            "properties": {
+                "smiles": {
+                    "title": "Smiles",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "smiles"
+            ],
+            "title": "pubchem_descriptionArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "gnnepcsaft_pure_phase",
+        "description": "\nGiven the vapor pressure and system pressure, return the phase of the molecule.\nBoth pressures must be in the same unit.\n\nArgs:\n    vapor_pressure (float): The calculated vapor pressure of the pure component.\n    system_pressure (float): The actual system pressure.\n\n",
+        "parameters": {
+            "properties": {
+                "vapor_pressure": {
+                    "title": "Vapor Pressure",
+                    "type": "number"
+                },
+                "system_pressure": {
+                    "title": "System Pressure",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "vapor_pressure",
+                "system_pressure"
+            ],
+            "title": "pure_phaseArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "gnnepcsaft_v3000_mol_block",
+        "description": "Returns a V3000 Mol block for a molecule.\n\nArgs:\n    smiles (str): SMILES of the molecule.\n\n",
+        "parameters": {
+            "properties": {
+                "smiles": {
+                    "title": "Smiles",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "smiles"
+            ],
+            "title": "v3000_mol_blockArguments",
+            "type": "object"
+        }
+    }
+]

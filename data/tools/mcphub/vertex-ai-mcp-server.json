@@ -1,0 +1,1185 @@
+[
+    {
+        "name": "answer_query_websearch",
+        "description": "Answers a natural language query using the configured Vertex AI model (gemini-2.0-flash) enhanced with Google Search results for up-to-date information. Requires a 'query' string.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "The natural language question to answer using web search."
+                }
+            },
+            "required": [
+                "query"
+            ]
+        }
+    },
+    {
+        "name": "answer_query_direct",
+        "description": "Answers a natural language query using only the internal knowledge of the configured Vertex AI model (gemini-2.0-flash). Does not use web search. Requires a 'query' string.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "The natural language question to answer using only the model's internal knowledge."
+                }
+            },
+            "required": [
+                "query"
+            ]
+        }
+    },
+    {
+        "name": "explain_topic_with_docs",
+        "description": "Provides a detailed explanation for a query about a specific software topic by synthesizing information primarily from official documentation found via web search. Focuses on comprehensive answers, context, and adherence to documented details. Uses the configured Vertex AI model (gemini-2.0-flash) with Google Search. Requires 'topic' and 'query'.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "topic": {
+                    "type": "string",
+                    "description": "The software/library/framework topic (e.g., 'React Router', 'Python requests')."
+                },
+                "query": {
+                    "type": "string",
+                    "description": "The specific question to answer based on the documentation."
+                }
+            },
+            "required": [
+                "topic",
+                "query"
+            ]
+        }
+    },
+    {
+        "name": "get_doc_snippets",
+        "description": "Provides precise, authoritative code snippets or concise answers for technical queries by searching official documentation. Focuses on delivering exact solutions without unnecessary explanation. Uses the configured Vertex AI model (gemini-2.0-flash) with Google Search. Requires 'topic' and 'query'.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "topic": {
+                    "type": "string",
+                    "description": "The software/library/framework topic (e.g., 'React Router', 'Python requests', 'PostgreSQL 14')."
+                },
+                "query": {
+                    "type": "string",
+                    "description": "The specific question or use case to find a snippet or concise answer for."
+                },
+                "version": {
+                    "type": "string",
+                    "description": "Optional. Specific version of the software to target (e.g., '6.4', '2.28.2'). If provided, only documentation for this version will be used.",
+                    "default": ""
+                },
+                "include_examples": {
+                    "type": "boolean",
+                    "description": "Optional. Whether to include additional usage examples beyond the primary snippet. Defaults to true.",
+                    "default": true
+                }
+            },
+            "required": [
+                "topic",
+                "query"
+            ]
+        }
+    },
+    {
+        "name": "generate_project_guidelines",
+        "description": "Generates a structured project guidelines document (e.g., Markdown) based on a specified list of technologies and versions (tech stack). Uses web search to find the latest official documentation, style guides, and best practices for each component and synthesizes them into actionable rules and recommendations. Uses the configured Vertex AI model (gemini-2.0-flash) with Google Search. Requires 'tech_stack'.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "tech_stack": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "An array of strings specifying the project's technologies and versions (e.g., ['React 18.3', 'TypeScript 5.2', 'Node.js 20.10', 'Express 5.0', 'PostgreSQL 16.1'])."
+                }
+            },
+            "required": [
+                "tech_stack"
+            ]
+        }
+    },
+    {
+        "name": "read_file_content",
+        "description": "Read the complete contents of one or more files from the workspace filesystem. Provide a single path string or an array of path strings. Handles various text encodings and provides detailed error messages if a file cannot be read. Failed reads for individual files in an array won't stop the entire operation when multiple paths are provided.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "paths": {
+                    "anyOf": [
+                        {
+                            "type": "string",
+                            "description": "The path of the file to read (relative to the workspace directory)."
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "minItems": 1,
+                            "description": "An array of file paths to read (relative to the workspace directory)."
+                        }
+                    ],
+                    "description": "A single file path or an array of file paths to read."
+                }
+            },
+            "required": [
+                "paths"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "write_file_content",
+        "description": "Create new files or completely overwrite existing files in the workspace filesystem. The 'writes' argument should be either a single object with 'path' and 'content', or an array of such objects to write multiple files. Use with caution as it will overwrite existing files without warning. Handles text content with proper encoding.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "writes": {
+                    "anyOf": [
+                        {
+                            "type": "object",
+                            "properties": {
+                                "path": {
+                                    "type": "string",
+                                    "description": "The path of the file to write (relative to the workspace directory)."
+                                },
+                                "content": {
+                                    "type": "string",
+                                    "description": "The full content to write to the file."
+                                }
+                            },
+                            "required": [
+                                "path",
+                                "content"
+                            ],
+                            "additionalProperties": false,
+                            "description": "A single file write operation."
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "path": {
+                                        "$ref": "#/properties/writes/anyOf/0/properties/path"
+                                    },
+                                    "content": {
+                                        "$ref": "#/properties/writes/anyOf/0/properties/content"
+                                    }
+                                },
+                                "required": [
+                                    "path",
+                                    "content"
+                                ],
+                                "additionalProperties": false
+                            },
+                            "minItems": 1,
+                            "description": "An array of file write operations."
+                        }
+                    ],
+                    "description": "A single write operation or an array of write operations."
+                }
+            },
+            "required": [
+                "writes"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "edit_file_content",
+        "description": "Make line-based edits to a text file in the workspace filesystem. Each edit attempts to replace an exact match of 'oldText' with 'newText'. If no exact match is found, it attempts a line-by-line match ignoring leading/trailing whitespace. Indentation of the first line is preserved, and relative indentation of subsequent lines is attempted. Returns a git-style diff showing the changes made (or previewed if dryRun is true).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "The path of the file to edit (relative to the workspace directory)."
+                },
+                "edits": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "oldText": {
+                                "type": "string",
+                                "description": "Text to search for - attempts exact match first, then line-by-line whitespace-insensitive match."
+                            },
+                            "newText": {
+                                "type": "string",
+                                "description": "Text to replace with, preserving indentation where possible."
+                            }
+                        },
+                        "required": [
+                            "oldText",
+                            "newText"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "An array of edit operations to apply sequentially."
+                },
+                "dryRun": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "If true, preview changes using git-style diff format without saving."
+                }
+            },
+            "required": [
+                "path",
+                "edits"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "list_directory_contents",
+        "description": "Get a detailed listing of all files and directories directly within a specified path in the workspace filesystem. Results clearly distinguish between files and directories with [FILE] and [DIR] prefixes. This tool is essential for understanding directory structure and finding specific files within a directory. Does not list recursively.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "The path of the directory to list (relative to the workspace directory)."
+                }
+            },
+            "required": [
+                "path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "get_directory_tree",
+        "description": "Get a recursive tree view of files and directories within the workspace filesystem as a JSON structure. Each entry includes 'name', 'type' (file/directory), and 'children' (an array) for directories. Files have no 'children' array. The output is formatted JSON text. Useful for understanding the complete structure of a project directory.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "The root path for the directory tree (relative to the workspace directory)."
+                }
+            },
+            "required": [
+                "path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "move_file_or_directory",
+        "description": "Move or rename files and directories within the workspace filesystem. Can move items between directories and rename them in a single operation. If the destination path already exists, the operation will likely fail (OS-dependent).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "source": {
+                    "type": "string",
+                    "description": "The current path of the file or directory to move (relative to the workspace directory)."
+                },
+                "destination": {
+                    "type": "string",
+                    "description": "The new path for the file or directory (relative to the workspace directory)."
+                }
+            },
+            "required": [
+                "source",
+                "destination"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "search_filesystem",
+        "description": "Recursively search for files and directories within the workspace filesystem matching a pattern in their name. Searches through all subdirectories from the starting path. The search is case-insensitive and matches partial names. Returns full paths (relative to workspace) to all matching items. Supports excluding paths using glob patterns.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "The starting directory path for the search (relative to the workspace directory)."
+                },
+                "pattern": {
+                    "type": "string",
+                    "description": "The case-insensitive text pattern to search for in file/directory names."
+                },
+                "excludePatterns": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "default": [],
+                    "description": "An array of glob patterns (e.g., 'node_modules', '*.log') to exclude from the search."
+                }
+            },
+            "required": [
+                "path",
+                "pattern"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "get_filesystem_info",
+        "description": "Retrieve detailed metadata about a file or directory within the workspace filesystem. Returns comprehensive information including size (bytes), creation time, last modified time, last accessed time, type (file/directory), and permissions (octal string). This tool is perfect for understanding file characteristics without reading the actual content.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "The path of the file or directory to get info for (relative to the workspace directory)."
+                }
+            },
+            "required": [
+                "path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "execute_terminal_command",
+        "description": "Execute a shell command on the server's operating system. Allows specifying the command, an optional working directory (cwd), and an optional timeout in seconds. Returns the combined stdout and stderr output of the command upon completion or termination.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "command": {
+                    "type": "string",
+                    "description": "The command line instruction to execute."
+                },
+                "cwd": {
+                    "type": "string",
+                    "description": "Optional. The working directory to run the command in (relative to the workspace root). Defaults to the workspace root if not specified."
+                },
+                "timeout": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "Optional. Maximum execution time in seconds. If the command exceeds this time, it will be terminated."
+                }
+            },
+            "required": [
+                "command"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "save_generate_project_guidelines",
+        "description": "Generates comprehensive project guidelines based on a tech stack using web search and saves the result to a specified file path. Uses the configured Vertex AI model (gemini-2.0-flash). Requires 'tech_stack' and 'output_path'.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "tech_stack": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "minItems": 1,
+                    "description": "An array of strings specifying the project's technologies, optionally with versions (e.g., ['React', 'TypeScript 5.x', 'Node.js', 'Express 4.18', 'PostgreSQL 16.x']). If no version is specified, the latest stable version will be assumed."
+                },
+                "output_path": {
+                    "type": "string",
+                    "description": "The relative path where the generated guidelines Markdown file should be saved (e.g., 'docs/PROJECT_GUIDELINES.md')."
+                }
+            },
+            "required": [
+                "tech_stack",
+                "output_path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "save_doc_snippet",
+        "description": "Provides precise code snippets or concise answers for technical queries by searching official documentation and saves the result to a file. Uses the configured Vertex AI model (gemini-2.0-flash) with Google Search. Requires 'topic', 'query', and 'output_path'.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "topic": {
+                    "type": "string",
+                    "description": "The software/library/framework topic (e.g., 'React Router', 'Python requests', 'PostgreSQL 14')."
+                },
+                "query": {
+                    "type": "string",
+                    "description": "The specific question or use case to find a snippet or concise answer for."
+                },
+                "version": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Optional. Specific version of the software to target (e.g., '6.4', '2.28.2'). If provided, only documentation for this version will be used."
+                },
+                "include_examples": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Optional. Whether to include additional usage examples beyond the primary snippet. Defaults to true."
+                },
+                "output_path": {
+                    "type": "string",
+                    "description": "The relative path where the generated snippet(s) should be saved (e.g., 'snippets/react-hook-example.ts')."
+                }
+            },
+            "required": [
+                "topic",
+                "query",
+                "output_path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "save_topic_explanation",
+        "description": "Provides a detailed explanation for a query about a specific software topic using official documentation found via web search and saves the result to a file. Uses the configured Vertex AI model (gemini-2.0-flash). Requires 'topic', 'query', and 'output_path'.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "topic": {
+                    "type": "string",
+                    "description": "The software/library/framework topic (e.g., 'React Router', 'Python requests')."
+                },
+                "query": {
+                    "type": "string",
+                    "description": "The specific question to answer based on the documentation."
+                },
+                "output_path": {
+                    "type": "string",
+                    "description": "The relative path where the generated explanation should be saved (e.g., 'explanations/react-router-hooks.md')."
+                }
+            },
+            "required": [
+                "topic",
+                "query",
+                "output_path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "save_answer_query_direct",
+        "description": "Answers a natural language query using only the internal knowledge of the configured Vertex AI model (gemini-2.0-flash), does not use web search, and saves the answer to a file. Requires 'query' and 'output_path'.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "The natural language question to answer using only the model's internal knowledge."
+                },
+                "output_path": {
+                    "type": "string",
+                    "description": "The relative path where the generated answer should be saved."
+                }
+            },
+            "required": [
+                "query",
+                "output_path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "save_answer_query_websearch",
+        "description": "Answers a natural language query using Google Search results and saves the answer to a file. Uses the configured Vertex AI model (gemini-2.0-flash). Requires 'query' and 'output_path'.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "The natural language question to answer using web search."
+                },
+                "output_path": {
+                    "type": "string",
+                    "description": "The relative path where the generated answer should be saved."
+                }
+            },
+            "required": [
+                "query",
+                "output_path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "code_analysis_with_docs",
+        "description": "Analyzes code snippets by comparing them with best practices from official documentation found via web search. Identifies potential bugs, performance issues, and security vulnerabilities. Uses the configured Vertex AI model (gemini-2.0-flash) with Google Search. Requires 'code', 'language', and 'analysis_focus'.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "description": "The code snippet to analyze."
+                },
+                "language": {
+                    "type": "string",
+                    "description": "The programming language of the code (e.g., 'JavaScript', 'Python', 'Java', 'TypeScript')."
+                },
+                "framework": {
+                    "type": "string",
+                    "description": "Optional. The framework or library the code uses (e.g., 'React', 'Django', 'Spring Boot').",
+                    "default": ""
+                },
+                "version": {
+                    "type": "string",
+                    "description": "Optional. Specific version of the language or framework to target (e.g., 'ES2022', 'Python 3.11', 'React 18.2').",
+                    "default": ""
+                },
+                "analysis_focus": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "best_practices",
+                            "security",
+                            "performance",
+                            "maintainability",
+                            "bugs",
+                            "all"
+                        ]
+                    },
+                    "description": "Areas to focus the analysis on. Use 'all' to cover everything.",
+                    "default": [
+                        "all"
+                    ]
+                }
+            },
+            "required": [
+                "code",
+                "language",
+                "analysis_focus"
+            ]
+        }
+    },
+    {
+        "name": "technical_comparison",
+        "description": "Compares multiple technologies, frameworks, or libraries based on specific criteria. Provides detailed comparison tables with pros/cons and use cases. Includes version-specific information and compatibility considerations. Uses the configured Vertex AI model (gemini-2.0-flash) with Google Search. Requires 'technologies' and 'criteria'.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "technologies": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Array of technologies to compare (e.g., ['React 18', 'Vue 3', 'Angular 15', 'Svelte 4'])."
+                },
+                "criteria": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Aspects to compare (e.g., ['performance', 'learning curve', 'ecosystem', 'enterprise adoption'])."
+                },
+                "use_case": {
+                    "type": "string",
+                    "description": "Optional. Specific use case or project type to focus the comparison on.",
+                    "default": ""
+                },
+                "format": {
+                    "type": "string",
+                    "enum": [
+                        "detailed",
+                        "concise",
+                        "tabular"
+                    ],
+                    "description": "Optional. Format of the comparison output.",
+                    "default": "detailed"
+                }
+            },
+            "required": [
+                "technologies",
+                "criteria"
+            ]
+        }
+    },
+    {
+        "name": "architecture_pattern_recommendation",
+        "description": "Suggests architecture patterns for specific use cases based on industry best practices. Provides implementation examples and considerations for the recommended patterns. Includes diagrams and explanations of pattern benefits and tradeoffs. Uses the configured Vertex AI model (gemini-2.0-flash) with Google Search. Requires 'requirements' and 'tech_stack'.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "requirements": {
+                    "type": "object",
+                    "properties": {
+                        "description": {
+                            "type": "string",
+                            "description": "Description of the system to be built."
+                        },
+                        "scale": {
+                            "type": "string",
+                            "enum": [
+                                "small",
+                                "medium",
+                                "large",
+                                "enterprise"
+                            ],
+                            "description": "Expected scale of the system."
+                        },
+                        "key_concerns": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Key architectural concerns (e.g., ['scalability', 'security', 'performance', 'maintainability'])."
+                        }
+                    },
+                    "required": [
+                        "description",
+                        "scale",
+                        "key_concerns"
+                    ],
+                    "description": "Requirements and constraints for the system."
+                },
+                "tech_stack": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Technologies to be used (e.g., ['Node.js', 'React', 'PostgreSQL'])."
+                },
+                "industry": {
+                    "type": "string",
+                    "description": "Optional. Industry or domain context (e.g., 'healthcare', 'finance', 'e-commerce').",
+                    "default": ""
+                },
+                "existing_architecture": {
+                    "type": "string",
+                    "description": "Optional. Description of existing architecture if this is an evolution of an existing system.",
+                    "default": ""
+                }
+            },
+            "required": [
+                "requirements",
+                "tech_stack"
+            ]
+        }
+    },
+    {
+        "name": "dependency_vulnerability_scan",
+        "description": "Analyzes project dependencies for known security vulnerabilities. Provides detailed information about each vulnerability with severity ratings. Suggests mitigation strategies and secure alternatives. Uses the configured Vertex AI model (gemini-2.0-flash) with Google Search. Requires 'dependencies' and 'ecosystem'.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "dependencies": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "description": "Object mapping dependency names to versions (e.g., {'react': '18.2.0', 'lodash': '4.17.21'})."
+                },
+                "ecosystem": {
+                    "type": "string",
+                    "enum": [
+                        "npm",
+                        "pypi",
+                        "maven",
+                        "nuget",
+                        "rubygems",
+                        "composer",
+                        "cargo",
+                        "go"
+                    ],
+                    "description": "The package ecosystem (e.g., 'npm', 'pypi', 'maven')."
+                },
+                "include_transitive": {
+                    "type": "boolean",
+                    "description": "Optional. Whether to analyze transitive dependencies as well.",
+                    "default": true
+                },
+                "min_severity": {
+                    "type": "string",
+                    "enum": [
+                        "critical",
+                        "high",
+                        "medium",
+                        "low",
+                        "all"
+                    ],
+                    "description": "Optional. Minimum severity level to include in results.",
+                    "default": "medium"
+                }
+            },
+            "required": [
+                "dependencies",
+                "ecosystem"
+            ]
+        }
+    },
+    {
+        "name": "database_schema_analyzer",
+        "description": "Reviews database schemas for normalization, indexing, and performance issues. Suggests improvements based on database-specific best practices. Provides migration strategies for implementing suggested changes. Uses the configured Vertex AI model (gemini-2.0-flash) with Google Search. Requires 'schema' and 'database_type'.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "schema": {
+                    "type": "string",
+                    "description": "Database schema definition (SQL CREATE statements, JSON schema, etc.)."
+                },
+                "database_type": {
+                    "type": "string",
+                    "description": "Database system (e.g., 'PostgreSQL', 'MySQL', 'MongoDB', 'DynamoDB')."
+                },
+                "database_version": {
+                    "type": "string",
+                    "description": "Optional. Specific version of the database system.",
+                    "default": ""
+                },
+                "focus_areas": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "normalization",
+                            "indexing",
+                            "performance",
+                            "security",
+                            "scalability",
+                            "all"
+                        ]
+                    },
+                    "description": "Optional. Areas to focus the analysis on.",
+                    "default": [
+                        "all"
+                    ]
+                },
+                "expected_scale": {
+                    "type": "object",
+                    "properties": {
+                        "rows_per_table": {
+                            "type": "string",
+                            "description": "Approximate number of rows expected in each table."
+                        },
+                        "growth_rate": {
+                            "type": "string",
+                            "description": "Expected growth rate of the database."
+                        },
+                        "query_patterns": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Common query patterns (e.g., ['frequent reads', 'batch updates'])."
+                        }
+                    },
+                    "description": "Optional. Information about the expected scale and usage patterns."
+                }
+            },
+            "required": [
+                "schema",
+                "database_type"
+            ]
+        }
+    },
+    {
+        "name": "security_best_practices_advisor",
+        "description": "Provides security recommendations for specific technologies or scenarios. Includes code examples for implementing secure practices. References industry standards and security guidelines. Uses the configured Vertex AI model (gemini-2.0-flash) with Google Search. Requires 'technology' and 'security_context'.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "technology": {
+                    "type": "string",
+                    "description": "The technology, framework, or language (e.g., 'Node.js', 'React', 'AWS S3')."
+                },
+                "security_context": {
+                    "type": "string",
+                    "description": "The security context or concern (e.g., 'authentication', 'data encryption', 'API security')."
+                },
+                "technology_version": {
+                    "type": "string",
+                    "description": "Optional. Specific version of the technology.",
+                    "default": ""
+                },
+                "industry": {
+                    "type": "string",
+                    "description": "Optional. Industry with specific security requirements (e.g., 'healthcare', 'finance').",
+                    "default": ""
+                },
+                "compliance_frameworks": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Optional. Compliance frameworks to consider (e.g., ['GDPR', 'HIPAA', 'PCI DSS']).",
+                    "default": []
+                },
+                "threat_model": {
+                    "type": "string",
+                    "description": "Optional. Specific threat model or attack vectors to address.",
+                    "default": ""
+                }
+            },
+            "required": [
+                "technology",
+                "security_context"
+            ]
+        }
+    },
+    {
+        "name": "testing_strategy_generator",
+        "description": "Creates comprehensive testing strategies for applications or features. Suggests appropriate testing types (unit, integration, e2e) with coverage goals. Provides example test cases and testing frameworks. Uses the configured Vertex AI model (gemini-2.0-flash) with Google Search. Requires 'project_description' and 'tech_stack'.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "project_description": {
+                    "type": "string",
+                    "description": "Description of the project or feature to be tested."
+                },
+                "tech_stack": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Technologies used in the project (e.g., ['React', 'Node.js', 'PostgreSQL'])."
+                },
+                "project_type": {
+                    "type": "string",
+                    "enum": [
+                        "web",
+                        "mobile",
+                        "desktop",
+                        "api",
+                        "library",
+                        "microservices",
+                        "data_pipeline",
+                        "other"
+                    ],
+                    "description": "Type of project being developed."
+                },
+                "testing_priorities": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "functionality",
+                            "performance",
+                            "security",
+                            "accessibility",
+                            "usability",
+                            "reliability",
+                            "compatibility",
+                            "all"
+                        ]
+                    },
+                    "description": "Optional. Testing priorities for the project.",
+                    "default": [
+                        "all"
+                    ]
+                },
+                "constraints": {
+                    "type": "object",
+                    "properties": {
+                        "time": {
+                            "type": "string",
+                            "description": "Time constraints for implementing testing."
+                        },
+                        "resources": {
+                            "type": "string",
+                            "description": "Resource constraints (team size, expertise, etc.)."
+                        },
+                        "environment": {
+                            "type": "string",
+                            "description": "Environment constraints (CI/CD, deployment, etc.)."
+                        }
+                    },
+                    "description": "Optional. Constraints that might affect the testing strategy."
+                }
+            },
+            "required": [
+                "project_description",
+                "tech_stack",
+                "project_type"
+            ]
+        }
+    },
+    {
+        "name": "regulatory_compliance_advisor",
+        "description": "Provides guidance on regulatory requirements for specific industries (GDPR, HIPAA, etc.). Suggests implementation approaches for compliance. Includes checklists and verification strategies. Uses the configured Vertex AI model (gemini-2.0-flash) with Google Search. Requires 'regulations' and 'context'.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "regulations": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Regulations to address (e.g., ['GDPR', 'HIPAA', 'PCI DSS', 'CCPA'])."
+                },
+                "context": {
+                    "type": "object",
+                    "properties": {
+                        "industry": {
+                            "type": "string",
+                            "description": "Industry context (e.g., 'healthcare', 'finance', 'e-commerce')."
+                        },
+                        "application_type": {
+                            "type": "string",
+                            "description": "Type of application (e.g., 'web app', 'mobile app', 'SaaS platform')."
+                        },
+                        "data_types": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Types of data being processed (e.g., ['PII', 'PHI', 'payment data'])."
+                        },
+                        "user_regions": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Regions where users are located (e.g., ['EU', 'US', 'Canada'])."
+                        }
+                    },
+                    "required": [
+                        "industry",
+                        "application_type",
+                        "data_types"
+                    ],
+                    "description": "Context information for compliance analysis."
+                },
+                "tech_stack": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Optional. Technologies used in the application.",
+                    "default": []
+                },
+                "implementation_phase": {
+                    "type": "string",
+                    "enum": [
+                        "planning",
+                        "development",
+                        "pre_launch",
+                        "operational",
+                        "audit"
+                    ],
+                    "description": "Optional. Current phase of implementation.",
+                    "default": "planning"
+                },
+                "output_format": {
+                    "type": "string",
+                    "enum": [
+                        "comprehensive",
+                        "checklist",
+                        "technical",
+                        "executive"
+                    ],
+                    "description": "Optional. Format of the compliance guidance.",
+                    "default": "comprehensive"
+                }
+            },
+            "required": [
+                "regulations",
+                "context"
+            ]
+        }
+    },
+    {
+        "name": "microservice_design_assistant",
+        "description": "Helps design microservice architectures for specific domains. Provides service boundary recommendations and communication patterns. Includes deployment and orchestration considerations. Uses the configured Vertex AI model (gemini-2.0-flash) with Google Search. Requires 'domain_description' and 'requirements'.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "domain_description": {
+                    "type": "string",
+                    "description": "Description of the business domain for the microservice architecture."
+                },
+                "requirements": {
+                    "type": "object",
+                    "properties": {
+                        "functional": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Key functional requirements for the system."
+                        },
+                        "non_functional": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Non-functional requirements (scalability, availability, etc.)."
+                        },
+                        "constraints": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Technical or organizational constraints."
+                        }
+                    },
+                    "required": [
+                        "functional",
+                        "non_functional"
+                    ],
+                    "description": "System requirements and constraints."
+                },
+                "tech_stack": {
+                    "type": "object",
+                    "properties": {
+                        "preferred_languages": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Preferred programming languages."
+                        },
+                        "preferred_databases": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Preferred database technologies."
+                        },
+                        "deployment_platform": {
+                            "type": "string",
+                            "description": "Target deployment platform (e.g., 'Kubernetes', 'AWS', 'Azure')."
+                        }
+                    },
+                    "description": "Optional. Technology preferences for implementation."
+                },
+                "existing_systems": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Optional. Description of existing systems that need to be integrated.",
+                    "default": []
+                },
+                "team_structure": {
+                    "type": "string",
+                    "description": "Optional. Description of the development team structure.",
+                    "default": ""
+                },
+                "design_focus": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "service_boundaries",
+                            "data_management",
+                            "communication_patterns",
+                            "deployment",
+                            "security",
+                            "scalability",
+                            "all"
+                        ]
+                    },
+                    "description": "Optional. Specific aspects to focus on in the design.",
+                    "default": [
+                        "all"
+                    ]
+                }
+            },
+            "required": [
+                "domain_description",
+                "requirements"
+            ]
+        }
+    },
+    {
+        "name": "documentation_generator",
+        "description": "Creates comprehensive documentation for code, APIs, or systems. Follows industry best practices for technical documentation. Includes examples, diagrams, and user guides. Uses the configured Vertex AI model (gemini-2.0-flash) with Google Search. Requires 'content_type' and 'content'.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "content_type": {
+                    "type": "string",
+                    "enum": [
+                        "api",
+                        "code",
+                        "system",
+                        "library",
+                        "user_guide"
+                    ],
+                    "description": "Type of documentation to generate."
+                },
+                "content": {
+                    "type": "string",
+                    "description": "The code, API specification, or system description to document."
+                },
+                "language": {
+                    "type": "string",
+                    "description": "Programming language or API specification format (e.g., 'JavaScript', 'OpenAPI', 'GraphQL').",
+                    "default": ""
+                },
+                "audience": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "developers",
+                            "architects",
+                            "end_users",
+                            "administrators",
+                            "technical_writers"
+                        ]
+                    },
+                    "description": "Optional. Target audience for the documentation.",
+                    "default": [
+                        "developers"
+                    ]
+                },
+                "documentation_format": {
+                    "type": "string",
+                    "enum": [
+                        "markdown",
+                        "html",
+                        "asciidoc",
+                        "restructuredtext"
+                    ],
+                    "description": "Optional. Output format for the documentation.",
+                    "default": "markdown"
+                },
+                "detail_level": {
+                    "type": "string",
+                    "enum": [
+                        "minimal",
+                        "standard",
+                        "comprehensive"
+                    ],
+                    "description": "Optional. Level of detail in the documentation.",
+                    "default": "standard"
+                },
+                "include_sections": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "overview",
+                            "getting_started",
+                            "examples",
+                            "api_reference",
+                            "architecture",
+                            "troubleshooting",
+                            "faq",
+                            "all"
+                        ]
+                    },
+                    "description": "Optional. Specific sections to include in the documentation.",
+                    "default": [
+                        "all"
+                    ]
+                }
+            },
+            "required": [
+                "content_type",
+                "content"
+            ]
+        }
+    }
+]

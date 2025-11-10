@@ -1,0 +1,473 @@
+[
+    {
+        "name": "smithery-mcp-server_runShellCommand",
+        "description": "Run a terminal command in the system shell",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "command": {
+                    "type": "string",
+                    "description": "The shell command to execute"
+                }
+            },
+            "required": [
+                "command"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "smithery-mcp-server_runPythonFile",
+        "description": "Execute a Python file and return output",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "filePath": {
+                    "type": "string",
+                    "description": "Path to the Python file to execute"
+                },
+                "args": {
+                    "type": "string",
+                    "description": "Optional arguments to pass to the Python script"
+                }
+            },
+            "required": [
+                "filePath"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "smithery-mcp-server_readDirectory",
+        "description": "List files and folders in a directory",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "dirPath": {
+                    "type": "string",
+                    "description": "Path to the directory to read (default: workspace root)"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "smithery-mcp-server_copyFile",
+        "description": "Copy a file from one location to another",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "sourcePath": {
+                    "type": "string",
+                    "description": "Path to the source file"
+                },
+                "destinationPath": {
+                    "type": "string",
+                    "description": "Path to the destination file"
+                }
+            },
+            "required": [
+                "sourcePath",
+                "destinationPath"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "smithery-mcp-server_createFile",
+        "description": "Create a new file with specified contents",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "filePath": {
+                    "type": "string",
+                    "description": "Path to the file to create"
+                },
+                "content": {
+                    "type": "string",
+                    "description": "Content to write to the file"
+                }
+            },
+            "required": [
+                "filePath",
+                "content"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "smithery-mcp-server_readFile",
+        "description": "Read the contents of a file",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "filePath": {
+                    "type": "string",
+                    "description": "Path to the file to read"
+                },
+                "encoding": {
+                    "type": "string",
+                    "description": "File encoding (default: utf8)"
+                },
+                "startLine": {
+                    "type": "number",
+                    "description": "Start line (0-based, inclusive)"
+                },
+                "endLine": {
+                    "type": "number",
+                    "description": "End line (0-based, inclusive)"
+                }
+            },
+            "required": [
+                "filePath"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "smithery-mcp-server_editFile",
+        "description": "Edit an existing file",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "filePath": {
+                    "type": "string",
+                    "description": "Path to the file to edit"
+                },
+                "operation": {
+                    "type": "string",
+                    "enum": [
+                        "append",
+                        "prepend",
+                        "replace",
+                        "insert"
+                    ],
+                    "description": "Edit operation"
+                },
+                "content": {
+                    "type": "string",
+                    "description": "Content to add or replace with"
+                },
+                "lineNumber": {
+                    "type": "number",
+                    "description": "Line number for insert operation (0-based)"
+                },
+                "startLine": {
+                    "type": "number",
+                    "description": "Start line for replace operation (0-based, inclusive)"
+                },
+                "endLine": {
+                    "type": "number",
+                    "description": "End line for replace operation (0-based, inclusive)"
+                },
+                "encoding": {
+                    "type": "string",
+                    "description": "File encoding (default: utf8)"
+                }
+            },
+            "required": [
+                "filePath",
+                "operation",
+                "content"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "smithery-mcp-server_deleteFile",
+        "description": "Delete a file",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "filePath": {
+                    "type": "string",
+                    "description": "Path to the file to delete"
+                }
+            },
+            "required": [
+                "filePath"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "smithery-mcp-server_moveFile",
+        "description": "Move a file from one location to another",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "sourcePath": {
+                    "type": "string",
+                    "description": "Path to the source file"
+                },
+                "destinationPath": {
+                    "type": "string",
+                    "description": "Path to the destination file"
+                }
+            },
+            "required": [
+                "sourcePath",
+                "destinationPath"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "smithery-mcp-server_createDirectory",
+        "description": "Create a new directory",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "dirPath": {
+                    "type": "string",
+                    "description": "Path to the directory to create"
+                },
+                "recursive": {
+                    "type": "boolean",
+                    "description": "Create parent directories if they don't exist (default: true)"
+                }
+            },
+            "required": [
+                "dirPath"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "smithery-mcp-server_moveDirectory",
+        "description": "Move a directory from one location to another",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "sourcePath": {
+                    "type": "string",
+                    "description": "Path to the source directory"
+                },
+                "destinationPath": {
+                    "type": "string",
+                    "description": "Path to the destination directory"
+                }
+            },
+            "required": [
+                "sourcePath",
+                "destinationPath"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "smithery-mcp-server_copyDirectory",
+        "description": "Copy a directory from one location to another",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "sourcePath": {
+                    "type": "string",
+                    "description": "Path to the source directory"
+                },
+                "destinationPath": {
+                    "type": "string",
+                    "description": "Path to the destination directory"
+                },
+                "overwrite": {
+                    "type": "boolean",
+                    "description": "Overwrite existing files (default: false)"
+                },
+                "errorOnExist": {
+                    "type": "boolean",
+                    "description": "Throw error if destination exists (default: false)"
+                }
+            },
+            "required": [
+                "sourcePath",
+                "destinationPath"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "smithery-mcp-server_deleteDirectory",
+        "description": "Delete a directory",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "dirPath": {
+                    "type": "string",
+                    "description": "Path to the directory to delete"
+                },
+                "recursive": {
+                    "type": "boolean",
+                    "description": "Delete subdirectories and files (default: true)"
+                }
+            },
+            "required": [
+                "dirPath"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "smithery-mcp-server_getDirectoryTree",
+        "description": "Get a hierarchical representation of a directory",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "dirPath": {
+                    "type": "string",
+                    "description": "Path to the directory"
+                },
+                "maxDepth": {
+                    "type": "number",
+                    "description": "Maximum depth to traverse (default: unlimited)"
+                },
+                "includeFiles": {
+                    "type": "boolean",
+                    "description": "Include files in the tree (default: true)"
+                },
+                "includeDirs": {
+                    "type": "boolean",
+                    "description": "Include directories in the tree (default: true)"
+                },
+                "includeSize": {
+                    "type": "boolean",
+                    "description": "Include file sizes (default: false)"
+                },
+                "extensions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Filter files by extensions (default: all files)"
+                },
+                "exclude": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Paths to exclude from the tree (default: none)"
+                }
+            },
+            "required": [
+                "dirPath"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "smithery-mcp-server_grep",
+        "description": "Search for patterns in files (grep)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "pattern": {
+                    "type": "string",
+                    "description": "Pattern to search for (string or regex)"
+                },
+                "filePaths": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    ],
+                    "description": "File path(s) to search in"
+                },
+                "useRegex": {
+                    "type": "boolean",
+                    "description": "Treat pattern as regex (default: true)"
+                },
+                "caseSensitive": {
+                    "type": "boolean",
+                    "description": "Case sensitive search (default: false)"
+                },
+                "beforeContext": {
+                    "type": "number",
+                    "description": "Number of lines of context before match (default: 0)"
+                },
+                "afterContext": {
+                    "type": "number",
+                    "description": "Number of lines of context after match (default: 0)"
+                },
+                "maxMatches": {
+                    "type": "number",
+                    "description": "Maximum number of matches to return (default: unlimited)"
+                },
+                "encoding": {
+                    "type": "string",
+                    "description": "File encoding (default: utf8)"
+                }
+            },
+            "required": [
+                "pattern",
+                "filePaths"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "smithery-mcp-server_combinationTask",
+        "description": "Run a sequence of operations with a common working directory",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "workingDir": {
+                    "type": "string",
+                    "description": "Working directory for all tasks"
+                },
+                "tasks": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "type": {
+                                "type": "string",
+                                "description": "Task type"
+                            },
+                            "params": {
+                                "type": "object",
+                                "additionalProperties": {},
+                                "description": "Task parameters"
+                            }
+                        },
+                        "required": [
+                            "type",
+                            "params"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "List of tasks to execute"
+                },
+                "stopOnError": {
+                    "type": "boolean",
+                    "description": "Stop execution on first error (default: true)"
+                }
+            },
+            "required": [
+                "workingDir",
+                "tasks"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

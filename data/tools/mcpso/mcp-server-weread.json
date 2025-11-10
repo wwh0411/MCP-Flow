@@ -1,0 +1,107 @@
+[
+    {
+        "name": "mcp-server-weread_get_bookshelf",
+        "description": "Get all books in the user's bookshelf with comprehensive statistics and categorization information",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    },
+    {
+        "name": "mcp-server-weread_search_books",
+        "description": "Search for books in the user's bookshelf by keywords and return matching books with details and reading progress",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "keyword": {
+                    "type": "string",
+                    "description": "Search keyword to match book title, author, translator or category"
+                },
+                "exact_match": {
+                    "type": "boolean",
+                    "description": "Whether to use exact matching, default is fuzzy matching",
+                    "default": false
+                },
+                "include_details": {
+                    "type": "boolean",
+                    "description": "Whether to include detailed information",
+                    "default": true
+                },
+                "max_results": {
+                    "type": "integer",
+                    "description": "Maximum number of results to return",
+                    "default": 5
+                }
+            },
+            "required": [
+                "keyword"
+            ]
+        }
+    },
+    {
+        "name": "mcp-server-weread_get_book_notes_and_highlights",
+        "description": "Get all highlights and notes for a specific book, organized by chapter",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "book_id": {
+                    "type": "string",
+                    "description": "Book ID"
+                },
+                "include_chapters": {
+                    "type": "boolean",
+                    "description": "Whether to include chapter information",
+                    "default": true
+                },
+                "organize_by_chapter": {
+                    "type": "boolean",
+                    "description": "Whether to organize by chapter",
+                    "default": true
+                },
+                "highlight_style": {
+                    "type": [
+                        "integer",
+                        "null"
+                    ],
+                    "description": "Highlight style filter, null means all",
+                    "default": null
+                }
+            },
+            "required": [
+                "book_id"
+            ]
+        }
+    },
+    {
+        "name": "mcp-server-weread_get_book_best_reviews",
+        "description": "Get popular reviews for a specific book",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "book_id": {
+                    "type": "string",
+                    "description": "Book ID"
+                },
+                "count": {
+                    "type": "integer",
+                    "description": "Number of reviews to return",
+                    "default": 10
+                },
+                "max_idx": {
+                    "type": "integer",
+                    "description": "Pagination index",
+                    "default": 0
+                },
+                "synckey": {
+                    "type": "integer",
+                    "description": "Sync key for pagination",
+                    "default": 0
+                }
+            },
+            "required": [
+                "book_id"
+            ]
+        }
+    }
+]

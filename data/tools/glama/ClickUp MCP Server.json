@@ -1,0 +1,1769 @@
+[
+    {
+        "name": "ClickUp_get_workspace_hierarchy",
+        "description": "Gets complete workspace hierarchy (spaces, folders, lists). No parameters needed. Returns tree structure with names and IDs for navigation.",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "ClickUp_create_task",
+        "description": "Creates a single task in a ClickUp list. Use listId (preferred) or listName. Required: name + list info. For multiple tasks use create_bulk_tasks. Can create subtasks via parent param. Supports custom fields as array of {id, value}. Supports assignees as array of user IDs, emails, or usernames.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "REQUIRED: Name of the task. Put a relevant emoji followed by a blank space before the name."
+                },
+                "listId": {
+                    "type": "string",
+                    "description": "REQUIRED (unless listName provided): ID of the list to create the task in. If you have this ID from a previous response, use it directly rather than looking up by name."
+                },
+                "listName": {
+                    "type": "string",
+                    "description": "REQUIRED (unless listId provided): Name of the list to create the task in - will automatically find the list by name."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Optional plain text description for the task"
+                },
+                "markdown_description": {
+                    "type": "string",
+                    "description": "Optional markdown formatted description for the task. If provided, this takes precedence over description"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "Optional: Override the default ClickUp status. In most cases, you should omit this to use ClickUp defaults"
+                },
+                "priority": {
+                    "type": "number",
+                    "description": "Optional priority of the task (1-4), where 1 is urgent/highest priority and 4 is lowest priority. Only set this when explicitly requested."
+                },
+                "dueDate": {
+                    "type": "string",
+                    "description": "Optional due date. Supports Unix timestamps (ms) or natural language like '1 hour from now', 'tomorrow', 'next week', etc."
+                },
+                "startDate": {
+                    "type": "string",
+                    "description": "Optional start date. Supports Unix timestamps (ms) or natural language like 'now', 'start of today', etc."
+                },
+                "parent": {
+                    "type": "string",
+                    "description": "Optional ID of the parent task. When specified, this task will be created as a subtask of the specified parent task."
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Optional array of tag names to assign to the task. The tags must already exist in the space."
+                },
+                "custom_fields": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "description": "ID of the custom field"
+                            },
+                            "value": {
+                                "description": "Value for the custom field. Type depends on the field type."
+                            }
+                        },
+                        "required": [
+                            "id",
+                            "value"
+                        ]
+                    },
+                    "description": "Optional array of custom field values to set on the task. Each object must have an 'id' and 'value' property."
+                },
+                "check_required_custom_fields": {
+                    "type": "boolean",
+                    "description": "Optional flag to check if all required custom fields are set before saving the task."
+                },
+                "assignees": {
+                    "type": "array",
+                    "items": {
+                        "oneOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
+                    },
+                    "description": "Optional array of assignee user IDs (numbers), emails, or usernames to assign to the task."
+                }
+            }
+        }
+    },
+    {
+        "name": "ClickUp_get_task",
+        "description": "Gets task details by taskId (automatically handles both regular and custom IDs) or taskName. For taskName search, provide listName for faster lookup. Set subtasks=true to include all subtask details.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "taskId": {
+                    "type": "string",
+                    "description": "ID of task to retrieve (preferred). Automatically detects and handles both regular task IDs (9 characters) and custom IDs (like 'DEV-1234', 'PROJ-456'). Simply provide any task ID format here."
+                },
+                "taskName": {
+                    "type": "string",
+                    "description": "Name of task to retrieve. Can be used alone for a global search, or with listName for faster lookup."
+                },
+                "listName": {
+                    "type": "string",
+                    "description": "Name of list containing the task. Optional but recommended when using taskName."
+                },
+                "customTaskId": {
+                    "type": "string",
+                    "description": "Custom task ID (e.g., 'DEV-1234'). This parameter is now optional since taskId automatically handles custom IDs. Use only for explicit custom ID lookup or backward compatibility."
+                },
+                "subtasks": {
+                    "type": "boolean",
+                    "description": "Whether to include subtasks in the response. Set to true to retrieve full details of all subtasks."
+                }
+            }
+        }
+    },
+    {
+        "name": "ClickUp_update_task",
+        "description": "Updates task properties. Use taskId (preferred) or taskName + optional listName. At least one update field required. Custom fields supported as array of {id, value}. Supports assignees as array of user IDs, emails, or usernames. WARNING: Using taskName without listName may match multiple tasks.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "taskId": {
+                    "type": "string",
+                    "description": "ID of task to update (preferred). Automatically detects and handles both regular task IDs (9 characters) and custom IDs (like 'DEV-1234', 'PROJ-456')."
+                },
+                "taskName": {
+                    "type": "string",
+                    "description": "Name of task to update. The tool will search for tasks with this name across all lists unless listName is specified."
+                },
+                "listName": {
+                    "type": "string",
+                    "description": "Optional: Name of list containing the task. Providing this narrows the search to a specific list, improving performance and reducing ambiguity."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "New name for the task. Include emoji prefix if appropriate."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "New plain text description. Will be ignored if markdown_description is provided."
+                },
+                "markdown_description": {
+                    "type": "string",
+                    "description": "New markdown description. Takes precedence over plain text description."
+                },
+                "status": {
+                    "type": "string",
+                    "description": "New status. Must be valid for the task's current list."
+                },
+                "priority": {
+                    "type": "string",
+                    "nullable": true,
+                    "enum": [
+                        "1",
+                        "2",
+                        "3",
+                        "4",
+                        null
+                    ],
+                    "description": "New priority: 1 (urgent) to 4 (low). Set null to clear priority."
+                },
+                "dueDate": {
+                    "type": "string",
+                    "description": "New due date. Supports both Unix timestamps (in milliseconds) and natural language expressions like '1 hour from now', 'tomorrow', 'next week', or '3 days from now'."
+                },
+                "startDate": {
+                    "type": "string",
+                    "description": "New start date. Supports both Unix timestamps (in milliseconds) and natural language expressions."
+                },
+                "time_estimate": {
+                    "type": "string",
+                    "description": "Time estimate for the task. For best compatibility with the ClickUp API, use a numeric value in minutes (e.g., '150' for 2h 30m)"
+                },
+                "custom_fields": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "description": "ID of the custom field"
+                            },
+                            "value": {
+                                "description": "Value for the custom field. Type depends on the field type."
+                            }
+                        },
+                        "required": [
+                            "id",
+                            "value"
+                        ]
+                    },
+                    "description": "Optional array of custom field values to set on the task. Each object must have an 'id' and 'value' property."
+                },
+                "assignees": {
+                    "type": "array",
+                    "items": {
+                        "oneOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
+                    },
+                    "description": "Optional array of assignee user IDs (numbers), emails, or usernames to assign to the task."
+                }
+            }
+        }
+    },
+    {
+        "name": "ClickUp_move_task",
+        "description": "Moves task to different list. Use taskId + (listId/listName) preferred, or taskName + sourceListName + (listId/listName). WARNING: Task statuses may reset if destination list has different status options.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "taskId": {
+                    "type": "string",
+                    "description": "ID of the task to move (preferred). Automatically detects and handles both regular task IDs (9 characters) and custom IDs (like 'DEV-1234', 'PROJ-456')."
+                },
+                "taskName": {
+                    "type": "string",
+                    "description": "Name of the task to move. When using this, you MUST also provide sourceListName."
+                },
+                "sourceListName": {
+                    "type": "string",
+                    "description": "REQUIRED with taskName: Current list containing the task."
+                },
+                "listId": {
+                    "type": "string",
+                    "description": "ID of destination list (preferred). Use this instead of listName if you have it."
+                },
+                "listName": {
+                    "type": "string",
+                    "description": "Name of destination list. Only use if you don't have listId."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "ClickUp_duplicate_task",
+        "description": "Creates copy of task in same/different list. Use taskId + optional (listId/listName), or taskName + sourceListName + optional (listId/listName). Preserves original properties. Default: same list as original.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "taskId": {
+                    "type": "string",
+                    "description": "ID of task to duplicate (preferred). Automatically detects and handles both regular task IDs (9 characters) and custom IDs (like 'DEV-1234', 'PROJ-456')."
+                },
+                "taskName": {
+                    "type": "string",
+                    "description": "Name of task to duplicate. When using this, you MUST provide sourceListName."
+                },
+                "sourceListName": {
+                    "type": "string",
+                    "description": "REQUIRED with taskName: List containing the original task."
+                },
+                "listId": {
+                    "type": "string",
+                    "description": "ID of list for the duplicate (optional). Defaults to same list as original."
+                },
+                "listName": {
+                    "type": "string",
+                    "description": "Name of list for the duplicate. Only use if you don't have listId."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "ClickUp_delete_task",
+        "description": "PERMANENTLY deletes task. Use taskId (preferred/safest) or taskName + optional listName. WARNING: Cannot be undone. Using taskName without listName may match multiple tasks.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "taskId": {
+                    "type": "string",
+                    "description": "ID of task to delete (preferred). Automatically detects and handles both regular task IDs (9 characters) and custom IDs (like 'DEV-1234', 'PROJ-456')."
+                },
+                "taskName": {
+                    "type": "string",
+                    "description": "Name of task to delete. The tool will search for tasks with this name across all lists unless listName is specified."
+                },
+                "listName": {
+                    "type": "string",
+                    "description": "Optional: Name of list containing the task. Providing this narrows the search to a specific list, improving performance and reducing ambiguity."
+                }
+            }
+        }
+    },
+    {
+        "name": "ClickUp_get_task_comments",
+        "description": "Gets task comments. Use taskId (preferred) or taskName + optional listName. Use start/startId params for pagination. Task names may not be unique across lists.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "taskId": {
+                    "type": "string",
+                    "description": "ID of task to retrieve comments for (preferred). Automatically detects and handles both regular task IDs (9 characters) and custom IDs (like 'DEV-1234', 'PROJ-456')."
+                },
+                "taskName": {
+                    "type": "string",
+                    "description": "Name of task to retrieve comments for. Warning: Task names may not be unique."
+                },
+                "listName": {
+                    "type": "string",
+                    "description": "Name of list containing the task. Helps find the right task when using taskName."
+                },
+                "start": {
+                    "type": "number",
+                    "description": "Timestamp (in milliseconds) to start retrieving comments from. Used for pagination."
+                },
+                "startId": {
+                    "type": "string",
+                    "description": "Comment ID to start from. Used together with start for pagination."
+                }
+            }
+        }
+    },
+    {
+        "name": "ClickUp_create_task_comment",
+        "description": "Creates task comment. Use taskId (preferred) or taskName + listName. Required: commentText. Optional: notifyAll to notify assignees, assignee to assign comment.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "taskId": {
+                    "type": "string",
+                    "description": "ID of task to comment on (preferred). Automatically detects and handles both regular task IDs (9 characters) and custom IDs (like 'DEV-1234', 'PROJ-456')."
+                },
+                "taskName": {
+                    "type": "string",
+                    "description": "Name of task to comment on. When using this parameter, you MUST also provide listName."
+                },
+                "listName": {
+                    "type": "string",
+                    "description": "Name of list containing the task. REQUIRED when using taskName."
+                },
+                "commentText": {
+                    "type": "string",
+                    "description": "REQUIRED: Text content of the comment to create."
+                },
+                "notifyAll": {
+                    "type": "boolean",
+                    "description": "Whether to notify all assignees. Default is false."
+                },
+                "assignee": {
+                    "type": "number",
+                    "description": "Optional user ID to assign the comment to."
+                }
+            },
+            "required": [
+                "commentText"
+            ]
+        }
+    },
+    {
+        "name": "ClickUp_attach_task_file",
+        "description": "Attaches file to task. Use taskId (preferred) or taskName + optional listName. File sources: 1) base64 + filename (\u226410MB), 2) URL (http/https), 3) local path (absolute), 4) chunked for large files. WARNING: taskName without listName may match multiple tasks.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "taskId": {
+                    "type": "string",
+                    "description": "ID of the task to attach the file to. Works with both regular task IDs (9 characters) and custom IDs with uppercase prefixes (like 'DEV-1234')."
+                },
+                "taskName": {
+                    "type": "string",
+                    "description": "Name of the task to attach the file to. The tool will search for tasks with this name across all lists unless listName is specified."
+                },
+                "listName": {
+                    "type": "string",
+                    "description": "Optional: Name of list containing the task. Providing this narrows the search to a specific list, improving performance and reducing ambiguity."
+                },
+                "file_name": {
+                    "type": "string",
+                    "description": "Name of the file to be attached (include the extension). Required when using file_data."
+                },
+                "file_data": {
+                    "type": "string",
+                    "description": "Base64-encoded content of the file (without the data URL prefix)."
+                },
+                "file_url": {
+                    "type": "string",
+                    "description": "DUAL PURPOSE PARAMETER: Either (1) a web URL starting with http/https to download a file from, OR (2) an absolute local file path starting with / or drive letter. DO NOT use relative paths."
+                },
+                "auth_header": {
+                    "type": "string",
+                    "description": "Optional authorization header to use when downloading from a web URL (ignored for local files)."
+                },
+                "chunk_index": {
+                    "type": "number",
+                    "description": "Optional: For advanced usage with large file chunking. The 0-based index of this chunk."
+                },
+                "chunk_session": {
+                    "type": "string",
+                    "description": "Optional: For advanced usage with large file chunking. Session identifier from a previous chunk upload."
+                },
+                "chunk_total": {
+                    "type": "number",
+                    "description": "Optional: For advanced usage with large file chunking. Total number of chunks expected."
+                },
+                "chunk_is_last": {
+                    "type": "boolean",
+                    "description": "Optional: For advanced usage with large file chunking. Whether this is the final chunk."
+                }
+            }
+        }
+    },
+    {
+        "name": "ClickUp_create_bulk_tasks",
+        "description": "Creates multiple tasks in one list. Use listId (preferred) or listName + array of tasks (each needs name). Configure batch size/concurrency via options. Tasks can have custom fields as {id, value} array and assignees as array of user IDs, emails, or usernames.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "tasks": {
+                    "type": "array",
+                    "description": "Array of tasks to create. Each task must have at least a name.",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "Task name with emoji prefix"
+                            },
+                            "description": {
+                                "type": "string",
+                                "description": "Plain text description"
+                            },
+                            "markdown_description": {
+                                "type": "string",
+                                "description": "Markdown description (overrides plain text)"
+                            },
+                            "status": {
+                                "type": "string",
+                                "description": "Task status (uses list default if omitted)"
+                            },
+                            "priority": {
+                                "type": "number",
+                                "description": "Priority 1-4 (1=urgent, 4=low)"
+                            },
+                            "dueDate": {
+                                "type": "string",
+                                "description": "Due date. Supports Unix timestamps (in milliseconds) and natural language expressions like '1 hour from now', 'tomorrow', 'next week', etc."
+                            },
+                            "tags": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "description": "Optional array of tag names to assign to the task. The tags must already exist in the space."
+                            },
+                            "custom_fields": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "ID of the custom field"
+                                        },
+                                        "value": {
+                                            "description": "Value for the custom field. Type depends on the field type."
+                                        }
+                                    },
+                                    "required": [
+                                        "id",
+                                        "value"
+                                    ]
+                                },
+                                "description": "Optional array of custom field values to set on the task."
+                            },
+                            "assignees": {
+                                "type": "array",
+                                "items": {
+                                    "oneOf": [
+                                        {
+                                            "type": "number"
+                                        },
+                                        {
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "description": "Optional array of assignee user IDs (numbers), emails, or usernames to assign to the task."
+                            }
+                        },
+                        "required": [
+                            "name"
+                        ]
+                    }
+                },
+                "listId": {
+                    "type": "string",
+                    "description": "ID of list for new tasks (preferred). Use this instead of listName if you have it."
+                },
+                "listName": {
+                    "type": "string",
+                    "description": "Name of list for new tasks. Only use if you don't have listId."
+                },
+                "options": {
+                    "oneOf": [
+                        {
+                            "type": "object",
+                            "description": "Optional processing settings",
+                            "properties": {
+                                "batchSize": {
+                                    "type": "number",
+                                    "description": "Tasks per batch (default: 10)"
+                                },
+                                "concurrency": {
+                                    "type": "number",
+                                    "description": "Parallel operations (default: 3)"
+                                },
+                                "continueOnError": {
+                                    "type": "boolean",
+                                    "description": "Continue if some tasks fail"
+                                },
+                                "retryCount": {
+                                    "type": "number",
+                                    "description": "Retry attempts for failures"
+                                }
+                            }
+                        },
+                        {
+                            "type": "string",
+                            "description": "JSON string representing options. Will be parsed automatically."
+                        }
+                    ],
+                    "description": "Processing options (or JSON string representing options)"
+                }
+            },
+            "required": [
+                "tasks"
+            ]
+        }
+    },
+    {
+        "name": "ClickUp_update_bulk_tasks",
+        "description": "Updates multiple tasks efficiently. For each task: use taskId (preferred) or taskName + listName. At least one update field per task. Supports assignees as array of user IDs, emails, or usernames. Configure batch size/concurrency via options. WARNING: taskName without listName will fail.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "tasks": {
+                    "type": "array",
+                    "description": "Array of tasks to update",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "taskId": {
+                                "type": "string",
+                                "description": "Task ID (preferred). Automatically detects and handles both regular task IDs (9 characters) and custom IDs (like 'DEV-1234', 'PROJ-456')."
+                            },
+                            "taskName": {
+                                "type": "string",
+                                "description": "Task name. Requires listName when used."
+                            },
+                            "listName": {
+                                "type": "string",
+                                "description": "REQUIRED with taskName: List containing the task."
+                            },
+                            "customTaskId": {
+                                "type": "string",
+                                "description": "Custom task ID (e.g., 'DEV-1234'). Only use if you want to explicitly force custom ID lookup. In most cases, use taskId which auto-detects ID format."
+                            },
+                            "name": {
+                                "type": "string",
+                                "description": "New name with emoji prefix"
+                            },
+                            "description": {
+                                "type": "string",
+                                "description": "New plain text description"
+                            },
+                            "markdown_description": {
+                                "type": "string",
+                                "description": "New markdown description"
+                            },
+                            "status": {
+                                "type": "string",
+                                "description": "New status"
+                            },
+                            "priority": {
+                                "type": "string",
+                                "nullable": true,
+                                "enum": [
+                                    "1",
+                                    "2",
+                                    "3",
+                                    "4",
+                                    null
+                                ],
+                                "description": "New priority (1-4 or null)"
+                            },
+                            "dueDate": {
+                                "type": "string",
+                                "description": "New due date. Supports Unix timestamps (in milliseconds) and natural language expressions like '1 hour from now', 'tomorrow', etc."
+                            },
+                            "custom_fields": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "ID of the custom field"
+                                        },
+                                        "value": {
+                                            "description": "Value for the custom field. Type depends on the field type."
+                                        }
+                                    },
+                                    "required": [
+                                        "id",
+                                        "value"
+                                    ]
+                                },
+                                "description": "Optional array of custom field values to set on the task."
+                            },
+                            "assignees": {
+                                "type": "array",
+                                "items": {
+                                    "oneOf": [
+                                        {
+                                            "type": "number"
+                                        },
+                                        {
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "description": "Optional array of assignee user IDs (numbers), emails, or usernames to assign to the task."
+                            }
+                        }
+                    }
+                },
+                "options": {
+                    "oneOf": [
+                        {
+                            "type": "object",
+                            "description": "Optional processing settings",
+                            "properties": {
+                                "batchSize": {
+                                    "type": "number",
+                                    "description": "Tasks per batch (default: 10)"
+                                },
+                                "concurrency": {
+                                    "type": "number",
+                                    "description": "Parallel operations (default: 3)"
+                                },
+                                "continueOnError": {
+                                    "type": "boolean",
+                                    "description": "Continue if some tasks fail"
+                                },
+                                "retryCount": {
+                                    "type": "number",
+                                    "description": "Retry attempts for failures"
+                                }
+                            }
+                        },
+                        {
+                            "type": "string",
+                            "description": "JSON string representing options. Will be parsed automatically."
+                        }
+                    ],
+                    "description": "Processing options (or JSON string representing options)"
+                }
+            },
+            "required": [
+                "tasks"
+            ]
+        }
+    },
+    {
+        "name": "ClickUp_move_bulk_tasks",
+        "description": "Moves multiple tasks to one list. For each task: use taskId (preferred) or taskName + listName. Target list: use targetListId/Name. Configure batch size/concurrency via options. WARNING: Task statuses may reset, taskName needs listName.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "tasks": {
+                    "type": "array",
+                    "description": "Array of tasks to move",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "taskId": {
+                                "type": "string",
+                                "description": "Task ID (preferred). Automatically detects and handles both regular task IDs (9 characters) and custom IDs (like 'DEV-1234', 'PROJ-456')."
+                            },
+                            "taskName": {
+                                "type": "string",
+                                "description": "Task name. Requires listName when used."
+                            },
+                            "listName": {
+                                "type": "string",
+                                "description": "REQUIRED with taskName: List containing the task."
+                            },
+                            "customTaskId": {
+                                "type": "string",
+                                "description": "Custom task ID (e.g., 'DEV-1234'). Only use if you want to explicitly force custom ID lookup. In most cases, use taskId which auto-detects ID format."
+                            }
+                        }
+                    }
+                },
+                "targetListId": {
+                    "type": "string",
+                    "description": "ID of destination list (preferred). Use instead of targetListName if available."
+                },
+                "targetListName": {
+                    "type": "string",
+                    "description": "Name of destination list. Only use if you don't have targetListId."
+                },
+                "options": {
+                    "oneOf": [
+                        {
+                            "type": "object",
+                            "description": "Optional processing settings",
+                            "properties": {
+                                "batchSize": {
+                                    "type": "number",
+                                    "description": "Tasks per batch (default: 10)"
+                                },
+                                "concurrency": {
+                                    "type": "number",
+                                    "description": "Parallel operations (default: 3)"
+                                },
+                                "continueOnError": {
+                                    "type": "boolean",
+                                    "description": "Continue if some tasks fail"
+                                },
+                                "retryCount": {
+                                    "type": "number",
+                                    "description": "Retry attempts for failures"
+                                }
+                            }
+                        },
+                        {
+                            "type": "string",
+                            "description": "JSON string representing options. Will be parsed automatically."
+                        }
+                    ],
+                    "description": "Processing options (or JSON string representing options)"
+                }
+            },
+            "required": [
+                "tasks"
+            ]
+        }
+    },
+    {
+        "name": "ClickUp_delete_bulk_tasks",
+        "description": "PERMANENTLY deletes multiple tasks. For each task: use taskId (preferred/safest) or taskName + listName. Configure batch size/concurrency via options. WARNING: Cannot be undone, taskName without listName is dangerous.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "tasks": {
+                    "type": "array",
+                    "description": "Array of tasks to delete",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "taskId": {
+                                "type": "string",
+                                "description": "Task ID (preferred). Automatically detects and handles both regular task IDs (9 characters) and custom IDs (like 'DEV-1234', 'PROJ-456')."
+                            },
+                            "taskName": {
+                                "type": "string",
+                                "description": "Task name. Requires listName when used."
+                            },
+                            "listName": {
+                                "type": "string",
+                                "description": "REQUIRED with taskName: List containing the task."
+                            },
+                            "customTaskId": {
+                                "type": "string",
+                                "description": "Custom task ID (e.g., 'DEV-1234'). Only use if you want to explicitly force custom ID lookup. In most cases, use taskId which auto-detects ID format."
+                            }
+                        }
+                    }
+                },
+                "options": {
+                    "oneOf": [
+                        {
+                            "type": "object",
+                            "description": "Optional processing settings",
+                            "properties": {
+                                "batchSize": {
+                                    "type": "number",
+                                    "description": "Tasks per batch (default: 10)"
+                                },
+                                "concurrency": {
+                                    "type": "number",
+                                    "description": "Parallel operations (default: 3)"
+                                },
+                                "continueOnError": {
+                                    "type": "boolean",
+                                    "description": "Continue if some tasks fail"
+                                },
+                                "retryCount": {
+                                    "type": "number",
+                                    "description": "Retry attempts for failures"
+                                }
+                            }
+                        },
+                        {
+                            "type": "string",
+                            "description": "JSON string representing options. Will be parsed automatically."
+                        }
+                    ],
+                    "description": "Processing options (or JSON string representing options)"
+                }
+            },
+            "required": [
+                "tasks"
+            ]
+        }
+    },
+    {
+        "name": "ClickUp_get_workspace_tasks",
+        "description": "Purpose: Retrieve tasks from across the entire workspace with powerful filtering options, including tag-based filtering.\n\nValid Usage:\n1. Apply any combination of filters (tags, lists, folders, spaces, statuses, etc.)\n2. Use pagination to manage large result sets\n3. Include subtasks by setting subtasks=true\n\nRequirements:\n- At least one filter parameter is REQUIRED (tags, list_ids, folder_ids, space_ids, statuses, assignees, or date filters)\n- Pagination parameters (page, order_by, reverse) alone are not considered filters\n\nNotes:\n- Provides workspace-wide task access (unlike get_tasks which only searches in one list)\n- Returns complete task details including descriptions, assignees, custom fields, and all metadata\n- Tag filtering is especially useful for cross-list organization (e.g., \"project-x\", \"blocker\", \"needs-review\")\n- Combine multiple filters to narrow down your search scope\n- Use pagination for large result sets\n- Set subtasks=true to include subtask details in the response\n  IMPORTANT: subtasks=true enables subtasks to appear in results, but subtasks must still match your other filter criteria (tags, lists, etc.) to be returned. To see all subtasks of a specific task regardless of filters, use the get_task tool with subtasks=true instead.\n- Use the detail_level parameter to control the amount of data returned:\n  - \"summary\": Returns lightweight task data (name, status, list, tags)\n  - \"detailed\": Returns complete task data with all fields (DEFAULT if not specified)\n- Responses exceeding 50,000 tokens automatically switch to summary format to avoid hitting LLM token limits\n- **Enhanced List Filtering**: When list_ids are provided, the tool leverages ClickUp's Views API to include tasks that are *associated with* the specified lists, including tasks that have been added to multiple lists. This provides comprehensive coverage of all tasks related to your specified lists, not just tasks that were originally created in those lists.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Filter tasks by tag names. Only tasks with ALL specified tags will be returned."
+                },
+                "list_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Filter tasks by list IDs. Narrows the search to specific lists."
+                },
+                "folder_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Filter tasks by folder IDs. Narrows the search to specific folders."
+                },
+                "space_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Filter tasks by space IDs. Narrows the search to specific spaces."
+                },
+                "statuses": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Filter tasks by status names (e.g., ['To Do', 'In Progress'])."
+                },
+                "assignees": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Filter tasks by assignee IDs."
+                },
+                "date_created_gt": {
+                    "type": "number",
+                    "description": "Filter for tasks created after this timestamp."
+                },
+                "date_created_lt": {
+                    "type": "number",
+                    "description": "Filter for tasks created before this timestamp."
+                },
+                "date_updated_gt": {
+                    "type": "number",
+                    "description": "Filter for tasks updated after this timestamp."
+                },
+                "date_updated_lt": {
+                    "type": "number",
+                    "description": "Filter for tasks updated before this timestamp."
+                },
+                "due_date_gt": {
+                    "type": "number",
+                    "description": "Filter for tasks with due date greater than this timestamp."
+                },
+                "due_date_lt": {
+                    "type": "number",
+                    "description": "Filter for tasks with due date less than this timestamp."
+                },
+                "include_closed": {
+                    "type": "boolean",
+                    "description": "Include closed tasks in the results."
+                },
+                "include_archived_lists": {
+                    "type": "boolean",
+                    "description": "Include tasks from archived lists."
+                },
+                "include_closed_lists": {
+                    "type": "boolean",
+                    "description": "Include tasks from closed lists."
+                },
+                "archived": {
+                    "type": "boolean",
+                    "description": "Include archived tasks in the results."
+                },
+                "order_by": {
+                    "type": "string",
+                    "enum": [
+                        "id",
+                        "created",
+                        "updated",
+                        "due_date"
+                    ],
+                    "description": "Sort field for ordering results."
+                },
+                "reverse": {
+                    "type": "boolean",
+                    "description": "Reverse sort order (descending)."
+                },
+                "page": {
+                    "type": "number",
+                    "description": "Page number for pagination (0-based)."
+                },
+                "detail_level": {
+                    "type": "string",
+                    "enum": [
+                        "summary",
+                        "detailed"
+                    ],
+                    "description": "Level of detail to return. Use summary for lightweight responses or detailed for full task data. If not specified, defaults to \"detailed\"."
+                },
+                "subtasks": {
+                    "type": "boolean",
+                    "description": "Include subtasks in the response. Set to true to retrieve subtask details for all returned tasks. Note: subtasks must still match your other filter criteria to appear in results."
+                },
+                "include_subtasks": {
+                    "type": "boolean",
+                    "description": "Alternative parameter for including subtasks (legacy support)."
+                },
+                "include_compact_time_entries": {
+                    "type": "boolean",
+                    "description": "Include compact time entry data in the response."
+                },
+                "custom_fields": {
+                    "type": "object",
+                    "description": "Filter by custom field values. Provide as key-value pairs where keys are custom field IDs."
+                }
+            }
+        }
+    },
+    {
+        "name": "ClickUp_get_task_time_entries",
+        "description": "Gets all time entries for a task with filtering options. Use taskId (preferred) or taskName + optional listName. Returns all tracked time with user info, descriptions, tags, start/end times, and durations.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "taskId": {
+                    "type": "string",
+                    "description": "ID of the task to get time entries for. Works with both regular task IDs and custom IDs."
+                },
+                "taskName": {
+                    "type": "string",
+                    "description": "Name of the task to get time entries for. When using this parameter, it's recommended to also provide listName."
+                },
+                "listName": {
+                    "type": "string",
+                    "description": "Name of the list containing the task. Helps find the right task when using taskName."
+                },
+                "startDate": {
+                    "type": "string",
+                    "description": "Optional start date filter. Supports Unix timestamps (in milliseconds) and natural language expressions like 'yesterday', 'last week', etc."
+                },
+                "endDate": {
+                    "type": "string",
+                    "description": "Optional end date filter. Supports Unix timestamps (in milliseconds) and natural language expressions."
+                }
+            }
+        }
+    },
+    {
+        "name": "ClickUp_start_time_tracking",
+        "description": "Starts time tracking on a task. Use taskId (preferred) or taskName + optional listName. Optional fields: description, billable status, and tags. Only one timer can be running at a time.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "taskId": {
+                    "type": "string",
+                    "description": "ID of the task to start tracking time on. Works with both regular task IDs and custom IDs."
+                },
+                "taskName": {
+                    "type": "string",
+                    "description": "Name of the task to start tracking time on. When using this parameter, it's recommended to also provide listName."
+                },
+                "listName": {
+                    "type": "string",
+                    "description": "Name of the list containing the task. Helps find the right task when using taskName."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Optional description for the time entry."
+                },
+                "billable": {
+                    "type": "boolean",
+                    "description": "Whether this time is billable. Default is workspace setting."
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Optional array of tag names to assign to the time entry."
+                }
+            }
+        }
+    },
+    {
+        "name": "ClickUp_stop_time_tracking",
+        "description": "Stops the currently running time tracker. Optional fields: description and tags. Returns the completed time entry details.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "description": "Optional description to update or add to the time entry."
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Optional array of tag names to assign to the time entry."
+                }
+            }
+        }
+    },
+    {
+        "name": "ClickUp_add_time_entry",
+        "description": "Adds a manual time entry to a task. Use taskId (preferred) or taskName + optional listName. Required: start time, duration. Optional: description, billable, tags.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "taskId": {
+                    "type": "string",
+                    "description": "ID of the task to add time entry to. Works with both regular task IDs and custom IDs."
+                },
+                "taskName": {
+                    "type": "string",
+                    "description": "Name of the task to add time entry to. When using this parameter, it's recommended to also provide listName."
+                },
+                "listName": {
+                    "type": "string",
+                    "description": "Name of the list containing the task. Helps find the right task when using taskName."
+                },
+                "start": {
+                    "type": "string",
+                    "description": "Start time for the entry. Supports Unix timestamps (in milliseconds) and natural language expressions like '2 hours ago', 'yesterday 9am', etc."
+                },
+                "duration": {
+                    "type": "string",
+                    "description": "Duration of the time entry. Format as 'Xh Ym' (e.g., '1h 30m') or just minutes (e.g., '90m')."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Optional description for the time entry."
+                },
+                "billable": {
+                    "type": "boolean",
+                    "description": "Whether this time is billable. Default is workspace setting."
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Optional array of tag names to assign to the time entry."
+                }
+            },
+            "required": [
+                "start",
+                "duration"
+            ]
+        }
+    },
+    {
+        "name": "ClickUp_delete_time_entry",
+        "description": "Deletes a time entry. Required: time entry ID.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "timeEntryId": {
+                    "type": "string",
+                    "description": "ID of the time entry to delete."
+                }
+            },
+            "required": [
+                "timeEntryId"
+            ]
+        }
+    },
+    {
+        "name": "ClickUp_get_current_time_entry",
+        "description": "Gets the currently running time entry, if any. No parameters needed.",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "ClickUp_create_list",
+        "description": "Creates a list in a ClickUp space. Use spaceId (preferred) or spaceName + list name. Name is required. For lists in folders, use create_list_in_folder. Optional: content, dueDate, priority, assignee, status.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Name of the list"
+                },
+                "spaceId": {
+                    "type": "string",
+                    "description": "ID of the space to create the list in. Use this instead of spaceName if you have the ID."
+                },
+                "spaceName": {
+                    "type": "string",
+                    "description": "Name of the space to create the list in. Alternative to spaceId - one of them MUST be provided."
+                },
+                "content": {
+                    "type": "string",
+                    "description": "Description or content of the list"
+                },
+                "dueDate": {
+                    "type": "string",
+                    "description": "Due date for the list (Unix timestamp in milliseconds)"
+                },
+                "priority": {
+                    "type": "number",
+                    "description": "Priority level: 1 (urgent), 2 (high), 3 (normal), 4 (low)"
+                },
+                "assignee": {
+                    "type": "number",
+                    "description": "User ID to assign the list to"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "Status of the list"
+                }
+            },
+            "required": [
+                "name"
+            ]
+        }
+    },
+    {
+        "name": "ClickUp_create_list_in_folder",
+        "description": "Creates a list in a ClickUp folder. Use folderId (preferred) or folderName + space info + list name. Name is required. When using folderName, spaceId/spaceName required as folder names may not be unique. Optional: content, status.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Name of the list"
+                },
+                "folderId": {
+                    "type": "string",
+                    "description": "ID of the folder to create the list in. If you have this, you don't need folderName or space information."
+                },
+                "folderName": {
+                    "type": "string",
+                    "description": "Name of the folder to create the list in. When using this, you MUST also provide either spaceName or spaceId."
+                },
+                "spaceId": {
+                    "type": "string",
+                    "description": "ID of the space containing the folder. Required when using folderName instead of folderId."
+                },
+                "spaceName": {
+                    "type": "string",
+                    "description": "Name of the space containing the folder. Required when using folderName instead of folderId."
+                },
+                "content": {
+                    "type": "string",
+                    "description": "Description or content of the list"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "Status of the list (uses folder default if not specified)"
+                }
+            },
+            "required": [
+                "name"
+            ]
+        }
+    },
+    {
+        "name": "ClickUp_get_list",
+        "description": "Gets details of a ClickUp list. Use listId (preferred) or listName. Returns list details including name, content, and space info. ListId more reliable as names may not be unique.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "listId": {
+                    "type": "string",
+                    "description": "ID of the list to retrieve. Use this instead of listName if you have the ID."
+                },
+                "listName": {
+                    "type": "string",
+                    "description": "Name of the list to retrieve. May be ambiguous if multiple lists have the same name."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "ClickUp_update_list",
+        "description": "Updates a ClickUp list. Use listId (preferred) or listName + at least one update field (name/content/status). ListId more reliable as names may not be unique. Only specified fields updated.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "listId": {
+                    "type": "string",
+                    "description": "ID of the list to update. Use this instead of listName if you have the ID."
+                },
+                "listName": {
+                    "type": "string",
+                    "description": "Name of the list to update. May be ambiguous if multiple lists have the same name."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "New name for the list"
+                },
+                "content": {
+                    "type": "string",
+                    "description": "New description or content for the list"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "New status for the list"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "ClickUp_delete_list",
+        "description": "PERMANENTLY deletes a ClickUp list and all its tasks. Use listId (preferred/safest) or listName. WARNING: Cannot be undone, all tasks will be deleted, listName risky if not unique.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "listId": {
+                    "type": "string",
+                    "description": "ID of the list to delete. Use this instead of listName if you have the ID."
+                },
+                "listName": {
+                    "type": "string",
+                    "description": "Name of the list to delete. May be ambiguous if multiple lists have the same name."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "ClickUp_create_folder",
+        "description": "Creates folder in ClickUp space. Use spaceId (preferred) or spaceName + folder name. Optional: override_statuses for folder-specific statuses. Use create_list_in_folder to add lists after creation.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Name of the folder"
+                },
+                "spaceId": {
+                    "type": "string",
+                    "description": "ID of the space to create the folder in (preferred). Use this instead of spaceName if you have it."
+                },
+                "spaceName": {
+                    "type": "string",
+                    "description": "Name of the space to create the folder in. Only use if you don't have spaceId."
+                },
+                "override_statuses": {
+                    "type": "boolean",
+                    "description": "Whether to override space statuses with folder-specific statuses"
+                }
+            },
+            "required": [
+                "name"
+            ]
+        }
+    },
+    {
+        "name": "ClickUp_get_folder",
+        "description": "Gets folder details. Use folderId (preferred) or folderName + (spaceId/spaceName). Helps understand folder structure before creating/updating lists.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "folderId": {
+                    "type": "string",
+                    "description": "ID of folder to retrieve (preferred). Use this instead of folderName if you have it."
+                },
+                "folderName": {
+                    "type": "string",
+                    "description": "Name of folder to retrieve. When using this, you MUST also provide spaceId or spaceName."
+                },
+                "spaceId": {
+                    "type": "string",
+                    "description": "ID of space containing the folder (required with folderName). Use this instead of spaceName if you have it."
+                },
+                "spaceName": {
+                    "type": "string",
+                    "description": "Name of space containing the folder (required with folderName). Only use if you don't have spaceId."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "ClickUp_update_folder",
+        "description": "Updates folder properties. Use folderId (preferred) or folderName + (spaceId/spaceName). At least one update field (name/override_statuses) required. Changes apply to all lists in folder.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "folderId": {
+                    "type": "string",
+                    "description": "ID of folder to update (preferred). Use this instead of folderName if you have it."
+                },
+                "folderName": {
+                    "type": "string",
+                    "description": "Name of folder to update. When using this, you MUST also provide spaceId or spaceName."
+                },
+                "spaceId": {
+                    "type": "string",
+                    "description": "ID of space containing the folder (required with folderName). Use this instead of spaceName if you have it."
+                },
+                "spaceName": {
+                    "type": "string",
+                    "description": "Name of space containing the folder (required with folderName). Only use if you don't have spaceId."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "New name for the folder"
+                },
+                "override_statuses": {
+                    "type": "boolean",
+                    "description": "Whether to override space statuses with folder-specific statuses"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "ClickUp_delete_folder",
+        "description": "PERMANENTLY deletes folder and all contents. Use folderId (preferred/safest) or folderName + (spaceId/spaceName). WARNING: Cannot be undone, all lists/tasks deleted, folderName risky if not unique.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "folderId": {
+                    "type": "string",
+                    "description": "ID of folder to delete (preferred). Use this instead of folderName for safety."
+                },
+                "folderName": {
+                    "type": "string",
+                    "description": "Name of folder to delete. When using this, you MUST also provide spaceId or spaceName."
+                },
+                "spaceId": {
+                    "type": "string",
+                    "description": "ID of space containing the folder (required with folderName). Use this instead of spaceName if you have it."
+                },
+                "spaceName": {
+                    "type": "string",
+                    "description": "Name of space containing the folder (required with folderName). Only use if you don't have spaceId."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "ClickUp_get_space_tags",
+        "description": "Gets all tags in a ClickUp space. Use spaceId (preferred) or spaceName. Tags are defined at space level - check available tags before adding to tasks.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "spaceId": {
+                    "type": "string",
+                    "description": "ID of the space to get tags from. Use this instead of spaceName if you have the ID."
+                },
+                "spaceName": {
+                    "type": "string",
+                    "description": "Name of the space to get tags from. Only use if you don't have spaceId."
+                }
+            }
+        }
+    },
+    {
+        "name": "ClickUp_add_tag_to_task",
+        "description": "Adds existing tag to task. Use taskId (preferred) or taskName + optional listName. Tag must exist in space (use get_space_tags to verify, create_space_tag if needed). WARNING: Will fail if tag doesn't exist.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "taskId": {
+                    "type": "string",
+                    "description": "ID of the task to add tag to. Works with both regular task IDs (9 characters) and custom IDs with uppercase prefixes (like 'DEV-1234')."
+                },
+                "customTaskId": {
+                    "type": "string",
+                    "description": "Custom task ID (e.g., 'DEV-1234'). Only use if you want to explicitly force custom ID lookup. In most cases, use taskId which auto-detects ID format."
+                },
+                "taskName": {
+                    "type": "string",
+                    "description": "Name of the task to add tag to. Will search across all lists unless listName is provided."
+                },
+                "listName": {
+                    "type": "string",
+                    "description": "Optional: Name of the list containing the task. Use to disambiguate when multiple tasks have the same name."
+                },
+                "tagName": {
+                    "type": "string",
+                    "description": "Name of the tag to add to the task. The tag must already exist in the space."
+                }
+            },
+            "required": [
+                "tagName"
+            ]
+        }
+    },
+    {
+        "name": "ClickUp_remove_tag_from_task",
+        "description": "Removes tag from task. Use taskId (preferred) or taskName + optional listName. Only removes tag-task association, tag remains in space. For multiple tasks, provide listName to disambiguate.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "taskId": {
+                    "type": "string",
+                    "description": "ID of the task to remove tag from. Works with both regular task IDs (9 characters) and custom IDs with uppercase prefixes (like 'DEV-1234')."
+                },
+                "customTaskId": {
+                    "type": "string",
+                    "description": "Custom task ID (e.g., 'DEV-1234'). Only use if you want to explicitly force custom ID lookup. In most cases, use taskId which auto-detects ID format."
+                },
+                "taskName": {
+                    "type": "string",
+                    "description": "Name of the task to remove tag from. Will search across all lists unless listName is provided."
+                },
+                "listName": {
+                    "type": "string",
+                    "description": "Optional: Name of the list containing the task. Use to disambiguate when multiple tasks have the same name."
+                },
+                "tagName": {
+                    "type": "string",
+                    "description": "Name of the tag to remove from the task."
+                }
+            },
+            "required": [
+                "tagName"
+            ]
+        }
+    },
+    {
+        "name": "ClickUp_get_workspace_members",
+        "description": "Returns all members (users) in the ClickUp workspace/team. Useful for resolving assignees by name or email.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    },
+    {
+        "name": "ClickUp_find_member_by_name",
+        "description": "Finds a member in the ClickUp workspace by name or email. Returns the member object if found, or null if not found.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "nameOrEmail": {
+                    "type": "string",
+                    "description": "The name or email of the member to find."
+                }
+            },
+            "required": [
+                "nameOrEmail"
+            ]
+        }
+    },
+    {
+        "name": "ClickUp_resolve_assignees",
+        "description": "Resolves an array of assignee names or emails to ClickUp user IDs. Returns an array of user IDs, or errors for any that cannot be resolved.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "assignees": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Array of assignee names or emails to resolve."
+                }
+            },
+            "required": [
+                "assignees"
+            ]
+        }
+    },
+    {
+        "name": "ClickUp_create_document",
+        "description": "Creates a document in a ClickUp space, folder, or list. Requires name, parent info, visibility and create_page flag.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Name and Title of the document"
+                },
+                "parent": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string",
+                            "description": "ID of the parent container (space, folder, or list)"
+                        },
+                        "type": {
+                            "type": "number",
+                            "enum": [
+                                4,
+                                5,
+                                6,
+                                7,
+                                12
+                            ],
+                            "description": "Type of the parent container (4=space, 5=folder, 6=list, 7=everything, 12=workspace)"
+                        }
+                    },
+                    "required": [
+                        "id",
+                        "type"
+                    ],
+                    "description": "Parent container information"
+                },
+                "visibility": {
+                    "type": "string",
+                    "enum": [
+                        "PUBLIC",
+                        "PRIVATE"
+                    ],
+                    "description": "Document visibility setting"
+                },
+                "create_page": {
+                    "type": "boolean",
+                    "description": "Whether to create an initial blank page"
+                }
+            },
+            "required": [
+                "name",
+                "parent",
+                "visibility",
+                "create_page"
+            ]
+        }
+    },
+    {
+        "name": "ClickUp_get_document",
+        "description": "Gets details of a ClickUp document. Use documentId (preferred) or search by title in a container.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "documentId": {
+                    "type": "string",
+                    "description": "ID of the document to retrieve"
+                }
+            },
+            "required": [
+                "documentId"
+            ]
+        }
+    },
+    {
+        "name": "ClickUp_list_documents",
+        "description": "Lists all documents in a ClickUp space, folder, or list.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Optional document ID to filter by"
+                },
+                "creator": {
+                    "type": "number",
+                    "description": "Optional creator ID to filter by"
+                },
+                "deleted": {
+                    "type": "boolean",
+                    "description": "Whether to include deleted documents"
+                },
+                "archived": {
+                    "type": "boolean",
+                    "description": "Whether to include archived documents"
+                },
+                "parent_id": {
+                    "type": "string",
+                    "description": "ID of the parent container to list documents from"
+                },
+                "parent_type": {
+                    "type": "string",
+                    "enum": [
+                        "TASK",
+                        "SPACE",
+                        "FOLDER",
+                        "LIST",
+                        "EVERYTHING",
+                        "WORKSPACE"
+                    ],
+                    "description": "Type of the parent container"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of documents to return"
+                },
+                "next_cursor": {
+                    "type": "string",
+                    "description": "Cursor for pagination"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "ClickUp_list_document_pages",
+        "description": "Lists all pages in a document with optional depth control",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "documentId": {
+                    "type": "string",
+                    "description": "ID of the document to list pages from"
+                },
+                "max_page_depth": {
+                    "type": "number",
+                    "description": "Maximum depth of pages to retrieve (-1 for unlimited)"
+                }
+            },
+            "required": [
+                "documentId"
+            ]
+        }
+    },
+    {
+        "name": "ClickUp_get_document_pages",
+        "description": "Gets the content of specific pages from a document",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "documentId": {
+                    "type": "string",
+                    "description": "ID of the document to get pages from"
+                },
+                "pageIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Array of page IDs to retrieve"
+                },
+                "content_format": {
+                    "type": "string",
+                    "enum": [
+                        "text/md",
+                        "text/html"
+                    ],
+                    "description": "Format of the content to retrieve"
+                }
+            },
+            "required": [
+                "documentId",
+                "pageIds"
+            ]
+        }
+    },
+    {
+        "name": "ClickUp_create_document_page",
+        "description": "Creates a new page in a ClickUp document",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "documentId": {
+                    "type": "string",
+                    "description": "ID of the document to create the page in"
+                },
+                "content": {
+                    "type": "string",
+                    "description": "Content of the page"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name and title of the page"
+                },
+                "sub_title": {
+                    "type": "string",
+                    "description": "Subtitle of the page"
+                },
+                "parent_page_id": {
+                    "type": "string",
+                    "description": "ID of the parent page (if this is a sub-page)"
+                }
+            },
+            "required": [
+                "documentId",
+                "name"
+            ]
+        }
+    },
+    {
+        "name": "ClickUp_update_document_page",
+        "description": "Updates an existing page in a ClickUp document. Supports updating name, subtitle, and content with different edit modes (replace/append/prepend).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "documentId": {
+                    "type": "string",
+                    "description": "ID of the document containing the page"
+                },
+                "pageId": {
+                    "type": "string",
+                    "description": "ID of the page to update"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "New name for the page"
+                },
+                "sub_title": {
+                    "type": "string",
+                    "description": "New subtitle for the page"
+                },
+                "content": {
+                    "type": "string",
+                    "description": "New content for the page"
+                },
+                "content_edit_mode": {
+                    "type": "string",
+                    "enum": [
+                        "replace",
+                        "append",
+                        "prepend"
+                    ],
+                    "description": "How to update the content. Defaults to replace"
+                },
+                "content_format": {
+                    "type": "string",
+                    "enum": [
+                        "text/md",
+                        "text/plain"
+                    ],
+                    "description": "Format of the content. Defaults to text/md"
+                }
+            },
+            "required": [
+                "documentId",
+                "pageId"
+            ]
+        }
+    }
+]

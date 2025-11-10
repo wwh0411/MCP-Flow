@@ -1,0 +1,773 @@
+[
+    {
+        "name": "timezone",
+        "description": "Get the list of available timezone to be used in the games endpoint. > This endpoint does not require any parameters.",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "seasons",
+        "description": "All seasons are only 4-digit keys, so for a league whose season is 2018-2019 the season in the API will be 2018. All seasons can be used in other endpoints as filters. > This endpoint does not require any parameters.",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "standings",
+        "description": "Get the standings for a league. Return a table of one or more rankings according to the league / cup. Some competitions have several rankings in a year, regular season, pre season etc… To know the list of available stages or grou^ you have to use the endpoint standings/stages or standings/groups > Standings are updated every hours",
+        "parameters": {
+            "properties": {
+                "league": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The id of the league Default: 3",
+                    "title": "League"
+                },
+                "season": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The season of the league Default: 2019",
+                    "title": "Season"
+                },
+                "team": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The id of the team Default: 0",
+                    "title": "Team"
+                },
+                "stage": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A valid stage ",
+                    "title": "Stage"
+                },
+                "group": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A valid group ",
+                    "title": "Group"
+                }
+            },
+            "required": [
+                "league",
+                "season"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "stages",
+        "description": "Get the list of available stages for a league to be used in the standings endpoint.",
+        "parameters": {
+            "properties": {
+                "league": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The id of the league Default: 3",
+                    "title": "League"
+                },
+                "season": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The season of the league Default: 2019",
+                    "title": "Season"
+                }
+            },
+            "required": [
+                "league",
+                "season"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "groups",
+        "description": "Get the list of available groups for a league to be used in the standings endpoint.",
+        "parameters": {
+            "properties": {
+                "league": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The id of the league Default: 3",
+                    "title": "League"
+                },
+                "season": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The season of the league Default: 2019",
+                    "title": "Season"
+                }
+            },
+            "required": [
+                "league",
+                "season"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "teams_statistics",
+        "description": "Get Teams statistics for a league and a season",
+        "parameters": {
+            "properties": {
+                "league": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The id of the league Default: 3",
+                    "title": "League"
+                },
+                "season": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The season of the league Default: 2019",
+                    "title": "Season"
+                },
+                "team": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The id of the team Default: 17",
+                    "title": "Team"
+                },
+                "date": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A date limit ",
+                    "title": "Date"
+                }
+            },
+            "required": [
+                "league",
+                "season",
+                "team"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "teams_details",
+        "description": "Get data about teams. The team id are unique in the API and teams keep it among all the leagues/cups in which they participate. > This endpoint requires at least one parameter.",
+        "parameters": {
+            "properties": {
+                "id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The id of the team Default: 135",
+                    "title": "Id"
+                },
+                "name": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The name of the team ",
+                    "title": "Name"
+                },
+                "country_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The id of the country Default: 0",
+                    "title": "Country Id"
+                },
+                "country": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The name of the country ",
+                    "title": "Country"
+                },
+                "league": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The id of the league Default: 0",
+                    "title": "League"
+                },
+                "season": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The season of the league Default: 0",
+                    "title": "Season"
+                },
+                "search": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "External Docs",
+                    "title": "Search"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "leagues",
+        "description": "Get the list of available leagues and cups. The league id are unique in the API and leagues keep it across all seasons > Most of the parameters of this endpoint can be used together.",
+        "parameters": {
+            "properties": {
+                "id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The id of the league Default: 0",
+                    "title": "Id"
+                },
+                "name": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The name of the league ",
+                    "title": "Name"
+                },
+                "country_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The id of the country Default: 0",
+                    "title": "Country Id"
+                },
+                "country": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The name of the country ",
+                    "title": "Country"
+                },
+                "type": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The type of the league : league or cup ",
+                    "title": "Type"
+                },
+                "season": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The season of the league Default: 0",
+                    "title": "Season"
+                },
+                "search": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "External Docs",
+                    "title": "Search"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "countries",
+        "description": "Get the list of available countries. The name and code fields can be used in other endpoints as filters. > All the parameters of this endpoint can be used together.",
+        "parameters": {
+            "properties": {
+                "id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The id of the country Default: 0",
+                    "title": "Id"
+                },
+                "name": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The name of the country ",
+                    "title": "Name"
+                },
+                "code": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The code of the country ",
+                    "title": "Code"
+                },
+                "search": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "External Docs",
+                    "title": "Search"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "bets",
+        "description": "Get all available bets. All bets id can be used in endpoint odds as filters",
+        "parameters": {
+            "properties": {
+                "id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The id of the bet Default: 0",
+                    "title": "Id"
+                },
+                "search": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "External Docs",
+                    "title": "Search"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "bookmakers",
+        "description": "Get all available bookmakers. All bookmakers id can be used in endpoint odds as filters.",
+        "parameters": {
+            "properties": {
+                "id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The id of the bookmaker Default: 0",
+                    "title": "Id"
+                },
+                "search": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "External Docs",
+                    "title": "Search"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "odds",
+        "description": "Get odds from games or leagues. We provide pre-match odds between 1 and 7 days before the game. We keep a 7-day history (The availability of odds may vary according to the leagues, seasons, games and bookmakers) > Odds are updated once a day",
+        "parameters": {
+            "properties": {
+                "league": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The id of the league Default: 0",
+                    "title": "League"
+                },
+                "season": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The season of the league Default: 0",
+                    "title": "Season"
+                },
+                "game": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The id of the game Default: 11590",
+                    "title": "Game"
+                },
+                "bookmaker": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The id of the bookmaker Default: 0",
+                    "title": "Bookmaker"
+                },
+                "bet": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The id of the bet Default: 0",
+                    "title": "Bet"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_countries",
+        "description": "search countries",
+        "parameters": {
+            "properties": {
+                "search": {
+                    "description": "External Docs",
+                    "title": "Search",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "search"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_leagues",
+        "description": "Search Leagues",
+        "parameters": {
+            "properties": {
+                "search": {
+                    "description": "External Docs",
+                    "title": "Search",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "search"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_bets",
+        "description": "Search Bets",
+        "parameters": {
+            "properties": {
+                "search": {
+                    "description": "External Docs",
+                    "title": "Search",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "search"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_bookmakers",
+        "description": "Search Bookmakers",
+        "parameters": {
+            "properties": {
+                "search": {
+                    "description": "External Docs",
+                    "title": "Search",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "search"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_teams",
+        "description": "Search Teams",
+        "parameters": {
+            "properties": {
+                "search": {
+                    "description": "External Docs",
+                    "title": "Search",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "search"
+            ],
+            "type": "object"
+        }
+    }
+]

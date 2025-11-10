@@ -1,0 +1,386 @@
+[
+    {
+        "name": "watercrawl_scrape-urls",
+        "description": "Scrape multiple(or single) URL(s) with optional configuration for page options, and more",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "urls": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of URLs to scrape"
+                },
+                "pageOptions": {
+                    "type": "object",
+                    "properties": {
+                        "exclude_tags": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "HTML tags to exclude"
+                        },
+                        "include_tags": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "HTML tags to include"
+                        },
+                        "wait_time": {
+                            "type": "number",
+                            "description": "Time to wait for page loading in ms"
+                        },
+                        "only_main_content": {
+                            "type": "boolean",
+                            "description": "Extract only main content"
+                        },
+                        "include_html": {
+                            "type": "boolean",
+                            "description": "Include HTML in response"
+                        },
+                        "include_links": {
+                            "type": "boolean",
+                            "description": "Include links in response"
+                        },
+                        "timeout": {
+                            "type": "number",
+                            "description": "Page load timeout in ms"
+                        },
+                        "accept_cookies_selector": {
+                            "type": "string",
+                            "description": "CSS selector for accept cookies button"
+                        },
+                        "locale": {
+                            "type": "string",
+                            "description": "Locale for the page"
+                        },
+                        "extra_headers": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            },
+                            "description": "Additional HTTP headers"
+                        },
+                        "actions": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "pdf",
+                                            "screenshot"
+                                        ],
+                                        "description": "Action type"
+                                    }
+                                },
+                                "required": [
+                                    "type"
+                                ],
+                                "additionalProperties": false
+                            },
+                            "description": "Actions to perform on the page"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Page scraping options"
+                },
+                "sync": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Wait for scraping to complete"
+                },
+                "download": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Download content immediately"
+                }
+            },
+            "required": [
+                "urls"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "watercrawl_search",
+        "description": "Search for information using configurable options for language, country, time range, and depth",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Search query"
+                },
+                "searchOptions": {
+                    "type": "object",
+                    "properties": {
+                        "language": {
+                            "type": [
+                                "string",
+                                "null"
+                            ],
+                            "description": "Language code (e.g., 'en', 'fr')"
+                        },
+                        "country": {
+                            "type": [
+                                "string",
+                                "null"
+                            ],
+                            "description": "Country code (e.g., 'us', 'fr')"
+                        },
+                        "time_range": {
+                            "type": "string",
+                            "enum": [
+                                "any",
+                                "hour",
+                                "day",
+                                "week",
+                                "month",
+                                "year"
+                            ],
+                            "description": "Time range for search results"
+                        },
+                        "search_type": {
+                            "type": "string",
+                            "enum": [
+                                "web"
+                            ],
+                            "default": "web",
+                            "description": "Type of search"
+                        },
+                        "depth": {
+                            "type": "string",
+                            "enum": [
+                                "basic",
+                                "advanced",
+                                "ultimate"
+                            ],
+                            "description": "Search depth level"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Search configuration options"
+                },
+                "resultLimit": {
+                    "type": "number",
+                    "default": 5,
+                    "description": "Maximum number of results to return"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "watercrawl_sitemap",
+        "description": "Create a sitemap for a given URL, optionally ignoring sitemap.xml and including subdomains",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "URL to get sitemap for"
+                },
+                "ignoreSitemapXml": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "includeSubdomains": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "searchTerm": {
+                    "type": "string"
+                },
+                "download": {
+                    "type": "boolean",
+                    "description": "If set to true, returns all sitemap links. If false, returns a direct link to download the full sitemap.json file.",
+                    "default": false
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "watercrawl_crawl",
+        "description": "Crawl a URL and its subpages with customizable depth and spider limitations. This is an async operation, with crawl manager you can get status and results.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "URL to scrape"
+                },
+                "spiderOptions": {
+                    "type": "object",
+                    "properties": {
+                        "max_depth": {
+                            "type": "number",
+                            "description": "Maximum depth to crawl"
+                        },
+                        "page_limit": {
+                            "type": "number",
+                            "description": "Maximum number of pages to crawl"
+                        },
+                        "allowed_domains": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Allowed domains to crawl example: [\"*.example.com\"]"
+                        },
+                        "exclude_paths": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Paths to exclude from crawling example: [\"/path/*\"]"
+                        },
+                        "include_paths": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Paths to include in crawling example: [\"/path/*\"]"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Spider options"
+                },
+                "pageOptions": {
+                    "type": "object",
+                    "properties": {
+                        "exclude_tags": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "HTML tags to exclude"
+                        },
+                        "include_tags": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "HTML tags to include"
+                        },
+                        "wait_time": {
+                            "type": "number",
+                            "description": "Time to wait for page loading in ms"
+                        },
+                        "only_main_content": {
+                            "type": "boolean",
+                            "description": "Extract only main content"
+                        },
+                        "include_html": {
+                            "type": "boolean",
+                            "description": "Include HTML in response"
+                        },
+                        "include_links": {
+                            "type": "boolean",
+                            "description": "Include links in response"
+                        },
+                        "timeout": {
+                            "type": "number",
+                            "description": "Page load timeout in ms"
+                        },
+                        "accept_cookies_selector": {
+                            "type": "string",
+                            "description": "CSS selector for accept cookies button"
+                        },
+                        "locale": {
+                            "type": "string",
+                            "description": "Locale for the page"
+                        },
+                        "extra_headers": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            },
+                            "description": "Additional HTTP headers"
+                        },
+                        "actions": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "pdf",
+                                            "screenshot"
+                                        ],
+                                        "description": "Action type"
+                                    }
+                                },
+                                "required": [
+                                    "type"
+                                ],
+                                "additionalProperties": false
+                            },
+                            "description": "Actions to perform on the page"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Page scraping options"
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "watercrawl_manage-crawl",
+        "description": "Manage crawl requests: list, get details, stop, or download results",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string",
+                    "enum": [
+                        "list",
+                        "get",
+                        "stop",
+                        "download"
+                    ],
+                    "description": "Action to perform on crawl requests"
+                },
+                "crawlRequestId": {
+                    "type": "string",
+                    "description": "UUID of the crawl request (required for get, stop, and download actions)"
+                },
+                "page": {
+                    "type": "number",
+                    "default": 1,
+                    "description": "Page number for listing (1-indexed), can use for get_results and list actions"
+                },
+                "pageSize": {
+                    "type": "number",
+                    "default": 10,
+                    "description": "Number of items per page for listing, can use for get_results and list actions"
+                }
+            },
+            "required": [
+                "action"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

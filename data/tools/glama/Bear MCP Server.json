@@ -1,0 +1,470 @@
+[
+    {
+        "name": "bear_open_note",
+        "description": "Open a note identified by its title or id and return its content.",
+        "parameters": {
+            "properties": {
+                "id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "note unique identifier",
+                    "title": "Id"
+                },
+                "title": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "note title",
+                    "title": "Title"
+                }
+            },
+            "title": "open_noteArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "bear_create",
+        "description": "Create a new note and return its unique identifier. Empty notes are not allowed.",
+        "parameters": {
+            "properties": {
+                "title": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "note title",
+                    "title": "Title"
+                },
+                "text": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "note body",
+                    "title": "Text"
+                },
+                "tags": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "list of tags",
+                    "title": "Tags"
+                },
+                "timestamp": {
+                    "default": false,
+                    "description": "prepend the current date and time to the text",
+                    "title": "Timestamp",
+                    "type": "boolean"
+                }
+            },
+            "title": "createArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "bear_replace_note",
+        "description": "Replace the content of an existing note identified by its id.",
+        "parameters": {
+            "properties": {
+                "id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "note unique identifier",
+                    "title": "Id"
+                },
+                "title": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "new title for the note",
+                    "title": "Title"
+                },
+                "text": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "new text to replace note content",
+                    "title": "Text"
+                },
+                "tags": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "list of tags to add to the note",
+                    "title": "Tags"
+                },
+                "timestamp": {
+                    "default": false,
+                    "description": "prepend the current date and time to the text",
+                    "title": "Timestamp",
+                    "type": "boolean"
+                }
+            },
+            "title": "replace_noteArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "bear_tags",
+        "description": "Return all the tags currently displayed in Bear\u2019s sidebar.",
+        "parameters": {
+            "properties": {},
+            "title": "tagsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "bear_open_tag",
+        "description": "Show all the notes which have a selected tag in bear.",
+        "parameters": {
+            "properties": {
+                "name": {
+                    "description": "tag name or a list of tags divided by comma",
+                    "title": "Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "title": "open_tagArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "bear_rename_tag",
+        "description": "Rename an existing tag.\n\nThis call can\u2019t be performed if the app is a locked state.\nIf the tag contains any locked note this call will not be performed.\n",
+        "parameters": {
+            "properties": {
+                "name": {
+                    "description": "tag name",
+                    "title": "Name",
+                    "type": "string"
+                },
+                "new_name": {
+                    "description": "new tag name",
+                    "title": "New Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "new_name"
+            ],
+            "title": "rename_tagArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "bear_delete_tag",
+        "description": "Delete an existing tag.\n\n This call can\u2019t be performed if the app is a locked state.\nIf the tag contains any locked note this call will not be performed.\n",
+        "parameters": {
+            "properties": {
+                "name": {
+                    "description": "tag name",
+                    "title": "Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "title": "delete_tagArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "bear_trash",
+        "description": "Move a note to bear trash and select the Trash sidebar item.\n\nThis call can\u2019t be performed if the app is a locked state. Encrypted notes can\u2019t be used with this call.\nThe search term is ignored if an id is provided.\n",
+        "parameters": {
+            "properties": {
+                "id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "note unique identifier",
+                    "title": "Id"
+                },
+                "search": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "string to search.",
+                    "title": "Search"
+                }
+            },
+            "title": "trashArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "bear_archive",
+        "description": "Move a note to bear archive and select the Archive sidebar item.\n\nThis call can\u2019t be performed if the app is a locked state. Encrypted notes can\u2019t be accessed with this call.\nThe search term is ignored if an id is provided.\n",
+        "parameters": {
+            "properties": {
+                "id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "note unique identifier",
+                    "title": "Id"
+                },
+                "search": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "string to search.",
+                    "title": "Search"
+                }
+            },
+            "title": "archiveArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "bear_untagged",
+        "description": "Select the Untagged sidebar item.",
+        "parameters": {
+            "properties": {
+                "search": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "string to search",
+                    "title": "Search"
+                }
+            },
+            "title": "untaggedArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "bear_todo",
+        "description": "Select the Todo sidebar item.",
+        "parameters": {
+            "properties": {
+                "search": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "string to search",
+                    "title": "Search"
+                }
+            },
+            "title": "todoArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "bear_today",
+        "description": "Select the Today sidebar item.",
+        "parameters": {
+            "properties": {
+                "search": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "string to search",
+                    "title": "Search"
+                }
+            },
+            "title": "todayArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "bear_locked",
+        "description": "Select the Locked sidebar item.",
+        "parameters": {
+            "properties": {
+                "search": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "string to search",
+                    "title": "Search"
+                }
+            },
+            "title": "lockedArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "bear_search",
+        "description": "Show search results in Bear for all notes or for a specific tag.",
+        "parameters": {
+            "properties": {
+                "term": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "string to search",
+                    "title": "Term"
+                },
+                "tag": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "tag to search into",
+                    "title": "Tag"
+                }
+            },
+            "title": "searchArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "bear_grab_url",
+        "description": "Create a new note with the content of a web page and return its unique identifier.",
+        "parameters": {
+            "properties": {
+                "url": {
+                    "description": "url to grab",
+                    "title": "Url",
+                    "type": "string"
+                },
+                "tags": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "list of tags. If tags are specified in the Bear\u2019s web content preferences, this parameter is ignored.",
+                    "title": "Tags"
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "title": "grab_urlArguments",
+            "type": "object"
+        }
+    }
+]

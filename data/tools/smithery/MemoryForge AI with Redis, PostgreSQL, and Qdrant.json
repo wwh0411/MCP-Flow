@@ -1,0 +1,199 @@
+[
+    {
+        "name": "ai-assistant-simple_get_context",
+        "description": "Get or create context for a topic or project",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "topic": {
+                    "type": "string",
+                    "description": "Topic or project name"
+                },
+                "autoCreate": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Automatically create if not found"
+                }
+            },
+            "required": [
+                "topic"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "ai-assistant-simple_update_context",
+        "description": "Update or add context for a topic or project",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "topic": {
+                    "type": "string",
+                    "description": "Topic or project name"
+                },
+                "context": {
+                    "description": "Context data to store or append"
+                },
+                "mode": {
+                    "type": "string",
+                    "enum": [
+                        "replace",
+                        "append"
+                    ],
+                    "default": "append",
+                    "description": "Update mode"
+                }
+            },
+            "required": [
+                "topic"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "ai-assistant-simple_list_topics",
+        "description": "List all available topics/projects",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "pattern": {
+                    "type": "string",
+                    "default": "*",
+                    "description": "Optional filter pattern"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "ai-assistant-simple_delete_context",
+        "description": "Delete context for a specific topic",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "topic": {
+                    "type": "string",
+                    "description": "Topic to delete"
+                }
+            },
+            "required": [
+                "topic"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "ai-assistant-simple_search_context",
+        "description": "Search for similar contexts using semantic search",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Search query"
+                },
+                "limit": {
+                    "type": "number",
+                    "default": 5,
+                    "description": "Maximum results to return"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "ai-assistant-simple_get_context_history",
+        "description": "Get history of updates for a topic",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "topic": {
+                    "type": "string",
+                    "description": "Topic to get history for"
+                },
+                "limit": {
+                    "type": "number",
+                    "default": 10,
+                    "description": "Maximum history entries"
+                }
+            },
+            "required": [
+                "topic"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "ai-assistant-simple_export_contexts",
+        "description": "Export all contexts to JSON format",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "topics": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Specific topics to export (empty for all)"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "ai-assistant-simple_configure_auto_save",
+        "description": "Configure automatic context saving with custom frequency",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "topic": {
+                    "type": "string",
+                    "description": "Topic to auto-save"
+                },
+                "frequency": {
+                    "type": "string",
+                    "default": "5min",
+                    "description": "Save frequency: 1min, 5min, 10min, 30min, 1hour, daily, or cron expression"
+                },
+                "enabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable/disable auto-save"
+                }
+            },
+            "required": [
+                "topic"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "ai-assistant-simple_get_auto_save_status",
+        "description": "Get current auto-save configuration and status",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "topic": {
+                    "type": "string",
+                    "description": "Topic to check auto-save status"
+                }
+            },
+            "required": [
+                "topic"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

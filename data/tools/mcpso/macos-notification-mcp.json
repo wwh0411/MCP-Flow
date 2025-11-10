@@ -1,0 +1,141 @@
+[
+    {
+        "name": "macos-notification-mcp_sound_notification",
+        "description": "Play a system sound notification.\n\nArgs:\n    sound_name: Name of the system sound to play (default: \"Submarine\")\n               Options: Basso, Blow, Bottle, Frog, Funk, Glass, Hero, \n               Morse, Ping, Pop, Purr, Sosumi, Submarine, Tink\n\nReturns:\n    A message indicating whether the sound was played successfully",
+        "parameters": {
+            "properties": {
+                "sound_name": {
+                    "default": "Submarine",
+                    "title": "Sound Name",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "macos-notification-mcp_banner_notification",
+        "description": "Display a banner notification on macOS.\n\nArgs:\n    title: The title of the notification\n    message: The main content of the notification\n    subtitle: Optional subtitle for the notification\n    sound: Whether to play a sound with the notification (default: False)\n    sound_name: Optional system sound to play (default: None, uses system default)\n\nReturns:\n    A message indicating the notification was sent",
+        "parameters": {
+            "properties": {
+                "title": {
+                    "title": "Title",
+                    "type": "string"
+                },
+                "message": {
+                    "title": "Message",
+                    "type": "string"
+                },
+                "subtitle": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Subtitle"
+                },
+                "sound": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": false,
+                    "title": "Sound"
+                },
+                "sound_name": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Sound Name"
+                }
+            },
+            "required": [
+                "title",
+                "message"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "macos-notification-mcp_speak_notification",
+        "description": "Use macOS text-to-speech to speak a message.\n\nArgs:\n    text: The text to speak\n    voice: Optional voice to use (default: system default)\n    rate: Speech rate, words per minute (default: 150)\n    volume: Volume level from 0.0 to 1.0 (default: 1.0)\n\nReturns:\n    A message indicating the text was spoken",
+        "parameters": {
+            "properties": {
+                "text": {
+                    "title": "Text",
+                    "type": "string"
+                },
+                "voice": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Voice"
+                },
+                "rate": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": 150,
+                    "title": "Rate"
+                },
+                "volume": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": 1.0,
+                    "title": "Volume"
+                }
+            },
+            "required": [
+                "text"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "macos-notification-mcp_list_available_voices",
+        "description": "List all available text-to-speech voices on the system.\n\nReturns:\n    A string listing all available voices",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "macos-notification-mcp_test_notification_system",
+        "description": "Test the notification system by trying all notification methods.\n\nReturns:\n    A diagnostic report of the notification system",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    }
+]

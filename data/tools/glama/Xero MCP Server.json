@@ -1,0 +1,1850 @@
+[
+    {
+        "name": "xero_delete-timesheet",
+        "description": "Delete an existing payroll timesheet in Xero by its ID.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "timesheetID": {
+                    "type": "string",
+                    "description": "The ID of the timesheet to delete."
+                }
+            },
+            "required": [
+                "timesheetID"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_get-timesheet",
+        "description": "Retrieve a single payroll timesheet from Xero by its ID.\nThis provides details such as the timesheet ID, employee ID, start and end dates, total hours, and the last updated date.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "timesheetID": {
+                    "type": "string",
+                    "description": "The ID of the timesheet to retrieve."
+                }
+            },
+            "required": [
+                "timesheetID"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_create-contact",
+        "description": "Create a contact in Xero.  When a contact is created, a deep link to the contact in Xero is returned.   This deep link can be used to view the contact in Xero directly.   This link should be displayed to the user.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string",
+                    "format": "email"
+                },
+                "phone": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_create-credit-note",
+        "description": "Create a credit note in Xero. When a credit note is created, a deep link to the credit note in Xero is returned.  This deep link can be used to view the credit note in Xero directly.  This link should be displayed to the user.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "contactId": {
+                    "type": "string"
+                },
+                "lineItems": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "description": {
+                                "type": "string"
+                            },
+                            "quantity": {
+                                "type": "number"
+                            },
+                            "unitAmount": {
+                                "type": "number"
+                            },
+                            "accountCode": {
+                                "type": "string"
+                            },
+                            "taxType": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "description",
+                            "quantity",
+                            "unitAmount",
+                            "accountCode",
+                            "taxType"
+                        ],
+                        "additionalProperties": false
+                    }
+                },
+                "reference": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "contactId",
+                "lineItems"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_create-manual-journal",
+        "description": "Create a manual journal in Xero.  Retrieve a list of account codes in Xero to use for the journal lines.  Journal lines must contain at least two individual journal lines with account codes,   use basic accounting account types pairing when not specified,   and make sure journal line pairs have credit and debit balanced.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "narration": {
+                    "type": "string",
+                    "description": "Description of manual journal being posted"
+                },
+                "manualJournalLines": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "lineAmount": {
+                                "type": "number",
+                                "description": "Total for manual journal line. Debits are positive, credits are negative value"
+                            },
+                            "accountCode": {
+                                "type": "string",
+                                "description": "Account code for the journal line"
+                            },
+                            "description": {
+                                "type": "string",
+                                "description": "Optional description for manual journal line"
+                            },
+                            "taxType": {
+                                "type": "string",
+                                "description": "Optional tax type for the manual journal line"
+                            }
+                        },
+                        "required": [
+                            "lineAmount",
+                            "accountCode"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "The manualJournalLines element must contain at least two individual manualJournalLine sub-elements"
+                },
+                "date": {
+                    "type": "string",
+                    "description": "Optional date in YYYY-MM-DD format"
+                },
+                "lineAmountTypes": {
+                    "type": "string",
+                    "enum": [
+                        "EXCLUSIVE",
+                        "INCLUSIVE",
+                        "NO_TAX"
+                    ],
+                    "description": "Optional line amount types (EXCLUSIVE, INCLUSIVE, NO_TAX), NO_TAX by default"
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "DRAFT",
+                        "POSTED",
+                        "DELETED",
+                        "VOID",
+                        "ARCHIVED"
+                    ],
+                    "description": "Optional status of the manual journal (DRAFT, POSTED, DELETED, VOID, ARCHIVED), DRAFT by default"
+                },
+                "url": {
+                    "type": "string",
+                    "description": "Optional URL link to a source document"
+                },
+                "showOnCashBasisReports": {
+                    "type": "boolean",
+                    "description": "Optional boolean to show on cash basis reports, default is true"
+                }
+            },
+            "required": [
+                "narration",
+                "manualJournalLines"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_create-invoice",
+        "description": "Create an invoice in Xero. When an invoice is created, a deep link to the invoice in Xero is returned.  This deep link can be used to view the invoice in Xero directly.  This link should be displayed to the user.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "contactId": {
+                    "type": "string",
+                    "description": "The ID of the contact to create the invoice for.       Can be obtained from the list-contacts tool."
+                },
+                "lineItems": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "description": {
+                                "type": "string",
+                                "description": "The description of the line item"
+                            },
+                            "quantity": {
+                                "type": "number",
+                                "description": "The quantity of the line item"
+                            },
+                            "unitAmount": {
+                                "type": "number",
+                                "description": "The price per unit of the line item"
+                            },
+                            "accountCode": {
+                                "type": "string",
+                                "description": "The account code of the line item - can be obtained from the list-accounts tool"
+                            },
+                            "taxType": {
+                                "type": "string",
+                                "description": "The tax type of the line item - can be obtained from the list-tax-rates tool"
+                            },
+                            "itemCode": {
+                                "type": "string",
+                                "description": "The item code of the line item - can be obtained from the list-items tool     If the item is not listed, add without an item code and ask the user if they would like to add an item code."
+                            },
+                            "tracking": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "description": "The name of the tracking category. Can be obtained from the list-tracking-categories tool"
+                                        },
+                                        "option": {
+                                            "type": "string",
+                                            "description": "The name of the tracking option. Can be obtained from the list-tracking-categories tool"
+                                        },
+                                        "trackingCategoryID": {
+                                            "type": "string",
+                                            "description": "The ID of the tracking category.     Can be obtained from the list-tracking-categories tool"
+                                        }
+                                    },
+                                    "required": [
+                                        "name",
+                                        "option",
+                                        "trackingCategoryID"
+                                    ],
+                                    "additionalProperties": false
+                                },
+                                "description": "Up to 2 tracking categories and options can be added to the line item.     Can be obtained from the list-tracking-categories tool.     Only use if prompted by the user."
+                            }
+                        },
+                        "required": [
+                            "description",
+                            "quantity",
+                            "unitAmount",
+                            "accountCode",
+                            "taxType"
+                        ],
+                        "additionalProperties": false
+                    }
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "ACCREC",
+                        "ACCPAY"
+                    ],
+                    "description": "The type of invoice to create.       ACCREC is for sales invoices, Accounts Receivable, or customer invoices.       ACCPAY is for purchase invoices, Accounts Payable invoices, supplier invoices, or bills.       If the type is not specified, the default is ACCREC."
+                },
+                "reference": {
+                    "type": "string",
+                    "description": "A reference number for the invoice."
+                }
+            },
+            "required": [
+                "contactId",
+                "lineItems",
+                "type"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_create-quote",
+        "description": "Create a quote in Xero. When a quote is created, a deep link to the quote in Xero is returned.  This deep link can be used to view the quote in Xero directly.  This link should be displayed to the user.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "contactId": {
+                    "type": "string"
+                },
+                "lineItems": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "description": {
+                                "type": "string"
+                            },
+                            "quantity": {
+                                "type": "number"
+                            },
+                            "unitAmount": {
+                                "type": "number"
+                            },
+                            "accountCode": {
+                                "type": "string"
+                            },
+                            "taxType": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "description",
+                            "quantity",
+                            "unitAmount",
+                            "accountCode",
+                            "taxType"
+                        ],
+                        "additionalProperties": false
+                    }
+                },
+                "reference": {
+                    "type": "string"
+                },
+                "quoteNumber": {
+                    "type": "string"
+                },
+                "terms": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "summary": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "contactId",
+                "lineItems"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_create-payment",
+        "description": "Create a payment against an invoice in Xero. This tool records a payment transaction against an invoice.  You'll need to provide the invoice ID, account ID to make the payment from, and the amount.  The amount must be positive and should not exceed the remaining amount due on the invoice.  A payment can only be created for an invoice that is status AUTHORIZED  A payment can only be created for an invoice that is not fully paid  When a payment is created, a deep link to the payment in Xero is returned.  This deep link can be used to view the payment in Xero directly.  This link should be displayed to the user.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "invoiceId": {
+                    "type": "string",
+                    "description": "The ID of the invoice to pay"
+                },
+                "accountId": {
+                    "type": "string",
+                    "description": "The ID of the account the payment is made from"
+                },
+                "amount": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "The amount of the payment (must be positive)"
+                },
+                "date": {
+                    "type": "string",
+                    "description": "Optional payment date in YYYY-MM-DD format"
+                },
+                "reference": {
+                    "type": "string",
+                    "description": "Optional payment reference/description"
+                }
+            },
+            "required": [
+                "invoiceId",
+                "accountId",
+                "amount"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_create-item",
+        "description": "Create an item in Xero.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "purchaseDescription": {
+                    "type": "string"
+                },
+                "purchaseDetails": {
+                    "type": "object",
+                    "properties": {
+                        "unitPrice": {
+                            "type": "number"
+                        },
+                        "taxType": {
+                            "type": "string"
+                        },
+                        "accountCode": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "unitPrice"
+                    ],
+                    "additionalProperties": false
+                },
+                "salesDetails": {
+                    "type": "object",
+                    "properties": {
+                        "unitPrice": {
+                            "type": "number"
+                        },
+                        "taxType": {
+                            "type": "string"
+                        },
+                        "accountCode": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "unitPrice"
+                    ],
+                    "additionalProperties": false
+                },
+                "isTrackedAsInventory": {
+                    "type": "boolean"
+                },
+                "inventoryAssetAccountCode": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "code",
+                "name"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_create-bank-transaction",
+        "description": "Create a bank transaction in Xero.\n  When a bank transaction is created, a deep link to the bank transaction in Xero is returned.\n  This deep link can be used to view the bank transaction in Xero directly.\n  This link should be displayed to the user.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "RECEIVE",
+                        "SPEND"
+                    ]
+                },
+                "bankAccountId": {
+                    "type": "string"
+                },
+                "contactId": {
+                    "type": "string"
+                },
+                "lineItems": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "description": {
+                                "type": "string"
+                            },
+                            "quantity": {
+                                "type": "number"
+                            },
+                            "unitAmount": {
+                                "type": "number"
+                            },
+                            "accountCode": {
+                                "type": "string"
+                            },
+                            "taxType": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "description",
+                            "quantity",
+                            "unitAmount",
+                            "accountCode",
+                            "taxType"
+                        ],
+                        "additionalProperties": false
+                    }
+                },
+                "reference": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string",
+                    "description": "If no date is provided, the date will default to today's date"
+                }
+            },
+            "required": [
+                "type",
+                "bankAccountId",
+                "contactId",
+                "lineItems"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_create-timesheet",
+        "description": "Create a new payroll timesheet in Xero.\nThis allows you to specify details such as the employee ID, payroll calendar ID, start and end dates, and timesheet lines.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "payrollCalendarID": {
+                    "type": "string",
+                    "description": "The ID of the payroll calendar."
+                },
+                "employeeID": {
+                    "type": "string",
+                    "description": "The ID of the employee."
+                },
+                "startDate": {
+                    "type": "string",
+                    "description": "The start date of the timesheet period (YYYY-MM-DD)."
+                },
+                "endDate": {
+                    "type": "string",
+                    "description": "The end date of the timesheet period (YYYY-MM-DD)."
+                },
+                "timesheetLines": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "earningsRateID": {
+                                "type": "string",
+                                "description": "The ID of the earnings rate."
+                            },
+                            "numberOfUnits": {
+                                "type": "number",
+                                "description": "The number of units for the timesheet line."
+                            },
+                            "date": {
+                                "type": "string",
+                                "description": "The date for the timesheet line (YYYY-MM-DD)."
+                            }
+                        },
+                        "required": [
+                            "earningsRateID",
+                            "numberOfUnits",
+                            "date"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "The lines of the timesheet."
+                }
+            },
+            "required": [
+                "payrollCalendarID",
+                "employeeID",
+                "startDate",
+                "endDate"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_create-tracking-category",
+        "description": "Create a tracking category in Xero.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_create-tracking-options",
+        "description": "Create tracking options for a tracking category in Xero.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "trackingCategoryId": {
+                    "type": "string"
+                },
+                "optionNames": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "maxItems": 10
+                }
+            },
+            "required": [
+                "trackingCategoryId",
+                "optionNames"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_list-accounts",
+        "description": "Lists all accounts in Xero. Use this tool to get the account codes and names to be used when creating invoices in Xero",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_list-contacts",
+        "description": "List all contacts in Xero. This includes Suppliers and Customers.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "type": "number",
+                    "description": "Optional page number to retrieve for pagination.       If not provided, the first page will be returned. If 100 contacts are returned,       call this tool again with the next page number."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_list-credit-notes",
+        "description": "List credit notes in Xero. \n  Ask the user if they want to see credit notes for a specific contact,\n  or to see all credit notes before running. \n  Ask the user if they want the next page of credit notes after running this tool \n  if 10 credit notes are returned. \n  If they want the next page, call this tool again with the next page number \n  and the contact if one was provided in the previous call.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "type": "number"
+                },
+                "contactId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "page"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_list-invoices",
+        "description": "List invoices in Xero. This includes Draft, Submitted, and Paid invoices.   Ask the user if they want to see invoices for a specific contact,   invoice number, or to see all invoices before running.   Ask the user if they want the next page of invoices after running this tool   if 10 invoices are returned.   If they want the next page, call this tool again with the next page number   and the contact or invoice number if one was provided in the previous call.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "type": "number"
+                },
+                "contactIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "invoiceNumbers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "If provided, invoice line items will also be returned"
+                }
+            },
+            "required": [
+                "page"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_list-items",
+        "description": "Lists all items in Xero. Use this tool to get the item codes and descriptions to be used when creating invoices in Xero",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "page"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_list-manual-journals",
+        "description": "List all manual journals from Xero.\nAsk the user if they want to see a specific manual journal or all manual journals before running.\nCan optionally pass in manual journal ID to retrieve a specific journal, or a date to filter journals modified after that date.\nThe response presents a complete overview of all manual journals currently registered in your Xero account, with their details. \nAsk the user if they want the next page of manual journals after running this tool if 10 manual journals are returned.\nIf they want the next page, call this tool again with the next page number, modified date, and the manual journal ID if one was provided in the previous call.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "manualJournalId": {
+                    "type": "string",
+                    "description": "Optional ID of the manual journal to retrieve"
+                },
+                "modifiedAfter": {
+                    "type": "string",
+                    "description": "Optional date YYYY-MM-DD to filter journals modified after this date"
+                },
+                "page": {
+                    "type": "number",
+                    "description": "Optional page number for pagination"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_list-quotes",
+        "description": "List all quotes in Xero. \n  Ask the user if they want to see quotes for a specific contact before running. \n  Ask the user if they want the next page of quotes after running this tool if 10 quotes are returned. \n  If they do, call this tool again with the page number and the contact provided in the previous call.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "type": "number"
+                },
+                "contactId": {
+                    "type": "string"
+                },
+                "quoteNumber": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "page"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_list-tax-rates",
+        "description": "Lists all tax rates in Xero. Use this tool to get the tax rates to be used when creating invoices in Xero",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_list-trial-balance",
+        "description": "Lists trial balance in Xero. This provides a snapshot of the general ledger, showing debit and credit balances for each account.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "date": {
+                    "type": "string",
+                    "description": "Optional date in YYYY-MM-DD format"
+                },
+                "paymentsOnly": {
+                    "type": "boolean",
+                    "description": "Optional flag to include only accounts with payments"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_list-payments",
+        "description": "List payments in Xero. \n  This tool shows all payments made against invoices, including payment date, amount, and payment method.\n  You can filter payments by invoice number, invoice ID, payment ID, or invoice reference.\n  Ask the user if they want to see payments for a specific invoice, contact, payment or reference before running.\n  If many payments are returned, ask the user if they want to see the next page.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "type": "number",
+                    "default": 1
+                },
+                "invoiceNumber": {
+                    "type": "string"
+                },
+                "invoiceId": {
+                    "type": "string"
+                },
+                "paymentId": {
+                    "type": "string"
+                },
+                "reference": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_list-profit-and-loss",
+        "description": "Lists profit and loss report in Xero. This provides a summary of revenue, expenses, and profit or loss over a specified period of time.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fromDate": {
+                    "type": "string",
+                    "description": "Optional start date in YYYY-MM-DD format"
+                },
+                "toDate": {
+                    "type": "string",
+                    "description": "Optional end date in YYYY-MM-DD format"
+                },
+                "periods": {
+                    "type": "number",
+                    "description": "Optional number of periods to compare"
+                },
+                "timeframe": {
+                    "type": "string",
+                    "enum": [
+                        "MONTH",
+                        "QUARTER",
+                        "YEAR"
+                    ],
+                    "description": "Optional timeframe for the report (MONTH, QUARTER, YEAR)"
+                },
+                "standardLayout": {
+                    "type": "boolean",
+                    "description": "Optional flag to use standard layout"
+                },
+                "paymentsOnly": {
+                    "type": "boolean",
+                    "description": "Optional flag to include only accounts with payments"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_list-bank-transactions",
+        "description": "List all bank transactions in Xero.\n  Ask the user if they want to see bank transactions for a specific bank account,\n  or to see all bank transactions before running.\n  Ask the user if they want the next page of quotes after running this tool if\n  10 bank transactions are returned.\n  If they do, call this tool again with the next page number and the bank account\n  if one was provided in the provided in the previous call.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "type": "number"
+                },
+                "bankAccountId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "page"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_list-payroll-employees",
+        "description": "List all payroll employees in Xero.\nThis retrieves comprehensive employee details including names, User IDs, dates of birth, email addresses, gender, phone numbers, start dates, engagement types (Permanent, FixedTerm, or Casual), titles, and when records were last updated.\nThe response presents a complete overview of all staff currently registered in your Xero payroll, with their personal and employment information. If there are many employees, ask the user if they would like to see more detailed information about specific employees before proceeding.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_list-report-balance-sheet",
+        "description": "List the Balance Sheet report from Xero.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "date": {
+                    "type": "string",
+                    "description": "Optional date in YYYY-MM-DD format"
+                },
+                "periods": {
+                    "type": "number",
+                    "description": "Optional number of periods to compare"
+                },
+                "timeframe": {
+                    "type": "string",
+                    "enum": [
+                        "MONTH",
+                        "QUARTER",
+                        "YEAR"
+                    ],
+                    "description": "Optional timeframe for the report (MONTH, QUARTER, YEAR)"
+                },
+                "trackingOptionID1": {
+                    "type": "string",
+                    "description": "Optional tracking option ID 1"
+                },
+                "trackingOptionID2": {
+                    "type": "string",
+                    "description": "Optional tracking option ID 2"
+                },
+                "standardLayout": {
+                    "type": "boolean",
+                    "description": "Optional flag to use standard layout"
+                },
+                "paymentsOnly": {
+                    "type": "boolean",
+                    "description": "Optional flag to include only accounts with payments"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_list-organisation-details",
+        "description": "Lists the organisation details from Xero. Use this tool to get information about the current Xero organisation.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_list-payroll-employee-leave",
+        "description": "List all leave records for a specific employee in Xero. This shows all leave transactions including approved, pending, and processed time off. Provide an employee ID to see their leave history.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "employeeId": {
+                    "type": "string",
+                    "description": "The Xero employee ID to fetch leave records for"
+                }
+            },
+            "required": [
+                "employeeId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_list-payroll-leave-periods",
+        "description": "List all leave periods for a specific employee in Xero. This shows detailed time off periods including start and end dates, period status, payment dates, and leave types. Provide an employee ID to see their leave periods.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "employeeId": {
+                    "type": "string",
+                    "description": "The Xero employee ID to fetch leave periods for"
+                },
+                "startDate": {
+                    "type": "string",
+                    "description": "Optional start date in YYYY-MM-DD format"
+                },
+                "endDate": {
+                    "type": "string",
+                    "description": "Optional end date in YYYY-MM-DD format"
+                }
+            },
+            "required": [
+                "employeeId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_list-payroll-employee-leave-types",
+        "description": "List all leave types available for a specific employee in Xero. This shows detailed information about the types of leave an employee can take, including schedule of accrual, leave type name, and entitlement.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "employeeId": {
+                    "type": "string",
+                    "description": "The Xero employee ID to fetch leave types for"
+                }
+            },
+            "required": [
+                "employeeId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_list-payroll-employee-leave-balances",
+        "description": "List all leave balances for a specific employee in Xero. This shows current leave balances for all leave types available to the employee, including annual, sick, and other leave types.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "employeeId": {
+                    "type": "string",
+                    "description": "The Xero employee ID to fetch leave balances for"
+                }
+            },
+            "required": [
+                "employeeId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_list-payroll-leave-types",
+        "description": "Lists all available leave types in Xero Payroll. This provides information about all the leave categories configured in your Xero system, including statutory and organization-specific leave types.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_list-aged-receivables-by-contact",
+        "description": "Lists the aged receivables in Xero.\n  This shows aged receivables for a certain contact up to a report date.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "contactId": {
+                    "type": "string"
+                },
+                "reportDate": {
+                    "type": "string",
+                    "description": "Optional date to retrieve aged receivables in YYYY-MM-DD format. If none is provided, defaults to end of the current month."
+                },
+                "invoicesFromDate": {
+                    "type": "string",
+                    "description": "Optional from date in YYYY-MM-DD format. If provided, will only show payable invoices after this date for the contact."
+                },
+                "invoicesToDate": {
+                    "type": "string",
+                    "description": "Optional to date in YYYY-MM-DD format. If provided, will only show payable invoices before this date for the contact."
+                }
+            },
+            "required": [
+                "contactId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_list-aged-payables-by-contact",
+        "description": "Lists the aged payables in Xero.\n  This shows aged payables for a certain contact up to a report date.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "contactId": {
+                    "type": "string"
+                },
+                "reportDate": {
+                    "type": "string",
+                    "description": "Optional date to retrieve aged payables in YYYY-MM-DD format. If none is provided, defaults to end of the current month."
+                },
+                "invoicesFromDate": {
+                    "type": "string",
+                    "description": "Optional from date in YYYY-MM-DD format. If provided, will only show payable invoices after this date for the contact."
+                },
+                "invoicesToDate": {
+                    "type": "string",
+                    "description": "Optional to date in YYYY-MM-DD format. If provided, will only show payable invoices before this date for the contact."
+                }
+            },
+            "required": [
+                "contactId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_list-timesheets",
+        "description": "List all payroll timesheets in Xero.\nThis retrieves comprehensive timesheet details including timesheet IDs, employee IDs, start and end dates, total hours, and the last updated date.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_list-contact-groups",
+        "description": "List all contact groups in Xero.\n  You can optionally specify a contact group ID to retrieve details for that specific group, including its contacts.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "contactGroupId": {
+                    "type": "string",
+                    "description": "Optional ID of the contact group to retrieve"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_list-tracking-categories",
+        "description": "List all tracking categories in Xero, along with their associated tracking options.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "includeArchived": {
+                    "type": "boolean",
+                    "description": "Determines whether or not archived categories will be returned. By default, no archived categories will be returned."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_update-contact",
+        "description": "Update a contact in Xero. When a contact is updated, a deep link to the contact in Xero is returned.  This deep link can be used to view the contact in Xero directly.  This link should be displayed to the user.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "contactId": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string",
+                    "format": "email"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "address": {
+                    "type": "object",
+                    "properties": {
+                        "addressLine1": {
+                            "type": "string"
+                        },
+                        "addressLine2": {
+                            "type": "string"
+                        },
+                        "city": {
+                            "type": "string"
+                        },
+                        "region": {
+                            "type": "string"
+                        },
+                        "postalCode": {
+                            "type": "string"
+                        },
+                        "country": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "addressLine1"
+                    ],
+                    "additionalProperties": false
+                }
+            },
+            "required": [
+                "contactId",
+                "name"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_update-credit-note",
+        "description": "Update a credit note in Xero. Only works on draft credit notes.  All line items must be provided. Any line items not provided will be removed. Including existing line items.  Do not modify line items that have not been specified by the user. When a credit note is updated, a deep link to the credit note in Xero is returned. This deep link can be used to view the credit note in Xero directly. This link should be displayed to the user.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "creditNoteId": {
+                    "type": "string"
+                },
+                "lineItems": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "description": {
+                                "type": "string"
+                            },
+                            "quantity": {
+                                "type": "number"
+                            },
+                            "unitAmount": {
+                                "type": "number"
+                            },
+                            "accountCode": {
+                                "type": "string"
+                            },
+                            "taxType": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "description",
+                            "quantity",
+                            "unitAmount",
+                            "accountCode",
+                            "taxType"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "All line items must be provided. Any line items not provided will be removed. Including existing line items.      Do not modify line items that have not been specified by the user"
+                },
+                "reference": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "contactId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "creditNoteId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_update-invoice",
+        "description": "Update an invoice in Xero. Only works on draft invoices.  All line items must be provided. Any line items not provided will be removed. Including existing line items.  Do not modify line items that have not been specified by the user. When an invoice is updated, a deep link to the invoice in Xero is returned.  This deep link can be used to view the contact in Xero directly.  This link should be displayed to the user.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "invoiceId": {
+                    "type": "string",
+                    "description": "The ID of the invoice to update."
+                },
+                "lineItems": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "description": {
+                                "type": "string",
+                                "description": "The description of the line item"
+                            },
+                            "quantity": {
+                                "type": "number",
+                                "description": "The quantity of the line item"
+                            },
+                            "unitAmount": {
+                                "type": "number",
+                                "description": "The price per unit of the line item"
+                            },
+                            "accountCode": {
+                                "type": "string",
+                                "description": "The account code of the line item - can be obtained from the list-accounts tool"
+                            },
+                            "taxType": {
+                                "type": "string",
+                                "description": "The tax type of the line item - can be obtained from the list-tax-rates tool"
+                            },
+                            "itemCode": {
+                                "type": "string",
+                                "description": "The item code of the line item - can be obtained from the list-items tool     If the item was not populated in the original invoice,     add without an item code unless the user has told you to add an item code."
+                            },
+                            "tracking": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "description": "The name of the tracking category. Can be obtained from the list-tracking-categories tool"
+                                        },
+                                        "option": {
+                                            "type": "string",
+                                            "description": "The name of the tracking option. Can be obtained from the list-tracking-categories tool"
+                                        },
+                                        "trackingCategoryID": {
+                                            "type": "string",
+                                            "description": "The ID of the tracking category.     Can be obtained from the list-tracking-categories tool"
+                                        }
+                                    },
+                                    "required": [
+                                        "name",
+                                        "option",
+                                        "trackingCategoryID"
+                                    ],
+                                    "additionalProperties": false
+                                },
+                                "description": "Up to 2 tracking categories and options can be added to the line item.     Can be obtained from the list-tracking-categories tool.     Only use if prompted by the user."
+                            }
+                        },
+                        "required": [
+                            "description",
+                            "quantity",
+                            "unitAmount",
+                            "accountCode",
+                            "taxType"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "All line items must be provided. Any line items not provided will be removed. Including existing line items.       Do not modify line items that have not been specified by the user"
+                },
+                "reference": {
+                    "type": "string",
+                    "description": "A reference number for the invoice."
+                },
+                "dueDate": {
+                    "type": "string",
+                    "description": "The due date of the invoice."
+                },
+                "date": {
+                    "type": "string",
+                    "description": "The date of the invoice."
+                },
+                "contactId": {
+                    "type": "string",
+                    "description": "The ID of the contact to update the invoice for.       Can be obtained from the list-contacts tool."
+                }
+            },
+            "required": [
+                "invoiceId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_update-manual-journal",
+        "description": "Update a manual journal in Xero. Only works on draft manual journals.  Do not modify line items or parameters that have not been specified by the user.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "narration": {
+                    "type": "string",
+                    "description": "Description of manual journal being posted"
+                },
+                "manualJournalID": {
+                    "type": "string",
+                    "description": "ID of the manual journal to update"
+                },
+                "manualJournalLines": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "lineAmount": {
+                                "type": "number",
+                                "description": "Total for manual journal line. Debits are positive, credits are negative value"
+                            },
+                            "accountCode": {
+                                "type": "string",
+                                "description": "Account code for the journal line"
+                            },
+                            "description": {
+                                "type": "string",
+                                "description": "Optional description for manual journal line"
+                            },
+                            "taxType": {
+                                "type": "string",
+                                "description": "Optional tax type for the manual journal line"
+                            }
+                        },
+                        "required": [
+                            "lineAmount",
+                            "accountCode"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "The manualJournalLines element must contain at least two individual manualJournalLine sub-elements"
+                },
+                "date": {
+                    "type": "string",
+                    "description": "Optional date in YYYY-MM-DD format"
+                },
+                "lineAmountTypes": {
+                    "type": "string",
+                    "enum": [
+                        "EXCLUSIVE",
+                        "INCLUSIVE",
+                        "NO_TAX"
+                    ],
+                    "description": "Optional line amount types (EXCLUSIVE, INCLUSIVE, NO_TAX), NO_TAX by default"
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "DRAFT",
+                        "POSTED",
+                        "DELETED",
+                        "VOID",
+                        "ARCHIVED"
+                    ],
+                    "description": "Optional status of the manual journal (DRAFT, POSTED, DELETED, VOID, ARCHIVED), DRAFT by default"
+                },
+                "url": {
+                    "type": "string",
+                    "description": "Optional URL link to a source document"
+                },
+                "showOnCashBasisReports": {
+                    "type": "boolean",
+                    "description": "Optional boolean to show on cash basis reports, default is true"
+                }
+            },
+            "required": [
+                "narration",
+                "manualJournalID",
+                "manualJournalLines"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_update-quote",
+        "description": "Update a quote in Xero. Only works on draft quotes.  All line items must be provided. Any line items not provided will be removed. Including existing line items.  Do not modify line items that have not been specified by the user.  When a quote is updated, a deep link to the quote in Xero is returned.  This deep link can be used to view the quote in Xero directly.  This link should be displayed to the user.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "quoteId": {
+                    "type": "string"
+                },
+                "lineItems": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "description": {
+                                "type": "string"
+                            },
+                            "quantity": {
+                                "type": "number"
+                            },
+                            "unitAmount": {
+                                "type": "number"
+                            },
+                            "accountCode": {
+                                "type": "string"
+                            },
+                            "taxType": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "description",
+                            "quantity",
+                            "unitAmount",
+                            "accountCode",
+                            "taxType"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "All line items must be provided. Any line items not provided will be removed. Including existing line items.       Do not modify line items that have not been specified by the user"
+                },
+                "reference": {
+                    "type": "string"
+                },
+                "terms": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "summary": {
+                    "type": "string"
+                },
+                "quoteNumber": {
+                    "type": "string"
+                },
+                "contactId": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "expiryDate": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "quoteId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_update-item",
+        "description": "Update an item in Xero.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "itemId": {
+                    "type": "string"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "purchaseDescription": {
+                    "type": "string"
+                },
+                "purchaseDetails": {
+                    "type": "object",
+                    "properties": {
+                        "unitPrice": {
+                            "type": "number"
+                        },
+                        "taxType": {
+                            "type": "string"
+                        },
+                        "accountCode": {
+                            "type": "string"
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "salesDetails": {
+                    "type": "object",
+                    "properties": {
+                        "unitPrice": {
+                            "type": "number"
+                        },
+                        "taxType": {
+                            "type": "string"
+                        },
+                        "accountCode": {
+                            "type": "string"
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "isTrackedAsInventory": {
+                    "type": "boolean"
+                },
+                "inventoryAssetAccountCode": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "itemId",
+                "code",
+                "name"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_update-bank-transaction",
+        "description": "Update a bank transaction in Xero.\n  When a bank transaction is updated, a deep link to the bank transaction in Xero is returned.\n  This deep link can be used to view the bank transaction in Xero directly.\n  This link should be displayed to the user.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "bankTransactionId": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "RECEIVE",
+                        "SPEND"
+                    ]
+                },
+                "contactId": {
+                    "type": "string"
+                },
+                "lineItems": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "description": {
+                                "type": "string"
+                            },
+                            "quantity": {
+                                "type": "number"
+                            },
+                            "unitAmount": {
+                                "type": "number"
+                            },
+                            "accountCode": {
+                                "type": "string"
+                            },
+                            "taxType": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "description",
+                            "quantity",
+                            "unitAmount",
+                            "accountCode",
+                            "taxType"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "All line items must be provided. Any line items not provided will be removed. Including existing line items.       Do not modify line items that have not been specified by the user"
+                },
+                "reference": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "bankTransactionId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_approve-timesheet",
+        "description": "Approve a payroll timesheet in Xero by its ID.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "timesheetID": {
+                    "type": "string",
+                    "description": "The ID of the timesheet to approve."
+                }
+            },
+            "required": [
+                "timesheetID"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_add-timesheet-line",
+        "description": "Add a new timesheet line to an existing payroll timesheet in Xero.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "timesheetID": {
+                    "type": "string",
+                    "description": "The ID of the timesheet to update."
+                },
+                "timesheetLine": {
+                    "type": "object",
+                    "properties": {
+                        "earningsRateID": {
+                            "type": "string",
+                            "description": "The ID of the earnings rate."
+                        },
+                        "numberOfUnits": {
+                            "type": "number",
+                            "description": "The number of units for the timesheet line."
+                        },
+                        "date": {
+                            "type": "string",
+                            "description": "The date for the timesheet line (YYYY-MM-DD)."
+                        }
+                    },
+                    "required": [
+                        "earningsRateID",
+                        "numberOfUnits",
+                        "date"
+                    ],
+                    "additionalProperties": false,
+                    "description": "The details of the timesheet line to add."
+                }
+            },
+            "required": [
+                "timesheetID",
+                "timesheetLine"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_update-timesheet-line",
+        "description": "Update an existing timesheet line in a payroll timesheet in Xero.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "timesheetID": {
+                    "type": "string",
+                    "description": "The ID of the timesheet to update."
+                },
+                "timesheetLineID": {
+                    "type": "string",
+                    "description": "The ID of the timesheet line to update."
+                },
+                "timesheetLine": {
+                    "type": "object",
+                    "properties": {
+                        "earningsRateID": {
+                            "type": "string",
+                            "description": "The ID of the earnings rate."
+                        },
+                        "numberOfUnits": {
+                            "type": "number",
+                            "description": "The number of units for the timesheet line."
+                        },
+                        "date": {
+                            "type": "string",
+                            "description": "The date for the timesheet line (YYYY-MM-DD)."
+                        }
+                    },
+                    "required": [
+                        "earningsRateID",
+                        "numberOfUnits",
+                        "date"
+                    ],
+                    "additionalProperties": false,
+                    "description": "The details of the timesheet line to update."
+                }
+            },
+            "required": [
+                "timesheetID",
+                "timesheetLineID",
+                "timesheetLine"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_revert-timesheet",
+        "description": "Revert a payroll timesheet to draft in Xero by its ID.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "timesheetID": {
+                    "type": "string",
+                    "description": "The ID of the timesheet to revert."
+                }
+            },
+            "required": [
+                "timesheetID"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_update-tracking-category",
+        "description": "Updates an existing tracking category in Xero.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "trackingCategoryId": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "ACTIVE",
+                        "ARCHIVED"
+                    ]
+                }
+            },
+            "required": [
+                "trackingCategoryId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "xero_update-tracking-options",
+        "description": "Updates tracking options for a tracking category in Xero.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "trackingCategoryId": {
+                    "type": "string"
+                },
+                "options": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "trackingOptionId": {
+                                "type": "string"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "status": {
+                                "type": "string",
+                                "enum": [
+                                    "ACTIVE",
+                                    "ARCHIVED"
+                                ]
+                            }
+                        },
+                        "required": [
+                            "trackingOptionId"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "maxItems": 10
+                }
+            },
+            "required": [
+                "trackingCategoryId",
+                "options"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

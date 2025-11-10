@@ -1,0 +1,563 @@
+[
+    {
+        "name": "minecraft-remote_connectToServer",
+        "description": "Connect to a Minecraft server with the specified credentials",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "host": {
+                    "type": "string",
+                    "description": "Minecraft server host address"
+                },
+                "port": {
+                    "type": "number",
+                    "default": 25565,
+                    "description": "Minecraft server port"
+                },
+                "username": {
+                    "type": "string",
+                    "description": "Minecraft username"
+                },
+                "password": {
+                    "type": "string",
+                    "description": "Minecraft password (if using premium account)"
+                },
+                "version": {
+                    "type": "string",
+                    "description": "Minecraft version"
+                }
+            },
+            "required": [
+                "host",
+                "username"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minecraft-remote_disconnectFromServer",
+        "description": "Disconnect from the Minecraft server",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minecraft-remote_sendChat",
+        "description": "Send a chat message to the Minecraft server",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "description": "Message to send to the server"
+                }
+            },
+            "required": [
+                "message"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minecraft-remote_getPosition",
+        "description": "Get the current position of the player in the Minecraft world",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minecraft-remote_moveTo",
+        "description": "Move the player to a specific location",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "x": {
+                    "type": "number",
+                    "description": "X coordinate"
+                },
+                "y": {
+                    "type": "number",
+                    "description": "Y coordinate"
+                },
+                "z": {
+                    "type": "number",
+                    "description": "Z coordinate"
+                }
+            },
+            "required": [
+                "x",
+                "y",
+                "z"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minecraft-remote_moveControl",
+        "description": "Control the player with basic movement commands",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string",
+                    "enum": [
+                        "forward",
+                        "back",
+                        "left",
+                        "right",
+                        "jump",
+                        "sprint",
+                        "sneak",
+                        "stop"
+                    ],
+                    "description": "Movement action to perform"
+                },
+                "duration": {
+                    "type": "number",
+                    "default": 1,
+                    "description": "Duration to perform the action in seconds"
+                }
+            },
+            "required": [
+                "action"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minecraft-remote_lookAt",
+        "description": "Make the player look in a specific direction or at coordinates",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "x": {
+                    "type": "number",
+                    "description": "X coordinate to look at"
+                },
+                "y": {
+                    "type": "number",
+                    "description": "Y coordinate to look at"
+                },
+                "z": {
+                    "type": "number",
+                    "description": "Z coordinate to look at"
+                }
+            },
+            "required": [
+                "x",
+                "y",
+                "z"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minecraft-remote_digBlock",
+        "description": "Dig a block at the specified coordinates",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "x": {
+                    "type": "number",
+                    "description": "X coordinate"
+                },
+                "y": {
+                    "type": "number",
+                    "description": "Y coordinate"
+                },
+                "z": {
+                    "type": "number",
+                    "description": "Z coordinate"
+                }
+            },
+            "required": [
+                "x",
+                "y",
+                "z"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minecraft-remote_placeBlock",
+        "description": "Place a block at the specified location",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "x": {
+                    "type": "number",
+                    "description": "X coordinate"
+                },
+                "y": {
+                    "type": "number",
+                    "description": "Y coordinate"
+                },
+                "z": {
+                    "type": "number",
+                    "description": "Z coordinate"
+                },
+                "itemName": {
+                    "type": "string",
+                    "description": "Name of the item to place"
+                }
+            },
+            "required": [
+                "x",
+                "y",
+                "z",
+                "itemName"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minecraft-remote_getNearbyPlayers",
+        "description": "Get a list of players nearby",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minecraft-remote_getServerInfo",
+        "description": "Get information about the currently connected server",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minecraft-remote_checkInventory",
+        "description": "Check the items in the player inventory",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minecraft-remote_equipItem",
+        "description": "Equip an item from inventory to hand or armor slot",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "itemName": {
+                    "type": "string",
+                    "description": "Name of the item to equip"
+                },
+                "destination": {
+                    "type": "string",
+                    "enum": [
+                        "hand",
+                        "head",
+                        "torso",
+                        "legs",
+                        "feet"
+                    ],
+                    "default": "hand",
+                    "description": "Slot to equip the item to"
+                }
+            },
+            "required": [
+                "itemName"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minecraft-remote_inventoryDetails",
+        "description": "Get detailed information about inventory items",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minecraft-remote_tossItem",
+        "description": "Throw items from inventory",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "itemName": {
+                    "type": "string",
+                    "description": "Name of the item to throw"
+                },
+                "amount": {
+                    "type": "number",
+                    "default": 1,
+                    "description": "Amount of items to throw"
+                }
+            },
+            "required": [
+                "itemName"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minecraft-remote_getNearbyEntities",
+        "description": "Get a list of all entities nearby",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "range": {
+                    "type": "number",
+                    "default": 10,
+                    "description": "Range in blocks to search for entities"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minecraft-remote_attackEntity",
+        "description": "Attack a specific entity",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "entityId": {
+                    "type": "number",
+                    "description": "ID of the entity to attack"
+                }
+            },
+            "required": [
+                "entityId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minecraft-remote_useOnEntity",
+        "description": "Use held item on a specific entity",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "entityId": {
+                    "type": "number",
+                    "description": "ID of the entity to use item on"
+                }
+            },
+            "required": [
+                "entityId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minecraft-remote_followEntity",
+        "description": "Follow a specific entity",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "entityId": {
+                    "type": "number",
+                    "description": "ID of the entity to follow"
+                },
+                "distance": {
+                    "type": "number",
+                    "default": 2,
+                    "description": "Distance to maintain while following"
+                }
+            },
+            "required": [
+                "entityId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minecraft-remote_openContainer",
+        "description": "Open a container (chest, furnace, etc.) at specific coordinates",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "x": {
+                    "type": "number",
+                    "description": "X coordinate of the container"
+                },
+                "y": {
+                    "type": "number",
+                    "description": "Y coordinate of the container"
+                },
+                "z": {
+                    "type": "number",
+                    "description": "Z coordinate of the container"
+                }
+            },
+            "required": [
+                "x",
+                "y",
+                "z"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minecraft-remote_withdrawItem",
+        "description": "Take items from an open container",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "itemName": {
+                    "type": "string",
+                    "description": "Name of the item to withdraw"
+                },
+                "amount": {
+                    "type": "number",
+                    "default": 1,
+                    "description": "Amount of items to withdraw"
+                }
+            },
+            "required": [
+                "itemName"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minecraft-remote_depositItem",
+        "description": "Put items into an open container",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "itemName": {
+                    "type": "string",
+                    "description": "Name of the item to deposit"
+                },
+                "amount": {
+                    "type": "number",
+                    "default": 1,
+                    "description": "Amount of items to deposit"
+                }
+            },
+            "required": [
+                "itemName"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minecraft-remote_closeContainer",
+        "description": "Close the currently open container",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minecraft-remote_getRecipes",
+        "description": "Get a list of available crafting recipes",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "filter": {
+                    "type": "string",
+                    "description": "Filter recipes by item name"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minecraft-remote_craftItem",
+        "description": "Craft an item using available materials",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "itemName": {
+                    "type": "string",
+                    "description": "Name of the item to craft"
+                },
+                "count": {
+                    "type": "number",
+                    "default": 1,
+                    "description": "Number of items to craft"
+                }
+            },
+            "required": [
+                "itemName"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minecraft-remote_listTrades",
+        "description": "List available trades from a nearby villager",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "villagerName": {
+                    "type": "string",
+                    "description": "Name or identifier of the villager (optional)"
+                },
+                "range": {
+                    "type": "number",
+                    "default": 4,
+                    "description": "Range to search for villagers"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minecraft-remote_tradeWithVillager",
+        "description": "Trade with a nearby villager",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "villagerName": {
+                    "type": "string",
+                    "description": "Name or identifier of the villager (optional)"
+                },
+                "tradeIndex": {
+                    "type": "number",
+                    "description": "Index of the trade from listTrades (1-based)"
+                },
+                "count": {
+                    "type": "number",
+                    "default": 1,
+                    "description": "Number of times to perform the trade"
+                }
+            },
+            "required": [
+                "tradeIndex"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

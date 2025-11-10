@@ -1,0 +1,248 @@
+[
+    {
+        "name": "salesforce_run_soql_query",
+        "description": "Executes a SOQL query against Salesforce",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "The SOQL query to execute"
+                }
+            },
+            "required": [
+                "query"
+            ]
+        }
+    },
+    {
+        "name": "salesforce_run_sosl_search",
+        "description": "Executes a SOSL search against Salesforce",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "search": {
+                    "type": "string",
+                    "description": "The SOSL search to execute (e.g., 'FIND {John Smith} IN ALL FIELDS')"
+                }
+            },
+            "required": [
+                "search"
+            ]
+        }
+    },
+    {
+        "name": "salesforce_get_object_fields",
+        "description": "Retrieves field Names, labels and types for a specific Salesforce object",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "object_name": {
+                    "type": "string",
+                    "description": "The name of the Salesforce object (e.g., 'Account', 'Contact')"
+                }
+            },
+            "required": [
+                "object_name"
+            ]
+        }
+    },
+    {
+        "name": "salesforce_get_record",
+        "description": "Retrieves a specific record by ID",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "object_name": {
+                    "type": "string",
+                    "description": "The name of the Salesforce object (e.g., 'Account', 'Contact')"
+                },
+                "record_id": {
+                    "type": "string",
+                    "description": "The ID of the record to retrieve"
+                }
+            },
+            "required": [
+                "object_name",
+                "record_id"
+            ]
+        }
+    },
+    {
+        "name": "salesforce_create_record",
+        "description": "Creates a new record",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "object_name": {
+                    "type": "string",
+                    "description": "The name of the Salesforce object (e.g., 'Account', 'Contact')"
+                },
+                "data": {
+                    "type": "object",
+                    "description": "The data for the new record",
+                    "properties": {},
+                    "additionalProperties": true
+                }
+            },
+            "required": [
+                "object_name",
+                "data"
+            ]
+        }
+    },
+    {
+        "name": "salesforce_update_record",
+        "description": "Updates an existing record",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "object_name": {
+                    "type": "string",
+                    "description": "The name of the Salesforce object (e.g., 'Account', 'Contact')"
+                },
+                "record_id": {
+                    "type": "string",
+                    "description": "The ID of the record to update"
+                },
+                "data": {
+                    "type": "object",
+                    "description": "The updated data for the record",
+                    "properties": {},
+                    "additionalProperties": true
+                }
+            },
+            "required": [
+                "object_name",
+                "record_id",
+                "data"
+            ]
+        }
+    },
+    {
+        "name": "salesforce_delete_record",
+        "description": "Deletes a record",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "object_name": {
+                    "type": "string",
+                    "description": "The name of the Salesforce object (e.g., 'Account', 'Contact')"
+                },
+                "record_id": {
+                    "type": "string",
+                    "description": "The ID of the record to delete"
+                }
+            },
+            "required": [
+                "object_name",
+                "record_id"
+            ]
+        }
+    },
+    {
+        "name": "salesforce_tooling_execute",
+        "description": "Executes a Tooling API request",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string",
+                    "description": "The Tooling API endpoint to call (e.g., 'sobjects/ApexClass')"
+                },
+                "method": {
+                    "type": "string",
+                    "description": "The HTTP method (default: 'GET')",
+                    "enum": [
+                        "GET",
+                        "POST",
+                        "PATCH",
+                        "DELETE"
+                    ],
+                    "default": "GET"
+                },
+                "data": {
+                    "type": "object",
+                    "description": "Data for POST/PATCH requests",
+                    "properties": {},
+                    "additionalProperties": true
+                }
+            },
+            "required": [
+                "action"
+            ]
+        }
+    },
+    {
+        "name": "salesforce_apex_execute",
+        "description": "Executes an Apex REST request",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string",
+                    "description": "The Apex REST endpoint to call (e.g., '/MyApexClass')"
+                },
+                "method": {
+                    "type": "string",
+                    "description": "The HTTP method (default: 'GET')",
+                    "enum": [
+                        "GET",
+                        "POST",
+                        "PATCH",
+                        "DELETE"
+                    ],
+                    "default": "GET"
+                },
+                "data": {
+                    "type": "object",
+                    "description": "Data for POST/PATCH requests",
+                    "properties": {},
+                    "additionalProperties": true
+                }
+            },
+            "required": [
+                "action"
+            ]
+        }
+    },
+    {
+        "name": "salesforce_restful",
+        "description": "Makes a direct REST API call to Salesforce",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "The path of the REST API endpoint (e.g., 'sobjects/Account/describe')"
+                },
+                "method": {
+                    "type": "string",
+                    "description": "The HTTP method (default: 'GET')",
+                    "enum": [
+                        "GET",
+                        "POST",
+                        "PATCH",
+                        "DELETE"
+                    ],
+                    "default": "GET"
+                },
+                "params": {
+                    "type": "object",
+                    "description": "Query parameters for the request",
+                    "properties": {},
+                    "additionalProperties": true
+                },
+                "data": {
+                    "type": "object",
+                    "description": "Data for POST/PATCH requests",
+                    "properties": {},
+                    "additionalProperties": true
+                }
+            },
+            "required": [
+                "path"
+            ]
+        }
+    }
+]

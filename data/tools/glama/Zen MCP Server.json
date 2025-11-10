@@ -1,0 +1,1025 @@
+[
+    {
+        "name": "zen_chat",
+        "description": "General chat and collaborative thinking partner for brainstorming, development discussion, getting second opinions, and exploring ideas. Use for bouncing ideas, validating approaches, asking questions, and getting explanations. ",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "prompt": {
+                    "type": "string",
+                    "description": "Your question or idea for collaborative thinking. Provide detailed context, including your goal, what you've tried, and any specific challenges. CRITICAL: To discuss code, provide file paths using the 'files' parameter instead of pasting large code blocks here."
+                },
+                "files": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Absolute full-paths to existing files / folders for context. DO NOT SHORTEN."
+                },
+                "images": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Optional images for visual context (must be FULL absolute paths to real files / folders - DO NOT SHORTEN - OR these can be bas64 data)"
+                },
+                "model": {
+                    "type": "string",
+                    "description": "IMPORTANT: Use the model specified by the user if provided, OR select the most suitable model for this specific task based on the requirements and capabilities listed below:\n\nGemini models - Available when GOOGLE_API_KEY is configured:\n- 'gemini-2.5-pro': Deep reasoning + thinking mode (1M context) - Complex problems, architecture, deep analysis\n- 'gemini-2.0-flash': Gemini 2.0 Flash (1M context) - Latest fast model with experimental thinking, supports audio/video input\n- 'gemini-2.0-flash-lite': Gemini 2.0 Flash Lite (1M context) - Lightweight fast model, text-only\n- 'gemini-2.5-flash': Ultra-fast (1M context) - Quick analysis, simple queries, rapid iterations",
+                    "enum": [
+                        "flash",
+                        "flash-2.0",
+                        "flash-lite",
+                        "flash2",
+                        "flash2.5",
+                        "flashlite",
+                        "gemini pro",
+                        "gemini-2.0-flash",
+                        "gemini-2.0-flash-lite",
+                        "gemini-2.5-flash",
+                        "gemini-2.5-pro",
+                        "gemini-pro",
+                        "pro"
+                    ]
+                },
+                "temperature": {
+                    "type": "number",
+                    "description": "Lower values: focused/deterministic; higher: creative. Tool-specific defaults apply if unspecified.",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "thinking_mode": {
+                    "type": "string",
+                    "enum": [
+                        "minimal",
+                        "low",
+                        "medium",
+                        "high",
+                        "max"
+                    ],
+                    "description": "Thinking depth: minimal (0.5%), low (8%), medium (33%), high (67%), max (100% of model max). Higher modes: deeper reasoning but slower."
+                },
+                "use_websearch": {
+                    "type": "boolean",
+                    "description": "Enable web search for docs and current info. Model can request Claude to perform web-search for best practices, framework docs, solution research, latest API information.",
+                    "default": true
+                },
+                "continuation_id": {
+                    "type": "string",
+                    "description": "Unique thread continuation ID for multi-turn conversations. Reuse last continuation_id when continuing discussion (unless user provides different ID) using exact unique identifer. Embeds complete conversation history. Build upon history without repeating. Focus on new insights. Works across different tools."
+                }
+            },
+            "required": [
+                "prompt",
+                "model"
+            ]
+        }
+    },
+    {
+        "name": "zen_thinkdeep",
+        "description": "Performs multi-stage investigation and reasoning for complex problem analysis. Use for architecture decisions, complex bugs, performance challenges, and security analysis. Provides systematic hypothesis testing, evidence-based investigation, and expert validation.",
+        "parameters": {
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "type": "object",
+            "properties": {
+                "step": {
+                    "type": "string",
+                    "description": "Current work step content and findings from your overall work"
+                },
+                "step_number": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Current step number in work sequence (starts at 1)"
+                },
+                "total_steps": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Estimated total steps needed to complete work"
+                },
+                "next_step_required": {
+                    "type": "boolean",
+                    "description": "Whether another work step is needed. When false, aim to reduce total_steps to match step_number to avoid mismatch."
+                },
+                "findings": {
+                    "type": "string",
+                    "description": "Important findings, evidence and insights discovered in this step"
+                },
+                "files_checked": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of files examined during this work step"
+                },
+                "relevant_files": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Files identified as relevant to issue/goal (FULL absolute paths to real files/folders - DO NOT SHORTEN)"
+                },
+                "relevant_context": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Methods/functions identified as involved in the issue"
+                },
+                "issues_found": {
+                    "type": "array",
+                    "items": {
+                        "type": "object"
+                    },
+                    "description": "Issues identified with severity levels during work"
+                },
+                "confidence": {
+                    "type": "string",
+                    "enum": [
+                        "exploring",
+                        "low",
+                        "medium",
+                        "high",
+                        "very_high",
+                        "almost_certain",
+                        "certain"
+                    ],
+                    "description": "Confidence level: exploring (just starting), low (early investigation), medium (some evidence), high (strong evidence), very_high (comprehensive understanding), almost_certain (near complete confidence), certain (100% confidence locally - no external validation needed)"
+                },
+                "hypothesis": {
+                    "type": "string",
+                    "description": "Current theory about issue/goal based on work"
+                },
+                "backtrack_from_step": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Step number to backtrack from if work needs revision"
+                },
+                "use_assistant_model": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Use assistant model for expert analysis after workflow steps. False skips expert analysis, relies solely on Claude's investigation. Defaults to True for comprehensive validation."
+                },
+                "temperature": {
+                    "type": "number",
+                    "description": "Lower values: focused/deterministic; higher: creative. Tool-specific defaults apply if unspecified.",
+                    "minimum": 0.0,
+                    "maximum": 1.0
+                },
+                "thinking_mode": {
+                    "type": "string",
+                    "enum": [
+                        "minimal",
+                        "low",
+                        "medium",
+                        "high",
+                        "max"
+                    ],
+                    "description": "Thinking depth: minimal (0.5%), low (8%), medium (33%), high (67%), max (100% of model max). Higher modes: deeper reasoning but slower."
+                },
+                "use_websearch": {
+                    "type": "boolean",
+                    "description": "Enable web search for docs and current info. Model can request Claude to perform web-search for best practices, framework docs, solution research, latest API information.",
+                    "default": true
+                },
+                "continuation_id": {
+                    "type": "string",
+                    "description": "Unique thread continuation ID for multi-turn conversations. Reuse last continuation_id when continuing discussion (unless user provides different ID) using exact unique identifer. Embeds complete conversation history. Build upon history without repeating. Focus on new insights. Works across different tools."
+                },
+                "images": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Optional images for visual context. MUST be absolute paths or base64. Use when user mentions images. Describe image contents. "
+                },
+                "model": {
+                    "type": "string",
+                    "description": "IMPORTANT: Use the model specified by the user if provided, OR select the most suitable model for this specific task based on the requirements and capabilities listed below:\n\nGemini models - Available when GOOGLE_API_KEY is configured:\n- 'gemini-2.5-pro': Deep reasoning + thinking mode (1M context) - Complex problems, architecture, deep analysis\n- 'gemini-2.0-flash': Gemini 2.0 Flash (1M context) - Latest fast model with experimental thinking, supports audio/video input\n- 'gemini-2.0-flash-lite': Gemini 2.0 Flash Lite (1M context) - Lightweight fast model, text-only\n- 'gemini-2.5-flash': Ultra-fast (1M context) - Quick analysis, simple queries, rapid iterations",
+                    "enum": [
+                        "flash",
+                        "flash-2.0",
+                        "flash-lite",
+                        "flash2",
+                        "flash2.5",
+                        "flashlite",
+                        "gemini pro",
+                        "gemini-2.0-flash",
+                        "gemini-2.0-flash-lite",
+                        "gemini-2.5-flash",
+                        "gemini-2.5-pro",
+                        "gemini-pro",
+                        "pro"
+                    ]
+                },
+                "problem_context": {
+                    "type": "string",
+                    "description": "Additional context about problem/goal. Be expressive."
+                },
+                "focus_areas": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Focus aspects (architecture, performance, security, etc.)"
+                }
+            },
+            "required": [
+                "step",
+                "step_number",
+                "total_steps",
+                "next_step_required",
+                "findings",
+                "model"
+            ],
+            "additionalProperties": false,
+            "title": "ThinkdeepRequest"
+        }
+    },
+    {
+        "name": "zen_planner",
+        "description": "Breaks down complex tasks through interactive, sequential planning with revision and branching capabilities. Use for complex project planning, system design, migration strategies, and architectural decisions. Builds plans incrementally with deep reflection for complex scenarios.",
+        "parameters": {
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "type": "object",
+            "properties": {
+                "step": {
+                    "type": "string",
+                    "description": "Your current planning step content. Step 1: Describe the task/problem to plan in detail for breakdown. Subsequent steps: Provide planning content (steps, revisions, questions, approach changes, etc.)."
+                },
+                "step_number": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Current step number in work sequence (starts at 1)"
+                },
+                "total_steps": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Estimated total steps needed to complete work"
+                },
+                "next_step_required": {
+                    "type": "boolean",
+                    "description": "Whether another work step is needed. When false, aim to reduce total_steps to match step_number to avoid mismatch."
+                },
+                "use_assistant_model": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Use assistant model for expert analysis after workflow steps. False skips expert analysis, relies solely on Claude's investigation. Defaults to True for comprehensive validation."
+                },
+                "continuation_id": {
+                    "type": "string",
+                    "description": "Unique thread continuation ID for multi-turn conversations. Reuse last continuation_id when continuing discussion (unless user provides different ID) using exact unique identifer. Embeds complete conversation history. Build upon history without repeating. Focus on new insights. Works across different tools."
+                },
+                "model": {
+                    "type": "string",
+                    "description": "IMPORTANT: Use the model specified by the user if provided, OR select the most suitable model for this specific task based on the requirements and capabilities listed below:\n\nGemini models - Available when GOOGLE_API_KEY is configured:\n- 'gemini-2.5-pro': Deep reasoning + thinking mode (1M context) - Complex problems, architecture, deep analysis\n- 'gemini-2.0-flash': Gemini 2.0 Flash (1M context) - Latest fast model with experimental thinking, supports audio/video input\n- 'gemini-2.0-flash-lite': Gemini 2.0 Flash Lite (1M context) - Lightweight fast model, text-only\n- 'gemini-2.5-flash': Ultra-fast (1M context) - Quick analysis, simple queries, rapid iterations",
+                    "enum": [
+                        "flash",
+                        "flash-2.0",
+                        "flash-lite",
+                        "flash2",
+                        "flash2.5",
+                        "flashlite",
+                        "gemini pro",
+                        "gemini-2.0-flash",
+                        "gemini-2.0-flash-lite",
+                        "gemini-2.5-flash",
+                        "gemini-2.5-pro",
+                        "gemini-pro",
+                        "pro"
+                    ]
+                },
+                "is_step_revision": {
+                    "type": "boolean",
+                    "description": "True if this step revises/replaces a previous step"
+                },
+                "revises_step_number": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "If is_step_revision is true, which step number is being revised"
+                },
+                "is_branch_point": {
+                    "type": "boolean",
+                    "description": "True if this step branches from a previous step to explore alternatives"
+                },
+                "branch_from_step": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "If is_branch_point is true, which step number is the branching point"
+                },
+                "branch_id": {
+                    "type": "string",
+                    "description": "Identifier for the current branch (e.g., 'approach-A', 'microservices-path')"
+                },
+                "more_steps_needed": {
+                    "type": "boolean",
+                    "description": "True if more steps are needed beyond the initial estimate"
+                }
+            },
+            "required": [
+                "step",
+                "step_number",
+                "total_steps",
+                "next_step_required",
+                "model"
+            ],
+            "additionalProperties": false,
+            "title": "PlannerRequest"
+        }
+    },
+    {
+        "name": "zen_consensus",
+        "description": "Builds multi-model consensus through systematic analysis and structured debate. Use for complex decisions, architectural choices, feature proposals, and technology evaluations. Consults multiple models with different stances to synthesize comprehensive recommendations.",
+        "parameters": {
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "type": "object",
+            "properties": {
+                "step": {
+                    "type": "string",
+                    "description": "The core question for consensus. Step 1: Provide the EXACT proposal for all models to evaluate. CRITICAL: This text is sent to all models and must be a clear question, not a self-referential statement (e.g., use 'Evaluate...' not 'I will evaluate...'). Steps 2+: Internal notes on the last model's response; this is NOT sent to other models."
+                },
+                "step_number": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "The index of the current step in the consensus workflow, beginning at 1. Step 1 is your analysis, steps 2+ are for processing individual model responses."
+                },
+                "total_steps": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Total number of steps needed. This equals the number of models to consult. Step 1 includes your analysis + first model consultation on return of the call. Final step includes last model consultation + synthesis."
+                },
+                "next_step_required": {
+                    "type": "boolean",
+                    "description": "Set to true if more models need to be consulted. False when ready for final synthesis."
+                },
+                "findings": {
+                    "type": "string",
+                    "description": "Your analysis of the consensus topic. Step 1: Your independent, comprehensive analysis of the proposal. CRITICAL: This is for the final synthesis and is NOT sent to the other models. Steps 2+: A summary of the key points from the most recent model's response."
+                },
+                "relevant_files": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Files that are relevant to the consensus analysis. Include files that help understand the proposal, provide context, or contain implementation details."
+                },
+                "use_assistant_model": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Use assistant model for expert analysis after workflow steps. False skips expert analysis, relies solely on Claude's investigation. Defaults to True for comprehensive validation."
+                },
+                "continuation_id": {
+                    "type": "string",
+                    "description": "Unique thread continuation ID for multi-turn conversations. Reuse last continuation_id when continuing discussion (unless user provides different ID) using exact unique identifer. Embeds complete conversation history. Build upon history without repeating. Focus on new insights. Works across different tools."
+                },
+                "images": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Optional list of image paths or base64 data URLs for visual context. Useful for UI/UX discussions, architecture diagrams, mockups, or any visual references that help inform the consensus analysis."
+                },
+                "model": {
+                    "type": "string",
+                    "description": "IMPORTANT: Use the model specified by the user if provided, OR select the most suitable model for this specific task based on the requirements and capabilities listed below:\n\nGemini models - Available when GOOGLE_API_KEY is configured:\n- 'gemini-2.5-pro': Deep reasoning + thinking mode (1M context) - Complex problems, architecture, deep analysis\n- 'gemini-2.0-flash': Gemini 2.0 Flash (1M context) - Latest fast model with experimental thinking, supports audio/video input\n- 'gemini-2.0-flash-lite': Gemini 2.0 Flash Lite (1M context) - Lightweight fast model, text-only\n- 'gemini-2.5-flash': Ultra-fast (1M context) - Quick analysis, simple queries, rapid iterations",
+                    "enum": [
+                        "flash",
+                        "flash-2.0",
+                        "flash-lite",
+                        "flash2",
+                        "flash2.5",
+                        "flashlite",
+                        "gemini pro",
+                        "gemini-2.0-flash",
+                        "gemini-2.0-flash-lite",
+                        "gemini-2.5-flash",
+                        "gemini-2.5-pro",
+                        "gemini-pro",
+                        "pro"
+                    ]
+                },
+                "models": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "model": {
+                                "type": "string"
+                            },
+                            "stance": {
+                                "type": "string",
+                                "enum": [
+                                    "for",
+                                    "against",
+                                    "neutral"
+                                ],
+                                "default": "neutral"
+                            },
+                            "stance_prompt": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "model"
+                        ]
+                    },
+                    "description": "List of model configurations to consult. Each can have a model name, stance (for/against/neutral), and optional custom stance prompt. The same model can be used multiple times with different stances, but each model + stance combination must be unique. Example: [{'model': 'o3', 'stance': 'for'}, {'model': 'o3', 'stance': 'against'}, {'model': 'flash', 'stance': 'neutral'}]"
+                },
+                "current_model_index": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Internal tracking of which model is being consulted (0-based index). Used to determine which model to call next."
+                },
+                "model_responses": {
+                    "type": "array",
+                    "items": {
+                        "type": "object"
+                    },
+                    "description": "Accumulated responses from models consulted so far. Internal field for tracking progress."
+                }
+            },
+            "required": [
+                "step",
+                "step_number",
+                "total_steps",
+                "next_step_required",
+                "findings"
+            ],
+            "additionalProperties": false,
+            "title": "ConsensusRequest"
+        }
+    },
+    {
+        "name": "zen_codereview",
+        "description": "Performs systematic, step-by-step code review with expert validation. Use for comprehensive analysis covering quality, security, performance, and architecture. Guides through structured investigation to ensure thoroughness.",
+        "parameters": {
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "type": "object",
+            "properties": {
+                "step": {
+                    "type": "string",
+                    "description": "Review plan. Step 1: State strategy. Later: Report findings. MUST examine quality, security, performance, architecture. Use 'relevant_files' for code. NO large snippets."
+                },
+                "step_number": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Current step index in review sequence (starts at 1). Build upon previous steps."
+                },
+                "total_steps": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Estimated steps needed to complete the review. IMPORTANT: For external validation, max 2 steps. For internal validation, use 1 step. When continuation_id is provided (continuing a previous conversation), set to 2 max for external, 1 for internal."
+                },
+                "next_step_required": {
+                    "type": "boolean",
+                    "description": "True to continue with another step, False when review is complete. CRITICAL for external validation: Set to True on step 1, then False on step 2. For internal validation: Set to False immediately. When continuation_id is provided: Follow the same rules based on validation type."
+                },
+                "findings": {
+                    "type": "string",
+                    "description": "Discoveries: quality, security, performance, architecture. Document positive+negative. Update in later steps."
+                },
+                "files_checked": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "All examined files (absolute paths), including ruled-out ones."
+                },
+                "relevant_files": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Step 1: All files/dirs for review. Final: Subset with key findings (issues, patterns, decisions)."
+                },
+                "relevant_context": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Methods/functions identified as involved in the issue"
+                },
+                "issues_found": {
+                    "type": "array",
+                    "items": {
+                        "type": "object"
+                    },
+                    "description": "Issues with 'severity' (critical/high/medium/low) and 'description'. Vulnerabilities, performance, quality."
+                },
+                "confidence": {
+                    "type": "string",
+                    "enum": [
+                        "exploring",
+                        "low",
+                        "medium",
+                        "high",
+                        "very_high",
+                        "almost_certain",
+                        "certain"
+                    ],
+                    "description": "Confidence level: exploring (just starting), low (early investigation), medium (some evidence), high (strong evidence), very_high (comprehensive understanding), almost_certain (near complete confidence), certain (100% confidence locally - no external validation needed)"
+                },
+                "hypothesis": {
+                    "type": "string",
+                    "description": "Current theory about issue/goal based on work"
+                },
+                "backtrack_from_step": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Step number to backtrack from if revision needed."
+                },
+                "use_assistant_model": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Use assistant model for expert analysis after workflow steps. False skips expert analysis, relies solely on Claude's investigation. Defaults to True for comprehensive validation."
+                },
+                "temperature": {
+                    "type": "number",
+                    "description": "Lower values: focused/deterministic; higher: creative. Tool-specific defaults apply if unspecified.",
+                    "minimum": 0.0,
+                    "maximum": 1.0
+                },
+                "thinking_mode": {
+                    "type": "string",
+                    "enum": [
+                        "minimal",
+                        "low",
+                        "medium",
+                        "high",
+                        "max"
+                    ],
+                    "description": "Thinking depth: minimal (0.5%), low (8%), medium (33%), high (67%), max (100% of model max). Higher modes: deeper reasoning but slower."
+                },
+                "use_websearch": {
+                    "type": "boolean",
+                    "description": "Enable web search for docs and current info. Model can request Claude to perform web-search for best practices, framework docs, solution research, latest API information.",
+                    "default": true
+                },
+                "continuation_id": {
+                    "type": "string",
+                    "description": "Unique thread continuation ID for multi-turn conversations. Reuse last continuation_id when continuing discussion (unless user provides different ID) using exact unique identifer. Embeds complete conversation history. Build upon history without repeating. Focus on new insights. Works across different tools."
+                },
+                "images": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Optional diagrams, mockups, visuals for review context (absolute paths). Include if materially helpful."
+                },
+                "model": {
+                    "type": "string",
+                    "description": "IMPORTANT: Use the model specified by the user if provided, OR select the most suitable model for this specific task based on the requirements and capabilities listed below:\n\nGemini models - Available when GOOGLE_API_KEY is configured:\n- 'gemini-2.5-pro': Deep reasoning + thinking mode (1M context) - Complex problems, architecture, deep analysis\n- 'gemini-2.0-flash': Gemini 2.0 Flash (1M context) - Latest fast model with experimental thinking, supports audio/video input\n- 'gemini-2.0-flash-lite': Gemini 2.0 Flash Lite (1M context) - Lightweight fast model, text-only\n- 'gemini-2.5-flash': Ultra-fast (1M context) - Quick analysis, simple queries, rapid iterations",
+                    "enum": [
+                        "flash",
+                        "flash-2.0",
+                        "flash-lite",
+                        "flash2",
+                        "flash2.5",
+                        "flashlite",
+                        "gemini pro",
+                        "gemini-2.0-flash",
+                        "gemini-2.0-flash-lite",
+                        "gemini-2.5-flash",
+                        "gemini-2.5-pro",
+                        "gemini-pro",
+                        "pro"
+                    ]
+                },
+                "review_validation_type": {
+                    "type": "string",
+                    "enum": [
+                        "external",
+                        "internal"
+                    ],
+                    "default": "external",
+                    "description": "'external' (default, expert model) or 'internal' (no expert). Default external unless user specifies."
+                },
+                "review_type": {
+                    "type": "string",
+                    "enum": [
+                        "full",
+                        "security",
+                        "performance",
+                        "quick"
+                    ],
+                    "default": "full",
+                    "description": "Review type: full, security, performance, quick."
+                },
+                "focus_on": {
+                    "type": "string",
+                    "description": "Specific aspects or context for areas of concern."
+                },
+                "standards": {
+                    "type": "string",
+                    "description": "Coding standards to enforce."
+                },
+                "severity_filter": {
+                    "type": "string",
+                    "enum": [
+                        "critical",
+                        "high",
+                        "medium",
+                        "low",
+                        "all"
+                    ],
+                    "default": "all",
+                    "description": "Minimum severity to report."
+                }
+            },
+            "required": [
+                "step",
+                "step_number",
+                "total_steps",
+                "next_step_required",
+                "findings",
+                "model"
+            ],
+            "additionalProperties": false,
+            "title": "CodereviewRequest"
+        }
+    },
+    {
+        "name": "zen_precommit",
+        "description": "Validates git changes and repository state before committing with systematic analysis. Use for multi-repository validation, security review, change impact assessment, and completeness verification. Guides through structured investigation with expert analysis.",
+        "parameters": {
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "type": "object",
+            "properties": {
+                "step": {
+                    "type": "string",
+                    "description": "Validation plan. Step 1: State strategy. Later: Report findings. MUST examine git changes, analyze impacts. Use 'relevant_files' for code. NO large snippets."
+                },
+                "step_number": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Current step index in pre-commit sequence (starts at 1). Build upon previous steps."
+                },
+                "total_steps": {
+                    "type": "integer",
+                    "minimum": 3,
+                    "description": "Estimated steps needed to complete validation. IMPORTANT: For external validation, use max 3 steps. For internal validation, use 1 step. When continuation_id is provided (continuing a previous conversation), set to 3 max for external, 1 for internal."
+                },
+                "next_step_required": {
+                    "type": "boolean",
+                    "description": "True to continue with another step, False when validation is complete. CRITICAL: If total_steps>=3, set to True until the final step. When continuation_id is provided: Follow the same validation rules based on precommit_type."
+                },
+                "findings": {
+                    "type": "string",
+                    "description": "Discoveries: git diffs, modifications, issues (bugs, missing tests, security). Document positive+concerns. Update in later steps."
+                },
+                "files_checked": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "All examined files (absolute paths), including ruled-out ones."
+                },
+                "relevant_files": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Files with changes or relevant to validation (absolute paths). Modified files, config, tests, docs."
+                },
+                "relevant_context": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Methods/functions identified as involved in the issue"
+                },
+                "issues_found": {
+                    "type": "array",
+                    "items": {
+                        "type": "object"
+                    },
+                    "description": "Issues with 'severity' (critical/high/medium/low) and 'description'. Bugs, security, performance."
+                },
+                "confidence": {
+                    "type": "string",
+                    "enum": [
+                        "exploring",
+                        "low",
+                        "medium",
+                        "high",
+                        "very_high",
+                        "almost_certain",
+                        "certain"
+                    ],
+                    "description": "Confidence level: exploring (just starting), low (early investigation), medium (some evidence), high (strong evidence), very_high (comprehensive understanding), almost_certain (near complete confidence), certain (100% confidence locally - no external validation needed)"
+                },
+                "hypothesis": {
+                    "type": "string",
+                    "description": "Current theory about issue/goal based on work"
+                },
+                "backtrack_from_step": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Step number to backtrack from if revision needed."
+                },
+                "use_assistant_model": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Use assistant model for expert analysis after workflow steps. False skips expert analysis, relies solely on Claude's investigation. Defaults to True for comprehensive validation."
+                },
+                "temperature": {
+                    "type": "number",
+                    "description": "Lower values: focused/deterministic; higher: creative. Tool-specific defaults apply if unspecified.",
+                    "minimum": 0.0,
+                    "maximum": 1.0
+                },
+                "thinking_mode": {
+                    "type": "string",
+                    "enum": [
+                        "minimal",
+                        "low",
+                        "medium",
+                        "high",
+                        "max"
+                    ],
+                    "description": "Thinking depth: minimal (0.5%), low (8%), medium (33%), high (67%), max (100% of model max). Higher modes: deeper reasoning but slower."
+                },
+                "use_websearch": {
+                    "type": "boolean",
+                    "description": "Enable web search for docs and current info. Model can request Claude to perform web-search for best practices, framework docs, solution research, latest API information.",
+                    "default": true
+                },
+                "continuation_id": {
+                    "type": "string",
+                    "description": "Unique thread continuation ID for multi-turn conversations. Reuse last continuation_id when continuing discussion (unless user provides different ID) using exact unique identifer. Embeds complete conversation history. Build upon history without repeating. Focus on new insights. Works across different tools."
+                },
+                "images": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Optional screenshots/visuals for validation (absolute paths)."
+                },
+                "model": {
+                    "type": "string",
+                    "description": "IMPORTANT: Use the model specified by the user if provided, OR select the most suitable model for this specific task based on the requirements and capabilities listed below:\n\nGemini models - Available when GOOGLE_API_KEY is configured:\n- 'gemini-2.5-pro': Deep reasoning + thinking mode (1M context) - Complex problems, architecture, deep analysis\n- 'gemini-2.0-flash': Gemini 2.0 Flash (1M context) - Latest fast model with experimental thinking, supports audio/video input\n- 'gemini-2.0-flash-lite': Gemini 2.0 Flash Lite (1M context) - Lightweight fast model, text-only\n- 'gemini-2.5-flash': Ultra-fast (1M context) - Quick analysis, simple queries, rapid iterations",
+                    "enum": [
+                        "flash",
+                        "flash-2.0",
+                        "flash-lite",
+                        "flash2",
+                        "flash2.5",
+                        "flashlite",
+                        "gemini pro",
+                        "gemini-2.0-flash",
+                        "gemini-2.0-flash-lite",
+                        "gemini-2.5-flash",
+                        "gemini-2.5-pro",
+                        "gemini-pro",
+                        "pro"
+                    ]
+                },
+                "precommit_type": {
+                    "type": "string",
+                    "enum": [
+                        "external",
+                        "internal"
+                    ],
+                    "default": "external",
+                    "description": "'external' (default, expert review) or 'internal' (local only). Default external unless user specifies."
+                },
+                "path": {
+                    "type": "string",
+                    "description": "Starting path for git repos (FULL absolute path). REQUIRED step 1."
+                },
+                "compare_to": {
+                    "type": "string",
+                    "description": "Optional git ref (branch/tag/commit) to compare. Checks remotes if needed. Without: checks staged/unstaged."
+                },
+                "include_staged": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Analyze staged changes. Ignored if 'compare_to' provided."
+                },
+                "include_unstaged": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Analyze unstaged changes. Ignored if 'compare_to' provided."
+                },
+                "focus_on": {
+                    "type": "string",
+                    "description": "Focus aspects: security, performance, test coverage."
+                },
+                "severity_filter": {
+                    "type": "string",
+                    "enum": [
+                        "critical",
+                        "high",
+                        "medium",
+                        "low",
+                        "all"
+                    ],
+                    "default": "all",
+                    "description": "Minimum severity to report."
+                }
+            },
+            "required": [
+                "step",
+                "step_number",
+                "total_steps",
+                "next_step_required",
+                "findings",
+                "model"
+            ],
+            "additionalProperties": false,
+            "title": "PrecommitRequest"
+        }
+    },
+    {
+        "name": "zen_debug",
+        "description": "Performs systematic debugging and root cause analysis for any type of issue. Use for complex bugs, mysterious errors, performance issues, race conditions, memory leaks, and integration problems. Guides through structured investigation with hypothesis testing and expert analysis.",
+        "parameters": {
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "type": "object",
+            "properties": {
+                "step": {
+                    "type": "string",
+                    "description": "Investigation step. Step 1: State issue+direction. Symptoms misleading; 'no bug' valid. Trace dependencies, verify hypotheses. Use relevant_files for code; this for text only."
+                },
+                "step_number": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Current step index (starts at 1). Build upon previous steps."
+                },
+                "total_steps": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Estimated total steps needed to complete the investigation. Adjust as new findings emerge. IMPORTANT: When continuation_id is provided (continuing a previous conversation), set this to 1 as we're not starting a new multi-step investigation."
+                },
+                "next_step_required": {
+                    "type": "boolean",
+                    "description": "True if you plan to continue the investigation with another step. False means root cause is known or investigation is complete. IMPORTANT: When continuation_id is provided (continuing a previous conversation), set this to False to immediately proceed with expert analysis."
+                },
+                "findings": {
+                    "type": "string",
+                    "description": "Discoveries: clues, code/log evidence, disproven theories. Be specific. If no bug found, document clearly as valid."
+                },
+                "files_checked": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "All examined files (absolute paths), including ruled-out ones."
+                },
+                "relevant_files": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Files directly relevant to issue (absolute paths). Cause, trigger, or manifestation locations."
+                },
+                "relevant_context": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Methods/functions identified as involved in the issue"
+                },
+                "issues_found": {
+                    "type": "array",
+                    "items": {
+                        "type": "object"
+                    },
+                    "description": "Issues identified with severity levels during work"
+                },
+                "confidence": {
+                    "type": "string",
+                    "enum": [
+                        "exploring",
+                        "low",
+                        "medium",
+                        "high",
+                        "very_high",
+                        "almost_certain",
+                        "certain"
+                    ],
+                    "description": "Your confidence in the hypothesis: exploring (starting out), low (early idea), medium (some evidence), high (strong evidence), very_high (very strong evidence), almost_certain (nearly confirmed), certain (100% confidence - root cause and fix are both confirmed locally with no need for external validation). WARNING: Do NOT use 'certain' unless the issue can be fully resolved with a fix, use 'very_high' or 'almost_certain' instead when not 100% sure. Using 'certain' means you have ABSOLUTE confidence locally and PREVENTS external model validation."
+                },
+                "hypothesis": {
+                    "type": "string",
+                    "description": "Concrete root cause theory from evidence. Can revise. Valid: 'No bug found - user misunderstanding' or 'Symptoms unrelated to code' if supported."
+                },
+                "backtrack_from_step": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Step number to backtrack from if revision needed."
+                },
+                "use_assistant_model": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Use assistant model for expert analysis after workflow steps. False skips expert analysis, relies solely on Claude's investigation. Defaults to True for comprehensive validation."
+                },
+                "temperature": {
+                    "type": "number",
+                    "description": "Lower values: focused/deterministic; higher: creative. Tool-specific defaults apply if unspecified.",
+                    "minimum": 0.0,
+                    "maximum": 1.0
+                },
+                "thinking_mode": {
+                    "type": "string",
+                    "enum": [
+                        "minimal",
+                        "low",
+                        "medium",
+                        "high",
+                        "max"
+                    ],
+                    "description": "Thinking depth: minimal (0.5%), low (8%), medium (33%), high (67%), max (100% of model max). Higher modes: deeper reasoning but slower."
+                },
+                "use_websearch": {
+                    "type": "boolean",
+                    "description": "Enable web search for docs and current info. Model can request Claude to perform web-search for best practices, framework docs, solution research, latest API information.",
+                    "default": true
+                },
+                "continuation_id": {
+                    "type": "string",
+                    "description": "Unique thread continuation ID for multi-turn conversations. Reuse last continuation_id when continuing discussion (unless user provides different ID) using exact unique identifer. Embeds complete conversation history. Build upon history without repeating. Focus on new insights. Works across different tools."
+                },
+                "images": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Optional screenshots/visuals clarifying issue (absolute paths)."
+                },
+                "model": {
+                    "type": "string",
+                    "description": "IMPORTANT: Use the model specified by the user if provided, OR select the most suitable model for this specific task based on the requirements and capabilities listed below:\n\nGemini models - Available when GOOGLE_API_KEY is configured:\n- 'gemini-2.5-pro': Deep reasoning + thinking mode (1M context) - Complex problems, architecture, deep analysis\n- 'gemini-2.0-flash': Gemini 2.0 Flash (1M context) - Latest fast model with experimental thinking, supports audio/video input\n- 'gemini-2.0-flash-lite': Gemini 2.0 Flash Lite (1M context) - Lightweight fast model, text-only\n- 'gemini-2.5-flash': Ultra-fast (1M context) - Quick analysis, simple queries, rapid iterations",
+                    "enum": [
+                        "flash",
+                        "flash-2.0",
+                        "flash-lite",
+                        "flash2",
+                        "flash2.5",
+                        "flashlite",
+                        "gemini pro",
+                        "gemini-2.0-flash",
+                        "gemini-2.0-flash-lite",
+                        "gemini-2.5-flash",
+                        "gemini-2.5-pro",
+                        "gemini-pro",
+                        "pro"
+                    ]
+                }
+            },
+            "required": [
+                "step",
+                "step_number",
+                "total_steps",
+                "next_step_required",
+                "findings",
+                "model"
+            ],
+            "additionalProperties": false,
+            "title": "DebugRequest"
+        }
+    },
+    {
+        "name": "zen_challenge",
+        "description": "Prevents reflexive agreement when users challenge responses by forcing critical thinking and reasoned analysis. Trigger automatically when users critically question, disagree with, or appear to challenge previous statements in ongoing conversations. Promotes truth-seeking over compliance by ensuring thoughtful evaluation rather than automatic agreement.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "prompt": {
+                    "type": "string",
+                    "description": "The user's message or statement to analyze critically. When manually invoked with 'challenge', exclude that prefix - just pass the actual content. For automatic invocations (see tool description for conditions), pass the user's complete message unchanged."
+                }
+            },
+            "required": [
+                "prompt"
+            ]
+        }
+    },
+    {
+        "name": "zen_listmodels",
+        "description": "Shows which AI model providers are configured, available model names, their aliases and capabilities.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "model": {
+                    "type": "string",
+                    "description": "Model to use (ignored by listmodels tool)"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "zen_version",
+        "description": "Get server version, configuration details, and list of available tools.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "model": {
+                    "type": "string",
+                    "description": "Model to use (ignored by version tool)"
+                }
+            },
+            "required": []
+        }
+    }
+]

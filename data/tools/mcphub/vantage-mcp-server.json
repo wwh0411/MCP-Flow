@@ -1,0 +1,392 @@
+[
+    {
+        "name": "get-cost-report-forecast",
+        "description": "\n\tGiven a Cost Report Token, Vantage can forecast the costs for a given time range. Vantage will return costs that are *predicted*, but have not yet been actually incurred.\n\tIf the user does not set a date, best to pick the next month as the default.\n\tThe report token can be used to link the user to the report in the Vantage Web UI. Build the link like this: https://console.vantage.sh/go/<CostReportToken>\n\t",
+        "parameters": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {
+                "page": {
+                    "type": "integer",
+                    "description": "page"
+                },
+                "cost_report_token": {
+                    "type": "string",
+                    "description": "Cost report to limit costs to"
+                },
+                "start_date": {
+                    "type": "string",
+                    "description": "Start date to filter costs by"
+                },
+                "end_date": {
+                    "type": "string",
+                    "description": "End date to filter costs by"
+                },
+                "provider": {
+                    "type": "string",
+                    "description": "Provider to filter costs by"
+                },
+                "service": {
+                    "type": "string",
+                    "description": "Service to filter costs by"
+                }
+            },
+            "type": "object",
+            "required": [
+                "cost_report_token"
+            ]
+        }
+    },
+    {
+        "name": "get-myself",
+        "description": "\n\tGet data that is available to the current auth token. This includes the list of Workspaces they have access to.\n\t",
+        "parameters": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "list-anomalies",
+        "description": "\n\tGiven a token of a Cost Report, look for anomalies in the report. You may optionally pass a Provider, like AWS to filter on. If you do pass a Provider, you can futher filter on a Service, like EC2 or S3.\n\tThe report token can be used to link the user to the report in the Vantage Web UI. Build the link like this: https://console.vantage.sh/go/<CostReportToken>\n\t",
+        "parameters": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {
+                "page": {
+                    "type": "integer",
+                    "description": "page"
+                },
+                "cost_report_token": {
+                    "type": "string",
+                    "description": "Cost report to filter anomalies by"
+                },
+                "service": {
+                    "type": "string",
+                    "description": "Service to filter anomalies to"
+                },
+                "provider": {
+                    "type": "string",
+                    "description": "Provider to filter anomalies to"
+                },
+                "cost_category": {
+                    "type": "string",
+                    "description": "Cost category to filter anomalies to"
+                },
+                "start_date": {
+                    "type": "string",
+                    "description": "Start date to filter anomalies to"
+                },
+                "end_date": {
+                    "type": "string",
+                    "description": "End date to filter anomalies to"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "list-budgets",
+        "description": "\n\tList all budgets available in the Vantage account. Budgets help track spending against predefined limits.\n\tUse the page value of 1 to start.\n\tA budget is built against a Cost Report. The Budget objects returned by this tool will have a \"cost_report_token\" field that contains the token of the Cost Report. The Cost Report has the \"filter\" field to know what is the range of providers & services that the budget is tracking.\n\tWhen a user is looking at a Cost Report for a specific date range, they can decide if the proivers and services spend is higher than desired by looking at the budgets for that report and the date range of the budget.\n\tThe token of a budget can be used to link the user to the budget in the Vantage Web UI. Build the link like this: https://console.vantage.sh/go/<BudgetToken>\n\t",
+        "parameters": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {
+                "page": {
+                    "type": "integer",
+                    "description": "page number"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "list-cost-integrations",
+        "description": "\n\tList all cost provider integrations available to provide costs data from and their associated accounts.\n\tIntegrations are the cost providers that Vantage is configured to connect to and pull cost data from.\n\tIf a user wants to see their providers in the Vantage Web UI, they can visit https://console.vantage.sh/settings/integrations\n\t",
+        "parameters": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {
+                "page": {
+                    "type": "integer",
+                    "description": "page"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "list-cost-providers",
+        "description": "\n\tList of cost providers available to query for a given Workspace. Can be used to filter costs down to a specific provider in VQL queries.\n\t",
+        "parameters": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {
+                "workspace_token": {
+                    "type": "string",
+                    "description": "Workspace token to list cost providers for"
+                }
+            },
+            "type": "object",
+            "required": [
+                "workspace_token"
+            ]
+        }
+    },
+    {
+        "name": "list-cost-reports",
+        "description": "\n\tList all cost reports available. Cost reports are already created reports authored by a user in Vantage. If the user isn't asking about a specific report, it's better to use the query-costs tool.\n\tWhen you first call this function, use the \"Page\" parameter of 1.\n\tThe 'Title' of a report is a good way to know what the report is about.\n\tThe 'filter' of a report also gives clues to the data it provides.\n\tThe 'token' of a report is a unique identifier for the report. It can be used to generate a link to the report in the Vantage Web UI. If a user wants to see a report, you can link them like this: https://console.vantage.sh/go/<token>\n\tVantage offers data related to a cost report: Forecasts. The same report token can be used on the get-cost-report-forecast tool and Vantage will forecast future costs.\n\t",
+        "parameters": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {
+                "page": {
+                    "type": "integer",
+                    "description": "page"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "list-cost-services",
+        "description": "\n\tList of cost services available to query for a given Workspace. Can be used to filter costs down to a specific service in VQL queries.\n\t",
+        "parameters": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {
+                "workspace_token": {
+                    "type": "string",
+                    "description": "Workspace token to list cost services for"
+                }
+            },
+            "type": "object",
+            "required": [
+                "workspace_token"
+            ]
+        }
+    },
+    {
+        "name": "list-costs",
+        "description": "\n\tList the cost items inside a report. The Token of a Report must be provided. Use the page value of 1 to start.\n\tThe report token can be used to link the user to the report in the Vantage Web UI. Build the link like this: https://console.vantage.sh/go/<CostReportToken>\n\n\tThe DateBin parameter will let you get the information with fewer returned results.\n\tWhen DateBin=day you get a record for each service spend on that day. For DateBin=week you get one entry per week,\n\twith the accrued_at field set to the first day of the week, but the spend item represents spend for a full week.\n\tSame with DateBin=month, each record returned covers a month of data. This lets you get answers with processing fewer\n\trecords. Only use day/week if needed, otherwise DateBin=month is preferred, and month is the value set if you pass no value for DateBin.\n\t",
+        "parameters": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {
+                "page": {
+                    "type": "integer",
+                    "description": "page"
+                },
+                "cost_report_token": {
+                    "type": "string",
+                    "description": "Cost report to limit costs to"
+                },
+                "start_date": {
+                    "type": "string",
+                    "description": "Start date to filter costs by"
+                },
+                "end_date": {
+                    "type": "string",
+                    "description": "End date to filter costs by"
+                },
+                "date_bin": {
+                    "type": "string",
+                    "description": "Date binning for returned costs"
+                }
+            },
+            "type": "object",
+            "required": [
+                "cost_report_token",
+                "date_bin"
+            ]
+        }
+    },
+    {
+        "name": "list-dashboards",
+        "description": "\n\tList all dashboards available in the Vantage account. Dashboards provide visualizations of cost data.\n\tUse the page value of 1 to start.\n\tThe token of a dashboard can be used to link the user to the dashboard in the Vantage Web UI. Build the link like this: https://console.vantage.sh/go/<token>\n\t",
+        "parameters": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {
+                "page": {
+                    "type": "integer",
+                    "description": "page number"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "list-folders",
+        "description": "\n\tReturn all Folders for CostReports. Use the page value of 1 to start.\n\t",
+        "parameters": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {
+                "page": {
+                    "type": "integer",
+                    "description": "page number"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "list-tag-values",
+        "description": "Tags can have many values. Use this tool to find the values and service providers that are associated with a tag.",
+        "parameters": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {
+                "page": {
+                    "type": "integer",
+                    "description": "page"
+                },
+                "key": {
+                    "type": "string",
+                    "description": "Tag key to list values for"
+                }
+            },
+            "type": "object",
+            "required": [
+                "key"
+            ]
+        }
+    },
+    {
+        "name": "list-tags",
+        "description": "\n\tList tags that can be used to filter costs and cost reports.\n\tTags are associated with one or more Cost Providers.\n\tTags can be edited in the Vantage Web UI, or have further details displayed there. Link a user to the tag page like this: https://console.vantage.sh/settings/tags?search_query=<tag>\n\t",
+        "parameters": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {
+                "page": {
+                    "type": "integer",
+                    "description": "page"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "list-unit-costs",
+        "description": "\n   Retrieve the unit costs for a given CostReport, with optional paging, date filters, and ordering.\n   ",
+        "parameters": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {
+                "cost_report_token": {
+                    "type": "string",
+                    "description": "CostReport token to list unit costs for"
+                },
+                "page": {
+                    "type": "integer",
+                    "description": "page number"
+                },
+                "start_date": {
+                    "type": "string",
+                    "description": "First date to filter unit costs from"
+                },
+                "end_date": {
+                    "type": "string",
+                    "description": "Last date to filter unit costs to"
+                },
+                "date_bin": {
+                    "type": "string",
+                    "description": "Date bin for unit costs (e.g."
+                },
+                "order": {
+                    "type": "string",
+                    "description": "Order of results (asc or desc)"
+                }
+            },
+            "type": "object",
+            "required": [
+                "cost_report_token"
+            ]
+        }
+    },
+    {
+        "name": "query-costs",
+        "description": "\n\tQuery for costs in a Vantage Account. These are independent of a cost reports.\n\tUse Vantage VQL to structure a query.\n\tQueries must be scoped to a Workspace. Use the get-myself tool to know about available workspaces, and the get-cost-integrations tool to know about available cost providers. If the user didn't tell you a workspace it is best to ask them than to guess it.\n\tIt's best to set a date range of 30 days unless the user specifically wants to query for a longer time period.\n\n\tHere is some more detailed info on using VQL:\n\tAll costs originate from a Cost Provider (generally a cloud company like AWS, Azure, Datadog) and then filter on a service that they provide (like EC2, S3, etc).\n\tA cost provider is required on every VQL query.\n\tVQL is always in parenthesis. Always use single quotes around names that are being queried.\n\tTo query on a cost provider, use this syntax: (costs.provider = '<provider name>'). The provider name must come from the list-cost-providers tool.\n\tTo query on a cost service, use this syntax: (costs.provider = '<provider name>' AND costs.service = '<service name>'). The service name must come from the list-cost-services tool.\n\tYou can only filter against one cost provider at a time. If you want to query for costs from two providers, you need to use the OR operator. Example: ((costs.provider = 'aws') OR (costs.provider = 'azure'))\n\tYou can otherwise use the IN system to compare against a list of items, like this: (costs.provider = 'aws' AND costs.service IN ('AWSQueueService', 'AWSLambda'))\n\tTo filter within a cost provider, keep the cost provider part and add a AND section, example: (costs.provider = 'aws' AND costs.service = 'Amazon Relational Database Service')\n\tMany costs have tags on them. A tag is a \"name\" and one or more values.\n\tTo find an AWS cost that has a tag of \"enviornment\" the value \"production\", use this syntax: (costs.provider = 'aws' AND tags.name = 'environment' AND tags.value = 'production')\n\tYou can also query for any value of the \"environment\" tag, like this: (costs.provider = 'aws' AND tags.name = 'environment')\n\tItems without a tag can also be filtered, example: (costs.provider = 'aws' AND tags.name = NULL)\n\tParenthesis can be nested. Here we surround an OR clause to look for either of two values for a tag: (costs.provider = 'aws' AND tags.name = 'environment' AND (tags.value = 'dev' OR tags.value = 'staging'))\n\tA user can have more than one provider account. They can filter on provider accounts if they supply you with the account id. Example: (costs.provider = 'aws' AND costs.provider_account_id = '1000000717')\n\tYou can also combine top-level queries to find for two providers: ((costs.provider = 'datadog') OR (costs.provider = 'azure'))\n\tSome cost providers operate in a specific region, you can filter using the costs.region field. Example: (costs.provider = 'aws' AND costs.region = 'us-east-1')\n\n\tThe DateBin parameter will let you get the information with fewer returned results.\n\tWhen DateBin=day you get a record for each service spend on that day. For DateBin=week you get one entry per week,\n\twith the accrued_at field set to the first day of the week, but the spend item represents spend for a full week.\n\tSame with DateBin=month, each record returned covers a month of data. This lets you get answers with processing fewer\n\trecords. Only use day/week if needed, otherwise DateBin=month is preferred, and month is the value set if you pass no value for DateBin.\n\t",
+        "parameters": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {
+                "page": {
+                    "type": "integer",
+                    "description": "page"
+                },
+                "vql_input": {
+                    "type": "string",
+                    "description": "A VQL query to run against your vantage account"
+                },
+                "start_date": {
+                    "type": "string",
+                    "description": "Start date to filter costs by"
+                },
+                "end_date": {
+                    "type": "string",
+                    "description": "End date to filter costs by"
+                },
+                "workspace_token": {
+                    "type": "string",
+                    "description": "Workspace token to filter costs by"
+                },
+                "date_bin": {
+                    "type": "string",
+                    "description": "Date binning for returned costs"
+                },
+                "settings[include_credits]": {
+                    "type": "boolean",
+                    "description": "Results will include credits"
+                },
+                "settings[include_refunds]": {
+                    "type": "boolean",
+                    "description": "Results will include refunds"
+                },
+                "settings[include_discounts]": {
+                    "type": "boolean",
+                    "description": "Results will include discounts"
+                },
+                "settings[include_tax]": {
+                    "type": "boolean",
+                    "description": "Results will include tax"
+                },
+                "settings[amortize]": {
+                    "type": "boolean",
+                    "description": "Results will amortize"
+                },
+                "settings[unallocated]": {
+                    "type": "boolean",
+                    "description": "Results will show unallocated costs"
+                },
+                "settings[aggregate_by]": {
+                    "type": "string",
+                    "description": "Results will aggregate by cost or usage"
+                },
+                "settings[show_previous_period]": {
+                    "type": "boolean",
+                    "description": "Results will show previous period costs or usage comparison"
+                },
+                "groupings": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array",
+                    "description": "Group the results by specific field(s). Defaults to provider"
+                }
+            },
+            "type": "object",
+            "required": [
+                "page",
+                "vql_input",
+                "workspace_token",
+                "date_bin"
+            ]
+        }
+    },
+    {
+        "name": "submit-user-feedback",
+        "description": "\n    Submit feedback on using the Vantage MCP Server. Ask the user if they'd like to provide feedback any time you sense they might be frustrated.\n    Stop suggesting if they say they're not interested in providing feedback.\n    ",
+        "parameters": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "description": "Feedback message regarding using the Vantage MCP Server"
+                }
+            },
+            "type": "object",
+            "required": [
+                "message"
+            ]
+        }
+    }
+]

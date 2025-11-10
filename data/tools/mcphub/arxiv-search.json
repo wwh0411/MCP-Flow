@@ -1,0 +1,104 @@
+[
+    {
+        "name": "search_paper",
+        "description": "\n    Search for papers on arXiv based on various criteria.\n\n    Parameters:\n    - search_term (str): The term to search for in the paper metadata.\n    - field (Literal[\"Title\", \"Author\", \"Comments\", \"All fields\"]): The field to search in. Default is \"All fields\".\n    - subject (Literal[\"Computer Science\", \"Physics\", \"Economics\", \"Quantitative Biology\", \"Electrical Engineering and Systems Science\", \"Quantitative Finance\", \"Mathematics\", \"Statistics\"] | None): The subject area to filter papers by. Default is None.\n    - date_from (str | None): The start date for filtering papers by submission date in 'YYYY-MM-DD' format. Default is None.\n    - date_to (str | None): The end date for filtering papers by submission date in 'YYYY-MM-DD' format. Default is None.\n    - date_type (Literal[\"Submission Date\", \"Original Submission Date\", \"Announced Date\"]): The type of date to filter papers by. Default is \"Submission Date\".\n    - num_results (int): The maximum number of results to return. Default is 50.\n    - start (int): The starting index for pagination. Default is 0. 1 means the 2nd page, 2 means the 3rd page, etc.\n\n    Returns: List[dict]\n        A list of dictionaries containing paper metadata, including URL, URL of pdf version, title, authors, abstract, submission date. and originally announced date.\n    ",
+        "parameters": {
+            "properties": {
+                "search_term": {
+                    "description": "Search term to query arXiv",
+                    "title": "Search Term",
+                    "type": "string"
+                },
+                "field": {
+                    "default": "All fields",
+                    "description": "The field to search in: \"Title\", \"Author\", \"Comments\", \"All fields\", Default is \"All fields\"",
+                    "enum": [
+                        "Title",
+                        "Author",
+                        "Comments",
+                        "All fields"
+                    ],
+                    "title": "Field",
+                    "type": "string"
+                },
+                "subject": {
+                    "anyOf": [
+                        {
+                            "enum": [
+                                "Computer Science",
+                                "Physics",
+                                "Economics",
+                                "Quantitative Biology",
+                                "Electrical Engineering and Systems Science",
+                                "Quantitative Finance",
+                                "Mathematics",
+                                "Statistics"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The subject area to filter papers by: \"Computer Science\", \"Physics\", \"Economics\", \"Quantitative Biology\", \"Electrical Engineering and Systems Science\", \"Quantitative Finance\", \"Mathematics\", and \"Statistics\". Default is None",
+                    "title": "Subject"
+                },
+                "date_from": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "descritpion": "The start date for filtering papers by submission date in 'YYYY-MM-DD' format. Default is None.",
+                    "title": "Date From"
+                },
+                "date_to": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "descritpion": "The end date for filtering papers by submission date in 'YYYY-MM-DD' format. Default is None.",
+                    "title": "Date To"
+                },
+                "date_type": {
+                    "default": "Submission Date",
+                    "description": "The type of date to filter papers by. Default is \"Submission Date\".",
+                    "enum": [
+                        "Submission Date",
+                        "Original Submission Date",
+                        "Announced Date"
+                    ],
+                    "title": "Date Type",
+                    "type": "string"
+                },
+                "num_results": {
+                    "default": 50,
+                    "description": "The maximum number of results to return. Default is 50.",
+                    "title": "Num Results",
+                    "type": "integer"
+                },
+                "start": {
+                    "default": 0,
+                    "description": "The starting index for pagination. Default is 0. 1 means the 2nd page, 2 means the 3rd page, etc.",
+                    "title": "Start",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "search_term"
+            ],
+            "title": "search_paperArguments",
+            "type": "object"
+        }
+    }
+]

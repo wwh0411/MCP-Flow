@@ -1,0 +1,174 @@
+[
+    {
+        "name": "current_datetime",
+        "description": "\n    Returns the current date and time as a string.\n    If you are asked for the current date or time, call this function.\n    \n    Args:\n        timezone: Timezone name (e.g., 'UTC', 'US/Pacific', 'Europe/London').\n        Defaults to 'America/New_York'.\n    \n    Returns:\n        A formatted date and time string in format: YYYY-MM-DD HH:MM:SS TZ\n    ",
+        "inputSchema": {
+            "properties": {
+                "timezone": {
+                    "default": "America/New_York",
+                    "title": "Timezone",
+                    "type": "string"
+                }
+            },
+            "title": "current_datetimeArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "time_difference",
+        "description": "\n    Calculate the time difference between two timestamps.\n    \n    Timestamps must be in format: \"YYYY-MM-DD HH:MM:SS\" or \"YYYY-MM-DD\"\n    \n    Args:\n        timestamp1: First timestamp (earlier time expected)\n        timestamp2: Second timestamp (later time expected)\n        unit: Desired unit for the result. \"auto\" provides multiple formats\n        timezone: Timezone for parsing ambiguous timestamps\n    \n    Returns:\n        Dictionary containing:\n        - seconds: Total difference in seconds\n        - formatted: Human-readable format (e.g., \"3 hours, 10 minutes\")\n        - requested_unit: Difference in the requested unit (if not \"auto\")\n        - is_negative: Boolean indicating if timestamp1 > timestamp2\n    ",
+        "inputSchema": {
+            "properties": {
+                "timestamp2": {
+                    "title": "Timestamp2",
+                    "type": "string"
+                },
+                "timestamp1": {
+                    "title": "Timestamp1",
+                    "type": "string"
+                },
+                "unit": {
+                    "default": "auto",
+                    "title": "Unit",
+                    "type": "string"
+                },
+                "timezone": {
+                    "default": "America/New_York",
+                    "title": "Timezone",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "timestamp2",
+                "timestamp1"
+            ],
+            "title": "time_differenceArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "time_since",
+        "description": "\n    Calculate time elapsed since a given timestamp until now.\n    \n    Timestamp must be in format: \"YYYY-MM-DD HH:MM:SS\" or \"YYYY-MM-DD\"\n    \n    Args:\n        timestamp: Past timestamp to compare against current time\n        timezone: Timezone for parsing and current time\n    \n    Returns:\n        Dictionary containing:\n        - seconds: Seconds elapsed (negative if timestamp is in future)\n        - formatted: Human-readable format (e.g., \"2 days, 3 hours ago\")\n        - context: Contextual description (e.g., \"earlier today\", \"yesterday\")\n    ",
+        "inputSchema": {
+            "properties": {
+                "timestamp": {
+                    "title": "Timestamp",
+                    "type": "string"
+                },
+                "timezone": {
+                    "default": "America/New_York",
+                    "title": "Timezone",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "timestamp"
+            ],
+            "title": "time_sinceArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "parse_timestamp",
+        "description": "\n    Parse and convert a timestamp to multiple formats.\n    \n    Timestamp must be in format: \"YYYY-MM-DD HH:MM:SS\" or \"YYYY-MM-DD\"\n    \n    Args:\n        timestamp: Timestamp string in standard format\n        source_timezone: Timezone of the input (if None, uses target_timezone)\n        target_timezone: Desired output timezone\n    \n    Returns:\n        Dictionary containing:\n        - iso: ISO 8601 format\n        - unix: Unix timestamp (seconds since epoch)\n        - human: Human-friendly format\n        - timezone: Timezone name\n        - day_of_week: Full day name\n        - date: Date only (YYYY-MM-DD)\n        - time: Time only (HH:MM:SS)\n    ",
+        "inputSchema": {
+            "properties": {
+                "source_timezone": {
+                    "title": "source_timezone",
+                    "type": "string"
+                },
+                "timestamp": {
+                    "title": "Timestamp",
+                    "type": "string"
+                },
+                "target_timezone": {
+                    "default": "America/New_York",
+                    "title": "Target Timezone",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "source_timezone",
+                "timestamp"
+            ],
+            "title": "parse_timestampArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "add_time",
+        "description": "\n    Add a duration to a timestamp.\n    \n    Timestamp must be in format: \"YYYY-MM-DD HH:MM:SS\" or \"YYYY-MM-DD\"\n    \n    Args:\n        timestamp: Starting timestamp in standard format\n        duration: Amount to add (can be negative to subtract)\n        unit: Unit of the duration\n        timezone: Timezone for calculations\n    \n    Returns:\n        Dictionary containing:\n        - result: Resulting timestamp in same format as input\n        - iso: ISO 8601 format of result\n        - description: Natural language description (e.g., \"tomorrow at 3:00 PM\")\n    ",
+        "inputSchema": {
+            "properties": {
+                "unit": {
+                    "title": "Unit",
+                    "type": "string"
+                },
+                "duration": {
+                    "title": "duration",
+                    "type": "string"
+                },
+                "timestamp": {
+                    "title": "Timestamp",
+                    "type": "string"
+                },
+                "timezone": {
+                    "default": "America/New_York",
+                    "title": "Timezone",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "unit",
+                "duration",
+                "timestamp"
+            ],
+            "title": "add_timeArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "timestamp_context",
+        "description": "\n    Provide contextual information about a timestamp.\n    \n    Timestamp must be in format: \"YYYY-MM-DD HH:MM:SS\" or \"YYYY-MM-DD\"\n    \n    Args:\n        timestamp: Timestamp to analyze in standard format\n        timezone: Timezone for context\n    \n    Returns:\n        Dictionary containing:\n        - time_of_day: \"early_morning\", \"morning\", \"afternoon\", \"evening\", \"late_night\"\n        - day_of_week: Full day name\n        - is_weekend: Boolean\n        - is_business_hours: Boolean (Mon-Fri 9-5)\n        - hour_24: Hour in 24-hour format\n        - typical_activity: Contextual description (e.g., \"lunch_time\", \"commute_time\")\n        - relative_day: \"today\", \"yesterday\", \"tomorrow\", or None\n    ",
+        "inputSchema": {
+            "properties": {
+                "timestamp": {
+                    "title": "Timestamp",
+                    "type": "string"
+                },
+                "timezone": {
+                    "default": "America/New_York",
+                    "title": "Timezone",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "timestamp"
+            ],
+            "title": "timestamp_contextArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "format_duration",
+        "description": "\n    Format a duration in seconds into human-readable text.\n    \n    Args:\n        seconds: Duration in seconds (can be negative)\n        style: Format style\n            - \"full\": \"2 hours, 30 minutes, 15 seconds\"\n            - \"compact\": \"2h 30m 15s\"\n            - \"minimal\": \"2:30:15\"\n    \n    Returns:\n        Formatted duration string\n    ",
+        "inputSchema": {
+            "properties": {
+                "seconds": {
+                    "title": "seconds",
+                    "type": "string"
+                },
+                "style": {
+                    "default": "full",
+                    "title": "Style",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "seconds"
+            ],
+            "title": "format_durationArguments",
+            "type": "object"
+        }
+    }
+]

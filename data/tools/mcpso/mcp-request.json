@@ -1,0 +1,67 @@
+[
+    {
+        "name": "wallet-mcp_registerApi",
+        "description": "Register a new custom API. Complete API configuration information is required, including id, name, description, params, and api configuration.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "config": {
+                    "type": "string",
+                    "description": "API configuration JSON string"
+                }
+            },
+            "required": [
+                "config"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "wallet-mcp_deleteApi",
+        "description": "Delete a registered API.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "ID of the API to delete"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "wallet-mcp_beforeRequest",
+        "description": "Before querying any data, this tool first retrieves a \n    list of available APIs that can be directly invoked. \n    It returns a list of interface definitions. \n    Based on the user's request match the appropriate API, \n    prompts the user to complete the required input parameters, \n    and then uses the request tool to make the call.\n    The first argument to request tool is the id field of the selected API from the list,\n    and complete other parameters that defined in the params field of the API using \n    a JSON string type as the second argument.",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "wallet-mcp_request",
+        "description": "This is a general tool for sending requests. It takes 2 parameters: the first is the id of the API to call, and the second is the parameters required for the API request",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "args": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id",
+                "args"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

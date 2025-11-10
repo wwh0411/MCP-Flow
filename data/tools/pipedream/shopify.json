@@ -1,0 +1,662 @@
+[
+    {
+        "name": "shopify-add-product-to-custom-collection",
+        "description": "Adds a product or products to a custom collection. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/collectionAddProductsV2)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "productIds": {
+                    "type": "string",
+                    "description": ""
+                },
+                "collectionId": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": [
+                "collectionId"
+            ]
+        }
+    },
+    {
+        "name": "shopify-add-tags",
+        "description": "Add tags. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/tagsAdd)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "resource": {
+                    "type": "string",
+                    "description": "The Shopify Admin API resource type."
+                },
+                "gid": {
+                    "type": "string",
+                    "description": "The Shopify Admin Resource ID. For example, the ID of a Product, Customer, Order, DraftOrder, or OnlineStoreArticle. Can be found at the end of the URL in Shopify Admin."
+                },
+                "tags": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "shopify-bulk-import",
+        "description": "Execute bulk mutations by uploading a JSONL file containing mutation variables. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/bulkoperationrunmutation)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "alert": {
+                    "type": "string",
+                    "description": ""
+                },
+                "mutation": {
+                    "type": "string",
+                    "description": "The mutation to be executed in bulk. [See the documentation](https://shopify.dev/docs/api/usage/bulk-operations/imports) for a list of supported mutations. Example: `mutation call($input: ProductInput!) { productCreate(input: $input) { product { id title } } }`"
+                },
+                "filePath": {
+                    "type": "string",
+                    "description": "File path in the `/tmp` directory of a JSONL file including the variables for the mutation. Each line in the JSONL file represents one input unit. The mutation runs once on each line of the input file. [See the documentation](https://shopify.dev/docs/api/usage/bulk-operations/imports) for more information."
+                },
+                "clientIdentifier": {
+                    "type": "string",
+                    "description": "An optional identifier which may be used for querying"
+                },
+                "syncDir": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "shopify-create-article",
+        "description": "Create a new blog article. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/articleCreate)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "blogId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "title": {
+                    "type": "string",
+                    "description": "The title of the article"
+                },
+                "author": {
+                    "type": "string",
+                    "description": "The name of the author of the article"
+                },
+                "body": {
+                    "type": "string",
+                    "description": "The text content of the article, complete with HTML markup"
+                },
+                "summary": {
+                    "type": "string",
+                    "description": "A summary of the article, which can include HTML markup. The summary is used by the online store theme to display the article on other pages, such as the home page or the main blog page."
+                },
+                "image": {
+                    "type": "string",
+                    "description": "The URL of the image associated with the article"
+                },
+                "tags": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "shopify-create-blog",
+        "description": "Create a new blog. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/blogCreate)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "description": "The title of the blog."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "shopify-create-custom-collection",
+        "description": "Create a new custom collection. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/collectionCreate)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "description": "The name of the custom collection"
+                },
+                "products": {
+                    "type": "string",
+                    "description": ""
+                },
+                "metafields": {
+                    "type": "string",
+                    "description": ""
+                },
+                "imageUrl": {
+                    "type": "string",
+                    "description": "The source URL that specifies the location of the image"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "shopify-create-metafield",
+        "description": "Creates a metafield belonging to a resource. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/metafieldDefinitionCreate)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "ownerResource": {
+                    "type": "string",
+                    "description": "Filter by the resource type on which the metafield is attached to"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The human-readable name for the metafield definition"
+                },
+                "namespace": {
+                    "type": "string",
+                    "description": "A container for a group of metafields. Grouping metafields within a namespace prevents your metafields from conflicting with other metafields with the same key name. Must have between 3-255 characters."
+                },
+                "key": {
+                    "type": "string",
+                    "description": "The key of the metafield. Keys can be up to 64 characters long and can contain alphanumeric characters, hyphens, underscores, and periods."
+                },
+                "type": {
+                    "type": "string",
+                    "description": "The type of data that the metafield stores in the `value` field. Refer to the list of [supported types](https://shopify.dev/apps/custom-data/metafields/types)."
+                },
+                "pin": {
+                    "type": "boolean",
+                    "description": "Whether to pin the metafield definition"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "shopify-create-page",
+        "description": "Create a new page. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/pageCreate)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "description": "The title of the page."
+                },
+                "body": {
+                    "type": "string",
+                    "description": "The text content of the page, complete with HTML markup"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "shopify-create-product",
+        "description": "Create a new product. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/productCreate)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "description": "Title of the new product"
+                },
+                "productDescription": {
+                    "type": "string",
+                    "description": "A description of the product. Supports HTML formatting. Example: `<strong>Good snowboard!</strong>`"
+                },
+                "vendor": {
+                    "type": "string",
+                    "description": "The name of the product's vendor"
+                },
+                "productType": {
+                    "type": "string",
+                    "description": "A categorization for the product used for filtering and searching products"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "The status of the product. `active`: The product is ready to sell and is available to customers on the online store, sales channels, and apps. By default, existing products are set to active. `archived`: The product is no longer being sold and isn't available to customers on sales channels and apps. `draft`: The product isn't ready to sell and is unavailable to customers on sales channels and apps. By default, duplicated and unarchived products are set to draft"
+                },
+                "images": {
+                    "type": "string",
+                    "description": "A list of URLs of images to associate with the new product"
+                },
+                "options": {
+                    "type": "string",
+                    "description": "The custom product properties. For example, Size, Color, and Material. Each product can have up to 3 options and each option value can be up to 255 characters. Product variants are made of up combinations of option values. Options cannot be created without values. To create new options, a variant with an associated option value also needs to be created. Example: `[{\"name\":\"Color\",\"values\":[{\"name\": \"Blue\"},{\"name\": \"Black\"}]},{\"name\":\"Size\",\"values\":[{\"name\": \"155\"},{\"name\": \"159\"}]}]`"
+                },
+                "tags": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "shopify-create-product-variant",
+        "description": "Create a new product variant. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/productVariantsBulkCreate)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "productId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "optionIds": {
+                    "type": "string",
+                    "description": ""
+                },
+                "price": {
+                    "type": "string",
+                    "description": "The price of the product variant"
+                },
+                "image": {
+                    "type": "string",
+                    "description": "The URL of an image to be added to the product variant"
+                },
+                "sku": {
+                    "type": "string",
+                    "description": "A unique identifier for the product variant in the shop"
+                },
+                "locationId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "available": {
+                    "type": "string",
+                    "description": "Sets the available inventory quantity"
+                },
+                "barcode": {
+                    "type": "string",
+                    "description": "The barcode, UPC, or ISBN number for the product"
+                },
+                "weight": {
+                    "type": "string",
+                    "description": "The weight of the product variant in the unit system specified with Weight Unit"
+                },
+                "weightUnit": {
+                    "type": "string",
+                    "description": "The unit of measurement that applies to the product variant's weight. If you don't specify a value for weight_unit, then the shop's default unit of measurement is applied."
+                },
+                "metafields": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "shopify-create-smart-collection",
+        "description": "Creates a smart collection. You can fill in any number of rules by selecting more than one option in each prop.[See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/collectionCreate)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "description": "Title of the smart collection"
+                },
+                "disjunctive": {
+                    "type": "boolean",
+                    "description": "If `false`, the product must match all the rules to be included in the smart collection. Otherwise, it only needs to match at least one rule"
+                },
+                "rules": {
+                    "type": "number",
+                    "description": "The number of rules to input"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "shopify-delete-article",
+        "description": "Delete an existing blog article. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/articleDelete)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "blogId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "articleId": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "shopify-delete-blog",
+        "description": "Delete an existing blog. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/blogDelete)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "blogId": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "shopify-delete-page",
+        "description": "Delete an existing page. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/pageDelete)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "pageId": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "shopify-get-articles",
+        "description": "Retrieve a list of all articles from a blog. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/articles)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "blogId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "maxResults": {
+                    "type": "string",
+                    "description": ""
+                },
+                "reverse": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "shopify-get-pages",
+        "description": "Retrieve a list of all pages. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/pages)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "maxResults": {
+                    "type": "string",
+                    "description": ""
+                },
+                "reverse": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "shopify-search-custom-collection-by-name",
+        "description": "Search for a custom collection by name/title. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/collections)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "description": "The name of the custom collection"
+                },
+                "exactMatch": {
+                    "type": "boolean",
+                    "description": "The collection title search should be an exact match"
+                },
+                "maxResults": {
+                    "type": "string",
+                    "description": ""
+                },
+                "sortKey": {
+                    "type": "string",
+                    "description": ""
+                },
+                "reverse": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "shopify-search-product-variant",
+        "description": "Search for product variants or create one if not found. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/productVariants)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "productId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "productVariantId": {
+                    "type": "string",
+                    "description": "ID of the product variant. Takes precedence over **Title**"
+                },
+                "title": {
+                    "type": "string",
+                    "description": "The name of the product variant"
+                },
+                "createIfNotFound": {
+                    "type": "boolean",
+                    "description": "Creates the product variant with **Title** and the fields below if not found"
+                },
+                "optionIds": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "shopify-search-products",
+        "description": "Search for products. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/products)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "description": "The name of the product"
+                },
+                "exactMatch": {
+                    "type": "boolean",
+                    "description": "The product title search should be an exact match"
+                },
+                "productIds": {
+                    "type": "string",
+                    "description": "Select multiple Product IDs or provide Product IDs as a JSON array. For example: `{{ [\"gid://shopify/Product/1\", \"gid://shopify/Product/2\"] }}`"
+                },
+                "collectionId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "productType": {
+                    "type": "string",
+                    "description": "A categorization for the product used for filtering and searching products"
+                },
+                "vendor": {
+                    "type": "string",
+                    "description": "The name of the product's vendor"
+                },
+                "maxResults": {
+                    "type": "string",
+                    "description": ""
+                },
+                "sortKey": {
+                    "type": "string",
+                    "description": "The key to sort the results by. Keys `RELEVANCE` and `INVENTORY_TOTAL` not for use with `Collection ID`."
+                },
+                "reverse": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "shopify-update-article",
+        "description": "Update a blog article. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/articleUpdate)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "blogId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "articleId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "title": {
+                    "type": "string",
+                    "description": "The title of the article"
+                },
+                "bodyHtml": {
+                    "type": "string",
+                    "description": "The text content of the article, complete with HTML markup."
+                },
+                "author": {
+                    "type": "string",
+                    "description": "The name of the author of the article"
+                },
+                "summary": {
+                    "type": "string",
+                    "description": "A summary of the article, which can include HTML markup. The summary is used by the online store theme to display the article on other pages, such as the home page or the main blog page."
+                },
+                "image": {
+                    "type": "string",
+                    "description": "The URL of the image associated with the article"
+                },
+                "tags": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "shopify-update-inventory-level",
+        "description": "Sets the inventory level for an inventory item at a location. [See the documenation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/inventorySetOnHandQuantities)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "locationId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "productId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "inventoryItemId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "available": {
+                    "type": "string",
+                    "description": "Sets the available inventory quantity"
+                },
+                "reason": {
+                    "type": "string",
+                    "description": "The reason for the quantity changes"
+                },
+                "referenceDocumentUri": {
+                    "type": "string",
+                    "description": "A freeform URI that represents why the inventory change happened. This can be the entity adjusting inventory quantities or the Shopify resource that's associated with the inventory adjustment. For example, a unit in a draft order might have been previously reserved, and a merchant later creates an order from the draft order. In this case, the referenceDocumentUri for the inventory adjustment is a URI referencing the order ID."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "shopify-update-page",
+        "description": "Update an existing page. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/pageUpdate)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "pageId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "title": {
+                    "type": "string",
+                    "description": "The title of the page"
+                },
+                "body": {
+                    "type": "string",
+                    "description": "The text content of the page, complete with HTML markup"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "shopify-update-product-variant",
+        "description": "Update an existing product variant. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/productVariantsBulkUpdate)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "productId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "productVariantId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "optionIds": {
+                    "type": "string",
+                    "description": ""
+                },
+                "price": {
+                    "type": "string",
+                    "description": "The price of the product variant"
+                },
+                "image": {
+                    "type": "string",
+                    "description": "The URL of an image to be added to the product variant"
+                },
+                "sku": {
+                    "type": "string",
+                    "description": "A unique identifier for the product variant in the shop"
+                },
+                "barcode": {
+                    "type": "string",
+                    "description": "The barcode, UPC, or ISBN number for the product"
+                },
+                "weight": {
+                    "type": "string",
+                    "description": "The weight of the product variant in the unit system specified with Weight Unit"
+                },
+                "weightUnit": {
+                    "type": "string",
+                    "description": "The unit of measurement that applies to the product variant's weight. If you don't specify a value for weight_unit, then the shop's default unit of measurement is applied."
+                },
+                "metafields": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    }
+]

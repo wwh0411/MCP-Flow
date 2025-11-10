@@ -1,0 +1,339 @@
+[
+    {
+        "name": "get_server_info",
+        "description": "Get information about a Discord server",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "server_id": {
+                    "type": "string",
+                    "description": "Discord server (guild) ID"
+                }
+            },
+            "required": [
+                "server_id"
+            ]
+        }
+    },
+    {
+        "name": "get_channels",
+        "description": "Get a list of all channels in a Discord server",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "server_id": {
+                    "type": "string",
+                    "description": "Discord server (guild) ID"
+                }
+            },
+            "required": [
+                "server_id"
+            ]
+        }
+    },
+    {
+        "name": "list_members",
+        "description": "Get a list of members in a server",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "server_id": {
+                    "type": "string",
+                    "description": "Discord server (guild) ID"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of members to fetch",
+                    "minimum": 1,
+                    "maximum": 1000
+                }
+            },
+            "required": [
+                "server_id"
+            ]
+        }
+    },
+    {
+        "name": "add_role",
+        "description": "Add a role to a user",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "server_id": {
+                    "type": "string",
+                    "description": "Discord server ID"
+                },
+                "user_id": {
+                    "type": "string",
+                    "description": "User to add role to"
+                },
+                "role_id": {
+                    "type": "string",
+                    "description": "Role ID to add"
+                }
+            },
+            "required": [
+                "server_id",
+                "user_id",
+                "role_id"
+            ]
+        }
+    },
+    {
+        "name": "remove_role",
+        "description": "Remove a role from a user",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "server_id": {
+                    "type": "string",
+                    "description": "Discord server ID"
+                },
+                "user_id": {
+                    "type": "string",
+                    "description": "User to remove role from"
+                },
+                "role_id": {
+                    "type": "string",
+                    "description": "Role ID to remove"
+                }
+            },
+            "required": [
+                "server_id",
+                "user_id",
+                "role_id"
+            ]
+        }
+    },
+    {
+        "name": "create_text_channel",
+        "description": "Create a new text channel",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "server_id": {
+                    "type": "string",
+                    "description": "Discord server ID"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Channel name"
+                },
+                "category_id": {
+                    "type": "string",
+                    "description": "Optional category ID to place channel in"
+                },
+                "topic": {
+                    "type": "string",
+                    "description": "Optional channel topic"
+                }
+            },
+            "required": [
+                "server_id",
+                "name"
+            ]
+        }
+    },
+    {
+        "name": "delete_channel",
+        "description": "Delete a channel",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "channel_id": {
+                    "type": "string",
+                    "description": "ID of channel to delete"
+                },
+                "reason": {
+                    "type": "string",
+                    "description": "Reason for deletion"
+                }
+            },
+            "required": [
+                "channel_id"
+            ]
+        }
+    },
+    {
+        "name": "add_reaction",
+        "description": "Add a reaction to a message",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "channel_id": {
+                    "type": "string",
+                    "description": "Channel containing the message"
+                },
+                "message_id": {
+                    "type": "string",
+                    "description": "Message to react to"
+                },
+                "emoji": {
+                    "type": "string",
+                    "description": "Emoji to react with (Unicode or custom emoji ID)"
+                }
+            },
+            "required": [
+                "channel_id",
+                "message_id",
+                "emoji"
+            ]
+        }
+    },
+    {
+        "name": "add_multiple_reactions",
+        "description": "Add multiple reactions to a message",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "channel_id": {
+                    "type": "string",
+                    "description": "Channel containing the message"
+                },
+                "message_id": {
+                    "type": "string",
+                    "description": "Message to react to"
+                },
+                "emojis": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "description": "Emoji to react with (Unicode or custom emoji ID)"
+                    },
+                    "description": "List of emojis to add as reactions"
+                }
+            },
+            "required": [
+                "channel_id",
+                "message_id",
+                "emojis"
+            ]
+        }
+    },
+    {
+        "name": "remove_reaction",
+        "description": "Remove a reaction from a message",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "channel_id": {
+                    "type": "string",
+                    "description": "Channel containing the message"
+                },
+                "message_id": {
+                    "type": "string",
+                    "description": "Message to remove reaction from"
+                },
+                "emoji": {
+                    "type": "string",
+                    "description": "Emoji to remove (Unicode or custom emoji ID)"
+                }
+            },
+            "required": [
+                "channel_id",
+                "message_id",
+                "emoji"
+            ]
+        }
+    },
+    {
+        "name": "send_message",
+        "description": "Send a message to a specific channel",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "channel_id": {
+                    "type": "string",
+                    "description": "Discord channel ID"
+                },
+                "content": {
+                    "type": "string",
+                    "description": "Message content"
+                }
+            },
+            "required": [
+                "channel_id",
+                "content"
+            ]
+        }
+    },
+    {
+        "name": "read_messages",
+        "description": "Read recent messages from a channel",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "channel_id": {
+                    "type": "string",
+                    "description": "Discord channel ID"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Number of messages to fetch (max 100)",
+                    "minimum": 1,
+                    "maximum": 100
+                }
+            },
+            "required": [
+                "channel_id"
+            ]
+        }
+    },
+    {
+        "name": "get_user_info",
+        "description": "Get information about a Discord user",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "user_id": {
+                    "type": "string",
+                    "description": "Discord user ID"
+                }
+            },
+            "required": [
+                "user_id"
+            ]
+        }
+    },
+    {
+        "name": "moderate_message",
+        "description": "Delete a message and optionally timeout the user",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "channel_id": {
+                    "type": "string",
+                    "description": "Channel ID containing the message"
+                },
+                "message_id": {
+                    "type": "string",
+                    "description": "ID of message to moderate"
+                },
+                "reason": {
+                    "type": "string",
+                    "description": "Reason for moderation"
+                },
+                "timeout_minutes": {
+                    "type": "number",
+                    "description": "Optional timeout duration in minutes",
+                    "minimum": 0,
+                    "maximum": 40320
+                }
+            },
+            "required": [
+                "channel_id",
+                "message_id",
+                "reason"
+            ]
+        }
+    },
+    {
+        "name": "list_servers",
+        "description": "Get a list of all Discord servers the bot has access to with their details such as name, id, member count, and creation date.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    }
+]

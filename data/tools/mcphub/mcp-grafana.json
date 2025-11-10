@@ -1,0 +1,1164 @@
+[
+    {
+        "name": "add_activity_to_incident",
+        "description": "Add a note (userNote activity) to an existing incident's timeline using its ID. The note body can include URLs which will be attached as context. Use this to add context to an incident.",
+        "parameters": {
+            "properties": {
+                "body": {
+                    "type": "string",
+                    "description": "The body of the activity. URLs will be parsed and attached as context"
+                },
+                "eventTime": {
+                    "type": "string",
+                    "description": "The time that the activity occurred. If not provided, the current time will be used"
+                },
+                "incidentId": {
+                    "type": "string",
+                    "description": "The ID of the incident to add the activity to"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "create_incident",
+        "description": "Create a new Grafana incident. Requires title, severity, and room prefix. Allows setting status and labels. This tool should be used judiciously and sparingly, and only after confirmation from the user, as it may notify or alarm lots of people.",
+        "parameters": {
+            "properties": {
+                "attachCaption": {
+                    "type": "string",
+                    "description": "The caption of the attachment"
+                },
+                "attachUrl": {
+                    "type": "string",
+                    "description": "The URL of the attachment"
+                },
+                "isDrill": {
+                    "type": "boolean",
+                    "description": "Whether the incident is a drill incident"
+                },
+                "labels": {
+                    "items": {
+                        "properties": {
+                            "key": {
+                                "type": "string"
+                            },
+                            "label": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "colorHex": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "type": "array",
+                    "description": "The labels to add to the incident"
+                },
+                "roomPrefix": {
+                    "type": "string",
+                    "description": "The prefix of the room to create the incident in"
+                },
+                "severity": {
+                    "type": "string",
+                    "description": "The severity of the incident"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "The status of the incident"
+                },
+                "title": {
+                    "type": "string",
+                    "description": "The title of the incident"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "fetch_pyroscope_profile",
+        "description": "\nFetches a profile from a Pyroscope data source for a given time range. By default, the time range is tha past 1 hour.\nThe profile type is required, available profile types can be fetched via the list_pyroscope_profile_types tool. Not all\nprofile types are available for every service. Expect some queries to return empty result sets, this indicates the\nprofile type does not exist for that query. In such a case, consider trying a related profile type or giving up.\nMatchers are not required, but highly recommended, they are generally used to select an application by the service_name\nlabel (e.g. {service_name=\"foo\"}). Use the list_pyroscope_label_names tool to fetch available label names, and the\nlist_pyroscope_label_values tool to fetch available label values. The returned profile is in DOT format.\n",
+        "parameters": {
+            "properties": {
+                "data_source_uid": {
+                    "type": "string",
+                    "description": "The UID of the datasource to query"
+                },
+                "end_rfc_3339": {
+                    "type": "string",
+                    "description": "Optionally, the end time of the query in RFC3339 format (defaults to now)"
+                },
+                "matchers": {
+                    "type": "string",
+                    "description": "Optionally, Prometheus style matchers used to filter the result set (defaults to: {})"
+                },
+                "max_node_depth": {
+                    "type": "integer",
+                    "description": "Optionally, the maximum depth of nodes in the resulting profile. Less depth results in smaller profiles that execute faster, more depth result in larger profiles that have more detail. A value of -1 indicates to use an unbounded node depth (default: 100). Reducing max node depth from the default will negatively impact the accuracy of the profile"
+                },
+                "profile_type": {
+                    "type": "string",
+                    "description": "Type profile type, use the list_pyroscope_profile_types tool to fetch available profile types"
+                },
+                "start_rfc_3339": {
+                    "type": "string",
+                    "description": "Optionally, the start time of the query in RFC3339 format (defaults to 1 hour ago)"
+                }
+            },
+            "required": [
+                "data_source_uid",
+                "profile_type"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "find_error_pattern_logs",
+        "description": "Searches Loki logs for elevated error patterns compared to the last day's average, waits for the analysis to complete, and returns the results including any patterns found.",
+        "parameters": {
+            "properties": {
+                "end": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "End time for the investigation. Defaults to now if not specified."
+                },
+                "labels": {
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "type": "object",
+                    "description": "Labels to scope the analysis"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the investigation"
+                },
+                "start": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Start time for the investigation. Defaults to 30 minutes ago if not specified."
+                }
+            },
+            "required": [
+                "name",
+                "labels"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "find_slow_requests",
+        "description": "Searches relevant Tempo datasources for slow requests, waits for the analysis to complete, and returns the results.",
+        "parameters": {
+            "properties": {
+                "end": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "End time for the investigation. Defaults to now if not specified."
+                },
+                "labels": {
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "type": "object",
+                    "description": "Labels to scope the analysis"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the investigation"
+                },
+                "start": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Start time for the investigation. Defaults to 30 minutes ago if not specified."
+                }
+            },
+            "required": [
+                "name",
+                "labels"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "generate_deeplink",
+        "description": "Generate deeplink URLs for Grafana resources. Supports dashboards (requires dashboardUid), panels (requires dashboardUid and panelId), and Explore queries (requires datasourceUid). Optionally accepts time range and additional query parameters.",
+        "parameters": {
+            "properties": {
+                "dashboardUid": {
+                    "type": "string",
+                    "description": "Dashboard UID (required for dashboard and panel types)"
+                },
+                "datasourceUid": {
+                    "type": "string",
+                    "description": "Datasource UID (required for explore type)"
+                },
+                "panelId": {
+                    "type": "integer",
+                    "description": "Panel ID (required for panel type)"
+                },
+                "queryParams": {
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "type": "object",
+                    "description": "Additional query parameters"
+                },
+                "resourceType": {
+                    "type": "string",
+                    "description": "Type of resource: dashboard, panel, or explore"
+                },
+                "timeRange": {
+                    "properties": {
+                        "from": {
+                            "type": "string",
+                            "description": "Start time (e.g., 'now-1h')"
+                        },
+                        "to": {
+                            "type": "string",
+                            "description": "End time (e.g., 'now')"
+                        }
+                    },
+                    "type": "object",
+                    "description": "Time range for the link"
+                }
+            },
+            "required": [
+                "resourceType"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_alert_rule_by_uid",
+        "description": "Retrieves the full configuration and detailed status of a specific Grafana alert rule identified by its unique ID (UID). The response includes fields like title, condition, query data, folder UID, rule group, state settings (no data, error), evaluation interval, annotations, and labels.",
+        "parameters": {
+            "properties": {
+                "uid": {
+                    "type": "string",
+                    "description": "The uid of the alert rule"
+                }
+            },
+            "required": [
+                "uid"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_assertions",
+        "description": "Get assertion summary for a given entity with its type, name, env, site, namespace, and a time range",
+        "parameters": {
+            "properties": {
+                "endTime": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "The end time in RFC3339 format"
+                },
+                "entityName": {
+                    "type": "string",
+                    "description": "The name of the entity to list"
+                },
+                "entityType": {
+                    "type": "string",
+                    "description": "The type of the entity to list (e.g. Service, Node, Pod, etc.)"
+                },
+                "env": {
+                    "type": "string",
+                    "description": "The env of the entity to list"
+                },
+                "namespace": {
+                    "type": "string",
+                    "description": "The namespace of the entity to list"
+                },
+                "site": {
+                    "type": "string",
+                    "description": "The site of the entity to list"
+                },
+                "startTime": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "The start time in RFC3339 format"
+                }
+            },
+            "required": [
+                "startTime",
+                "endTime"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_current_oncall_users",
+        "description": "Get the list of users currently on-call for a specific Grafana OnCall schedule ID. Returns the schedule ID, name, and a list of detailed user objects for those currently on call.",
+        "parameters": {
+            "properties": {
+                "scheduleId": {
+                    "type": "string",
+                    "description": "The ID of the schedule to get current on-call users for"
+                }
+            },
+            "required": [
+                "scheduleId"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_dashboard_by_uid",
+        "description": "Retrieves the complete dashboard, including panels, variables, and settings, for a specific dashboard identified by its UID. WARNING: Large dashboards can consume significant context window space. Consider using get_dashboard_summary for overview or get_dashboard_property for specific data instead.",
+        "parameters": {
+            "properties": {
+                "uid": {
+                    "type": "string",
+                    "description": "The UID of the dashboard"
+                }
+            },
+            "required": [
+                "uid"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_dashboard_panel_queries",
+        "description": "Use this tool to retrieve panel queries and information from a Grafana dashboard. When asked about panel queries, queries in a dashboard, or what queries a dashboard contains, call this tool with the dashboard UID. The datasource is an object with fields `uid` (which may be a concrete UID or a template variable like \"$datasource\") and `type`. If the datasource UID is a template variable, it won't be usable directly for queries. Returns an array of objects, each representing a panel, with fields: title, query, and datasource (an object with uid and type).",
+        "parameters": {
+            "properties": {
+                "uid": {
+                    "type": "string",
+                    "description": "The UID of the dashboard"
+                }
+            },
+            "required": [
+                "uid"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_dashboard_property",
+        "description": "Get specific parts of a dashboard using JSONPath expressions to minimize context window usage. Common paths: '$.title' (title)\\, '$.panels[*].title' (all panel titles)\\, '$.panels[0]' (first panel)\\, '$.templating.list' (variables)\\, '$.tags' (tags)\\, '$.panels[*].targets[*].expr' (all queries). Use this instead of get_dashboard_by_uid when you only need specific dashboard properties.",
+        "parameters": {
+            "properties": {
+                "jsonPath": {
+                    "type": "string",
+                    "description": "JSONPath expression to extract specific data (e.g., '$.panels[0].title' for first panel title, '$.panels[*].title' for all panel titles, '$.templating.list' for variables)"
+                },
+                "uid": {
+                    "type": "string",
+                    "description": "The UID of the dashboard"
+                }
+            },
+            "required": [
+                "uid",
+                "jsonPath"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_dashboard_summary",
+        "description": "Get a compact summary of a dashboard including title\\, panel count\\, panel types\\, variables\\, and other metadata without the full JSON. Use this for dashboard overview and planning modifications without consuming large context windows.",
+        "parameters": {
+            "properties": {
+                "uid": {
+                    "type": "string",
+                    "description": "The UID of the dashboard"
+                }
+            },
+            "required": [
+                "uid"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_datasource_by_name",
+        "description": "Retrieves detailed information about a specific datasource using its name. Returns the full datasource model, including UID, type, URL, access settings, JSON data, and secure JSON field status.",
+        "parameters": {
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The name of the datasource"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_datasource_by_uid",
+        "description": "Retrieves detailed information about a specific datasource using its UID. Returns the full datasource model, including name, type, URL, access settings, JSON data, and secure JSON field status.",
+        "parameters": {
+            "properties": {
+                "uid": {
+                    "type": "string",
+                    "description": "The uid of the datasource"
+                }
+            },
+            "required": [
+                "uid"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_incident",
+        "description": "Get a single incident by ID. Returns the full incident details including title, status, severity, labels, timestamps, and other metadata.",
+        "parameters": {
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "The ID of the incident to retrieve"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_oncall_shift",
+        "description": "Get detailed information for a specific Grafana OnCall shift using its ID. A shift represents a designated time period within a schedule when users are actively on-call. Returns the full shift details.",
+        "parameters": {
+            "properties": {
+                "shiftId": {
+                    "type": "string",
+                    "description": "The ID of the shift to get details for"
+                }
+            },
+            "required": [
+                "shiftId"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_sift_analysis",
+        "description": "Retrieves a specific analysis from an investigation by its UUID. The investigation ID and analysis ID should be provided as strings in UUID format.",
+        "parameters": {
+            "properties": {
+                "analysisId": {
+                    "type": "string",
+                    "description": "The UUID of the specific analysis to retrieve"
+                },
+                "investigationId": {
+                    "type": "string",
+                    "description": "The UUID of the investigation as a string (e.g. '02adab7c-bf5b-45f2-9459-d71a2c29e11b')"
+                }
+            },
+            "required": [
+                "investigationId",
+                "analysisId"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_sift_investigation",
+        "description": "Retrieves an existing Sift investigation by its UUID. The ID should be provided as a string in UUID format (e.g. '02adab7c-bf5b-45f2-9459-d71a2c29e11b').",
+        "parameters": {
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "The UUID of the investigation as a string (e.g. '02adab7c-bf5b-45f2-9459-d71a2c29e11b')"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_alert_rules",
+        "description": "Lists Grafana alert rules, returning a summary including UID, title, current state (e.g., 'pending', 'firing', 'inactive'), and labels. Supports filtering by labels using selectors and pagination. Example label selector: `[{'name': 'severity', 'type': '=', 'value': 'critical'}]`. Inactive state means the alert state is normal, not firing",
+        "parameters": {
+            "properties": {
+                "label_selectors": {
+                    "items": {
+                        "properties": {
+                            "filters": {
+                                "items": {
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "description": "The name of the label to match against"
+                                        },
+                                        "value": {
+                                            "type": "string",
+                                            "description": "The value to match against"
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "description": "One of the '=' or '!=' or '=~' or '!~'"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "required": [
+                                        "name",
+                                        "value",
+                                        "type"
+                                    ]
+                                },
+                                "type": "array"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "type": "array",
+                    "description": "Optionally, a list of matchers to filter alert rules by labels"
+                },
+                "limit": {
+                    "type": "integer",
+                    "description": "The maximum number of results to return. Default is 100."
+                },
+                "page": {
+                    "type": "integer",
+                    "description": "The page number to return."
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_contact_points",
+        "description": "Lists Grafana notification contact points, returning a summary including UID, name, and type for each. Supports filtering by name - exact match - and limiting the number of results.",
+        "parameters": {
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "description": "The maximum number of results to return. Default is 100."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Filter contact points by name"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_datasources",
+        "description": "List available Grafana datasources. Optionally filter by datasource type (e.g., 'prometheus', 'loki'). Returns a summary list including ID, UID, name, type, and default status.",
+        "parameters": {
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "description": "The type of datasources to search for. For example, 'prometheus', 'loki', 'tempo', etc..."
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_incidents",
+        "description": "List Grafana incidents. Allows filtering by status ('active', 'resolved') and optionally including drill incidents. Returns a preview list with basic details.",
+        "parameters": {
+            "properties": {
+                "drill": {
+                    "type": "boolean",
+                    "description": "Whether to include drill incidents"
+                },
+                "limit": {
+                    "type": "integer",
+                    "description": "The maximum number of incidents to return"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "The status of the incidents to include. Valid values: 'active', 'resolved'"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_loki_label_names",
+        "description": "Lists all available label names (keys) found in logs within a specified Loki datasource and time range. Returns a list of unique label strings (e.g., `[\"app\", \"env\", \"pod\"]`). If the time range is not provided, it defaults to the last hour.",
+        "parameters": {
+            "properties": {
+                "datasourceUid": {
+                    "type": "string",
+                    "description": "The UID of the datasource to query"
+                },
+                "endRfc3339": {
+                    "type": "string",
+                    "description": "Optionally, the end time of the query in RFC3339 format (defaults to now)"
+                },
+                "startRfc3339": {
+                    "type": "string",
+                    "description": "Optionally, the start time of the query in RFC3339 format (defaults to 1 hour ago)"
+                }
+            },
+            "required": [
+                "datasourceUid"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_loki_label_values",
+        "description": "Retrieves all unique values associated with a specific `labelName` within a Loki datasource and time range. Returns a list of string values (e.g., for `labelName=\"env\"`, might return `[\"prod\", \"staging\", \"dev\"]`). Useful for discovering filter options. Defaults to the last hour if the time range is omitted.",
+        "parameters": {
+            "properties": {
+                "datasourceUid": {
+                    "type": "string",
+                    "description": "The UID of the datasource to query"
+                },
+                "endRfc3339": {
+                    "type": "string",
+                    "description": "Optionally, the end time of the query in RFC3339 format (defaults to now)"
+                },
+                "labelName": {
+                    "type": "string",
+                    "description": "The name of the label to retrieve values for (e.g. 'app', 'env', 'pod')"
+                },
+                "startRfc3339": {
+                    "type": "string",
+                    "description": "Optionally, the start time of the query in RFC3339 format (defaults to 1 hour ago)"
+                }
+            },
+            "required": [
+                "datasourceUid",
+                "labelName"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_oncall_schedules",
+        "description": "List Grafana OnCall schedules, optionally filtering by team ID. If a specific schedule ID is provided, retrieves details for only that schedule. Returns a list of schedule summaries including ID, name, team ID, timezone, and shift IDs. Supports pagination.",
+        "parameters": {
+            "properties": {
+                "page": {
+                    "type": "integer",
+                    "description": "The page number to return (1-based)"
+                },
+                "scheduleId": {
+                    "type": "string",
+                    "description": "The ID of the schedule to get details for. If provided, returns only that schedule's details"
+                },
+                "teamId": {
+                    "type": "string",
+                    "description": "The ID of the team to list schedules for"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_oncall_teams",
+        "description": "List teams configured in Grafana OnCall. Returns a list of team objects with their details. Supports pagination.",
+        "parameters": {
+            "properties": {
+                "page": {
+                    "type": "integer",
+                    "description": "The page number to return"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_oncall_users",
+        "description": "List users from Grafana OnCall. Can retrieve all users, a specific user by ID, or filter by username. Returns a list of user objects with their details. Supports pagination.",
+        "parameters": {
+            "properties": {
+                "page": {
+                    "type": "integer",
+                    "description": "The page number to return"
+                },
+                "userId": {
+                    "type": "string",
+                    "description": "The ID of the user to get details for. If provided, returns only that user's details"
+                },
+                "username": {
+                    "type": "string",
+                    "description": "The username to filter users by. If provided, returns only the user matching this username"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_prometheus_label_names",
+        "description": "List label names in a Prometheus datasource. Allows filtering by series selectors and time range.",
+        "parameters": {
+            "properties": {
+                "datasourceUid": {
+                    "type": "string",
+                    "description": "The UID of the datasource to query"
+                },
+                "endRfc3339": {
+                    "type": "string",
+                    "description": "Optionally, the end time of the time range to filter the results by"
+                },
+                "limit": {
+                    "type": "integer",
+                    "description": "Optionally, the maximum number of results to return"
+                },
+                "matches": {
+                    "items": {
+                        "properties": {
+                            "filters": {
+                                "items": {
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "description": "The name of the label to match against"
+                                        },
+                                        "value": {
+                                            "type": "string",
+                                            "description": "The value to match against"
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "description": "One of the '=' or '!=' or '=~' or '!~'"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "required": [
+                                        "name",
+                                        "value",
+                                        "type"
+                                    ]
+                                },
+                                "type": "array"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "type": "array",
+                    "description": "Optionally, a list of label matchers to filter the results by"
+                },
+                "startRfc3339": {
+                    "type": "string",
+                    "description": "Optionally, the start time of the time range to filter the results by"
+                }
+            },
+            "required": [
+                "datasourceUid"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_prometheus_label_values",
+        "description": "Get the values for a specific label name in Prometheus. Allows filtering by series selectors and time range.",
+        "parameters": {
+            "properties": {
+                "datasourceUid": {
+                    "type": "string",
+                    "description": "The UID of the datasource to query"
+                },
+                "endRfc3339": {
+                    "type": "string",
+                    "description": "Optionally, the end time of the query"
+                },
+                "labelName": {
+                    "type": "string",
+                    "description": "The name of the label to query"
+                },
+                "limit": {
+                    "type": "integer",
+                    "description": "Optionally, the maximum number of results to return"
+                },
+                "matches": {
+                    "items": {
+                        "properties": {
+                            "filters": {
+                                "items": {
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "description": "The name of the label to match against"
+                                        },
+                                        "value": {
+                                            "type": "string",
+                                            "description": "The value to match against"
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "description": "One of the '=' or '!=' or '=~' or '!~'"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "required": [
+                                        "name",
+                                        "value",
+                                        "type"
+                                    ]
+                                },
+                                "type": "array"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "type": "array",
+                    "description": "Optionally, a list of selectors to filter the results by"
+                },
+                "startRfc3339": {
+                    "type": "string",
+                    "description": "Optionally, the start time of the query"
+                }
+            },
+            "required": [
+                "datasourceUid",
+                "labelName"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_prometheus_metric_metadata",
+        "description": "List Prometheus metric metadata. Returns metadata about metrics currently scraped from targets. Note: This endpoint is experimental.",
+        "parameters": {
+            "properties": {
+                "datasourceUid": {
+                    "type": "string",
+                    "description": "The UID of the datasource to query"
+                },
+                "limit": {
+                    "type": "integer",
+                    "description": "The maximum number of metrics to return"
+                },
+                "limitPerMetric": {
+                    "type": "integer",
+                    "description": "The maximum number of metrics to return per metric"
+                },
+                "metric": {
+                    "type": "string",
+                    "description": "The metric to query"
+                }
+            },
+            "required": [
+                "datasourceUid"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_prometheus_metric_names",
+        "description": "List metric names in a Prometheus datasource. Retrieves all metric names and then filters them locally using the provided regex. Supports pagination.",
+        "parameters": {
+            "properties": {
+                "datasourceUid": {
+                    "type": "string",
+                    "description": "The UID of the datasource to query"
+                },
+                "limit": {
+                    "type": "integer",
+                    "description": "The maximum number of results to return"
+                },
+                "page": {
+                    "type": "integer",
+                    "description": "The page number to return"
+                },
+                "regex": {
+                    "type": "string",
+                    "description": "The regex to match against the metric names"
+                }
+            },
+            "required": [
+                "datasourceUid"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_pyroscope_label_names",
+        "description": "\nLists all available label names (keys) found in profiles within a specified Pyroscope datasource, time range, and\noptional label matchers. Label matchers are typically used to qualify a service name ({service_name=\"foo\"}). Returns a\nlist of unique label strings (e.g., [\"app\", \"env\", \"pod\"]). Label names with double underscores (e.g. __name__) are\ninternal and rarely useful to users. If the time range is not provided, it defaults to the last hour.\n",
+        "parameters": {
+            "properties": {
+                "data_source_uid": {
+                    "type": "string",
+                    "description": "The UID of the datasource to query"
+                },
+                "end_rfc_3339": {
+                    "type": "string",
+                    "description": "Optionally, the end time of the query in RFC3339 format (defaults to now)"
+                },
+                "matchers": {
+                    "type": "string"
+                },
+                "start_rfc_3339": {
+                    "type": "string",
+                    "description": "Optionally, the start time of the query in RFC3339 format (defaults to 1 hour ago)"
+                }
+            },
+            "required": [
+                "data_source_uid"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_pyroscope_label_values",
+        "description": "\nLists all available label values for a particular label name found in profiles within a specified Pyroscope datasource,\ntime range, and optional label matchers. Label matchers are typically used to qualify a service name ({service_name=\"foo\"}).\nReturns a list of unique label strings (e.g. for label name \"env\": [\"dev\", \"staging\", \"prod\"]). If the time range\nis not provided, it defaults to the last hour.\n",
+        "parameters": {
+            "properties": {
+                "data_source_uid": {
+                    "type": "string",
+                    "description": "The UID of the datasource to query"
+                },
+                "end_rfc_3339": {
+                    "type": "string",
+                    "description": "Optionally, the end time of the query in RFC3339 format (defaults to now)"
+                },
+                "matchers": {
+                    "type": "string",
+                    "description": "Optionally, Prometheus style matchers used to filter the result set (defaults to: {})"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "A label name"
+                },
+                "start_rfc_3339": {
+                    "type": "string",
+                    "description": "Optionally, the start time of the query in RFC3339 format (defaults to 1 hour ago)"
+                }
+            },
+            "required": [
+                "data_source_uid",
+                "name"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_pyroscope_profile_types",
+        "description": "\nLists all available profile types available in a specified Pyroscope datasource and time range. Returns a list of all\navailable profile types (example profile type: \"process_cpu:cpu:nanoseconds:cpu:nanoseconds\"). A profile type has the\nfollowing structure: <name>:<sample type>:<sample unit>:<period type>:<period unit>. Not all profile types are available\nfor every service. If the time range is not provided, it defaults to the last hour.\n",
+        "parameters": {
+            "properties": {
+                "data_source_uid": {
+                    "type": "string",
+                    "description": "The UID of the datasource to query"
+                },
+                "end_rfc_3339": {
+                    "type": "string",
+                    "description": "Optionally, the end time of the query in RFC3339 format (defaults to now)"
+                },
+                "start_rfc_3339": {
+                    "type": "string",
+                    "description": "Optionally, the start time of the query in RFC3339 format (defaults to 1 hour ago)"
+                }
+            },
+            "required": [
+                "data_source_uid"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_sift_investigations",
+        "description": "Retrieves a list of Sift investigations with an optional limit. If no limit is specified, defaults to 10 investigations.",
+        "parameters": {
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "description": "Maximum number of investigations to return. Defaults to 10 if not specified."
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_teams",
+        "description": "Search for Grafana teams by a query string. Returns a list of matching teams with details like name, ID, and URL.",
+        "parameters": {
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "The query to search for teams. Can be left empty to fetch all teams"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_users_by_org",
+        "description": "List users by organization. Returns a list of users with details like userid, email, role etc.",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "query_loki_logs",
+        "description": "Executes a LogQL query against a Loki datasource to retrieve log entries or metric values. Returns a list of results, each containing a timestamp, labels, and either a log line (`line`) or a numeric metric value (`value`). Defaults to the last hour, a limit of 10 entries, and 'backward' direction (newest first). Supports full LogQL syntax for log and metric queries (e.g., `{app=\"foo\"} |= \"error\"`, `rate({app=\"bar\"}[1m])`). Prefer using `query_loki_stats` first to check stream size and `list_loki_label_names` and `list_loki_label_values` to verify labels exist.",
+        "parameters": {
+            "properties": {
+                "datasourceUid": {
+                    "type": "string",
+                    "description": "The UID of the datasource to query"
+                },
+                "direction": {
+                    "type": "string",
+                    "description": "Optionally, the direction of the query: 'forward' (oldest first) or 'backward' (newest first, default)"
+                },
+                "endRfc3339": {
+                    "type": "string",
+                    "description": "Optionally, the end time of the query in RFC3339 format"
+                },
+                "limit": {
+                    "type": "integer",
+                    "description": "Optionally, the maximum number of log lines to return (default: 10, max: 100)"
+                },
+                "logql": {
+                    "type": "string",
+                    "description": "The LogQL query to execute against Loki. This can be a simple label matcher or a complex query with filters, parsers, and expressions. Supports full LogQL syntax including label matchers, filter operators, pattern expressions, and pipeline operations."
+                },
+                "startRfc3339": {
+                    "type": "string",
+                    "description": "Optionally, the start time of the query in RFC3339 format"
+                }
+            },
+            "required": [
+                "datasourceUid",
+                "logql"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "query_loki_stats",
+        "description": "Retrieves statistics about log streams matching a given LogQL *selector* within a Loki datasource and time range. Returns an object containing the count of streams, chunks, entries, and total bytes (e.g., `{\"streams\": 5, \"chunks\": 50, \"entries\": 10000, \"bytes\": 512000}`). The `logql` parameter **must** be a simple label selector (e.g., `{app=\"nginx\", env=\"prod\"}`) and does not support line filters, parsers, or aggregations. Defaults to the last hour if the time range is omitted.",
+        "parameters": {
+            "properties": {
+                "datasourceUid": {
+                    "type": "string",
+                    "description": "The UID of the datasource to query"
+                },
+                "endRfc3339": {
+                    "type": "string",
+                    "description": "Optionally, the end time of the query in RFC3339 format"
+                },
+                "logql": {
+                    "type": "string",
+                    "description": "The LogQL matcher expression to execute. This parameter only accepts label matcher expressions and does not support full LogQL queries. Line filters, pattern operations, and metric aggregations are not supported by the stats API endpoint. Only simple label selectors can be used here."
+                },
+                "startRfc3339": {
+                    "type": "string",
+                    "description": "Optionally, the start time of the query in RFC3339 format"
+                }
+            },
+            "required": [
+                "datasourceUid",
+                "logql"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "query_prometheus",
+        "description": "Query Prometheus using a PromQL expression. Supports both instant queries (at a single point in time) and range queries (over a time range). Time can be specified either in RFC3339 format or as relative time expressions like 'now', 'now-1h', 'now-30m', etc.",
+        "parameters": {
+            "properties": {
+                "datasourceUid": {
+                    "type": "string",
+                    "description": "The UID of the datasource to query"
+                },
+                "endTime": {
+                    "type": "string",
+                    "description": "The end time. Required if queryType is 'range', ignored if queryType is 'instant' Supported formats are RFC3339 or relative to now (e.g. 'now', 'now-1.5h', 'now-2h45m'). Valid time units are 'ns', 'us' (or 'µs'), 'ms', 's', 'm', 'h', 'd'."
+                },
+                "expr": {
+                    "type": "string",
+                    "description": "The PromQL expression to query"
+                },
+                "queryType": {
+                    "type": "string",
+                    "description": "The type of query to use. Either 'range' or 'instant'"
+                },
+                "startTime": {
+                    "type": "string",
+                    "description": "The start time. Supported formats are RFC3339 or relative to now (e.g. 'now', 'now-1.5h', 'now-2h45m'). Valid time units are 'ns', 'us' (or 'µs'), 'ms', 's', 'm', 'h', 'd'."
+                },
+                "stepSeconds": {
+                    "type": "integer",
+                    "description": "The time series step size in seconds. Required if queryType is 'range', ignored if queryType is 'instant'"
+                }
+            },
+            "required": [
+                "datasourceUid",
+                "expr",
+                "startTime"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_dashboards",
+        "description": "Search for Grafana dashboards by a query string. Returns a list of matching dashboards with details like title, UID, folder, tags, and URL.",
+        "parameters": {
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "The query to search for"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "update_dashboard",
+        "description": "Create or update a dashboard using either full JSON or efficient patch operations. For new dashboards\\, provide the 'dashboard' field. For updating existing dashboards\\, use 'uid' + 'operations' for better context window efficiency. Patch operations support complex JSONPaths like '$.panels[0].targets[0].expr'\\, '$.panels[1].title'\\, '$.panels[2].targets[0].datasource'\\, etc. Supports appending to arrays using '/- ' syntax: '$.panels/- ' appends to panels array\\, '$.panels[2]/- ' appends to nested array at index 2.",
+        "parameters": {
+            "properties": {
+                "dashboard": {
+                    "type": "object",
+                    "description": "The full dashboard JSON. Use for creating new dashboards or complete updates. Large dashboards consume significant context - consider using patches for small changes."
+                },
+                "folderUid": {
+                    "type": "string",
+                    "description": "The UID of the dashboard's folder"
+                },
+                "message": {
+                    "type": "string",
+                    "description": "Set a commit message for the version history"
+                },
+                "operations": {
+                    "items": {
+                        "properties": {
+                            "op": {
+                                "type": "string",
+                                "description": "Operation type: 'replace', 'add', 'remove'"
+                            },
+                            "path": {
+                                "type": "string",
+                                "description": "JSONPath to the property to modify. Supports: '$.title', '$.panels[0].title', '$.panels[0].targets[0].expr', '$.panels[1].targets[0].datasource', etc. For appending to arrays, use '/- ' syntax: '$.panels/- ' (append to panels array) or '$.panels[2]/- ' (append to nested array at index 2)."
+                            },
+                            "value": {
+                                "description": "New value for replace/add operations"
+                            }
+                        },
+                        "type": "object",
+                        "required": [
+                            "op",
+                            "path"
+                        ]
+                    },
+                    "type": "array",
+                    "description": "Array of patch operations for targeted updates. More efficient than full dashboard JSON for small changes."
+                },
+                "overwrite": {
+                    "type": "boolean",
+                    "description": "Overwrite the dashboard if it exists. Otherwise create one"
+                },
+                "uid": {
+                    "type": "string",
+                    "description": "UID of existing dashboard to update. Required when using patch operations."
+                },
+                "userId": {
+                    "type": "integer",
+                    "description": "ID of the user making the change"
+                }
+            },
+            "type": "object"
+        }
+    }
+]

@@ -1,0 +1,487 @@
+[
+    {
+        "name": "mcp-firebird_execute-query",
+        "description": "Executes a SQL query in the Firebird database. Uses FIRST/ROWS for pagination.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "sql": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "SQL query to execute (Firebird uses FIRST/ROWS for pagination instead of LIMIT)"
+                },
+                "params": {
+                    "type": "array",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "anyOf": [
+                                    {
+                                        "type": [
+                                            "string",
+                                            "number"
+                                        ]
+                                    },
+                                    {
+                                        "type": "boolean"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "description": "Parameters for parameterized queries to prevent SQL injection"
+                }
+            },
+            "required": [
+                "sql"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-firebird_list-tables",
+        "description": "Lists all user tables in the current Firebird database.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-firebird_describe-table",
+        "description": "Gets the detailed schema (columns, types, etc.) of a specific table.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "tableName": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Name of the table to describe"
+                }
+            },
+            "required": [
+                "tableName"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-firebird_get-field-descriptions",
+        "description": "Gets the stored descriptions for fields of a specific table (if they exist).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "tableName": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Name of the table to get field descriptions for"
+                }
+            },
+            "required": [
+                "tableName"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-firebird_analyze-query-performance",
+        "description": "Analyzes the performance of a SQL query by executing it multiple times and measuring execution time",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "sql": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "SQL query to analyze"
+                },
+                "params": {
+                    "type": "array",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "anyOf": [
+                                    {
+                                        "type": [
+                                            "string",
+                                            "number"
+                                        ]
+                                    },
+                                    {
+                                        "type": "boolean"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "description": "Parameters for parameterized queries"
+                },
+                "iterations": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "default": 3,
+                    "description": "Number of times to run the query for averaging performance"
+                }
+            },
+            "required": [
+                "sql"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-firebird_get-execution-plan",
+        "description": "Gets the execution plan for a SQL query to understand how the database will execute it",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "sql": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "SQL query to analyze"
+                },
+                "params": {
+                    "type": "array",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "anyOf": [
+                                    {
+                                        "type": [
+                                            "string",
+                                            "number"
+                                        ]
+                                    },
+                                    {
+                                        "type": "boolean"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "description": "Parameters for parameterized queries"
+                }
+            },
+            "required": [
+                "sql"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-firebird_analyze-missing-indexes",
+        "description": "Analyzes a SQL query to identify missing indexes that could improve performance",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "sql": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "SQL query to analyze for missing indexes"
+                }
+            },
+            "required": [
+                "sql"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-firebird_backup-database",
+        "description": "Creates a backup of the Firebird database",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "backupPath": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Path where the backup file will be saved"
+                },
+                "options": {
+                    "type": "object",
+                    "properties": {
+                        "format": {
+                            "type": "string",
+                            "enum": [
+                                "gbak",
+                                "nbackup"
+                            ],
+                            "default": "gbak",
+                            "description": "Backup format: gbak (full backup) or nbackup (incremental)"
+                        },
+                        "compress": {
+                            "type": "boolean",
+                            "default": false,
+                            "description": "Whether to compress the backup"
+                        },
+                        "metadata_only": {
+                            "type": "boolean",
+                            "default": false,
+                            "description": "Whether to backup only metadata (no data)"
+                        },
+                        "verbose": {
+                            "type": "boolean",
+                            "default": false,
+                            "description": "Whether to show detailed progress"
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            },
+            "required": [
+                "backupPath"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-firebird_restore-database",
+        "description": "Restores a Firebird database from a backup",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "backupPath": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Path to the backup file"
+                },
+                "targetPath": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Path where the database will be restored"
+                },
+                "options": {
+                    "type": "object",
+                    "properties": {
+                        "replace": {
+                            "type": "boolean",
+                            "default": false,
+                            "description": "Whether to replace the target database if it exists"
+                        },
+                        "pageSize": {
+                            "type": "integer",
+                            "minimum": 1024,
+                            "maximum": 16384,
+                            "default": 4096,
+                            "description": "Page size for the restored database"
+                        },
+                        "verbose": {
+                            "type": "boolean",
+                            "default": false,
+                            "description": "Whether to show detailed progress"
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            },
+            "required": [
+                "backupPath",
+                "targetPath"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-firebird_validate-database",
+        "description": "Validates the integrity of the Firebird database",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "options": {
+                    "type": "object",
+                    "properties": {
+                        "checkData": {
+                            "type": "boolean",
+                            "default": true,
+                            "description": "Whether to validate data integrity"
+                        },
+                        "checkIndexes": {
+                            "type": "boolean",
+                            "default": true,
+                            "description": "Whether to validate indexes"
+                        },
+                        "fixErrors": {
+                            "type": "boolean",
+                            "default": false,
+                            "description": "Whether to attempt to fix errors"
+                        },
+                        "verbose": {
+                            "type": "boolean",
+                            "default": false,
+                            "description": "Whether to show detailed progress"
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-firebird_execute-batch-queries",
+        "description": "Executes multiple SQL queries in parallel for improved performance.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "queries": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "sql": {
+                                "type": "string",
+                                "minLength": 1,
+                                "description": "SQL query to execute"
+                            },
+                            "params": {
+                                "type": "array",
+                                "items": {
+                                    "anyOf": [
+                                        {
+                                            "anyOf": [
+                                                {
+                                                    "type": [
+                                                        "string",
+                                                        "number"
+                                                    ]
+                                                },
+                                                {
+                                                    "type": "boolean"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                },
+                                "description": "Parameters for parameterized queries"
+                            }
+                        },
+                        "required": [
+                            "sql"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "minItems": 1,
+                    "maxItems": 20,
+                    "description": "Array of query objects, each containing SQL and optional parameters"
+                },
+                "maxConcurrent": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 10,
+                    "default": 5,
+                    "description": "Maximum number of concurrent queries (default: 5)"
+                }
+            },
+            "required": [
+                "queries"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-firebird_describe-batch-tables",
+        "description": "Gets the detailed schema of multiple tables in parallel for improved performance.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "tableNames": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "minItems": 1,
+                    "maxItems": 20,
+                    "description": "Array of table names to describe"
+                },
+                "maxConcurrent": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 10,
+                    "default": 5,
+                    "description": "Maximum number of concurrent operations (default: 5)"
+                }
+            },
+            "required": [
+                "tableNames"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-firebird_get-server-info",
+        "description": "Obtiene informaci\u00f3n sobre el servidor MCP Firebird y las herramientas disponibles",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-firebird_list-available-tools",
+        "description": "Lista todas las herramientas disponibles en el servidor MCP",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "string",
+                    "description": "Filtrar por categor\u00eda (database, metadata)"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-firebird_get-tool-help",
+        "description": "Obtiene informaci\u00f3n detallada sobre una herramienta espec\u00edfica",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "toolName": {
+                    "type": "string",
+                    "description": "Nombre de la herramienta sobre la que obtener ayuda"
+                }
+            },
+            "required": [
+                "toolName"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-firebird_system-health-check",
+        "description": "Verifica el estado de salud del sistema y la conectividad de la base de datos",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

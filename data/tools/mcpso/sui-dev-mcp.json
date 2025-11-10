@@ -1,0 +1,266 @@
+[
+    {
+        "name": "sui-tools_sui_network",
+        "description": "Manage Sui network settings and get network information (current network: testnet)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string",
+                    "enum": [
+                        "switchEnv",
+                        "status",
+                        "time"
+                    ],
+                    "description": "The network action to perform"
+                },
+                "network": {
+                    "type": "string",
+                    "enum": [
+                        "testnet",
+                        "mainnet",
+                        "devnet"
+                    ],
+                    "description": "Target network environment (for switchEnv action, current: testnet)"
+                }
+            },
+            "required": [
+                "action"
+            ]
+        }
+    },
+    {
+        "name": "sui-tools_sui_wallet",
+        "description": "Manage Sui wallets and tokens (current network: testnet)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string",
+                    "enum": [
+                        "createWallet",
+                        "requestFunds",
+                        "getTokenMetadata",
+                        "getTokenBalances"
+                    ],
+                    "description": "The wallet action to perform"
+                },
+                "network": {
+                    "type": "string",
+                    "enum": [
+                        "testnet",
+                        "mainnet",
+                        "devnet"
+                    ],
+                    "description": "Target network for wallet operations (current: testnet)"
+                },
+                "address": {
+                    "type": "string",
+                    "pattern": "^0x[a-fA-F0-9]{64}$",
+                    "description": "Sui address for operations that require it"
+                },
+                "coinType": {
+                    "type": "string",
+                    "description": "Type string identifier for the token (for getTokenMetadata)"
+                }
+            },
+            "required": [
+                "action"
+            ]
+        }
+    },
+    {
+        "name": "sui-tools_sui_objects",
+        "description": "Query and manage Sui objects (current network: testnet)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string",
+                    "enum": [
+                        "getObject",
+                        "getObjects",
+                        "getOwnedObjects"
+                    ],
+                    "description": "The object action to perform"
+                },
+                "objectId": {
+                    "type": "string",
+                    "pattern": "^0x[a-fA-F0-9]{64}$",
+                    "description": "Object ID for single object operations"
+                },
+                "objectIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "pattern": "^0x[a-fA-F0-9]{64}$"
+                    },
+                    "description": "Array of object IDs for batch operations"
+                },
+                "address": {
+                    "type": "string",
+                    "pattern": "^0x[a-fA-F0-9]{64}$",
+                    "description": "Address to query owned objects"
+                },
+                "options": {
+                    "type": "object",
+                    "description": "Optional filtering and pagination options"
+                }
+            },
+            "required": [
+                "action"
+            ]
+        }
+    },
+    {
+        "name": "sui-tools_sui_transactions",
+        "description": "Execute and query Sui transactions (current network: testnet)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string",
+                    "enum": [
+                        "executeTransaction",
+                        "getTransaction",
+                        "getAddressTransactions",
+                        "analyzeGas",
+                        "decodeError"
+                    ],
+                    "description": "The transaction action to perform"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "transfer",
+                        "moveCall",
+                        "programmable"
+                    ],
+                    "description": "Type of transaction to execute (for executeTransaction)"
+                },
+                "params": {
+                    "type": "object",
+                    "description": "Transaction parameters for executeTransaction"
+                },
+                "privateKey": {
+                    "type": "string",
+                    "description": "Private key for signing (for executeTransaction, will not be stored)"
+                },
+                "gasConfig": {
+                    "type": "object",
+                    "properties": {
+                        "budget": {
+                            "type": "number",
+                            "description": "Gas budget for the transaction"
+                        },
+                        "price": {
+                            "type": "number",
+                            "description": "Gas price for the transaction"
+                        }
+                    },
+                    "description": "Optional gas configuration for executeTransaction"
+                },
+                "digest": {
+                    "type": "string",
+                    "description": "Transaction digest for queries"
+                },
+                "address": {
+                    "type": "string",
+                    "pattern": "^0x[a-fA-F0-9]{64}$",
+                    "description": "Address for transaction history queries"
+                },
+                "errorCode": {
+                    "type": "string",
+                    "description": "Error code to decode"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of transactions to return"
+                },
+                "cursor": {
+                    "type": "string",
+                    "description": "Pagination cursor for fetching next set of results"
+                },
+                "filter": {
+                    "type": "string",
+                    "enum": [
+                        "from",
+                        "to",
+                        "all",
+                        "package"
+                    ],
+                    "description": "Filter type for transactions"
+                }
+            },
+            "required": [
+                "action"
+            ]
+        }
+    },
+    {
+        "name": "sui-tools_sui_contracts",
+        "description": "Interact with Sui smart contracts (current network: testnet)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string",
+                    "enum": [
+                        "getContractInterface",
+                        "getModuleInterface",
+                        "getContractSourcecode",
+                        "getContractDocumentation"
+                    ],
+                    "description": "The contract action to perform"
+                },
+                "packageId": {
+                    "type": "string",
+                    "pattern": "^0x[a-fA-F0-9]{64}$",
+                    "description": "Package ID of the contract"
+                },
+                "moduleName": {
+                    "type": "string",
+                    "description": "Name of the module (for getModuleInterface)"
+                },
+                "format": {
+                    "type": "string",
+                    "enum": [
+                        "json",
+                        "markdown"
+                    ],
+                    "description": "Output format for documentation"
+                }
+            },
+            "required": [
+                "action",
+                "packageId"
+            ]
+        }
+    },
+    {
+        "name": "sui-tools_sui_explorer",
+        "description": "Get Sui Explorer links for objects, addresses, or transactions (current network: testnet)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "object",
+                        "account",
+                        "transaction"
+                    ],
+                    "description": "Type of entity to look up"
+                },
+                "identifier": {
+                    "type": "string",
+                    "description": "Identifier (object ID, account address, or transaction digest)"
+                }
+            },
+            "required": [
+                "type",
+                "identifier"
+            ]
+        }
+    }
+]

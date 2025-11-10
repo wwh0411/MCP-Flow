@@ -1,0 +1,459 @@
+[
+    {
+        "name": "MCP Neovim Server_vim_buffer",
+        "description": "Get buffer contents with line numbers",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "filename": {
+                    "type": "string",
+                    "description": "Optional file name to view a specific buffer"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "MCP Neovim Server_vim_command",
+        "description": "Execute Vim commands with optional shell command support",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "command": {
+                    "type": "string",
+                    "description": "Vim command to execute (use ! prefix for shell commands if enabled)"
+                }
+            },
+            "required": [
+                "command"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "MCP Neovim Server_vim_status",
+        "description": "Get comprehensive Neovim status including cursor position, mode, marks, and registers",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "MCP Neovim Server_vim_edit",
+        "description": "Edit buffer content using insert, replace, or replaceAll modes",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "startLine": {
+                    "type": "number",
+                    "description": "The line number where editing should begin (1-indexed)"
+                },
+                "mode": {
+                    "type": "string",
+                    "enum": [
+                        "insert",
+                        "replace",
+                        "replaceAll"
+                    ],
+                    "description": "Whether to insert new content, replace existing content, or replace entire buffer"
+                },
+                "lines": {
+                    "type": "string",
+                    "description": "The text content to insert or use as replacement"
+                }
+            },
+            "required": [
+                "startLine",
+                "mode",
+                "lines"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "MCP Neovim Server_vim_window",
+        "description": "Manage Neovim windows: split, close, and navigate between windows",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "command": {
+                    "type": "string",
+                    "enum": [
+                        "split",
+                        "vsplit",
+                        "only",
+                        "close",
+                        "wincmd h",
+                        "wincmd j",
+                        "wincmd k",
+                        "wincmd l"
+                    ],
+                    "description": "Window manipulation command: split or vsplit to create new window, only to keep just current window, close to close current window, or wincmd with h/j/k/l to navigate between windows"
+                }
+            },
+            "required": [
+                "command"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "MCP Neovim Server_vim_mark",
+        "description": "Set named marks at specific positions in the buffer",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "mark": {
+                    "type": "string",
+                    "pattern": "^[a-z]$",
+                    "description": "Single lowercase letter [a-z] to use as the mark name"
+                },
+                "line": {
+                    "type": "number",
+                    "description": "The line number where the mark should be placed (1-indexed)"
+                },
+                "column": {
+                    "type": "number",
+                    "description": "The column number where the mark should be placed (0-indexed)"
+                }
+            },
+            "required": [
+                "mark",
+                "line",
+                "column"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "MCP Neovim Server_vim_register",
+        "description": "Manage Neovim register contents",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "register": {
+                    "type": "string",
+                    "pattern": "^[a-z\"]$",
+                    "description": "Register name - a lowercase letter [a-z] or double-quote [\"] for the unnamed register"
+                },
+                "content": {
+                    "type": "string",
+                    "description": "The text content to store in the specified register"
+                }
+            },
+            "required": [
+                "register",
+                "content"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "MCP Neovim Server_vim_visual",
+        "description": "Create visual mode selections in the buffer",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "startLine": {
+                    "type": "number",
+                    "description": "The starting line number for visual selection (1-indexed)"
+                },
+                "startColumn": {
+                    "type": "number",
+                    "description": "The starting column number for visual selection (0-indexed)"
+                },
+                "endLine": {
+                    "type": "number",
+                    "description": "The ending line number for visual selection (1-indexed)"
+                },
+                "endColumn": {
+                    "type": "number",
+                    "description": "The ending column number for visual selection (0-indexed)"
+                }
+            },
+            "required": [
+                "startLine",
+                "startColumn",
+                "endLine",
+                "endColumn"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "MCP Neovim Server_vim_buffer_switch",
+        "description": "Switch between buffers by name or number",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "identifier": {
+                    "type": [
+                        "string",
+                        "number"
+                    ],
+                    "description": "Buffer identifier - can be buffer number or filename/path"
+                }
+            },
+            "required": [
+                "identifier"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "MCP Neovim Server_vim_buffer_save",
+        "description": "Save current buffer or save to specific filename",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "filename": {
+                    "type": "string",
+                    "description": "Optional filename to save buffer to (defaults to current buffer's filename)"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "MCP Neovim Server_vim_file_open",
+        "description": "Open files into new buffers",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "filename": {
+                    "type": "string",
+                    "description": "Path to the file to open"
+                }
+            },
+            "required": [
+                "filename"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "MCP Neovim Server_vim_search",
+        "description": "Search within current buffer with regex support and options",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "pattern": {
+                    "type": "string",
+                    "description": "Search pattern (supports regex)"
+                },
+                "ignoreCase": {
+                    "type": "boolean",
+                    "description": "Whether to ignore case in search (default: false)"
+                },
+                "wholeWord": {
+                    "type": "boolean",
+                    "description": "Whether to match whole words only (default: false)"
+                }
+            },
+            "required": [
+                "pattern"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "MCP Neovim Server_vim_search_replace",
+        "description": "Find and replace with global, case-insensitive, and confirm options",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "pattern": {
+                    "type": "string",
+                    "description": "Search pattern (supports regex)"
+                },
+                "replacement": {
+                    "type": "string",
+                    "description": "Replacement text"
+                },
+                "global": {
+                    "type": "boolean",
+                    "description": "Replace all occurrences in each line (default: false)"
+                },
+                "ignoreCase": {
+                    "type": "boolean",
+                    "description": "Whether to ignore case in search (default: false)"
+                },
+                "confirm": {
+                    "type": "boolean",
+                    "description": "Whether to confirm each replacement (default: false)"
+                }
+            },
+            "required": [
+                "pattern",
+                "replacement"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "MCP Neovim Server_vim_grep",
+        "description": "Project-wide search using vimgrep with quickfix list",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "pattern": {
+                    "type": "string",
+                    "description": "Search pattern to grep for"
+                },
+                "filePattern": {
+                    "type": "string",
+                    "description": "File pattern to search in (default: **/* for all files)"
+                }
+            },
+            "required": [
+                "pattern"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "MCP Neovim Server_vim_health",
+        "description": "Check Neovim connection health",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "MCP Neovim Server_vim_macro",
+        "description": "Record, stop, and play Neovim macros",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string",
+                    "enum": [
+                        "record",
+                        "stop",
+                        "play"
+                    ],
+                    "description": "Action to perform with macros"
+                },
+                "register": {
+                    "type": "string",
+                    "description": "Register to record/play macro (a-z, required for record/play)"
+                },
+                "count": {
+                    "type": "number",
+                    "description": "Number of times to play macro (default: 1)"
+                }
+            },
+            "required": [
+                "action"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "MCP Neovim Server_vim_tab",
+        "description": "Manage Neovim tabs: create, close, and navigate between tabs",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string",
+                    "enum": [
+                        "new",
+                        "close",
+                        "next",
+                        "prev",
+                        "first",
+                        "last",
+                        "list"
+                    ],
+                    "description": "Tab action to perform"
+                },
+                "filename": {
+                    "type": "string",
+                    "description": "Filename for new tab (optional)"
+                }
+            },
+            "required": [
+                "action"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "MCP Neovim Server_vim_fold",
+        "description": "Manage code folding: create, open, close, and toggle folds",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string",
+                    "enum": [
+                        "create",
+                        "open",
+                        "close",
+                        "toggle",
+                        "openall",
+                        "closeall",
+                        "delete"
+                    ],
+                    "description": "Folding action to perform"
+                },
+                "startLine": {
+                    "type": "number",
+                    "description": "Start line for creating fold (required for create)"
+                },
+                "endLine": {
+                    "type": "number",
+                    "description": "End line for creating fold (required for create)"
+                }
+            },
+            "required": [
+                "action"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "MCP Neovim Server_vim_jump",
+        "description": "Navigate Neovim jump list: go back, forward, or list jumps",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "direction": {
+                    "type": "string",
+                    "enum": [
+                        "back",
+                        "forward",
+                        "list"
+                    ],
+                    "description": "Jump direction or list jumps"
+                }
+            },
+            "required": [
+                "direction"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

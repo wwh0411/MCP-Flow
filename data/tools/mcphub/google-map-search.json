@@ -1,0 +1,71 @@
+[
+    {
+        "name": "search_map",
+        "description": "This tool allows you to Scrape Google Maps data.",
+        "parameters": {
+            "properties": {
+                "q": {
+                    "description": "Parameter defines the query you want to search. You can use anything that you would use in a regular Google Maps search.",
+                    "title": "Q",
+                    "type": "string"
+                },
+                "ll": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parameter defines the GPS coordinates of the location where you want the search to originate from. Its value must match the following format: @ + latitude + , + longitude + , + zoom. This will form a string that looks like this:  e.g. @40.7455096,-74.0083012,14z. The zoom attribute ranges from 3z, map completely zoomed out - to 21z, map completely zoomed in. The parameter should only be used when type is set to search.",
+                    "title": "Ll"
+                },
+                "start": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parameter defines the result offset. It skips the given number of results. It's used for pagination. On desktop, parameter only accepts multiples of 20 (e.g. 20 for the second page results, 40 for the third page results, etc.). On mobile, parameter only accepts multiples of 10 (e.g. 10 for the second page results, 20 for the third page results, etc.).",
+                    "title": "Start"
+                },
+                "no_cache": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parameter will force SerpApi to fetch the Google Jobs results even if a cached version is already present. A cache is served only if the query and all parameters are exactly the same. Cache expires after 1h. Cached searches are free, and are not counted towards your searches per month. It can be set to false (default) to allow results from the cache, or true to disallow results from the cache. no_cache and async parameters should not be used together.",
+                    "title": "No Cache"
+                },
+                "aasync": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parameter defines the way you want to submit your search to SerpApi. It can be set to false (default) to open an HTTP connection and keep it open until you got your search results, or true to just submit your search to SerpApi and retrieve them later. In this case, you'll need to use our Searches Archive API to retrieve your results. async and no_cache parameters should not be used together. async should not be used on accounts with Ludicrous Speed enabled.",
+                    "title": "Aasync"
+                }
+            },
+            "required": [
+                "q"
+            ],
+            "type": "object"
+        }
+    }
+]

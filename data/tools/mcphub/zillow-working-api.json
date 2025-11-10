@@ -1,0 +1,4269 @@
+[
+    {
+        "name": "by_property_address",
+        "description": "INPUT: Property Address(3 W Forest Dr, Rochester, NY 14624) The API will find it's ZPID from property address at backend with 100% accuracy then get's you the property details.",
+        "parameters": {
+            "properties": {
+                "propertyaddress": {
+                    "description": "",
+                    "title": "Propertyaddress",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "propertyaddress"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "by_zpid",
+        "description": "INPUT: ZPID(30907787) Get Property Details By ZPID( you can see the zpid in the zillow url) If you can't find your zpid, then use /byaddress endpoint below. It works the same.",
+        "parameters": {
+            "properties": {
+                "zpid": {
+                    "description": "",
+                    "title": "Zpid",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "zpid"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "by_zillow_url",
+        "description": "Input Zillow URL: https://www.zillow.com/homedetails/3-W-Forest-Dr-Rochester-NY-14624/30907787_zpid/",
+        "parameters": {
+            "properties": {
+                "url": {
+                    "description": "",
+                    "title": "Url",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "autocomplete",
+        "description": "Provides Zillow search box autocomplete data.",
+        "parameters": {
+            "properties": {
+                "query": {
+                    "description": "",
+                    "title": "Query",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_byaddress",
+        "description": "One Search Endpoint to Rule Them All.",
+        "parameters": {
+            "properties": {
+                "location": {
+                    "description": "Enter an address, neighborhood, city, or ZIP code. For Multi-inputs upto 5 (separate with a semicolon): New York, NY; Seattle, WA; 78006",
+                    "title": "Location",
+                    "type": "string"
+                },
+                "listingStatus": {
+                    "description": "Select which type of property data you want to find.  Example: For_Sale",
+                    "enum": [
+                        "For_Sale",
+                        "For_Rent",
+                        "Sold"
+                    ],
+                    "title": "Listingstatus",
+                    "type": "string"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Zillow provides 1000 results on each search. This endpoint returns 200 results per call. So the maximum page number could be 5. To collect all the data: Narrow down your search into smaller areas. (Search by zip code, Set different listPriceRange, try different homeTypes) Default: 1",
+                    "title": "Page"
+                },
+                "sortOrder": {
+                    "default": null,
+                    "description": "Select how you want to sort your search results. Defaults: For Sale : Homes_for_you For Rent : Rental_Priority_Score Sold : Newest Example: Homes_for_you",
+                    "enum": [
+                        "Homes_for_you",
+                        "Rental_Priority_Score",
+                        "Price_High_to_Low",
+                        "Price_Low_to_High",
+                        "Newest",
+                        "Bedrooms",
+                        "Bathrooms",
+                        "Square_Feet",
+                        "Lot_Size",
+                        "Year_Built",
+                        null
+                    ],
+                    "title": "Sortorder"
+                },
+                "listPriceRange": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Possible Inputs: For Minimum Price: min:5000 For Maximum Price: max:500000 For a Price Range: min:5000, max:500000",
+                    "title": "Listpricerange"
+                },
+                "monthlyPayment": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only used for listingStatus: For_Sale. Possible Inputs: For Minimum Payment: min:5000 For Maximum Payment: max:50000 For a Payment Range: min:5000, max:50000",
+                    "title": "Monthlypayment"
+                },
+                "downPayment": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only used for listingStatus: For_Sale. Input a down payment (dollars). Example: 15000. For No Down Payment, do not input anything. ",
+                    "title": "Downpayment"
+                },
+                "bed_min": {
+                    "default": null,
+                    "description": "Input the minimum number of bedrooms that should be present on the listings. For an exact match, use bed_min and bed_max equal. For example, to see properties with 3 bedrooms: bed_min=3, bed_max=3  Example: No_Min",
+                    "enum": [
+                        "No_Min",
+                        "Studio",
+                        "1",
+                        "2",
+                        "3",
+                        "4",
+                        "5",
+                        null
+                    ],
+                    "title": "Bed Min"
+                },
+                "bed_max": {
+                    "default": null,
+                    "description": "Input the maximum number of bedrooms that could be present on the listings.  Example: No_Max",
+                    "enum": [
+                        "No_Max",
+                        "Studio",
+                        "1",
+                        "2",
+                        "3",
+                        "4",
+                        "5",
+                        null
+                    ],
+                    "title": "Bed Max"
+                },
+                "bathrooms": {
+                    "default": null,
+                    "description": "Input Mapping Explanation: Any → Any OnePlus → 1+ OneHalfPlus → 1.5+ TwoPlus → 2+ ThreePlus → 3+ FourPlus → 4+  Example: Any",
+                    "enum": [
+                        "Any",
+                        "OnePlus",
+                        "OneHalfPlus",
+                        "TwoPlus",
+                        "ThreePlus",
+                        "FourPlus",
+                        null
+                    ],
+                    "title": "Bathrooms"
+                },
+                "homeType": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma or keep it empty for all types selected. Possible values when listingStatus = For_Rent: Houses, Apartments/Condos/Co-ops, Townhomes Possible values when listingStatus = For_Sale or Sold: Houses, Townhomes, Multi-family, Condos/Co-ops, Lots-Land, Apartments, Manufactured",
+                    "title": "Hometype"
+                },
+                "space": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Keeping it empty will NOT select any types. Only used for listingStatus = For_Rent Possible values: Entire Place, Room",
+                    "title": "Space"
+                },
+                "maxHOA": {
+                    "default": null,
+                    "description": "Only used for listingStatus: For_Sale or Sold.  Example: Any",
+                    "enum": [
+                        "Any",
+                        "No_HOA_Fee",
+                        "50_dollars_month",
+                        "100_dollars_month",
+                        "200_dollars_month",
+                        "300_dollars_month",
+                        "400_dollars_month",
+                        "500_dollars_month",
+                        "600_dollars_month",
+                        "700_dollars_month",
+                        "800_dollars_month",
+                        "900_dollars_month",
+                        "1000_dollars_month",
+                        null
+                    ],
+                    "title": "Maxhoa"
+                },
+                "incIncompleteHOA": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include homes with incomplete HOA data. Only used for listingStatus: For_Sale or Sold.  Example: rapid_do_not_include_in_request_key",
+                    "title": "Incincompletehoa"
+                },
+                "listingType": {
+                    "default": null,
+                    "description": "Only used for listingStatus: For_Sale. Default: By_Agent  Example: By_Agent",
+                    "enum": [
+                        "By_Agent",
+                        "By_Owner_and_Other",
+                        null
+                    ],
+                    "title": "Listingtype"
+                },
+                "listingTypeOptions": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only used for listingStatus: For_Sale. For multiple inputs, separate them with a comma or keep it empty for all types selected. Possible values when listingType = By_Agent: Agent listed, New Construction, Fore-closures, Auctions, Foreclosed, Pre-foreclosures Possible values when listingType = By_Owner_and_Other: Owner Posted, Agent listed, New Construction, Fore-closures, Auctions, Foreclosed, Pre-foreclosures",
+                    "title": "Listingtypeoptions"
+                },
+                "propertyStatus": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Keeping it empty will NOT select any types. Only used for listingStatus = For_Sale Possible values: Coming soon, Accepting backup offers, Pending & under contract",
+                    "title": "Propertystatus"
+                },
+                "tours": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Keeping it empty will NOT select any types. Possible values when listingStatus = For_Rent: Must have 3D Tour Possible values when listingStatus = For_Sale: Must have open house, Must have 3D Tour",
+                    "title": "Tours"
+                },
+                "parkingSpots": {
+                    "default": null,
+                    "description": "Only used for listingStatus = For_Sale or Sold Where: Any → Any OnePlus → 1+ TwoPlus → 2+ ThreePlus → 3+ FourPlus → 4+ Example: Any",
+                    "enum": [
+                        "Any",
+                        "OnePlus",
+                        "TwoPlus",
+                        "ThreePlus",
+                        "FourPlus",
+                        null
+                    ],
+                    "title": "Parkingspots"
+                },
+                "haveGarage": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only used for listingStatus = For_Sale or Sold  Example: rapid_do_not_include_in_request_key",
+                    "title": "Havegarage"
+                },
+                "move_in_date": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only used for listingStatus = For_Rent ",
+                    "title": "Move In Date"
+                },
+                "hideNoDateListings": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Hide listings with no move-in date provided. Only used: For_Rent Example: rapid_do_not_include_in_request_key",
+                    "title": "Hidenodatelistings"
+                },
+                "squareFeetRange": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Possible Inputs: For Minimum Square Feet: min:500 For Maximum Square Feet: max:5000 For a Square Feet Range: min:500, max:5000",
+                    "title": "Squarefeetrange"
+                },
+                "lotSizeRange": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Values should be in square feet. For acre-sqft calculation: 1 acre = 43560 sqft Possible Inputs: For Minimum Lot Size: min:1000 For Maximum Lot Size: max:7500 For a Lot Size Range: min:1000, max:7500",
+                    "title": "Lotsizerange"
+                },
+                "yearBuiltRange": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Possible Inputs: For Minimum Year Built: min:2011 For Maximum Year Built: max:2024 For a Year Built Range: min:2011, max:2024",
+                    "title": "Yearbuiltrange"
+                },
+                "mustHaveBasement": {
+                    "default": null,
+                    "description": "External Docs Example: No",
+                    "enum": [
+                        "No",
+                        "Yes_Finished",
+                        "Yes_Unfinished",
+                        "Yes_Both",
+                        null
+                    ],
+                    "title": "Musthavebasement"
+                },
+                "singleStoryOnly": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "External Docs Example: rapid_do_not_include_in_request_key",
+                    "title": "Singlestoryonly"
+                },
+                "hide55plusComm": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Senior Living: Hide 55+ communities Only used for listingStatus = For_Sale or Sold Example: rapid_do_not_include_in_request_key",
+                    "title": "Hide55Pluscomm"
+                },
+                "pets": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Only used for listingStatus = For_Rent Possible values: Allow large dogs, Allow small dogs, Allow cats",
+                    "title": "Pets"
+                },
+                "otherAmenities": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Keeping it empty will NOT select any types. Possible values when listingStatus = For_Sale or Sold: Must have A/C, Must have pool, Waterfront Possible values when listingStatus = For_Rent: Must have A/C, Must have pool, Waterfront, On-site Parking, In-unit Laundry, Accepts Zillow Applications, Income Restricted, Apartment Community",
+                    "title": "Otheramenities"
+                },
+                "view": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Keeping it empty will NOT select any types. Possible values: City, Mountain, Park, Water",
+                    "title": "View"
+                },
+                "daysOnZillow": {
+                    "default": null,
+                    "description": "Only used for listingStatus = For_Sale or Rent  Example: Any",
+                    "enum": [
+                        "Any",
+                        "1_day",
+                        "7_days",
+                        "14_days",
+                        "30_days",
+                        "90_days",
+                        "6_months",
+                        "12_months",
+                        "24_months",
+                        "36_months",
+                        null
+                    ],
+                    "title": "Daysonzillow"
+                },
+                "soldInLast": {
+                    "default": null,
+                    "description": "Only used for listingStatus = Sold  Example: Any",
+                    "enum": [
+                        "Any",
+                        "1_day",
+                        "7_days",
+                        "14_days",
+                        "30_days",
+                        "90_days",
+                        "6_months",
+                        "12_months",
+                        "24_months",
+                        "36_months",
+                        null
+                    ],
+                    "title": "Soldinlast"
+                },
+                "keywords": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "MLS #, yard, fireplace, horses, etc ",
+                    "title": "Keywords"
+                }
+            },
+            "required": [
+                "location",
+                "listingStatus"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_byurl",
+        "description": "Search Zillow, use any filters. Then copy the url, and put it here to get data.",
+        "parameters": {
+            "properties": {
+                "url": {
+                    "description": "",
+                    "title": "Url",
+                    "type": "string"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Default: 1",
+                    "title": "Page"
+                }
+            },
+            "required": [
+                "url",
+                "page"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_bymls",
+        "description": "MLS Search Endpoint",
+        "parameters": {
+            "properties": {
+                "mlsid": {
+                    "description": "Enter an MLS ID (ex. S1710866)",
+                    "title": "Mlsid",
+                    "type": "string"
+                },
+                "listingStatus": {
+                    "default": null,
+                    "description": " Example: For_Sale",
+                    "enum": [
+                        "For_Sale",
+                        "For_Rent",
+                        "Sold",
+                        null
+                    ],
+                    "title": "Listingstatus"
+                },
+                "homeType": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma or keep it empty for all types selected. Possible values when listingStatus = For_Rent: Houses, Apartments/Condos/Co-ops, Townhomes Possible values when listingStatus = For_Sale or Sold: Houses, Townhomes, Multi-family, Condos/Co-ops, Lots-Land, Apartments, Manufactured",
+                    "title": "Hometype"
+                },
+                "listingType": {
+                    "default": null,
+                    "description": "Only used for listingStatus: For_Sale. Default: By_Agent  Example: By_Agent",
+                    "enum": [
+                        "By_Agent",
+                        "By_Owner_and_Other",
+                        null
+                    ],
+                    "title": "Listingtype"
+                },
+                "listingTypeOptions": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only used for listingStatus: For_Sale. For multiple inputs, separate them with a comma or keep it empty for all types selected. Possible values when listingType = By_Agent: Agent listed, New Construction, Fore-closures, Auctions, Foreclosed, Pre-foreclosures Possible values when listingType = By_Owner_and_Other: Owner Posted, Agent listed, New Construction, Fore-closures, Auctions, Foreclosed, Pre-foreclosures",
+                    "title": "Listingtypeoptions"
+                }
+            },
+            "required": [
+                "mlsid"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_bypolygon",
+        "description": "/search/bypolygon Endpoint.",
+        "parameters": {
+            "properties": {
+                "polygon": {
+                    "description": "Enter polygon ordinates:",
+                    "title": "Polygon",
+                    "type": "string"
+                },
+                "listingStatus": {
+                    "description": "Select which type of property data you want to find.  Example: For_Sale",
+                    "enum": [
+                        "For_Sale",
+                        "For_Rent",
+                        "Sold"
+                    ],
+                    "title": "Listingstatus",
+                    "type": "string"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Zillow provides 1000 results on each search. This endpoint returns 200 results per call. So the maximum page number could be 5. To collect all the data: Narrow down your search into smaller areas. (Search by zip code, Set different listPriceRange, try different homeTypes) Default: 1",
+                    "title": "Page"
+                },
+                "sortOrder": {
+                    "default": null,
+                    "description": "Select how you want to sort your search results. Defaults: For Sale : Homes_for_you For Rent : Rental_Priority_Score Sold : Newest Example: Homes_for_you",
+                    "enum": [
+                        "Homes_for_you",
+                        "Rental_Priority_Score",
+                        "Price_High_to_Low",
+                        "Price_Low_to_High",
+                        "Newest",
+                        "Bedrooms",
+                        "Bathrooms",
+                        "Square_Feet",
+                        "Lot_Size",
+                        "Year_Built",
+                        null
+                    ],
+                    "title": "Sortorder"
+                },
+                "listPriceRange": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Possible Inputs: For Minimum Price: min:5000 For Maximum Price: max:500000 For a Price Range: min:5000, max:500000",
+                    "title": "Listpricerange"
+                },
+                "monthlyPayment": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only used for listingStatus: For_Sale. Possible Inputs: For Minimum Payment: min:5000 For Maximum Payment: max:50000 For a Payment Range: min:5000, max:50000",
+                    "title": "Monthlypayment"
+                },
+                "downPayment": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only used for listingStatus: For_Sale. Input a down payment (dollars). Example: 15000. For No Down Payment, do not input anything. ",
+                    "title": "Downpayment"
+                },
+                "bed_min": {
+                    "default": null,
+                    "description": "Input the minimum number of bedrooms that should be present on the listings. For an exact match, use bed_min and bed_max equal. For example, to see properties with 3 bedrooms: bed_min=3, bed_max=3  Example: No_Min",
+                    "enum": [
+                        "No_Min",
+                        "Studio",
+                        "1",
+                        "2",
+                        "3",
+                        "4",
+                        "5",
+                        null
+                    ],
+                    "title": "Bed Min"
+                },
+                "bed_max": {
+                    "default": null,
+                    "description": "Input the maximum number of bedrooms that could be present on the listings.  Example: No_Max",
+                    "enum": [
+                        "No_Max",
+                        "Studio",
+                        "1",
+                        "2",
+                        "3",
+                        "4",
+                        "5",
+                        null
+                    ],
+                    "title": "Bed Max"
+                },
+                "bathrooms": {
+                    "default": null,
+                    "description": "Input Mapping Explanation: Any → Any OnePlus → 1+ OneHalfPlus → 1.5+ TwoPlus → 2+ ThreePlus → 3+ FourPlus → 4+  Example: Any",
+                    "enum": [
+                        "Any",
+                        "OnePlus",
+                        "OneHalfPlus",
+                        "TwoPlus",
+                        "ThreePlus",
+                        "FourPlus",
+                        null
+                    ],
+                    "title": "Bathrooms"
+                },
+                "homeType": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma or keep it empty for all types selected. Possible values when listingStatus = For_Rent: Houses, Apartments/Condos/Co-ops, Townhomes Possible values when listingStatus = For_Sale or Sold: Houses, Townhomes, Multi-family, Condos/Co-ops, Lots-Land, Apartments, Manufactured",
+                    "title": "Hometype"
+                },
+                "space": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Keeping it empty will NOT select any types. Only used for listingStatus = For_Rent Possible values: Entire Place, Room",
+                    "title": "Space"
+                },
+                "maxHOA": {
+                    "default": null,
+                    "description": "Only used for listingStatus: For_Sale or Sold.  Example: Any",
+                    "enum": [
+                        "Any",
+                        "No_HOA_Fee",
+                        "50_dollars_month",
+                        "100_dollars_month",
+                        "200_dollars_month",
+                        "300_dollars_month",
+                        "400_dollars_month",
+                        "500_dollars_month",
+                        "600_dollars_month",
+                        "700_dollars_month",
+                        "800_dollars_month",
+                        "900_dollars_month",
+                        "1000_dollars_month",
+                        null
+                    ],
+                    "title": "Maxhoa"
+                },
+                "incIncompleteHOA": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include homes with incomplete HOA data. Only used for listingStatus: For_Sale or Sold.  Example: rapid_do_not_include_in_request_key",
+                    "title": "Incincompletehoa"
+                },
+                "listingType": {
+                    "default": null,
+                    "description": "Only used for listingStatus: For_Sale. Default: By_Agent  Example: By_Agent",
+                    "enum": [
+                        "By_Agent",
+                        "By_Owner_and_Other",
+                        null
+                    ],
+                    "title": "Listingtype"
+                },
+                "listingTypeOptions": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only used for listingStatus: For_Sale. For multiple inputs, separate them with a comma or keep it empty for all types selected. Possible values when listingType = By_Agent: Agent listed, New Construction, Fore-closures, Auctions, Foreclosed, Pre-foreclosures Possible values when listingType = By_Owner_and_Other: Owner Posted, Agent listed, New Construction, Fore-closures, Auctions, Foreclosed, Pre-foreclosures",
+                    "title": "Listingtypeoptions"
+                },
+                "propertyStatus": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Keeping it empty will NOT select any types. Only used for listingStatus = For_Sale Possible values: Coming soon, Accepting backup offers, Pending & under contract",
+                    "title": "Propertystatus"
+                },
+                "tours": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Keeping it empty will NOT select any types. Possible values when listingStatus = For_Rent: Must have 3D Tour Possible values when listingStatus = For_Sale: Must have open house, Must have 3D Tour",
+                    "title": "Tours"
+                },
+                "parkingSpots": {
+                    "default": null,
+                    "description": "Only used for listingStatus = For_Sale or Sold Where: Any → Any OnePlus → 1+ TwoPlus → 2+ ThreePlus → 3+ FourPlus → 4+ Example: Any",
+                    "enum": [
+                        "Any",
+                        "OnePlus",
+                        "TwoPlus",
+                        "ThreePlus",
+                        "FourPlus",
+                        null
+                    ],
+                    "title": "Parkingspots"
+                },
+                "haveGarage": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only used for listingStatus = For_Sale or Sold  Example: rapid_do_not_include_in_request_key",
+                    "title": "Havegarage"
+                },
+                "move_in_date": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only used for listingStatus = For_Rent ",
+                    "title": "Move In Date"
+                },
+                "hideNoDateListings": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Hide listings with no move-in date provided. Only used: For_Rent Example: rapid_do_not_include_in_request_key",
+                    "title": "Hidenodatelistings"
+                },
+                "squareFeetRange": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Possible Inputs: For Minimum Square Feet: min:500 For Maximum Square Feet: max:5000 For a Square Feet Range: min:500, max:5000",
+                    "title": "Squarefeetrange"
+                },
+                "lotSizeRange": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Values should be in square feet. For acre-sqft calculation: 1 acre = 43560 sqft Possible Inputs: For Minimum Lot Size: min:1000 For Maximum Lot Size: max:7500 For a Lot Size Range: min:1000, max:7500",
+                    "title": "Lotsizerange"
+                },
+                "yearBuiltRange": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Possible Inputs: For Minimum Year Built: min:2011 For Maximum Year Built: max:2024 For a Year Built Range: min:2011, max:2024",
+                    "title": "Yearbuiltrange"
+                },
+                "mustHaveBasement": {
+                    "default": null,
+                    "description": "External Docs Example: No",
+                    "enum": [
+                        "No",
+                        "Yes_Finished",
+                        "Yes_Unfinished",
+                        "Yes_Both",
+                        null
+                    ],
+                    "title": "Musthavebasement"
+                },
+                "singleStoryOnly": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "External Docs Example: rapid_do_not_include_in_request_key",
+                    "title": "Singlestoryonly"
+                },
+                "hide55plusComm": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Senior Living: Hide 55+ communities Only used for listingStatus = For_Sale or Sold Example: rapid_do_not_include_in_request_key",
+                    "title": "Hide55Pluscomm"
+                },
+                "pets": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Only used for listingStatus = For_Rent Possible values: Allow large dogs, Allow small dogs, Allow cats",
+                    "title": "Pets"
+                },
+                "soldInLast": {
+                    "default": null,
+                    "description": "Only used for listingStatus = Sold  Example: Any",
+                    "enum": [
+                        "Any",
+                        "1_day",
+                        "7_days",
+                        "14_days",
+                        "30_days",
+                        "90_days",
+                        "6_months",
+                        "12_months",
+                        "24_months",
+                        "36_months",
+                        null
+                    ],
+                    "title": "Soldinlast"
+                },
+                "otherAmenities": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Keeping it empty will NOT select any types. Possible values when listingStatus = For_Sale or Sold: Must have A/C, Must have pool, Waterfront Possible values when listingStatus = For_Rent: Must have A/C, Must have pool, Waterfront, On-site Parking, In-unit Laundry, Accepts Zillow Applications, Income Restricted, Apartment Community",
+                    "title": "Otheramenities"
+                },
+                "view": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Keeping it empty will NOT select any types. Possible values: City, Mountain, Park, Water",
+                    "title": "View"
+                },
+                "daysOnZillow": {
+                    "default": null,
+                    "description": "Only used for listingStatus = For_Sale or Rent  Example: Any",
+                    "enum": [
+                        "Any",
+                        "1_day",
+                        "7_days",
+                        "14_days",
+                        "30_days",
+                        "90_days",
+                        "6_months",
+                        "12_months",
+                        "24_months",
+                        "36_months",
+                        null
+                    ],
+                    "title": "Daysonzillow"
+                },
+                "keywords": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "MLS #, yard, fireplace, horses, etc ",
+                    "title": "Keywords"
+                }
+            },
+            "required": [
+                "polygon",
+                "listingStatus"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_bycoordinates",
+        "description": "/search/bycoordinates Endpoint",
+        "parameters": {
+            "properties": {
+                "latitude": {
+                    "description": "Enter latitude, longitude, and radius to make a circle search.",
+                    "title": "Latitude",
+                    "type": "string"
+                },
+                "longitude": {
+                    "description": "",
+                    "title": "Longitude",
+                    "type": "string"
+                },
+                "radius": {
+                    "description": "",
+                    "title": "Radius",
+                    "type": "string"
+                },
+                "listingStatus": {
+                    "description": "Select which type of property data you want to find.  Example: For_Sale",
+                    "enum": [
+                        "For_Sale",
+                        "For_Rent",
+                        "Sold"
+                    ],
+                    "title": "Listingstatus",
+                    "type": "string"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Zillow provides 1000 results on each search. This endpoint returns 200 results per call. So the maximum page number could be 5. To collect all the data: Narrow down your search into smaller areas. (Search by zip code, Set different listPriceRange, try different homeTypes) Default: 1",
+                    "title": "Page"
+                },
+                "sortOrder": {
+                    "default": null,
+                    "description": "Select how you want to sort your search results. Defaults: For Sale : Homes_for_you For Rent : Rental_Priority_Score Sold : Newest Example: Homes_for_you",
+                    "enum": [
+                        "Homes_for_you",
+                        "Rental_Priority_Score",
+                        "Price_High_to_Low",
+                        "Price_Low_to_High",
+                        "Newest",
+                        "Bedrooms",
+                        "Bathrooms",
+                        "Square_Feet",
+                        "Lot_Size",
+                        "Year_Built",
+                        null
+                    ],
+                    "title": "Sortorder"
+                },
+                "listPriceRange": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Possible Inputs: For Minimum Price: min:5000 For Maximum Price: max:500000 For a Price Range: min:5000, max:500000",
+                    "title": "Listpricerange"
+                },
+                "monthlyPayment": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only used for listingStatus: For_Sale. Possible Inputs: For Minimum Payment: min:5000 For Maximum Payment: max:50000 For a Payment Range: min:5000, max:50000",
+                    "title": "Monthlypayment"
+                },
+                "downPayment": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only used for listingStatus: For_Sale. Input a down payment (dollars). Example: 15000. For No Down Payment, do not input anything. ",
+                    "title": "Downpayment"
+                },
+                "bed_min": {
+                    "default": null,
+                    "description": "Input the minimum number of bedrooms that should be present on the listings. For an exact match, use bed_min and bed_max equal. For example, to see properties with 3 bedrooms: bed_min=3, bed_max=3  Example: No_Min",
+                    "enum": [
+                        "No_Min",
+                        "Studio",
+                        "1",
+                        "2",
+                        "3",
+                        "4",
+                        "5",
+                        null
+                    ],
+                    "title": "Bed Min"
+                },
+                "bed_max": {
+                    "default": null,
+                    "description": "Input the maximum number of bedrooms that could be present on the listings.  Example: No_Max",
+                    "enum": [
+                        "No_Max",
+                        "Studio",
+                        "1",
+                        "2",
+                        "3",
+                        "4",
+                        "5",
+                        null
+                    ],
+                    "title": "Bed Max"
+                },
+                "bathrooms": {
+                    "default": null,
+                    "description": "Input Mapping Explanation: Any → Any OnePlus → 1+ OneHalfPlus → 1.5+ TwoPlus → 2+ ThreePlus → 3+ FourPlus → 4+  Example: Any",
+                    "enum": [
+                        "Any",
+                        "OnePlus",
+                        "OneHalfPlus",
+                        "TwoPlus",
+                        "ThreePlus",
+                        "FourPlus",
+                        null
+                    ],
+                    "title": "Bathrooms"
+                },
+                "homeType": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma or keep it empty for all types selected. Possible values when listingStatus = For_Rent: Houses, Apartments/Condos/Co-ops, Townhomes Possible values when listingStatus = For_Sale or Sold: Houses, Townhomes, Multi-family, Condos/Co-ops, Lots-Land, Apartments, Manufactured",
+                    "title": "Hometype"
+                },
+                "space": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Keeping it empty will NOT select any types. Only used for listingStatus = For_Rent Possible values: Entire Place, Room",
+                    "title": "Space"
+                },
+                "maxHOA": {
+                    "default": null,
+                    "description": "Only used for listingStatus: For_Sale or Sold.  Example: Any",
+                    "enum": [
+                        "Any",
+                        "No_HOA_Fee",
+                        "50_dollars_month",
+                        "100_dollars_month",
+                        "200_dollars_month",
+                        "300_dollars_month",
+                        "400_dollars_month",
+                        "500_dollars_month",
+                        "600_dollars_month",
+                        "700_dollars_month",
+                        "800_dollars_month",
+                        "900_dollars_month",
+                        "1000_dollars_month",
+                        null
+                    ],
+                    "title": "Maxhoa"
+                },
+                "incIncompleteHOA": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include homes with incomplete HOA data. Only used for listingStatus: For_Sale or Sold.  Example: rapid_do_not_include_in_request_key",
+                    "title": "Incincompletehoa"
+                },
+                "listingType": {
+                    "default": null,
+                    "description": "Only used for listingStatus: For_Sale. Default: By_Agent  Example: By_Agent",
+                    "enum": [
+                        "By_Agent",
+                        "By_Owner_and_Other",
+                        null
+                    ],
+                    "title": "Listingtype"
+                },
+                "listingTypeOptions": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only used for listingStatus: For_Sale. For multiple inputs, separate them with a comma or keep it empty for all types selected. Possible values when listingType = By_Agent: Agent listed, New Construction, Fore-closures, Auctions, Foreclosed, Pre-foreclosures Possible values when listingType = By_Owner_and_Other: Owner Posted, Agent listed, New Construction, Fore-closures, Auctions, Foreclosed, Pre-foreclosures",
+                    "title": "Listingtypeoptions"
+                },
+                "propertyStatus": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Keeping it empty will NOT select any types. Only used for listingStatus = For_Sale Possible values: Coming soon, Accepting backup offers, Pending & under contract",
+                    "title": "Propertystatus"
+                },
+                "tours": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Keeping it empty will NOT select any types. Possible values when listingStatus = For_Rent: Must have 3D Tour Possible values when listingStatus = For_Sale: Must have open house, Must have 3D Tour",
+                    "title": "Tours"
+                },
+                "parkingSpots": {
+                    "default": null,
+                    "description": "Only used for listingStatus = For_Sale or Sold Where: Any → Any OnePlus → 1+ TwoPlus → 2+ ThreePlus → 3+ FourPlus → 4+ Example: Any",
+                    "enum": [
+                        "Any",
+                        "OnePlus",
+                        "TwoPlus",
+                        "ThreePlus",
+                        "FourPlus",
+                        null
+                    ],
+                    "title": "Parkingspots"
+                },
+                "haveGarage": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only used for listingStatus = For_Sale or Sold  Example: rapid_do_not_include_in_request_key",
+                    "title": "Havegarage"
+                },
+                "move_in_date": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only used for listingStatus = For_Rent ",
+                    "title": "Move In Date"
+                },
+                "hideNoDateListings": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Hide listings with no move-in date provided. Only used: For_Rent Example: rapid_do_not_include_in_request_key",
+                    "title": "Hidenodatelistings"
+                },
+                "squareFeetRange": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Possible Inputs: For Minimum Square Feet: min:500 For Maximum Square Feet: max:5000 For a Square Feet Range: min:500, max:5000",
+                    "title": "Squarefeetrange"
+                },
+                "lotSizeRange": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Values should be in square feet. For acre-sqft calculation: 1 acre = 43560 sqft Possible Inputs: For Minimum Lot Size: min:1000 For Maximum Lot Size: max:7500 For a Lot Size Range: min:1000, max:7500",
+                    "title": "Lotsizerange"
+                },
+                "yearBuiltRange": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Possible Inputs: For Minimum Year Built: min:2011 For Maximum Year Built: max:2024 For a Year Built Range: min:2011, max:2024",
+                    "title": "Yearbuiltrange"
+                },
+                "mustHaveBasement": {
+                    "default": null,
+                    "description": "External Docs Example: No",
+                    "enum": [
+                        "No",
+                        "Yes_Finished",
+                        "Yes_Unfinished",
+                        "Yes_Both",
+                        null
+                    ],
+                    "title": "Musthavebasement"
+                },
+                "singleStoryOnly": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "External Docs Example: rapid_do_not_include_in_request_key",
+                    "title": "Singlestoryonly"
+                },
+                "hide55plusComm": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Senior Living: Hide 55+ communities Only used for listingStatus = For_Sale or Sold Example: rapid_do_not_include_in_request_key",
+                    "title": "Hide55Pluscomm"
+                },
+                "pets": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Only used for listingStatus = For_Rent Possible values: Allow large dogs, Allow small dogs, Allow cats",
+                    "title": "Pets"
+                },
+                "otherAmenities": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Keeping it empty will NOT select any types. Possible values when listingStatus = For_Sale or Sold: Must have A/C, Must have pool, Waterfront Possible values when listingStatus = For_Rent: Must have A/C, Must have pool, Waterfront, On-site Parking, In-unit Laundry, Accepts Zillow Applications, Income Restricted, Apartment Community",
+                    "title": "Otheramenities"
+                },
+                "view": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Keeping it empty will NOT select any types. Possible values: City, Mountain, Park, Water",
+                    "title": "View"
+                },
+                "daysOnZillow": {
+                    "default": null,
+                    "description": "Only used for listingStatus = For_Sale or Rent  Example: Any",
+                    "enum": [
+                        "Any",
+                        "1_day",
+                        "7_days",
+                        "14_days",
+                        "30_days",
+                        "90_days",
+                        "6_months",
+                        "12_months",
+                        "24_months",
+                        "36_months",
+                        null
+                    ],
+                    "title": "Daysonzillow"
+                },
+                "soldInLast": {
+                    "default": null,
+                    "description": "Only used for listingStatus = Sold  Example: Any",
+                    "enum": [
+                        "Any",
+                        "1_day",
+                        "7_days",
+                        "14_days",
+                        "30_days",
+                        "90_days",
+                        "6_months",
+                        "12_months",
+                        "24_months",
+                        "36_months",
+                        null
+                    ],
+                    "title": "Soldinlast"
+                },
+                "keywords": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "MLS #, yard, fireplace, horses, etc ",
+                    "title": "Keywords"
+                }
+            },
+            "required": [
+                "latitude",
+                "longitude",
+                "radius",
+                "listingStatus"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_bymapbounds",
+        "description": "/search/bymapbounds Endpoint",
+        "parameters": {
+            "properties": {
+                "eastLongitude": {
+                    "description": "",
+                    "title": "Eastlongitude",
+                    "type": "string"
+                },
+                "northLatitude": {
+                    "description": "",
+                    "title": "Northlatitude",
+                    "type": "string"
+                },
+                "southLatitude": {
+                    "description": "",
+                    "title": "Southlatitude",
+                    "type": "string"
+                },
+                "westLongitude": {
+                    "description": "",
+                    "title": "Westlongitude",
+                    "type": "string"
+                },
+                "listingStatus": {
+                    "description": "Select which type of property data you want to find.  Example: For_Sale",
+                    "enum": [
+                        "For_Sale",
+                        "For_Rent",
+                        "Sold"
+                    ],
+                    "title": "Listingstatus",
+                    "type": "string"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Zillow provides 1000 results on each search. This endpoint returns 200 results per call. So the maximum page number could be 5. To collect all the data: Narrow down your search into smaller areas. (Search by zip code, Set different listPriceRange, try different homeTypes) Default: 1",
+                    "title": "Page"
+                },
+                "sortOrder": {
+                    "default": null,
+                    "description": "Select how you want to sort your search results. Defaults: For Sale : Homes_for_you For Rent : Rental_Priority_Score Sold : Newest Example: Homes_for_you",
+                    "enum": [
+                        "Homes_for_you",
+                        "Rental_Priority_Score",
+                        "Price_High_to_Low",
+                        "Price_Low_to_High",
+                        "Newest",
+                        "Bedrooms",
+                        "Bathrooms",
+                        "Square_Feet",
+                        "Lot_Size",
+                        "Year_Built",
+                        null
+                    ],
+                    "title": "Sortorder"
+                },
+                "listPriceRange": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Possible Inputs: For Minimum Price: min:5000 For Maximum Price: max:500000 For a Price Range: min:5000, max:500000",
+                    "title": "Listpricerange"
+                },
+                "monthlyPayment": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only used for listingStatus: For_Sale. Possible Inputs: For Minimum Payment: min:5000 For Maximum Payment: max:50000 For a Payment Range: min:5000, max:50000",
+                    "title": "Monthlypayment"
+                },
+                "downPayment": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only used for listingStatus: For_Sale. Input a down payment (dollars). Example: 15000. For No Down Payment, do not input anything. ",
+                    "title": "Downpayment"
+                },
+                "bed_min": {
+                    "default": null,
+                    "description": "Input the minimum number of bedrooms that should be present on the listings. For an exact match, use bed_min and bed_max equal. For example, to see properties with 3 bedrooms: bed_min=3, bed_max=3  Example: No_Min",
+                    "enum": [
+                        "No_Min",
+                        "Studio",
+                        "1",
+                        "2",
+                        "3",
+                        "4",
+                        "5",
+                        null
+                    ],
+                    "title": "Bed Min"
+                },
+                "bed_max": {
+                    "default": null,
+                    "description": "Input the maximum number of bedrooms that could be present on the listings.  Example: No_Max",
+                    "enum": [
+                        "No_Max",
+                        "Studio",
+                        "1",
+                        "2",
+                        "3",
+                        "4",
+                        "5",
+                        null
+                    ],
+                    "title": "Bed Max"
+                },
+                "bathrooms": {
+                    "default": null,
+                    "description": "Input Mapping Explanation: Any → Any OnePlus → 1+ OneHalfPlus → 1.5+ TwoPlus → 2+ ThreePlus → 3+ FourPlus → 4+  Example: Any",
+                    "enum": [
+                        "Any",
+                        "OnePlus",
+                        "OneHalfPlus",
+                        "TwoPlus",
+                        "ThreePlus",
+                        "FourPlus",
+                        null
+                    ],
+                    "title": "Bathrooms"
+                },
+                "homeType": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma or keep it empty for all types selected. Possible values when listingStatus = For_Rent: Houses, Apartments/Condos/Co-ops, Townhomes Possible values when listingStatus = For_Sale or Sold: Houses, Townhomes, Multi-family, Condos/Co-ops, Lots-Land, Apartments, Manufactured",
+                    "title": "Hometype"
+                },
+                "space": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Keeping it empty will NOT select any types. Only used for listingStatus = For_Rent Possible values: Entire Place, Room",
+                    "title": "Space"
+                },
+                "maxHOA": {
+                    "default": null,
+                    "description": "Only used for listingStatus: For_Sale or Sold.  Example: Any",
+                    "enum": [
+                        "Any",
+                        "No_HOA_Fee",
+                        "50_dollars_month",
+                        "100_dollars_month",
+                        "200_dollars_month",
+                        "300_dollars_month",
+                        "400_dollars_month",
+                        "500_dollars_month",
+                        "600_dollars_month",
+                        "700_dollars_month",
+                        "800_dollars_month",
+                        "900_dollars_month",
+                        "1000_dollars_month",
+                        null
+                    ],
+                    "title": "Maxhoa"
+                },
+                "incIncompleteHOA": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include homes with incomplete HOA data. Only used for listingStatus: For_Sale or Sold.  Example: rapid_do_not_include_in_request_key",
+                    "title": "Incincompletehoa"
+                },
+                "listingTypeOptions": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only used for listingStatus: For_Sale. For multiple inputs, separate them with a comma or keep it empty for all types selected. Possible values when listingType = By_Agent: Agent listed, New Construction, Fore-closures, Auctions, Foreclosed, Pre-foreclosures Possible values when listingType = By_Owner_and_Other: Owner Posted, Agent listed, New Construction, Fore-closures, Auctions, Foreclosed, Pre-foreclosures",
+                    "title": "Listingtypeoptions"
+                },
+                "propertyStatus": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Keeping it empty will NOT select any types. Only used for listingStatus = For_Sale Possible values: Coming soon, Accepting backup offers, Pending & under contract",
+                    "title": "Propertystatus"
+                },
+                "tours": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Keeping it empty will NOT select any types. Possible values when listingStatus = For_Rent: Must have 3D Tour Possible values when listingStatus = For_Sale: Must have open house, Must have 3D Tour",
+                    "title": "Tours"
+                },
+                "parkingSpots": {
+                    "default": null,
+                    "description": "Only used for listingStatus = For_Sale or Sold Where: Any → Any OnePlus → 1+ TwoPlus → 2+ ThreePlus → 3+ FourPlus → 4+ Example: Any",
+                    "enum": [
+                        "Any",
+                        "OnePlus",
+                        "TwoPlus",
+                        "ThreePlus",
+                        "FourPlus",
+                        null
+                    ],
+                    "title": "Parkingspots"
+                },
+                "move_in_date": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only used for listingStatus = For_Rent ",
+                    "title": "Move In Date"
+                },
+                "hideNoDateListings": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Hide listings with no move-in date provided. Only used: For_Rent Example: rapid_do_not_include_in_request_key",
+                    "title": "Hidenodatelistings"
+                },
+                "squareFeetRange": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Possible Inputs: For Minimum Square Feet: min:500 For Maximum Square Feet: max:5000 For a Square Feet Range: min:500, max:5000",
+                    "title": "Squarefeetrange"
+                },
+                "lotSizeRange": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Values should be in square feet. For acre-sqft calculation: 1 acre = 43560 sqft Possible Inputs: For Minimum Lot Size: min:1000 For Maximum Lot Size: max:7500 For a Lot Size Range: min:1000, max:7500",
+                    "title": "Lotsizerange"
+                },
+                "yearBuiltRange": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Possible Inputs: For Minimum Year Built: min:2011 For Maximum Year Built: max:2024 For a Year Built Range: min:2011, max:2024",
+                    "title": "Yearbuiltrange"
+                },
+                "mustHaveBasement": {
+                    "default": null,
+                    "description": "External Docs Example: No",
+                    "enum": [
+                        "No",
+                        "Yes_Finished",
+                        "Yes_Unfinished",
+                        "Yes_Both",
+                        null
+                    ],
+                    "title": "Musthavebasement"
+                },
+                "singleStoryOnly": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "External Docs Example: rapid_do_not_include_in_request_key",
+                    "title": "Singlestoryonly"
+                },
+                "hide55plusComm": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Senior Living: Hide 55+ communities Only used for listingStatus = For_Sale or Sold Example: rapid_do_not_include_in_request_key",
+                    "title": "Hide55Pluscomm"
+                },
+                "otherAmenities": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Keeping it empty will NOT select any types. Possible values when listingStatus = For_Sale or Sold: Must have A/C, Must have pool, Waterfront Possible values when listingStatus = For_Rent: Must have A/C, Must have pool, Waterfront, On-site Parking, In-unit Laundry, Accepts Zillow Applications, Income Restricted, Apartment Community",
+                    "title": "Otheramenities"
+                },
+                "view": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Keeping it empty will NOT select any types. Possible values: City, Mountain, Park, Water",
+                    "title": "View"
+                },
+                "daysOnZillow": {
+                    "default": null,
+                    "description": "Only used for listingStatus = For_Sale or Rent  Example: Any",
+                    "enum": [
+                        "Any",
+                        "1_day",
+                        "7_days",
+                        "14_days",
+                        "30_days",
+                        "90_days",
+                        "6_months",
+                        "12_months",
+                        "24_months",
+                        "36_months",
+                        null
+                    ],
+                    "title": "Daysonzillow"
+                },
+                "soldInLast": {
+                    "default": null,
+                    "description": "Only used for listingStatus = Sold  Example: Any",
+                    "enum": [
+                        "Any",
+                        "1_day",
+                        "7_days",
+                        "14_days",
+                        "30_days",
+                        "90_days",
+                        "6_months",
+                        "12_months",
+                        "24_months",
+                        "36_months",
+                        null
+                    ],
+                    "title": "Soldinlast"
+                },
+                "keywords": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "MLS #, yard, fireplace, horses, etc ",
+                    "title": "Keywords"
+                }
+            },
+            "required": [
+                "eastLongitude",
+                "northLatitude",
+                "southLatitude",
+                "westLongitude",
+                "listingStatus"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_by_ai_prompt",
+        "description": "Yes, you can describe the filters you want to use. Zillow built-in search.",
+        "parameters": {
+            "properties": {
+                "ai_search_prompt": {
+                    "description": "This endpoint isn't as accurate as the other search endpoints at identifying filters. If you want accuracy, it's recommended to use the other search endpoints. Example search prompts: 2+ bedroom homes for sale in New York City NY with 2+ bathrooms Homes for sale in Alamo City $150k to $250k and posted in last 6 months Austin TX sold homes with 2+ bedrooms, has basement, city view, 1000 sqft, built after 2000",
+                    "title": "Ai Search Prompt",
+                    "type": "string"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Page"
+                },
+                "sortOrder": {
+                    "default": null,
+                    "description": " Example: Homes_for_you",
+                    "enum": [
+                        "Homes_for_you",
+                        "Rental_Priority_Score",
+                        "Price_High_to_Low",
+                        "Price_Low_to_High",
+                        "Newest",
+                        "Bedrooms",
+                        "Bathrooms",
+                        "Square_Feet",
+                        "Lot_Size",
+                        "Year_Built",
+                        null
+                    ],
+                    "title": "Sortorder"
+                },
+                "keywords": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Enter different keywords like MLS #, yard, agent etc.",
+                    "title": "Keywords"
+                }
+            },
+            "required": [
+                "ai_search_prompt"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "zestimate_history",
+        "description": "Get zestimate history for last **TEN(10)** years. If recent_first = **True**: Chart data: Current month(first) to previous months(last) If recent_first = **False**: Chart data: Previous months(first )to Current month(last)",
+        "parameters": {
+            "properties": {
+                "recent_first": {
+                    "description": " Example: True",
+                    "enum": [
+                        "True",
+                        "False"
+                    ],
+                    "title": "Recent First",
+                    "type": "string"
+                },
+                "which": {
+                    "const": "zestimate_history",
+                    "description": " Example: zestimate_history",
+                    "title": "Which",
+                    "type": "string"
+                },
+                "byzpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Byzpid"
+                },
+                "byurl": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Byurl"
+                },
+                "byaddress": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Byaddress"
+                }
+            },
+            "required": [
+                "recent_first",
+                "which"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "rent_zestimate_history",
+        "description": "Get rent zestimate history for last **TEN(10)** years. If recent_first = **True**: Chart data: Current month(first) to previous months(last) If recent_first = **False**: Chart data: Previous months(first )to Current month(last)",
+        "parameters": {
+            "properties": {
+                "recent_first": {
+                    "description": " Example: True",
+                    "enum": [
+                        "True",
+                        "False"
+                    ],
+                    "title": "Recent First",
+                    "type": "string"
+                },
+                "which": {
+                    "const": "rent_zestimate_history",
+                    "description": " Example: rent_zestimate_history",
+                    "title": "Which",
+                    "type": "string"
+                },
+                "byzpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Byzpid"
+                },
+                "byurl": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Byurl"
+                },
+                "byaddress": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Byaddress"
+                }
+            },
+            "required": [
+                "recent_first",
+                "which"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "listing_price",
+        "description": "Get listing price chart data for last **TEN(10)** years. If recent_first = **True**: Chart data: Current month(first) to previous months(last) If recent_first = **False**: Chart data: Previous months(first )to Current month(last)",
+        "parameters": {
+            "properties": {
+                "recent_first": {
+                    "description": " Example: True",
+                    "enum": [
+                        "True",
+                        "False"
+                    ],
+                    "title": "Recent First",
+                    "type": "string"
+                },
+                "which": {
+                    "const": "listing_price",
+                    "description": " Example: listing_price",
+                    "title": "Which",
+                    "type": "string"
+                },
+                "byzpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Byzpid"
+                },
+                "byurl": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Byurl"
+                },
+                "byaddress": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Byaddress"
+                }
+            },
+            "required": [
+                "recent_first",
+                "which"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "zestimate_percent_change",
+        "description": "Get zestimate percent change for last **TEN(10)** years. If recent_first = **True**: Chart data: Current month(first) to previous months(last) If recent_first = **False**: Chart data: Previous months(first )to Current month(last)",
+        "parameters": {
+            "properties": {
+                "recent_first": {
+                    "description": " Example: True",
+                    "enum": [
+                        "True",
+                        "False"
+                    ],
+                    "title": "Recent First",
+                    "type": "string"
+                },
+                "which": {
+                    "const": "zestimate_percent_change",
+                    "description": " Example: zestimate_percent_change",
+                    "title": "Which",
+                    "type": "string"
+                },
+                "byzpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Byzpid"
+                },
+                "byurl": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Byurl"
+                },
+                "byaddress": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Byaddress"
+                }
+            },
+            "required": [
+                "recent_first",
+                "which"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "tax_assessment_history",
+        "description": "Get tax assessment history for last **TEN(10)** years. If recent_first = **True**: Chart data: Current month(first) to previous months(last) If recent_first = **False**: Chart data: Previous months(first )to Current month(last)",
+        "parameters": {
+            "properties": {
+                "recent_first": {
+                    "description": " Example: True",
+                    "enum": [
+                        "True",
+                        "False"
+                    ],
+                    "title": "Recent First",
+                    "type": "string"
+                },
+                "which": {
+                    "const": "tax_assessment",
+                    "description": " Example: tax_assessment",
+                    "title": "Which",
+                    "type": "string"
+                },
+                "byzpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Byzpid"
+                },
+                "byurl": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Byurl"
+                },
+                "byaddress": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Byaddress"
+                }
+            },
+            "required": [
+                "recent_first",
+                "which"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "tax_paid_history",
+        "description": "Get tax paid history for last **TEN(10)** years. If recent_first = **True**: Chart data: Current month(first) to previous months(last) If recent_first = **False**: Chart data: Previous months(first )to Current month(last)",
+        "parameters": {
+            "properties": {
+                "recent_first": {
+                    "description": " Example: True",
+                    "enum": [
+                        "True",
+                        "False"
+                    ],
+                    "title": "Recent First",
+                    "type": "string"
+                },
+                "which": {
+                    "const": "tax_paid",
+                    "description": " Example: tax_paid",
+                    "title": "Which",
+                    "type": "string"
+                },
+                "byzpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Byzpid"
+                },
+                "byurl": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Byurl"
+                },
+                "byaddress": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Byaddress"
+                }
+            },
+            "required": [
+                "recent_first",
+                "which"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "owner_agent",
+        "description": "Get owner information of a property by zpid/address/url.",
+        "parameters": {
+            "properties": {
+                "byzpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Enter a property zpid value or you can use byurl or byaddress options below",
+                    "title": "Byzpid"
+                },
+                "byurl": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Byurl"
+                },
+                "byaddress": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Use any of the three options(zpid/url/address) to get the output.",
+                    "title": "Byaddress"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "comparable_homes",
+        "description": "Get owner information of a property by zpid/address/url.",
+        "parameters": {
+            "properties": {
+                "byzpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Enter ZPID.",
+                    "title": "Byzpid"
+                },
+                "byurl": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Byurl"
+                },
+                "byaddress": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Use any of the three options above, (ZPID/URL/Address)",
+                    "title": "Byaddress"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "similar_properties",
+        "description": "Get similar homes/properties by zpid/address/url/lotid",
+        "parameters": {
+            "properties": {
+                "byzpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Enter ZPID.",
+                    "title": "Byzpid"
+                },
+                "byurl": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Byurl"
+                },
+                "byaddress": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Byaddress"
+                },
+                "bylotid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Use any of the Four options above, (byZPID/byURL/byAddress/byLotID) Lotids are for apartments and buildings. For most of the properties, a ZPID is used. You can get these from search endpoints. Use any of the four options available. If you keep all four, the API will take input in this order (first priority to last) : zpid>url>address>lotid",
+                    "title": "Bylotid"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "nearby_properties",
+        "description": "Get nearby properties of a property by zpid/address/url/lotid",
+        "parameters": {
+            "properties": {
+                "byzpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Enter ZPID.",
+                    "title": "Byzpid"
+                },
+                "byurl": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Byurl"
+                },
+                "byaddress": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Byaddress"
+                },
+                "bylotid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Use any of the Four options above, (byZPID/byURL/byAddress/byLotID) Lotids are for apartments and buildings. For most of the properties, a ZPID is used. You can get these from search endpoints. Use any of the four options available. If you keep all four, the API will take input in this order (first priority to last) : zpid>url>address>lotid",
+                    "title": "Bylotid"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "climate",
+        "description": "Get owner information of a property by zpid/address/url.",
+        "parameters": {
+            "properties": {
+                "byzpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Enter ZPID.",
+                    "title": "Byzpid"
+                },
+                "byurl": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Byurl"
+                },
+                "byaddress": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Use any of the three options above, (byZPID/byURL/byAddress) For most of the properties, a ZPID is used. You can get these from search endpoints. Use any of the three options available. If you keep all four, the API will take input in this order (first priority to last): zpid>url>address",
+                    "title": "Byaddress"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "pricehistory",
+        "description": "Gives you Price History information by zpid/url/address. If you provide all three parameters, the power order will be: ZPID > URL > ADDRESS",
+        "parameters": {
+            "properties": {
+                "byzpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Input the zpid of a property",
+                    "title": "Byzpid"
+                },
+                "byurl": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Input the URL of a property",
+                    "title": "Byurl"
+                },
+                "byaddress": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Input the Address of a property",
+                    "title": "Byaddress"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "taxinfo_history",
+        "description": "Gives you property tax information by zpid/url/address. If you provide all three parameters, the power order will be: ZPID > URL > ADDRESS",
+        "parameters": {
+            "properties": {
+                "byzpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Input the zpid of a property",
+                    "title": "Byzpid"
+                },
+                "byurl": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Input the URL of a property",
+                    "title": "Byurl"
+                },
+                "byaddress": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Input the Address of a property",
+                    "title": "Byaddress"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "walk_transit_bike",
+        "description": "Gives you Walk-Transit-Bike Scores by zpid/url/address. If you provide all three parameters, the power order will be: ZPID > URL > ADDRESS",
+        "parameters": {
+            "properties": {
+                "byzpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Input the zpid of a property",
+                    "title": "Byzpid"
+                },
+                "byurl": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Input the URL of a property",
+                    "title": "Byurl"
+                },
+                "byaddress": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Input the Address of a property",
+                    "title": "Byaddress"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "lotid_from_address",
+        "description": "Find the lotID from the address. Lotid is used for buildings and apartments.",
+        "parameters": {
+            "properties": {
+                "propertyaddress": {
+                    "description": "Only apartment and building addresses will return with a lot ID. Other properties on Zillow use ZPID as an identifier.",
+                    "title": "Propertyaddress",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "propertyaddress"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "apartment_details",
+        "description": "Get apartment/building details from the lot ID and URL.",
+        "parameters": {
+            "properties": {
+                "bylotid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Enter a valid LotID. You can find it from the /lotid_from_address endpoint.",
+                    "title": "Bylotid"
+                },
+                "byapturl": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "You can put the apartment URL directly to get details. Ex.: https://www.zillow.com/b/natiivo-austin-austin-tx-CjQbkL https://www.zillow.com/apartments/nashville-tn/samara/9DsRgb You can use any of the two available options (bylotid/byapturl)",
+                    "title": "Byapturl"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "housing_market",
+        "description": "Find the Zillow Home Value Index or housing market data.",
+        "parameters": {
+            "properties": {
+                "search_query": {
+                    "description": "Search any city/state/zip code. To search for full country, put: USA/United States",
+                    "title": "Search Query",
+                    "type": "string"
+                },
+                "home_type": {
+                    "default": null,
+                    "description": " Example: All_Homes",
+                    "enum": [
+                        "All_Homes",
+                        "Single_Family",
+                        "Condo",
+                        null
+                    ],
+                    "title": "Home Type"
+                },
+                "exclude_rentalMarketTrends": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Set it to False if you want to get rental market data too. Check on the website: https://www.zillow.com/home-values/10221/austin-tx/ Example: true",
+                    "title": "Exclude Rentalmarkettrends"
+                },
+                "exclude_neighborhoods_zhvi": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": " Example: true",
+                    "title": "Exclude Neighborhoods Zhvi"
+                }
+            },
+            "required": [
+                "search_query"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "rental_market_trends",
+        "description": "Get rental market trends for any city/zip.",
+        "parameters": {
+            "properties": {
+                "search_query": {
+                    "description": "Search by City or Zip",
+                    "title": "Search Query",
+                    "type": "string"
+                },
+                "bedrooom_type": {
+                    "default": null,
+                    "description": "Select any bedroom types you want to use as a filter. Example: All_Bedrooms",
+                    "enum": [
+                        "All_Bedrooms",
+                        "Studio",
+                        "1_Bedroom",
+                        "2_Bedroom",
+                        "3_Bedroom",
+                        "4_Bedroom_Plus",
+                        null
+                    ],
+                    "title": "Bedrooom Type"
+                },
+                "home_type": {
+                    "default": null,
+                    "description": "Select any home types you want to use as a filter. Example: All_Property_Types",
+                    "enum": [
+                        "All_Property_Types",
+                        "Houses",
+                        "Apartments_and_Condos",
+                        "Townhomes",
+                        null
+                    ],
+                    "title": "Home Type"
+                }
+            },
+            "required": [
+                "search_query"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "skip_trace_byaddress",
+        "description": "Get address details and IDs of persons matching with the addresses.",
+        "parameters": {
+            "properties": {
+                "street": {
+                    "description": "",
+                    "title": "Street",
+                    "type": "string"
+                },
+                "citystatezip": {
+                    "description": "",
+                    "title": "Citystatezip",
+                    "type": "string"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Use pagination (1, 2, 3...) if records are more than 10 in the previous page. Important: Skip tracing endpoints costs 25 requests/call. For more requests and endpoints, use this API: https://rapidapi.com/oneapiproject/api/skip-tracing-working-api Default: 1",
+                    "title": "Page"
+                }
+            },
+            "required": [
+                "street",
+                "citystatezip"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "skip_trace_details_by_id",
+        "description": "Get all personal details from ID. Get phone, email, associates, relatives, address details and more!",
+        "parameters": {
+            "properties": {
+                "peo_id": {
+                    "description": "To get phone numbers and emails, please enter the Person ID found from the /skip_trace/byaddress endpoint above. Ex.: px860662uu9n6u8r04888 Important: Skip tracing endpoints costs 25 requests/call. For more requests and endpoints, use this API: https://rapidapi.com/oneapiproject/api/skip-tracing-working-api",
+                    "title": "Peo Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "peo_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "custom_a_byaddress",
+        "description": "** This endpoint has no images URL. This is a custom endpoint made for a client. Property details by address search. Input any property address to get results.",
+        "parameters": {
+            "properties": {
+                "propertyaddress": {
+                    "description": "",
+                    "title": "Propertyaddress",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "propertyaddress"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "custom_ab_byaddress",
+        "description": "This is a custom endpoint made for a client.",
+        "parameters": {
+            "properties": {
+                "propertyaddress": {
+                    "description": "Enter any property address",
+                    "title": "Propertyaddress",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "propertyaddress"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "custom_ac_byzpid",
+        "description": "Custom endpoint that has `owner-info / listed-by` data integrated with custom data points. Cost: `2 requests/call`",
+        "parameters": {
+            "properties": {
+                "zpid": {
+                    "description": "Enter Zpid of a property. Custom endpoint that has owner-info / listed-by data integrated with custom data points. Cost: 2 requests/call",
+                    "title": "Zpid",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "zpid"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "custom_ad_byzpid",
+        "description": "This endpoint has custom data points.",
+        "parameters": {
+            "properties": {
+                "zpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Enter the Zpid of a property.",
+                    "title": "Zpid"
+                },
+                "address": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Address"
+                },
+                "url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Use any of the three options (zpid/url/address) to get the output.",
+                    "title": "Url"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "custom_ad_search_by_address",
+        "description": "This endpoint allows you to set up to 1000 properties per search query.",
+        "parameters": {
+            "properties": {
+                "location": {
+                    "description": "Enter an address, neighborhood, city, or ZIP code. For Multi-inputs upto 5 (separate with a semicolon): New York, NY; Seattle, WA; 78006",
+                    "title": "Location",
+                    "type": "string"
+                },
+                "listingStatus": {
+                    "description": "Select which type of property data you want to find.  Example: For_Sale",
+                    "enum": [
+                        "For_Sale",
+                        "For_Rent",
+                        "Sold"
+                    ],
+                    "title": "Listingstatus",
+                    "type": "string"
+                },
+                "pageSize": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If pageSize is more than 500, it will cost 2 requests/call Default: 500",
+                    "title": "Pagesize"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The maximum properties you can get from each search is 1000. So if you put pageSize = 100; you can put up to page = 10 (total 1000) pageSize = 250; page = 4 pageSize = 500; page = 2 Default: 1",
+                    "title": "Page"
+                },
+                "sortOrder": {
+                    "default": null,
+                    "description": "Select how you want to sort your search results. Defaults: For Sale : Homes_for_you For Rent : Rental_Priority_Score Sold : Newest Example: Homes_for_you",
+                    "enum": [
+                        "Homes_for_you",
+                        "Rental_Priority_Score",
+                        "Price_High_to_Low",
+                        "Price_Low_to_High",
+                        "Newest",
+                        "Bedrooms",
+                        "Bathrooms",
+                        "Square_Feet",
+                        "Lot_Size",
+                        "Year_Built",
+                        null
+                    ],
+                    "title": "Sortorder"
+                },
+                "listPriceRange": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Possible Inputs: For Minimum Price: min:5000 For Maximum Price: max:500000 For a Price Range: min:5000, max:500000",
+                    "title": "Listpricerange"
+                },
+                "monthlyPayment": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only used for listingStatus: For_Sale. Possible Inputs: For Minimum Payment: min:5000 For Maximum Payment: max:50000 For a Payment Range: min:5000, max:50000",
+                    "title": "Monthlypayment"
+                },
+                "downPayment": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only used for listingStatus: For_Sale. Input a down payment (dollars). Example: 15000. For No Down Payment, do not input anything. ",
+                    "title": "Downpayment"
+                },
+                "bed_min": {
+                    "default": null,
+                    "description": "Input the minimum number of bedrooms that should be present on the listings. For an exact match, use bed_min and bed_max equal. For example, to see properties with 3 bedrooms: bed_min=3, bed_max=3  Example: No_Min",
+                    "enum": [
+                        "No_Min",
+                        "Studio",
+                        "1",
+                        "2",
+                        "3",
+                        "4",
+                        "5",
+                        null
+                    ],
+                    "title": "Bed Min"
+                },
+                "bed_max": {
+                    "default": null,
+                    "description": "Input the maximum number of bedrooms that could be present on the listings.  Example: No_Max",
+                    "enum": [
+                        "No_Max",
+                        "Studio",
+                        "1",
+                        "2",
+                        "3",
+                        "4",
+                        "5",
+                        null
+                    ],
+                    "title": "Bed Max"
+                },
+                "bathrooms": {
+                    "default": null,
+                    "description": "Input Mapping Explanation: Any → Any OnePlus → 1+ OneHalfPlus → 1.5+ TwoPlus → 2+ ThreePlus → 3+ FourPlus → 4+  Example: Any",
+                    "enum": [
+                        "Any",
+                        "OnePlus",
+                        "OneHalfPlus",
+                        "TwoPlus",
+                        "ThreePlus",
+                        "FourPlus",
+                        null
+                    ],
+                    "title": "Bathrooms"
+                },
+                "homeType": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma or keep it empty for all types selected. Possible values when listingStatus = For_Rent: Houses, Apartments/Condos/Co-ops, Townhomes Possible values when listingStatus = For_Sale or Sold: Houses, Townhomes, Multi-family, Condos/Co-ops, Lots-Land, Apartments, Manufactured",
+                    "title": "Hometype"
+                },
+                "space": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Keeping it empty will NOT select any types. Only used for listingStatus = For_Rent Possible values: Entire Place, Room",
+                    "title": "Space"
+                },
+                "maxHOA": {
+                    "default": null,
+                    "description": "Only used for listingStatus: For_Sale or Sold.  Example: Any",
+                    "enum": [
+                        "Any",
+                        "No_HOA_Fee",
+                        "50_dollars_month",
+                        "100_dollars_month",
+                        "200_dollars_month",
+                        "300_dollars_month",
+                        "400_dollars_month",
+                        "500_dollars_month",
+                        "600_dollars_month",
+                        "700_dollars_month",
+                        "800_dollars_month",
+                        "900_dollars_month",
+                        "1000_dollars_month",
+                        null
+                    ],
+                    "title": "Maxhoa"
+                },
+                "incIncompleteHOA": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include homes with incomplete HOA data. Only used for listingStatus: For_Sale or Sold.  Example: rapid_do_not_include_in_request_key",
+                    "title": "Incincompletehoa"
+                },
+                "listingType": {
+                    "default": null,
+                    "description": "Only used for listingStatus: For_Sale. Default: By_Agent  Example: By_Agent",
+                    "enum": [
+                        "By_Agent",
+                        "By_Owner_and_Other",
+                        null
+                    ],
+                    "title": "Listingtype"
+                },
+                "listingTypeOptions": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only used for listingStatus: For_Sale. For multiple inputs, separate them with a comma or keep it empty for all types selected. Possible values when listingType = By_Agent: Agent listed, New Construction, Fore-closures, Auctions, Foreclosed, Pre-foreclosures Possible values when listingType = By_Owner_and_Other: Owner Posted, Agent listed, New Construction, Fore-closures, Auctions, Foreclosed, Pre-foreclosures",
+                    "title": "Listingtypeoptions"
+                },
+                "propertyStatus": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Keeping it empty will NOT select any types. Only used for listingStatus = For_Sale Possible values: Coming soon, Accepting backup offers, Pending & under contract",
+                    "title": "Propertystatus"
+                },
+                "tours": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Keeping it empty will NOT select any types. Possible values when listingStatus = For_Rent: Must have 3D Tour Possible values when listingStatus = For_Sale: Must have open house, Must have 3D Tour",
+                    "title": "Tours"
+                },
+                "parkingSpots": {
+                    "default": null,
+                    "description": "Only used for listingStatus = For_Sale or Sold Where: Any → Any OnePlus → 1+ TwoPlus → 2+ ThreePlus → 3+ FourPlus → 4+ Example: Any",
+                    "enum": [
+                        "Any",
+                        "OnePlus",
+                        "TwoPlus",
+                        "ThreePlus",
+                        "FourPlus",
+                        null
+                    ],
+                    "title": "Parkingspots"
+                },
+                "haveGarage": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only used for listingStatus = For_Sale or Sold  Example: rapid_do_not_include_in_request_key",
+                    "title": "Havegarage"
+                },
+                "move_in_date": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only used for listingStatus = For_Rent ",
+                    "title": "Move In Date"
+                },
+                "hideNoDateListings": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Hide listings with no move-in date provided. Only used: For_Rent Example: rapid_do_not_include_in_request_key",
+                    "title": "Hidenodatelistings"
+                },
+                "squareFeetRange": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Possible Inputs: For Minimum Square Feet: min:500 For Maximum Square Feet: max:5000 For a Square Feet Range: min:500, max:5000",
+                    "title": "Squarefeetrange"
+                },
+                "lotSizeRange": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Values should be in square feet. For acre-sqft calculation: 1 acre = 43560 sqft Possible Inputs: For Minimum Lot Size: min:1000 For Maximum Lot Size: max:7500 For a Lot Size Range: min:1000, max:7500",
+                    "title": "Lotsizerange"
+                },
+                "yearBuiltRange": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Possible Inputs: For Minimum Year Built: min:2011 For Maximum Year Built: max:2024 For a Year Built Range: min:2011, max:2024",
+                    "title": "Yearbuiltrange"
+                },
+                "mustHaveBasement": {
+                    "default": null,
+                    "description": "External Docs Example: No",
+                    "enum": [
+                        "No",
+                        "Yes_Finished",
+                        "Yes_Unfinished",
+                        "Yes_Both",
+                        null
+                    ],
+                    "title": "Musthavebasement"
+                },
+                "singleStoryOnly": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "External Docs Example: rapid_do_not_include_in_request_key",
+                    "title": "Singlestoryonly"
+                },
+                "hide55plusComm": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Senior Living: Hide 55+ communities Only used for listingStatus = For_Sale or Sold Example: rapid_do_not_include_in_request_key",
+                    "title": "Hide55Pluscomm"
+                },
+                "pets": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Only used for listingStatus = For_Rent Possible values: Allow large dogs, Allow small dogs, Allow cats",
+                    "title": "Pets"
+                },
+                "otherAmenities": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Keeping it empty will NOT select any types. Possible values when listingStatus = For_Sale or Sold: Must have A/C, Must have pool, Waterfront Possible values when listingStatus = For_Rent: Must have A/C, Must have pool, Waterfront, On-site Parking, In-unit Laundry, Accepts Zillow Applications, Income Restricted, Apartment Community",
+                    "title": "Otheramenities"
+                },
+                "view": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Keeping it empty will NOT select any types. Possible values: City, Mountain, Park, Water",
+                    "title": "View"
+                },
+                "daysOnZillow": {
+                    "default": null,
+                    "description": "Only used for listingStatus = For_Sale or Rent  Example: Any",
+                    "enum": [
+                        "Any",
+                        "1_day",
+                        "7_days",
+                        "14_days",
+                        "30_days",
+                        "90_days",
+                        "6_months",
+                        "12_months",
+                        "24_months",
+                        "36_months",
+                        null
+                    ],
+                    "title": "Daysonzillow"
+                },
+                "soldInLast": {
+                    "default": null,
+                    "description": "Only used for listingStatus = Sold  Example: Any",
+                    "enum": [
+                        "Any",
+                        "1_day",
+                        "7_days",
+                        "14_days",
+                        "30_days",
+                        "90_days",
+                        "6_months",
+                        "12_months",
+                        "24_months",
+                        "36_months",
+                        null
+                    ],
+                    "title": "Soldinlast"
+                },
+                "keywords": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "MLS #, yard, fireplace, horses, etc ",
+                    "title": "Keywords"
+                }
+            },
+            "required": [
+                "location",
+                "listingStatus"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "custom_ad_search_by_polygon",
+        "description": "Custom /search/bypolygon endpoint.",
+        "parameters": {
+            "properties": {
+                "polygon": {
+                    "description": "Enter polygon ordinates:",
+                    "title": "Polygon",
+                    "type": "string"
+                },
+                "listingStatus": {
+                    "description": "Select which type of property data you want to find.  Example: For_Sale",
+                    "enum": [
+                        "For_Sale",
+                        "For_Rent",
+                        "Sold"
+                    ],
+                    "title": "Listingstatus",
+                    "type": "string"
+                },
+                "pageSize": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If pageSize is more than 500, it will cost 2 requests/call Default: 500",
+                    "title": "Pagesize"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The maximum number of properties you can get from each search is 1000. So if you put pageSize = 100; you can put up to page = 10 (total 1000) pageSize = 250; page = 4 pageSize = 500; page = 2 To collect all the data: Narrow down your search into smaller areas. (Search by zip code, Set different listPriceRange, try different homeTypes) Default: 1",
+                    "title": "Page"
+                },
+                "sortOrder": {
+                    "default": null,
+                    "description": "Select how you want to sort your search results. Defaults: For Sale : Homes_for_you For Rent : Rental_Priority_Score Sold : Newest Example: Homes_for_you",
+                    "enum": [
+                        "Homes_for_you",
+                        "Rental_Priority_Score",
+                        "Price_High_to_Low",
+                        "Price_Low_to_High",
+                        "Newest",
+                        "Bedrooms",
+                        "Bathrooms",
+                        "Square_Feet",
+                        "Lot_Size",
+                        "Year_Built",
+                        null
+                    ],
+                    "title": "Sortorder"
+                },
+                "listPriceRange": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Possible Inputs: For Minimum Price: min:5000 For Maximum Price: max:500000 For a Price Range: min:5000, max:500000",
+                    "title": "Listpricerange"
+                },
+                "monthlyPayment": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only used for listingStatus: For_Sale. Possible Inputs: For Minimum Payment: min:5000 For Maximum Payment: max:50000 For a Payment Range: min:5000, max:50000",
+                    "title": "Monthlypayment"
+                },
+                "downPayment": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only used for listingStatus: For_Sale. Input a down payment (dollars). Example: 15000. For No Down Payment, do not input anything. ",
+                    "title": "Downpayment"
+                },
+                "bed_min": {
+                    "default": null,
+                    "description": "Input the minimum number of bedrooms that should be present on the listings. For an exact match, use bed_min and bed_max equal. For example, to see properties with 3 bedrooms: bed_min=3, bed_max=3  Example: No_Min",
+                    "enum": [
+                        "No_Min",
+                        "Studio",
+                        "1",
+                        "2",
+                        "3",
+                        "4",
+                        "5",
+                        null
+                    ],
+                    "title": "Bed Min"
+                },
+                "bed_max": {
+                    "default": null,
+                    "description": "Input the maximum number of bedrooms that could be present on the listings.  Example: No_Max",
+                    "enum": [
+                        "No_Max",
+                        "Studio",
+                        "1",
+                        "2",
+                        "3",
+                        "4",
+                        "5",
+                        null
+                    ],
+                    "title": "Bed Max"
+                },
+                "bathrooms": {
+                    "default": null,
+                    "description": "Input Mapping Explanation: Any → Any OnePlus → 1+ OneHalfPlus → 1.5+ TwoPlus → 2+ ThreePlus → 3+ FourPlus → 4+  Example: Any",
+                    "enum": [
+                        "Any",
+                        "OnePlus",
+                        "OneHalfPlus",
+                        "TwoPlus",
+                        "ThreePlus",
+                        "FourPlus",
+                        null
+                    ],
+                    "title": "Bathrooms"
+                },
+                "homeType": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma or keep it empty for all types selected. Possible values when listingStatus = For_Rent: Houses, Apartments/Condos/Co-ops, Townhomes Possible values when listingStatus = For_Sale or Sold: Houses, Townhomes, Multi-family, Condos/Co-ops, Lots-Land, Apartments, Manufactured",
+                    "title": "Hometype"
+                },
+                "space": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Keeping it empty will NOT select any types. Only used for listingStatus = For_Rent Possible values: Entire Place, Room",
+                    "title": "Space"
+                },
+                "maxHOA": {
+                    "default": null,
+                    "description": "Only used for listingStatus: For_Sale or Sold.  Example: Any",
+                    "enum": [
+                        "Any",
+                        "No_HOA_Fee",
+                        "50_dollars_month",
+                        "100_dollars_month",
+                        "200_dollars_month",
+                        "300_dollars_month",
+                        "400_dollars_month",
+                        "500_dollars_month",
+                        "600_dollars_month",
+                        "700_dollars_month",
+                        "800_dollars_month",
+                        "900_dollars_month",
+                        "1000_dollars_month",
+                        null
+                    ],
+                    "title": "Maxhoa"
+                },
+                "incIncompleteHOA": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include homes with incomplete HOA data. Only used for listingStatus: For_Sale or Sold.  Example: rapid_do_not_include_in_request_key",
+                    "title": "Incincompletehoa"
+                },
+                "listingType": {
+                    "default": null,
+                    "description": "Only used for listingStatus: For_Sale. Default: By_Agent  Example: By_Agent",
+                    "enum": [
+                        "By_Agent",
+                        "By_Owner_and_Other",
+                        null
+                    ],
+                    "title": "Listingtype"
+                },
+                "listingTypeOptions": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only used for listingStatus: For_Sale. For multiple inputs, separate them with a comma or keep it empty for all types selected. Possible values when listingType = By_Agent: Agent listed, New Construction, Fore-closures, Auctions, Foreclosed, Pre-foreclosures Possible values when listingType = By_Owner_and_Other: Owner Posted, Agent listed, New Construction, Fore-closures, Auctions, Foreclosed, Pre-foreclosures",
+                    "title": "Listingtypeoptions"
+                },
+                "propertyStatus": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Keeping it empty will NOT select any types. Only used for listingStatus = For_Sale Possible values: Coming soon, Accepting backup offers, Pending & under contract",
+                    "title": "Propertystatus"
+                },
+                "tours": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Keeping it empty will NOT select any types. Possible values when listingStatus = For_Rent: Must have 3D Tour Possible values when listingStatus = For_Sale: Must have open house, Must have 3D Tour",
+                    "title": "Tours"
+                },
+                "parkingSpots": {
+                    "default": null,
+                    "description": "Only used for listingStatus = For_Sale or Sold Where: Any → Any OnePlus → 1+ TwoPlus → 2+ ThreePlus → 3+ FourPlus → 4+ Example: Any",
+                    "enum": [
+                        "Any",
+                        "OnePlus",
+                        "TwoPlus",
+                        "ThreePlus",
+                        "FourPlus",
+                        null
+                    ],
+                    "title": "Parkingspots"
+                },
+                "haveGarage": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only used for listingStatus = For_Sale or Sold  Example: rapid_do_not_include_in_request_key",
+                    "title": "Havegarage"
+                },
+                "move_in_date": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only used for listingStatus = For_Rent ",
+                    "title": "Move In Date"
+                },
+                "hideNoDateListings": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Hide listings with no move-in date provided. Only used: For_Rent Example: rapid_do_not_include_in_request_key",
+                    "title": "Hidenodatelistings"
+                },
+                "squareFeetRange": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Possible Inputs: For Minimum Square Feet: min:500 For Maximum Square Feet: max:5000 For a Square Feet Range: min:500, max:5000",
+                    "title": "Squarefeetrange"
+                },
+                "lotSizeRange": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Values should be in square feet. For acre-sqft calculation: 1 acre = 43560 sqft Possible Inputs: For Minimum Lot Size: min:1000 For Maximum Lot Size: max:7500 For a Lot Size Range: min:1000, max:7500",
+                    "title": "Lotsizerange"
+                },
+                "yearBuiltRange": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Possible Inputs: For Minimum Year Built: min:2011 For Maximum Year Built: max:2024 For a Year Built Range: min:2011, max:2024",
+                    "title": "Yearbuiltrange"
+                },
+                "mustHaveBasement": {
+                    "default": null,
+                    "description": "External Docs Example: No",
+                    "enum": [
+                        "No",
+                        "Yes_Finished",
+                        "Yes_Unfinished",
+                        "Yes_Both",
+                        null
+                    ],
+                    "title": "Musthavebasement"
+                },
+                "singleStoryOnly": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "External Docs Example: rapid_do_not_include_in_request_key",
+                    "title": "Singlestoryonly"
+                },
+                "hide55plusComm": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Senior Living: Hide 55+ communities Only used for listingStatus = For_Sale or Sold Example: rapid_do_not_include_in_request_key",
+                    "title": "Hide55Pluscomm"
+                },
+                "pets": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Only used for listingStatus = For_Rent Possible values: Allow large dogs, Allow small dogs, Allow cats",
+                    "title": "Pets"
+                },
+                "soldInLast": {
+                    "default": null,
+                    "description": "Only used for listingStatus = Sold  Example: Any",
+                    "enum": [
+                        "Any",
+                        "1_day",
+                        "7_days",
+                        "14_days",
+                        "30_days",
+                        "90_days",
+                        "6_months",
+                        "12_months",
+                        "24_months",
+                        "36_months",
+                        null
+                    ],
+                    "title": "Soldinlast"
+                },
+                "otherAmenities": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Keeping it empty will NOT select any types. Possible values when listingStatus = For_Sale or Sold: Must have A/C, Must have pool, Waterfront Possible values when listingStatus = For_Rent: Must have A/C, Must have pool, Waterfront, On-site Parking, In-unit Laundry, Accepts Zillow Applications, Income Restricted, Apartment Community",
+                    "title": "Otheramenities"
+                },
+                "view": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For multiple inputs, separate them with a comma. Keeping it empty will NOT select any types. Possible values: City, Mountain, Park, Water",
+                    "title": "View"
+                },
+                "daysOnZillow": {
+                    "default": null,
+                    "description": "Only used for listingStatus = For_Sale or Rent  Example: Any",
+                    "enum": [
+                        "Any",
+                        "1_day",
+                        "7_days",
+                        "14_days",
+                        "30_days",
+                        "90_days",
+                        "6_months",
+                        "12_months",
+                        "24_months",
+                        "36_months",
+                        null
+                    ],
+                    "title": "Daysonzillow"
+                },
+                "keywords": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "MLS #, yard, fireplace, horses, etc ",
+                    "title": "Keywords"
+                }
+            },
+            "required": [
+                "polygon",
+                "listingStatus"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "api_limit_check",
+        "description": "This endpoints let's you know the api status.",
+        "parameters": {
+            "properties": {
+                "x_rapidapi_key": {
+                    "description": "You can find your RapidAPI key in the app section on the left. Check for: X-RapidAPI-Key",
+                    "title": "X Rapidapi Key",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "x_rapidapi_key"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "check_status",
+        "description": "This endpoints let's you know the api status.",
+        "parameters": {
+            "properties": {
+                "check": {
+                    "description": "",
+                    "title": "Check",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "check"
+            ],
+            "type": "object"
+        }
+    }
+]

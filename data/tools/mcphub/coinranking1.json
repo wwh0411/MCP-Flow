@@ -1,0 +1,1226 @@
+[
+    {
+        "name": "get_coins",
+        "description": "Get a list of coins. Coins are by default ordered by their rank, which - somewhat simplified - means that they are ordered on marketcap. The response not only returns a list of coins, but also statistics regarding the requested list, such as the volume in the last 24 hours.",
+        "parameters": {
+            "properties": {
+                "referenceCurrencyUuid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "UUID of reference currency, in which all the prices are calculated. This includes the price, the change and the sparkline. Defaults to US Dollar Default value: yhjMzLPhuIDl",
+                    "title": "Referencecurrencyuuid"
+                },
+                "timePeriod": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "By setting the timeperiod the change percentage and sparkline in the response will be calculated accordingly Default value: 24h Allowed values: 3h 24h 7d 30d 3m 1y 3y 5y",
+                    "title": "Timeperiod"
+                },
+                "symbols": {
+                    "anyOf": [
+                        {
+                            "items": {},
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Symbols to filter the list on. Array parameters should be suffixed with brackets. Example: ?symbols[]=BTC&symbols[]=ETH.",
+                    "title": "Symbols"
+                },
+                "uuids": {
+                    "anyOf": [
+                        {
+                            "items": {},
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "UUIDs to filter the list on. If you know the UUIDs of the coins you want to fetch, you can use this filter to get the specific coins. Array parameters should be suffixed with brackets. Example: ?uuids[]=razxDUgYGNAdQ&uuids[]=Qwsogvtv82FCd.",
+                    "title": "Uuids"
+                },
+                "tiers": {
+                    "anyOf": [
+                        {
+                            "items": {},
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "We seperate coins into three tiers. With this parameter you can filter coins on the tiers you need. Read more about out our tiers in our methodology Array parameters should be suffixed with brackets. Example: ?tiers[]=1&tiers[]=2.",
+                    "title": "Tiers"
+                },
+                "tags": {
+                    "anyOf": [
+                        {
+                            "items": {},
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Tags to filter the list on. Allowed values: defi, stablecoin, nft, dex, exchange, staking, dao, meme, privacy Array parameters should be suffixed with brackets. Example: ?tags[]=defi&tags[]=nft.",
+                    "title": "Tags"
+                },
+                "orderBy": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Index to order by. All sortings excluding listedAt still take our different tiers of coins into account, read more about it in our methodology. Default value: marketCap Allowed values: price marketCap 24hVolume change listedAt",
+                    "title": "Orderby"
+                },
+                "search": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter the results by searching for coin names or symbols.",
+                    "title": "Search"
+                },
+                "orderDirection": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Applies direction to the orderBy query, which can be in ascending or descending order. Default value: desc Allowed values: desc asc",
+                    "title": "Orderdirection"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Limit. Used for pagination. Default value: 50 Size range: 0-100 Default: 50",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Offset. Used for pagination. Default value: 0 Default: 0",
+                    "title": "Offset"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_coin",
+        "description": "Find information about a specific coin.",
+        "parameters": {
+            "properties": {
+                "referenceCurrencyUuid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "UUID of reference currency, in which all the prices are calculated. Defaults to US Dollar Default value: yhjMzLPhuIDl",
+                    "title": "Referencecurrencyuuid"
+                },
+                "timePeriod": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Time period where the change and sparkline are based on Default value: 24h Allowed values: 24h 7d 30d",
+                    "title": "Timeperiod"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_coin_price",
+        "description": "With the price endpoint the price can be requested for a specific coin on a specific time. The response is just a single price nearest to the requested time, including its timestamp.",
+        "parameters": {
+            "properties": {
+                "referenceCurrencyUuid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "UUID of reference currency. This is the currency the price is shown in, which defaults to US Dollar Default value: yhjMzLPhuIDl",
+                    "title": "Referencecurrencyuuid"
+                },
+                "timestamp": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Timestamp. Epoch timestamp in seconds. If it is not provided this endpoint will get the latest price Default: 0",
+                    "title": "Timestamp"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_coin_price_history",
+        "description": "Coinranking keeps track of prices on all listed assets. The history endpoint lists prices and their timestamp for the requested time period, useful for making a chart.",
+        "parameters": {
+            "properties": {
+                "referenceCurrencyUuid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "UUID of reference currency, in which all the prices are calculated. Defaults to US Dollar Default value: yhjMzLPhuIDl",
+                    "title": "Referencecurrencyuuid"
+                },
+                "timePeriod": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Timeperiod where the change and history are based on Default value: 24h Allowed values: 3h 24h 7d 30d 3m 1y 3y 5y",
+                    "title": "Timeperiod"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_coin_ohlc_data",
+        "description": "Get OHLC (Open High Low Close) data for the coin throughout time. This endpoint requires the **ultra** plan or higher. **Beta** The OHLC endpoint is currently in beta. This means we might make some changes that could be considered breaking for your application, and we expect to have downtime every now and then while we are still in beta.",
+        "parameters": {
+            "properties": {
+                "referenceCurrencyUuid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "UUID of reference currency, in which all the prices are calculated. Defaults to US Dollar. Default value: yhjMzLPhuIDl",
+                    "title": "Referencecurrencyuuid"
+                },
+                "interval": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The interval determines the time period over which each OHLC item is determined. Default value: day Allowed values: minute 5minutes hour 8hours day week month",
+                    "title": "Interval"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Limit the amount of time periods for which the OHLC data is retrieved. For example, when interval=hour and limit is 10, data will be returned for the last 10 hours. Default value: 50 Size range: 0-100 Default: 0",
+                    "title": "Limit"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_coin_exchanges",
+        "description": "Find exchanges where a specific coin can be traded. This endpoint requires the **ultra** plan or higher.",
+        "parameters": {
+            "properties": {
+                "referenceCurrencyUuid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "UUID of reference currency, which rate is used to calculate the volume. Defaults to US Dollar Default value: yhjMzLPhuIDl",
+                    "title": "Referencecurrencyuuid"
+                },
+                "search": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Value to search for within results, i.e. exchange names",
+                    "title": "Search"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Limit. Used for pagination Default value: 50 Size range: 0-100 Default: 50",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Offset. Used for pagination Default value: 0 Default: 0",
+                    "title": "Offset"
+                },
+                "orderBy": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Index to order by. Default is 24h volume. Default value: 24hVolume Allowed values: 24hVolume price",
+                    "title": "Orderby"
+                },
+                "orderDirection": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Order in ascending or descending order Default value: desc Allowed values: desc asc",
+                    "title": "Orderdirection"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_coin_markets",
+        "description": "Find markets on different exchanges that trade a specific coin. This endpoint requires the **ultra** plan or higher.",
+        "parameters": {
+            "properties": {
+                "referenceCurrencyUuid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "UUID of reference currency, which rate is used to calculate the volume. Defaults to US Dollar Default value: yhjMzLPhuIDl",
+                    "title": "Referencecurrencyuuid"
+                },
+                "search": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Value to search for within results, e.g. exchange names, currency names, or currency symbols",
+                    "title": "Search"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Limit. Used for pagination Default value: 50 Size range: 0-100 Default: 50",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Offset. Used for pagination Default value: 0 Default: 0",
+                    "title": "Offset"
+                },
+                "orderBy": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Index to sort on. Default is 24h volume. Default value: 24hVolume Allowed values: 24hVolume price",
+                    "title": "Orderby"
+                },
+                "orderDirection": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Order in ascending or descending order Default value: desc Allowed values: desc asc",
+                    "title": "Orderdirection"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_coin_supply",
+        "description": "Get the maximum, total, and circulating supply of a coin.",
+        "parameters": {
+            "properties": {
+                "uuid": {
+                    "description": "UUID of the coin you want to request the supply for",
+                    "title": "Uuid",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "uuid"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_coin_issuance_blockchains",
+        "description": "Get the issuance blockchains on which the coin is issued. This endpoint requires the **ultra** plan or higher.",
+        "parameters": {
+            "properties": {
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Limit. Used for pagination Default value: 50 Size range: 0-100 Default: 50",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Offset. Used for pagination Default value: 0 Default: 0",
+                    "title": "Offset"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_coin_modifiers",
+        "description": "Get the modifiers of a coin's supply and their balance. This endpoint requires the **ultra** plan or higher.",
+        "parameters": {
+            "properties": {
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Limit. Used for pagination Default value: 50 Size range: 0-100 Default: 50",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Offset. Used for pagination Default value: 0 Default: 0",
+                    "title": "Offset"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_exchanges",
+        "description": "Get a list of exchanges. Exchanges are ranked based on their trading volume in the last 24 hours. This endpoint requires the **ultra** plan or higher.",
+        "parameters": {
+            "properties": {
+                "referenceCurrencyUuid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "UUID of reference currency, in which all the prices are calculated. Defaults to US Dollar Default value: yhjMzLPhuIDl",
+                    "title": "Referencecurrencyuuid"
+                },
+                "uuids": {
+                    "anyOf": [
+                        {
+                            "items": {},
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Exchange UUIDs to filter the exchanges on. Array parameters should be suffixed with brackets. Example: ?uuids[]=-zdvbieRdZ&uuids[]=8FXHCkosV.",
+                    "title": "Uuids"
+                },
+                "search": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Value to search for within results, e.g. exchange names.",
+                    "title": "Search"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Limit. Used for pagination. Only usable when no filters are applied Default value: 50 Size range: 0-100 Default: 50",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Offset. Used for pagination. Only usable when no filters are applied Default value: 0 Default: 0",
+                    "title": "Offset"
+                },
+                "orderBy": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Order by either 24h volume, number of markets or latest ticker. Ordering can only be done when no filters are applied Default value: 24hVolume Allowed values: 24hVolume numberOfMarkets lastTickerCreatedAt",
+                    "title": "Orderby"
+                },
+                "orderDirection": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Applies direction to the orderBy query, which can be in ascending or descending order. Only usable when no filters are applied Default value: desc Allowed values: desc asc",
+                    "title": "Orderdirection"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_exchange",
+        "description": "Find information on a specific exchange listed on coinranking. An exchange is a place where cryptocurrencies are traded. This endpoint requires the **ultra** plan or higher.",
+        "parameters": {
+            "properties": {
+                "uuid": {
+                    "description": "UUID of the exchange you want to request",
+                    "title": "Uuid",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "uuid"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_exchange_coins",
+        "description": "Find coins listed on a specific exchange. This endpoint requires the **ultra** plan or higher.",
+        "parameters": {
+            "properties": {
+                "referenceCurrencyUuid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "UUID of reference currency, which rate is used to calculate the volume. Defaults to US Dollar Default value: yhjMzLPhuIDl",
+                    "title": "Referencecurrencyuuid"
+                },
+                "search": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter the results by searching for coin names or symbols.",
+                    "title": "Search"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Limit. Used for pagination Default value: 50 Size range: 0-100 Default: 50",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Offset. Used for pagination Default value: 0 Default: 0",
+                    "title": "Offset"
+                },
+                "orderBy": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Index to sort on. Default is 24h volume Default value: 24hVolume Allowed values: 24hVolume price numberOfMarkets",
+                    "title": "Orderby"
+                },
+                "orderDirection": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Order in ascending or descending order Default value: desc Allowed values: asc desc",
+                    "title": "Orderdirection"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_exchange_markets",
+        "description": "Find markets on a specific exchange. This endpoint requires the **ultra** plan or higher.",
+        "parameters": {
+            "properties": {
+                "referenceCurrencyUuid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "UUID of reference currency, which rate is used to calculate the volume. Defaults to US Dollar Default value: yhjMzLPhuIDl",
+                    "title": "Referencecurrencyuuid"
+                },
+                "search": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Value to search for within results, e.g. exchange names, currency names, or currency symbols",
+                    "title": "Search"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Limit. Used for pagination Default value: 50 Size range: 0-100 Default: 50",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Offset. Used for pagination Default value: 0 Default: 0",
+                    "title": "Offset"
+                },
+                "orderBy": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Index to sort on. Default is 24h volume. Default value: 24hVolume Allowed values: 24hVolume price",
+                    "title": "Orderby"
+                },
+                "orderDirection": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Order in ascending or descending order Default value: desc Allowed values: desc asc",
+                    "title": "Orderdirection"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_markets",
+        "description": "Get a list of markets. Markets are ranked by their volume over the last 24 hours. Use our filters to get a subset of the markets. This endpoint requires the **ultra** plan or higher.",
+        "parameters": {
+            "properties": {
+                "referenceCurrencyUuid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "UUID of reference currency, in which all the prices are calculated. Defaults to US Dollar Default value: yhjMzLPhuIDl",
+                    "title": "Referencecurrencyuuid"
+                },
+                "currencyUuid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter markets with specific currency as either base or quote. Specifying a currencyUuid will also alter how prices are shown: By default all the markets will show the price of the base in the reference currency (e.g. an ETH/BTC market will show the price of ETH). By specifying a currencyUuid the prices of this currency will always be shown, disregarding whether or not this currency represents the base or the quote in the market (e.g. by specifying BTC as currency, both ETH/BTC as BTC/USD markets will show prices of BTC)",
+                    "title": "Currencyuuid"
+                },
+                "toCurrencyUuid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter markets with specific currency as either base or quote. The toCurrencyUuid will not alter how the prices will be shown, but will keep the base price. This can be combined with the currencyUuid variable to get specific markets.",
+                    "title": "Tocurrencyuuid"
+                },
+                "baseCurrencyUuid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter markets with specific currency as base",
+                    "title": "Basecurrencyuuid"
+                },
+                "quoteCurrencyUuid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter markets with specific currency as quote",
+                    "title": "Quotecurrencyuuid"
+                },
+                "search": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter the results by searching for coin names, symbols or exchange names.",
+                    "title": "Search"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Limit. Used for pagination. Only usable when no filters are applied Default value: 50 Size range: 0-100 Default: 50",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Offset. Used for pagination only usable when no filters are applied Default value: 0 Default: 0",
+                    "title": "Offset"
+                },
+                "orderBy": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Sort by either 24h volume or price. Only usable when no filters are applied Default value: 24hVolume Allowed values: 24hVolume price",
+                    "title": "Orderby"
+                },
+                "orderDirection": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Sort in ascending or descending order. Only usable when no filters are applied. Default value: desc Allowed values: desc asc",
+                    "title": "Orderdirection"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_market",
+        "description": "Find information on a specific market listed on Coinranking. This endpoint requires the **ultra** plan or higher.",
+        "parameters": {
+            "properties": {
+                "referenceCurrencyUuid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Uuid of reference currency, in which all the prices are calculated. Defaults to US Dollar Default value: yhjMzLPhuIDl",
+                    "title": "Referencecurrencyuuid"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_reference_currencies",
+        "description": "Get a list of reference currencies, which can be used as reference for coins. The response includes all the essentials for this use-case, such as the symbol (e.g. USD) and - if available - the sign (e.g. $).",
+        "parameters": {
+            "properties": {
+                "types": {
+                    "anyOf": [
+                        {
+                            "items": {},
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A currency is one of three types: coin (e.g. Bitcoin, Ethereum, etc.), fiat (US Dollar, Euro, Yen, etc.) or a denominator (e.g. Satoshi). Filter the response by providing one or more types Allowed values: coin, fiat, denominator Array parameters should be suffixed with brackets. Example: ?types[]=coin&types[]=fiat.",
+                    "title": "Types"
+                },
+                "search": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter the results by searching for currency names or symbols.",
+                    "title": "Search"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Limit. Used for pagination Default value: 20 Size range: 0-100 Default: 50",
+                    "title": "Limit"
+                },
+                "offset": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Offset. Used for pagination Default value: 0 Default: 0",
+                    "title": "Offset"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_global_stats",
+        "description": "These global statistics tell about the data available on coinranking.",
+        "parameters": {
+            "properties": {
+                "referenceCurrencyUuid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "UUID of reference currency, in which all the prices are calculated. Defaults to US Dollar Default value: yhjMzLPhuIDl",
+                    "title": "Referencecurrencyuuid"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_search_suggestions",
+        "description": "Search suggestions are a quick and easy way to find data on coinranking. The endpoint only accepts one parameter; a query. With this query you can find currencies (including fiat), exchanges and markets, by their symbol or name. The response always returns a set of the most prominent coins, exchanges and markets matching your query.",
+        "parameters": {
+            "properties": {
+                "referenceCurrencyUuid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "UUID of reference currency, in which the coin prices are calculated. Defaults to US Dollar Default value: yhjMzLPhuIDl",
+                    "title": "Referencecurrencyuuid"
+                },
+                "query": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Value to search on",
+                    "title": "Query"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_coins_index",
+        "description": "List of all coins currently available on coinranking, for indexing purposes. This endpoint requires the **ultra** plan or higher.",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_exchanges_index",
+        "description": "List of all exchanges currently available on Coinranking, for indexing purposes. This endpoint requires the **ultra** plan or higher.",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    }
+]

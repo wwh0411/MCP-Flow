@@ -1,0 +1,140 @@
+[
+    {
+        "name": "atlas_create_atlas_cluster",
+        "description": "Creates a new Atlas cluster in an existing Atlas project.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectId": {
+                    "type": "string",
+                    "description": "The ID of the Atlas project."
+                },
+                "clusterName": {
+                    "type": "string",
+                    "description": "The name of the cluster to create."
+                },
+                "region": {
+                    "type": "string",
+                    "description": "The cloud provider region to deploy the cluster in. eg. US_EAST_1"
+                },
+                "cloudProvider": {
+                    "type": "string",
+                    "description": "The cloud provider (e.g., AWS, GCP, AZURE)."
+                },
+                "tier": {
+                    "type": "string",
+                    "description": "The instance size (e.g., M0, M2, M5)."
+                }
+            },
+            "required": [
+                "projectId",
+                "clusterName",
+                "region",
+                "cloudProvider",
+                "tier"
+            ]
+        }
+    },
+    {
+        "name": "atlas_setup_atlas_network_access",
+        "description": "Sets up network access for an existing Atlas project. Accepts list of IP addresses or CIDR blocks.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectId": {
+                    "type": "string",
+                    "description": "The ID of the Atlas project."
+                },
+                "ipAddresses": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "An array of IP addresses or CIDR blocks for network access."
+                }
+            },
+            "required": [
+                "projectId",
+                "ipAddresses"
+            ]
+        }
+    },
+    {
+        "name": "atlas_create_atlas_user",
+        "description": "Creates a new database user for an existing Atlas project. User will have atlasAdmin role.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectId": {
+                    "type": "string",
+                    "description": "The ID of the Atlas project."
+                },
+                "username": {
+                    "type": "string",
+                    "description": "The username for the database user."
+                },
+                "password": {
+                    "type": "string",
+                    "description": "The password for the database user."
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "An array of roles for the user. Default is [atlasAdmin]."
+                }
+            },
+            "required": [
+                "projectId",
+                "username",
+                "password"
+            ]
+        }
+    },
+    {
+        "name": "atlas_get_atlas_connection_strings",
+        "description": "Retrieves connection strings for a cluster in an existing Atlas project.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectId": {
+                    "type": "string",
+                    "description": "The ID of the Atlas project."
+                },
+                "clusterName": {
+                    "type": "string",
+                    "description": "The name of the cluster."
+                }
+            },
+            "required": [
+                "projectId",
+                "clusterName"
+            ]
+        }
+    },
+    {
+        "name": "atlas_list_atlas_projects",
+        "description": "Lists all Atlas projects that the API key has access to.",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "atlas_list_atlas_clusters",
+        "description": "Lists all clusters in an Atlas project.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectId": {
+                    "type": "string",
+                    "description": "The ID of the Atlas project."
+                }
+            },
+            "required": [
+                "projectId"
+            ]
+        }
+    }
+]

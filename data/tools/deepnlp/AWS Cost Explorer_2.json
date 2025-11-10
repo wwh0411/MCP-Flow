@@ -1,0 +1,233 @@
+[
+    {
+        "name": "terraform-registry_providerDetails",
+        "description": "Get detailed information about a Terraform provider by name and optionally version.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "provider": {
+                    "type": "string",
+                    "description": "Provider name (e.g. 'aws')"
+                },
+                "namespace": {
+                    "type": "string",
+                    "description": "Provider namespace (e.g. 'hashicorp')"
+                },
+                "version": {
+                    "type": "string",
+                    "description": "Provider version (defaults to latest)"
+                }
+            }
+        }
+    },
+    {
+        "name": "terraform-registry_resourceUsage",
+        "description": "Get an example usage of a Terraform resource and related resources.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "provider": {
+                    "type": "string",
+                    "description": "Provider name (e.g. 'aws')"
+                },
+                "resource": {
+                    "type": "string",
+                    "description": "Resource name (e.g. 'aws_instance')"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Alternative resource name field (fallback if resource not specified)"
+                }
+            }
+        }
+    },
+    {
+        "name": "terraform-registry_moduleSearch",
+        "description": "Search for and recommend Terraform modules based on a query.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Search query (e.g. 'vpc')"
+                },
+                "keyword": {
+                    "type": "string",
+                    "description": "Alternative search keyword (fallback if query not specified)"
+                },
+                "provider": {
+                    "type": "string",
+                    "description": "Filter modules by provider (e.g. 'aws')"
+                }
+            }
+        }
+    },
+    {
+        "name": "terraform-registry_listDataSources",
+        "description": "List all available data sources for a provider and their basic details.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "provider": {
+                    "type": "string",
+                    "description": "Provider name (e.g. 'aws')"
+                },
+                "namespace": {
+                    "type": "string",
+                    "description": "Provider namespace (e.g. 'hashicorp')"
+                }
+            },
+            "required": [
+                "provider",
+                "namespace"
+            ]
+        }
+    },
+    {
+        "name": "terraform-registry_resourceArgumentDetails",
+        "description": "Fetches comprehensive details about a specific resource type's arguments, including required and optional attributes, nested blocks, and their descriptions.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "provider": {
+                    "type": "string",
+                    "description": "Provider name (e.g. 'aws')"
+                },
+                "namespace": {
+                    "type": "string",
+                    "description": "Provider namespace (e.g. 'hashicorp')"
+                },
+                "resource": {
+                    "type": "string",
+                    "description": "Resource name (e.g. 'aws_instance')"
+                },
+                "version": {
+                    "type": "string",
+                    "description": "Provider version (defaults to latest)"
+                }
+            },
+            "required": [
+                "provider",
+                "namespace",
+                "resource"
+            ]
+        }
+    },
+    {
+        "name": "terraform-registry_moduleDetails",
+        "description": "Retrieves detailed metadata for a Terraform module including versions, inputs, outputs, and dependencies.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "namespace": {
+                    "type": "string",
+                    "description": "Module namespace (e.g. 'terraform-aws-modules')"
+                },
+                "module": {
+                    "type": "string",
+                    "description": "Module name (e.g. 'vpc')"
+                },
+                "provider": {
+                    "type": "string",
+                    "description": "Provider name (e.g. 'aws')"
+                }
+            },
+            "required": [
+                "namespace",
+                "module",
+                "provider"
+            ]
+        }
+    },
+    {
+        "name": "terraform-registry_functionDetails",
+        "description": "Get details about a Terraform provider function.",
+        "parameters": {
+            "type": "object",
+            "required": [
+                "provider",
+                "function"
+            ],
+            "properties": {
+                "provider": {
+                    "type": "string",
+                    "description": "Provider name (e.g. 'aws')"
+                },
+                "namespace": {
+                    "type": "string",
+                    "description": "Provider namespace (e.g. 'hashicorp')"
+                },
+                "function": {
+                    "type": "string",
+                    "description": "Function name (e.g. 'arn_parse')"
+                }
+            }
+        }
+    },
+    {
+        "name": "terraform-registry_providerGuides",
+        "description": "List and view provider-specific guides, including version upgrades and feature guides.",
+        "parameters": {
+            "type": "object",
+            "required": [
+                "provider"
+            ],
+            "properties": {
+                "provider": {
+                    "type": "string",
+                    "description": "Provider name (e.g. 'aws')"
+                },
+                "namespace": {
+                    "type": "string",
+                    "description": "Provider namespace (e.g. 'hashicorp')"
+                },
+                "guide": {
+                    "type": "string",
+                    "description": "Specific guide to fetch (by slug or title)"
+                },
+                "search": {
+                    "type": "string",
+                    "description": "Search term to filter guides"
+                }
+            }
+        }
+    },
+    {
+        "name": "terraform-registry_policySearch",
+        "description": "Search for policy libraries in the Terraform Registry.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Search query for finding policy libraries"
+                },
+                "provider": {
+                    "type": "string",
+                    "description": "Filter policies by provider (e.g. 'aws')"
+                }
+            }
+        }
+    },
+    {
+        "name": "terraform-registry_policyDetails",
+        "description": "Get detailed information about a specific policy library including its latest version.",
+        "parameters": {
+            "type": "object",
+            "required": [
+                "namespace",
+                "name"
+            ],
+            "properties": {
+                "namespace": {
+                    "type": "string",
+                    "description": "Policy library namespace (e.g. 'Great-Stone')"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Policy library name (e.g. 'vault-aws-secret-type')"
+                }
+            }
+        }
+    }
+]

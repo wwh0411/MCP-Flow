@@ -1,0 +1,626 @@
+[
+    {
+        "name": "pipedrive-add-activity",
+        "description": "Adds a new activity. Includes `more_activities_scheduled_in_context` property in response's `additional_data` which indicates whether there are more undone activities scheduled with the same deal, person or organization (depending on the supplied data). See the Pipedrive API docs for Activities [here](https://developers.pipedrive.com/docs/api/v1/#!/Activities). For info on [adding an activity in Pipedrive](https://developers.pipedrive.com/docs/api/v1/Activities#addActivity)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "subject": {
+                    "type": "string",
+                    "description": "Subject of the activity"
+                },
+                "type": {
+                    "type": "string",
+                    "description": "Type of the activity. This is in correlation with the `key_string` parameter of ActivityTypes."
+                },
+                "ownerId": {
+                    "type": "string",
+                    "description": "ID of the user whom the activity will be assigned to. If omitted, the activity will be assigned to the authorized user."
+                },
+                "dealId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "leadId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "orgId": {
+                    "type": "string",
+                    "description": "ID of the organization this activity will be associated with"
+                },
+                "projectId": {
+                    "type": "string",
+                    "description": "ID of the project this activity will be associated with"
+                },
+                "dueDate": {
+                    "type": "string",
+                    "description": "Due date of the activity. Format: `YYYY-MM-DD`"
+                },
+                "dueTime": {
+                    "type": "string",
+                    "description": "Due time of the activity in UTC. Format: `HH:MM`"
+                },
+                "duration": {
+                    "type": "string",
+                    "description": "Duration of the activity. Format: `HH:MM`"
+                },
+                "busy": {
+                    "type": "string",
+                    "description": "Set the activity as 'Busy' or 'Free'. If the flag is set to true, your customers will not be able to book that time slot through any Scheduler links"
+                },
+                "done": {
+                    "type": "string",
+                    "description": "Whether the activity is done or not."
+                },
+                "location": {
+                    "type": "string",
+                    "description": "The address of the activity. Pipedrive will automatically check if the location matches a geo-location on Google maps."
+                },
+                "participants": {
+                    "type": "string",
+                    "description": "List of multiple persons (participants) this activity will be associated with. If omitted, single participant from `person_id` field is used. It requires a structure as follows: `[{\"person_id\":1,\"primary\":true}]`"
+                },
+                "attendees": {
+                    "type": "string",
+                    "description": "Attendees of the activity. This can be either your existing Pipedrive contacts or an external email address. It requires a structure as follows: `[{\"email\":\"mail@example.org\"}]`"
+                },
+                "publicDescription": {
+                    "type": "string",
+                    "description": "Additional details about the activity that will be synced to your external calendar. Unlike the note added to the activity, the description will be publicly visible to any guests added to the activity."
+                },
+                "note": {
+                    "type": "string",
+                    "description": "Note of the activity (HTML format)"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "pipedrive-add-deal",
+        "description": "Adds a new deal. See the Pipedrive API docs for Deals [here](https://developers.pipedrive.com/docs/api/v1/Deals#addDeal)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "description": ""
+                },
+                "ownerId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "personId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "orgId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "pipelineId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "stageId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "value": {
+                    "type": "string",
+                    "description": ""
+                },
+                "currency": {
+                    "type": "string",
+                    "description": ""
+                },
+                "status": {
+                    "type": "string",
+                    "description": ""
+                },
+                "probability": {
+                    "type": "string",
+                    "description": ""
+                },
+                "lostReason": {
+                    "type": "string",
+                    "description": ""
+                },
+                "visibleTo": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "pipedrive-add-lead",
+        "description": "Create a new lead in Pipedrive. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Leads#addLead)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "description": "The name of the lead"
+                },
+                "personId": {
+                    "type": "string",
+                    "description": "The ID of a person which this lead will be linked to. If the person does not exist yet, it needs to be created first. This property is required unless organization_id is specified."
+                },
+                "organizationId": {
+                    "type": "string",
+                    "description": "The ID of an organization which this lead will be linked to. If the organization does not exist yet, it needs to be created first. This property is required unless person_id is specified."
+                },
+                "ownerId": {
+                    "type": "string",
+                    "description": "The ID of the user which will be the owner of the created lead. If not provided, the user making the request will be used."
+                },
+                "leadLabelIds": {
+                    "type": "string",
+                    "description": ""
+                },
+                "value": {
+                    "type": "string",
+                    "description": "Potential value of the lead, e.g. `{ \"amount\": 200, \"currency\": \"EUR\" }`"
+                },
+                "expectedCloseDate": {
+                    "type": "string",
+                    "description": "The date of when the deal which will be created from the lead is expected to be closed. In ISO 8601 format: YYYY-MM-DD."
+                },
+                "visibleTo": {
+                    "type": "string",
+                    "description": "The visibility of the lead. If omitted, the visibility will be set to the default visibility setting of this item type for the authorized user. Read more about visibility groups [here](https://support.pipedrive.com/en/article/visibility-groups)."
+                },
+                "wasSeen": {
+                    "type": "string",
+                    "description": "A flag indicating whether the lead was seen by someone in the Pipedrive UI"
+                },
+                "note": {
+                    "type": "string",
+                    "description": "A note to add to the lead"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "pipedrive-add-note",
+        "description": "Adds a new note. For info on [adding an note in Pipedrive](https://developers.pipedrive.com/docs/api/v1/Notes#addNote)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string",
+                    "description": "The content of the note in HTML format. Subject to sanitization on the back-end."
+                },
+                "leadId": {
+                    "type": "string",
+                    "description": "The ID of the lead the note will be attached to. This property is required unless one of (deal_id/person_id/org_id) is specified."
+                },
+                "dealId": {
+                    "type": "string",
+                    "description": "The ID of the deal the note will be attached to. This property is required unless one of (lead_id/person_id/org_id) is specified."
+                },
+                "personId": {
+                    "type": "string",
+                    "description": "The ID of the person this note will be attached to. This property is required unless one of (deal_id/lead_id/org_id) is specified."
+                },
+                "organizationId": {
+                    "type": "string",
+                    "description": "The ID of the organization this note will be attached to. This property is required unless one of (deal_id/lead_id/person_id) is specified."
+                },
+                "userId": {
+                    "type": "string",
+                    "description": "The ID of the user who will be marked as the author of the note. Only an admin can change the author."
+                },
+                "addTime": {
+                    "type": "string",
+                    "description": ""
+                },
+                "pinnedToDealFlag": {
+                    "type": "boolean",
+                    "description": "If set, the results are filtered by note to deal pinning state (deal_id is also required)"
+                },
+                "pinnedToLeadFlag": {
+                    "type": "boolean",
+                    "description": "If set, the results are filtered by note to lead pinning state (lead_id is also required)"
+                },
+                "pinnedToOrgFlag": {
+                    "type": "boolean",
+                    "description": "If set, the results are filtered by note to organization pinning state (org_id is also required)"
+                },
+                "pinnedToPersonFlag": {
+                    "type": "boolean",
+                    "description": "If set, the results are filtered by note to person pinning state (person_id is also required)"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "pipedrive-add-organization",
+        "description": "Adds a new organization. See the Pipedrive API docs for Organizations [here](https://developers.pipedrive.com/docs/api/v1/Organizations#addOrganization)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Organization name"
+                },
+                "ownerId": {
+                    "type": "string",
+                    "description": "ID of the user who will be marked as the owner of this organization. When omitted, the authorized user ID will be used."
+                },
+                "visibleTo": {
+                    "type": "string",
+                    "description": "Visibility of the organization. If omitted, visibility will be set to the default visibility setting of this item type for the authorized user."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "pipedrive-add-person",
+        "description": "Adds a new person. See the Pipedrive API docs for People [here](https://developers.pipedrive.com/docs/api/v1/Persons#addPerson)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Person name"
+                },
+                "ownerId": {
+                    "type": "string",
+                    "description": "ID of the user who will be marked as the owner of this person. When omitted, the authorized user ID will be used."
+                },
+                "organizationId": {
+                    "type": "string",
+                    "description": "ID of the organization this person will belong to."
+                },
+                "emails": {
+                    "type": "string",
+                    "description": ""
+                },
+                "phones": {
+                    "type": "string",
+                    "description": ""
+                },
+                "visibleTo": {
+                    "type": "string",
+                    "description": "Visibility of the person. If omitted, visibility will be set to the default visibility setting of this item type for the authorized user."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "pipedrive-get-lead-by-id",
+        "description": "Get a lead by its ID. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Leads#getLead)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "leadId": {
+                    "type": "string",
+                    "description": "The ID of the lead to get"
+                }
+            },
+            "required": [
+                "leadId"
+            ]
+        }
+    },
+    {
+        "name": "pipedrive-get-person-details",
+        "description": "Get details of a person by their ID. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Persons#getPerson)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "personId": {
+                    "type": "string",
+                    "description": "The ID of the person to get details for."
+                }
+            },
+            "required": [
+                "personId"
+            ]
+        }
+    },
+    {
+        "name": "pipedrive-remove-duplicate-notes",
+        "description": "Remove duplicate notes from an object in Pipedrive. See the documentation for [getting notes](https://developers.pipedrive.com/docs/api/v1/Notes#getNotes) and [deleting notes](https://developers.pipedrive.com/docs/api/v1/Notes#deleteNote)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "leadId": {
+                    "type": "string",
+                    "description": "The ID of the lead that the notes are attached to"
+                },
+                "dealId": {
+                    "type": "string",
+                    "description": "The ID of the deal that the notes are attached to"
+                },
+                "personId": {
+                    "type": "string",
+                    "description": "The ID of the person that the notes are attached to"
+                },
+                "organizationId": {
+                    "type": "string",
+                    "description": "The ID of the organization that the notes are attached to"
+                },
+                "userId": {
+                    "type": "string",
+                    "description": "The ID of the user that the notes are attached to"
+                },
+                "projectId": {
+                    "type": "string",
+                    "description": "The ID of the project that the notes are attached to"
+                },
+                "keyword": {
+                    "type": "string",
+                    "description": "Only remove duplicate notes that contain the specified keyword(s)"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "pipedrive-search-leads",
+        "description": "Search for leads by name or email. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Leads#searchLeads)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "term": {
+                    "type": "string",
+                    "description": "The search term to look for. Minimum 2 characters (or 1 if using exact_match)."
+                },
+                "exactMatch": {
+                    "type": "string",
+                    "description": "When enabled, only full exact matches against the given term are returned. It is not case sensitive."
+                },
+                "fields": {
+                    "type": "string",
+                    "description": "An array containing fields to perform the search from. Defaults to all of them."
+                },
+                "personId": {
+                    "type": "string",
+                    "description": "Will filter leads by the provided Person ID"
+                },
+                "organizationId": {
+                    "type": "string",
+                    "description": "Will filter leads by the provided Organization ID"
+                },
+                "includeFields": {
+                    "type": "string",
+                    "description": "Supports including optional fields in the results which are not provided by default."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "pipedrive-search-notes",
+        "description": "Search for notes in Pipedrive. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Notes#getNotes)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "searchTerm": {
+                    "type": "string",
+                    "description": "The term to search for in the note content"
+                },
+                "leadId": {
+                    "type": "string",
+                    "description": "The ID of the lead that the note is attached to"
+                },
+                "dealId": {
+                    "type": "string",
+                    "description": "The ID of the deal that the note is attached to"
+                },
+                "personId": {
+                    "type": "string",
+                    "description": "The ID of the person that the note is attached to"
+                },
+                "organizationId": {
+                    "type": "string",
+                    "description": "The ID of the organization that the note is attached to"
+                },
+                "userId": {
+                    "type": "string",
+                    "description": "The ID of the user that the note is attached to"
+                },
+                "projectId": {
+                    "type": "string",
+                    "description": "The ID of the project that the note is attached to"
+                },
+                "sortField": {
+                    "type": "string",
+                    "description": "The field name to sort by"
+                },
+                "sortDirection": {
+                    "type": "string",
+                    "description": "The direction to sort the results in"
+                },
+                "startDate": {
+                    "type": "string",
+                    "description": "The date in format of YYYY-MM-DD from which notes to fetch"
+                },
+                "endDate": {
+                    "type": "string",
+                    "description": "The date in format of YYYY-MM-DD until which notes to fetch to"
+                },
+                "pinnedToLeadFlag": {
+                    "type": "string",
+                    "description": "If `true`, the results are filtered by note to lead pinning state"
+                },
+                "pinnedToDealFlag": {
+                    "type": "string",
+                    "description": "If `true`, the results are filtered by note to deal pinning state"
+                },
+                "pinnedToOrganizationFlag": {
+                    "type": "string",
+                    "description": "If `true`, the results are filtered by note to organization pinning state"
+                },
+                "pinnedToPersonFlag": {
+                    "type": "string",
+                    "description": "If `true`, the results are filtered by note to person pinning state"
+                },
+                "pinnedToProjectFlag": {
+                    "type": "string",
+                    "description": "If `true`, the results are filtered by note to project pinning state"
+                },
+                "maxResults": {
+                    "type": "string",
+                    "description": "The maximum number of results to return"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "pipedrive-search-persons",
+        "description": "Searches all Persons by `name`, `email`, `phone`, `notes` and/or custom fields. This endpoint is a wrapper of `/v1/itemSearch` with a narrower OAuth scope. Found Persons can be filtered by Organization ID. See the Pipedrive API docs [here](https://developers.pipedrive.com/docs/api/v1/Persons#searchPersons)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "term": {
+                    "type": "string",
+                    "description": "The search term to look for. Minimum 2 characters (or 1 if using exact_match)."
+                },
+                "fields": {
+                    "type": "string",
+                    "description": "An array containing fields to perform the search from. Defaults to all of them."
+                },
+                "exactMatch": {
+                    "type": "string",
+                    "description": "When enabled, only full exact matches against the given term are returned. It is not case sensitive."
+                },
+                "organizationId": {
+                    "type": "string",
+                    "description": "Will filter Deals by the provided Organization ID. The upper limit of found Deals associated with the Organization is 2000."
+                },
+                "includeFields": {
+                    "type": "string",
+                    "description": "Supports including optional fields in the results which are not provided by default."
+                },
+                "start": {
+                    "type": "string",
+                    "description": "Pagination start. Note that the pagination is based on main results and does not include related items when using `search_for_related_items` parameter."
+                },
+                "limit": {
+                    "type": "string",
+                    "description": "Items shown per page."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "pipedrive-update-deal",
+        "description": "Updates the properties of a deal. See the Pipedrive API docs for Deals [here](https://developers.pipedrive.com/docs/api/v1/Deals#updateDeal)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "dealId": {
+                    "type": "string",
+                    "description": "ID of the deal"
+                },
+                "title": {
+                    "type": "string",
+                    "description": ""
+                },
+                "ownerId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "personId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "orgId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "pipelineId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "stageId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "value": {
+                    "type": "string",
+                    "description": ""
+                },
+                "currency": {
+                    "type": "string",
+                    "description": ""
+                },
+                "status": {
+                    "type": "string",
+                    "description": ""
+                },
+                "probability": {
+                    "type": "string",
+                    "description": ""
+                },
+                "lostReason": {
+                    "type": "string",
+                    "description": ""
+                },
+                "visibleTo": {
+                    "type": "string",
+                    "description": ""
+                },
+                "note": {
+                    "type": "string",
+                    "description": "A note to add to the deal"
+                }
+            },
+            "required": [
+                "dealId"
+            ]
+        }
+    },
+    {
+        "name": "pipedrive-update-person",
+        "description": "Updates an existing person in Pipedrive. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Persons#updatePerson)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "personId": {
+                    "type": "string",
+                    "description": "The ID of the person to update"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "New name of the person"
+                },
+                "ownerId": {
+                    "type": "string",
+                    "description": "ID of the user who will be marked as the owner of this person. When omitted, the authorized user ID will be used."
+                },
+                "organizationId": {
+                    "type": "string",
+                    "description": "ID of the organization this person will belong to"
+                },
+                "emails": {
+                    "type": "string",
+                    "description": ""
+                },
+                "phones": {
+                    "type": "string",
+                    "description": ""
+                },
+                "visibleTo": {
+                    "type": "string",
+                    "description": "Visibility of the person. If omitted, visibility will be set to the default visibility setting of this item type for the authorized user."
+                }
+            },
+            "required": [
+                "personId"
+            ]
+        }
+    }
+]

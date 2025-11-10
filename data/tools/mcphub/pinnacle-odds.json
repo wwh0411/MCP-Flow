@@ -1,0 +1,344 @@
+[
+    {
+        "name": "list_of_periods",
+        "description": "Get a list of periods",
+        "parameters": {
+            "properties": {
+                "sport_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Sport id Default: 1 Minimum: 1 Maximum: 29",
+                    "title": "Sport Id"
+                }
+            },
+            "required": [
+                "sport_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "event_details",
+        "description": "Get a event details and history odds. history:[time, value, max bet]. `Period_results - status`: 1 = Event period is settled, 2 = Event period is re-settled, 3 = Event period is cancelled, 4 = Event period is re-settled as cancelled, 5 = Event is deleted",
+        "parameters": {
+            "properties": {
+                "event_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Event id Default: 1419211461",
+                    "title": "Event Id"
+                }
+            },
+            "required": [
+                "event_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_of_sports",
+        "description": "Get a list of sports",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_of_special_markets",
+        "description": "Get a list of special markets. Always first issue a snapshot call and continue with the delta calls. Calls return changes since the provided `since` value. You must always use the since parameter, after the first call. Please note that prematch and live events are different",
+        "parameters": {
+            "properties": {
+                "sport_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Sport id Default: 1 Minimum: 1 Maximum: 29",
+                    "title": "Sport Id"
+                },
+                "event_type": {
+                    "default": null,
+                    "description": "Status: prematch, live Please note that prematch and live events are different",
+                    "enum": [
+                        "prematch",
+                        "live",
+                        null
+                    ],
+                    "title": "Event Type"
+                },
+                "event_ids": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Event ids. ex: 3,67,90",
+                    "title": "Event Ids"
+                },
+                "since": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Since UTC time. Calls return changes since the provided since value.",
+                    "title": "Since"
+                },
+                "league_ids": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "League ids. ex: 3,67,90",
+                    "title": "League Ids"
+                },
+                "is_have_odds": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "1 or 0. You can only get matches for which there are already open odds, or matches that will be given odds in the future",
+                    "title": "Is Have Odds"
+                }
+            },
+            "required": [
+                "sport_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_of_archive_events",
+        "description": "Get a list of archive events. Use pagination",
+        "parameters": {
+            "properties": {
+                "sport_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Sport id Default: 1 Minimum: 1 Maximum: 29",
+                    "title": "Sport Id"
+                },
+                "page_num": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Page num Default: 1 Minimum: 1 Maximum: 1000",
+                    "title": "Page Num"
+                },
+                "league_ids": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "League ids. ex: 3,67,90",
+                    "title": "League Ids"
+                },
+                "start_before": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Start before",
+                    "title": "Start Before"
+                },
+                "start_after": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Start after",
+                    "title": "Start After"
+                }
+            },
+            "required": [
+                "sport_id",
+                "page_num"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_of_leagues",
+        "description": "Get a list of leagues",
+        "parameters": {
+            "properties": {
+                "sport_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Sport id Default: 1 Minimum: 1 Maximum: 29",
+                    "title": "Sport Id"
+                }
+            },
+            "required": [
+                "sport_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_of_markets",
+        "description": "Get a list of markets. Always first issue a snapshot call and continue with the delta calls. Calls return changes since the provided `since` value. You must always use the `since` parameter, after starting your program cycle. You can make request without a `since` parameter no more than 25 times in 5 minutes. Please note that `prematch` and `live` events are different",
+        "parameters": {
+            "properties": {
+                "sport_id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Sport id Default: 5 Minimum: 1 Maximum: 29",
+                    "title": "Sport Id"
+                },
+                "league_ids": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "League ids. ex: 3,67,90",
+                    "title": "League Ids"
+                },
+                "event_ids": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Event ids. ex: 3,67,90",
+                    "title": "Event Ids"
+                },
+                "event_type": {
+                    "default": null,
+                    "description": "Status: prematch, live Please note that prematch and live events are different",
+                    "enum": [
+                        "prematch",
+                        "live",
+                        null
+                    ],
+                    "title": "Event Type"
+                },
+                "since": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Since UTC time. Calls return changes since the provided since value.",
+                    "title": "Since"
+                },
+                "is_have_odds": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "1 or 0. You can only get matches for which there are already open odds, or matches that will be given odds in the future",
+                    "title": "Is Have Odds"
+                }
+            },
+            "required": [
+                "sport_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "betting_status",
+        "description": "Get a betting status. Checking the Pinnacle server",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    }
+]

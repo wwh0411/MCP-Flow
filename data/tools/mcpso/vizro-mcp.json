@@ -1,0 +1,344 @@
+[
+    {
+        "name": "vizro-mcp_get_vizro_chart_or_dashboard_plan",
+        "description": "Get instructions for creating a Vizro chart or dashboard. Call FIRST when asked to create Vizro things.\n\nMust be ALWAYS called FIRST with advanced_mode=False, then call again with advanced_mode=True\nif the JSON config does not suffice anymore.\n\nArgs:\n    user_plan: The type of Vizro thing the user wants to create\n    user_host: The host the user is using, if \"ide\" you can use the IDE/editor to run python code\n    advanced_mode: Only call if you need to use custom CSS, custom components or custom actions.\n        No need to call this with advanced_mode=True if you need advanced charts, use `custom_charts` in\n        the `validate_dashboard_config` tool instead.\n\nReturns:\n    Instructions for creating a Vizro chart or dashboard\n",
+        "parameters": {
+            "properties": {
+                "user_plan": {
+                    "enum": [
+                        "chart",
+                        "dashboard"
+                    ],
+                    "title": "User Plan",
+                    "type": "string"
+                },
+                "user_host": {
+                    "enum": [
+                        "generic_host",
+                        "ide"
+                    ],
+                    "title": "User Host",
+                    "type": "string"
+                },
+                "advanced_mode": {
+                    "default": false,
+                    "title": "Advanced Mode",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "user_plan",
+                "user_host"
+            ],
+            "title": "get_vizro_chart_or_dashboard_planArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "vizro-mcp_get_model_json_schema",
+        "description": "Get the JSON schema for the specified Vizro model.\n\nArgs:\n    model_name: Name of the Vizro model to get schema for (e.g., 'Card', 'Dashboard', 'Page')\n\nReturns:\n    JSON schema of the requested Vizro model\n",
+        "parameters": {
+            "properties": {
+                "model_name": {
+                    "title": "Model Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "model_name"
+            ],
+            "title": "get_model_json_schemaArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "vizro-mcp_get_sample_data_info",
+        "description": "If user provides no data, use this tool to get sample data information.\n\nUse the following data for the below purposes:\n    - iris: mostly numerical with one categorical column, good for scatter, histogram, boxplot, etc.\n    - tips: contains mix of numerical and categorical columns, good for bar, pie, etc.\n    - stocks: stock prices, good for line, scatter, generally things that change over time\n    - gapminder: demographic data, good for line, scatter, generally things with maps or many categories\n\nArgs:\n    data_name: Name of the dataset to get sample data for\n\nReturns:\n    Data info object containing information about the dataset.\n",
+        "parameters": {
+            "properties": {
+                "data_name": {
+                    "enum": [
+                        "iris",
+                        "tips",
+                        "stocks",
+                        "gapminder"
+                    ],
+                    "title": "Data Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "data_name"
+            ],
+            "title": "get_sample_data_infoArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "vizro-mcp_load_and_analyze_data",
+        "description": "Use to understand local or remote data files. Must be called with absolute paths or URLs.\n\nSupported formats:\n- CSV (.csv)\n- JSON (.json)\n- HTML (.html, .htm)\n- Excel (.xls, .xlsx)\n- OpenDocument Spreadsheet (.ods)\n- Parquet (.parquet)\n\nArgs:\n    path_or_url: Absolute (important!) local file path or URL to a data file\n\nReturns:\n    DataAnalysisResults object containing DataFrame information and metadata\n",
+        "parameters": {
+            "properties": {
+                "path_or_url": {
+                    "title": "Path Or Url",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "path_or_url"
+            ],
+            "title": "load_and_analyze_dataArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "vizro-mcp_validate_dashboard_config",
+        "description": "Validate Vizro model configuration. Run ALWAYS when you have a complete dashboard configuration.\n\nIf successful, the tool will return the python code and, if it is a remote file, the py.cafe link to the chart.\nThe PyCafe link will be automatically opened in your default browser if auto_open is True.\n\nArgs:\n    dashboard_config: Either a JSON string or a dictionary representing a Vizro dashboard model configuration\n    data_infos: List of DFMetaData objects containing information about the data files\n    custom_charts: List of ChartPlan objects containing information about the custom charts in the dashboard\n    auto_open: Whether to automatically open the PyCafe link in a browser\n\nReturns:\n    ValidationResults object with status and dashboard details\n",
+        "parameters": {
+            "$defs": {
+                "ChartPlan": {
+                    "description": "Base chart plan used to generate chart code based on user visualization requirements.",
+                    "properties": {
+                        "chart_type": {
+                            "description": "\n        Describes the chart type that best reflects the user request.\n        ",
+                            "title": "Chart Type",
+                            "type": "string"
+                        },
+                        "chart_name": {
+                            "description": "\n        The name of the chart function. Should be unique, concise and in snake_case.\n        ",
+                            "pattern": "^[a-z][a-z0-9_]*$",
+                            "title": "Chart Name",
+                            "type": "string"
+                        },
+                        "imports": {
+                            "description": "\n        List of import statements required to render the chart defined by the `chart_code` field. Ensure that every\n        import statement is a separate list/array entry: An example of valid list of import statements would be:\n\n        [\"import pandas as pd\",\n        \"import plotly.express as px\"]\n        ",
+                            "items": {
+                                "type": "string"
+                            },
+                            "title": "Imports",
+                            "type": "array"
+                        },
+                        "chart_code": {
+                            "description": "\n        Python code that generates a generates a plotly go.Figure object. It must fulfill the following criteria:\n        1. Must be wrapped in a function that is named `chart_name`\n        2. Must accept as first argument argument `data_frame` which is a pandas DataFrame\n        3. Must return a plotly go.Figure object\n        4. All data used in the chart must be derived from the data_frame argument, all data manipulations\n        must be done within the function.\n        5. DO NOT modify the background (with plot_bgcolor) or color sequences unless explicitly asked for\n        6. When creating hover templates, explicitly ensure that it works on light and dark mode\n        ",
+                            "title": "Chart Code",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "chart_type",
+                        "chart_name",
+                        "imports",
+                        "chart_code"
+                    ],
+                    "title": "ChartPlan",
+                    "type": "object"
+                },
+                "DFMetaData": {
+                    "properties": {
+                        "file_name": {
+                            "title": "File Name",
+                            "type": "string"
+                        },
+                        "file_path_or_url": {
+                            "title": "File Path Or Url",
+                            "type": "string"
+                        },
+                        "file_location_type": {
+                            "enum": [
+                                "local",
+                                "remote"
+                            ],
+                            "title": "File Location Type",
+                            "type": "string"
+                        },
+                        "read_function_string": {
+                            "enum": [
+                                "pd.read_csv",
+                                "pd.read_json",
+                                "pd.read_html",
+                                "pd.read_parquet",
+                                "pd.read_excel"
+                            ],
+                            "title": "Read Function String",
+                            "type": "string"
+                        },
+                        "column_names_types": {
+                            "anyOf": [
+                                {
+                                    "additionalProperties": {
+                                        "type": "string"
+                                    },
+                                    "type": "object"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "title": "Column Names Types"
+                        }
+                    },
+                    "required": [
+                        "file_name",
+                        "file_path_or_url",
+                        "file_location_type",
+                        "read_function_string"
+                    ],
+                    "title": "DFMetaData",
+                    "type": "object"
+                }
+            },
+            "properties": {
+                "dashboard_config": {
+                    "additionalProperties": true,
+                    "title": "Dashboard Config",
+                    "type": "object"
+                },
+                "data_infos": {
+                    "items": {
+                        "$ref": "#/$defs/DFMetaData"
+                    },
+                    "title": "Data Infos",
+                    "type": "array"
+                },
+                "custom_charts": {
+                    "items": {
+                        "$ref": "#/$defs/ChartPlan"
+                    },
+                    "title": "Custom Charts",
+                    "type": "array"
+                },
+                "auto_open": {
+                    "default": true,
+                    "title": "Auto Open",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "dashboard_config",
+                "data_infos",
+                "custom_charts"
+            ],
+            "title": "validate_dashboard_configArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "vizro-mcp_validate_chart_code",
+        "description": "Validate the chart code created by the user and optionally open the PyCafe link in a browser.\n\nArgs:\n    chart_config: A ChartPlan object with the chart configuration\n    data_info: Metadata for the dataset to be used in the chart\n    auto_open: Whether to automatically open the PyCafe link in a browser\n\nReturns:\n    ValidationResults object with status and dashboard details\n",
+        "parameters": {
+            "$defs": {
+                "ChartPlan": {
+                    "description": "Base chart plan used to generate chart code based on user visualization requirements.",
+                    "properties": {
+                        "chart_type": {
+                            "description": "\n        Describes the chart type that best reflects the user request.\n        ",
+                            "title": "Chart Type",
+                            "type": "string"
+                        },
+                        "chart_name": {
+                            "description": "\n        The name of the chart function. Should be unique, concise and in snake_case.\n        ",
+                            "pattern": "^[a-z][a-z0-9_]*$",
+                            "title": "Chart Name",
+                            "type": "string"
+                        },
+                        "imports": {
+                            "description": "\n        List of import statements required to render the chart defined by the `chart_code` field. Ensure that every\n        import statement is a separate list/array entry: An example of valid list of import statements would be:\n\n        [\"import pandas as pd\",\n        \"import plotly.express as px\"]\n        ",
+                            "items": {
+                                "type": "string"
+                            },
+                            "title": "Imports",
+                            "type": "array"
+                        },
+                        "chart_code": {
+                            "description": "\n        Python code that generates a generates a plotly go.Figure object. It must fulfill the following criteria:\n        1. Must be wrapped in a function that is named `chart_name`\n        2. Must accept as first argument argument `data_frame` which is a pandas DataFrame\n        3. Must return a plotly go.Figure object\n        4. All data used in the chart must be derived from the data_frame argument, all data manipulations\n        must be done within the function.\n        5. DO NOT modify the background (with plot_bgcolor) or color sequences unless explicitly asked for\n        6. When creating hover templates, explicitly ensure that it works on light and dark mode\n        ",
+                            "title": "Chart Code",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "chart_type",
+                        "chart_name",
+                        "imports",
+                        "chart_code"
+                    ],
+                    "title": "ChartPlan",
+                    "type": "object"
+                },
+                "DFMetaData": {
+                    "properties": {
+                        "file_name": {
+                            "title": "File Name",
+                            "type": "string"
+                        },
+                        "file_path_or_url": {
+                            "title": "File Path Or Url",
+                            "type": "string"
+                        },
+                        "file_location_type": {
+                            "enum": [
+                                "local",
+                                "remote"
+                            ],
+                            "title": "File Location Type",
+                            "type": "string"
+                        },
+                        "read_function_string": {
+                            "enum": [
+                                "pd.read_csv",
+                                "pd.read_json",
+                                "pd.read_html",
+                                "pd.read_parquet",
+                                "pd.read_excel"
+                            ],
+                            "title": "Read Function String",
+                            "type": "string"
+                        },
+                        "column_names_types": {
+                            "anyOf": [
+                                {
+                                    "additionalProperties": {
+                                        "type": "string"
+                                    },
+                                    "type": "object"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "title": "Column Names Types"
+                        }
+                    },
+                    "required": [
+                        "file_name",
+                        "file_path_or_url",
+                        "file_location_type",
+                        "read_function_string"
+                    ],
+                    "title": "DFMetaData",
+                    "type": "object"
+                }
+            },
+            "properties": {
+                "chart_config": {
+                    "$ref": "#/$defs/ChartPlan"
+                },
+                "data_info": {
+                    "$ref": "#/$defs/DFMetaData"
+                },
+                "auto_open": {
+                    "default": true,
+                    "title": "Auto Open",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "chart_config",
+                "data_info"
+            ],
+            "title": "validate_chart_codeArguments",
+            "type": "object"
+        }
+    }
+]

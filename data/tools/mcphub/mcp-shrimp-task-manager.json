@@ -1,0 +1,483 @@
+[
+    {
+        "name": "plan_task",
+        "description": "When you need to plan tasks or construct complex features, you can use this tool to receive task planning guidance. You are expected to strictly follow the step-by-step instructions provided by the tool when organizing your tasks. You may optionally choose to reference existing tasks for extended planning.\n\n**Critical Warning**: All forms of `assumptions`, `guesses`, and `imagination` are strictly prohibited. You must use every `available tool` at your disposal to `gather real information`.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "minLength": 10,
+                    "description": "完整詳細的任務問題描述，應包含任務目標、背景及預期成果"
+                },
+                "requirements": {
+                    "type": "string",
+                    "description": "任務的特定技術要求、業務約束條件或品質標準（選填）"
+                },
+                "existingTasksReference": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "是否參考現有任務作為規劃基礎，用於任務調整和延續性規劃"
+                }
+            },
+            "required": [
+                "description"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "analyze_task",
+        "description": "Deeply analyze task requirements and systematically examine the codebase, assess technical feasibility and potential risks, if code needs to be provided use pseudocode format and only provide high-level logic flow and key steps avoiding complete code\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "summary": {
+                    "type": "string",
+                    "minLength": 10,
+                    "description": "結構化的任務摘要，包含任務目標、範圍與關鍵技術挑戰，最少10個字符"
+                },
+                "initialConcept": {
+                    "type": "string",
+                    "minLength": 50,
+                    "description": "最少50個字符的初步解答構想，包含技術方案、架構設計和實施策略，如果需要提供程式碼請使用 pseudocode 格式且僅提供高級邏輯流程和關鍵步驟避免完整代碼"
+                },
+                "previousAnalysis": {
+                    "type": "string",
+                    "description": "前次迭代的分析結果，用於持續改進方案（僅在重新分析時需提供）"
+                }
+            },
+            "required": [
+                "summary",
+                "initialConcept"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "reflect_task",
+        "description": "Critically review analysis results, assess solution completeness and identify optimization opportunities, ensure solutions conform to best practices, if code needs to be provided use pseudocode format and only provide high-level logic flow and key steps avoiding complete code\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "summary": {
+                    "type": "string",
+                    "minLength": 10,
+                    "description": "結構化的任務摘要，保持與分析階段一致以確保連續性"
+                },
+                "analysis": {
+                    "type": "string",
+                    "minLength": 100,
+                    "description": "完整詳盡的技術分析結果，包括所有技術細節、依賴組件和實施方案，如果需要提供程式碼請使用 pseudocode 格式且僅提供高級邏輯流程和關鍵步驟避免完整代碼"
+                }
+            },
+            "required": [
+                "summary",
+                "analysis"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "split_tasks",
+        "description": "Break down complex tasks into independent subtasks, establishing dependencies and priorities.\n\n## 1. **Granularity Control (Required Reading)**\n\n- ### **Minimum Viable Task**\n\n  Each subtask should be completable and verifiable by a single developer within **1–2 working days** (approximately 8–16 hours).\n\n- ### **Maximum Complexity Limitation**\n\n  A single subtask should not span multiple technical domains such as **frontend**, **backend**, and **database**.  \n  If cross-domain work is required, split it into multiple subtasks.\n\n- ### **Recommended Number of Tasks**\n\n  Avoid splitting into more than **10 subtasks** at once.  \n  If more are needed, submit them in prioritized batches (6–8 tasks per batch).\n\n- ### **Recommended Task Length**\n\n  Each split should not exceed **5,000 characters**.  \n  If it does, divide and submit in multiple batches.\n\n- ### **Depth Limitation**\n  The task tree should not exceed **3 levels**:\n  - **Level 1**: Functional Modules\n  - **Level 2**: Main Processes\n  - **Level 3**: Key Steps\n\n## 2. **Task Splitting Example**\n\n- Identify **core functionality points**, and create a subtask for each.\n- Annotate each subtask with:\n  - **Input/Output**\n  - **Acceptance Criteria**\n- If needed, provide **pseudocode**:\n  - Only outline high-level logic and key steps.\n  - Avoid providing complete source code.\n- Check **dependencies** between subtasks and specify them in the `dependencies` field.\n- If the task involves interface design, always provide a complete and consistent definition, including:\n\n  - Function/class/schema definitions (including names, parameters, return values)\n  - Data types, usage descriptions, and optional/required status for each item\n  - Error handling methods and expected exception scenarios\n  - Dependency and naming conventions (if any)\n  - Sample data and usage examples\n\n  This ensures consistency, readability, and development precision between tasks.\n\n## 3. **Dependencies and Prioritization**\n\n- Mark each subtask with its `dependencies` list.\n- Automatically compute and enforce execution order based on the dependency graph to prioritize the **critical path**.\n\n## 4. **Update Mode Explanation (`updateMode`)**\n\nWhen you need to create a new task that is not related to the current task list, be sure to use `clearAllTasks` to avoid task confusion.\n\n- `append`: Keep existing unfinished tasks and add new ones.\n- `overwrite`: Delete all unfinished tasks, keep completed ones.\n- `selective`: Smart-match and update tasks by name.\n- `clearAllTasks`: Clear all tasks and automatically back up the current list.\n\n---\n\n## 5. **Strict JSON Rules**\n\n- ### **No Comments Allowed**\n\n  JSON does not support comments.  \n  Any use of `#` or `//` will cause parsing failures.\n\n- ### **Proper Escaping Required**\n  All special characters (e.g., double quotes `\\\"`, backslashes `\\\\`) must be properly escaped,  \n  or they will be considered invalid.\n\n## 6. **Important Notes**\n\nThese tasks will be executed by low-intelligence models, so please follow the guidelines below:\n\n- `Clear and Explicit Instructions`: This prevents the model from producing incorrect or inconsistent architecture/code styles. Provide clear commands or specifications.\n- `Encapsulated Interfaces`: Each task runs independently. Define the interfaces clearly — such as function names, parameters, return values — so that other task-executing models can easily understand how to interact with or integrate these functions.\n- `Dependencies`: If there are dependencies between tasks, define the interaction interfaces first. Tasks do not need to know each other's implementation, but must know how to interact with one another.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "updateMode": {
+                    "type": "string",
+                    "enum": [
+                        "append",
+                        "overwrite",
+                        "selective",
+                        "clearAllTasks"
+                    ],
+                    "description": "任務更新模式選擇：'append'(保留所有現有任務並添加新任務)、'overwrite'(清除所有未完成任務並完全替換，保留已完成任務)、'selective'(智能更新：根據任務名稱匹配更新現有任務，保留不在列表中的任務，推薦用於任務微調)、'clearAllTasks'(清除所有任務並創建備份)。\n預設為'clearAllTasks'模式，只有用戶要求變更或修改計劃內容才使用其他模式"
+                },
+                "tasksRaw": {
+                    "type": "string",
+                    "description": "結構化的任務清單，每個任務應保持原子性且有明確的完成標準，避免過於簡單的任務，簡單修改可與其他任務整合，避免任務過多，範例：[{name: '簡潔明確的任務名稱，應能清晰表達任務目的', description: '詳細的任務描述，包含實施要點、技術細節和驗收標準', implementationGuide: '此特定任務的具體實現方法和步驟，請參考之前的分析結果提供精簡pseudocode', notes: '補充說明、特殊處理要求或實施建議（選填）', dependencies: ['此任務依賴的前置任務完整名稱'], relatedFiles: [{path: '文件路徑', type: '文件類型 (TO_MODIFY: 待修改, REFERENCE: 參考資料, CREATE: 待建立, DEPENDENCY: 依賴文件, OTHER: 其他)', description: '文件描述', lineStart: 1, lineEnd: 100}], verificationCriteria: '此特定任務的驗證標準和檢驗方法'}, {name: '任務2', description: '任務2描述', implementationGuide: '任務2實現方法', notes: '補充說明、特殊處理要求或實施建議（選填）', dependencies: ['任務1'], relatedFiles: [{path: '文件路徑', type: '文件類型 (TO_MODIFY: 待修改, REFERENCE: 參考資料, CREATE: 待建立, DEPENDENCY: 依賴文件, OTHER: 其他)', description: '文件描述', lineStart: 1, lineEnd: 100}], verificationCriteria: '此特定任務的驗證標準和檢驗方法'}]"
+                },
+                "globalAnalysisResult": {
+                    "type": "string",
+                    "description": "任務最終目標，來自之前分析適用於所有任務的通用部分"
+                }
+            },
+            "required": [
+                "updateMode",
+                "tasksRaw"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "list_tasks",
+        "description": "Generate structured task lists, including complete status tracking, priorities, and dependencies\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "all",
+                        "pending",
+                        "in_progress",
+                        "completed"
+                    ],
+                    "description": "要列出的任務狀態，可選擇 'all' 列出所有任務，或指定具體狀態"
+                }
+            },
+            "required": [
+                "status"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "execute_task",
+        "description": "Retrieve the instructional guidance for a specific task. You will complete the programming task based on this guidance. You must strictly follow the feedback and instructions provided by the tool — it is designed to **guide you toward perfect task completion, not to execute the task for you**. Severe Warning: Calling the executeTask tool does not mean you have completed the task. You must follow the step-by-step guidance returned by the tool to complete the task properly.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "taskId": {
+                    "type": "string",
+                    "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$",
+                    "description": "待執行任務的唯一標識符，必須是系統中存在的有效任務ID"
+                }
+            },
+            "required": [
+                "taskId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "verify_task",
+        "description": "## Verify Task\n\nPlease comprehensively check and score according to the requirements in verificationCriteria,\nIf you are missing or have forgotten the verificationCriteria content, please use `get_task_detail` to obtain it.\n\nPlease score according to the following rules:\n\n### Verification Standards\n\n1. **Requirements Compliance(30%)** - Functionality completeness, constraint adherence, edge case handling\n2. **Technical Quality(30%)** - Architectural consistency, code robustness, implementation elegance\n3. **Integration Compatibility(20%)** - System integration, interoperability, compatibility maintenance\n4. **Performance Scalability(20%)** - Performance optimization, load adaptability, resource management\n\n### score Parameter Guidelines\n\nProvide overall score and rating, assessment of each standard, issues and suggestions, and final conclusion.\n\n**Must use the following format to provide scoring results (for system parsing):**\n\n```Scoring\nscore: [number from 0-100]\n```\n\n### summary Parameter Guidelines\n\nIf the score is equal to or greater than 80 points, please provide a task summary\n\n```\nsummary: 'Task completion summary, concise description of implementation results and important decisions'\n```\n\nIf the score is less than 80 points, please provide correction suggestions\n\n```\nsummary: 'List task issues and correction suggestions'\n```\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "taskId": {
+                    "type": "string",
+                    "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$",
+                    "description": "待驗證任務的唯一標識符，必須是系統中存在的有效任務ID"
+                },
+                "summary": {
+                    "type": "string",
+                    "minLength": 30,
+                    "description": "當分數高於或等於 80分時代表任務完成摘要，簡潔描述實施結果和重要決策，當分數低於 80分時代表缺失或需要修正的部分說明，最少30個字"
+                },
+                "score": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100,
+                    "description": "針對任務的評分，當評分等於或超過80分時自動完成任務"
+                }
+            },
+            "required": [
+                "taskId",
+                "summary",
+                "score"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "delete_task",
+        "description": "Delete incomplete tasks, but does not allow deleting completed tasks, ensuring the integrity of system records\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "taskId": {
+                    "type": "string",
+                    "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$",
+                    "description": "待刪除任務的唯一標識符，必須是系統中存在且未完成的任務ID"
+                }
+            },
+            "required": [
+                "taskId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "clear_all_tasks",
+        "description": "Clear incomplete tasks and reset the task list. This is a destructive operation that requires confirmation. Completed tasks will be backed up before clearing.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "confirm": {
+                    "type": "boolean",
+                    "description": "確認刪除所有未完成的任務（此操作不可逆）"
+                }
+            },
+            "required": [
+                "confirm"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "update_task",
+        "description": "Update task content, including name, description and notes, dependent tasks, related files, implementation guide, and verification criteria, completed tasks only allow updating summary and related files\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "taskId": {
+                    "type": "string",
+                    "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$",
+                    "description": "待更新任務的唯一標識符，必須是系統中存在且未完成的任務ID"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "任務的新名稱（選填）"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "任務的新描述內容（選填）"
+                },
+                "notes": {
+                    "type": "string",
+                    "description": "任務的新補充說明（選填）"
+                },
+                "dependencies": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "任務的新依賴關係（選填）"
+                },
+                "relatedFiles": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "path": {
+                                "type": "string",
+                                "minLength": 1,
+                                "description": "文件路徑，可以是相對於項目根目錄的路徑或絕對路徑"
+                            },
+                            "type": {
+                                "type": "string",
+                                "enum": [
+                                    "TO_MODIFY",
+                                    "REFERENCE",
+                                    "CREATE",
+                                    "DEPENDENCY",
+                                    "OTHER"
+                                ],
+                                "description": "文件與任務的關係類型 (TO_MODIFY, REFERENCE, CREATE, DEPENDENCY, OTHER)"
+                            },
+                            "description": {
+                                "type": "string",
+                                "description": "文件的補充描述（選填）"
+                            },
+                            "lineStart": {
+                                "type": "integer",
+                                "exclusiveMinimum": 0,
+                                "description": "相關代碼區塊的起始行（選填）"
+                            },
+                            "lineEnd": {
+                                "type": "integer",
+                                "exclusiveMinimum": 0,
+                                "description": "相關代碼區塊的結束行（選填）"
+                            }
+                        },
+                        "required": [
+                            "path",
+                            "type"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "與任務相關的文件列表，用於記錄與任務相關的代碼文件、參考資料、要建立的檔案等（選填）"
+                },
+                "implementationGuide": {
+                    "type": "string",
+                    "description": "任務的新實現指南（選填）"
+                },
+                "verificationCriteria": {
+                    "type": "string",
+                    "description": "任務的新驗證標準（選填）"
+                }
+            },
+            "required": [
+                "taskId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "query_task",
+        "description": "Search for tasks based on keywords or ID, display abbreviated task information\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "搜尋查詢文字，可以是任務ID或多個關鍵字（空格分隔）"
+                },
+                "isId": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "指定是否為ID查詢模式，默認為否（關鍵字模式）"
+                },
+                "page": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "default": 1,
+                    "description": "分頁頁碼，默認為第1頁"
+                },
+                "pageSize": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "minimum": 1,
+                    "maximum": 20,
+                    "default": 5,
+                    "description": "每頁顯示的任務數量，默認為5筆，最大20筆"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "get_task_detail",
+        "description": "Retrieve complete detailed information of a task based on task ID, including untruncated implementation guides and verification criteria\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "taskId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "欲檢視詳情的任務ID"
+                }
+            },
+            "required": [
+                "taskId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "process_thought",
+        "description": "Conduct flexible and evolvable thinking processes, progressively deepen understanding and generate effective solutions through establishing, questioning, verifying, and correcting ideas. When encountering situations requiring data collection, analysis, or research, prioritize reviewing project-related code; if relevant code does not exist, query the web rather than speculate. Set nextThoughtNeeded to false when thinking is sufficient, otherwise adjust total_thoughts to extend the process\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "thought": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "思維內容"
+                },
+                "thought_number": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "當前思維編號"
+                },
+                "total_thoughts": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "預計總思維數量，如果需要更多的思考可以隨時變更"
+                },
+                "next_thought_needed": {
+                    "type": "boolean",
+                    "description": "是否需要下一步思維"
+                },
+                "stage": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Thinking stage. Available stages include: Problem Definition, Information Gathering, Research, Analysis, Synthesis, Conclusion, Critical Questioning, and Planning."
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "思維標籤，是一個陣列字串"
+                },
+                "axioms_used": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "使用的公理，是一個陣列字串"
+                },
+                "assumptions_challenged": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "挑戰的假設，是一個陣列字串"
+                }
+            },
+            "required": [
+                "thought",
+                "thought_number",
+                "total_thoughts",
+                "next_thought_needed",
+                "stage"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "init_project_rules",
+        "description": "Initialize project standards, call this tool when the user requests to generate or initialize a project standards document, also call this tool if the user requests to change or update project standards\n",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "research_mode",
+        "description": "When you need to conduct in-depth research on programming-related topics, you can use this tool to enter a specialized research mode. This tool will guide you on how to use web search and code search tools to systematically research technical topics, ensuring research depth and breadth while avoiding topic deviation. Suitable for technical research, best practice exploration, solution comparison, and other scenarios.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "topic": {
+                    "type": "string",
+                    "minLength": 5,
+                    "description": "要研究的程式編程主題內容，應該明確且具體"
+                },
+                "previousState": {
+                    "type": "string",
+                    "default": "",
+                    "description": "之前的研究狀態和內容摘要，第一次執行時為空，後續會包含之前詳細且關鍵的研究成果，這將幫助後續的研究"
+                },
+                "currentState": {
+                    "type": "string",
+                    "description": "當前 Agent 主要該執行的內容，例如使用網路工具搜尋某些關鍵字或分析特定程式碼，研究完畢後請呼叫 research_mode 來記錄狀態並與之前的`previousState`整合，這將幫助你更好的保存與執行研究內容"
+                },
+                "nextSteps": {
+                    "type": "string",
+                    "description": "後續的計劃、步驟或研究方向，用來約束 Agent 不偏離主題或走錯方向，如果研究過程中發現需要調整研究方向，請更新此欄位"
+                }
+            },
+            "required": [
+                "topic",
+                "currentState",
+                "nextSteps"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

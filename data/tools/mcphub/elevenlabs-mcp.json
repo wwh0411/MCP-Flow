@@ -1,0 +1,805 @@
+[
+    {
+        "name": "text_to_speech",
+        "description": "Convert text to speech with a given voice and save the output audio file to a given directory.\n    Directory is optional, if not provided, the output file will be saved to $HOME/Desktop.\n    Only one of voice_id or voice_name can be provided. If none are provided, the default voice will be used.\n\n    ⚠️ COST WARNING: This tool makes an API call to ElevenLabs which may incur costs. Only use when explicitly requested by the user.\n\n     Args:\n        text (str): The text to convert to speech.\n        voice_name (str, optional): The name of the voice to use.\n        model_id (str, optional): The model ID to use for speech synthesis. Options include:\n            - eleven_multilingual_v2: High quality multilingual model (29 languages)\n            - eleven_flash_v2_5: Fastest model with ultra-low latency (32 languages)\n            - eleven_turbo_v2_5: Balanced quality and speed (32 languages)\n            - eleven_flash_v2: Fast English-only model\n            - eleven_turbo_v2: Balanced English-only model\n            - eleven_monolingual_v1: Legacy English model\n            Defaults to eleven_multilingual_v2 or environment variable ELEVENLABS_MODEL_ID.\n        stability (float, optional): Stability of the generated audio. Determines how stable the voice is and the randomness between each generation. Lower values introduce broader emotional range for the voice. Higher values can result in a monotonous voice with limited emotion. Range is 0 to 1.\n        similarity_boost (float, optional): Similarity boost of the generated audio. Determines how closely the AI should adhere to the original voice when attempting to replicate it. Range is 0 to 1.\n        style (float, optional): Style of the generated audio. Determines the style exaggeration of the voice. This setting attempts to amplify the style of the original speaker. It does consume additional computational resources and might increase latency if set to anything other than 0. Range is 0 to 1.\n        use_speaker_boost (bool, optional): Use speaker boost of the generated audio. This setting boosts the similarity to the original speaker. Using this setting requires a slightly higher computational load, which in turn increases latency.\n        speed (float, optional): Speed of the generated audio. Controls the speed of the generated speech. Values range from 0.7 to 1.2, with 1.0 being the default speed. Lower values create slower, more deliberate speech while higher values produce faster-paced speech. Extreme values can impact the quality of the generated speech. Range is 0.7 to 1.2.\n        output_directory (str, optional): Directory where files should be saved.\n            Defaults to $HOME/Desktop if not provided.\n        language: ISO 639-1 language code for the voice.\n        output_format (str, optional): Output format of the generated audio. Formatted as codec_sample_rate_bitrate. So an mp3 with 22.05kHz sample rate at 32kbs is represented as mp3_22050_32. MP3 with 192kbps bitrate requires you to be subscribed to Creator tier or above. PCM with 44.1kHz sample rate requires you to be subscribed to Pro tier or above. Note that the μ-law format (sometimes written mu-law, often approximated as u-law) is commonly used for Twilio audio inputs.\n            Defaults to \"mp3_44100_128\". Must be one of:\n            mp3_22050_32\n            mp3_44100_32\n            mp3_44100_64\n            mp3_44100_96\n            mp3_44100_128\n            mp3_44100_192\n            pcm_8000\n            pcm_16000\n            pcm_22050\n            pcm_24000\n            pcm_44100\n            ulaw_8000\n            alaw_8000\n            opus_48000_32\n            opus_48000_64\n            opus_48000_96\n            opus_48000_128\n            opus_48000_192\n\n    Returns:\n        Text content with the path to the output file and name of the voice used.\n    ",
+        "parameters": {
+            "properties": {
+                "text": {
+                    "title": "Text",
+                    "type": "string"
+                },
+                "voice_name": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Voice Name"
+                },
+                "output_directory": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Output Directory"
+                },
+                "voice_id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Voice Id"
+                },
+                "stability": {
+                    "default": 0.5,
+                    "title": "Stability",
+                    "type": "number"
+                },
+                "similarity_boost": {
+                    "default": 0.75,
+                    "title": "Similarity Boost",
+                    "type": "number"
+                },
+                "style": {
+                    "default": 0,
+                    "title": "Style",
+                    "type": "number"
+                },
+                "use_speaker_boost": {
+                    "default": true,
+                    "title": "Use Speaker Boost",
+                    "type": "boolean"
+                },
+                "speed": {
+                    "default": 1.0,
+                    "title": "Speed",
+                    "type": "number"
+                },
+                "language": {
+                    "default": "en",
+                    "title": "Language",
+                    "type": "string"
+                },
+                "output_format": {
+                    "default": "mp3_44100_128",
+                    "title": "Output Format",
+                    "type": "string"
+                },
+                "model_id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Model Id"
+                }
+            },
+            "required": [
+                "text"
+            ],
+            "title": "text_to_speechArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "speech_to_text",
+        "description": "Transcribe speech from an audio file and either save the output text file to a given directory or return the text to the client directly.\n\n    ⚠️ COST WARNING: This tool makes an API call to ElevenLabs which may incur costs. Only use when explicitly requested by the user.\n\n    Args:\n        file_path: Path to the audio file to transcribe\n        language_code: ISO 639-3 language code for transcription. If not provided, the language will be detected automatically.\n        diarize: Whether to diarize the audio file. If True, which speaker is currently speaking will be annotated in the transcription.\n        save_transcript_to_file: Whether to save the transcript to a file.\n        return_transcript_to_client_directly: Whether to return the transcript to the client directly.\n        output_directory: Directory where files should be saved.\n            Defaults to $HOME/Desktop if not provided.\n\n    Returns:\n        TextContent containing the transcription. If save_transcript_to_file is True, the transcription will be saved to a file in the output directory.\n    ",
+        "parameters": {
+            "properties": {
+                "input_file_path": {
+                    "title": "Input File Path",
+                    "type": "string"
+                },
+                "language_code": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Language Code"
+                },
+                "diarize": {
+                    "default": false,
+                    "title": "Diarize",
+                    "type": "boolean"
+                },
+                "save_transcript_to_file": {
+                    "default": true,
+                    "title": "Save Transcript To File",
+                    "type": "boolean"
+                },
+                "return_transcript_to_client_directly": {
+                    "default": false,
+                    "title": "Return Transcript To Client Directly",
+                    "type": "boolean"
+                },
+                "output_directory": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Output Directory"
+                }
+            },
+            "required": [
+                "input_file_path"
+            ],
+            "title": "speech_to_textArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "text_to_sound_effects",
+        "description": "Convert text description of a sound effect to sound effect with a given duration and save the output audio file to a given directory.\n    Directory is optional, if not provided, the output file will be saved to $HOME/Desktop.\n    Duration must be between 0.5 and 5 seconds.\n\n    ⚠️ COST WARNING: This tool makes an API call to ElevenLabs which may incur costs. Only use when explicitly requested by the user.\n\n    Args:\n        text: Text description of the sound effect\n        duration_seconds: Duration of the sound effect in seconds\n        output_directory: Directory where files should be saved.\n            Defaults to $HOME/Desktop if not provided.\n        output_format (str, optional): Output format of the generated audio. Formatted as codec_sample_rate_bitrate. So an mp3 with 22.05kHz sample rate at 32kbs is represented as mp3_22050_32. MP3 with 192kbps bitrate requires you to be subscribed to Creator tier or above. PCM with 44.1kHz sample rate requires you to be subscribed to Pro tier or above. Note that the μ-law format (sometimes written mu-law, often approximated as u-law) is commonly used for Twilio audio inputs.\n            Defaults to \"mp3_44100_128\". Must be one of:\n            mp3_22050_32\n            mp3_44100_32\n            mp3_44100_64\n            mp3_44100_96\n            mp3_44100_128\n            mp3_44100_192\n            pcm_8000\n            pcm_16000\n            pcm_22050\n            pcm_24000\n            pcm_44100\n            ulaw_8000\n            alaw_8000\n            opus_48000_32\n            opus_48000_64\n            opus_48000_96\n            opus_48000_128\n            opus_48000_192\n    ",
+        "parameters": {
+            "properties": {
+                "text": {
+                    "title": "Text",
+                    "type": "string"
+                },
+                "duration_seconds": {
+                    "default": 2.0,
+                    "title": "Duration Seconds",
+                    "type": "number"
+                },
+                "output_directory": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Output Directory"
+                },
+                "output_format": {
+                    "default": "mp3_44100_128",
+                    "title": "Output Format",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "text"
+            ],
+            "title": "text_to_sound_effectsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_voices",
+        "description": "\n    Search for existing voices, a voice that has already been added to the user's ElevenLabs voice library.\n    Searches in name, description, labels and category.\n\n    Args:\n        search: Search term to filter voices by. Searches in name, description, labels and category.\n        sort: Which field to sort by. `created_at_unix` might not be available for older voices.\n        sort_direction: Sort order, either ascending or descending.\n\n    Returns:\n        List of voices that match the search criteria.\n    ",
+        "parameters": {
+            "properties": {
+                "search": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Search"
+                },
+                "sort": {
+                    "default": "name",
+                    "enum": [
+                        "created_at_unix",
+                        "name"
+                    ],
+                    "title": "Sort",
+                    "type": "string"
+                },
+                "sort_direction": {
+                    "default": "desc",
+                    "enum": [
+                        "asc",
+                        "desc"
+                    ],
+                    "title": "Sort Direction",
+                    "type": "string"
+                }
+            },
+            "title": "search_voicesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_models",
+        "description": "List all available models",
+        "parameters": {
+            "properties": {},
+            "title": "list_modelsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_voice",
+        "description": "Get details of a specific voice",
+        "parameters": {
+            "properties": {
+                "voice_id": {
+                    "title": "Voice Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "voice_id"
+            ],
+            "title": "get_voiceArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "voice_clone",
+        "description": "Create an instant voice clone of a voice using provided audio files.\n\n    ⚠️ COST WARNING: This tool makes an API call to ElevenLabs which may incur costs. Only use when explicitly requested by the user.\n    ",
+        "parameters": {
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string"
+                },
+                "files": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Files",
+                    "type": "array"
+                },
+                "description": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Description"
+                }
+            },
+            "required": [
+                "name",
+                "files"
+            ],
+            "title": "voice_cloneArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "isolate_audio",
+        "description": "Isolate audio from a file and save the output audio file to a given directory.\n    Directory is optional, if not provided, the output file will be saved to $HOME/Desktop.\n\n    ⚠️ COST WARNING: This tool makes an API call to ElevenLabs which may incur costs. Only use when explicitly requested by the user.\n    ",
+        "parameters": {
+            "properties": {
+                "input_file_path": {
+                    "title": "Input File Path",
+                    "type": "string"
+                },
+                "output_directory": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Output Directory"
+                }
+            },
+            "required": [
+                "input_file_path"
+            ],
+            "title": "isolate_audioArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "check_subscription",
+        "description": "Check the current subscription status. Could be used to measure the usage of the API.",
+        "parameters": {
+            "properties": {},
+            "title": "check_subscriptionArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "create_agent",
+        "description": "Create a conversational AI agent with custom configuration.\n\n    ⚠️ COST WARNING: This tool makes an API call to ElevenLabs which may incur costs. Only use when explicitly requested by the user.\n\n    Args:\n        name: Name of the agent\n        first_message: First message the agent will say i.e. \"Hi, how can I help you today?\"\n        system_prompt: System prompt for the agent\n        voice_id: ID of the voice to use for the agent\n        language: ISO 639-1 language code for the agent\n        llm: LLM to use for the agent\n        temperature: Temperature for the agent. The lower the temperature, the more deterministic the agent's responses will be. Range is 0 to 1.\n        max_tokens: Maximum number of tokens to generate.\n        asr_quality: Quality of the ASR. `high` or `low`.\n        model_id: ID of the ElevenLabs model to use for the agent.\n        optimize_streaming_latency: Optimize streaming latency. Range is 0 to 4.\n        stability: Stability for the agent. Range is 0 to 1.\n        similarity_boost: Similarity boost for the agent. Range is 0 to 1.\n        turn_timeout: Timeout for the agent to respond in seconds. Defaults to 7 seconds.\n        max_duration_seconds: Maximum duration of a conversation in seconds. Defaults to 600 seconds (10 minutes).\n        record_voice: Whether to record the agent's voice.\n        retention_days: Number of days to retain the agent's data.\n    ",
+        "parameters": {
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string"
+                },
+                "first_message": {
+                    "title": "First Message",
+                    "type": "string"
+                },
+                "system_prompt": {
+                    "title": "System Prompt",
+                    "type": "string"
+                },
+                "voice_id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": "cgSgspJ2msm6clMCkdW9",
+                    "title": "Voice Id"
+                },
+                "language": {
+                    "default": "en",
+                    "title": "Language",
+                    "type": "string"
+                },
+                "llm": {
+                    "default": "gemini-2.0-flash-001",
+                    "title": "Llm",
+                    "type": "string"
+                },
+                "temperature": {
+                    "default": 0.5,
+                    "title": "Temperature",
+                    "type": "number"
+                },
+                "max_tokens": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Max Tokens"
+                },
+                "asr_quality": {
+                    "default": "high",
+                    "title": "Asr Quality",
+                    "type": "string"
+                },
+                "model_id": {
+                    "default": "eleven_turbo_v2",
+                    "title": "Model Id",
+                    "type": "string"
+                },
+                "optimize_streaming_latency": {
+                    "default": 3,
+                    "title": "Optimize Streaming Latency",
+                    "type": "integer"
+                },
+                "stability": {
+                    "default": 0.5,
+                    "title": "Stability",
+                    "type": "number"
+                },
+                "similarity_boost": {
+                    "default": 0.8,
+                    "title": "Similarity Boost",
+                    "type": "number"
+                },
+                "turn_timeout": {
+                    "default": 7,
+                    "title": "Turn Timeout",
+                    "type": "integer"
+                },
+                "max_duration_seconds": {
+                    "default": 300,
+                    "title": "Max Duration Seconds",
+                    "type": "integer"
+                },
+                "record_voice": {
+                    "default": true,
+                    "title": "Record Voice",
+                    "type": "boolean"
+                },
+                "retention_days": {
+                    "default": 730,
+                    "title": "Retention Days",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "name",
+                "first_message",
+                "system_prompt"
+            ],
+            "title": "create_agentArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "add_knowledge_base_to_agent",
+        "description": "Add a knowledge base to ElevenLabs workspace. Allowed types are epub, pdf, docx, txt, html.\n\n    ⚠️ COST WARNING: This tool makes an API call to ElevenLabs which may incur costs. Only use when explicitly requested by the user.\n\n    Args:\n        agent_id: ID of the agent to add the knowledge base to.\n        knowledge_base_name: Name of the knowledge base.\n        url: URL of the knowledge base.\n        input_file_path: Path to the file to add to the knowledge base.\n        text: Text to add to the knowledge base.\n    ",
+        "parameters": {
+            "properties": {
+                "agent_id": {
+                    "title": "Agent Id",
+                    "type": "string"
+                },
+                "knowledge_base_name": {
+                    "title": "Knowledge Base Name",
+                    "type": "string"
+                },
+                "url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Url"
+                },
+                "input_file_path": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Input File Path"
+                },
+                "text": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Text"
+                }
+            },
+            "required": [
+                "agent_id",
+                "knowledge_base_name"
+            ],
+            "title": "add_knowledge_base_to_agentArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_agents",
+        "description": "List all available conversational AI agents",
+        "parameters": {
+            "properties": {},
+            "title": "list_agentsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_agent",
+        "description": "Get details about a specific conversational AI agent",
+        "parameters": {
+            "properties": {
+                "agent_id": {
+                    "title": "Agent Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "agent_id"
+            ],
+            "title": "get_agentArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_conversation",
+        "description": "Gets conversation with transcript. Returns: conversation details and full transcript. Use when: analyzing completed agent conversations.\n\n    Args:\n        conversation_id: The unique identifier of the conversation to retrieve, you can get the ids from the list_conversations tool.\n    ",
+        "parameters": {
+            "properties": {
+                "conversation_id": {
+                    "title": "Conversation Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "conversation_id"
+            ],
+            "title": "get_conversationArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_conversations",
+        "description": "Lists agent conversations. Returns: conversation list with metadata. Use when: asked about conversation history.\n\n    Args:\n        agent_id (str, optional): Filter conversations by specific agent ID\n        cursor (str, optional): Pagination cursor for retrieving next page of results\n        call_start_before_unix (int, optional): Filter conversations that started before this Unix timestamp\n        call_start_after_unix (int, optional): Filter conversations that started after this Unix timestamp\n        page_size (int, optional): Number of conversations to return per page (1-100, defaults to 30)\n        max_length (int, optional): Maximum character length of the response text (defaults to 10000)\n    ",
+        "parameters": {
+            "properties": {
+                "agent_id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Agent Id"
+                },
+                "cursor": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Cursor"
+                },
+                "call_start_before_unix": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Call Start Before Unix"
+                },
+                "call_start_after_unix": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Call Start After Unix"
+                },
+                "page_size": {
+                    "default": 30,
+                    "title": "Page Size",
+                    "type": "integer"
+                },
+                "max_length": {
+                    "default": 10000,
+                    "title": "Max Length",
+                    "type": "integer"
+                }
+            },
+            "title": "list_conversationsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "speech_to_speech",
+        "description": "Transform audio from one voice to another using provided audio files.\n\n    ⚠️ COST WARNING: This tool makes an API call to ElevenLabs which may incur costs. Only use when explicitly requested by the user.\n    ",
+        "parameters": {
+            "properties": {
+                "input_file_path": {
+                    "title": "Input File Path",
+                    "type": "string"
+                },
+                "voice_name": {
+                    "default": "Adam",
+                    "title": "Voice Name",
+                    "type": "string"
+                },
+                "output_directory": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Output Directory"
+                }
+            },
+            "required": [
+                "input_file_path"
+            ],
+            "title": "speech_to_speechArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "text_to_voice",
+        "description": "Create voice previews from a text prompt. Creates three previews with slight variations. Saves the previews to a given directory. If no text is provided, the tool will auto-generate text.\n\n    Voice preview files are saved as: voice_design_(generated_voice_id)_(timestamp).mp3\n\n    Example file name: voice_design_Ya2J5uIa5Pq14DNPsbC1_20250403_164949.mp3\n\n    ⚠️ COST WARNING: This tool makes an API call to ElevenLabs which may incur costs. Only use when explicitly requested by the user.\n    ",
+        "parameters": {
+            "properties": {
+                "voice_description": {
+                    "title": "Voice Description",
+                    "type": "string"
+                },
+                "text": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Text"
+                },
+                "output_directory": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Output Directory"
+                }
+            },
+            "required": [
+                "voice_description"
+            ],
+            "title": "text_to_voiceArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "create_voice_from_preview",
+        "description": "Add a generated voice to the voice library. Uses the voice ID from the `text_to_voice` tool.\n\n    ⚠️ COST WARNING: This tool makes an API call to ElevenLabs which may incur costs. Only use when explicitly requested by the user.\n    ",
+        "parameters": {
+            "properties": {
+                "generated_voice_id": {
+                    "title": "Generated Voice Id",
+                    "type": "string"
+                },
+                "voice_name": {
+                    "title": "Voice Name",
+                    "type": "string"
+                },
+                "voice_description": {
+                    "title": "Voice Description",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "generated_voice_id",
+                "voice_name",
+                "voice_description"
+            ],
+            "title": "create_voice_from_previewArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "make_outbound_call",
+        "description": "Make an outbound call using an ElevenLabs agent. Automatically detects provider type (Twilio or SIP trunk) and uses the appropriate API.\n\n    ⚠️ COST WARNING: This tool makes an API call to ElevenLabs which may incur costs. Only use when explicitly requested by the user.\n\n    Args:\n        agent_id: The ID of the agent that will handle the call\n        agent_phone_number_id: The ID of the phone number to use for the call\n        to_number: The phone number to call (E.164 format: +1xxxxxxxxxx)\n\n    Returns:\n        TextContent containing information about the call\n    ",
+        "parameters": {
+            "properties": {
+                "agent_id": {
+                    "title": "Agent Id",
+                    "type": "string"
+                },
+                "agent_phone_number_id": {
+                    "title": "Agent Phone Number Id",
+                    "type": "string"
+                },
+                "to_number": {
+                    "title": "To Number",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "agent_id",
+                "agent_phone_number_id",
+                "to_number"
+            ],
+            "title": "make_outbound_callArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_voice_library",
+        "description": "Search for a voice across the entire ElevenLabs voice library.\n\n    Args:\n        page: Page number to return (0-indexed)\n        page_size: Number of voices to return per page (1-100)\n        search: Search term to filter voices by\n\n    Returns:\n        TextContent containing information about the shared voices\n    ",
+        "parameters": {
+            "properties": {
+                "page": {
+                    "default": 0,
+                    "title": "Page",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "default": 10,
+                    "title": "Page Size",
+                    "type": "integer"
+                },
+                "search": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Search"
+                }
+            },
+            "title": "search_voice_libraryArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_phone_numbers",
+        "description": "List all phone numbers associated with the ElevenLabs account",
+        "parameters": {
+            "properties": {},
+            "title": "list_phone_numbersArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "play_audio",
+        "description": "Play an audio file. Supports WAV and MP3 formats.",
+        "parameters": {
+            "properties": {
+                "input_file_path": {
+                    "title": "Input File Path",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "input_file_path"
+            ],
+            "title": "play_audioArguments",
+            "type": "object"
+        }
+    }
+]

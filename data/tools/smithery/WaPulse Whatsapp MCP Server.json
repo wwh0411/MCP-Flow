@@ -1,0 +1,745 @@
+[
+    {
+        "name": "wapulse-whatsapp-mcp_send_whatsapp_message",
+        "description": "Send a WhatsApp message to a specific phone number or group using WaPulse API",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "to": {
+                    "type": "string",
+                    "pattern": "^\\d{1,4}\\d{6,15}$"
+                },
+                "message": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4096
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "user",
+                        "group"
+                    ],
+                    "default": "user"
+                },
+                "customToken": {
+                    "type": "string"
+                },
+                "customInstanceID": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "to",
+                "message"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "wapulse-whatsapp-mcp_send_whatsapp_files",
+        "description": "Send files (images, documents, etc.) to a specific phone number or group using WaPulse API",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "to": {
+                    "type": "string",
+                    "pattern": "^\\d{1,4}\\d{6,15}$"
+                },
+                "files": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "file": {
+                                "type": "string"
+                            },
+                            "filename": {
+                                "type": "string"
+                            },
+                            "caption": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "file",
+                            "filename"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "minItems": 1,
+                    "maxItems": 10
+                },
+                "customToken": {
+                    "type": "string"
+                },
+                "customInstanceID": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "to",
+                "files"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "wapulse-whatsapp-mcp_send_whatsapp_audio",
+        "description": "Send audio messages (voice notes, music, etc.) to a specific phone number or group using WaPulse API",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "to": {
+                    "type": "string",
+                    "pattern": "^\\d{1,4}\\d{6,15}$"
+                },
+                "audio": {
+                    "type": "object",
+                    "properties": {
+                        "file": {
+                            "type": "string"
+                        },
+                        "filename": {
+                            "type": "string"
+                        },
+                        "caption": {
+                            "type": "string"
+                        },
+                        "isVoiceNote": {
+                            "type": "boolean",
+                            "default": false
+                        }
+                    },
+                    "required": [
+                        "file",
+                        "filename"
+                    ],
+                    "additionalProperties": false
+                },
+                "customToken": {
+                    "type": "string"
+                },
+                "customInstanceID": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "to",
+                "audio"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "wapulse-whatsapp-mcp_load_chat_messages",
+        "description": "Retrieve all messages from a specific chat or conversation using WaPulse API",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "user",
+                        "group"
+                    ]
+                },
+                "until": {
+                    "type": "string"
+                },
+                "customToken": {
+                    "type": "string"
+                },
+                "customInstanceID": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id",
+                "type"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "wapulse-whatsapp-mcp_check_id_exists",
+        "description": "Check if a specific user or group ID exists in WhatsApp using WaPulse API",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "value": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "user",
+                        "group"
+                    ]
+                },
+                "customToken": {
+                    "type": "string"
+                },
+                "customInstanceID": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "value",
+                "type"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "wapulse-whatsapp-mcp_validate_phone_number",
+        "description": "Validate if a phone number is in the correct format for WaPulse API",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "phoneNumber": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "phoneNumber"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "wapulse-whatsapp-mcp_get_all_chats",
+        "description": "Get all WhatsApp chats (individual and group conversations) for an instance using WaPulse API",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "customToken": {
+                    "type": "string"
+                },
+                "customInstanceID": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "wapulse-whatsapp-mcp_get_wapulse_documentation",
+        "description": "Fetch and search WaPulse API documentation from the official website",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "section": {
+                    "type": "string",
+                    "enum": [
+                        "overview",
+                        "authentication",
+                        "messaging",
+                        "groups",
+                        "instances",
+                        "webhooks",
+                        "errors",
+                        "rate-limits",
+                        "examples"
+                    ]
+                },
+                "search": {
+                    "type": "string",
+                    "minLength": 2,
+                    "maxLength": 100
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "wapulse-whatsapp-mcp_create_whatsapp_group",
+        "description": "Create a new WhatsApp group with specified participants",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                },
+                "participants": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "pattern": "^\\d{1,4}\\d{6,15}$"
+                    },
+                    "minItems": 1,
+                    "maxItems": 256
+                },
+                "customToken": {
+                    "type": "string"
+                },
+                "customInstanceID": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "participants"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "wapulse-whatsapp-mcp_add_group_participants",
+        "description": "Add new participants to an existing WhatsApp group",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "customToken": {
+                    "type": "string"
+                },
+                "customInstanceID": {
+                    "type": "string"
+                },
+                "participants": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "pattern": "^\\d{1,4}\\d{6,15}$"
+                    },
+                    "minItems": 1,
+                    "maxItems": 50
+                }
+            },
+            "required": [
+                "id",
+                "participants"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "wapulse-whatsapp-mcp_remove_group_participants",
+        "description": "Remove participants from an existing WhatsApp group",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "customToken": {
+                    "type": "string"
+                },
+                "customInstanceID": {
+                    "type": "string"
+                },
+                "participants": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "pattern": "^\\d{1,4}\\d{6,15}$"
+                    },
+                    "minItems": 1,
+                    "maxItems": 50
+                }
+            },
+            "required": [
+                "id",
+                "participants"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "wapulse-whatsapp-mcp_promote_group_participants",
+        "description": "Promote participants to admin status in a WhatsApp group",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "customToken": {
+                    "type": "string"
+                },
+                "customInstanceID": {
+                    "type": "string"
+                },
+                "participants": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "pattern": "^\\d{1,4}\\d{6,15}$"
+                    },
+                    "minItems": 1,
+                    "maxItems": 20
+                }
+            },
+            "required": [
+                "id",
+                "participants"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "wapulse-whatsapp-mcp_demote_group_participants",
+        "description": "Demote participants from admin status in a WhatsApp group",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "customToken": {
+                    "type": "string"
+                },
+                "customInstanceID": {
+                    "type": "string"
+                },
+                "participants": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "pattern": "^\\d{1,4}\\d{6,15}$"
+                    },
+                    "minItems": 1,
+                    "maxItems": 20
+                }
+            },
+            "required": [
+                "id",
+                "participants"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "wapulse-whatsapp-mcp_leave_whatsapp_group",
+        "description": "Leave a WhatsApp group",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "customToken": {
+                    "type": "string"
+                },
+                "customInstanceID": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "wapulse-whatsapp-mcp_get_group_invite_link",
+        "description": "Get the invite link for a WhatsApp group",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "customToken": {
+                    "type": "string"
+                },
+                "customInstanceID": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "wapulse-whatsapp-mcp_change_group_invite_code",
+        "description": "Change the invite code for a WhatsApp group, generating a new invite link",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "customToken": {
+                    "type": "string"
+                },
+                "customInstanceID": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "wapulse-whatsapp-mcp_get_group_requests",
+        "description": "Get pending join requests for a WhatsApp group",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "customToken": {
+                    "type": "string"
+                },
+                "customInstanceID": {
+                    "type": "string"
+                },
+                "numbers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "pattern": "^\\d{1,4}\\d{6,15}$"
+                    },
+                    "minItems": 1,
+                    "maxItems": 20
+                }
+            },
+            "required": [
+                "id",
+                "numbers"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "wapulse-whatsapp-mcp_reject_group_request",
+        "description": "Reject pending join requests for a WhatsApp group",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "customToken": {
+                    "type": "string"
+                },
+                "customInstanceID": {
+                    "type": "string"
+                },
+                "numbers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "pattern": "^\\d{1,4}\\d{6,15}$"
+                    },
+                    "minItems": 1,
+                    "maxItems": 20
+                }
+            },
+            "required": [
+                "id",
+                "numbers"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "wapulse-whatsapp-mcp_approve_group_request",
+        "description": "Approve pending join requests for a WhatsApp group",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "customToken": {
+                    "type": "string"
+                },
+                "customInstanceID": {
+                    "type": "string"
+                },
+                "numbers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "pattern": "^\\d{1,4}\\d{6,15}$"
+                    },
+                    "minItems": 1,
+                    "maxItems": 20
+                }
+            },
+            "required": [
+                "id",
+                "numbers"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "wapulse-whatsapp-mcp_get_all_groups",
+        "description": "Get all WhatsApp groups for an instance",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "customToken": {
+                    "type": "string"
+                },
+                "customInstanceID": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "wapulse-whatsapp-mcp_create_instance",
+        "description": "Create a new WhatsApp instance",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "token": {
+                    "type": "string",
+                    "minLength": 1
+                }
+            },
+            "required": [
+                "token"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "wapulse-whatsapp-mcp_get_qr_code",
+        "description": "Get QR code for WhatsApp Web connection",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "token": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "instanceID": {
+                    "type": "string",
+                    "minLength": 1
+                }
+            },
+            "required": [
+                "token",
+                "instanceID"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "wapulse-whatsapp-mcp_start_instance",
+        "description": "Start a WhatsApp instance to begin receiving and sending messages",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "token": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "instanceID": {
+                    "type": "string",
+                    "minLength": 1
+                }
+            },
+            "required": [
+                "token",
+                "instanceID"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "wapulse-whatsapp-mcp_stop_instance",
+        "description": "Stop a running WhatsApp instance",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "token": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "instanceID": {
+                    "type": "string",
+                    "minLength": 1
+                }
+            },
+            "required": [
+                "token",
+                "instanceID"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "wapulse-whatsapp-mcp_delete_instance",
+        "description": "Permanently delete a WhatsApp instance",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "token": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "instanceID": {
+                    "type": "string",
+                    "minLength": 1
+                }
+            },
+            "required": [
+                "token",
+                "instanceID"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

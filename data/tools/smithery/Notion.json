@@ -1,0 +1,935 @@
+[
+    {
+        "name": "notion-mcp-server_API-get-user",
+        "description": "Notion | Retrieve a user",
+        "parameters": {
+            "$defs": {},
+            "type": "object",
+            "properties": {
+                "user_id": {
+                    "type": "string",
+                    "format": "uuid"
+                }
+            },
+            "required": [
+                "user_id"
+            ]
+        }
+    },
+    {
+        "name": "notion-mcp-server_API-get-users",
+        "description": "Notion | List all users",
+        "parameters": {
+            "$defs": {},
+            "type": "object",
+            "properties": {
+                "start_cursor": {
+                    "type": "string",
+                    "description": "If supplied, this endpoint will return a page of results starting after the cursor provided. If not supplied, this endpoint will return the first page of results."
+                },
+                "page_size": {
+                    "type": "integer",
+                    "default": 100,
+                    "description": "The number of items from the full list desired in the response. Maximum: 100"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "notion-mcp-server_API-get-self",
+        "description": "Notion | Retrieve your token's bot user",
+        "parameters": {
+            "$defs": {},
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    },
+    {
+        "name": "notion-mcp-server_API-post-database-query",
+        "description": "Notion | Query a database",
+        "parameters": {
+            "$defs": {},
+            "type": "object",
+            "properties": {
+                "database_id": {
+                    "type": "string",
+                    "description": "Identifier for a Notion database."
+                },
+                "filter_properties": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "A list of page property value IDs associated with the database. Use this param to limit the response to a specific page property value or values for pages that meet the `filter` criteria."
+                },
+                "filter": {
+                    "type": "object",
+                    "description": "When supplied, limits which pages are returned based on the [filter conditions](ref:post-database-query-filter).",
+                    "additionalProperties": true
+                },
+                "sorts": {
+                    "type": "array",
+                    "description": "When supplied, orders the results based on the provided [sort criteria](ref:post-database-query-sort).",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "property": {
+                                "type": "string"
+                            },
+                            "direction": {
+                                "type": "string",
+                                "enum": [
+                                    "ascending",
+                                    "descending"
+                                ]
+                            }
+                        },
+                        "required": [
+                            "property",
+                            "direction"
+                        ],
+                        "additionalProperties": true
+                    }
+                },
+                "start_cursor": {
+                    "type": "string",
+                    "description": "When supplied, returns a page of results starting after the cursor provided. If not supplied, this endpoint will return the first page of results."
+                },
+                "page_size": {
+                    "type": "integer",
+                    "description": "The number of items from the full list desired in the response. Maximum: 100",
+                    "default": 100
+                },
+                "archived": {
+                    "type": "boolean"
+                },
+                "in_trash": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "database_id"
+            ]
+        }
+    },
+    {
+        "name": "notion-mcp-server_API-post-search",
+        "description": "Notion | Search by title",
+        "parameters": {
+            "$defs": {},
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "The text that the API compares page and database titles against."
+                },
+                "sort": {
+                    "type": "object",
+                    "description": "A set of criteria, `direction` and `timestamp` keys, that orders the results. The **only** supported timestamp value is `\"last_edited_time\"`. Supported `direction` values are `\"ascending\"` and `\"descending\"`. If `sort` is not provided, then the most recently edited results are returned first.",
+                    "properties": {
+                        "direction": {
+                            "type": "string",
+                            "description": "The direction to sort. Possible values include `ascending` and `descending`."
+                        },
+                        "timestamp": {
+                            "type": "string",
+                            "description": "The name of the timestamp to sort against. Possible values include `last_edited_time`."
+                        }
+                    },
+                    "additionalProperties": true
+                },
+                "filter": {
+                    "type": "object",
+                    "description": "A set of criteria, `value` and `property` keys, that limits the results to either only pages or only databases. Possible `value` values are `\"page\"` or `\"database\"`. The only supported `property` value is `\"object\"`.",
+                    "properties": {
+                        "value": {
+                            "type": "string",
+                            "description": "The value of the property to filter the results by.  Possible values for object type include `page` or `database`.  **Limitation**: Currently the only filter allowed is `object` which will filter by type of object (either `page` or `database`)"
+                        },
+                        "property": {
+                            "type": "string",
+                            "description": "The name of the property to filter by. Currently the only property you can filter by is the object type.  Possible values include `object`.   Limitation: Currently the only filter allowed is `object` which will filter by type of object (either `page` or `database`)"
+                        }
+                    },
+                    "additionalProperties": true
+                },
+                "start_cursor": {
+                    "type": "string",
+                    "description": "A `cursor` value returned in a previous response that If supplied, limits the response to results starting after the `cursor`. If not supplied, then the first page of results is returned. Refer to [pagination](https://developers.notion.com/reference/intro#pagination) for more details."
+                },
+                "page_size": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The number of items from the full list to include in the response. Maximum: `100`.",
+                    "default": 100
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "notion-mcp-server_API-get-block-children",
+        "description": "Notion | Retrieve block children",
+        "parameters": {
+            "$defs": {},
+            "type": "object",
+            "properties": {
+                "block_id": {
+                    "type": "string",
+                    "description": "Identifier for a [block](ref:block)"
+                },
+                "start_cursor": {
+                    "type": "string",
+                    "description": "If supplied, this endpoint will return a page of results starting after the cursor provided. If not supplied, this endpoint will return the first page of results."
+                },
+                "page_size": {
+                    "type": "integer",
+                    "format": "int32",
+                    "default": 100,
+                    "description": "The number of items from the full list desired in the response. Maximum: 100"
+                }
+            },
+            "required": [
+                "block_id"
+            ]
+        }
+    },
+    {
+        "name": "notion-mcp-server_API-patch-block-children",
+        "description": "Notion | Append block children",
+        "parameters": {
+            "$defs": {},
+            "type": "object",
+            "properties": {
+                "block_id": {
+                    "type": "string",
+                    "description": "Identifier for a [block](ref:block). Also accepts a [page](ref:page) ID."
+                },
+                "children": {
+                    "type": "array",
+                    "description": "Child content to append to a container block as an array of [block objects](ref:block)",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "paragraph": {
+                                "type": "object",
+                                "properties": {
+                                    "rich_text": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "text": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "content": {
+                                                            "type": "string"
+                                                        },
+                                                        "link": {
+                                                            "type": [
+                                                                "object",
+                                                                "null"
+                                                            ]
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "content"
+                                                    ],
+                                                    "additionalProperties": false
+                                                },
+                                                "type": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "text"
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "text"
+                                            ],
+                                            "additionalProperties": false
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "rich_text"
+                                ],
+                                "additionalProperties": false
+                            },
+                            "bulleted_list_item": {
+                                "type": "object",
+                                "properties": {
+                                    "rich_text": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "text": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "content": {
+                                                            "type": "string"
+                                                        },
+                                                        "link": {
+                                                            "type": [
+                                                                "object",
+                                                                "null"
+                                                            ]
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "content"
+                                                    ],
+                                                    "additionalProperties": false
+                                                },
+                                                "type": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "text"
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "text"
+                                            ],
+                                            "additionalProperties": false
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "rich_text"
+                                ],
+                                "additionalProperties": false
+                            },
+                            "type": {
+                                "type": "string",
+                                "enum": [
+                                    "paragraph",
+                                    "bulleted_list_item"
+                                ]
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                },
+                "after": {
+                    "type": "string",
+                    "description": "The ID of the existing block that the new block should be appended after."
+                }
+            },
+            "required": [
+                "block_id",
+                "children"
+            ]
+        }
+    },
+    {
+        "name": "notion-mcp-server_API-retrieve-a-block",
+        "description": "Notion | Retrieve a block",
+        "parameters": {
+            "$defs": {},
+            "type": "object",
+            "properties": {
+                "block_id": {
+                    "type": "string",
+                    "description": "Identifier for a Notion block"
+                }
+            },
+            "required": [
+                "block_id"
+            ]
+        }
+    },
+    {
+        "name": "notion-mcp-server_API-update-a-block",
+        "description": "Notion | Update a block",
+        "parameters": {
+            "$defs": {},
+            "type": "object",
+            "properties": {
+                "block_id": {
+                    "type": "string",
+                    "description": "Identifier for a Notion block"
+                },
+                "type": {
+                    "type": "object",
+                    "description": "The [block object `type`](ref:block#block-object-keys) value with the properties to be updated. Currently only `text` (for supported block types) and `checked` (for `to_do` blocks) fields can be updated.",
+                    "properties": {},
+                    "additionalProperties": true
+                },
+                "archived": {
+                    "type": "boolean",
+                    "description": "Set to true to archive (delete) a block. Set to false to un-archive (restore) a block.",
+                    "default": true
+                }
+            },
+            "required": [
+                "block_id"
+            ]
+        }
+    },
+    {
+        "name": "notion-mcp-server_API-delete-a-block",
+        "description": "Notion | Delete a block",
+        "parameters": {
+            "$defs": {},
+            "type": "object",
+            "properties": {
+                "block_id": {
+                    "type": "string",
+                    "description": "Identifier for a Notion block"
+                }
+            },
+            "required": [
+                "block_id"
+            ]
+        }
+    },
+    {
+        "name": "notion-mcp-server_API-retrieve-a-page",
+        "description": "Notion | Retrieve a page",
+        "parameters": {
+            "$defs": {},
+            "type": "object",
+            "properties": {
+                "page_id": {
+                    "type": "string",
+                    "description": "Identifier for a Notion page"
+                },
+                "filter_properties": {
+                    "type": "string",
+                    "description": "A list of page property value IDs associated with the page. Use this param to limit the response to a specific page property value or values. To retrieve multiple properties, specify each page property ID. For example: `?filter_properties=iAk8&filter_properties=b7dh`."
+                }
+            },
+            "required": [
+                "page_id"
+            ]
+        }
+    },
+    {
+        "name": "notion-mcp-server_API-patch-page",
+        "description": "Notion | Update page properties",
+        "parameters": {
+            "$defs": {},
+            "type": "object",
+            "properties": {
+                "page_id": {
+                    "type": "string",
+                    "description": "The identifier for the Notion page to be updated."
+                },
+                "properties": {
+                    "type": "object",
+                    "description": "The property values to update for the page. The keys are the names or IDs of the property and the values are property values. If a page property ID is not included, then it is not changed.",
+                    "properties": {
+                        "title": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "text": {
+                                        "type": "object",
+                                        "properties": {
+                                            "content": {
+                                                "type": "string"
+                                            },
+                                            "link": {
+                                                "type": [
+                                                    "object",
+                                                    "null"
+                                                ]
+                                            }
+                                        },
+                                        "required": [
+                                            "content"
+                                        ],
+                                        "additionalProperties": false
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "text"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "text"
+                                ],
+                                "additionalProperties": false
+                            }
+                        },
+                        "type": {
+                            "type": "string",
+                            "enum": [
+                                "title"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "title"
+                    ],
+                    "additionalProperties": false
+                },
+                "in_trash": {
+                    "type": "boolean",
+                    "description": "Set to true to delete a block. Set to false to restore a block.",
+                    "default": false
+                },
+                "archived": {
+                    "type": "boolean"
+                },
+                "icon": {
+                    "type": "object",
+                    "description": "A page icon for the page. Supported types are [external file object](https://developers.notion.com/reference/file-object) or [emoji object](https://developers.notion.com/reference/emoji-object).",
+                    "properties": {
+                        "emoji": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "emoji"
+                    ],
+                    "additionalProperties": false
+                },
+                "cover": {
+                    "type": "object",
+                    "description": "A cover image for the page. Only [external file objects](https://developers.notion.com/reference/file-object) are supported.",
+                    "properties": {
+                        "external": {
+                            "type": "object",
+                            "properties": {
+                                "url": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "url"
+                            ],
+                            "additionalProperties": false
+                        },
+                        "type": {
+                            "type": "string",
+                            "enum": [
+                                "external"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "external"
+                    ],
+                    "additionalProperties": false
+                }
+            },
+            "required": [
+                "page_id"
+            ]
+        }
+    },
+    {
+        "name": "notion-mcp-server_API-post-page",
+        "description": "Notion | Create a page",
+        "parameters": {
+            "$defs": {},
+            "type": "object",
+            "properties": {
+                "parent": {
+                    "type": "object",
+                    "properties": {
+                        "page_id": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    "required": [
+                        "page_id"
+                    ],
+                    "additionalProperties": true
+                },
+                "properties": {
+                    "type": "object",
+                    "properties": {
+                        "title": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "text": {
+                                        "type": "object",
+                                        "properties": {
+                                            "content": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "content"
+                                        ],
+                                        "additionalProperties": true
+                                    }
+                                },
+                                "required": [
+                                    "text"
+                                ],
+                                "additionalProperties": true
+                            }
+                        },
+                        "type": {
+                            "type": "string",
+                            "enum": [
+                                "title"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "title"
+                    ],
+                    "additionalProperties": false
+                },
+                "children": {
+                    "type": "array",
+                    "description": "The content to be rendered on the new page, represented as an array of [block objects](https://developers.notion.com/reference/block).",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "icon": {
+                    "type": "string",
+                    "format": "json",
+                    "description": "The icon of the new page. Either an [emoji object](https://developers.notion.com/reference/emoji-object) or an [external file object](https://developers.notion.com/reference/file-object).."
+                },
+                "cover": {
+                    "type": "string",
+                    "format": "json",
+                    "description": "The cover image of the new page, represented as a [file object](https://developers.notion.com/reference/file-object)."
+                }
+            },
+            "required": [
+                "parent",
+                "properties"
+            ]
+        }
+    },
+    {
+        "name": "notion-mcp-server_API-create-a-database",
+        "description": "Notion | Create a database",
+        "parameters": {
+            "$defs": {},
+            "type": "object",
+            "properties": {
+                "parent": {
+                    "type": "object",
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "enum": [
+                                "page_id"
+                            ]
+                        },
+                        "page_id": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    "required": [
+                        "type",
+                        "page_id"
+                    ],
+                    "additionalProperties": true
+                },
+                "properties": {
+                    "type": "object",
+                    "description": "Property schema of database. The keys are the names of properties as they appear in Notion and the values are [property schema objects](https://developers.notion.com/reference/property-schema-object).",
+                    "additionalProperties": {
+                        "oneOf": [
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "title": {
+                                        "type": "object",
+                                        "properties": {},
+                                        "additionalProperties": false
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "title"
+                                ],
+                                "additionalProperties": false
+                            }
+                        ]
+                    }
+                },
+                "title": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "text": {
+                                "type": "object",
+                                "properties": {
+                                    "content": {
+                                        "type": "string"
+                                    },
+                                    "link": {
+                                        "type": [
+                                            "object",
+                                            "null"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "content"
+                                ],
+                                "additionalProperties": false
+                            },
+                            "type": {
+                                "type": "string",
+                                "enum": [
+                                    "text"
+                                ]
+                            }
+                        },
+                        "required": [
+                            "text"
+                        ],
+                        "additionalProperties": false
+                    }
+                }
+            },
+            "required": [
+                "parent",
+                "properties"
+            ]
+        }
+    },
+    {
+        "name": "notion-mcp-server_API-update-a-database",
+        "description": "Notion | Update a database",
+        "parameters": {
+            "$defs": {},
+            "type": "object",
+            "properties": {
+                "database_id": {
+                    "type": "string",
+                    "description": "identifier for a Notion database"
+                },
+                "title": {
+                    "type": "array",
+                    "description": "An array of [rich text objects](https://developers.notion.com/reference/rich-text) that represents the title of the database that is displayed in the Notion UI. If omitted, then the database title remains unchanged.",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "text": {
+                                "type": "object",
+                                "properties": {
+                                    "content": {
+                                        "type": "string"
+                                    },
+                                    "link": {
+                                        "type": [
+                                            "object",
+                                            "null"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "content"
+                                ],
+                                "additionalProperties": false
+                            },
+                            "type": {
+                                "type": "string",
+                                "enum": [
+                                    "text"
+                                ]
+                            }
+                        },
+                        "required": [
+                            "text"
+                        ],
+                        "additionalProperties": false
+                    }
+                },
+                "description": {
+                    "type": "array",
+                    "description": "An array of [rich text objects](https://developers.notion.com/reference/rich-text) that represents the description of the database that is displayed in the Notion UI. If omitted, then the database description remains unchanged.",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "text": {
+                                "type": "object",
+                                "properties": {
+                                    "content": {
+                                        "type": "string"
+                                    },
+                                    "link": {
+                                        "type": [
+                                            "object",
+                                            "null"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "content"
+                                ],
+                                "additionalProperties": false
+                            },
+                            "type": {
+                                "type": "string",
+                                "enum": [
+                                    "text"
+                                ]
+                            }
+                        },
+                        "required": [
+                            "text"
+                        ],
+                        "additionalProperties": false
+                    }
+                },
+                "properties": {
+                    "type": "object",
+                    "description": "Property schema of database. The keys are the names of properties as they appear in Notion and the values are [property schema objects](https://developers.notion.com/reference/property-schema-object).",
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        }
+                    },
+                    "additionalProperties": true
+                }
+            },
+            "required": [
+                "database_id"
+            ]
+        }
+    },
+    {
+        "name": "notion-mcp-server_API-retrieve-a-database",
+        "description": "Notion | Retrieve a database",
+        "parameters": {
+            "$defs": {},
+            "type": "object",
+            "properties": {
+                "database_id": {
+                    "type": "string",
+                    "description": "An identifier for the Notion database."
+                }
+            },
+            "required": [
+                "database_id"
+            ]
+        }
+    },
+    {
+        "name": "notion-mcp-server_API-retrieve-a-page-property",
+        "description": "Notion | Retrieve a page property item",
+        "parameters": {
+            "$defs": {},
+            "type": "object",
+            "properties": {
+                "page_id": {
+                    "type": "string",
+                    "description": "Identifier for a Notion page"
+                },
+                "property_id": {
+                    "type": "string",
+                    "description": "Identifier for a page [property](https://developers.notion.com/reference/page#all-property-values)"
+                },
+                "page_size": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "For paginated properties. The max number of property item objects on a page. The default size is 100"
+                },
+                "start_cursor": {
+                    "type": "string",
+                    "description": "For paginated properties."
+                }
+            },
+            "required": [
+                "page_id",
+                "property_id"
+            ]
+        }
+    },
+    {
+        "name": "notion-mcp-server_API-retrieve-a-comment",
+        "description": "Notion | Retrieve comments",
+        "parameters": {
+            "$defs": {},
+            "type": "object",
+            "properties": {
+                "block_id": {
+                    "type": "string",
+                    "description": "Identifier for a Notion block or page"
+                },
+                "start_cursor": {
+                    "type": "string",
+                    "description": "If supplied, this endpoint will return a page of results starting after the cursor provided. If not supplied, this endpoint will return the first page of results."
+                },
+                "page_size": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The number of items from the full list desired in the response. Maximum: 100"
+                }
+            },
+            "required": [
+                "block_id"
+            ]
+        }
+    },
+    {
+        "name": "notion-mcp-server_API-create-a-comment",
+        "description": "Notion | Create comment",
+        "parameters": {
+            "$defs": {},
+            "type": "object",
+            "properties": {
+                "parent": {
+                    "type": "object",
+                    "description": "The page that contains the comment",
+                    "properties": {
+                        "page_id": {
+                            "type": "string",
+                            "description": "the page ID"
+                        }
+                    },
+                    "required": [
+                        "page_id"
+                    ],
+                    "additionalProperties": true
+                },
+                "rich_text": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "text": {
+                                "type": "object",
+                                "properties": {
+                                    "content": {
+                                        "type": "string",
+                                        "description": "The content of the comment"
+                                    }
+                                },
+                                "required": [
+                                    "content"
+                                ],
+                                "additionalProperties": true
+                            }
+                        },
+                        "required": [
+                            "text"
+                        ],
+                        "additionalProperties": true
+                    }
+                }
+            },
+            "required": [
+                "parent",
+                "rich_text"
+            ]
+        }
+    }
+]

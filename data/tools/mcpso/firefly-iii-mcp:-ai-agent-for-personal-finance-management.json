@@ -1,0 +1,2522 @@
+[
+    {
+        "name": "firefly-iii_list_transaction_by_account",
+        "description": "This endpoint returns a list of all the transactions connected to the account.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 10,
+                    "description": "Number of items per page. The default pagination is per 50 items."
+                },
+                "page": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 1,
+                    "description": "Page number. The default pagination is per 50 items."
+                },
+                "id": {
+                    "type": "string",
+                    "example": "123",
+                    "description": "The ID of the account."
+                },
+                "start": {
+                    "type": "string",
+                    "example": "2018-09-17",
+                    "description": "A date formatted YYYY-MM-DD.\n"
+                },
+                "end": {
+                    "type": "string",
+                    "example": "2018-09-17",
+                    "description": "A date formatted YYYY-MM-DD.\n"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "all",
+                        "withdrawal",
+                        "withdrawals",
+                        "expense",
+                        "deposit",
+                        "deposits",
+                        "income",
+                        "transfer",
+                        "transfers",
+                        "opening_balance",
+                        "reconciliation",
+                        "special",
+                        "specials",
+                        "default"
+                    ],
+                    "description": "Optional filter on the transaction type(s) returned."
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_list_attachment_by_account",
+        "description": "Lists all attachments.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 10,
+                    "description": "Number of items per page. The default pagination is per 50 items."
+                },
+                "page": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 1,
+                    "description": "Page number. The default pagination is per 50 items."
+                },
+                "id": {
+                    "type": "string",
+                    "example": "123",
+                    "description": "The ID of the account."
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_list_piggy_bank_by_account",
+        "description": "This endpoint returns a list of all the piggy banks connected to the account.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 10,
+                    "description": "Number of items per page. The default pagination is per 50 items."
+                },
+                "page": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 1,
+                    "description": "Page number. The default pagination is per 50 items."
+                },
+                "id": {
+                    "type": "string",
+                    "example": "123",
+                    "description": "The ID of the account."
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_list_account",
+        "description": "This endpoint returns a list of all the accounts owned by the authenticated user.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 10,
+                    "description": "Number of items per page. The default pagination is per 50 items."
+                },
+                "page": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 1,
+                    "description": "Page number. The default pagination is per 50 items."
+                },
+                "date": {
+                    "type": "string",
+                    "description": "A date formatted YYYY-MM-DD. When added to the request, Firefly III will show the account's balance on that day.\n"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "all",
+                        "asset",
+                        "cash",
+                        "expense",
+                        "revenue",
+                        "special",
+                        "hidden",
+                        "liability",
+                        "liabilities",
+                        "Default account",
+                        "Cash account",
+                        "Asset account",
+                        "Expense account",
+                        "Revenue account",
+                        "Initial balance account",
+                        "Beneficiary account",
+                        "Import account",
+                        "Reconciliation account",
+                        "Loan",
+                        "Debt",
+                        "Mortgage"
+                    ],
+                    "description": "The type of accounts you wish to limit the search to."
+                }
+            }
+        }
+    },
+    {
+        "name": "firefly-iii_store_account",
+        "description": "Creates a new account. The data required can be submitted as a JSON body or as a list of parameters (in key=value pairs, like a webform).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "requestBody": {
+                    "type": "object",
+                    "required": [
+                        "name",
+                        "type"
+                    ],
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "example": "My checking account"
+                        },
+                        "type": {
+                            "type": "string",
+                            "example": "asset",
+                            "description": "Can only be one one these account types. import, initial-balance and reconciliation cannot be set manually.",
+                            "enum": [
+                                "asset",
+                                "expense",
+                                "import",
+                                "revenue",
+                                "cash",
+                                "liability",
+                                "liabilities",
+                                "initial-balance",
+                                "reconciliation"
+                            ]
+                        },
+                        "iban": {
+                            "type": "string",
+                            "example": "GB98MIDL07009312345678",
+                            "nullable": true
+                        },
+                        "bic": {
+                            "type": "string",
+                            "example": "BOFAUS3N",
+                            "nullable": true
+                        },
+                        "account_number": {
+                            "type": "string",
+                            "nullable": true,
+                            "example": "7009312345678"
+                        },
+                        "opening_balance": {
+                            "type": "string",
+                            "example": "-1012.12",
+                            "description": "Represents the opening balance, the initial amount this account holds."
+                        },
+                        "opening_balance_date": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2018-09-17T12:46:47+01:00",
+                            "nullable": true,
+                            "description": "Represents the date of the opening balance."
+                        },
+                        "virtual_balance": {
+                            "type": "string",
+                            "example": "123.45"
+                        },
+                        "currency_id": {
+                            "type": "string",
+                            "example": "12",
+                            "description": "Use either currency_id or currency_code. Defaults to the user's default currency."
+                        },
+                        "currency_code": {
+                            "type": "string",
+                            "example": "EUR",
+                            "description": "Use either currency_id or currency_code. Defaults to the user's default currency."
+                        },
+                        "active": {
+                            "type": "boolean",
+                            "example": false,
+                            "default": true,
+                            "description": "If omitted, defaults to true."
+                        },
+                        "order": {
+                            "type": "integer",
+                            "format": "int32",
+                            "example": 1,
+                            "description": "Order of the account"
+                        },
+                        "include_net_worth": {
+                            "type": "boolean",
+                            "example": true,
+                            "default": true,
+                            "description": "If omitted, defaults to true."
+                        },
+                        "account_role": {
+                            "type": "string",
+                            "example": "defaultAsset",
+                            "description": "Is only mandatory when the type is asset.",
+                            "nullable": true,
+                            "enum": [
+                                "defaultAsset",
+                                "sharedAsset",
+                                "savingAsset",
+                                "ccAsset",
+                                "cashWalletAsset",
+                                null
+                            ]
+                        },
+                        "credit_card_type": {
+                            "type": "string",
+                            "example": "monthlyFull",
+                            "description": "Mandatory when the account_role is ccAsset. Can only be monthlyFull or null.",
+                            "nullable": true,
+                            "enum": [
+                                "monthlyFull",
+                                null
+                            ]
+                        },
+                        "monthly_payment_date": {
+                            "nullable": true,
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2018-09-17T12:46:47+01:00",
+                            "description": "Mandatory when the account_role is ccAsset. Moment at which CC payment installments are asked for by the bank."
+                        },
+                        "liability_type": {
+                            "type": "string",
+                            "example": "loan",
+                            "description": "Mandatory when type is liability. Specifies the exact type.",
+                            "nullable": true,
+                            "enum": [
+                                "loan",
+                                "debt",
+                                "mortgage",
+                                null
+                            ]
+                        },
+                        "liability_direction": {
+                            "type": "string",
+                            "example": "credit",
+                            "description": "'credit' indicates somebody owes you the liability. 'debit' Indicates you owe this debt yourself. Works only for liabiltiies.",
+                            "nullable": true,
+                            "enum": [
+                                "credit",
+                                "debit",
+                                null
+                            ]
+                        },
+                        "interest": {
+                            "type": "string",
+                            "example": "5.3",
+                            "default": "0",
+                            "description": "Mandatory when type is liability. Interest percentage.",
+                            "nullable": true
+                        },
+                        "interest_period": {
+                            "type": "string",
+                            "example": "monthly",
+                            "description": "Mandatory when type is liability. Period over which the interest is calculated.",
+                            "nullable": true,
+                            "enum": [
+                                "weekly",
+                                "monthly",
+                                "quarterly",
+                                "half-year",
+                                "yearly",
+                                null
+                            ]
+                        },
+                        "notes": {
+                            "type": "string",
+                            "nullable": true,
+                            "example": "Some example notes"
+                        },
+                        "latitude": {
+                            "type": "number",
+                            "format": "double",
+                            "example": 51.983333,
+                            "nullable": true,
+                            "description": "Latitude of the accounts's location, if applicable. Can be used to draw a map."
+                        },
+                        "longitude": {
+                            "type": "number",
+                            "format": "double",
+                            "example": 5.916667,
+                            "nullable": true,
+                            "description": "Latitude of the accounts's location, if applicable. Can be used to draw a map."
+                        },
+                        "zoom_level": {
+                            "type": "integer",
+                            "format": "int32",
+                            "example": 6,
+                            "nullable": true,
+                            "description": "Zoom level for the map, if drawn. This to set the box right. Unfortunately this is a proprietary value because each map provider has different zoom levels."
+                        }
+                    },
+                    "description": "JSON array with the necessary account information or key=value pairs. See the model for the exact specifications."
+                }
+            },
+            "required": [
+                "requestBody"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_get_account",
+        "description": "Returns a single account by its ID.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "123",
+                    "description": "The ID of the account."
+                },
+                "date": {
+                    "type": "string",
+                    "description": "A date formatted YYYY-MM-DD. When added to the request, Firefly III will show the account's balance on that day.\n"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_update_account",
+        "description": "Used to update a single account. All fields that are not submitted will be cleared (set to NULL). The model will tell you which fields are mandatory.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "123",
+                    "description": "The ID of the account."
+                },
+                "requestBody": {
+                    "type": "object",
+                    "required": [
+                        "name"
+                    ],
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "example": "My checking account"
+                        },
+                        "iban": {
+                            "type": "string",
+                            "example": "GB98MIDL07009312345678",
+                            "nullable": true
+                        },
+                        "bic": {
+                            "type": "string",
+                            "example": "BOFAUS3N",
+                            "nullable": true
+                        },
+                        "account_number": {
+                            "type": "string",
+                            "nullable": true,
+                            "example": "7009312345678"
+                        },
+                        "opening_balance": {
+                            "type": "string",
+                            "example": "-1012.12"
+                        },
+                        "opening_balance_date": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2018-09-17T12:46:47+01:00",
+                            "nullable": true
+                        },
+                        "virtual_balance": {
+                            "type": "string",
+                            "example": "123.45"
+                        },
+                        "currency_id": {
+                            "type": "string",
+                            "example": "12",
+                            "description": "Use either currency_id or currency_code. Defaults to the user's default currency."
+                        },
+                        "currency_code": {
+                            "type": "string",
+                            "example": "EUR",
+                            "description": "Use either currency_id or currency_code. Defaults to the user's default currency."
+                        },
+                        "active": {
+                            "type": "boolean",
+                            "example": false,
+                            "default": true,
+                            "description": "If omitted, defaults to true."
+                        },
+                        "order": {
+                            "type": "integer",
+                            "format": "int32",
+                            "example": 1,
+                            "description": "Order of the account"
+                        },
+                        "include_net_worth": {
+                            "type": "boolean",
+                            "example": true,
+                            "default": true,
+                            "description": "If omitted, defaults to true."
+                        },
+                        "account_role": {
+                            "type": "string",
+                            "example": "defaultAsset",
+                            "description": "Is only mandatory when the type is asset.",
+                            "nullable": true,
+                            "enum": [
+                                "defaultAsset",
+                                "sharedAsset",
+                                "savingAsset",
+                                "ccAsset",
+                                "cashWalletAsset",
+                                null
+                            ]
+                        },
+                        "credit_card_type": {
+                            "type": "string",
+                            "example": "monthlyFull",
+                            "description": "Mandatory when the account_role is ccAsset. Can only be monthlyFull or null.",
+                            "nullable": true,
+                            "enum": [
+                                "monthlyFull",
+                                null
+                            ]
+                        },
+                        "monthly_payment_date": {
+                            "nullable": true,
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2018-09-17T12:46:47+01:00",
+                            "description": "Mandatory when the account_role is ccAsset. Moment at which CC payment installments are asked for by the bank."
+                        },
+                        "liability_type": {
+                            "type": "string",
+                            "example": "loan",
+                            "description": "Mandatory when type is liability. Specifies the exact type.",
+                            "nullable": true,
+                            "enum": [
+                                "loan",
+                                "debt",
+                                "mortgage",
+                                null
+                            ]
+                        },
+                        "interest": {
+                            "type": "string",
+                            "example": "5.3",
+                            "description": "Mandatory when type is liability. Interest percentage.",
+                            "nullable": true
+                        },
+                        "interest_period": {
+                            "type": "string",
+                            "example": "monthly",
+                            "description": "Mandatory when type is liability. Period over which the interest is calculated.",
+                            "nullable": true,
+                            "enum": [
+                                "weekly",
+                                "monthly",
+                                "quarterly",
+                                "half-year",
+                                "yearly",
+                                null
+                            ]
+                        },
+                        "notes": {
+                            "type": "string",
+                            "nullable": true,
+                            "example": "Some example notes"
+                        },
+                        "latitude": {
+                            "type": "number",
+                            "format": "double",
+                            "example": 51.983333,
+                            "nullable": true,
+                            "description": "Latitude of the account's location, if applicable. Can be used to draw a map. If omitted, the existing location will be kept. If submitted as NULL, the current location will be removed."
+                        },
+                        "longitude": {
+                            "type": "number",
+                            "format": "double",
+                            "example": 5.916667,
+                            "nullable": true,
+                            "description": "Latitude of the account's location, if applicable. Can be used to draw a map. If omitted, the existing location will be kept. If submitted as NULL, the current location will be removed."
+                        },
+                        "zoom_level": {
+                            "type": "integer",
+                            "format": "int32",
+                            "example": 6,
+                            "nullable": true,
+                            "description": "Zoom level for the map, if drawn. This to set the box right. Unfortunately this is a proprietary value because each map provider has different zoom levels. If omitted, the existing location will be kept. If submitted as NULL, the current location will be removed."
+                        }
+                    },
+                    "description": "JSON array or formdata with updated account information. See the model for the exact specifications."
+                }
+            },
+            "required": [
+                "id",
+                "requestBody"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_delete_account",
+        "description": "Will permanently delete an account. Any associated transactions and piggy banks are ALSO deleted. Cannot be recovered from.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "123",
+                    "description": "The ID of the account."
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_list_attachment_by_bill",
+        "description": "This endpoint will list all attachments linked to the bill.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 10,
+                    "description": "Number of items per page. The default pagination is per 50 items."
+                },
+                "page": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 1,
+                    "description": "Page number. The default pagination is per 50 items."
+                },
+                "id": {
+                    "type": "string",
+                    "example": "123",
+                    "description": "The ID of the bill."
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_list_rule_by_bill",
+        "description": "This endpoint will list all rules that have an action to set the bill to this bill.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "123",
+                    "description": "The ID of the bill."
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_list_transaction_by_bill",
+        "description": "This endpoint will list all transactions linked to this bill.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 10,
+                    "description": "Number of items per page. The default pagination is per 50 items."
+                },
+                "page": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 1,
+                    "description": "Page number. The default pagination is per 50 items."
+                },
+                "id": {
+                    "type": "string",
+                    "example": "123",
+                    "description": "The ID of the bill."
+                },
+                "start": {
+                    "type": "string",
+                    "example": "2018-09-17",
+                    "description": "A date formatted YYYY-MM-DD.\n"
+                },
+                "end": {
+                    "type": "string",
+                    "example": "2018-12-31",
+                    "description": "A date formatted YYYY-MM-DD.\n"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "all",
+                        "withdrawal",
+                        "withdrawals",
+                        "expense",
+                        "deposit",
+                        "deposits",
+                        "income",
+                        "transfer",
+                        "transfers",
+                        "opening_balance",
+                        "reconciliation",
+                        "special",
+                        "specials",
+                        "default"
+                    ],
+                    "description": "Optional filter on the transaction type(s) returned."
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_list_bill",
+        "description": "This endpoint will list all the user's bills.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 10,
+                    "description": "Number of items per page. The default pagination is per 50 items."
+                },
+                "page": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 1,
+                    "description": "Page number. The default pagination is per 50 items."
+                },
+                "start": {
+                    "type": "string",
+                    "example": "2018-09-17",
+                    "description": "A date formatted YYYY-MM-DD. If it is are added to the request, Firefly III will calculate the appropriate payment and paid dates.\n"
+                },
+                "end": {
+                    "type": "string",
+                    "example": "2018-12-31",
+                    "description": "A date formatted YYYY-MM-DD. If it is added to the request, Firefly III will calculate the appropriate payment and paid dates.\n"
+                }
+            }
+        }
+    },
+    {
+        "name": "firefly-iii_store_bill",
+        "description": "Creates a new bill. The data required can be submitted as a JSON body or as a list of parameters.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "requestBody": {
+                    "type": "object",
+                    "required": [
+                        "name",
+                        "amount_min",
+                        "amount_max",
+                        "date",
+                        "repeat_freq"
+                    ],
+                    "properties": {
+                        "currency_id": {
+                            "type": "string",
+                            "example": "5",
+                            "description": "Use either currency_id or currency_code"
+                        },
+                        "currency_code": {
+                            "type": "string",
+                            "example": "EUR",
+                            "description": "Use either currency_id or currency_code"
+                        },
+                        "name": {
+                            "type": "string",
+                            "example": "Rent"
+                        },
+                        "amount_min": {
+                            "type": "string",
+                            "example": "123.45"
+                        },
+                        "amount_max": {
+                            "type": "string",
+                            "example": "123.45"
+                        },
+                        "date": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2018-09-17T12:46:47+01:00"
+                        },
+                        "end_date": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2018-09-17T12:46:47+01:00",
+                            "description": "The date after which this bill is no longer valid or applicable"
+                        },
+                        "extension_date": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2018-09-17T12:46:47+01:00",
+                            "description": "The date before which the bill must be renewed (or cancelled)"
+                        },
+                        "repeat_freq": {
+                            "type": "string",
+                            "example": "monthly",
+                            "description": "How often the bill must be paid.",
+                            "enum": [
+                                "weekly",
+                                "monthly",
+                                "quarterly",
+                                "half-year",
+                                "yearly"
+                            ]
+                        },
+                        "skip": {
+                            "type": "integer",
+                            "format": "int32",
+                            "example": 0,
+                            "description": "How often the bill must be skipped. 1 means a bi-monthly bill."
+                        },
+                        "active": {
+                            "type": "boolean",
+                            "example": true,
+                            "description": "If the bill is active."
+                        },
+                        "notes": {
+                            "type": "string",
+                            "example": "Some example notes",
+                            "nullable": true
+                        },
+                        "object_group_id": {
+                            "type": "string",
+                            "example": "5",
+                            "nullable": true,
+                            "description": "The group ID of the group this object is part of. NULL if no group."
+                        },
+                        "object_group_title": {
+                            "type": "string",
+                            "example": "Example Group",
+                            "nullable": true,
+                            "description": "The name of the group. NULL if no group."
+                        }
+                    },
+                    "description": "JSON array or key=value pairs with the necessary bill information. See the model for the exact specifications."
+                }
+            },
+            "required": [
+                "requestBody"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_get_bill",
+        "description": "Get a single bill.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "123",
+                    "description": "The ID of the bill."
+                },
+                "start": {
+                    "type": "string",
+                    "example": "2018-09-17",
+                    "description": "A date formatted YYYY-MM-DD. If it is are added to the request, Firefly III will calculate the appropriate payment and paid dates.\n"
+                },
+                "end": {
+                    "type": "string",
+                    "example": "2018-12-31",
+                    "description": "A date formatted YYYY-MM-DD. If it is added to the request, Firefly III will calculate the appropriate payment and paid dates.\n"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_update_bill",
+        "description": "Update existing bill.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "123",
+                    "description": "The ID of the bill."
+                },
+                "requestBody": {
+                    "type": "object",
+                    "required": [
+                        "name"
+                    ],
+                    "properties": {
+                        "currency_id": {
+                            "type": "string",
+                            "example": "5",
+                            "description": "Use either currency_id or currency_code"
+                        },
+                        "currency_code": {
+                            "type": "string",
+                            "example": "EUR",
+                            "description": "Use either currency_id or currency_code"
+                        },
+                        "name": {
+                            "type": "string",
+                            "example": "Rent"
+                        },
+                        "amount_min": {
+                            "type": "string",
+                            "example": "123.45"
+                        },
+                        "amount_max": {
+                            "type": "string",
+                            "example": "123.45"
+                        },
+                        "date": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2018-09-17T12:46:47+01:00"
+                        },
+                        "end_date": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2018-09-17T12:46:47+01:00",
+                            "description": "The date after which this bill is no longer valid or applicable"
+                        },
+                        "extension_date": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2018-09-17T12:46:47+01:00",
+                            "description": "The date before which the bill must be renewed (or cancelled)"
+                        },
+                        "repeat_freq": {
+                            "type": "string",
+                            "example": "monthly",
+                            "description": "How often the bill must be paid.",
+                            "enum": [
+                                "weekly",
+                                "monthly",
+                                "quarterly",
+                                "half-year",
+                                "yearly"
+                            ]
+                        },
+                        "skip": {
+                            "type": "integer",
+                            "format": "int32",
+                            "example": 0,
+                            "description": "How often the bill must be skipped. 1 means a bi-monthly bill."
+                        },
+                        "active": {
+                            "type": "boolean",
+                            "example": true,
+                            "description": "If the bill is active."
+                        },
+                        "notes": {
+                            "type": "string",
+                            "example": "Some example notes",
+                            "nullable": true
+                        },
+                        "object_group_id": {
+                            "type": "string",
+                            "example": "5",
+                            "nullable": true,
+                            "description": "The group ID of the group this object is part of. NULL if no group."
+                        },
+                        "object_group_title": {
+                            "type": "string",
+                            "example": "Example Group",
+                            "nullable": true,
+                            "description": "The name of the group. NULL if no group."
+                        }
+                    },
+                    "description": "JSON array or key=value pairs with updated bill information. See the model for the exact specifications."
+                }
+            },
+            "required": [
+                "id",
+                "requestBody"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_delete_bill",
+        "description": "Delete a bill. This will not delete any associated rules. Will not remove associated transactions. WILL remove all associated attachments.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "123",
+                    "description": "The ID of the bill."
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_list_transaction_by_category",
+        "description": "List all transactions in a category, optionally limited to the date ranges specified.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 10,
+                    "description": "Number of items per page. The default pagination is per 50 items."
+                },
+                "page": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 1,
+                    "description": "Page number. The default pagination is per 50 items."
+                },
+                "id": {
+                    "type": "string",
+                    "example": "123",
+                    "description": "The ID of the category."
+                },
+                "start": {
+                    "type": "string",
+                    "example": "2018-09-17",
+                    "description": "A date formatted YYYY-MM-DD, to limit the result list.\n"
+                },
+                "end": {
+                    "type": "string",
+                    "example": "2018-12-31",
+                    "description": "A date formatted YYYY-MM-DD, to limit the result list.\n"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "all",
+                        "withdrawal",
+                        "withdrawals",
+                        "expense",
+                        "deposit",
+                        "deposits",
+                        "income",
+                        "transfer",
+                        "transfers",
+                        "opening_balance",
+                        "reconciliation",
+                        "special",
+                        "specials",
+                        "default"
+                    ],
+                    "description": "Optional filter on the transaction type(s) returned."
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_list_attachment_by_category",
+        "description": "Lists all attachments.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 10,
+                    "description": "Number of items per page. The default pagination is per 50 items."
+                },
+                "page": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 1,
+                    "description": "Page number. The default pagination is per 50 items."
+                },
+                "id": {
+                    "type": "string",
+                    "example": "123",
+                    "description": "The ID of the category."
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_list_category",
+        "description": "List all categories.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 10,
+                    "description": "Number of items per page. The default pagination is per 50 items."
+                },
+                "page": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 1,
+                    "description": "Page number. The default pagination is per 50 items."
+                }
+            }
+        }
+    },
+    {
+        "name": "firefly-iii_store_category",
+        "description": "Creates a new category. The data required can be submitted as a JSON body or as a list of parameters.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "requestBody": {
+                    "type": "object",
+                    "required": [
+                        "name"
+                    ],
+                    "properties": {
+                        "created_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2018-09-17T12:46:47+01:00"
+                        },
+                        "updated_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2018-09-17T12:46:47+01:00"
+                        },
+                        "name": {
+                            "type": "string",
+                            "example": "Lunch"
+                        },
+                        "notes": {
+                            "type": "string",
+                            "nullable": true,
+                            "example": "Some example notes"
+                        },
+                        "native_currency_id": {
+                            "type": "string",
+                            "example": "5",
+                            "description": "The administration's native currency ID."
+                        },
+                        "native_currency_code": {
+                            "type": "string",
+                            "example": "EUR",
+                            "description": "The administration's native currency code."
+                        },
+                        "native_currency_symbol": {
+                            "type": "string",
+                            "example": "$",
+                            "description": "The administration's native currency symbol."
+                        },
+                        "native_currency_decimal_places": {
+                            "type": "integer",
+                            "format": "int32",
+                            "example": 2,
+                            "description": "The administration's native currency decimal places."
+                        },
+                        "spent": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "currency_id": {
+                                        "type": "string",
+                                        "example": "5"
+                                    },
+                                    "currency_code": {
+                                        "type": "string",
+                                        "example": "USD"
+                                    },
+                                    "currency_symbol": {
+                                        "type": "string",
+                                        "example": "$"
+                                    },
+                                    "currency_decimal_places": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 2,
+                                        "description": "Number of decimals supported by the currency"
+                                    },
+                                    "sum": {
+                                        "type": "string",
+                                        "example": "-12423.45",
+                                        "description": "The amount spent."
+                                    }
+                                }
+                            }
+                        },
+                        "earned": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "currency_id": {
+                                        "type": "string",
+                                        "example": "5"
+                                    },
+                                    "currency_code": {
+                                        "type": "string",
+                                        "example": "USD"
+                                    },
+                                    "currency_symbol": {
+                                        "type": "string",
+                                        "example": "$"
+                                    },
+                                    "currency_decimal_places": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 2,
+                                        "description": "Number of decimals supported by the currency"
+                                    },
+                                    "sum": {
+                                        "type": "string",
+                                        "example": "123.45",
+                                        "description": "The amount earned."
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "description": "JSON array or key=value pairs with the necessary category information. See the model for the exact specifications."
+                }
+            },
+            "required": [
+                "requestBody"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_get_category",
+        "description": "Get a single category.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "123",
+                    "description": "The ID of the category."
+                },
+                "start": {
+                    "type": "string",
+                    "example": "2018-09-17",
+                    "description": "A date formatted YYYY-MM-DD, to show spent and earned info.\n"
+                },
+                "end": {
+                    "type": "string",
+                    "example": "2018-12-31",
+                    "description": "A date formatted YYYY-MM-DD, to show spent and earned info.\n"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_update_category",
+        "description": "Update existing category.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "123",
+                    "description": "The ID of the category."
+                },
+                "requestBody": {
+                    "type": "object",
+                    "required": [
+                        "name"
+                    ],
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "example": "Lunch"
+                        },
+                        "notes": {
+                            "type": "string",
+                            "nullable": true,
+                            "example": "Some example notes"
+                        }
+                    },
+                    "description": "JSON array with updated category information. See the model for the exact specifications."
+                }
+            },
+            "required": [
+                "id",
+                "requestBody"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_delete_category",
+        "description": "Delete a category. Transactions will not be removed.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "123",
+                    "description": "The ID of the category."
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_list_attachment_by_tag",
+        "description": "Lists all attachments.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 10,
+                    "description": "Number of items per page. The default pagination is per 50 items."
+                },
+                "page": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 1,
+                    "description": "Page number. The default pagination is per 50 items."
+                },
+                "tag": {
+                    "type": "string",
+                    "example": "groceries",
+                    "description": "Either the tag itself or the tag ID."
+                }
+            },
+            "required": [
+                "tag"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_list_transaction_by_tag",
+        "description": "List all transactions with this tag.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 10,
+                    "description": "Number of items per page. The default pagination is per 50 items."
+                },
+                "page": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 1,
+                    "description": "Page number. The default pagination is per 50 items."
+                },
+                "tag": {
+                    "type": "string",
+                    "example": "groceries",
+                    "description": "Either the tag itself or the tag ID."
+                },
+                "start": {
+                    "type": "string",
+                    "example": "2018-09-17",
+                    "description": "A date formatted YYYY-MM-DD. This is the start date of the selected range (inclusive).\n"
+                },
+                "end": {
+                    "type": "string",
+                    "example": "2018-09-17",
+                    "description": "A date formatted YYYY-MM-DD. This is the end date of the selected range (inclusive).\n"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "all",
+                        "withdrawal",
+                        "withdrawals",
+                        "expense",
+                        "deposit",
+                        "deposits",
+                        "income",
+                        "transfer",
+                        "transfers",
+                        "opening_balance",
+                        "reconciliation",
+                        "special",
+                        "specials",
+                        "default"
+                    ],
+                    "description": "Optional filter on the transaction type(s) returned."
+                }
+            },
+            "required": [
+                "tag"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_list_tag",
+        "description": "List all of the user's tags.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 10,
+                    "description": "Number of items per page. The default pagination is per 50 items."
+                },
+                "page": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 1,
+                    "description": "Page number. The default pagination is per 50 items."
+                }
+            }
+        }
+    },
+    {
+        "name": "firefly-iii_store_tag",
+        "description": "Creates a new tag. The data required can be submitted as a JSON body or as a list of parameters.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "requestBody": {
+                    "title": "A single tag (A)",
+                    "type": "object",
+                    "required": [
+                        "tag"
+                    ],
+                    "properties": {
+                        "tag": {
+                            "type": "string",
+                            "example": "expensive",
+                            "description": "The tag"
+                        },
+                        "date": {
+                            "type": "string",
+                            "example": "2018-09-17",
+                            "description": "The date to which the tag is applicable.",
+                            "nullable": true
+                        },
+                        "description": {
+                            "type": "string",
+                            "example": "Tag for expensive stuff",
+                            "nullable": true
+                        },
+                        "latitude": {
+                            "type": "number",
+                            "format": "double",
+                            "example": 51.983333,
+                            "nullable": true,
+                            "description": "Latitude of the tag's location, if applicable. Can be used to draw a map."
+                        },
+                        "longitude": {
+                            "type": "number",
+                            "format": "double",
+                            "example": 5.916667,
+                            "nullable": true,
+                            "description": "Latitude of the tag's location, if applicable. Can be used to draw a map."
+                        },
+                        "zoom_level": {
+                            "type": "integer",
+                            "format": "int32",
+                            "example": 6,
+                            "nullable": true,
+                            "description": "Zoom level for the map, if drawn. This to set the box right. Unfortunately this is a proprietary value because each map provider has different zoom levels."
+                        }
+                    },
+                    "description": "JSON array or key=value pairs with the necessary tag information. See the model for the exact specifications."
+                }
+            },
+            "required": [
+                "requestBody"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_get_tag",
+        "description": "Get a single tag.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 10,
+                    "description": "Number of items per page. The default pagination is per 50 items."
+                },
+                "page": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 1,
+                    "description": "Page number. The default pagination is per 50 items."
+                },
+                "tag": {
+                    "type": "string",
+                    "example": "groceries",
+                    "description": "Either the tag itself or the tag ID. If you use the tag itself, and it contains international (non-ASCII) characters, your milage may vary."
+                }
+            },
+            "required": [
+                "tag"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_update_tag",
+        "description": "Update existing tag.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "tag": {
+                    "type": "string",
+                    "example": "groceries",
+                    "description": "Either the tag itself or the tag ID. If you use the tag itself, and it contains international (non-ASCII) characters, your milage may vary."
+                },
+                "requestBody": {
+                    "title": "A single tag (B)",
+                    "type": "object",
+                    "properties": {
+                        "tag": {
+                            "type": "string",
+                            "example": "expensive",
+                            "description": "The tag"
+                        },
+                        "date": {
+                            "type": "string",
+                            "example": "2018-09-17",
+                            "description": "The date to which the tag is applicable.",
+                            "nullable": true
+                        },
+                        "description": {
+                            "type": "string",
+                            "example": "Tag for expensive stuff",
+                            "nullable": true
+                        },
+                        "latitude": {
+                            "type": "number",
+                            "format": "double",
+                            "example": 51.983333,
+                            "nullable": true,
+                            "description": "Latitude of the tag's location, if applicable. Can be used to draw a map."
+                        },
+                        "longitude": {
+                            "type": "number",
+                            "format": "double",
+                            "example": 5.916667,
+                            "nullable": true,
+                            "description": "Latitude of the tag's location, if applicable. Can be used to draw a map."
+                        },
+                        "zoom_level": {
+                            "type": "integer",
+                            "format": "int32",
+                            "example": 6,
+                            "nullable": true,
+                            "description": "Zoom level for the map, if drawn. This to set the box right. Unfortunately this is a proprietary value because each map provider has different zoom levels."
+                        }
+                    },
+                    "description": "JSON array with updated tag information. See the model for the exact specifications."
+                }
+            },
+            "required": [
+                "tag",
+                "requestBody"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_delete_tag",
+        "description": "Delete an tag.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "tag": {
+                    "type": "string",
+                    "example": "groceries",
+                    "description": "Either the tag itself or the tag ID. If you use the tag itself, and it contains international (non-ASCII) characters, your milage may vary."
+                }
+            },
+            "required": [
+                "tag"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_list_links_by_journal",
+        "description": "Lists all the transaction links for an individual journal (a split). Don't use the group ID, you need the actual underlying journal (the split).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 10,
+                    "description": "Number of items per page. The default pagination is per 50 items."
+                },
+                "page": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 1,
+                    "description": "Page number. The default pagination is per 50 items."
+                },
+                "id": {
+                    "type": "string",
+                    "example": "123",
+                    "description": "The ID of the transaction journal / the split."
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_get_transaction_by_journal",
+        "description": "Get a single transaction by underlying journal (split).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "123",
+                    "description": "The ID of the transaction journal (split)."
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_delete_transaction_journal",
+        "description": "Delete an individual journal (split) from a transaction.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "123",
+                    "description": "The ID of the transaction journal (the split) you wish to delete."
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_list_attachment_by_transaction",
+        "description": "Lists all attachments.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 10,
+                    "description": "Number of items per page. The default pagination is per 50 items."
+                },
+                "page": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 1,
+                    "description": "Page number. The default pagination is per 50 items."
+                },
+                "id": {
+                    "type": "string",
+                    "example": "123",
+                    "description": "The ID of the transaction."
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_list_event_by_transaction",
+        "description": "Lists all piggy bank events.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 10,
+                    "description": "Number of items per page. The default pagination is per 50 items."
+                },
+                "page": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 1,
+                    "description": "Page number. The default pagination is per 50 items."
+                },
+                "id": {
+                    "type": "string",
+                    "example": "123",
+                    "description": "The ID of the transaction."
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_list_transaction",
+        "description": "List all the user's transactions.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 10,
+                    "description": "Number of items per page. The default pagination is per 50 items."
+                },
+                "page": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 1,
+                    "description": "Page number. The default pagination is per 50 items."
+                },
+                "start": {
+                    "type": "string",
+                    "example": "2018-09-17",
+                    "description": "A date formatted YYYY-MM-DD. This is the start date of the selected range (inclusive).\n"
+                },
+                "end": {
+                    "type": "string",
+                    "example": "2018-09-17",
+                    "description": "A date formatted YYYY-MM-DD. This is the end date of the selected range (inclusive).\n"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "all",
+                        "withdrawal",
+                        "withdrawals",
+                        "expense",
+                        "deposit",
+                        "deposits",
+                        "income",
+                        "transfer",
+                        "transfers",
+                        "opening_balance",
+                        "reconciliation",
+                        "special",
+                        "specials",
+                        "default"
+                    ],
+                    "description": "Optional filter on the transaction type(s) returned."
+                }
+            }
+        }
+    },
+    {
+        "name": "firefly-iii_store_transaction",
+        "description": "Creates a new transaction. The data required can be submitted as a JSON body or as a list of parameters.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "requestBody": {
+                    "type": "object",
+                    "required": [
+                        "transactions"
+                    ],
+                    "properties": {
+                        "error_if_duplicate_hash": {
+                            "type": "boolean",
+                            "example": false,
+                            "description": "Break if the submitted transaction exists already."
+                        },
+                        "apply_rules": {
+                            "type": "boolean",
+                            "example": false,
+                            "description": "Whether or not to apply rules when submitting transaction."
+                        },
+                        "fire_webhooks": {
+                            "type": "boolean",
+                            "example": true,
+                            "default": true,
+                            "description": "Whether or not to fire the webhooks that are related to this event."
+                        },
+                        "group_title": {
+                            "type": "string",
+                            "description": "Title of the transaction if it has been split in more than one piece. Empty otherwise.",
+                            "example": "Split transaction title.",
+                            "nullable": true
+                        },
+                        "transactions": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "required": [
+                                    "amount",
+                                    "date",
+                                    "description",
+                                    "type"
+                                ],
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "example": "withdrawal",
+                                        "enum": [
+                                            "withdrawal",
+                                            "deposit",
+                                            "transfer",
+                                            "reconciliation",
+                                            "opening balance"
+                                        ]
+                                    },
+                                    "date": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2018-09-17T12:46:47+01:00",
+                                        "description": "Date of the transaction"
+                                    },
+                                    "amount": {
+                                        "type": "string",
+                                        "example": "123.45",
+                                        "description": "Amount of the transaction."
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Vegetables",
+                                        "description": "Description of the transaction."
+                                    },
+                                    "order": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 0,
+                                        "nullable": true,
+                                        "description": "Order of this entry in the list of transactions."
+                                    },
+                                    "currency_id": {
+                                        "type": "string",
+                                        "example": "12",
+                                        "nullable": true,
+                                        "description": "Currency ID. Default is the source account's currency, or the user's default currency. The value you submit may be overruled by the source or destination account."
+                                    },
+                                    "currency_code": {
+                                        "type": "string",
+                                        "example": "EUR",
+                                        "nullable": true,
+                                        "description": "Currency code. Default is the source account's currency, or the user's default currency. The value you submit may be overruled by the source or destination account."
+                                    },
+                                    "foreign_amount": {
+                                        "type": "string",
+                                        "example": "123.45",
+                                        "nullable": true,
+                                        "description": "The amount in a foreign currency."
+                                    },
+                                    "foreign_currency_id": {
+                                        "type": "string",
+                                        "example": "17",
+                                        "nullable": true,
+                                        "description": "Currency ID of the foreign currency. Default is null. Is required when you submit a foreign amount."
+                                    },
+                                    "foreign_currency_code": {
+                                        "type": "string",
+                                        "example": "USD",
+                                        "description": "Currency code of the foreign currency. Default is NULL. Can be used instead of the foreign_currency_id, but this or the ID is required when submitting a foreign amount.",
+                                        "nullable": true
+                                    },
+                                    "budget_id": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "example": "4",
+                                        "description": "The budget ID for this transaction."
+                                    },
+                                    "budget_name": {
+                                        "type": "string",
+                                        "example": "Groceries",
+                                        "description": "The name of the budget to be used. If the budget name is unknown, the ID will be used or the value will be ignored.",
+                                        "nullable": true
+                                    },
+                                    "category_id": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "example": "43",
+                                        "description": "The category ID for this transaction."
+                                    },
+                                    "category_name": {
+                                        "type": "string",
+                                        "example": "Groceries",
+                                        "nullable": true,
+                                        "description": "The name of the category to be used. If the category is unknown, it will be created. If the ID and the name point to different categories, the ID overrules the name."
+                                    },
+                                    "source_id": {
+                                        "type": "string",
+                                        "example": "2",
+                                        "nullable": true,
+                                        "description": "ID of the source account. For a withdrawal or a transfer, this must always be an asset account. For deposits, this must be a revenue account."
+                                    },
+                                    "source_name": {
+                                        "type": "string",
+                                        "example": "Checking account",
+                                        "nullable": true,
+                                        "description": "Name of the source account. For a withdrawal or a transfer, this must always be an asset account. For deposits, this must be a revenue account. Can be used instead of the source_id. If the transaction is a deposit, the source_name can be filled in freely: the account will be created based on the name."
+                                    },
+                                    "destination_id": {
+                                        "type": "string",
+                                        "example": "2",
+                                        "nullable": true,
+                                        "description": "ID of the destination account. For a deposit or a transfer, this must always be an asset account. For withdrawals this must be an expense account."
+                                    },
+                                    "destination_name": {
+                                        "type": "string",
+                                        "example": "Buy and Large",
+                                        "nullable": true,
+                                        "description": "Name of the destination account. You can submit the name instead of the ID. For everything except transfers, the account will be auto-generated if unknown, so submitting a name is enough."
+                                    },
+                                    "reconciled": {
+                                        "type": "boolean",
+                                        "example": false,
+                                        "description": "If the transaction has been reconciled already. When you set this, the amount can no longer be edited by the user."
+                                    },
+                                    "piggy_bank_id": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "description": "Optional. Use either this or the piggy_bank_name",
+                                        "nullable": true
+                                    },
+                                    "piggy_bank_name": {
+                                        "type": "string",
+                                        "description": "Optional. Use either this or the piggy_bank_id",
+                                        "nullable": true
+                                    },
+                                    "bill_id": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "example": "112",
+                                        "description": "Optional. Use either this or the bill_name"
+                                    },
+                                    "bill_name": {
+                                        "type": "string",
+                                        "example": "Monthly rent",
+                                        "nullable": true,
+                                        "description": "Optional. Use either this or the bill_id"
+                                    },
+                                    "tags": {
+                                        "type": "array",
+                                        "nullable": true,
+                                        "example": null,
+                                        "description": "Array of tags.",
+                                        "items": {
+                                            "type": "string",
+                                            "description": "Tag.",
+                                            "example": "Barbecue preparation"
+                                        }
+                                    },
+                                    "notes": {
+                                        "type": "string",
+                                        "example": "Some example notes",
+                                        "nullable": true
+                                    },
+                                    "internal_reference": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Reference to internal reference of other systems."
+                                    },
+                                    "external_id": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Reference to external ID in other systems."
+                                    },
+                                    "external_url": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "External, custom URL for this transaction."
+                                    },
+                                    "bunq_payment_id": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Internal ID of bunq transaction. Field is no longer used but still works."
+                                    },
+                                    "sepa_cc": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "SEPA Clearing Code"
+                                    },
+                                    "sepa_ct_op": {
+                                        "type": "string",
+                                        "description": "SEPA Opposing Account Identifier",
+                                        "nullable": true
+                                    },
+                                    "sepa_ct_id": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "SEPA end-to-end Identifier"
+                                    },
+                                    "sepa_db": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "SEPA mandate identifier"
+                                    },
+                                    "sepa_country": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "SEPA Country"
+                                    },
+                                    "sepa_ep": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "SEPA External Purpose indicator"
+                                    },
+                                    "sepa_ci": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "SEPA Creditor Identifier"
+                                    },
+                                    "sepa_batch_id": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "SEPA Batch ID"
+                                    },
+                                    "interest_date": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "nullable": true
+                                    },
+                                    "book_date": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "nullable": true
+                                    },
+                                    "process_date": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "nullable": true
+                                    },
+                                    "due_date": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "nullable": true
+                                    },
+                                    "payment_date": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "nullable": true
+                                    },
+                                    "invoice_date": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "nullable": true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "description": "JSON array or key=value pairs with the necessary transaction information. See the model for the exact specifications."
+                }
+            },
+            "required": [
+                "requestBody"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_get_transaction",
+        "description": "Get a single transaction.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "123",
+                    "description": "The ID of the transaction."
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_update_transaction",
+        "description": "Update an existing transaction.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "123",
+                    "description": "The ID of the transaction."
+                },
+                "requestBody": {
+                    "type": "object",
+                    "properties": {
+                        "apply_rules": {
+                            "type": "boolean",
+                            "example": false,
+                            "description": "Whether or not to apply rules when submitting transaction."
+                        },
+                        "fire_webhooks": {
+                            "type": "boolean",
+                            "example": true,
+                            "default": true,
+                            "description": "Whether or not to fire the webhooks that are related to this event."
+                        },
+                        "group_title": {
+                            "type": "string",
+                            "description": "Title of the transaction if it has been split in more than one piece. Empty otherwise.",
+                            "example": "Split transaction title.",
+                            "nullable": true
+                        },
+                        "transactions": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "transaction_journal_id": {
+                                        "type": "string",
+                                        "example": "123",
+                                        "description": "Transaction journal ID of current transaction (split)."
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "example": "withdrawal",
+                                        "enum": [
+                                            "withdrawal",
+                                            "deposit",
+                                            "transfer",
+                                            "reconciliation",
+                                            "opening balance"
+                                        ]
+                                    },
+                                    "date": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2018-09-17T12:46:47+01:00",
+                                        "description": "Date of the transaction"
+                                    },
+                                    "amount": {
+                                        "type": "string",
+                                        "example": "123.45",
+                                        "description": "Amount of the transaction."
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Vegetables",
+                                        "description": "Description of the transaction."
+                                    },
+                                    "order": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 0,
+                                        "nullable": true,
+                                        "description": "Order of this entry in the list of transactions."
+                                    },
+                                    "currency_id": {
+                                        "type": "string",
+                                        "example": "12",
+                                        "nullable": true,
+                                        "description": "Currency ID. Default is the source account's currency, or the user's default currency. Can be used instead of currency_code."
+                                    },
+                                    "currency_code": {
+                                        "type": "string",
+                                        "example": "EUR",
+                                        "nullable": true,
+                                        "description": "Currency code. Default is the source account's currency, or the user's default currency. Can be used instead of currency_id."
+                                    },
+                                    "currency_symbol": {
+                                        "type": "string",
+                                        "example": "$"
+                                    },
+                                    "currency_name": {
+                                        "type": "string",
+                                        "example": "Euro"
+                                    },
+                                    "currency_decimal_places": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 2,
+                                        "description": "Number of decimals used in this currency."
+                                    },
+                                    "foreign_amount": {
+                                        "type": "string",
+                                        "example": "123.45",
+                                        "nullable": true,
+                                        "description": "The amount in a foreign currency."
+                                    },
+                                    "foreign_currency_id": {
+                                        "type": "string",
+                                        "example": "17",
+                                        "nullable": true,
+                                        "description": "Currency ID of the foreign currency. Default is null. Is required when you submit a foreign amount."
+                                    },
+                                    "foreign_currency_code": {
+                                        "type": "string",
+                                        "example": "USD",
+                                        "description": "Currency code of the foreign currency. Default is NULL. Can be used instead of the foreign_currency_id, but this or the ID is required when submitting a foreign amount.",
+                                        "nullable": true
+                                    },
+                                    "foreign_currency_symbol": {
+                                        "type": "string",
+                                        "example": "$",
+                                        "nullable": true
+                                    },
+                                    "foreign_currency_decimal_places": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 2,
+                                        "description": "Number of decimals in the currency",
+                                        "nullable": true
+                                    },
+                                    "budget_id": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "example": "4",
+                                        "description": "The budget ID for this transaction."
+                                    },
+                                    "budget_name": {
+                                        "type": "string",
+                                        "example": "Groceries",
+                                        "description": "The name of the budget to be used. If the budget name is unknown, the ID will be used or the value will be ignored.",
+                                        "nullable": true
+                                    },
+                                    "category_id": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "example": "43",
+                                        "description": "The category ID for this transaction."
+                                    },
+                                    "category_name": {
+                                        "type": "string",
+                                        "example": "Groceries",
+                                        "nullable": true,
+                                        "description": "The name of the category to be used. If the category is unknown, it will be created. If the ID and the name point to different categories, the ID overrules the name."
+                                    },
+                                    "source_id": {
+                                        "type": "string",
+                                        "example": "2",
+                                        "nullable": true,
+                                        "description": "ID of the source account. For a withdrawal or a transfer, this must always be an asset account. For deposits, this must be a revenue account."
+                                    },
+                                    "source_name": {
+                                        "type": "string",
+                                        "example": "Checking account",
+                                        "nullable": true,
+                                        "description": "Name of the source account. For a withdrawal or a transfer, this must always be an asset account. For deposits, this must be a revenue account. Can be used instead of the source_id. If the transaction is a deposit, the source_name can be filled in freely: the account will be created based on the name."
+                                    },
+                                    "source_iban": {
+                                        "type": "string",
+                                        "example": "NL02ABNA0123456789",
+                                        "nullable": true
+                                    },
+                                    "destination_id": {
+                                        "type": "string",
+                                        "example": "2",
+                                        "nullable": true,
+                                        "description": "ID of the destination account. For a deposit or a transfer, this must always be an asset account. For withdrawals this must be an expense account."
+                                    },
+                                    "destination_name": {
+                                        "type": "string",
+                                        "example": "Buy and Large",
+                                        "nullable": true,
+                                        "description": "Name of the destination account. You can submit the name instead of the ID. For everything except transfers, the account will be auto-generated if unknown, so submitting a name is enough."
+                                    },
+                                    "destination_iban": {
+                                        "type": "string",
+                                        "example": "NL02ABNA0123456789",
+                                        "nullable": true
+                                    },
+                                    "reconciled": {
+                                        "type": "boolean",
+                                        "example": false,
+                                        "description": "If the transaction has been reconciled already. When you set this, the amount can no longer be edited by the user."
+                                    },
+                                    "bill_id": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "example": "111",
+                                        "description": "Optional. Use either this or the bill_name"
+                                    },
+                                    "bill_name": {
+                                        "type": "string",
+                                        "example": "Monthly rent",
+                                        "nullable": true,
+                                        "description": "Optional. Use either this or the bill_id"
+                                    },
+                                    "tags": {
+                                        "type": "array",
+                                        "nullable": true,
+                                        "example": null,
+                                        "description": "Array of tags.",
+                                        "items": {
+                                            "type": "string",
+                                            "description": "Tag.",
+                                            "example": "Barbecue preparation"
+                                        }
+                                    },
+                                    "notes": {
+                                        "type": "string",
+                                        "example": "Some example notes",
+                                        "nullable": true
+                                    },
+                                    "internal_reference": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Reference to internal reference of other systems."
+                                    },
+                                    "external_id": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Reference to external ID in other systems."
+                                    },
+                                    "external_url": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "External, custom URL for this transaction."
+                                    },
+                                    "bunq_payment_id": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Internal ID of bunq transaction."
+                                    },
+                                    "sepa_cc": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "SEPA Clearing Code"
+                                    },
+                                    "sepa_ct_op": {
+                                        "type": "string",
+                                        "description": "SEPA Opposing Account Identifier",
+                                        "nullable": true
+                                    },
+                                    "sepa_ct_id": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "SEPA end-to-end Identifier"
+                                    },
+                                    "sepa_db": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "SEPA mandate identifier"
+                                    },
+                                    "sepa_country": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "SEPA Country"
+                                    },
+                                    "sepa_ep": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "SEPA External Purpose indicator"
+                                    },
+                                    "sepa_ci": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "SEPA Creditor Identifier"
+                                    },
+                                    "sepa_batch_id": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "SEPA Batch ID"
+                                    },
+                                    "interest_date": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "nullable": true
+                                    },
+                                    "book_date": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "nullable": true
+                                    },
+                                    "process_date": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "nullable": true
+                                    },
+                                    "due_date": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "nullable": true
+                                    },
+                                    "payment_date": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "nullable": true
+                                    },
+                                    "invoice_date": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "nullable": true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "description": "JSON array with updated transaction information. See the model for the exact specifications."
+                }
+            },
+            "required": [
+                "id",
+                "requestBody"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_delete_transaction",
+        "description": "Delete a transaction.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "123",
+                    "description": "The ID of the transaction."
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_search_accounts",
+        "description": "Search for accounts",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 10,
+                    "description": "Number of items per page. The default pagination is per 50 items."
+                },
+                "page": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 1,
+                    "description": "Page number. The default pagination is per 50 items."
+                },
+                "query": {
+                    "type": "string",
+                    "example": "checking",
+                    "description": "The query you wish to search for."
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "all",
+                        "asset",
+                        "cash",
+                        "expense",
+                        "revenue",
+                        "special",
+                        "hidden",
+                        "liability",
+                        "liabilities",
+                        "Default account",
+                        "Cash account",
+                        "Asset account",
+                        "Expense account",
+                        "Revenue account",
+                        "Initial balance account",
+                        "Beneficiary account",
+                        "Import account",
+                        "Reconciliation account",
+                        "Loan",
+                        "Debt",
+                        "Mortgage"
+                    ],
+                    "description": "The type of accounts you wish to limit the search to."
+                },
+                "field": {
+                    "type": "string",
+                    "enum": [
+                        "all",
+                        "iban",
+                        "name",
+                        "number",
+                        "id"
+                    ],
+                    "description": "The account field(s) you want to search in."
+                }
+            },
+            "required": [
+                "query",
+                "field"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_search_transactions",
+        "description": "Searches through the users transactions.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 10,
+                    "description": "Number of items per page. The default pagination is per 50 items."
+                },
+                "page": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 1,
+                    "description": "Page number. The default pagination is per 50 items."
+                },
+                "query": {
+                    "type": "string",
+                    "example": "groceries",
+                    "description": "The query you wish to search for."
+                }
+            },
+            "required": [
+                "query"
+            ]
+        }
+    },
+    {
+        "name": "firefly-iii_get_basic_summary",
+        "description": "Returns basic sums of the users data, like the net worth, spent and earned amounts. It is multi-currency, and is used in Firefly III to populate the dashboard.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "start": {
+                    "type": "string",
+                    "description": "A date formatted YYYY-MM-DD.\n"
+                },
+                "end": {
+                    "type": "string",
+                    "description": "A date formatted YYYY-MM-DD.\n"
+                },
+                "currency_code": {
+                    "type": "string",
+                    "description": "A currency code like EUR or USD, to filter the result.\n"
+                }
+            },
+            "required": [
+                "start",
+                "end"
+            ]
+        }
+    }
+]

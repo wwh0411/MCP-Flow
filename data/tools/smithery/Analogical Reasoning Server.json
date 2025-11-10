@@ -1,0 +1,248 @@
+[
+    {
+        "name": "analogical-reasoning_analogicalReasoning",
+        "description": "A detailed tool for analogical thinking between source and target domains.\nThis tool helps models structure analogies systematically to improve understanding and reasoning.\nIt facilitates explicit mapping between domains, inference generation, and analogy evaluation.\n\nWhen to use this tool:\n- Understanding new concepts through analogies to familiar domains\n- Problem-solving by transferring insights between domains\n- Creative thinking by establishing connections between different fields\n- Explaining complex concepts through structured comparisons\n- Evaluating analogies for their strengths and limitations\n\nKey features:\n- Explicit domain structure representation\n- Systematic mapping between domains\n- Inference generation and evaluation\n- Visual representation of analogical mappings\n- Tracking of analogy strengths and limitations",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "sourceDomain": {
+                    "type": "object",
+                    "description": "The familiar domain used as the basis for the analogy",
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "description": "The name of the source domain"
+                        },
+                        "elements": {
+                            "type": "array",
+                            "description": "Elements in the source domain",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the element"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Name of the element"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "entity",
+                                            "attribute",
+                                            "relation",
+                                            "process"
+                                        ],
+                                        "description": "Type of element"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "description": "Description of the element"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "type",
+                                    "description"
+                                ]
+                            }
+                        }
+                    },
+                    "required": [
+                        "name",
+                        "elements"
+                    ]
+                },
+                "targetDomain": {
+                    "type": "object",
+                    "description": "The domain being understood through the analogy",
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "description": "The name of the target domain"
+                        },
+                        "elements": {
+                            "type": "array",
+                            "description": "Elements in the target domain",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the element"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Name of the element"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "entity",
+                                            "attribute",
+                                            "relation",
+                                            "process"
+                                        ],
+                                        "description": "Type of element"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "description": "Description of the element"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "type",
+                                    "description"
+                                ]
+                            }
+                        }
+                    },
+                    "required": [
+                        "name",
+                        "elements"
+                    ]
+                },
+                "mappings": {
+                    "type": "array",
+                    "description": "Mappings between source and target domain elements",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "sourceElement": {
+                                "type": "string",
+                                "description": "ID of the source domain element"
+                            },
+                            "targetElement": {
+                                "type": "string",
+                                "description": "ID of the target domain element"
+                            },
+                            "mappingStrength": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1,
+                                "description": "Strength of the mapping (0.0-1.0)"
+                            },
+                            "justification": {
+                                "type": "string",
+                                "description": "Justification for the mapping"
+                            },
+                            "limitations": {
+                                "type": "array",
+                                "description": "Limitations of this specific mapping",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "required": [
+                            "sourceElement",
+                            "targetElement",
+                            "mappingStrength",
+                            "justification"
+                        ]
+                    }
+                },
+                "analogyId": {
+                    "type": "string",
+                    "description": "Unique identifier for this analogy"
+                },
+                "purpose": {
+                    "type": "string",
+                    "enum": [
+                        "explanation",
+                        "prediction",
+                        "problem-solving",
+                        "creative-generation"
+                    ],
+                    "description": "The purpose of the analogy"
+                },
+                "confidence": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Confidence in the overall analogy (0.0-1.0)"
+                },
+                "iteration": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Current iteration of the analogy"
+                },
+                "strengths": {
+                    "type": "array",
+                    "description": "Strengths of the analogy",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "limitations": {
+                    "type": "array",
+                    "description": "Limitations of the analogy",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "inferences": {
+                    "type": "array",
+                    "description": "Inferences drawn from the analogy",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "statement": {
+                                "type": "string",
+                                "description": "The inference statement"
+                            },
+                            "confidence": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1,
+                                "description": "Confidence in the inference (0.0-1.0)"
+                            },
+                            "basedOnMappings": {
+                                "type": "array",
+                                "description": "IDs of mappings supporting this inference",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "required": [
+                            "statement",
+                            "confidence",
+                            "basedOnMappings"
+                        ]
+                    }
+                },
+                "nextOperationNeeded": {
+                    "type": "boolean",
+                    "description": "Whether another operation is needed"
+                },
+                "suggestedOperations": {
+                    "type": "array",
+                    "description": "Suggested next operations",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "add-mapping",
+                            "revise-mapping",
+                            "draw-inference",
+                            "evaluate-limitation",
+                            "try-new-source"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "sourceDomain",
+                "targetDomain",
+                "analogyId",
+                "purpose",
+                "confidence",
+                "iteration",
+                "nextOperationNeeded"
+            ]
+        }
+    }
+]

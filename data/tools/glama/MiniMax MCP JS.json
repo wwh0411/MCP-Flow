@@ -1,0 +1,401 @@
+[
+    {
+        "name": "minimax-mcp-js_text_to_audio",
+        "description": "Convert text to audio with a given voice and save the output audio file to a given directory. If no directory is provided, the file will be saved to desktop. If no voice ID is provided, the default voice will be used.\n\nNote: This tool calls MiniMax API and may incur costs. Use only when explicitly requested by the user.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "text": {
+                    "type": "string",
+                    "description": "Text to convert to audio"
+                },
+                "outputDirectory": {
+                    "type": "string",
+                    "description": "The directory to save the output file. `outputDirectory` is relative to `MINIMAX_MCP_BASE_PATH` (or `basePath` in config). The final save path is `${basePath}/${outputDirectory}`. For example, if `MINIMAX_MCP_BASE_PATH=~/Desktop` and `outputDirectory=workspace`, the output will be saved to `~/Desktop/workspace/`"
+                },
+                "voiceId": {
+                    "type": "string",
+                    "default": "male-qn-qingse",
+                    "description": "Voice ID to use, e.g. \"female-shaonv\""
+                },
+                "model": {
+                    "type": "string",
+                    "default": "speech-02-hd",
+                    "description": "Model to use"
+                },
+                "speed": {
+                    "type": "number",
+                    "minimum": 0.5,
+                    "maximum": 2,
+                    "default": 1,
+                    "description": "Speech speed"
+                },
+                "vol": {
+                    "type": "number",
+                    "minimum": 0.1,
+                    "maximum": 10,
+                    "default": 1,
+                    "description": "Speech volume"
+                },
+                "pitch": {
+                    "type": "number",
+                    "minimum": -12,
+                    "maximum": 12,
+                    "default": 0,
+                    "description": "Speech pitch"
+                },
+                "emotion": {
+                    "type": "string",
+                    "default": "happy",
+                    "description": "Speech emotion, values: [\"happy\", \"sad\", \"angry\", \"fearful\", \"disgusted\", \"surprised\", \"neutral\"]"
+                },
+                "format": {
+                    "type": "string",
+                    "default": "mp3",
+                    "description": "Audio format, values: [\"pcm\", \"mp3\",\"flac\", \"wav\"]"
+                },
+                "sampleRate": {
+                    "type": "number",
+                    "default": 32000,
+                    "description": "Sample rate (Hz), values: [8000, 16000, 22050, 24000, 32000, 44100]"
+                },
+                "bitrate": {
+                    "type": "number",
+                    "default": 128000,
+                    "description": "Bitrate (bps), values: [64000, 96000, 128000, 160000, 192000, 224000, 256000, 320000]"
+                },
+                "channel": {
+                    "type": "number",
+                    "default": 1,
+                    "description": "Audio channels, values: [1, 2]"
+                },
+                "languageBoost": {
+                    "type": "string",
+                    "default": "auto",
+                    "description": "Enhance the ability to recognize specified languages and dialects. Supported values include: 'Chinese', 'Chinese,Yue', 'English', 'Arabic', 'Russian', 'Spanish', 'French', 'Portuguese', 'German', 'Turkish', 'Dutch', 'Ukrainian', 'Vietnamese', 'Indonesian', 'Japanese', 'Italian', 'Korean', 'Thai', 'Polish', 'Romanian', 'Greek', 'Czech', 'Finnish', 'Hindi', 'auto', default is 'auto'"
+                },
+                "subtitleEnable": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "The parameter controls whether the subtitle service is enabled. The model must be 'speech-01-turbo' or 'speech-01-hd'. If this parameter is not provided, the default value is false"
+                },
+                "outputFile": {
+                    "type": "string",
+                    "description": "Path to save the generated audio file, automatically generated if not provided"
+                }
+            },
+            "required": [
+                "text"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minimax-mcp-js_list_voices",
+        "description": "List all available voices. Only supported when api_host is https://api.minimax.chat.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "voiceType": {
+                    "type": "string",
+                    "default": "all",
+                    "description": "Type of voices to list, values: [\"all\", \"system\", \"voice_cloning\"]"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minimax-mcp-js_play_audio",
+        "description": "Play an audio file. Supports WAV and MP3 formats. Does not support video.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "inputFilePath": {
+                    "type": "string",
+                    "description": "Path to the audio file to play"
+                },
+                "isUrl": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether the audio file is a URL"
+                }
+            },
+            "required": [
+                "inputFilePath"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minimax-mcp-js_voice_clone",
+        "description": "Clone a voice using the provided audio file. New voices will incur costs when first used.\n\nNote: This tool calls MiniMax API and may incur costs. Use only when explicitly requested by the user.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "voiceId": {
+                    "type": "string",
+                    "description": "Voice ID to use"
+                },
+                "audioFile": {
+                    "type": "string",
+                    "description": "Path to the audio file"
+                },
+                "text": {
+                    "type": "string",
+                    "description": "Text for the demo audio"
+                },
+                "outputDirectory": {
+                    "type": "string",
+                    "description": "The directory to save the output file. `outputDirectory` is relative to `MINIMAX_MCP_BASE_PATH` (or `basePath` in config). The final save path is `${basePath}/${outputDirectory}`. For example, if `MINIMAX_MCP_BASE_PATH=~/Desktop` and `outputDirectory=workspace`, the output will be saved to `~/Desktop/workspace/`"
+                },
+                "isUrl": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether the audio file is a URL"
+                }
+            },
+            "required": [
+                "voiceId",
+                "audioFile"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minimax-mcp-js_text_to_image",
+        "description": "Generate images based on text prompts.\n\nNote: This tool calls MiniMax API and may incur costs. Use only when explicitly requested by the user.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "model": {
+                    "type": "string",
+                    "default": "image-01",
+                    "description": "Model to use"
+                },
+                "prompt": {
+                    "type": "string",
+                    "description": "Text prompt for image generation"
+                },
+                "aspectRatio": {
+                    "type": "string",
+                    "default": "1:1",
+                    "description": "Image aspect ratio, values: [\"1:1\", \"16:9\",\"4:3\", \"3:2\", \"2:3\", \"3:4\", \"9:16\", \"21:9\"]"
+                },
+                "n": {
+                    "type": "number",
+                    "minimum": 1,
+                    "maximum": 9,
+                    "default": 1,
+                    "description": "Number of images to generate"
+                },
+                "promptOptimizer": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether to optimize the prompt"
+                },
+                "outputDirectory": {
+                    "type": "string",
+                    "description": "The directory to save the output file. `outputDirectory` is relative to `MINIMAX_MCP_BASE_PATH` (or `basePath` in config). The final save path is `${basePath}/${outputDirectory}`. For example, if `MINIMAX_MCP_BASE_PATH=~/Desktop` and `outputDirectory=workspace`, the output will be saved to `~/Desktop/workspace/`"
+                },
+                "outputFile": {
+                    "type": "string",
+                    "description": "Path to save the generated image file, automatically generated if not provided"
+                }
+            },
+            "required": [
+                "prompt"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minimax-mcp-js_generate_video",
+        "description": "Generate a video based on text prompts.\n\nNote: This tool calls MiniMax API and may incur costs. Use only when explicitly requested by the user.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "model": {
+                    "type": "string",
+                    "default": "MiniMax-Hailuo-02",
+                    "description": "Model to use, values: [\"T2V-01\", \"T2V-01-Director\", \"I2V-01\", \"I2V-01-Director\", \"I2V-01-live\", \"MiniMax-Hailuo-02\"]"
+                },
+                "prompt": {
+                    "type": "string",
+                    "description": "Text prompt for video generation"
+                },
+                "firstFrameImage": {
+                    "type": "string",
+                    "description": "First frame image"
+                },
+                "duration": {
+                    "type": "number",
+                    "description": "The duration of the video. The model must be \"MiniMax-Hailuo-02\". Values can be 6 and 10."
+                },
+                "resolution": {
+                    "type": "string",
+                    "description": "The resolution of the video. The model must be \"MiniMax-Hailuo-02\". Values range [\"768P\", \"1080P\"]"
+                },
+                "outputDirectory": {
+                    "type": "string",
+                    "description": "The directory to save the output file. `outputDirectory` is relative to `MINIMAX_MCP_BASE_PATH` (or `basePath` in config). The final save path is `${basePath}/${outputDirectory}`. For example, if `MINIMAX_MCP_BASE_PATH=~/Desktop` and `outputDirectory=workspace`, the output will be saved to `~/Desktop/workspace/`"
+                },
+                "outputFile": {
+                    "type": "string",
+                    "description": "Path to save the generated video file, automatically generated if not provided"
+                },
+                "asyncMode": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to use async mode. Defaults to False. If True, the video generation task will be submitted asynchronously and the response will return a task_id. Should use `query_video_generation` tool to check the status of the task and get the result."
+                }
+            },
+            "required": [
+                "prompt"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minimax-mcp-js_image_to_video",
+        "description": "Generate a video based on an image.\n\nNote: This tool calls MiniMax API and may incur costs. Use only when explicitly requested by the user.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "model": {
+                    "type": "string",
+                    "default": "I2V-01",
+                    "description": "Model to use, values: [\"I2V-01\", \"I2V-01-Director\", \"I2V-01-live\"]"
+                },
+                "prompt": {
+                    "type": "string",
+                    "description": "Text prompt for video generation"
+                },
+                "firstFrameImage": {
+                    "type": "string",
+                    "description": "Path to the first frame image"
+                },
+                "outputDirectory": {
+                    "type": "string",
+                    "description": "The directory to save the output file. `outputDirectory` is relative to `MINIMAX_MCP_BASE_PATH` (or `basePath` in config). The final save path is `${basePath}/${outputDirectory}`. For example, if `MINIMAX_MCP_BASE_PATH=~/Desktop` and `outputDirectory=workspace`, the output will be saved to `~/Desktop/workspace/`"
+                },
+                "outputFile": {
+                    "type": "string",
+                    "description": "Path to save the generated video file, automatically generated if not provided"
+                },
+                "asyncMode": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to use async mode. Defaults to False. If True, the video generation task will be submitted asynchronously and the response will return a task_id. Should use `query_video_generation` tool to check the status of the task and get the result."
+                }
+            },
+            "required": [
+                "prompt",
+                "firstFrameImage"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minimax-mcp-js_query_video_generation",
+        "description": "Query the status of a video generation task.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "taskId": {
+                    "type": "string",
+                    "description": "The Task ID to query. Should be the task_id returned by `generate_video` tool if `async_mode` is True."
+                },
+                "outputDirectory": {
+                    "type": "string",
+                    "description": "The directory to save the output file. `outputDirectory` is relative to `MINIMAX_MCP_BASE_PATH` (or `basePath` in config). The final save path is `${basePath}/${outputDirectory}`. For example, if `MINIMAX_MCP_BASE_PATH=~/Desktop` and `outputDirectory=workspace`, the output will be saved to `~/Desktop/workspace/`"
+                }
+            },
+            "required": [
+                "taskId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minimax-mcp-js_music_generation",
+        "description": "Create a music generation task using AI models. Generate music from prompt and lyrics.\n\nNote: This tool calls MiniMax API and may incur costs. Use only when explicitly requested by the user.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "prompt": {
+                    "type": "string",
+                    "description": "Music creation inspiration describing style, mood, scene, etc.\nExample: \"Pop music, sad, suitable for rainy nights\". Character range: [10, 300]"
+                },
+                "lyrics": {
+                    "type": "string",
+                    "description": "Song lyrics for music generation.\nUse newline (\\n) to separate each line of lyrics. Supports lyric structure tags [Intro][Verse][Chorus][Bridge][Outro]\nto enhance musicality. Character range: [10, 600] (each Chinese character, punctuation, and letter counts as 1 character)"
+                },
+                "sampleRate": {
+                    "type": "number",
+                    "default": 32000,
+                    "description": "Sample rate of generated music. Values: [16000, 24000, 32000, 44100]"
+                },
+                "bitrate": {
+                    "type": "number",
+                    "default": 128000,
+                    "description": "Bitrate of generated music. Values: [32000, 64000, 128000, 256000]"
+                },
+                "format": {
+                    "type": "string",
+                    "default": "mp3",
+                    "description": "Format of generated music. Values: [\"mp3\", \"wav\", \"pcm\"]"
+                },
+                "outputDirectory": {
+                    "type": "string",
+                    "description": "The directory to save the output file. `outputDirectory` is relative to `MINIMAX_MCP_BASE_PATH` (or `basePath` in config). The final save path is `${basePath}/${outputDirectory}`. For example, if `MINIMAX_MCP_BASE_PATH=~/Desktop` and `outputDirectory=workspace`, the output will be saved to `~/Desktop/workspace/`"
+                }
+            },
+            "required": [
+                "prompt",
+                "lyrics"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "minimax-mcp-js_voice_design",
+        "description": "Generate a voice based on description prompts.\n\nNote: This tool calls MiniMax API and may incur costs. Use only when explicitly requested by the user.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "prompt": {
+                    "type": "string",
+                    "description": "The prompt to generate the voice from"
+                },
+                "previewText": {
+                    "type": "string",
+                    "description": "The text to preview the voice"
+                },
+                "voiceId": {
+                    "type": "string",
+                    "description": "The id of the voice to use. For example, \"male-qn-qingse\"/\"audiobook_female_1\"/\"cute_boy\"/\"Charming_Lady\"..."
+                },
+                "outputDirectory": {
+                    "type": "string",
+                    "description": "The directory to save the output file. `outputDirectory` is relative to `MINIMAX_MCP_BASE_PATH` (or `basePath` in config). The final save path is `${basePath}/${outputDirectory}`. For example, if `MINIMAX_MCP_BASE_PATH=~/Desktop` and `outputDirectory=workspace`, the output will be saved to `~/Desktop/workspace/`"
+                }
+            },
+            "required": [
+                "prompt",
+                "previewText"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

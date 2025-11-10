@@ -1,0 +1,140 @@
+[
+    {
+        "name": "custom_ticker",
+        "description": "This endpoint can be used to generate a custom index in a certain currency. The “inex” path parameter represents “include” or “exclude”, you can choose to generate an index removing specified exchanges, or only including the few that you require.",
+        "parameters": {
+            "properties": {
+                "exchanges": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Comma separated list of exchanges.",
+                    "title": "Exchanges"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "ticker_per_symbol",
+        "description": "Returns ticker data for specified symbol",
+        "parameters": {
+            "properties": {
+                "market": {
+                    "description": "Possible values: global, local",
+                    "title": "Market",
+                    "type": "string"
+                },
+                "symbol": {
+                    "description": "ETH, where is valid ISO currency (ex. ETHUSD, ETHEUR)",
+                    "title": "Symbol",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "market",
+                "symbol"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "short_ticker",
+        "description": "Returns basic ticker denoting last and daily average price for all symbols",
+        "parameters": {
+            "properties": {
+                "crypto": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Valid value: ETH",
+                    "title": "Crypto"
+                },
+                "fiats": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If fiats parameter is included then only the values for those fiats will be returned (ETHUSD and ETHEUR in this example). If it's missing, then the response will contain ticker values of all available fiats for ETH.",
+                    "title": "Fiats"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "ticker_changes",
+        "description": "Returns ticker values and price changes for specified market and symbol.",
+        "parameters": {
+            "properties": {
+                "market": {
+                    "description": "Possible values: global, local",
+                    "title": "Market",
+                    "type": "string"
+                },
+                "symbol": {
+                    "description": "Possible values: ETH where is valid ISO currency (ex. ETHUSD)",
+                    "title": "Symbol",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "market",
+                "symbol"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "all_ticker_data",
+        "description": "If no query parameters are sent, then returns ticker data for every supported symbol. If fiat(s) are sent as parameters, then only the ticker for those values is sent.",
+        "parameters": {
+            "properties": {
+                "crypto": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "valid value: ETH",
+                    "title": "Crypto"
+                },
+                "fiat": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Comma separated list of ISO currency codes (ex. USD,EUR)",
+                    "title": "Fiat"
+                }
+            },
+            "type": "object"
+        }
+    }
+]

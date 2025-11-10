@@ -1,0 +1,71 @@
+[
+    {
+        "name": "all_table_names",
+        "description": "Return all table names in the database separated by comma. Connected to sqlite version 3.40.1 database /app/data/sample.db.",
+        "parameters": {
+            "properties": {},
+            "title": "all_table_namesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "filter_table_names",
+        "description": "Return all table names in the database containing the substring 'q' separated by comma. Connected to sqlite version 3.40.1 database /app/data/sample.db.",
+        "parameters": {
+            "properties": {
+                "q": {
+                    "title": "Q",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "q"
+            ],
+            "title": "filter_table_namesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "schema_definitions",
+        "description": "Returns schema and relation information for the given tables. Connected to sqlite version 3.40.1 database /app/data/sample.db.",
+        "parameters": {
+            "properties": {
+                "table_names": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Table Names",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "table_names"
+            ],
+            "title": "schema_definitionsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "execute_query",
+        "description": "Execute a SQL query and return results in a readable format. Results will be truncated after 4000 characters. Claude Desktop may fetch the full result set via an url for analysis and artifacts. IMPORTANT: Always use the params parameter for query parameter substitution (e.g. 'WHERE id = :id' with params={'id': 123}) to prevent SQL injection. Direct string concatenation is a serious security risk. Connected to sqlite version 3.40.1 database /app/data/sample.db.",
+        "parameters": {
+            "properties": {
+                "query": {
+                    "title": "Query",
+                    "type": "string"
+                },
+                "params": {
+                    "additionalProperties": true,
+                    "default": {},
+                    "title": "Params",
+                    "type": "object"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "title": "execute_queryArguments",
+            "type": "object"
+        }
+    }
+]

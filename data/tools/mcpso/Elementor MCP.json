@@ -1,0 +1,215 @@
+[
+    {
+        "name": "Elementor MCP_create_page",
+        "description": "Creates a new page in WordPress with Elementor data, it will return the created page ID.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "description": "The title for the new page (required)."
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "publish",
+                        "future",
+                        "draft",
+                        "pending",
+                        "private"
+                    ],
+                    "description": "The status for the page (e.g., 'publish', 'draft'). Defaults to 'draft' on create."
+                },
+                "content": {
+                    "type": "string",
+                    "description": "The standard WordPress content for the page (optional)."
+                },
+                "elementor_data": {
+                    "type": "string",
+                    "description": "The Elementor page data as a JSON string (required for create)."
+                }
+            },
+            "required": [
+                "title",
+                "elementor_data"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "Elementor MCP_get_page",
+        "description": "Retrieves a specific page from WordPress by its ID, including meta fields like _elementor_data.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "pageId": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "The ID of the page to retrieve."
+                }
+            },
+            "required": [
+                "pageId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "Elementor MCP_download_page_to_file",
+        "description": "Downloads a specific page from WordPress by its ID, including meta fields like _elementor_data, and saves it to a file.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "pageId": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "The ID of the page to download."
+                },
+                "filePath": {
+                    "type": "string",
+                    "description": "The path to save the file to, have to be the absolute path."
+                },
+                "onlyElementorData": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to only save the _elementor_data field to the file, defaults to false."
+                }
+            },
+            "required": [
+                "pageId",
+                "filePath"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "Elementor MCP_update_page",
+        "description": "Updates an existing page in WordPress with Elementor data, it will return a boolean value to indicate if the update was successful.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "pageId": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "The ID of the page to update."
+                },
+                "title": {
+                    "type": "string",
+                    "description": "The title for the page."
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "publish",
+                        "future",
+                        "draft",
+                        "pending",
+                        "private"
+                    ],
+                    "description": "The status for the page (e.g., 'publish', 'draft')."
+                },
+                "content": {
+                    "type": "string",
+                    "description": "The standard WordPress content for the page (optional)."
+                },
+                "elementor_data": {
+                    "type": "string",
+                    "description": "The Elementor page data as a JSON string. Optional for update."
+                }
+            },
+            "required": [
+                "pageId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "Elementor MCP_update_page_from_file",
+        "description": "Updates an existing page in WordPress with Elementor data from a file, it will return a boolean value to indicate if the update was successful.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "pageId": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "The ID of the page to update."
+                },
+                "title": {
+                    "type": "string",
+                    "description": "The title for the page."
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "publish",
+                        "future",
+                        "draft",
+                        "pending",
+                        "private"
+                    ],
+                    "description": "The status for the page (e.g., 'publish', 'draft')."
+                },
+                "contentFilePath": {
+                    "type": "string",
+                    "description": "The absolute path to the file to update the WordPress content from, optional."
+                },
+                "elementorFilePath": {
+                    "type": "string",
+                    "description": "The absolute path to the file to update the Elementor data from."
+                }
+            },
+            "required": [
+                "pageId",
+                "elementorFilePath"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "Elementor MCP_delete_page",
+        "description": "Deletes a specific page from WordPress, it will return a boolean value to indicate if the deletion was successful.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "pageId": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "description": "The ID of the page to delete."
+                },
+                "force": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to bypass the trash and force deletion. Defaults to false."
+                }
+            },
+            "required": [
+                "pageId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "Elementor MCP_get_page_id_by_slug",
+        "description": "Retrieves the ID of a specific WordPress page by its slug.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "slug": {
+                    "type": "string",
+                    "description": "The slug (URL-friendly name) of the page to find."
+                }
+            },
+            "required": [
+                "slug"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

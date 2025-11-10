@@ -1,0 +1,173 @@
+[
+    {
+        "name": "mongo-mcp_mcp_list_databases",
+        "description": "List all databases in the MongoDB instance.\n\nReturns:\n    List[str]: List of database names\n\nRaises:\n    PyMongoError: If the operation fails",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "mongo-mcp_mcp_list_collections",
+        "description": "List all collections in the specified database.\n\nArgs:\n    database_name: Name of the database\n\nReturns:\n    List[str]: List of collection names\n\nRaises:\n    PyMongoError: If the operation fails\n    ValueError: If database name is not provided",
+        "parameters": {
+            "properties": {
+                "database_name": {
+                    "title": "Database Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "database_name"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "mongo-mcp_mcp_insert_document",
+        "description": "Insert a document into the specified collection.\n\nArgs:\n    database_name: Name of the database\n    collection_name: Name of the collection\n    document: Document to insert (JSON-compatible dictionary)\n\nReturns:\n    Dict[str, Any]: Result containing the inserted document's ID\n\nRaises:\n    PyMongoError: If the operation fails\n    ValueError: If required parameters are missing",
+        "parameters": {
+            "properties": {
+                "database_name": {
+                    "title": "Database Name",
+                    "type": "string"
+                },
+                "collection_name": {
+                    "title": "Collection Name",
+                    "type": "string"
+                },
+                "document": {
+                    "additionalProperties": true,
+                    "title": "Document",
+                    "type": "object"
+                }
+            },
+            "required": [
+                "database_name",
+                "collection_name",
+                "document"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "mongo-mcp_mcp_find_documents",
+        "description": "Find documents in the specified collection matching the query.\n\nArgs:\n    database_name: Name of the database\n    collection_name: Name of the collection\n    query: MongoDB query filter\n    projection: MongoDB projection (fields to include/exclude)\n    limit: Maximum number of documents to return (0 for no limit)\n\nReturns:\n    List[Dict[str, Any]]: List of matching documents\n\nRaises:\n    PyMongoError: If the operation fails\n    ValueError: If required parameters are missing",
+        "parameters": {
+            "properties": {
+                "database_name": {
+                    "title": "Database Name",
+                    "type": "string"
+                },
+                "collection_name": {
+                    "title": "Collection Name",
+                    "type": "string"
+                },
+                "query": {
+                    "additionalProperties": true,
+                    "title": "Query",
+                    "type": "object"
+                },
+                "projection": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": true,
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Projection"
+                },
+                "limit": {
+                    "default": 0,
+                    "title": "Limit",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "database_name",
+                "collection_name",
+                "query"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "mongo-mcp_mcp_update_document",
+        "description": "Update document(s) in the specified collection.\n\nArgs:\n    database_name: Name of the database\n    collection_name: Name of the collection\n    query: MongoDB query filter\n    update_data: MongoDB update document (must include operators like $set)\n    upsert: Whether to insert if no document matches the query\n    update_many: Whether to update all matching documents or just the first one\n\nReturns:\n    Dict[str, Any]: Result of the update operation\n\nRaises:\n    PyMongoError: If the operation fails\n    ValueError: If required parameters are missing or invalid",
+        "parameters": {
+            "properties": {
+                "database_name": {
+                    "title": "Database Name",
+                    "type": "string"
+                },
+                "collection_name": {
+                    "title": "Collection Name",
+                    "type": "string"
+                },
+                "query": {
+                    "additionalProperties": true,
+                    "title": "Query",
+                    "type": "object"
+                },
+                "update_data": {
+                    "additionalProperties": true,
+                    "title": "Update Data",
+                    "type": "object"
+                },
+                "upsert": {
+                    "default": false,
+                    "title": "Upsert",
+                    "type": "boolean"
+                },
+                "update_many": {
+                    "default": false,
+                    "title": "Update Many",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "database_name",
+                "collection_name",
+                "query",
+                "update_data"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "mongo-mcp_mcp_delete_document",
+        "description": "Delete document(s) from the specified collection.\n\nArgs:\n    database_name: Name of the database\n    collection_name: Name of the collection\n    query: MongoDB query filter\n    delete_many: Whether to delete all matching documents or just the first one\n\nReturns:\n    Dict[str, Any]: Result of the delete operation\n\nRaises:\n    PyMongoError: If the operation fails\n    ValueError: If required parameters are missing",
+        "parameters": {
+            "properties": {
+                "database_name": {
+                    "title": "Database Name",
+                    "type": "string"
+                },
+                "collection_name": {
+                    "title": "Collection Name",
+                    "type": "string"
+                },
+                "query": {
+                    "additionalProperties": true,
+                    "title": "Query",
+                    "type": "object"
+                },
+                "delete_many": {
+                    "default": false,
+                    "title": "Delete Many",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "database_name",
+                "collection_name",
+                "query"
+            ],
+            "type": "object"
+        }
+    }
+]

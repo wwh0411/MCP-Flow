@@ -1,0 +1,419 @@
+[
+    {
+        "name": "pinecone_search-docs",
+        "description": "Search Pinecone documentation for relevant information",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "The text to search for."
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "pinecone_list-indexes",
+        "description": "List all Pinecone indexes",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "pinecone_describe-index",
+        "description": "Describe the configuration of a Pinecone index",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The index to describe."
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "pinecone_describe-index-stats",
+        "description": "Describe the statistics of a Pinecone index and its namespaces",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The index to describe."
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "pinecone_create-index-for-model",
+        "description": "Create a Pinecone index with integrated inference",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "A unique name to identify the new index."
+                },
+                "embed": {
+                    "type": "object",
+                    "properties": {
+                        "model": {
+                            "type": "string",
+                            "enum": [
+                                "multilingual-e5-large",
+                                "llama-text-embed-v2",
+                                "pinecone-sparse-english-v0"
+                            ],
+                            "description": "Choose an embedding model:\n          - \"multilingual-e5-large\" is an efficient dense embedding model\n          trained on a mixture of multilingual datasets. It works well on messy\n          data and short queries expected to return medium-length passages of\n          text (1-2 paragraphs).\n          - \"llama-text-embed-v2\" is a high-performance dense embedding model\n          optimized for text retrieval and ranking tasks. It is trained on a\n          diverse range of text corpora and provides strong performance on\n          longer passages and structured documents.\n          - \"pinecone-sparse-english-v0\" is a sparse embedding model for\n          converting text to sparse vectors for keyword or hybrid search. The\n          model directly estimates the lexical importance of tokens by\n          leveraging their context."
+                        },
+                        "fieldMap": {
+                            "type": "object",
+                            "properties": {
+                                "text": {
+                                    "type": "string",
+                                    "description": "The name of the field in the data records that contains the text\n            content to embed. Records in the index must contain this field."
+                                }
+                            },
+                            "required": [
+                                "text"
+                            ],
+                            "additionalProperties": false,
+                            "description": "Identify which field from your data records will be embedded."
+                        }
+                    },
+                    "required": [
+                        "model",
+                        "fieldMap"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Configure an embedding model that converts text into a vector."
+                }
+            },
+            "required": [
+                "name",
+                "embed"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "pinecone_upsert-records",
+        "description": "Insert or update records in a Pinecone index",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The index to upsert into."
+                },
+                "namespace": {
+                    "type": "string",
+                    "description": "The namespace to upsert into."
+                },
+                "records": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "description": "A field value. Must be a string, number, boolean, or array of strings.\n    Nested objects are not permitted."
+                        },
+                        "description": "A record to upsert. Must have an \"id\" or \"_id\" field and contain text in\n    the field specified by the index's \"fieldMap\"."
+                    },
+                    "description": "A set of records to upsert into the index. Use a consistent schema for all\n  records in the index."
+                }
+            },
+            "required": [
+                "name",
+                "namespace",
+                "records"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "pinecone_search-records",
+        "description": "Search an index for records that are similar to the query text",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The index to search."
+                },
+                "namespace": {
+                    "type": "string",
+                    "description": "The namespace to search."
+                },
+                "query": {
+                    "type": "object",
+                    "properties": {
+                        "topK": {
+                            "type": "number",
+                            "description": "The number of results to return."
+                        },
+                        "inputs": {
+                            "type": "object",
+                            "properties": {
+                                "text": {
+                                    "type": "string",
+                                    "description": "The text to search for."
+                                }
+                            },
+                            "required": [
+                                "text"
+                            ],
+                            "additionalProperties": false
+                        },
+                        "filter": {
+                            "description": "A filter can be used to narrow down results. Use the syntax of\n        MongoDB's query and projection operators: $eq, $ne, $gt, $gte, $lt,\n        $lte, $in, $nin, $exists, $and, $or. Make sure the records in the index\n        contain the fields that you are filtering on."
+                        }
+                    },
+                    "required": [
+                        "topK",
+                        "inputs"
+                    ],
+                    "additionalProperties": false,
+                    "description": "A query to search for records."
+                },
+                "rerank": {
+                    "type": "object",
+                    "properties": {
+                        "model": {
+                            "type": "string",
+                            "enum": [
+                                "cohere-rerank-3.5",
+                                "bge-reranker-v2-m3",
+                                "pinecone-rerank-v0"
+                            ],
+                            "description": "Choose a reranking model:\n- \"cohere-rerank-3.5\" is Cohere's leading reranking model, balancing performance\nand latency for a wide range of enterprise search applications.\n- \"bge-reranker-v2-m3\" is a high-performance, multilingual reranking model that\nworks well on messy data and short queries expected to return medium-length\npassages of text (1-2 paragraphs).\n- \"pinecone-rerank-v0\" is a state of the art reranking model that out-performs\ncompetitors on widely accepted benchmarks. It can handle chunks up to 512 tokens\n(1-2 paragraphs)."
+                        },
+                        "topN": {
+                            "type": "number",
+                            "description": "The number of results to return after reranking. Must be less than or\n        equal to the value of \"query.topK\"."
+                        },
+                        "rankFields": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "The fields to rerank on. This should include the field name specified\n      in the index's \"fieldMap\". The \"bge-reranker-v2-m3\" and\n      \"pinecone-rerank-v0\" models support only a single rerank field.\n      \"cohere-rerank-3.5\" supports multiple rerank fields."
+                        },
+                        "query": {
+                            "type": "string",
+                            "description": "An optional query to rerank documents against. If not specified, the\n        same query will be used for both the initial search and the reranking."
+                        }
+                    },
+                    "required": [
+                        "model",
+                        "rankFields"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Reranking can help determine which of the returned records are most\n    relevant. When reranking, use a \"query\" with a \"topK\" that returns more\n    results than you need; then use \"rerank\" to select the most relevant\n    \"topN\" results."
+                }
+            },
+            "required": [
+                "name",
+                "namespace",
+                "query"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "pinecone_rerank-documents",
+        "description": "Rerank a set of documents based on a query",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "model": {
+                    "type": "string",
+                    "enum": [
+                        "cohere-rerank-3.5",
+                        "bge-reranker-v2-m3",
+                        "pinecone-rerank-v0"
+                    ],
+                    "description": "Choose a reranking model:\n- \"cohere-rerank-3.5\" is Cohere's leading reranking model, balancing performance\nand latency for a wide range of enterprise search applications.\n- \"bge-reranker-v2-m3\" is a high-performance, multilingual reranking model that\nworks well on messy data and short queries expected to return medium-length\npassages of text (1-2 paragraphs).\n- \"pinecone-rerank-v0\" is a state of the art reranking model that out-performs\ncompetitors on widely accepted benchmarks. It can handle chunks up to 512 tokens\n(1-2 paragraphs)."
+                },
+                "query": {
+                    "type": "string",
+                    "description": "The query to rerank documents against."
+                },
+                "documents": {
+                    "anyOf": [
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "An array of text documents to rerank."
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "additionalProperties": {
+                                    "type": "string"
+                                }
+                            },
+                            "description": "An array of records to rerank."
+                        }
+                    ],
+                    "description": "A set of documents to rerank. Can either be an array of text documents\n    (strings) or an array of records."
+                },
+                "options": {
+                    "type": "object",
+                    "properties": {
+                        "topN": {
+                            "type": "number",
+                            "description": "The number of results to return after reranking."
+                        },
+                        "rankFields": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "The fields to rerank on. This should only be included if the documents\n        are records. The \"bge-reranker-v2-m3\" and \"pinecone-rerank-v0\" models\n        support only a single rerank field. \"cohere-rerank-3.5\" supports\n        multiple rerank fields."
+                        }
+                    },
+                    "required": [
+                        "topN"
+                    ],
+                    "additionalProperties": false
+                }
+            },
+            "required": [
+                "model",
+                "query",
+                "documents"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "pinecone_cascading-search",
+        "description": "Search across multiple indexes for records that are\nsimilar to the query text, deduplicate and rerank the results.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "indexes": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "An index to search."
+                            },
+                            "namespace": {
+                                "type": "string",
+                                "description": "A namespace to search."
+                            }
+                        },
+                        "required": [
+                            "name",
+                            "namespace"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "The indexes to search across. Records in each index should share a common schema."
+                },
+                "query": {
+                    "type": "object",
+                    "properties": {
+                        "topK": {
+                            "type": "number",
+                            "description": "The number of results to return."
+                        },
+                        "inputs": {
+                            "type": "object",
+                            "properties": {
+                                "text": {
+                                    "type": "string",
+                                    "description": "The text to search for."
+                                }
+                            },
+                            "required": [
+                                "text"
+                            ],
+                            "additionalProperties": false
+                        },
+                        "filter": {
+                            "description": "A filter can be used to narrow down results. Use the syntax of\n        MongoDB's query and projection operators: $eq, $ne, $gt, $gte, $lt,\n        $lte, $in, $nin, $exists, $and, $or. Make sure the records in the index\n        contain the fields that you are filtering on."
+                        }
+                    },
+                    "required": [
+                        "topK",
+                        "inputs"
+                    ],
+                    "additionalProperties": false,
+                    "description": "A query to search for records."
+                },
+                "rerank": {
+                    "type": "object",
+                    "properties": {
+                        "model": {
+                            "type": "string",
+                            "enum": [
+                                "cohere-rerank-3.5",
+                                "bge-reranker-v2-m3",
+                                "pinecone-rerank-v0"
+                            ],
+                            "description": "Choose a reranking model:\n- \"cohere-rerank-3.5\" is Cohere's leading reranking model, balancing performance\nand latency for a wide range of enterprise search applications.\n- \"bge-reranker-v2-m3\" is a high-performance, multilingual reranking model that\nworks well on messy data and short queries expected to return medium-length\npassages of text (1-2 paragraphs).\n- \"pinecone-rerank-v0\" is a state of the art reranking model that out-performs\ncompetitors on widely accepted benchmarks. It can handle chunks up to 512 tokens\n(1-2 paragraphs)."
+                        },
+                        "topN": {
+                            "type": "number",
+                            "description": "The number of results to return after reranking. Must be less than or\n        equal to the value of \"query.topK\"."
+                        },
+                        "rankFields": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "The fields to rerank on. This should include the field name specified\n      in the index's \"fieldMap\". The \"bge-reranker-v2-m3\" and\n      \"pinecone-rerank-v0\" models support only a single rerank field.\n      \"cohere-rerank-3.5\" supports multiple rerank fields."
+                        },
+                        "query": {
+                            "type": "string",
+                            "description": "An optional query to rerank documents against. If not specified, the\n        same query will be used for both the initial search and the reranking."
+                        }
+                    },
+                    "required": [
+                        "model",
+                        "rankFields"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Specifies how the results should be reranked. Use a \"query\" with a \"topK\"\n    that returns more results than you need; then use \"rerank\" to select the\n    most relevant \"topN\" results."
+                }
+            },
+            "required": [
+                "indexes",
+                "query",
+                "rerank"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

@@ -1,0 +1,166 @@
+[
+    {
+        "name": "list_databases",
+        "description": "List all accessible Notion databases",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    },
+    {
+        "name": "get_database",
+        "description": "Get details about a specific Notion database",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "database_id": {
+                    "type": "string",
+                    "description": "ID of the database to retrieve"
+                }
+            },
+            "required": [
+                "database_id"
+            ]
+        }
+    },
+    {
+        "name": "query_database",
+        "description": "Query items from a Notion database",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "database_id": {
+                    "type": "string",
+                    "description": "ID of the database to query"
+                },
+                "filter": {
+                    "type": "object",
+                    "description": "Optional filter criteria"
+                },
+                "sorts": {
+                    "type": "array",
+                    "description": "Optional sort criteria"
+                },
+                "start_cursor": {
+                    "type": "string",
+                    "description": "Cursor for pagination"
+                },
+                "page_size": {
+                    "type": "integer",
+                    "description": "Number of results per page",
+                    "default": 100
+                }
+            },
+            "required": [
+                "database_id"
+            ]
+        }
+    },
+    {
+        "name": "create_page",
+        "description": "Create a new page in a database",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "database_id": {
+                    "type": "string",
+                    "description": "ID of the database to create the page in"
+                },
+                "properties": {
+                    "type": "object",
+                    "description": "Page properties matching the database schema"
+                },
+                "children": {
+                    "type": "array",
+                    "description": "Optional page content blocks"
+                }
+            },
+            "required": [
+                "database_id",
+                "properties"
+            ]
+        }
+    },
+    {
+        "name": "update_page",
+        "description": "Update an existing page",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "page_id": {
+                    "type": "string",
+                    "description": "ID of the page to update"
+                },
+                "properties": {
+                    "type": "object",
+                    "description": "Updated page properties"
+                },
+                "archived": {
+                    "type": "boolean",
+                    "description": "Whether to archive the page"
+                }
+            },
+            "required": [
+                "page_id",
+                "properties"
+            ]
+        }
+    },
+    {
+        "name": "get_block_children",
+        "description": "Get the children blocks of a block",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "block_id": {
+                    "type": "string",
+                    "description": "ID of the block to get children for"
+                },
+                "start_cursor": {
+                    "type": "string",
+                    "description": "Cursor for pagination"
+                },
+                "page_size": {
+                    "type": "integer",
+                    "description": "Number of results per page",
+                    "default": 100
+                }
+            },
+            "required": [
+                "block_id"
+            ]
+        }
+    },
+    {
+        "name": "search",
+        "description": "Search Notion content",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Search query string"
+                },
+                "filter": {
+                    "type": "object",
+                    "description": "Filter criteria for search results"
+                },
+                "sort": {
+                    "type": "object",
+                    "description": "Sort criteria for search results"
+                },
+                "start_cursor": {
+                    "type": "string",
+                    "description": "Cursor for pagination"
+                },
+                "page_size": {
+                    "type": "integer",
+                    "description": "Number of results per page",
+                    "default": 100
+                }
+            },
+            "required": []
+        }
+    }
+]

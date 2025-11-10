@@ -1,0 +1,262 @@
+[
+    {
+        "name": "pathways_to_parenthood_mcp_create_thinking_chain",
+        "description": "Create a new sequential thinking process with specified parameters",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "problem": {
+                    "type": "string",
+                    "description": "Problem description"
+                },
+                "thinking_type": {
+                    "type": "string",
+                    "description": "Type of thinking to apply (e.g., \"analytical\", \"creative\", \"critical\", \"systems\")",
+                    "enum": [
+                        "analytical",
+                        "creative",
+                        "critical",
+                        "systems",
+                        "first-principles",
+                        "divergent",
+                        "convergent",
+                        "inductive",
+                        "deductive"
+                    ]
+                },
+                "context": {
+                    "type": "string",
+                    "description": "Additional context information"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Optional tags to categorize this thinking chain"
+                }
+            },
+            "required": [
+                "problem"
+            ]
+        }
+    },
+    {
+        "name": "pathways_to_parenthood_mcp_add_thinking_step",
+        "description": "Add a step to an existing thinking chain",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "chain_id": {
+                    "type": "string",
+                    "description": "Identifier of the thinking chain"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Step description"
+                },
+                "reasoning": {
+                    "type": "string",
+                    "description": "Reasoning for this step"
+                },
+                "evidence": {
+                    "type": "string",
+                    "description": "Supporting evidence for this step"
+                },
+                "confidence": {
+                    "type": "number",
+                    "description": "Confidence level (0-1)",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            },
+            "required": [
+                "chain_id",
+                "description",
+                "reasoning"
+            ]
+        }
+    },
+    {
+        "name": "pathways_to_parenthood_mcp_validate_step",
+        "description": "Validate logical connections between steps",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "chain_id": {
+                    "type": "string",
+                    "description": "Identifier of the thinking chain"
+                },
+                "step_id": {
+                    "type": "string",
+                    "description": "Identifier of the step to validate"
+                }
+            },
+            "required": [
+                "chain_id",
+                "step_id"
+            ]
+        }
+    },
+    {
+        "name": "pathways_to_parenthood_mcp_get_chain",
+        "description": "Retrieve a complete thinking chain",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "chain_id": {
+                    "type": "string",
+                    "description": "Identifier of the thinking chain"
+                },
+                "include_metadata": {
+                    "type": "boolean",
+                    "description": "Whether to include metadata in the response",
+                    "default": false
+                }
+            },
+            "required": [
+                "chain_id"
+            ]
+        }
+    },
+    {
+        "name": "pathways_to_parenthood_mcp_generate_visualization",
+        "description": "Create visual representation of a thinking chain",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "chain_id": {
+                    "type": "string",
+                    "description": "Identifier of the thinking chain"
+                },
+                "format": {
+                    "type": "string",
+                    "description": "Format of visualization (mermaid, json, text)",
+                    "enum": [
+                        "mermaid",
+                        "json",
+                        "text"
+                    ],
+                    "default": "mermaid"
+                },
+                "options": {
+                    "type": "object",
+                    "description": "Additional options for visualization"
+                }
+            },
+            "required": [
+                "chain_id"
+            ]
+        }
+    },
+    {
+        "name": "pathways_to_parenthood_mcp_save_to_memory",
+        "description": "Save a thinking chain to Memory Bank",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "chain_id": {
+                    "type": "string",
+                    "description": "Identifier of the thinking chain"
+                },
+                "memory_name": {
+                    "type": "string",
+                    "description": "Name for the memory"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Tags for the memory"
+                },
+                "update_active_context": {
+                    "type": "boolean",
+                    "description": "Whether to update activeContext.md",
+                    "default": false
+                }
+            },
+            "required": [
+                "chain_id",
+                "memory_name"
+            ]
+        }
+    },
+    {
+        "name": "pathways_to_parenthood_mcp_load_from_memory",
+        "description": "Load a thinking chain from Memory Bank",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "memory_id": {
+                    "type": "string",
+                    "description": "Identifier of the memory"
+                },
+                "query": {
+                    "type": "object",
+                    "description": "Search parameters if memory_id is not provided"
+                }
+            },
+            "required": [
+                "memory_id"
+            ]
+        }
+    },
+    {
+        "name": "pathways_to_parenthood_mcp_search_related_thinking",
+        "description": "Find related thinking chains based on parameters",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "keywords": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Keywords to search for"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Tags to filter by"
+                },
+                "thinking_type": {
+                    "type": "string",
+                    "description": "Type of thinking to filter by"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of results to return",
+                    "default": 10
+                }
+            }
+        }
+    },
+    {
+        "name": "pathways_to_parenthood_mcp_apply_template",
+        "description": "Apply a reasoning template to current thinking",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "template_name": {
+                    "type": "string",
+                    "description": "Name of the template to apply"
+                },
+                "problem_context": {
+                    "type": "string",
+                    "description": "Context for the problem"
+                },
+                "customize": {
+                    "type": "object",
+                    "description": "Custom parameters for the template"
+                }
+            },
+            "required": [
+                "template_name",
+                "problem_context"
+            ]
+        }
+    }
+]

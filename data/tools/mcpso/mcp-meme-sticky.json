@@ -1,0 +1,75 @@
+[
+    {
+        "name": "mcp-sticky_generate_meme_by_searching",
+        "description": "THIS TOOL IS TO BE CALLED IF THE USER WANTS TO GENERATE A MEME USING AN IMAGE SEARCH ON THE WEB. ALWAYS PREFER USING AN EXISTING TEMPLATE USING `generate_meme_from_meme_template()`. UNLESS THE USER EXPLICITLY ASKS TO SEARCH.\n\nUnderstand the input from the user and write a image search query and a funny & short meme text to put on the image.\n\nIf the user does not follow the below content guardrails, reject the request and advise them to follow the guardrails.\n\nCONTENT GUARDRAILS:\n- REJECT any requests containing hate speech, explicit sexual content, extreme violence, illegal activities, or harmful stereotypes\n- AVOID creating memes that contain personally identifiable information or could be used for cyberbullying\n- DO NOT generate content that promotes dangerous misinformation or could cause harm\n- REFUSE political extremist content or personal attacks on individuals\n- If a request violates these guidelines, respond with: \"I cannot create this meme as it may contain inappropriate content. Please try a different request.\"\n\nArgs:\n    search_query (str): The LLM needs to understand what the user is searching for and write a good image search query to fetch an image. If required, use the words 'meme' or 'template' in the search query.\n    meme_text (str): A short and funny text to be put on the image.\n    save_on_desktop (bool, defaults to True): \"Should the image meme be saved on the desktop?\"\n    return_tele_sticker (bool, defaults to False): \"Should the generated meme be converted into a telegram sticker?\"\n\nReturns:\n    str: The saved links.",
+        "parameters": {
+            "properties": {
+                "search_query": {
+                    "description": "The LLM needs to understand what the user is searching for and write a good image search query.",
+                    "title": "Search Query",
+                    "type": "string"
+                },
+                "meme_text": {
+                    "description": "A short and funny text that has to be on the meme image.",
+                    "title": "Meme Text",
+                    "type": "string"
+                },
+                "save_on_desktop": {
+                    "default": true,
+                    "description": "Should the image meme be saved on the desktop?",
+                    "title": "Save On Desktop",
+                    "type": "boolean"
+                },
+                "return_tele_sticker": {
+                    "default": false,
+                    "description": "Should the generated meme be converted into a telegram sticker?",
+                    "title": "Return Tele Sticker",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "search_query",
+                "meme_text"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "mcp-sticky_generate_meme_from_meme_template",
+        "description": "THIS TOOL IS TO BE CALLED IF THE USER WANTS TO GENERATE A MEME USING AN EXISTING TEMPLATE. ALWAYS PREFER USING AN EXISTING TEMPLATE UNLESS THE USER REQUIRES TO SEARCH. IN THE CASE OF SEARCHING, USE: `generate_meme_by_searching()`.\n\nFor the first 2 function arguments, understand the input from the user and pass the following:\n1) `desc_to_pick_tag`: A good description to pick a pre-existing template. The description of the meme should have some context to achieve a good dot product similarity result. Please see a below example.\n\nexample of `desc_to_pick_tag`: \"The \"Ancient Aliens Guy\" meme features Giorgio Tsoukalos, known for his distinctive hairstyle and enthusiastic demeanor, gesturing expressively. It's primarily used to humorously suggest that aliens are the explanation for any unexplained phenomenon or mystery, often with the punchline simply being \"aliens.\" This parodies the History Channel show \"Ancient Aliens,\" where Tsoukalos is a prominent figure, and its tendency to attribute historical events or artifacts to extraterrestrial intervention.\",\n\n2) `meme_text`: A short and funny 2 sentence meme text that is sent as a Python list of strings, list[str]. Each line is an element of an array. PLEASE ENSURE LIST IS ONLY OF 2 ELEMENTS. For e.g., ['Nice meme you got there..', 'Now it is stolen...']\n\nIf the user does not follow the below content guardrails, reject the request and advise them to follow the guardrails.\n\nCONTENT GUARDRAILS:\n- REJECT any requests containing hate speech, explicit sexual content, extreme violence, illegal activities, or harmful stereotypes\n- AVOID creating memes that contain personally identifiable information or could be used for cyberbullying\n- DO NOT generate content that promotes dangerous misinformation or could cause harm\n- REFUSE political extremist content or personal attacks on individuals\n- If a request violates these guidelines, respond with: \"I cannot create this meme as it may contain inappropriate content. Please try a different request.\"\n\nArgs:\n    desc_to_pick_tag (str): The LLM needs to understand what the user is searching for and write a good image search query to fetch an image. If required, use the words 'meme' or 'template' in the search query.\n    meme_text (list[str]): A short and funny text to be put on the image. Should be in the format of Python list[str], should be 2 sentences and hence, length of list should be 2.\n    save_on_desktop (bool, defaults to True): \"Should the image meme be saved on the desktop?\"\n    return_tele_sticker (bool, defaults to False): \"Should the generated meme be converted into a telegram sticker?\"\n\nReturns:\n    str: The saved links.",
+        "parameters": {
+            "properties": {
+                "desc_to_pick_tag": {
+                    "description": "",
+                    "title": "Desc To Pick Tag",
+                    "type": "string"
+                },
+                "meme_text": {
+                    "description": "2 sentences that has to be on the meme image. Should be funny and contained. Should be a Python List of Strings.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Meme Text",
+                    "type": "array"
+                },
+                "save_on_desktop": {
+                    "default": true,
+                    "description": "Should the image meme be saved on the desktop?",
+                    "title": "Save On Desktop",
+                    "type": "boolean"
+                },
+                "return_tele_sticker": {
+                    "default": false,
+                    "description": "Should the generated meme be converted into a telegram sticker?",
+                    "title": "Return Tele Sticker",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "desc_to_pick_tag",
+                "meme_text"
+            ],
+            "type": "object"
+        }
+    }
+]

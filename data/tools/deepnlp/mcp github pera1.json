@@ -1,0 +1,38 @@
+[
+    {
+        "name": "github_github_get_code",
+        "description": "\nRetrieves code from a GitHub repository URL and combines it into a single file. The URL must start with \"https://\".\n\nQuery Parameters:\n- dir: Filter files by directory paths (comma-separated)\n  Example: ?dir=src/components,tests/unit\n- ext: Filter files by extensions (comma-separated)\n  Example: ?ext=ts,tsx,js\n- mode: Display mode\n  Example: ?mode=tree (Shows directory structure and README files only)\n- branch: Specify the branch to fetch from (optional)\n  Example: ?branch=feature/new-feature\n- file: Specify a single file to retrieve (optional)\n  Example: ?file=src/components/Button.tsx\n\nExamples:\n1. For GitHub tree URLs with branch:\n  https://github.com/kazuph/pera1/tree/feature/great-branch\n  This URL will be automatically parsed to extract the branch information.\n\n2. For specific directory in a branch:\n  url: https://github.com/modelcontextprotocol/servers\n  dir: src/fetch\n  branch: develop\n\n3. For a single file:\n  url: https://github.com/username/repository\n  file: src/components/Button.tsx\n\n4. For directory structure with README files only:\n  url: https://github.com/username/repository\n  mode: tree\n\nThe tool will correctly parse the repository structure and fetch the files from the specified branch.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "dir": {
+                    "type": "string"
+                },
+                "ext": {
+                    "type": "string"
+                },
+                "mode": {
+                    "type": "string",
+                    "enum": [
+                        "tree"
+                    ]
+                },
+                "branch": {
+                    "type": "string"
+                },
+                "file": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

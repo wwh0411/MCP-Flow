@@ -1,0 +1,137 @@
+[
+    {
+        "name": "mcp-server-dingtalk_dingtalk_bot_send_message",
+        "description": "send a message to a dingtalk chat via bot name",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "bot name for send message to"
+                },
+                "message": {
+                    "type": "object",
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "enum": [
+                                "text",
+                                "link",
+                                "markdown",
+                                "actionCard",
+                                "feedCard"
+                            ],
+                            "description": "message type to send"
+                        },
+                        "content": {
+                            "type": "string"
+                        },
+                        "text": {
+                            "type": "string"
+                        },
+                        "title": {
+                            "type": "string"
+                        },
+                        "picUrl": {
+                            "type": "string"
+                        },
+                        "messageUrl": {
+                            "type": "string"
+                        },
+                        "btnOrientation": {
+                            "type": "string",
+                            "enum": [
+                                "0",
+                                "1"
+                            ]
+                        },
+                        "singleTitle": {
+                            "type": "string"
+                        },
+                        "singleURL": {
+                            "type": "string"
+                        },
+                        "btns": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "actionURL": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "title",
+                                    "actionURL"
+                                ],
+                                "additionalProperties": false
+                            }
+                        },
+                        "links": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "messageURL": {
+                                        "type": "string"
+                                    },
+                                    "picURL": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "title",
+                                    "messageURL",
+                                    "picURL"
+                                ],
+                                "additionalProperties": false
+                            }
+                        }
+                    },
+                    "required": [
+                        "type"
+                    ],
+                    "additionalProperties": false,
+                    "description": "message to send.\ntype Message = TextMessage | LinkMessage | MarkdownMessage | ActionCardMessage | FeedCardMessage;\ninterface TextMessage {\n  type: 'text';\n  content: string;\n}\ninterface LinkMessage {\n  type: 'link';\n  text: string;\n  title: string;\n  picUrl?: string;\n  messageUrl: string;\n}\ninterface MarkdownMessage {\n  type: 'markdown';\n  title?: string;\n  text: string;\n}\ninterface ActionCardMessage {\n  type: 'actionCard';\n  title: string;\n  text: string; // markdown text  \n  btnOrientation?: '0' | '1'; // 0: vertical, 1: horizontal\n  singleTitle?: string; // single button title\n  singleURL?: string; // single button URL\n  btns?: Array<{\n    title: string; // button title\n    actionURL: string; // button URL\n  }>; // array of buttons\n}\ninterface FeedCardMessage {\n  type: 'feedCard';\n  links: Array<{\n    title: string; // title of the link\n    messageURL: string; // URL to open when the link is clicked on\n    picURL: string; // image URL for the link\n  }>; // array of links\n}\n        "
+                },
+                "notify": {
+                    "type": "object",
+                    "properties": {
+                        "atMobiles": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "mobile numbers to notify"
+                        },
+                        "atUserIds": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "user IDs to notify"
+                        },
+                        "isAtAll": {
+                            "type": "boolean",
+                            "description": "whether to notify all users"
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            },
+            "required": [
+                "name",
+                "message",
+                "notify"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

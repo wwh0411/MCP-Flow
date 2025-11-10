@@ -1,0 +1,73 @@
+[
+    {
+        "name": "generate_video",
+        "description": "Generate a video using Google Veo 3 from a text prompt\n\nArgs:\n    prompt: Text prompt describing the video to generate\n    model: Veo model to use (veo-3.0-generate-preview, veo-3.0-fast-generate-preview, veo-2.0-generate-001)\n\nReturns:\n    VideoGenerationResponse with video path, metadata, and generation info\n\nNote: Veo 3 generates 8-second 720p videos with audio. Aspect ratio and other advanced \nparameters are not currently supported in the public API.",
+        "parameters": {
+            "properties": {
+                "prompt": {
+                    "title": "Prompt",
+                    "type": "string"
+                },
+                "model": {
+                    "default": "veo-3.0-generate-preview",
+                    "title": "Model",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "prompt"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "generate_video_from_image",
+        "description": "Generate a video using Google Veo 3 from an image and text prompt\n\nArgs:\n    prompt: Text prompt describing the video motion/action\n    image_path: Path to the starting image file\n    model: Veo model to use (veo-3.0-generate-preview, veo-3.0-fast-generate-preview, veo-2.0-generate-001)\n\nReturns:\n    VideoGenerationResponse with video path, metadata, and generation info\n    \nNote: Veo 3 generates 8-second 720p videos with audio. Advanced parameters like \nnegative prompts and aspect ratios are not currently supported in the public API.",
+        "parameters": {
+            "properties": {
+                "prompt": {
+                    "title": "Prompt",
+                    "type": "string"
+                },
+                "image_path": {
+                    "title": "Image Path",
+                    "type": "string"
+                },
+                "model": {
+                    "default": "veo-3.0-generate-preview",
+                    "title": "Model",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "prompt",
+                "image_path"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_generated_videos",
+        "description": "List all generated videos in the output directory\n\nReturns:\n    VideoListResponse with list of videos, count, and directory info",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_video_info",
+        "description": "Get detailed information about a video file\n\nArgs:\n    video_path: Path to the video file (can be relative to output directory)\n\nReturns:\n    VideoInfoResponse with file metadata",
+        "parameters": {
+            "properties": {
+                "video_path": {
+                    "title": "Video Path",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "video_path"
+            ],
+            "type": "object"
+        }
+    }
+]

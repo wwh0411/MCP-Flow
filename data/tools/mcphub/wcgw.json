@@ -1,0 +1,332 @@
+[
+    {
+        "name": "Initialize",
+        "description": "\n- Always call this at the start of the conversation before using any of the shell tools from wcgw.\n- Use `any_workspace_path` to initialize the shell in the appropriate project directory.\n- If the user has mentioned a workspace or project root or any other file or folder use it to set `any_workspace_path`.\n- If user has mentioned any files use `initial_files_to_read` to read, use absolute paths only (~ allowed)\n- By default use mode \"wcgw\"\n- In \"code-writer\" mode, set the commands and globs which user asked to set, otherwise use 'all'.\n- Use type=\"first_call\" if it's the first call to this tool.\n- Use type=\"user_asked_mode_change\" if in a conversation user has asked to change mode.\n- Use type=\"reset_shell\" if in a conversation shell is not working after multiple tries.\n- Use type=\"user_asked_change_workspace\" if in a conversation user asked to change workspace\n",
+        "parameters": {
+            "$defs": {
+                "CodeWriterMode": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "allowed_globs": {
+                            "anyOf": [
+                                {
+                                    "const": "all",
+                                    "type": "string"
+                                },
+                                {
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "type": "array"
+                                }
+                            ]
+                        },
+                        "allowed_commands": {
+                            "anyOf": [
+                                {
+                                    "const": "all",
+                                    "type": "string"
+                                },
+                                {
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "type": "array"
+                                }
+                            ]
+                        }
+                    },
+                    "required": [
+                        "allowed_globs",
+                        "allowed_commands"
+                    ],
+                    "type": "object"
+                }
+            },
+            "additionalProperties": false,
+            "properties": {
+                "type": {
+                    "enum": [
+                        "first_call",
+                        "user_asked_mode_change",
+                        "reset_shell",
+                        "user_asked_change_workspace"
+                    ],
+                    "type": "string"
+                },
+                "any_workspace_path": {
+                    "description": "Workspce to initialise in. Don't use ~ by default, instead use empty string",
+                    "type": "string"
+                },
+                "initial_files_to_read": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "task_id_to_resume": {
+                    "type": "string"
+                },
+                "mode_name": {
+                    "enum": [
+                        "wcgw",
+                        "architect",
+                        "code_writer"
+                    ],
+                    "type": "string"
+                },
+                "thread_id": {
+                    "description": "Use the thread_id created in first_call, leave it as empty string if first_call",
+                    "type": "string"
+                },
+                "code_writer_config": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/CodeWriterMode"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null
+                }
+            },
+            "required": [
+                "type",
+                "any_workspace_path",
+                "initial_files_to_read",
+                "task_id_to_resume",
+                "mode_name",
+                "thread_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "BashCommand",
+        "description": "\n- Execute a bash command. This is stateful (beware with subsequent calls).\n- Status of the command and the current working directory will always be returned at the end.\n- The first or the last line might be `(...truncated)` if the output is too long.\n- Always run `pwd` if you get any file or directory not found error to make sure you're not lost.\n- Run long running commands in background using screen instead of \"&\".\n- Do not use 'cat' to read files, use ReadFiles tool instead\n- In order to check status of previous command, use `status_check` with empty command argument.\n- Only command is allowed to run at a time. You need to wait for any previous command to finish before running a new one.\n- Programs don't hang easily, so most likely explanation for no output is usually that the program is still running, and you need to check status again.\n- Do not send Ctrl-c before checking for status till 10 minutes or whatever is appropriate for the program to finish.\n",
+        "parameters": {
+            "$defs": {
+                "ActionJsonSchema": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "type": {
+                            "description": "type of action.",
+                            "enum": [
+                                "command",
+                                "status_check",
+                                "send_text",
+                                "send_specials",
+                                "send_ascii"
+                            ],
+                            "type": "string"
+                        },
+                        "command": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "Set only if type=\"command\""
+                        },
+                        "status_check": {
+                            "anyOf": [
+                                {
+                                    "const": true,
+                                    "type": "boolean"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "Set only if type=\"status_check\""
+                        },
+                        "send_text": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "Set only if type=\"send_text\""
+                        },
+                        "send_specials": {
+                            "anyOf": [
+                                {
+                                    "items": {
+                                        "enum": [
+                                            "Enter",
+                                            "Key-up",
+                                            "Key-down",
+                                            "Key-left",
+                                            "Key-right",
+                                            "Ctrl-c",
+                                            "Ctrl-d"
+                                        ],
+                                        "type": "string"
+                                    },
+                                    "type": "array"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "Set only if type=\"send_specials\""
+                        },
+                        "send_ascii": {
+                            "anyOf": [
+                                {
+                                    "items": {
+                                        "type": "integer"
+                                    },
+                                    "type": "array"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "default": null,
+                            "description": "Set only if type=\"send_ascii\""
+                        }
+                    },
+                    "required": [
+                        "type"
+                    ],
+                    "type": "object"
+                }
+            },
+            "additionalProperties": false,
+            "properties": {
+                "action_json": {
+                    "$ref": "#/$defs/ActionJsonSchema"
+                },
+                "wait_for_seconds": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null
+                },
+                "thread_id": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "action_json",
+                "thread_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "ReadFiles",
+        "description": "\n- Read full file content of one or more files.\n- Provide absolute paths only (~ allowed)\n- Only if the task requires line numbers understanding:\n    - You may extract a range of lines. E.g., `/path/to/file:1-10` for lines 1-10. You can drop start or end like `/path/to/file:1-` or `/path/to/file:-10` \n",
+        "parameters": {
+            "additionalProperties": false,
+            "properties": {
+                "file_paths": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "file_paths"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "ReadImage",
+        "description": "Read an image from the shell.",
+        "parameters": {
+            "additionalProperties": false,
+            "properties": {
+                "file_path": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "file_path"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "FileWriteOrEdit",
+        "description": "\n- Writes or edits a file based on the percentage of changes.\n- Use absolute path only (~ allowed).\n- First write down percentage of lines that need to be replaced in the file (between 0-100) in percentage_to_change\n- percentage_to_change should be low if mostly new code is to be added. It should be high if a lot of things are to be replaced.\n- If percentage_to_change > 50, provide full file content in text_or_search_replace_blocks\n- If percentage_to_change <= 50, text_or_search_replace_blocks should be search/replace blocks.\n\nInstructions for editing files.\n# Example\n## Input file\n```\nimport numpy as np\nfrom impls import impl1, impl2\n\ndef hello():\n    \"print a greeting\"\n\n    print(\"hello\")\n\ndef call_hello():\n    \"call hello\"\n\n    hello()\n    print(\"Called\")\n    impl1()\n    hello()\n    impl2()\n\n```\n## Edit format on the input file\n```\n<<<<<<< SEARCH\nfrom impls import impl1, impl2\n=======\nfrom impls import impl1, impl2\nfrom hello import hello as hello_renamed\n>>>>>>> REPLACE\n<<<<<<< SEARCH\ndef hello():\n    \"print a greeting\"\n\n    print(\"hello\")\n=======\n>>>>>>> REPLACE\n<<<<<<< SEARCH\ndef call_hello():\n    \"call hello\"\n\n    hello()\n=======\ndef call_hello_renamed():\n    \"call hello renamed\"\n\n    hello_renamed()\n>>>>>>> REPLACE\n<<<<<<< SEARCH\n    impl1()\n    hello()\n    impl2()\n=======\n    impl1()\n    hello_renamed()\n    impl2()\n>>>>>>> REPLACE\n```\n\n# *SEARCH/REPLACE block* Rules:\n\n- Every \"SEARCH\" section must *EXACTLY MATCH* the existing file content, character for character, including all comments, docstrings, whitespaces, etc.\n- Use multiple search/replace blocks in a single FileWriteOrEdit tool call to edit in a single file in multiple places from top to bottom (separate calls are slower).\n- Including multiple unique *SEARCH/REPLACE* blocks if needed.\n- Include enough and only enough lines in each SEARCH section to uniquely match each set of lines that need to change.\n- Keep *SEARCH/REPLACE* blocks concise.\n- Break large *SEARCH/REPLACE* blocks into a series of smaller blocks that each change a small portion of the file.\n- Include just the changing lines, and a few surrounding lines (0-3 lines) if needed for uniqueness.\n- Other than for uniqueness, avoid including those lines which do not change in search (and replace) blocks. Target 0-3 non trivial extra lines per block.\n- Preserve leading spaces and indentations in both SEARCH and REPLACE blocks.",
+        "parameters": {
+            "additionalProperties": false,
+            "properties": {
+                "file_path": {
+                    "description": "#1: absolute file path",
+                    "type": "string"
+                },
+                "percentage_to_change": {
+                    "description": "#2: predict this percentage, calculated as number of existing lines that will have some diff divided by total existing lines.",
+                    "type": "integer"
+                },
+                "text_or_search_replace_blocks": {
+                    "description": "#3: content/edit blocks. Must be after #2 in the tool xml",
+                    "type": "string"
+                },
+                "thread_id": {
+                    "description": "#4: thread_id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "file_path",
+                "percentage_to_change",
+                "text_or_search_replace_blocks",
+                "thread_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "ContextSave",
+        "description": "\nSaves provided description and file contents of all the relevant file paths or globs in a single text file.\n- Provide random 3 word unqiue id or whatever user provided.\n- Leave project path as empty string if no project path",
+        "parameters": {
+            "additionalProperties": false,
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "project_root_path": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "relevant_file_globs": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "id",
+                "project_root_path",
+                "description",
+                "relevant_file_globs"
+            ],
+            "type": "object"
+        }
+    }
+]

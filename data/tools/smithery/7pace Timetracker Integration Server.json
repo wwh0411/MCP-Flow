@@ -1,0 +1,171 @@
+[
+    {
+        "name": "sevenpace-mcp-server_health",
+        "description": "Simple health check for deployment scanners",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    },
+    {
+        "name": "sevenpace-mcp-server_configure_sevenpace",
+        "description": "Configure 7pace credentials at runtime (organization and token)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "organization": {
+                    "type": "string",
+                    "description": "7pace organization (e.g., labournet)"
+                },
+                "token": {
+                    "type": "string",
+                    "description": "7pace API token"
+                },
+                "baseUrl": {
+                    "type": "string",
+                    "description": "Optional override for 7pace base URL (advanced)"
+                }
+            },
+            "required": [
+                "organization",
+                "token"
+            ]
+        }
+    },
+    {
+        "name": "sevenpace-mcp-server_log_time",
+        "description": "Log time entry to 7pace Timetracker for a specific work item",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "workItemId": {
+                    "type": "number",
+                    "description": "Azure DevOps Work Item ID"
+                },
+                "date": {
+                    "type": "string",
+                    "description": "Date in YYYY-MM-DD format"
+                },
+                "hours": {
+                    "type": "number",
+                    "description": "Number of hours worked"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description of work performed"
+                },
+                "activityType": {
+                    "type": "string",
+                    "description": "Type of activity (name or ID, optional)"
+                }
+            },
+            "required": [
+                "workItemId",
+                "date",
+                "hours",
+                "description"
+            ]
+        }
+    },
+    {
+        "name": "sevenpace-mcp-server_list_activity_types",
+        "description": "List available 7pace activity types (name and id)",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    },
+    {
+        "name": "sevenpace-mcp-server_get_worklogs",
+        "description": "Retrieve time logs from 7pace Timetracker",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "workItemId": {
+                    "type": "number",
+                    "description": "Filter by specific work item ID (optional)"
+                },
+                "startDate": {
+                    "type": "string",
+                    "description": "Start date in YYYY-MM-DD format (optional)"
+                },
+                "endDate": {
+                    "type": "string",
+                    "description": "End date in YYYY-MM-DD format (optional)"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "sevenpace-mcp-server_update_worklog",
+        "description": "Update an existing time log entry",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "worklogId": {
+                    "type": "string",
+                    "description": "ID of the worklog to update"
+                },
+                "workItemId": {
+                    "type": "number",
+                    "description": "New work item ID (optional)"
+                },
+                "hours": {
+                    "type": "number",
+                    "description": "New number of hours (optional)"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "New description (optional)"
+                }
+            },
+            "required": [
+                "worklogId"
+            ]
+        }
+    },
+    {
+        "name": "sevenpace-mcp-server_delete_worklog",
+        "description": "Delete a time log entry",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "worklogId": {
+                    "type": "string",
+                    "description": "ID of the worklog to delete"
+                }
+            },
+            "required": [
+                "worklogId"
+            ]
+        }
+    },
+    {
+        "name": "sevenpace-mcp-server_generate_time_report",
+        "description": "Generate time tracking report for a date range",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "startDate": {
+                    "type": "string",
+                    "description": "Start date in YYYY-MM-DD format"
+                },
+                "endDate": {
+                    "type": "string",
+                    "description": "End date in YYYY-MM-DD format"
+                },
+                "userId": {
+                    "type": "string",
+                    "description": "Filter by specific user ID (optional)"
+                }
+            },
+            "required": [
+                "startDate",
+                "endDate"
+            ]
+        }
+    }
+]

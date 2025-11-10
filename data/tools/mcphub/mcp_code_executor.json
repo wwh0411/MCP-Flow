@@ -1,0 +1,174 @@
+[
+    {
+        "name": "execute_code",
+        "description": "Execute Python code in the conda environment. For short code snippets only. For longer code, use initialize_code_file and append_to_code_file instead.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "description": "Python code to execute"
+                },
+                "filename": {
+                    "type": "string",
+                    "description": "Optional: Name of the file to save the code (default: generated UUID)"
+                }
+            },
+            "required": [
+                "code"
+            ]
+        }
+    },
+    {
+        "name": "initialize_code_file",
+        "description": "Create a new Python file with initial content. Use this as the first step for longer code that may exceed token limits. Follow with append_to_code_file for additional code.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string",
+                    "description": "Initial content to write to the file"
+                },
+                "filename": {
+                    "type": "string",
+                    "description": "Optional: Name of the file (default: generated UUID)"
+                }
+            },
+            "required": [
+                "content"
+            ]
+        }
+    },
+    {
+        "name": "append_to_code_file",
+        "description": "Append content to an existing Python code file. Use this to add more code to a file created with initialize_code_file, allowing you to build up larger code bases in parts.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "file_path": {
+                    "type": "string",
+                    "description": "Full path to the file"
+                },
+                "content": {
+                    "type": "string",
+                    "description": "Content to append to the file"
+                }
+            },
+            "required": [
+                "file_path",
+                "content"
+            ]
+        }
+    },
+    {
+        "name": "execute_code_file",
+        "description": "Execute an existing Python file. Use this as the final step after building up code with initialize_code_file and append_to_code_file.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "file_path": {
+                    "type": "string",
+                    "description": "Full path to the Python file to execute"
+                }
+            },
+            "required": [
+                "file_path"
+            ]
+        }
+    },
+    {
+        "name": "read_code_file",
+        "description": "Read the content of an existing Python code file. Use this to verify the current state of a file before appending more content or executing it.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "file_path": {
+                    "type": "string",
+                    "description": "Full path to the file to read"
+                }
+            },
+            "required": [
+                "file_path"
+            ]
+        }
+    },
+    {
+        "name": "install_dependencies",
+        "description": "Install Python dependencies in the conda environment",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "packages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of packages to install"
+                }
+            },
+            "required": [
+                "packages"
+            ]
+        }
+    },
+    {
+        "name": "check_installed_packages",
+        "description": "Check if packages are installed in the conda environment",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "packages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of packages to check"
+                }
+            },
+            "required": [
+                "packages"
+            ]
+        }
+    },
+    {
+        "name": "configure_environment",
+        "description": "Change the environment configuration settings",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "conda",
+                        "venv",
+                        "venv-uv"
+                    ],
+                    "description": "Type of Python environment"
+                },
+                "conda_name": {
+                    "type": "string",
+                    "description": "Name of the conda environment (required if type is 'conda')"
+                },
+                "venv_path": {
+                    "type": "string",
+                    "description": "Path to the virtualenv (required if type is 'venv')"
+                },
+                "uv_venv_path": {
+                    "type": "string",
+                    "description": "Path to the UV virtualenv (required if type is 'venv-uv')"
+                }
+            },
+            "required": [
+                "type"
+            ]
+        }
+    },
+    {
+        "name": "get_environment_config",
+        "description": "Get the current environment configuration",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    }
+]

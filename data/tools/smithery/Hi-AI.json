@@ -1,0 +1,927 @@
+[
+    {
+        "name": "hi-ai_get_current_time",
+        "description": "IMPORTANT: This tool should be automatically called when users ask \"\uc9c0\uae08 \uba87\uc2dc\", \"\ud604\uc7ac \uc2dc\uac04\", \"\uba87\uc2dc\uc57c\", \"what time\", \"current time\", \"time now\", \"what's the time\" or similar questions. Get current time",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "format": {
+                    "type": "string",
+                    "description": "Time format",
+                    "enum": [
+                        "iso",
+                        "local",
+                        "utc",
+                        "timestamp",
+                        "human"
+                    ]
+                },
+                "timezone": {
+                    "type": "string",
+                    "description": "Timezone (e.g., America/New_York, Asia/Seoul)"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "hi-ai_create_thinking_chain",
+        "description": "IMPORTANT: This tool should be automatically called when users say \"\uc0dd\uac01 \uacfc\uc815\", \"\uc0ac\uace0 \ud750\ub984\", \"\uc5f0\uc1c4\uc801\uc73c\ub85c\", \"thinking process\", \"chain of thought\", \"reasoning chain\" or similar keywords. Create sequential thinking chain",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "topic": {
+                    "type": "string",
+                    "description": "Topic to think about"
+                },
+                "steps": {
+                    "type": "number",
+                    "description": "Number of thinking steps"
+                }
+            },
+            "required": [
+                "topic"
+            ]
+        }
+    },
+    {
+        "name": "hi-ai_analyze_problem",
+        "description": "IMPORTANT: This tool should be automatically called when users say \"\ubb38\uc81c \ubd84\uc11d\", \"\uc5b4\ub5bb\uac8c \uc811\uadfc\", \"\ubd84\uc11d\ud574\uc918\", \"analyze this\", \"how to approach\", \"break this down\" or similar keywords. Break down complex problem into structured steps",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "problem": {
+                    "type": "string",
+                    "description": "Problem to analyze"
+                },
+                "domain": {
+                    "type": "string",
+                    "description": "Problem domain"
+                }
+            },
+            "required": [
+                "problem"
+            ]
+        }
+    },
+    {
+        "name": "hi-ai_step_by_step_analysis",
+        "description": "IMPORTANT: This tool should be automatically called when users say \"\ub2e8\uacc4\ubcc4\", \"\ucc28\uadfc\ucc28\uadfc\", \"\ud558\ub098\uc529\", \"step by step\", \"one by one\", \"gradually\" or similar keywords. Perform detailed step-by-step analysis",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "task": {
+                    "type": "string",
+                    "description": "Task to analyze step by step"
+                },
+                "context": {
+                    "type": "string",
+                    "description": "Additional context for the task"
+                },
+                "detailLevel": {
+                    "type": "string",
+                    "description": "Level of detail",
+                    "enum": [
+                        "basic",
+                        "detailed",
+                        "comprehensive"
+                    ]
+                }
+            },
+            "required": [
+                "task"
+            ]
+        }
+    },
+    {
+        "name": "hi-ai_break_down_problem",
+        "description": "IMPORTANT: This tool should be automatically called when users say \"\ub098\ub220\uc11c\", \"\ub2e8\uacc4\ubcc4\ub85c\", \"\uc138\ubd84\ud654\", \"break down\", \"divide\", \"split into parts\" or similar keywords. Break complex problems into sub-problems",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "problem": {
+                    "type": "string",
+                    "description": "Complex problem to break down"
+                },
+                "maxDepth": {
+                    "type": "number",
+                    "description": "Maximum breakdown depth"
+                },
+                "approach": {
+                    "type": "string",
+                    "description": "Breakdown approach",
+                    "enum": [
+                        "sequential",
+                        "hierarchical",
+                        "dependency-based"
+                    ]
+                }
+            },
+            "required": [
+                "problem"
+            ]
+        }
+    },
+    {
+        "name": "hi-ai_think_aloud_process",
+        "description": "IMPORTANT: This tool should be automatically called when users say \"\uc0dd\uac01\ud574\ubd10\", \"\uace0\ubbfc\ud574\ubd10\", \"\uc5b4\ub5bb\uac8c \uc0dd\uac01\ud574\", \"think about it\", \"let me think\", \"reasoning\" or similar keywords. Generate think-aloud reasoning process",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "scenario": {
+                    "type": "string",
+                    "description": "Scenario or problem to think through"
+                },
+                "perspective": {
+                    "type": "string",
+                    "description": "Thinking perspective",
+                    "enum": [
+                        "analytical",
+                        "creative",
+                        "systematic",
+                        "critical"
+                    ]
+                },
+                "verbosity": {
+                    "type": "string",
+                    "description": "Verbosity level",
+                    "enum": [
+                        "concise",
+                        "moderate",
+                        "verbose"
+                    ]
+                }
+            },
+            "required": [
+                "scenario"
+            ]
+        }
+    },
+    {
+        "name": "hi-ai_format_as_plan",
+        "description": "IMPORTANT: This tool should be automatically called when users say \"\uacc4\ud68d\uc73c\ub85c\", \"\uc815\ub9ac\ud574\uc918\", \"\uccb4\ud06c\ub9ac\uc2a4\ud2b8\", \"format as plan\", \"make a plan\", \"organize this\", \"checklist\" or similar keywords. Format content into clear plans",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string",
+                    "description": "Content to format as a plan"
+                },
+                "priority": {
+                    "type": "string",
+                    "description": "Default priority level",
+                    "enum": [
+                        "high",
+                        "medium",
+                        "low"
+                    ]
+                },
+                "includeTimeEstimates": {
+                    "type": "boolean",
+                    "description": "Include time estimates for each step"
+                },
+                "includeCheckboxes": {
+                    "type": "boolean",
+                    "description": "Include checkboxes for tracking progress"
+                }
+            },
+            "required": [
+                "content"
+            ]
+        }
+    },
+    {
+        "name": "hi-ai_monitor_console_logs",
+        "description": "IMPORTANT: This tool should be automatically called when users say \"\ucf58\uc194 \ub85c\uadf8\", \"\uc5d0\ub7ec \ud655\uc778\", \"\ub85c\uadf8 \ubd10\uc918\", \"console\", \"check logs\", \"debug output\", \"console errors\" or similar keywords. Monitor browser console",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "URL to monitor"
+                },
+                "logLevel": {
+                    "type": "string",
+                    "description": "Log level to capture",
+                    "enum": [
+                        "all",
+                        "error",
+                        "warn",
+                        "info",
+                        "debug"
+                    ]
+                },
+                "duration": {
+                    "type": "number",
+                    "description": "Monitoring duration in seconds"
+                }
+            },
+            "required": [
+                "url"
+            ]
+        }
+    },
+    {
+        "name": "hi-ai_inspect_network_requests",
+        "description": "IMPORTANT: This tool should be automatically called when users say \"\ub124\ud2b8\uc6cc\ud06c\", \"API \ud638\ucd9c\", \"\uc694\uccad \ud655\uc778\", \"network\", \"API calls\", \"check requests\", \"network traffic\" or similar keywords. Inspect network requests",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "URL to inspect"
+                },
+                "filterType": {
+                    "type": "string",
+                    "description": "Request type filter",
+                    "enum": [
+                        "all",
+                        "xhr",
+                        "fetch",
+                        "websocket",
+                        "failed"
+                    ]
+                },
+                "includeHeaders": {
+                    "type": "boolean",
+                    "description": "Include request/response headers"
+                }
+            },
+            "required": [
+                "url"
+            ]
+        }
+    },
+    {
+        "name": "hi-ai_save_memory",
+        "description": "IMPORTANT: This tool should be automatically called when users say \"\uae30\uc5b5\ud574\", \"remember\", \"\uc800\uc7a5\ud574\", \"save this\", \"keep this\", \"memorize\" or similar keywords. Save information to long-term memory",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "description": "Memory key/identifier"
+                },
+                "value": {
+                    "type": "string",
+                    "description": "Information to save"
+                },
+                "category": {
+                    "type": "string",
+                    "description": "Memory category",
+                    "enum": [
+                        "project",
+                        "personal",
+                        "code",
+                        "notes"
+                    ]
+                }
+            },
+            "required": [
+                "key",
+                "value"
+            ]
+        }
+    },
+    {
+        "name": "hi-ai_recall_memory",
+        "description": "IMPORTANT: This tool should be automatically called when users say \"\ub5a0\uc62c\ub824\", \"\uae30\uc5b5\ub098\", \"recall\", \"remember what\", \"what was\", \"remind me\" or similar keywords. Retrieve information from memory",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "description": "Memory key to retrieve"
+                },
+                "category": {
+                    "type": "string",
+                    "description": "Memory category to search in"
+                }
+            },
+            "required": [
+                "key"
+            ]
+        }
+    },
+    {
+        "name": "hi-ai_list_memories",
+        "description": "IMPORTANT: This tool should be automatically called when users say \"\ubb50 \uc788\uc5c8\uc9c0\", \"\uc800\uc7a5\ub41c \uac70\", \"\ubaa9\ub85d\", \"what did I save\", \"list memories\", \"show saved\" or ask about stored items. List all stored memories",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "string",
+                    "description": "Filter by category"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of results"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "hi-ai_delete_memory",
+        "description": "IMPORTANT: This tool should be automatically called when users say \"\uc78a\uc5b4\", \"\uc0ad\uc81c\ud574\", \"\uc9c0\uc6cc\", \"forget this\", \"delete memory\", \"remove\", \"erase\" or similar keywords. Delete specific memory",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "description": "Memory key to delete"
+                }
+            },
+            "required": [
+                "key"
+            ]
+        }
+    },
+    {
+        "name": "hi-ai_search_memories",
+        "description": "IMPORTANT: This tool should be automatically called when users say \"\ucc3e\uc544\", \"\uac80\uc0c9\", \"\uae30\uc5b5 \uc911\uc5d0\", \"search memory\", \"find in memories\", \"look for\" or similar keywords. Search memories by content",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Search query"
+                },
+                "category": {
+                    "type": "string",
+                    "description": "Category to search in"
+                }
+            },
+            "required": [
+                "query"
+            ]
+        }
+    },
+    {
+        "name": "hi-ai_update_memory",
+        "description": "IMPORTANT: This tool should be automatically called when users say \"\uc218\uc815\ud574\", \"\uc5c5\ub370\uc774\ud2b8\", \"\ubc14\uafd4\", \"update memory\", \"change\", \"modify\", \"edit memory\" or similar keywords. Update existing memory",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "description": "Memory key to update"
+                },
+                "value": {
+                    "type": "string",
+                    "description": "New value"
+                },
+                "append": {
+                    "type": "boolean",
+                    "description": "Append to existing value"
+                }
+            },
+            "required": [
+                "key",
+                "value"
+            ]
+        }
+    },
+    {
+        "name": "hi-ai_auto_save_context",
+        "description": "IMPORTANT: This tool should be automatically called when users say \"\ucee4\ubc0b\", \"commit\", \"\uc800\uc7a5\", \"save\", \"checkpoint\", \"backup\" or similar keywords. Automatically save current context",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "urgency": {
+                    "type": "string",
+                    "description": "Urgency level",
+                    "enum": [
+                        "low",
+                        "medium",
+                        "high",
+                        "critical"
+                    ]
+                },
+                "contextType": {
+                    "type": "string",
+                    "description": "Type of context to save",
+                    "enum": [
+                        "progress",
+                        "decisions",
+                        "code-snippets",
+                        "debugging",
+                        "planning"
+                    ]
+                },
+                "sessionId": {
+                    "type": "string",
+                    "description": "Current session identifier"
+                },
+                "summary": {
+                    "type": "string",
+                    "description": "Brief summary of current context"
+                }
+            },
+            "required": [
+                "urgency",
+                "contextType"
+            ]
+        }
+    },
+    {
+        "name": "hi-ai_restore_session_context",
+        "description": "IMPORTANT: This tool should be automatically called when users say \"\ubcf5\uc6d0\", \"\uc774\uc804 \uc0c1\ud0dc\", \"\ub418\ub3cc\ub824\", \"restore\", \"go back\", \"previous state\", \"revert\" or similar keywords. Restore previous session context",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "sessionId": {
+                    "type": "string",
+                    "description": "Session ID to restore"
+                },
+                "restoreLevel": {
+                    "type": "string",
+                    "description": "Level of detail to restore",
+                    "enum": [
+                        "essential",
+                        "detailed",
+                        "complete"
+                    ]
+                },
+                "filterType": {
+                    "type": "string",
+                    "description": "Filter context by type",
+                    "enum": [
+                        "all",
+                        "progress",
+                        "decisions",
+                        "code-snippets",
+                        "debugging",
+                        "planning"
+                    ]
+                }
+            },
+            "required": [
+                "sessionId"
+            ]
+        }
+    },
+    {
+        "name": "hi-ai_prioritize_memory",
+        "description": "IMPORTANT: This tool should be automatically called when users say \"\uc911\uc694\ud55c \uac70\", \"\uc6b0\uc120\uc21c\uc704\", \"prioritize\", \"important ones\", \"what matters\", \"priority\" or similar keywords. Prioritize memories by importance",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "currentTask": {
+                    "type": "string",
+                    "description": "Current task description"
+                },
+                "criticalDecisions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of critical decisions made"
+                },
+                "codeChanges": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Important code changes"
+                },
+                "blockers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Current blockers or issues"
+                },
+                "nextSteps": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Planned next steps"
+                }
+            },
+            "required": [
+                "currentTask"
+            ]
+        }
+    },
+    {
+        "name": "hi-ai_start_session",
+        "description": "IMPORTANT: This tool should be automatically called when users greet with \"\ud558\uc774\uc544\uc774\", \"hi-ai\", \"\uc548\ub155\", \"hello\", or similar greetings. It loads project context, previous memories, and restores the last session state to continue work seamlessly.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "greeting": {
+                    "type": "string",
+                    "description": "Greeting message that triggered this action (e.g., \"\ud558\uc774\uc544\uc774\", \"hi-ai\")"
+                },
+                "loadMemory": {
+                    "type": "boolean",
+                    "description": "Load relevant project memories (default: true)"
+                },
+                "loadGuides": {
+                    "type": "boolean",
+                    "description": "Load applicable coding guides (default: true)"
+                },
+                "restoreContext": {
+                    "type": "boolean",
+                    "description": "Restore previous session context (default: true)"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "hi-ai_get_coding_guide",
+        "description": "IMPORTANT: This tool should be automatically called when users say \"\uac00\uc774\ub4dc\", \"\uaddc\uce59\", \"\ucee8\ubca4\uc158\", \"guide\", \"rules\", \"convention\", \"standards\", \"best practices\" or similar keywords. Get coding guide",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Guide name to retrieve"
+                },
+                "category": {
+                    "type": "string",
+                    "description": "Guide category"
+                }
+            },
+            "required": [
+                "name"
+            ]
+        }
+    },
+    {
+        "name": "hi-ai_apply_quality_rules",
+        "description": "IMPORTANT: This tool should be automatically called when users say \"\uaddc\uce59 \uc801\uc6a9\", \"\ud45c\uc900 \uc801\uc6a9\", \"apply rules\", \"apply standards\", \"follow conventions\", \"\uc801\uc6a9\ud574\" or similar keywords. Apply quality rules",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "scope": {
+                    "type": "string",
+                    "description": "Application scope",
+                    "enum": [
+                        "naming",
+                        "structure",
+                        "typescript",
+                        "react",
+                        "accessibility",
+                        "all"
+                    ]
+                },
+                "language": {
+                    "type": "string",
+                    "description": "Programming language context",
+                    "enum": [
+                        "javascript",
+                        "typescript",
+                        "react",
+                        "vue",
+                        "general"
+                    ]
+                }
+            },
+            "required": [
+                "scope"
+            ]
+        }
+    },
+    {
+        "name": "hi-ai_validate_code_quality",
+        "description": "IMPORTANT: This tool should be automatically called when users say \"\ud488\uc9c8\", \"\ub9ac\ubdf0\", \"\uac80\uc0ac\", \"quality\", \"review code\", \"check quality\", \"validate\", \"\ucf54\ub4dc \ub9ac\ubdf0\" or similar keywords. Validate code quality",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "description": "Code to validate"
+                },
+                "type": {
+                    "type": "string",
+                    "description": "Code type",
+                    "enum": [
+                        "component",
+                        "function",
+                        "hook",
+                        "utility",
+                        "general"
+                    ]
+                },
+                "strict": {
+                    "type": "boolean",
+                    "description": "Apply strict validation rules"
+                },
+                "metrics": {
+                    "type": "string",
+                    "description": "Specific metrics to check",
+                    "enum": [
+                        "complexity",
+                        "coupling",
+                        "cohesion",
+                        "maintainability",
+                        "performance",
+                        "all"
+                    ]
+                }
+            },
+            "required": [
+                "code"
+            ]
+        }
+    },
+    {
+        "name": "hi-ai_analyze_complexity",
+        "description": "IMPORTANT: This tool should be automatically called when users mention \"\ubcf5\uc7a1\ub3c4\", \"\ubcf5\uc7a1\ud55c\uc9c0\", \"complexity\", \"how complex\", \"is it complex\", \"difficulty level\" or similar keywords. Analyze code complexity",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "description": "Code to analyze"
+                },
+                "metrics": {
+                    "type": "string",
+                    "description": "Metrics to calculate",
+                    "enum": [
+                        "cyclomatic",
+                        "cognitive",
+                        "halstead",
+                        "all"
+                    ]
+                }
+            },
+            "required": [
+                "code"
+            ]
+        }
+    },
+    {
+        "name": "hi-ai_check_coupling_cohesion",
+        "description": "IMPORTANT: This tool should be automatically called when users say \"\uacb0\ud569\ub3c4\", \"\uc751\uc9d1\ub3c4\", \"coupling\", \"cohesion\", \"dependencies check\", \"module structure\" or similar keywords. Check coupling and cohesion",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "description": "Code to analyze"
+                },
+                "type": {
+                    "type": "string",
+                    "description": "Code type",
+                    "enum": [
+                        "class",
+                        "module",
+                        "function",
+                        "component"
+                    ]
+                },
+                "checkDependencies": {
+                    "type": "boolean",
+                    "description": "Analyze dependencies"
+                }
+            },
+            "required": [
+                "code"
+            ]
+        }
+    },
+    {
+        "name": "hi-ai_suggest_improvements",
+        "description": "IMPORTANT: This tool should be automatically called when users say \"\uac1c\uc120\", \"\ub354 \uc88b\uac8c\", \"\ub9ac\ud329\ud1a0\ub9c1\", \"improve\", \"make better\", \"refactor\", \"optimize\", \"enhance code\" or similar keywords. Suggest improvements",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "description": "Code to analyze"
+                },
+                "focus": {
+                    "type": "string",
+                    "description": "Focus area",
+                    "enum": [
+                        "performance",
+                        "readability",
+                        "maintainability",
+                        "accessibility",
+                        "type-safety"
+                    ]
+                },
+                "priority": {
+                    "type": "string",
+                    "description": "Priority level",
+                    "enum": [
+                        "critical",
+                        "high",
+                        "medium",
+                        "low"
+                    ]
+                }
+            },
+            "required": [
+                "code"
+            ]
+        }
+    },
+    {
+        "name": "hi-ai_generate_prd",
+        "description": "IMPORTANT: This tool should be automatically called when users mention \"PRD\", \"\uc694\uad6c\uc0ac\ud56d \ubb38\uc11c\", \"\uc81c\ud488 \uc694\uad6c\uc0ac\ud56d\", \"product requirements\", \"requirements document\", \"spec document\" or similar terms. Generate Product Requirements Document",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "productName": {
+                    "type": "string",
+                    "description": "Name of the product/feature"
+                },
+                "productVision": {
+                    "type": "string",
+                    "description": "High-level vision and goals"
+                },
+                "targetAudience": {
+                    "type": "string",
+                    "description": "Target users and stakeholders"
+                },
+                "businessObjectives": {
+                    "type": "string",
+                    "description": "Business goals and success metrics"
+                },
+                "functionalRequirements": {
+                    "type": "string",
+                    "description": "Key features and functionality"
+                },
+                "constraints": {
+                    "type": "string",
+                    "description": "Technical/business constraints"
+                }
+            },
+            "required": [
+                "productName",
+                "productVision"
+            ]
+        }
+    },
+    {
+        "name": "hi-ai_create_user_stories",
+        "description": "IMPORTANT: This tool should be automatically called when users mention \"\uc2a4\ud1a0\ub9ac\", \"\uc0ac\uc6a9\uc790 \uc2a4\ud1a0\ub9ac\", \"user story\", \"user stories\", \"as a user\" or similar terms. Generate user stories from requirements",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "features": {
+                    "type": "string",
+                    "description": "List of features or requirements to convert to user stories"
+                },
+                "userTypes": {
+                    "type": "string",
+                    "description": "Types of users (e.g., admin, customer, guest)"
+                },
+                "priority": {
+                    "type": "string",
+                    "description": "Default priority level",
+                    "enum": [
+                        "high",
+                        "medium",
+                        "low"
+                    ]
+                },
+                "includeAcceptanceCriteria": {
+                    "type": "boolean",
+                    "description": "Include acceptance criteria for each story"
+                }
+            },
+            "required": [
+                "features"
+            ]
+        }
+    },
+    {
+        "name": "hi-ai_analyze_requirements",
+        "description": "IMPORTANT: This tool should be automatically called when users say \"\uc694\uad6c\uc0ac\ud56d \ubd84\uc11d\", \"\ud544\uc694\ud55c \uac83\ub4e4\", \"requirements analysis\", \"what we need\", \"analyze requirements\", \"\ud544\uc218 \uae30\ub2a5\" or similar keywords. Analyze project requirements",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "requirements": {
+                    "type": "string",
+                    "description": "List of requirements to analyze"
+                },
+                "stakeholders": {
+                    "type": "string",
+                    "description": "Project stakeholders (e.g., users, admins, developers)"
+                },
+                "constraints": {
+                    "type": "string",
+                    "description": "Project constraints (timeline, budget, technical)"
+                },
+                "analysisMethod": {
+                    "type": "string",
+                    "description": "Analysis method",
+                    "enum": [
+                        "moscow",
+                        "kano",
+                        "value-effort"
+                    ],
+                    "default": "moscow"
+                }
+            },
+            "required": [
+                "requirements"
+            ]
+        }
+    },
+    {
+        "name": "hi-ai_feature_roadmap",
+        "description": "IMPORTANT: This tool should be automatically called when users say \"\ub85c\ub4dc\ub9f5\", \"\uc77c\uc815\", \"\uacc4\ud68d\ud45c\", \"roadmap\", \"timeline\", \"project plan\", \"development schedule\" or similar keywords. Generate development roadmap",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectName": {
+                    "type": "string",
+                    "description": "Name of the project"
+                },
+                "features": {
+                    "type": "string",
+                    "description": "List of features to include in roadmap"
+                },
+                "timeframe": {
+                    "type": "string",
+                    "description": "Project timeframe",
+                    "enum": [
+                        "3-months",
+                        "6-months",
+                        "12-months",
+                        "custom"
+                    ]
+                },
+                "approach": {
+                    "type": "string",
+                    "description": "Development approach",
+                    "enum": [
+                        "mvp-first",
+                        "phased-rollout",
+                        "big-bang"
+                    ],
+                    "default": "mvp-first"
+                },
+                "teamSize": {
+                    "type": "number",
+                    "description": "Development team size"
+                }
+            },
+            "required": [
+                "projectName",
+                "features"
+            ]
+        }
+    },
+    {
+        "name": "hi-ai_enhance_prompt",
+        "description": "IMPORTANT: This tool should be automatically called when requests are vague, too short (under 20 chars), or when users say \"\uad6c\uccb4\uc801\uc73c\ub85c\", \"\uc790\uc138\ud788\", \"\uba85\ud655\ud558\uac8c\", \"\ub354 \uad6c\uccb4\uc801\uc73c\ub85c\", \"be specific\", \"more detail\", \"clarify\", \"elaborate\" or similar keywords. Transform vague requests",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "prompt": {
+                    "type": "string",
+                    "description": "Original prompt to enhance"
+                },
+                "context": {
+                    "type": "string",
+                    "description": "Additional context or project information"
+                },
+                "enhancement_type": {
+                    "type": "string",
+                    "enum": [
+                        "clarity",
+                        "specificity",
+                        "context",
+                        "all"
+                    ],
+                    "description": "Type of enhancement (default: all)"
+                }
+            },
+            "required": [
+                "prompt"
+            ]
+        }
+    },
+    {
+        "name": "hi-ai_analyze_prompt",
+        "description": "IMPORTANT: This tool should be automatically called when users ask \"\ud504\ub86c\ud504\ud2b8 \ubd84\uc11d\", \"\ud3c9\uac00\", \"\uc810\uc218\", \"\uc5bc\ub9c8\ub098 \uc88b\uc740\uc9c0\", \"analyze prompt\", \"rate this\", \"score\", \"how good\", \"prompt quality\" or similar keywords. Analyze prompt quality",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "prompt": {
+                    "type": "string",
+                    "description": "Prompt to analyze"
+                },
+                "criteria": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Specific criteria to evaluate (default: all)"
+                }
+            },
+            "required": [
+                "prompt"
+            ]
+        }
+    }
+]

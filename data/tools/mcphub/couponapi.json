@@ -1,0 +1,148 @@
+[
+    {
+        "name": "get_incremental_feed",
+        "description": "Get incremental feed of coupon offers from CouponAPI.org\n    \n    Returns new, updated, and suspended offers since the last extract time.\n    If no last_extract is provided, returns all currently active offers.\n    Set off_record=True to avoid updating the last extract time in the system.\n    ",
+        "parameters": {
+            "properties": {
+                "last_extract": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Last extract timestamp as UNIX timestamp in seconds (epoch). If not provided, returns all active offers.",
+                    "title": "Last Extract"
+                },
+                "response_format": {
+                    "anyOf": [
+                        {
+                            "enum": [
+                                "json",
+                                "csv"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": "json",
+                    "description": "Response format: 'json' or 'csv'. Defaults to 'json'.",
+                    "title": "Response Format"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Maximum number of offers to return. Optional parameter.",
+                    "title": "Limit"
+                },
+                "store_id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter by specific store ID. Optional parameter.",
+                    "title": "Store Id"
+                },
+                "category": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter by category. Optional parameter.",
+                    "title": "Category"
+                },
+                "off_record": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": false,
+                    "description": "When True, does not update the last extract time, allowing repeated retrieval of incremental data. Defaults to False.",
+                    "title": "Off Record"
+                }
+            },
+            "title": "get_incremental_feedArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_offer_details",
+        "description": "Get detailed information for a specific offer\n    \n    This tool filters the incremental feed to return details for a specific offer ID.\n    ",
+        "parameters": {
+            "properties": {
+                "offer_id": {
+                    "description": "The unique offer ID to get details for",
+                    "title": "Offer Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "offer_id"
+            ],
+            "title": "get_offer_detailsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_offers_by_store",
+        "description": "Get all offers for a specific store\n    \n    Returns all current offers for the specified store name.\n    ",
+        "parameters": {
+            "properties": {
+                "store_name": {
+                    "description": "Store name to filter offers by",
+                    "title": "Store Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "store_name"
+            ],
+            "title": "get_offers_by_storeArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_offers_by_category",
+        "description": "Get all offers for a specific category\n    \n    Returns all current offers for the specified category.\n    ",
+        "parameters": {
+            "properties": {
+                "category": {
+                    "description": "Category to filter offers by",
+                    "title": "Category",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "category"
+            ],
+            "title": "get_offers_by_categoryArguments",
+            "type": "object"
+        }
+    }
+]

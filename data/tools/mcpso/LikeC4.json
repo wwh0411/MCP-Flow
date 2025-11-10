@@ -1,0 +1,141 @@
+[
+    {
+        "name": "likec4_list-projects",
+        "description": "List LikeC4 projects discoverable in the current workspace.\n\nRequest:\n- No input parameters.\n\nResponse (JSON object):\n- projects: Project[]\n\nProject (object) fields:\n- id: string \u2014 stable project identifier\n- title: string \u2014 human-readable project title\n- folder: string \u2014 absolute path to the project root\n- sources: string[] \u2014 absolute file paths of related documents\n\nNotes:\n- Read-only, idempotent, no side effects.\n- Safe to call repeatedly.\n\nExample response:\n{\n  \"projects\": [\n    {\n      \"id\": \"docs\",\n      \"title\": \"Documentation\",\n      \"folder\": \"/abs/path/to/workspace/docs\",\n      \"sources\": [\n        \"/abs/path/to/workspace/docs/model/contexts.likec4\",\n        \"/abs/path/to/workspace/docs/model/relations.likec4\"\n      ]\n    }\n  ]\n}",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "likec4_read-project-summary",
+        "description": "Request:\n- project: string (optional) \u2014 project id. Defaults to \"default\" if omitted.\n\nResponse (JSON object):\n- title: string \u2014 human-readable project title\n- folder: string \u2014 absolute path to the project root\n- sources: string[] \u2014 absolute file paths of model documents\n- specification: object\n  - elementKinds: string[] \u2014 all element kinds\n  - relationshipKinds: string[] \u2014 all relationship kinds\n  - deploymentKinds: string[] \u2014 all deployment kinds\n  - tags: string[] \u2014 all tags\n  - metadataKeys: string[] \u2014 used metadata keys\n- elements: Element[] \u2014 list of elements\n- deployments: Deployment[] \u2014 list of deployment entities\n- views: View[] \u2014 list of views defined in the model\n\nElement (object) fields:\n- id: string \u2014 element id (FQN)\n- kind: string \u2014 element kind\n- title: string \u2014 element title\n- tags: string[] \u2014 element tags\n\nDeployment (object) fields:\n- type = \"deployment-node\": { id: string, kind: string, title: string, tags: string[] }\n- type = \"deployed-instance\": { id: string, title: string, tags: string[], referencedElementId: string }\n\nView (object) fields:\n- id: string \u2014 view identifier\n- title: string \u2014 view title\n- type: \"element\" | \"deployment\" | \"dynamic\"\n\nNotes:\n- Read-only, idempotent, no side effects.\n- Safe to call repeatedly.\n\nExample response:\n{\n  \"title\": \"Cloud Boutique\",\n  \"folder\": \"/abs/path/to/workspace/examples/cloud-system\",\n  \"sources\": [\n    \"/abs/path/to/workspace/examples/cloud-system/model.c4\"\n  ],\n  \"specification\": {\n    \"elementKinds\": [\"system\", \"container\", \"component\"],\n    \"relationshipKinds\": [\"uses\", \"depends-on\"],\n    \"deploymentKinds\": [\"node\", \"cluster\"],\n    \"tags\": [\"public\", \"internal\"],\n    \"metadataKeys\": [\"owner\", \"tier\"]\n  },\n  \"elements\": [\n    {\n      \"id\": \"shop.frontend\",\n      \"kind\": \"component\",\n      \"title\": \"Frontend\",\n      \"tags\": [\"public\"]\n    }\n  ],\n  \"deployments\": [\n    {\n      \"type\": \"deployment-node\",\n      \"id\": \"k8s.shop.frontend\",\n      \"kind\": \"cluster\",\n      \"title\": \"Frontend\",\n      \"tags\": []\n    }\n  ],\n  \"views\": [\n    {\n      \"name\": \"system-overview\",\n      \"title\": \"System Overview\",\n      \"type\": \"element\"\n    }\n  ]\n}",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "project": {
+                    "type": "string",
+                    "default": "default",
+                    "description": "Project id (optional, will use \"default\" if not specified)"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "likec4_read-element",
+        "description": "Read detailed information about a LikeC4 element.\n\nRequest:\n- id: string \u2014 element id (FQN)\n- project: string (optional) \u2014 project id. Defaults to \"default\" if omitted.\n\nResponse (JSON object):\n- id: string \u2014 element id (FQN)\n- name: string \u2014 element name\n- kind: string \u2014 element kind\n- title: string \u2014 human-readable title\n- description: string|null \u2014 optional description\n- technology: string|null \u2014 optional technology\n- tags: string[] \u2014 assigned tags\n- project: string \u2014 project id this element belongs to\n- metadata: Record<string, string> \u2014 element metadata\n- shape: string \u2014 rendered shape\n- color: string \u2014 rendered color\n- children: string[] \u2014 ids (FQNs) of direct child elements\n- defaultView: string|null \u2014 default view name if set\n- includedInViews: View[] \u2014 views that include this element\n- relationships: object \u2014 relationships of this element (direct and indirect)\n  - incoming: Array<{ source: { id: string, title: string, kind: string }, kind: string|null, target: string, title: string|null, description: string|null, technology: string|null, tags: string[] }>\n  - outgoing: Array<{ source: string, target: { id: string, title: string, kind: string }, kind: string|null, title: string|null, description: string|null, technology: string|null, tags: string[] }>\n- deployedInstances: string[] \u2014 deployed instance ids (Deployment FQNs)\n- sourceLocation: { path: string, range: { start: { line: number, character: number }, end: { line: number, character: number } } } | null \u2014 source location if available\n\nView (object) fields:\n- id: string \u2014 view identifier\n- title: string \u2014 view title\n- type: \"element\" | \"deployment\" | \"dynamic\"\n\nNotes:\n- Read-only, idempotent, no side effects.\n- Safe to call repeatedly.\n\nExample response:\n{\n  \"id\": \"shop.frontend\",\n  \"name\": \"frontend\",\n  \"kind\": \"container\",\n  \"title\": \"Frontend\",\n  \"description\": \"User-facing web app\",\n  \"technology\": \"React\",\n  \"tags\": [\"public\"],\n  \"project\": \"default\",\n  \"metadata\": { \"owner\": \"web\" },\n  \"shape\": \"rounded-rectangle\",\n  \"color\": \"#2F80ED\",\n  \"children\": [\"shop.frontend.auth\"],\n  \"defaultView\": \"frontend-overview\",\n  \"includedInViews\": [\n    {\n      \"id\": \"frontend-overview\",\n      \"title\": \"Frontend Overview\",\n      \"type\": \"element\"\n    }\n  ],\n  \"relationships\": {\n    \"incoming\": [\n      {\n        \"source\": { \"id\": \"shop.api\", \"title\": \"API\", \"kind\": \"container\" },\n        \"kind\": \"uses\",\n        \"target\": \"shop.frontend\",\n        \"title\": \"Calls\",\n        \"description\": null,\n        \"technology\": \"HTTPS\",\n        \"tags\": []\n      }\n    ],\n    \"outgoing\": []\n  },\n  \"deployedInstances\": [\"k8s.cluster.frontend\"],\n  \"sourceLocation\": {\n    \"path\": \"/abs/path/project/model.c4\",\n    \"range\": { \"start\": { \"line\": 10, \"character\": 0 }, \"end\": { \"line\": 25, \"character\": 0 } }\n  }\n}",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Element id (FQN)"
+                },
+                "project": {
+                    "type": "string",
+                    "default": "default",
+                    "description": "Project id (optional, will use \"default\" if not specified)"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "likec4_read-deployment",
+        "description": "Read details about a deployment node or a deployed instance in a LikeC4 project.\n\nWhat it does:\n- Returns metadata about a deployment entity (node or instance), including kind, tags, color/shape, children, which views include it, and its source location.\n\nInputs:\n- id: string \u2014 Deployment id (FQN)\n- project: string (optional, defaults to \"default\") \u2014 Project id\n\nOutput fields:\n- type: \"deployment-node\" | \"deployed-instance\"\n- id: string \u2014 Deployment id (FQN)\n- kind: string \u2014 Deployment node kind, or element kind for deployed instances\n- name: string \u2014 Name of the deployment entity\n- title: string \u2014 Title of the deployment entity\n- description: string|null \u2014 Description text\n- technology: string|null \u2014 Technology info, if any\n- tags: string[] \u2014 Tags assigned to this entity\n- project: string \u2014 Project id\n- metadata: Record<string, string>\n- shape: string \u2014 Rendered shape\n- color: string \u2014 Rendered color\n- children: string[] \u2014 Child deployment ids (empty for instances)\n- includedInViews: View[] \u2014 Views that include this entity\n- instanceof: { id: string, title: string, kind: string } | null \u2014 If type is \"deployed-instance\", the referenced element\n- sourceLocation: { path: string, range: { start: { line: number, character: number }, end: { line: number, character: number } } } | null\n\nView (object) fields:\n- id: string \u2014 view identifier\n- title: string \u2014 view title\n- type: \"element\" | \"deployment\" | \"dynamic\"\n\nNotes:\n- Read-only, idempotent; does not mutate the model.\n\nExample request:\n{ \"id\": \"k8s.cluster.frontend\", \"project\": \"default\" }\n\nExample response (deployed instance):\n{\n  \"type\": \"deployed-instance\",\n  \"id\": \"k8s.cluster.frontend\",\n  \"kind\": \"k8s.pod\",\n  \"name\": \"frontend\",\n  \"title\": \"Frontend Pod\",\n  \"description\": null,\n  \"technology\": \"Kubernetes\",\n  \"tags\": [\"prod\"],\n  \"project\": \"default\",\n  \"metadata\": {},\n  \"shape\": \"rectangle\",\n  \"color\": \"#2F80ED\",\n  \"children\": [],\n  \"includedInViews\": [\n    { \"id\": \"runtime-overview\", \"title\": \"Runtime Overview\", \"type\": \"deployment\" }\n  ],\n  \"instanceof\": { \"id\": \"shop.frontend\", \"title\": \"Frontend\", \"kind\": \"component\" },\n  \"sourceLocation\": {\n    \"path\": \"/abs/path/project/model.c4\",\n    \"range\": { \"start\": { \"line\": 10, \"character\": 0 }, \"end\": { \"line\": 25, \"character\": 0 } }\n  }\n}",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Deployment id (FQN)"
+                },
+                "project": {
+                    "type": "string",
+                    "default": "default",
+                    "description": "Project id (optional, will use \"default\" if not specified)"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "likec4_read-view",
+        "description": "Read detailed information about a LikeC4 view.\n\nRequest:\n- viewId: string \u2014 view id (name)\n- project: string (optional) \u2014 project id. Defaults to \"default\" if omitted.\n\nResponse (JSON object):\n- id: string \u2014 view id\n- type: \"element\" | \"deployment\" | \"dynamic\" \u2014 view type\n- title: string \u2014 view title (falls back to id if not set)\n- description: string|null \u2014 optional description\n- tags: string[] \u2014 view tags\n- project: string \u2014 project id this view belongs to\n- nodes: Node[] \u2014 nodes included in the view\n- edges: Edge[] \u2014 relationships between nodes\n- sourceLocation: { path: string, range: { start: { line: number, character: number }, end: { line: number, character: number } } } | null \u2014 source location if available\n\nNode (discriminated union by \"type\"):\n- type = \"element\": { id: string, elementId: string, kind: string, title: string, description: string|null, technology: string|null, children: string[], shape: string, color: string, tags: string[] }\n- type = \"deployment-node\": { id: string, deploymentId: string, kind: string, title: string, description: string|null, technology: string|null, children: string[], shape: string, color: string, tags: string[] }\n- type = \"deployed-instance\": { id: string, deploymentId: string, title: string, description: string|null, technology: string|null, referencedElement: { id: string, kind: string, title: string }, shape: string, color: string, tags: string[] }\n\nEdge object:\n- { source: string, target: string, label: string|null, description: string|null, technology: string|null, tags: string[] }\n\nNotes:\n- Read-only, idempotent, no side effects.\n\nExample response:\n{\n  \"id\": \"system-overview\",\n  \"type\": \"element\",\n  \"title\": \"System Overview\",\n  \"description\": null,\n  \"tags\": [],\n  \"project\": \"default\",\n  \"nodes\": [\n    { \"type\": \"logical\", \"id\": \"n1\", \"elementId\": \"shop.frontend\", \"kind\": \"container\", \"title\": \"Frontend\", \"description\": null, \"technology\": \"React\", \"children\": [], \"shape\": \"rounded-rectangle\", \"color\": \"#2F80ED\", \"tags\": [] }\n  ],\n  \"edges\": [\n    { \"source\": \"n1\", \"target\": \"n2\", \"label\": \"calls\", \"description\": null, \"technology\": \"HTTPS\", \"tags\": [] }\n  ],\n  \"sourceLocation\": {\n    \"path\": \"/abs/path/project/model.c4\",\n    \"range\": { \"start\": { \"line\": 10, \"character\": 0 }, \"end\": { \"line\": 30, \"character\": 0 } }\n  }\n}",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "viewId": {
+                    "type": "string",
+                    "description": "View id (name)"
+                },
+                "project": {
+                    "type": "string",
+                    "default": "default",
+                    "description": "Project id (optional, will use \"default\" if not specified)"
+                }
+            },
+            "required": [
+                "viewId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "likec4_search-element",
+        "description": "Search LikeC4 elements and deployment nodes across all projects.\n\nQuery syntax (case-insensitive):\n- Free text: matches id (FQN) or title\n- kind:<value>: filters by kind\n- shape:<value>: filters by shape\n- #<value>: matches assigned tags\n\nRequest:\n- search: string \u2014 at least 2 characters\n\nResponse (JSON object):\n- found: Result[] - returns top 20 results\n- total: number - total number of results\n\nResult (discriminated union by \"type\"):\n- type = \"element\": { id: string, name: string, kind: string, title: string, technology: string|null, shape: string, project: string, includedInViews: View[], tags: string[] }\n- type = \"deployment-node\": { id: string, name: string, kind: string, title: string, technology: string|null, shape: string, project: string, includedInViews: View[], tags: string[] }\n\nView (object) fields:\n- id: string \u2014 view identifier\n- title: string \u2014 view title\n- type: \"element\" | \"deployment\" | \"dynamic\"\n\nNotes:\n- Read-only, idempotent.\n- Use results as input to other tools (e.g., read-element, read-view).\n\nExample response:\n{\n  \"found\": [\n    {\n      \"type\": \"logical\",\n      \"project\": \"default\",\n      \"id\": \"shop.frontend\",\n      \"name\": \"frontend\",\n      \"kind\": \"container\",\n      \"title\": \"Frontend\",\n      \"technology\": \"React\",\n      \"shape\": \"rectangle\",      \n      \"includedInViews\": [\n        {\n          \"id\": \"system-overview\",\n          \"title\": \"System Overview\",\n          \"type\": \"element\"\n        }\n      ],\n      \"tags\": [\"public\"]\n    }\n  ]\n}",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "search": {
+                    "type": "string",
+                    "minLength": 2
+                }
+            },
+            "required": [
+                "search"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "likec4_find-relationships",
+        "description": "Find relationships between two LikeC4 elements within a project.\n\nWhat it does:\n- Finds both direct relationships (element1 \u2194 element2) and indirect ones that arise via containment (e.g. via nested elements).\n- Returns rich metadata for each relationship and where it appears in views.\n\nInputs:\n- element1: string \u2014 Element ID (FQN)\n- element2: string \u2014 Element ID (FQN)\n- project: string (optional, defaults to \"default\") \u2014 Project id\n\nOutput:\n- found: Relationship[]\n\nRelationship (object) fields:\n- type: \"direct\" | \"indirect\" \u2014 direct is between the specified endpoints; indirect is via nested elements\n- source: Endpoint\n- target: Endpoint\n- kind: string|null \u2014 relationship kind from the model\n- title: string|null \u2014 relationship title if provided\n- description: string|null \u2014 relationship description text\n- technology: string|null \u2014 relationship technology\n- tags: string[] \u2014 relationship tags\n- includedInViews: View[] \u2014 views where this relationship appears\n- sourceLocation: { path: string, range: { start: { line: number, character: number }, end: { line: number, character: number } } } | null\n\nEndpoint (object) fields:\n- id: string \u2014 Element ID (FQN)\n- title: string \u2014 element title\n- kind: string \u2014 element kind\n\nView (object) fields:\n- id: string \u2014 view identifier\n- title: string \u2014 view title\n- type: \"element\" | \"deployment\" | \"dynamic\"\n\nNotes:\n- Read-only, idempotent; does not mutate the model. May trigger UI navigation in supporting clients.\n- The order of results is not guaranteed.\n\nExample:\nRequest:\n{\n  \"element1\": \"shop.frontend\",\n  \"element2\": \"shop.backend\",\n  \"project\": \"default\"\n}\n\nResponse:\n{\n  \"found\": [\n    {\n      \"type\": \"direct\",\n      \"source\": { \"id\": \"shop.frontend\", \"title\": \"Frontend\", \"kind\": \"component\" },\n      \"target\": { \"id\": \"shop.backend\", \"title\": \"Backend\", \"kind\": \"component\" },\n      \"kind\": \"sync\",\n      \"title\": \"Calls\",\n      \"description\": \"Frontend calls Backend\",\n      \"technology\": \"HTTP\",\n      \"tags\": [\"public\"],\n      \"includedInViews\": [\n        { \"id\": \"system-overview\", \"title\": \"System Overview\", \"type\": \"element\" }\n      ],\n      \"sourceLocation\": {\n        \"path\": \"/abs/path/project/model.c4\",\n        \"range\": { \"start\": { \"line\": 12, \"character\": 0 }, \"end\": { \"line\": 14, \"character\": 0 } }\n      }\n    }\n  ]\n}",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "element1": {
+                    "type": "string",
+                    "description": "Element ID (FQN)"
+                },
+                "element2": {
+                    "type": "string",
+                    "description": "Element ID (FQN)"
+                },
+                "project": {
+                    "type": "string",
+                    "default": "default",
+                    "description": "Project id (optional, will use \"default\" if not specified)"
+                }
+            },
+            "required": [
+                "element1",
+                "element2"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

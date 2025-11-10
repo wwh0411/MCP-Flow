@@ -1,0 +1,773 @@
+[
+    {
+        "name": "oxylabs_ai_crawler",
+        "description": "Tool useful for crawling a website from starting url and returning data in a specified format.\n\nSchema is required only if output_format is json.\n'render_javascript' is used to render javascript heavy websites.\n'return_sources_limit' is used to limit the number of sources to return,\nfor example if you expect results from single source, you can set it to 1.",
+        "parameters": {
+            "properties": {
+                "url": {
+                    "description": "The URL from which crawling will be started.",
+                    "title": "Url",
+                    "type": "string"
+                },
+                "user_prompt": {
+                    "description": "What information user wants to extract from the domain.",
+                    "title": "User Prompt",
+                    "type": "string"
+                },
+                "output_format": {
+                    "default": "markdown",
+                    "description": "The format of the output. If json, the schema is required. Markdown returns full text of the page.",
+                    "enum": [
+                        "json",
+                        "markdown"
+                    ],
+                    "title": "Output Format",
+                    "type": "string"
+                },
+                "schema": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": true,
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The schema to use for the crawl. Only required if output_format is json.",
+                    "title": "Schema"
+                },
+                "render_javascript": {
+                    "default": false,
+                    "description": "Whether to render the HTML of the page using javascript. Much slower, therefore use it only for websites that require javascript to render the page. Unless user asks to use it, first try to crawl the page without it. If results are unsatisfactory, try to use it.",
+                    "title": "Render Javascript",
+                    "type": "boolean"
+                },
+                "return_sources_limit": {
+                    "default": 25,
+                    "description": "The maximum number of sources to return.",
+                    "maximum": 50,
+                    "title": "Return Sources Limit",
+                    "type": "integer"
+                },
+                "geo_location": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Two letter ISO country code to use for the crawl proxy.",
+                    "title": "Geo Location"
+                }
+            },
+            "required": [
+                "url",
+                "user_prompt"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "oxylabs_ai_scraper",
+        "description": "Scrape the contents of the web page and return the data in the specified format.\n\nSchema is required only if output_format is json.\n'render_javascript' is used to render javascript heavy websites.",
+        "parameters": {
+            "properties": {
+                "url": {
+                    "description": "The URL to scrape",
+                    "title": "Url",
+                    "type": "string"
+                },
+                "output_format": {
+                    "default": "markdown",
+                    "description": "The format of the output. If json, the schema is required. Markdown returns full text of the page.",
+                    "enum": [
+                        "json",
+                        "markdown"
+                    ],
+                    "title": "Output Format",
+                    "type": "string"
+                },
+                "schema": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": true,
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The schema to use for the scrape. Only required if output_format is json.",
+                    "title": "Schema"
+                },
+                "render_javascript": {
+                    "default": false,
+                    "description": "Whether to render the HTML of the page using javascript. Much slower, therefore use it only for websites that require javascript to render the page.Unless user asks to use it, first try to scrape the page without it. If results are unsatisfactory, try to use it.",
+                    "title": "Render Javascript",
+                    "type": "boolean"
+                },
+                "geo_location": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Two letter ISO country code to use for the scrape proxy.",
+                    "title": "Geo Location"
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "oxylabs_ai_browser_agent",
+        "description": "Run the browser agent and return the data in the specified format.\n\nThis tool is useful if you need navigate around the website and do some actions.\nIt allows navigating to any url, clicking on links, filling forms, scrolling, etc.\nFinally it returns the data in the specified format. Schema is required only if output_format is json.\n'task_prompt' describes what browser agent should achieve",
+        "parameters": {
+            "properties": {
+                "url": {
+                    "description": "The URL to start the browser agent navigation from.",
+                    "title": "Url",
+                    "type": "string"
+                },
+                "task_prompt": {
+                    "description": "What browser agent should do.",
+                    "title": "Task Prompt",
+                    "type": "string"
+                },
+                "output_format": {
+                    "default": "markdown",
+                    "description": "The output format. Screenshot is base64 encoded jpeg image. Markdown returns full text of the page including links. If json, the schema is required.",
+                    "enum": [
+                        "json",
+                        "markdown",
+                        "html",
+                        "screenshot"
+                    ],
+                    "title": "Output Format",
+                    "type": "string"
+                },
+                "schema": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": true,
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The schema to use for the scrape. Only required if output_format is json.",
+                    "title": "Schema"
+                },
+                "geo_location": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Two letter ISO country code to use for the browser proxy.",
+                    "title": "Geo Location"
+                }
+            },
+            "required": [
+                "url",
+                "task_prompt"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "oxylabs_ai_search",
+        "description": "Search the web based on a provided query.\n\n'return_content' is used to return markdown content for each search result. If 'return_content'\n    is set to True, you don't need to use ai_scraper to get the content of the search results urls,\n    because it is already included in the search results.\nif 'return_content' is set to True, prefer lower 'limit' to reduce payload size.",
+        "parameters": {
+            "properties": {
+                "query": {
+                    "description": "The query to search for.",
+                    "title": "Query",
+                    "type": "string"
+                },
+                "limit": {
+                    "default": 10,
+                    "description": "Maximum number of results to return.",
+                    "maximum": 50,
+                    "title": "Limit",
+                    "type": "integer"
+                },
+                "render_javascript": {
+                    "default": false,
+                    "description": "Whether to render the HTML of the page using javascript. Much slower, therefore use it only if user asks to use it.First try to search with setting it to False. ",
+                    "title": "Render Javascript",
+                    "type": "boolean"
+                },
+                "return_content": {
+                    "default": false,
+                    "description": "Whether to return markdown content of the search results.",
+                    "title": "Return Content",
+                    "type": "boolean"
+                },
+                "geo_location": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Two letter ISO country code to use for the search proxy.",
+                    "title": "Geo Location"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "oxylabs_generate_schema",
+        "description": "Generate a json schema in openapi format.",
+        "parameters": {
+            "properties": {
+                "user_prompt": {
+                    "title": "User Prompt",
+                    "type": "string"
+                },
+                "app_name": {
+                    "enum": [
+                        "ai_crawler",
+                        "ai_scraper",
+                        "browser_agent"
+                    ],
+                    "title": "App Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_prompt",
+                "app_name"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "oxylabs_ai_map",
+        "description": "Tool useful for mapping website's urls.",
+        "parameters": {
+            "properties": {
+                "url": {
+                    "description": "The URL from which URLs mapping will be started.",
+                    "title": "Url",
+                    "type": "string"
+                },
+                "user_prompt": {
+                    "description": "What kind of urls user wants to find.",
+                    "title": "User Prompt",
+                    "type": "string"
+                },
+                "render_javascript": {
+                    "default": false,
+                    "description": "Whether to render the HTML of the page using javascript. Much slower, therefore use it only for websites that require javascript to render the page. Unless user asks to use it, first try to crawl the page without it. If results are unsatisfactory, try to use it.",
+                    "title": "Render Javascript",
+                    "type": "boolean"
+                },
+                "return_sources_limit": {
+                    "default": 25,
+                    "description": "The maximum number of sources to return.",
+                    "maximum": 50,
+                    "title": "Return Sources Limit",
+                    "type": "integer"
+                },
+                "geo_location": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Two letter ISO country code to use for the mapping proxy.",
+                    "title": "Geo Location"
+                }
+            },
+            "required": [
+                "url",
+                "user_prompt"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "oxylabs_universal_scraper",
+        "description": "Get a content of any webpage.\n\nSupports browser rendering, parsing of certain webpages\nand different output formats.",
+        "parameters": {
+            "properties": {
+                "url": {
+                    "description": "Website url to scrape.",
+                    "title": "Url",
+                    "type": "string"
+                },
+                "render": {
+                    "default": "",
+                    "description": "\n        Whether a headless browser should be used to render the page.\n        For example:\n            - 'html' when browser is required to render the page.\n        ",
+                    "enum": [
+                        "",
+                        "html"
+                    ],
+                    "examples": [
+                        "",
+                        "html"
+                    ],
+                    "title": "Render",
+                    "type": "string"
+                },
+                "user_agent_type": {
+                    "default": "",
+                    "description": "Device type and browser that will be used to determine User-Agent header value.",
+                    "enum": [
+                        "",
+                        "desktop",
+                        "desktop_chrome",
+                        "desktop_firefox",
+                        "desktop_safari",
+                        "desktop_edge",
+                        "desktop_opera",
+                        "mobile",
+                        "mobile_ios",
+                        "mobile_android",
+                        "tablet"
+                    ],
+                    "title": "User Agent Type",
+                    "type": "string"
+                },
+                "geo_location": {
+                    "default": "",
+                    "description": "\n        The geographical location that the result should be adapted for.\n        Use ISO-3166 country codes.\n        Examples:\n            - 'California, United States'\n            - 'Mexico'\n            - 'US' for United States\n            - 'DE' for Germany\n            - 'FR' for France\n        ",
+                    "examples": [
+                        "US",
+                        "DE",
+                        "FR"
+                    ],
+                    "title": "Geo Location",
+                    "type": "string"
+                },
+                "output_format": {
+                    "default": "",
+                    "description": "\n        The format of the output. Works only when parse parameter is false.\n            - links - Most efficient when the goal is navigation or finding specific URLs. Use this first when you need to locate a specific page within a website.\n            - md - Best for extracting and reading visible content once you've found the right page. Use this to get structured content that's easy to read and process.\n            - html - Should be used sparingly only when you need the raw HTML structure, JavaScript code, or styling information.\n        ",
+                    "enum": [
+                        "",
+                        "links",
+                        "md",
+                        "html"
+                    ],
+                    "title": "Output Format",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "oxylabs_google_search_scraper",
+        "description": "Scrape Google Search results.\n\nSupports content parsing, different user agent types, pagination,\ndomain, geolocation, locale parameters and different output formats.",
+        "parameters": {
+            "properties": {
+                "query": {
+                    "description": "URL-encoded keyword to search for.",
+                    "title": "Query",
+                    "type": "string"
+                },
+                "parse": {
+                    "default": true,
+                    "description": "Should result be parsed. If the result is not parsed, the output_format parameter is applied.",
+                    "title": "Parse",
+                    "type": "boolean"
+                },
+                "render": {
+                    "default": "",
+                    "description": "\n        Whether a headless browser should be used to render the page.\n        For example:\n            - 'html' when browser is required to render the page.\n        ",
+                    "enum": [
+                        "",
+                        "html"
+                    ],
+                    "examples": [
+                        "",
+                        "html"
+                    ],
+                    "title": "Render",
+                    "type": "string"
+                },
+                "user_agent_type": {
+                    "default": "",
+                    "description": "Device type and browser that will be used to determine User-Agent header value.",
+                    "enum": [
+                        "",
+                        "desktop",
+                        "desktop_chrome",
+                        "desktop_firefox",
+                        "desktop_safari",
+                        "desktop_edge",
+                        "desktop_opera",
+                        "mobile",
+                        "mobile_ios",
+                        "mobile_android",
+                        "tablet"
+                    ],
+                    "title": "User Agent Type",
+                    "type": "string"
+                },
+                "start_page": {
+                    "default": 0,
+                    "description": "Starting page number.",
+                    "title": "Start Page",
+                    "type": "integer"
+                },
+                "pages": {
+                    "default": 0,
+                    "description": "Number of pages to retrieve.",
+                    "title": "Pages",
+                    "type": "integer"
+                },
+                "limit": {
+                    "default": 0,
+                    "description": "Number of results to retrieve in each page.",
+                    "title": "Limit",
+                    "type": "integer"
+                },
+                "domain": {
+                    "default": "",
+                    "description": "\n        Domain localization for Google.\n        Use country top level domains.\n        For example:\n            - 'co.uk' for United Kingdom\n            - 'us' for United States\n            - 'fr' for France\n        ",
+                    "examples": [
+                        "uk",
+                        "us",
+                        "fr"
+                    ],
+                    "title": "Domain",
+                    "type": "string"
+                },
+                "geo_location": {
+                    "default": "",
+                    "description": "\n        The geographical location that the result should be adapted for.\n        Use ISO-3166 country codes.\n        Examples:\n            - 'California, United States'\n            - 'Mexico'\n            - 'US' for United States\n            - 'DE' for Germany\n            - 'FR' for France\n        ",
+                    "examples": [
+                        "US",
+                        "DE",
+                        "FR"
+                    ],
+                    "title": "Geo Location",
+                    "type": "string"
+                },
+                "locale": {
+                    "default": "",
+                    "description": "\n        Set 'Accept-Language' header value which changes your Google search page web interface language.\n        Examples:\n            - 'en-US' for English, United States\n            - 'de-AT' for German, Austria\n            - 'fr-FR' for French, France\n        ",
+                    "examples": [
+                        "en-US",
+                        "de-AT",
+                        "fr-FR"
+                    ],
+                    "title": "Locale",
+                    "type": "string"
+                },
+                "ad_mode": {
+                    "default": false,
+                    "description": "If true will use the Google Ads source optimized for the paid ads.",
+                    "title": "Ad Mode",
+                    "type": "boolean"
+                },
+                "output_format": {
+                    "default": "",
+                    "description": "\n        The format of the output. Works only when parse parameter is false.\n            - links - Most efficient when the goal is navigation or finding specific URLs. Use this first when you need to locate a specific page within a website.\n            - md - Best for extracting and reading visible content once you've found the right page. Use this to get structured content that's easy to read and process.\n            - html - Should be used sparingly only when you need the raw HTML structure, JavaScript code, or styling information.\n        ",
+                    "enum": [
+                        "",
+                        "links",
+                        "md",
+                        "html"
+                    ],
+                    "title": "Output Format",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "oxylabs_amazon_search_scraper",
+        "description": "Scrape Amazon search results.\n\nSupports content parsing, different user agent types, pagination,\ndomain, geolocation, locale parameters and different output formats.\nSupports Amazon specific parameters such as category id, merchant id, currency.",
+        "parameters": {
+            "properties": {
+                "query": {
+                    "description": "Keyword to search for.",
+                    "title": "Query",
+                    "type": "string"
+                },
+                "category_id": {
+                    "default": "",
+                    "description": "Search for items in a particular browse node (product category).",
+                    "title": "Category Id",
+                    "type": "string"
+                },
+                "merchant_id": {
+                    "default": "",
+                    "description": "Search for items sold by a particular seller.",
+                    "title": "Merchant Id",
+                    "type": "string"
+                },
+                "currency": {
+                    "default": "",
+                    "description": "Currency that will be used to display the prices.",
+                    "examples": [
+                        "USD",
+                        "EUR",
+                        "AUD"
+                    ],
+                    "title": "Currency",
+                    "type": "string"
+                },
+                "parse": {
+                    "default": true,
+                    "description": "Should result be parsed. If the result is not parsed, the output_format parameter is applied.",
+                    "title": "Parse",
+                    "type": "boolean"
+                },
+                "render": {
+                    "default": "",
+                    "description": "\n        Whether a headless browser should be used to render the page.\n        For example:\n            - 'html' when browser is required to render the page.\n        ",
+                    "enum": [
+                        "",
+                        "html"
+                    ],
+                    "examples": [
+                        "",
+                        "html"
+                    ],
+                    "title": "Render",
+                    "type": "string"
+                },
+                "user_agent_type": {
+                    "default": "",
+                    "description": "Device type and browser that will be used to determine User-Agent header value.",
+                    "enum": [
+                        "",
+                        "desktop",
+                        "desktop_chrome",
+                        "desktop_firefox",
+                        "desktop_safari",
+                        "desktop_edge",
+                        "desktop_opera",
+                        "mobile",
+                        "mobile_ios",
+                        "mobile_android",
+                        "tablet"
+                    ],
+                    "title": "User Agent Type",
+                    "type": "string"
+                },
+                "start_page": {
+                    "default": 0,
+                    "description": "Starting page number.",
+                    "title": "Start Page",
+                    "type": "integer"
+                },
+                "pages": {
+                    "default": 0,
+                    "description": "Number of pages to retrieve.",
+                    "title": "Pages",
+                    "type": "integer"
+                },
+                "domain": {
+                    "default": "",
+                    "description": "\n        Domain localization for Google.\n        Use country top level domains.\n        For example:\n            - 'co.uk' for United Kingdom\n            - 'us' for United States\n            - 'fr' for France\n        ",
+                    "examples": [
+                        "uk",
+                        "us",
+                        "fr"
+                    ],
+                    "title": "Domain",
+                    "type": "string"
+                },
+                "geo_location": {
+                    "default": "",
+                    "description": "\n        The geographical location that the result should be adapted for.\n        Use ISO-3166 country codes.\n        Examples:\n            - 'California, United States'\n            - 'Mexico'\n            - 'US' for United States\n            - 'DE' for Germany\n            - 'FR' for France\n        ",
+                    "examples": [
+                        "US",
+                        "DE",
+                        "FR"
+                    ],
+                    "title": "Geo Location",
+                    "type": "string"
+                },
+                "locale": {
+                    "default": "",
+                    "description": "\n        Set 'Accept-Language' header value which changes your Google search page web interface language.\n        Examples:\n            - 'en-US' for English, United States\n            - 'de-AT' for German, Austria\n            - 'fr-FR' for French, France\n        ",
+                    "examples": [
+                        "en-US",
+                        "de-AT",
+                        "fr-FR"
+                    ],
+                    "title": "Locale",
+                    "type": "string"
+                },
+                "output_format": {
+                    "default": "",
+                    "description": "\n        The format of the output. Works only when parse parameter is false.\n            - links - Most efficient when the goal is navigation or finding specific URLs. Use this first when you need to locate a specific page within a website.\n            - md - Best for extracting and reading visible content once you've found the right page. Use this to get structured content that's easy to read and process.\n            - html - Should be used sparingly only when you need the raw HTML structure, JavaScript code, or styling information.\n        ",
+                    "enum": [
+                        "",
+                        "links",
+                        "md",
+                        "html"
+                    ],
+                    "title": "Output Format",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "oxylabs_amazon_product_scraper",
+        "description": "Scrape Amazon products.\n\nSupports content parsing, different user agent types, domain,\ngeolocation, locale parameters and different output formats.\nSupports Amazon specific parameters such as currency and getting\nmore accurate pricing data with auto select variant.",
+        "parameters": {
+            "properties": {
+                "query": {
+                    "description": "Keyword to search for.",
+                    "title": "Query",
+                    "type": "string"
+                },
+                "autoselect_variant": {
+                    "default": false,
+                    "description": "To get accurate pricing/buybox data, set this parameter to true.",
+                    "title": "Autoselect Variant",
+                    "type": "boolean"
+                },
+                "currency": {
+                    "default": "",
+                    "description": "Currency that will be used to display the prices.",
+                    "examples": [
+                        "USD",
+                        "EUR",
+                        "AUD"
+                    ],
+                    "title": "Currency",
+                    "type": "string"
+                },
+                "parse": {
+                    "default": true,
+                    "description": "Should result be parsed. If the result is not parsed, the output_format parameter is applied.",
+                    "title": "Parse",
+                    "type": "boolean"
+                },
+                "render": {
+                    "default": "",
+                    "description": "\n        Whether a headless browser should be used to render the page.\n        For example:\n            - 'html' when browser is required to render the page.\n        ",
+                    "enum": [
+                        "",
+                        "html"
+                    ],
+                    "examples": [
+                        "",
+                        "html"
+                    ],
+                    "title": "Render",
+                    "type": "string"
+                },
+                "user_agent_type": {
+                    "default": "",
+                    "description": "Device type and browser that will be used to determine User-Agent header value.",
+                    "enum": [
+                        "",
+                        "desktop",
+                        "desktop_chrome",
+                        "desktop_firefox",
+                        "desktop_safari",
+                        "desktop_edge",
+                        "desktop_opera",
+                        "mobile",
+                        "mobile_ios",
+                        "mobile_android",
+                        "tablet"
+                    ],
+                    "title": "User Agent Type",
+                    "type": "string"
+                },
+                "domain": {
+                    "default": "",
+                    "description": "\n        Domain localization for Google.\n        Use country top level domains.\n        For example:\n            - 'co.uk' for United Kingdom\n            - 'us' for United States\n            - 'fr' for France\n        ",
+                    "examples": [
+                        "uk",
+                        "us",
+                        "fr"
+                    ],
+                    "title": "Domain",
+                    "type": "string"
+                },
+                "geo_location": {
+                    "default": "",
+                    "description": "\n        The geographical location that the result should be adapted for.\n        Use ISO-3166 country codes.\n        Examples:\n            - 'California, United States'\n            - 'Mexico'\n            - 'US' for United States\n            - 'DE' for Germany\n            - 'FR' for France\n        ",
+                    "examples": [
+                        "US",
+                        "DE",
+                        "FR"
+                    ],
+                    "title": "Geo Location",
+                    "type": "string"
+                },
+                "locale": {
+                    "default": "",
+                    "description": "\n        Set 'Accept-Language' header value which changes your Google search page web interface language.\n        Examples:\n            - 'en-US' for English, United States\n            - 'de-AT' for German, Austria\n            - 'fr-FR' for French, France\n        ",
+                    "examples": [
+                        "en-US",
+                        "de-AT",
+                        "fr-FR"
+                    ],
+                    "title": "Locale",
+                    "type": "string"
+                },
+                "output_format": {
+                    "default": "",
+                    "description": "\n        The format of the output. Works only when parse parameter is false.\n            - links - Most efficient when the goal is navigation or finding specific URLs. Use this first when you need to locate a specific page within a website.\n            - md - Best for extracting and reading visible content once you've found the right page. Use this to get structured content that's easy to read and process.\n            - html - Should be used sparingly only when you need the raw HTML structure, JavaScript code, or styling information.\n        ",
+                    "enum": [
+                        "",
+                        "links",
+                        "md",
+                        "html"
+                    ],
+                    "title": "Output Format",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "type": "object"
+        }
+    }
+]

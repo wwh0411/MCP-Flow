@@ -1,0 +1,67 @@
+[
+    {
+        "name": "metmuseum-mcp_list-departments",
+        "description": "List all departments in the Metropolitan Museum of Art (Met Museum)",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "metmuseum-mcp_search-museum-objects",
+        "description": "Search for objects in the Metropolitan Museum of Art (Met Museum). Will return Total objects found, followed by a list of Object Ids.The parameter title should be set to true if you want to search for objects by title.The parameter hasImages is false by default, but can be set to true to return objects without images.If the parameter hasImages is true, the parameter title should be false.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "q": {
+                    "type": "string",
+                    "description": "The search query, Returns a listing of all Object IDs for objects that contain the search query within the object's data"
+                },
+                "hasImages": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Only returns objects that have images"
+                },
+                "title": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "This should be set to true if you want to search for objects by title"
+                },
+                "departmentId": {
+                    "type": "number",
+                    "description": "Returns objects that are in the specified department. The departmentId should come from the 'list-departments' tool."
+                }
+            },
+            "required": [
+                "q"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "metmuseum-mcp_get-museum-object",
+        "description": "Get a museum object by its ID, from the Metropolitan Museum of Art Collection",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "objectId": {
+                    "type": "number",
+                    "description": "The ID of the museum object to retrieve"
+                },
+                "returnImage": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether to return the image (if available) of the object and add it to the server resources"
+                }
+            },
+            "required": [
+                "objectId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

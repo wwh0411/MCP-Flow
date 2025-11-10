@@ -1,0 +1,280 @@
+[
+    {
+        "name": "confluence_conf_ls_spaces",
+        "description": "Lists Confluence spaces accessible to the user, with optional filtering by `type` (global, personal), or `status` (current, archived).\n- Use this to discover spaces and find their keys needed for other tools.\n- Supports pagination via `limit` and `cursor` parameters. Pagination information, including next cursor value, is included directly in the returned text content.\n- **Note:** Filtering by `type` alone does not filter by status; the `status` parameter defaults to returning spaces with *all* statuses (current and archived) unless explicitly set to `current` or `archived`.\n- Returns a formatted list of spaces including ID, key, name, type, status, and URL.\n- Default sort is by name descending.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "global",
+                        "personal",
+                        "archived"
+                    ],
+                    "description": "Optional: Filter spaces by type. Options: \"global\" (team spaces), \"personal\" (user spaces), or \"archived\" (archived spaces). If omitted, returns spaces of all types."
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "current",
+                        "archived"
+                    ],
+                    "description": "Optional: Filter spaces by status. Options: \"current\" (active spaces) or \"archived\" (archived spaces). If omitted, returns spaces with all statuses."
+                },
+                "limit": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "minimum": 1,
+                    "maximum": 100,
+                    "description": "Maximum number of items to return (1-100). Controls the response size. Defaults to 25 if omitted. The Confluence API caps results at 100 items per request."
+                },
+                "cursor": {
+                    "type": "string",
+                    "description": "Pagination cursor for retrieving the next set of results. Obtain this opaque string from the metadata.pagination.nextCursor of a previous response when more results are available. Confluence uses cursor-based pagination rather than offset-based pagination."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "confluence_conf_get_space",
+        "description": "Retrieves comprehensive details for a specific Confluence space identified by `spaceKey`. Returns the space's description, homepage ID, type, status, theme, permissions, and other metadata as formatted Markdown. Use this after finding a space key via `conf_ls_spaces` to get the full space context.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "spaceKey": {
+                    "type": "string",
+                    "description": "The key of the Confluence space to retrieve (e.g., \"DEV\" or \"MARKETING\"). The space key is a unique identifier for a space, typically a short uppercase code."
+                }
+            },
+            "required": [
+                "spaceKey"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "confluence_conf_ls_pages",
+        "description": "Lists pages within specified spaces (by `spaceId` or `spaceKey`) or globally. Filters by `title` with SMART MATCHING: tries exact match first, automatically falls back to partial matching if no exact results found. Supports `status` (current, archived, etc.), sorting (`sort`) and pagination (`limit`, `cursor`). \n- Returns a formatted list of pages including ID, title, status, space ID, author, version, and URL. \n- Pagination information including next cursor value is included at the end of the returned text content.\n- SMART TITLE SEARCH: When using `title` parameter, if exact match fails, automatically searches for partial matches (e.g., \"Balance\" will find \"Balance Reconciliation System\").\n- For full-text content search or advanced queries, use the `conf_search` tool. \n- Requires Confluence credentials.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "spaceIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Optional: Numeric Space IDs to filter by. Either use this OR spaceKeys, not both together. If both are provided, only spaceIds will be used."
+                },
+                "spaceKeys": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Optional: Space Keys (e.g., \"DEV\") to filter by. Either use this OR spaceIds, not both together. If both are provided, only spaceIds will be used. Preferred for usability as keys are more human-readable than IDs."
+                },
+                "parentId": {
+                    "type": "string",
+                    "description": "Optional: Parent page ID to filter for child pages only."
+                },
+                "title": {
+                    "type": "string",
+                    "description": "Filter pages by title with SMART MATCHING. First tries exact match, then automatically falls back to partial matching if no exact results found. For example, \"Balance\" will find \"Balance Reconciliation System - Documentation Summary\". For full-text content search or advanced CQL queries, use the `conf_search` tool instead."
+                },
+                "status": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "current",
+                            "trashed",
+                            "deleted",
+                            "archived",
+                            "historical"
+                        ]
+                    },
+                    "description": "Optional: Filter pages by status. Options: \"current\" (published), \"trashed\", \"deleted\", \"archived\", \"historical\" (previous versions). Defaults to [\"current\"] if not specified. Provide as an array to include multiple statuses."
+                },
+                "limit": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "minimum": 1,
+                    "maximum": 250,
+                    "description": "Maximum number of items to return (1-250). Controls the response size. Defaults to 25 if omitted. The Confluence API caps results at 250 items per request."
+                },
+                "cursor": {
+                    "type": "string",
+                    "description": "Pagination cursor for retrieving the next set of results. Obtain this opaque string from the metadata.pagination.nextCursor of a previous response when more results are available. Confluence uses cursor-based pagination rather than offset-based pagination."
+                },
+                "sort": {
+                    "type": "string",
+                    "enum": [
+                        "id",
+                        "-id",
+                        "created-date",
+                        "-created-date",
+                        "modified-date",
+                        "-modified-date",
+                        "title",
+                        "-title"
+                    ],
+                    "description": "Optional: Property to sort pages by. Default is \"-modified-date\" (most recently modified first). The \"-\" prefix indicates descending order. Valid values: \"id\", \"-id\", \"created-date\", \"-created-date\", \"modified-date\", \"-modified-date\", \"title\", \"-title\"."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "confluence_conf_get_page",
+        "description": "Retrieves the full content (converted to Markdown) and metadata for a specific Confluence page using its numeric ID (`pageId`).\n- Includes complete page body, title, space info, author, version, labels, and URL.\nUse this after finding a page ID via `confluence_list_pages` or `confluence_search` to get its full content.\nReturns comprehensive page details formatted as Markdown.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "pageId": {
+                    "type": "string",
+                    "description": "The numeric ID of the Confluence page to retrieve (e.g., \"456789\"). This is required and must be a valid page ID from your Confluence instance. The page content will be returned in Markdown format for easy reading."
+                }
+            },
+            "required": [
+                "pageId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "confluence_conf_search",
+        "description": "Searches Confluence content. Supports multiple filter options: `cql` (for providing a complete custom Confluence Query Language string), `title` (text in title), `spaceKey`, `labels`, and `contentType` (page/blogpost). A general `query` parameter performs a basic text search (equivalent to CQL: text ~ \"your query\").\n- IMPORTANT for `cql` users: Ensure your CQL syntax is correct, especially quoting terms in text searches (e.g., `text ~ \"search phrase\"`). Invalid CQL will result in an error. Refer to official Confluence CQL documentation. \n- Filters are generally combined with AND logic.\n- Supports pagination (`limit`, `cursor`). \n- The executed CQL and pagination information (including next cursor value) are included directly in the returned text content.\n- Returns Markdown formatted results with snippets and metadata. \n- Requires Confluence credentials.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "cql": {
+                    "type": "string",
+                    "description": "Optional: Full Confluence Query Language (CQL) string for advanced filtering. Example: `space = \"DOCS\" AND label = \"release-notes\" AND (title ~ \"Q1\" OR text ~ \"Quarter 1\")`. If provided, this forms the base of the search and other filter parameters (title, spaceKey, etc.) will be ANDed with it. Ensure terms in `text ~` clauses are double-quoted if they contain spaces or are not simple words (e.g., `text ~ \"my search phrase\"`). Refer to Confluence CQL syntax guide for details."
+                },
+                "title": {
+                    "type": "string",
+                    "description": "Optional: Filter results to content where the title contains this text (case-insensitive search). Example: \"Meeting Notes\". If `cql` is also provided, this will be ANDed with it (e.g., `title ~ \"YOUR_TITLE\" AND (YOUR_CQL)`). Otherwise, it will be used to build the CQL as `title ~ \"YOUR_TITLE\"`."
+                },
+                "spaceKey": {
+                    "type": "string",
+                    "description": "Optional: Filter results to content within a specific space key. Example: \"DEV\", \"HR\". If `cql` is also provided, this will be ANDed with it (e.g., `space = \"YOUR_SPACE\" AND (YOUR_CQL)`). Otherwise, it will be used to build the CQL as `space = \"YOUR_SPACE\"`."
+                },
+                "labels": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Optional: Filter results to content tagged with ALL of these labels (array). Example: [\"project-x\", \"roadmap\"]. If `cql` is also provided, this will be ANDed with it (e.g., `label = \"label1\" AND label = \"label2\" AND (YOUR_CQL)`). Otherwise, it will be used to build the CQL with multiple label conditions."
+                },
+                "contentType": {
+                    "type": "string",
+                    "enum": [
+                        "page",
+                        "blogpost"
+                    ],
+                    "description": "Optional: Filter results by content type. Choose either \"page\" or \"blogpost\". If `cql` is also provided, this will be ANDed with it (e.g., `type = \"YOUR_TYPE\" AND (YOUR_CQL)`). Otherwise, it will be used to build the CQL as `type = \"YOUR_TYPE\"`."
+                },
+                "query": {
+                    "type": "string",
+                    "description": "Optional: Simple text search query. This will search for the given text within the content body, title, and comments. Translates to CQL: `text ~ \"YOUR_QUERY\"`. If both `query` and `cql` are provided, they will be combined with AND (e.g., `text ~ \"YOUR_QUERY\" AND (YOUR_CQL)`). For sophisticated text searches, prefer using the `cql` parameter directly."
+                },
+                "limit": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "minimum": 1,
+                    "maximum": 100,
+                    "description": "Maximum number of search results to return (1-100). Controls the response size. Defaults to 25 if omitted. The Confluence search API caps results at 100 items per request."
+                },
+                "cursor": {
+                    "type": "string",
+                    "description": "Pagination cursor for retrieving the next set of results. Obtain this opaque string from the metadata.pagination.nextCursor of a previous response when more results are available. Confluence uses cursor-based pagination rather than offset-based pagination."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "confluence_conf_ls_page_comments",
+        "description": "Lists comments for a Confluence page, identified by `pageId`. Includes both page-level and inline comments. Shows comment content and metadata in Markdown format. Supports pagination via `limit` and `start` parameters. Pagination information including next offset value is included directly in the returned text content. Requires Confluence credentials to be configured. Returns comment details as Markdown.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "pageId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "The ID of the Confluence page to retrieve comments for"
+                },
+                "limit": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "default": 25,
+                    "description": "Maximum number of comments to retrieve (1-100)"
+                },
+                "start": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "default": 0,
+                    "description": "Starting point for pagination (used for retrieving subsequent pages of results)"
+                }
+            },
+            "required": [
+                "pageId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "confluence_conf_ls_inline_comments",
+        "description": "Lists ONLY inline comments for a Confluence page, identified by `pageId`. Filters out regular page comments and shows only comments attached to specific text selections. Includes highlighted text context and comment content in Markdown format. Supports filtering by resolution status and sorting by document position or creation date. Use this instead of `conf_ls_page_comments` when you specifically need inline comments that reference particular text passages. Requires Confluence credentials to be configured.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "pageId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "The ID of the Confluence page to retrieve inline comments for"
+                },
+                "includeResolved": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Include resolved inline comments in the results (default: false)"
+                },
+                "sortBy": {
+                    "type": "string",
+                    "enum": [
+                        "created",
+                        "position"
+                    ],
+                    "default": "position",
+                    "description": "Sort by creation date or document position (default: position)"
+                },
+                "limit": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "default": 25,
+                    "description": "Maximum number of inline comments to retrieve (1-100)"
+                },
+                "start": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "default": 0,
+                    "description": "Starting point for pagination (used for retrieving subsequent pages of results)"
+                }
+            },
+            "required": [
+                "pageId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

@@ -1,0 +1,707 @@
+[
+    {
+        "name": "phonepi-mcp_get_battery_level",
+        "description": "Get the current battery level of the phone",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    },
+    {
+        "name": "phonepi-mcp_add_snippet",
+        "description": "Add a new snippet to the phone",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "description": "Title of the snippet"
+                },
+                "content": {
+                    "type": "string",
+                    "description": "Content of the snippet"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "note",
+                        "todo",
+                        "bookmark",
+                        "snippet",
+                        "draft"
+                    ],
+                    "description": "Type of the snippet"
+                },
+                "tags": {
+                    "type": "string",
+                    "description": "Comma-separated tags for the snippet"
+                }
+            },
+            "required": [
+                "title",
+                "content",
+                "type"
+            ]
+        }
+    },
+    {
+        "name": "phonepi-mcp_get_all_snippets",
+        "description": "Get all snippets from the phone",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    },
+    {
+        "name": "phonepi-mcp_get_snippet_by_id",
+        "description": "Get a specific snippet by ID",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "number",
+                    "description": "Snippet ID"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "phonepi-mcp_get_snippets_by_type",
+        "description": "Get snippets by type",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "note",
+                        "todo",
+                        "bookmark",
+                        "snippet",
+                        "draft"
+                    ],
+                    "description": "Type of snippets to retrieve"
+                }
+            },
+            "required": [
+                "type"
+            ]
+        }
+    },
+    {
+        "name": "phonepi-mcp_search_snippets",
+        "description": "Search snippets by query",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Search query"
+                }
+            },
+            "required": [
+                "query"
+            ]
+        }
+    },
+    {
+        "name": "phonepi-mcp_update_snippet",
+        "description": "Update an existing snippet",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "number",
+                    "description": "Snippet ID"
+                },
+                "title": {
+                    "type": "string",
+                    "description": "Title of the snippet"
+                },
+                "content": {
+                    "type": "string",
+                    "description": "Content of the snippet"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "note",
+                        "todo",
+                        "bookmark",
+                        "snippet",
+                        "draft"
+                    ],
+                    "description": "Type of the snippet"
+                },
+                "tags": {
+                    "type": "string",
+                    "description": "Comma-separated tags for the snippet"
+                }
+            },
+            "required": [
+                "id",
+                "title",
+                "content",
+                "type"
+            ]
+        }
+    },
+    {
+        "name": "phonepi-mcp_delete_snippet",
+        "description": "Delete a snippet from the phone",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "number",
+                    "description": "Snippet ID to delete"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "phonepi-mcp_send_sms",
+        "description": "Send an SMS message",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "to": {
+                    "type": "string",
+                    "description": "Phone number to send to"
+                },
+                "message": {
+                    "type": "string",
+                    "description": "Message content"
+                }
+            },
+            "required": [
+                "to",
+                "message"
+            ]
+        }
+    },
+    {
+        "name": "phonepi-mcp_make_call",
+        "description": "Make a phone call",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "to": {
+                    "type": "string",
+                    "description": "Phone number to call"
+                }
+            },
+            "required": [
+                "to"
+            ]
+        }
+    },
+    {
+        "name": "phonepi-mcp_find_phone",
+        "description": "Make the phone beep to help locate it",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "loop": {
+                    "type": "boolean",
+                    "description": "Whether to play the beep in a loop until dismissed",
+                    "default": true
+                },
+                "showDismissUI": {
+                    "type": "boolean",
+                    "description": "Whether to show a UI for dismissing the beep",
+                    "default": true
+                },
+                "notifyOnCompletion": {
+                    "type": "boolean",
+                    "description": "Whether to send a notification when the task is complete",
+                    "default": false
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "phonepi-mcp_set_timer",
+        "description": "Set a timer for a specific duration",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "seconds": {
+                    "type": "number",
+                    "description": "Duration of the timer in seconds",
+                    "minimum": 1
+                }
+            },
+            "required": [
+                "seconds"
+            ]
+        }
+    },
+    {
+        "name": "phonepi-mcp_copy_to_clipboard",
+        "description": "Copy text to the phone clipboard",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "text": {
+                    "type": "string",
+                    "description": "Text to copy to clipboard"
+                }
+            },
+            "required": [
+                "text"
+            ]
+        }
+    },
+    {
+        "name": "phonepi-mcp_get_contacts",
+        "description": "Get all contacts from the phone",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    },
+    {
+        "name": "phonepi-mcp_get_contact_by_id",
+        "description": "Get a specific contact by ID",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Contact ID"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "phonepi-mcp_add_contact",
+        "description": "Add a new contact to the phone",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "contact": {
+                    "type": "object",
+                    "description": "Contact data",
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "description": "Full name of the contact"
+                        },
+                        "firstName": {
+                            "type": "string",
+                            "description": "First name of the contact"
+                        },
+                        "middleName": {
+                            "type": "string",
+                            "description": "Middle name of the contact"
+                        },
+                        "lastName": {
+                            "type": "string",
+                            "description": "Last name of the contact"
+                        },
+                        "phoneNumbers": {
+                            "type": "array",
+                            "description": "List of phone numbers",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "label": {
+                                        "type": "string",
+                                        "description": "Label for the phone number (e.g., \"home\", \"work\", \"mobile\")"
+                                    },
+                                    "number": {
+                                        "type": "string",
+                                        "description": "The phone number"
+                                    }
+                                },
+                                "required": [
+                                    "label",
+                                    "number"
+                                ]
+                            }
+                        },
+                        "emails": {
+                            "type": "array",
+                            "description": "List of email addresses",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "label": {
+                                        "type": "string",
+                                        "description": "Label for the email (e.g., \"home\", \"work\")"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "description": "The email address"
+                                    }
+                                },
+                                "required": [
+                                    "label",
+                                    "email"
+                                ]
+                            }
+                        },
+                        "addresses": {
+                            "type": "array",
+                            "description": "List of addresses",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "label": {
+                                        "type": "string",
+                                        "description": "Label for the address (e.g., \"home\", \"work\")"
+                                    },
+                                    "street": {
+                                        "type": "string",
+                                        "description": "Street address"
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "description": "City"
+                                    },
+                                    "region": {
+                                        "type": "string",
+                                        "description": "State/Province/Region"
+                                    },
+                                    "postalCode": {
+                                        "type": "string",
+                                        "description": "Postal/ZIP code"
+                                    },
+                                    "country": {
+                                        "type": "string",
+                                        "description": "Country"
+                                    }
+                                },
+                                "required": [
+                                    "label"
+                                ]
+                            }
+                        },
+                        "company": {
+                            "type": "string",
+                            "description": "Company name"
+                        },
+                        "jobTitle": {
+                            "type": "string",
+                            "description": "Job title"
+                        },
+                        "note": {
+                            "type": "string",
+                            "description": "Additional notes about the contact"
+                        }
+                    },
+                    "required": [
+                        "name"
+                    ]
+                }
+            },
+            "required": [
+                "contact"
+            ]
+        }
+    },
+    {
+        "name": "phonepi-mcp_update_contact",
+        "description": "Update an existing contact",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "contact": {
+                    "type": "object",
+                    "description": "Contact data with updates",
+                    "properties": {
+                        "id": {
+                            "type": "string",
+                            "description": "Contact ID (required for updating)"
+                        },
+                        "name": {
+                            "type": "string",
+                            "description": "Full name of the contact"
+                        },
+                        "firstName": {
+                            "type": "string",
+                            "description": "First name of the contact"
+                        },
+                        "middleName": {
+                            "type": "string",
+                            "description": "Middle name of the contact"
+                        },
+                        "lastName": {
+                            "type": "string",
+                            "description": "Last name of the contact"
+                        },
+                        "phoneNumbers": {
+                            "type": "array",
+                            "description": "List of phone numbers",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string",
+                                        "description": "ID of the phone number (required for updating existing numbers)"
+                                    },
+                                    "label": {
+                                        "type": "string",
+                                        "description": "Label for the phone number (e.g., \"home\", \"work\", \"mobile\")"
+                                    },
+                                    "number": {
+                                        "type": "string",
+                                        "description": "The phone number"
+                                    }
+                                },
+                                "required": [
+                                    "label",
+                                    "number"
+                                ]
+                            }
+                        },
+                        "emails": {
+                            "type": "array",
+                            "description": "List of email addresses",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string",
+                                        "description": "ID of the email (required for updating existing emails)"
+                                    },
+                                    "label": {
+                                        "type": "string",
+                                        "description": "Label for the email (e.g., \"home\", \"work\")"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "description": "The email address"
+                                    }
+                                },
+                                "required": [
+                                    "label",
+                                    "email"
+                                ]
+                            }
+                        },
+                        "addresses": {
+                            "type": "array",
+                            "description": "List of addresses",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string",
+                                        "description": "ID of the address (required for updating existing addresses)"
+                                    },
+                                    "label": {
+                                        "type": "string",
+                                        "description": "Label for the address (e.g., \"home\", \"work\")"
+                                    },
+                                    "street": {
+                                        "type": "string",
+                                        "description": "Street address"
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "description": "City"
+                                    },
+                                    "region": {
+                                        "type": "string",
+                                        "description": "State/Province/Region"
+                                    },
+                                    "postalCode": {
+                                        "type": "string",
+                                        "description": "Postal/ZIP code"
+                                    },
+                                    "country": {
+                                        "type": "string",
+                                        "description": "Country"
+                                    }
+                                },
+                                "required": [
+                                    "label"
+                                ]
+                            }
+                        },
+                        "company": {
+                            "type": "string",
+                            "description": "Company name"
+                        },
+                        "jobTitle": {
+                            "type": "string",
+                            "description": "Job title"
+                        },
+                        "note": {
+                            "type": "string",
+                            "description": "Additional notes about the contact"
+                        }
+                    },
+                    "required": [
+                        "id",
+                        "name"
+                    ]
+                }
+            },
+            "required": [
+                "contact"
+            ]
+        }
+    },
+    {
+        "name": "phonepi-mcp_delete_contact",
+        "description": "Delete a contact from the phone",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Contact ID to delete"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "phonepi-mcp_share_snippet",
+        "description": "Share a snippet via messaging apps",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "number",
+                    "description": "Snippet ID to share"
+                },
+                "method": {
+                    "type": "string",
+                    "enum": [
+                        "default",
+                        "sms",
+                        "whatsapp",
+                        "clipboard"
+                    ],
+                    "description": "Sharing method to use",
+                    "default": "default"
+                },
+                "recipient": {
+                    "type": "string",
+                    "description": "Phone number for SMS or WhatsApp (required for those methods)"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "phonepi-mcp_send_message",
+        "description": "Send a message to the phone that requires user attention or response",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "description": "Title of the message"
+                },
+                "body": {
+                    "type": "string",
+                    "description": "Content of the message"
+                },
+                "priority": {
+                    "type": "string",
+                    "enum": [
+                        "low",
+                        "normal",
+                        "high",
+                        "urgent"
+                    ],
+                    "description": "Priority level of the message",
+                    "default": "normal"
+                },
+                "responseOptions": {
+                    "type": "array",
+                    "description": "Optional response options for the user to choose from",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "requireResponse": {
+                    "type": "boolean",
+                    "description": "Whether a response is required from the user",
+                    "default": false
+                },
+                "expiresIn": {
+                    "type": "number",
+                    "description": "Optional expiration time in minutes (0 means no expiration)",
+                    "default": 0
+                }
+            },
+            "required": [
+                "title",
+                "body"
+            ]
+        }
+    },
+    {
+        "name": "phonepi-mcp_get_message_response",
+        "description": "Get the response to a previously sent message",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "messageId": {
+                    "type": "string",
+                    "description": "ID of the message to get the response for"
+                }
+            },
+            "required": [
+                "messageId"
+            ]
+        }
+    },
+    {
+        "name": "phonepi-mcp_send_notification",
+        "description": "Send a notification to the phone",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "description": "Title of the notification"
+                },
+                "body": {
+                    "type": "string",
+                    "description": "Content of the notification"
+                },
+                "priority": {
+                    "type": "string",
+                    "enum": [
+                        "default",
+                        "high"
+                    ],
+                    "description": "Priority level of the notification",
+                    "default": "default"
+                },
+                "data": {
+                    "type": "object",
+                    "description": "Additional data to include with the notification"
+                }
+            },
+            "required": [
+                "title",
+                "body"
+            ]
+        }
+    }
+]

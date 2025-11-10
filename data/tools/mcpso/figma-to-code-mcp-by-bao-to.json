@@ -1,0 +1,312 @@
+[
+    {
+        "name": "Figma MCP Server by Bao To_get_figma_data",
+        "description": "When the nodeId cannot be obtained, obtain the layout information about the entire Figma file",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileKey": {
+                    "type": "string",
+                    "description": "The key of the Figma file to fetch, often found in a provided URL like figma.com/(file|design)/<fileKey>/..."
+                },
+                "nodeId": {
+                    "type": "string",
+                    "description": "The ID of the node to fetch, often found as URL parameter node-id=<nodeId>, always use if provided"
+                },
+                "depth": {
+                    "type": "number",
+                    "description": "How many levels deep to traverse the node tree, only use if explicitly requested by the user"
+                }
+            },
+            "required": [
+                "fileKey"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "Figma MCP Server by Bao To_download_figma_images",
+        "description": "Download SVG and PNG images used in a Figma file based on the IDs of image or icon nodes",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileKey": {
+                    "type": "string",
+                    "description": "The key of the Figma file containing the node"
+                },
+                "nodes": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "nodeId": {
+                                "type": "string",
+                                "description": "The ID of the Figma image node to fetch, formatted as 1234:5678"
+                            },
+                            "imageRef": {
+                                "type": "string",
+                                "description": "If a node has an imageRef fill, you must include this variable. Leave blank when downloading Vector SVG images."
+                            },
+                            "fileName": {
+                                "type": "string",
+                                "description": "The local name for saving the fetched file"
+                            }
+                        },
+                        "required": [
+                            "nodeId",
+                            "fileName"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "The nodes to fetch as images"
+                },
+                "localPath": {
+                    "type": "string",
+                    "description": "The absolute path to the directory where images are stored in the project. If the directory does not exist, it will be created. The format of this path should respect the directory format of the operating system you are running on. Don't use any special character escaping in the path name either."
+                }
+            },
+            "required": [
+                "fileKey",
+                "nodes",
+                "localPath"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "Figma MCP Server by Bao To_get_figma_variables",
+        "description": "Retrieves all variables and variable collections from a Figma file. Variables are different from design tokens - they are Figma's dynamic values system that can store colors, numbers, strings, and booleans with different modes/themes.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileKey": {
+                    "type": "string",
+                    "description": "The key of the Figma file to extract variables from, found in the Figma file URL."
+                },
+                "scope": {
+                    "type": "string",
+                    "enum": [
+                        "local",
+                        "published"
+                    ],
+                    "default": "local",
+                    "description": "Whether to fetch local variables (all variables in the file) or published variables (only those published to team library). Defaults to 'local'."
+                },
+                "outputFilePath": {
+                    "type": "string",
+                    "description": "Optional full path (including filename) where the output JSON file should be saved. If not provided, variables data will be returned in the response."
+                }
+            },
+            "required": [
+                "fileKey"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "Figma MCP Server by Bao To_generate_design_tokens",
+        "description": "Extracts design tokens (colors, typography, spacing, effects) from a Figma file and saves them as a JSON file.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileKey": {
+                    "type": "string",
+                    "description": "The key of the Figma file to extract tokens from, found in the Figma file URL."
+                },
+                "outputFilePath": {
+                    "type": "string",
+                    "description": "Optional full path (including filename) where the output JSON file should be saved. If not provided, it will be saved in a temporary directory."
+                },
+                "includeDeducedVariables": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to include deduced variables analysis as a workaround for Enterprise-only Variables API. This analyzes design tokens to create variable-like structures but has limitations compared to real Figma Variables."
+                }
+            },
+            "required": [
+                "fileKey"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "Figma MCP Server by Bao To_generate_design_system_doc",
+        "description": "Generates a comprehensive set of Markdown documents detailing the design system from a Figma file into a specified directory.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileKey": {
+                    "type": "string",
+                    "description": "The key of the Figma file to document, found in the Figma file URL."
+                },
+                "outputDirectoryPath": {
+                    "type": "string",
+                    "description": "Optional full path to the directory where the documentation files should be saved. If not provided, files and folders (e.g., _Overview.md, GlobalStyles/, Components/) will be generated in a new unique directory within the system's temporary folder. The full path to this temporary directory will be returned in the response. To save directly into a specific project directory, this path must be provided."
+                }
+            },
+            "required": [
+                "fileKey"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "Figma MCP Server by Bao To_compare_design_tokens",
+        "description": "Compare design tokens between two Figma files or token sets to identify changes, additions, and removals.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileKey1": {
+                    "type": "string",
+                    "description": "The key of the first Figma file for comparison."
+                },
+                "fileKey2": {
+                    "type": "string",
+                    "description": "The key of the second Figma file for comparison."
+                },
+                "outputFilePath": {
+                    "type": "string",
+                    "description": "Optional path to save the comparison results as JSON."
+                }
+            },
+            "required": [
+                "fileKey1",
+                "fileKey2"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "Figma MCP Server by Bao To_validate_design_system",
+        "description": "Validate design tokens against design system best practices and rules.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileKey": {
+                    "type": "string",
+                    "description": "The key of the Figma file to validate."
+                },
+                "outputFilePath": {
+                    "type": "string",
+                    "description": "Optional path to save the validation results as JSON."
+                }
+            },
+            "required": [
+                "fileKey"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "Figma MCP Server by Bao To_check_accessibility",
+        "description": "Check design tokens for accessibility compliance issues (contrast, text sizes, etc.).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileKey": {
+                    "type": "string",
+                    "description": "The key of the Figma file to check for accessibility."
+                },
+                "outputFilePath": {
+                    "type": "string",
+                    "description": "Optional path to save the accessibility report as JSON."
+                }
+            },
+            "required": [
+                "fileKey"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "Figma MCP Server by Bao To_migrate_tokens",
+        "description": "Convert design tokens to different formats (Tailwind, CSS Variables, Style Dictionary, Figma Tokens).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileKey": {
+                    "type": "string",
+                    "description": "The key of the Figma file containing the tokens to migrate."
+                },
+                "targetFormat": {
+                    "type": "string",
+                    "enum": [
+                        "tailwind",
+                        "css-variables",
+                        "style-dictionary",
+                        "figma-tokens"
+                    ],
+                    "description": "The target format to convert tokens to."
+                },
+                "outputFilePath": {
+                    "type": "string",
+                    "description": "The path where the converted tokens should be saved."
+                }
+            },
+            "required": [
+                "fileKey",
+                "targetFormat",
+                "outputFilePath"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "Figma MCP Server by Bao To_check_design_code_sync",
+        "description": "Compare Figma design tokens with code tokens to identify sync issues between design and implementation.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileKey": {
+                    "type": "string",
+                    "description": "The key of the Figma file to compare."
+                },
+                "codeTokensPath": {
+                    "type": "string",
+                    "description": "Path to the code tokens file (JSON, JS, or TS format)."
+                },
+                "outputFilePath": {
+                    "type": "string",
+                    "description": "Optional path to save the sync comparison results."
+                }
+            },
+            "required": [
+                "fileKey",
+                "codeTokensPath"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "Figma MCP Server by Bao To_analyze_figma_components",
+        "description": "Analyzes Figma components to understand structure, variants, and relationships for intelligent AI-driven code generation. This tool helps AI agents understand component semantics, props, variants, and implementation patterns.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileKey": {
+                    "type": "string",
+                    "description": "The key of the Figma file to analyze for components."
+                },
+                "outputFilePath": {
+                    "type": "string",
+                    "description": "Optional path to save the component analysis results as JSON."
+                }
+            },
+            "required": [
+                "fileKey"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

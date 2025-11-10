@@ -1,0 +1,384 @@
+[
+    {
+        "name": "rhino_create_object",
+        "description": "\nCreate a new object in the Rhino document.\n\nParameters:\n- type: Object type (\"POINT\", \"LINE\", \"POLYLINE\", \"CIRCLE\", \"ARC\", \"ELLIPSE\", \"CURVE\", \"BOX\", \"SPHERE\", \"CONE\", \"CYLINDER\", \"PIPE\", \"SURFACE\")\n- name: Optional name for the object\n- color: Optional [r, g, b] color values (0-255) for the object\n- params: Type-specific parameters dictionary (see documentation for each type)\n- translation: Optional [x, y, z] translation vector\n- rotation: Optional [x, y, z] rotation in radians\n- scale: Optional [x, y, z] scale factors\n\nThe params dictionary is type-specific.\nFor POINT, the params dictionary should contain the following keys:\n- x: x coordinate of the point\n- y: y coordinate of the point\n- z: z coordinate of the point\n\nFor LINE, the params dictionary should contain the following keys:\n- start: [x, y, z] start point of the line\n- end: [x, y, z] end point of the line\n\nFor POLYLINE, the params dictionary should contain the following keys:\n- points: List of [x, y, z] points that define the polyline\n\nFor CIRCLE, the params dictionary should contain the following keys:\n- center: [x, y, z] center point of the circle\n- radius: Radius of the circle\n\nFor ARC, the params dictionary should contain the following keys:\n- center: [x, y, z] center point of the arc\n- radius: Radius of the arc\n- angle: Angle of the arc in degrees\n\nFor ELLIPSE, the params dictionary should contain the following keys:\n- center: [x, y, z] center point of the ellipse\n- radius_x: Radius of the ellipse along X axis\n- radius_y: Radius of the ellipse along Y axis\n\nFor CURVE, the params dictionary should contain the following keys:\n- points: List of [x, y, z] control points that define the curve\n- degree: Degree of the curve (default is 3, if user asked for smoother curve, degree can be higher)\nIf the curve is closed, the first and last points should be the same.\n\nFor BOX, the params dictionary should contain the following keys:\n- width: Width of the box along X axis of the object\n- length: Length of the box along Y axis of the object\n- height: Height of the box along Z axis of the object\n\nFor SPHERE, the params dictionary should contain the following key:\n- radius: Radius of the sphere\n\nFor CONE, the params dictionary should contain the following keys:\n- radius: Radius of the cone\n- height: Height of the cone\n- cap: Boolean to indicate if the cone should be capped at the base, default is True\n\nFor CYLINDER, the params dictionary should contain the following keys:\n- radius: Radius of the cylinder\n- height: Height of the cylinder\n- cap: Boolean to indicate if the cylinder should be capped at the base, default is True\n\nFor SURFACE, the params dictionary should contain the following keys:\n- count : ([number, number]) Tuple of two numbers defining number of points in the u,v directions\n- points: List of [x, y, z] points that define the surface\n- degree: ([number, number], optional) Degree of the surface (default is 3, if user asked for smoother surface, degree can be higher)\n- closed: ([bool, bool], optional) Two booleans defining if the surface is closed in the u,v directions\n\nReturns:\nA message indicating the created object name.\n\nExamples of params:\n- POINT: {\"x\": 0, \"y\": 0, \"z\": 0}\n- LINE: {\"start\": [0, 0, 0], \"end\": [1, 1, 1]}\n- POLYLINE: {\"points\": [[0, 0, 0], [1, 1, 1], [2, 2, 2]]}\n- CIRCLE: {\"center\": [0, 0, 0], \"radius\": 1.0}\n- CURVE: {\"points\": [[0, 0, 0], [1, 1, 1], [2, 2, 2]], \"degree\": 3}\n- BOX: {\"width\": 1.0, \"length\": 1.0, \"height\": 1.0}\n- SPHERE: {\"radius\": 1.0}\n- CONE: {\"radius\": 1.0, \"height\": 1.0, \"cap\": True}\n- CYLINDER: {\"radius\": 1.0, \"height\": 1.0, \"cap\": True}\n- SURFACE: {\"count\": (3, 3), \"points\": [[0, 0, 0], [1, 0, 0], [2, 0, 0], [0, 1, 0], [1, 1, 0], [2, 1, 0], [0, 2, 0], [1, 2, 0], [2, 2, 0]], \"degree\": (3, 3), \"closed\": (False, False)}\n",
+        "parameters": {
+            "properties": {
+                "type": {
+                    "default": "BOX",
+                    "title": "Type",
+                    "type": "string"
+                },
+                "name": {
+                    "default": null,
+                    "title": "Name",
+                    "type": "string"
+                },
+                "color": {
+                    "default": null,
+                    "items": {
+                        "type": "integer"
+                    },
+                    "title": "Color",
+                    "type": "array"
+                },
+                "params": {
+                    "additionalProperties": true,
+                    "default": {},
+                    "title": "Params",
+                    "type": "object"
+                },
+                "translation": {
+                    "default": null,
+                    "items": {
+                        "type": "number"
+                    },
+                    "title": "Translation",
+                    "type": "array"
+                },
+                "rotation": {
+                    "default": null,
+                    "items": {
+                        "type": "number"
+                    },
+                    "title": "Rotation",
+                    "type": "array"
+                },
+                "scale": {
+                    "default": null,
+                    "items": {
+                        "type": "number"
+                    },
+                    "title": "Scale",
+                    "type": "array"
+                }
+            },
+            "title": "create_objectArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "rhino_create_objects",
+        "description": "\nCreate multiple objects at once in the Rhino document.\n\nParameters:\n- objects: A list of dictionaries, each containing the parameters for a single object\n\nEach object should have the following values:\n- type: Object type (\"POINT\", \"LINE\", \"POLYLINE\", \"BOX\", \"SPHERE\", etc.)\n- name: Optional name for the object\n- color: Optional [r, g, b] color values (0-255) for the object\n- params: Type-specific parameters dictionary (see documentation for each type in create_object() function)\n- translation: Optional [x, y, z] translation vector\n- rotation: Optional [x, y, z] rotation in radians\n- scale: Optional [x, y, z] scale factors\n\nReturns:\nA message indicating the created objects.\n\nExamples of params:\n[\n    {\n        \"type\": \"POINT\",\n        \"name\": \"Point 1\",\n        \"params\": {\"x\": 0, \"y\": 0, \"z\": 0}\n    },\n    {\n        \"type\": \"LINE\",\n        \"name\": \"Line 1\",\n        \"params\": {\"start\": [0, 0, 0], \"end\": [1, 1, 1]}\n    },\n    {\n        \"type\": \"POLYLINE\",\n        \"name\": \"Polyline 1\",\n        \"params\": {\"points\": [[0, 0, 0], [1, 1, 1], [2, 2, 2]]}\n    },\n    {\n        \"type\": \"CURVE\",\n        \"name\": \"Curve 1\",\n        \"params\": {\"points\": [[0, 0, 0], [1, 1, 1], [2, 2, 2]], \"degree\": 3}\n    },\n    {\n        \"type\": \"BOX\",\n        \"name\": \"Box 1\",\n        \"color\": [255, 0, 0],\n        \"params\": {\"width\": 1.0, \"length\": 1.0, \"height\": 1.0},\n        \"translation\": [0, 0, 0],\n        \"rotation\": [0, 0, 0],\n        \"scale\": [1, 1, 1]\n    },\n    {\n        \"type\": \"SPHERE\",\n        \"name\": \"Sphere 1\",\n        \"color\": [0, 255, 0],\n        \"params\": {\"radius\": 1.0},\n        \"translation\": [0, 0, 0],\n        \"rotation\": [0, 0, 0],\n        \"scale\": [1, 1, 1]\n    }\n]\n",
+        "parameters": {
+            "properties": {
+                "objects": {
+                    "items": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "title": "Objects",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "objects"
+            ],
+            "title": "create_objectsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "rhino_delete_object",
+        "description": "\nDelete an object from the Rhino document.\n\nParameters:\n- id: The id of the object to delete\n- name: The name of the object to delete\n",
+        "parameters": {
+            "properties": {
+                "id": {
+                    "default": null,
+                    "title": "Id",
+                    "type": "string"
+                },
+                "name": {
+                    "default": null,
+                    "title": "Name",
+                    "type": "string"
+                },
+                "all": {
+                    "default": null,
+                    "title": "All",
+                    "type": "boolean"
+                }
+            },
+            "title": "delete_objectArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "rhino_get_document_info",
+        "description": "Get detailed information about the current Rhino document",
+        "parameters": {
+            "properties": {},
+            "title": "get_document_infoArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "rhino_get_object_info",
+        "description": "\nGet detailed information about a specific object in the Rhino document.\nThe information contains the object's id, name, type, all custom user attributes and geometry info.\nYou can either provide the id or the object_name of the object to get information about.\nIf both are provided, the id will be used.\n\nReturns:\n- A dictionary containing the object's information\n- The dictionary will have the following keys:\n    - \"id\": The id of the object\n    - \"name\": The name of the object\n    - \"type\": The type of the object\n    - \"layer\": The layer of the object\n    - \"material\": The material of the object\n    - \"color\": The color of the object\n    - \"bounding_box\": The bounding box of the object\n    - \"geometry\": The geometry info of the object\n    - \"attributes\": A dictionary containing all custom user attributes of the object\n\nParameters:\n- id: The id of the object to get information about\n- name: The name of the object to get information about\n",
+        "parameters": {
+            "properties": {
+                "id": {
+                    "default": null,
+                    "title": "Id",
+                    "type": "string"
+                },
+                "name": {
+                    "default": null,
+                    "title": "Name",
+                    "type": "string"
+                }
+            },
+            "title": "get_object_infoArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "rhino_get_selected_objects_info",
+        "description": "Get detailed information about the currently selected objects in Rhino\n\nParameters:\n- include_attributes: Whether to include the custom user attributes of the objects in the response\n",
+        "parameters": {
+            "properties": {
+                "include_attributes": {
+                    "default": false,
+                    "title": "Include Attributes",
+                    "type": "boolean"
+                }
+            },
+            "title": "get_selected_objects_infoArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "rhino_modify_object",
+        "description": "\nModify an existing object in the Rhino document.\n\nParameters:\n- id: The id of the object to modify\n- name: The name of the object to modify\n- new_name: Optional new name for the object\n- new_color: Optional [r, g, b] color values (0-255) for the object\n- translation: Optional [x, y, z] translation vector\n- rotation: Optional [x, y, z] rotation in radians\n- scale: Optional [x, y, z] scale factors\n- visible: Optional boolean to set visibility\n",
+        "parameters": {
+            "properties": {
+                "id": {
+                    "default": null,
+                    "title": "Id",
+                    "type": "string"
+                },
+                "name": {
+                    "default": null,
+                    "title": "Name",
+                    "type": "string"
+                },
+                "new_name": {
+                    "default": null,
+                    "title": "New Name",
+                    "type": "string"
+                },
+                "new_color": {
+                    "default": null,
+                    "items": {
+                        "type": "integer"
+                    },
+                    "title": "New Color",
+                    "type": "array"
+                },
+                "translation": {
+                    "default": null,
+                    "items": {
+                        "type": "number"
+                    },
+                    "title": "Translation",
+                    "type": "array"
+                },
+                "rotation": {
+                    "default": null,
+                    "items": {
+                        "type": "number"
+                    },
+                    "title": "Rotation",
+                    "type": "array"
+                },
+                "scale": {
+                    "default": null,
+                    "items": {
+                        "type": "number"
+                    },
+                    "title": "Scale",
+                    "type": "array"
+                },
+                "visible": {
+                    "default": null,
+                    "title": "Visible",
+                    "type": "boolean"
+                }
+            },
+            "title": "modify_objectArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "rhino_modify_objects",
+        "description": "\nCreate multiple objects at once in the Rhino document.\n\nParameters:\n- objects: A List of objects, each containing the parameters for a single object modification \n- all: Optional boolean to modify all objects, if true, only one object is required in the objects dictionary\n\nEach object can have the following parameters:\n- id: The id of the object to modify\n- new_color: Optional [r, g, b] color values (0-255) for the object\n- translation: Optional [x, y, z] translation vector\n- rotation: Optional [x, y, z] rotation in radians\n- scale: Optional [x, y, z] scale factors\n- visible: Optional boolean to set visibility\n\nReturns:\nA message indicating the modified objects.\n",
+        "parameters": {
+            "properties": {
+                "objects": {
+                    "items": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "title": "Objects",
+                    "type": "array"
+                },
+                "all": {
+                    "default": null,
+                    "title": "All",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "objects"
+            ],
+            "title": "modify_objectsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "rhino_execute_rhinoscript_python_code",
+        "description": "\nExecute arbitrary RhinoScript code in Rhino.\n\nParameters:\n- code: The RhinoScript code to execute\n\nGUIDE: \n\n1. To get any output from the script, you should use the python `print` function.\n2. You can get a list of all possible functions names that can be used by using the get_rhinoscript_python_function_names tool.\n3. You can get the details of a specific function by using the get_rhinoscript_python_code_guide tool.\n\nExample:\n- Your task is: \"Create a loft surface between two curves.\"\n- get_rhinoscript_python_function_names([\"surface\", \"curve\"])\n- This will return the function names that are necessary for creating the code.\n- get_rhinoscript_python_code_guide(\"AddLoftSrf\")\n- This will return the syntax of the code that are necessary for creating the code.\n\nAny changes made to the document will be undone if the script returns failure.\n\nDO NOT HALLUCINATE, ONLY USE THE SYNTAX THAT IS SUPPORTED BY RHINO.GEOMETRY OR RHINOSCRIPT.\n\n",
+        "parameters": {
+            "properties": {
+                "code": {
+                    "title": "Code",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "code"
+            ],
+            "title": "execute_rhinoscript_python_codeArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "rhino_get_rhinoscript_python_function_names",
+        "description": "\nReturn the RhinoScriptsyntax Function Names for specified categories.\n\nParameters:\n- categories: A list of categories of the RhinoScriptsyntax to get.\n\nReturns:\n- A list of function names that are available in the specified categories.\n\nThe following categories are available:\n- application\n- block\n- compat\n- curve\n- dimension\n- document\n- geometry\n- grips\n- group\n- hatch\n- layer\n- light\n- line\n- linetype\n- material\n- mesh\n- object\n- plane\n- pointvector\n- selection\n- surface\n- toolbar\n- transformation\n- userdata\n- userinterface\n- utility\n- view\n",
+        "parameters": {
+            "properties": {
+                "categories": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Categories",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "categories"
+            ],
+            "title": "get_rhinoscript_python_function_namesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "rhino_get_rhinoscript_python_code_guide",
+        "description": "\nReturn the RhinoScriptsyntax Details for a specific function.\n\nParameters:\n- function_name: The name of the function to get the details for.\n\nYou should get the function names first by using the get_rhinoscript_python_function_names tool.\n",
+        "parameters": {
+            "properties": {
+                "function_name": {
+                    "title": "Function Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "function_name"
+            ],
+            "title": "get_rhinoscript_python_code_guideArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "rhino_select_objects",
+        "description": "\nSelect objects in the Rhino document.\n\nParameters:\n- filters: A dictionary containing the filters. The filters parameter is necessary, unless it's empty, in which case all objects will be selected.\n- filters_type: The type of the filters, it's \"and\" or \"or\", default is \"and\"\n\nNote:\nThe filter value is always a list, even if it's a single value. The reason is that a filter can contain multiple values, for example when we query by a attribute that has EITHER value1 OR value2.\n\nThe filters dictionary can contain the following keys:\n- name: The name of the object\n- color: The color of the object, for example [255, 0, 0]\n\nAdditionaly, rhino allows to have user custom attributes, which can be used to filters the objects.\nFor example, if the object has a user custom attribute called \"category\", the filters dictionary can contain:\n- category: custom_attribute_value\n\nExample:\nfilters = {\n    \"name\": [\"object_name1\", \"object_name2\"],\n    \"category\": [\"custom_attribute_value\"]\n},\nfilters_type = \"or\"\n\n\nReturns:\nA number indicating the number of objects that have been selected.\n",
+        "parameters": {
+            "properties": {
+                "filters": {
+                    "additionalProperties": {
+                        "items": {},
+                        "type": "array"
+                    },
+                    "default": {},
+                    "title": "Filters",
+                    "type": "object"
+                },
+                "filters_type": {
+                    "default": "and",
+                    "title": "Filters Type",
+                    "type": "string"
+                }
+            },
+            "title": "select_objectsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "rhino_create_layer",
+        "description": "\nCreate a new layer in the Rhino document.\n\nParameters:\n- name: The name of the new layer. If omitted, Rhino automatically generates the layer name.\n- color: Optional [r, g, b] color values (0-255) for the layer\n- parent: Optional name of the new layer's parent layer. If omitted, the new layer will not have a parent layer.\n\nReturns:\nA message indicating the created layer name.\n\nExamples of params:\n- name: \"Layer 1\"\n- color: [255, 0, 0]\n- parent: \"Default\"\n",
+        "parameters": {
+            "properties": {
+                "name": {
+                    "default": null,
+                    "title": "Name",
+                    "type": "string"
+                },
+                "color": {
+                    "default": null,
+                    "items": {
+                        "type": "integer"
+                    },
+                    "title": "Color",
+                    "type": "array"
+                },
+                "parent": {
+                    "default": null,
+                    "title": "Parent",
+                    "type": "string"
+                }
+            },
+            "title": "create_layerArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "rhino_get_or_set_current_layer",
+        "description": "\nGet or set the current layer in the Rhino document.\nIf name is provided, it will try to set the current layer to the layer with the given name.\nIf guid is provided, it will try to set the current layer to the layer with the given guid.\nIf neither is provided, it will return the current layer.\n\nParameters:\n- name: The name of the layer to set the current layer to.\n- guid: The guid of the layer to set the current layer to.\n\nReturns:\nA message indicating the current layer.\n\nExamples of params:\n- name: \"Layer 1\"\n- guid: \"00000000-0000-0000-0000-000000000000\"\n",
+        "parameters": {
+            "properties": {
+                "guid": {
+                    "default": null,
+                    "title": "Guid",
+                    "type": "string"
+                },
+                "name": {
+                    "default": null,
+                    "title": "Name",
+                    "type": "string"
+                }
+            },
+            "title": "get_or_set_current_layerArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "rhino_delete_layer",
+        "description": "\nDelete a layer in the Rhino document.\nIf name is provided, it will try to delete the layer with the given name.\nIf guid is provided, it will try to delete the layer with the given guid.\nIf neither is provided, it will return an error.\n\nParameters:\n- name: The name of the layer to delete.\n- guid: The guid of the layer to delete.\n\nReturns:\nA message indicating the layer was deleted.\n\nExamples of params:\n- name: \"Layer 1\"\n- guid: \"00000000-0000-0000-0000-000000000000\"\n",
+        "parameters": {
+            "properties": {
+                "guid": {
+                    "default": null,
+                    "title": "Guid",
+                    "type": "string"
+                },
+                "name": {
+                    "default": null,
+                    "title": "Name",
+                    "type": "string"
+                }
+            },
+            "title": "delete_layerArguments",
+            "type": "object"
+        }
+    }
+]

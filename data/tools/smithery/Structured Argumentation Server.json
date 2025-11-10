@@ -1,0 +1,105 @@
+[
+    {
+        "name": "structured-argumentation_structuredArgumentation",
+        "description": "A detailed tool for systematic dialectical reasoning and argument analysis.\nThis tool helps analyze complex questions through formal argumentation structures.\nIt facilitates the creation, critique, and synthesis of competing arguments.\n\nWhen to use this tool:\n- Evaluating competing perspectives and claims\n- Analyzing complex ethical dilemmas\n- Assessing policy proposals with multiple stakeholders\n- Exploring scientific hypotheses and counter-arguments\n\nKey features:\n- Break down arguments into claims, premises, and conclusions\n- Track relationships between arguments\n- Represent objections and rebuttals\n- Facilitate dialectical progression through thesis-antithesis-synthesis\n- Evaluate argument strengths and weaknesses\n- Visualize argument structures\n\nParameters explained:\n- claim: The central proposition being argued\n- premises: Supporting evidence or assumptions\n- conclusion: The logical consequence of accepting the claim\n- argumentType: Whether this is a thesis, antithesis, synthesis, objection, or rebuttal\n- confidence: Your confidence level in this argument (0.0-1.0)\n- respondsTo: ID of an argument this directly responds to\n- supports/contradicts: IDs of arguments this supports or contradicts\n- strengths/weaknesses: Notable strong or weak points of the argument\n- nextArgumentNeeded: Whether another argument is needed in the dialectic",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "claim": {
+                    "type": "string",
+                    "description": "The central proposition being argued"
+                },
+                "premises": {
+                    "type": "array",
+                    "description": "Supporting evidence or assumptions",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "conclusion": {
+                    "type": "string",
+                    "description": "The logical consequence of accepting the claim"
+                },
+                "argumentId": {
+                    "type": "string",
+                    "description": "Optional unique identifier for this argument"
+                },
+                "argumentType": {
+                    "type": "string",
+                    "enum": [
+                        "thesis",
+                        "antithesis",
+                        "synthesis",
+                        "objection",
+                        "rebuttal"
+                    ],
+                    "description": "The type of argument being presented"
+                },
+                "confidence": {
+                    "type": "number",
+                    "description": "Confidence level in this argument (0.0-1.0)",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "respondsTo": {
+                    "type": "string",
+                    "description": "ID of the argument this directly responds to"
+                },
+                "supports": {
+                    "type": "array",
+                    "description": "IDs of arguments this supports",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "contradicts": {
+                    "type": "array",
+                    "description": "IDs of arguments this contradicts",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "strengths": {
+                    "type": "array",
+                    "description": "Notable strong points of the argument",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "weaknesses": {
+                    "type": "array",
+                    "description": "Notable weak points of the argument",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "nextArgumentNeeded": {
+                    "type": "boolean",
+                    "description": "Whether another argument is needed in the dialectic"
+                },
+                "suggestedNextTypes": {
+                    "type": "array",
+                    "description": "Suggested types for the next argument",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "thesis",
+                            "antithesis",
+                            "synthesis",
+                            "objection",
+                            "rebuttal"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "claim",
+                "premises",
+                "conclusion",
+                "argumentType",
+                "confidence",
+                "nextArgumentNeeded"
+            ]
+        }
+    }
+]

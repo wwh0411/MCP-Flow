@@ -1,0 +1,235 @@
+[
+    {
+        "name": "Agora_agora_search",
+        "description": "\nSearch for products matching the query in Agora.\n\nArgs:\n    q: The search query.\n    count: The number of products to return per page.\n    page: The page number.\n    price_min: The minimum price. Optional\n    price_max: The maximum price. Optional\n    sort: The sort field: price:relevance.\n    order: The sort order: asc or desc.\n    \nReturns:\n    The search results.\n",
+        "parameters": {
+            "properties": {
+                "q": {
+                    "title": "Q",
+                    "type": "string"
+                },
+                "price_min": {
+                    "default": 0,
+                    "title": "Price Min",
+                    "type": "integer"
+                },
+                "price_max": {
+                    "default": 100000,
+                    "title": "Price Max",
+                    "type": "integer"
+                },
+                "count": {
+                    "default": 20,
+                    "title": "Count",
+                    "type": "integer"
+                },
+                "page": {
+                    "default": 1,
+                    "title": "Page",
+                    "type": "integer"
+                },
+                "sort": {
+                    "default": "relevance",
+                    "title": "Sort",
+                    "type": "string"
+                },
+                "order": {
+                    "default": "desc",
+                    "title": "Order",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "q"
+            ],
+            "title": "agora_searchArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "Agora_agora_get_product_detail",
+        "description": "\nGet details for a specific product in Agora.\n\nArgs:\n    slug: The product slug, it usually looks something like 'royal-blue-waxed-shoe-laces-6f2049ef-0d08-4a79-8937-025bb596092f-1718242165922'\n    \nReturns:\n    The product details.\n",
+        "parameters": {
+            "properties": {
+                "slug": {
+                    "title": "Slug",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "slug"
+            ],
+            "title": "agora_get_product_detailArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "Agora_agora_get_payment_offers",
+        "description": "\nGet the payment offers for a product in Agora. Some products do not have variants, in such cases use the product_id as variant_id too.\nBefore calling this tool, check if the user has already provided the shipping address and user information. \nOtherwise, ask the user for the shipping address and user information.\n\nIf the user does not provide an `addressName`, use the `firstname` and `lastname` to populate it.\nArgs:\n    slug: The product slug.\n    product_id: The product ID as str delimited by escaped double quotes\n    variant_id: The product variant ID as str delimited by escaped double quotes\n    quantity: The quantity to purchase.\n    shipping_address: The shipping address.\n    user: The user information.\n    \nExample:\n    product_id = \"\\\"1234567890\\\"\"\n    variant_id = \"\\\"1234567890\\\"\"\n    shipping_address = {\n        \"addressName\": \"John Doe\",\n        \"addressFirst\": \"123 Main St\",\n        \"city\": \"New York\",\n        \"state\": \"NY\",\n        \"country\": \"US\",\n        \"zipCode\": \"10001\"\n    }\n    \n    user = {\n        \"firstname\": \"John\",\n        \"lastname\": \"Doe\",\n        \"email\": \"john@example.com\",\n    }\n    \nReturns:\n    L402 offer that can be paid by L402-compatible clients.\n",
+        "parameters": {
+            "properties": {
+                "slug": {
+                    "title": "Slug",
+                    "type": "string"
+                },
+                "product_id": {
+                    "title": "Product Id",
+                    "type": "string"
+                },
+                "variant_id": {
+                    "title": "Variant Id",
+                    "type": "string"
+                },
+                "shipping_address": {
+                    "additionalProperties": true,
+                    "title": "Shipping Address",
+                    "type": "object"
+                },
+                "user": {
+                    "additionalProperties": true,
+                    "title": "User",
+                    "type": "object"
+                },
+                "quantity": {
+                    "default": 1,
+                    "title": "Quantity",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "slug",
+                "product_id",
+                "variant_id",
+                "shipping_address",
+                "user"
+            ],
+            "title": "agora_get_payment_offersArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "Agora_agora_get_order",
+        "description": "\nGet details for a specific order in Agora.\n\nArgs:\n    order_id: The order ID.\n    \nReturns:\n    The order details.\n",
+        "parameters": {
+            "properties": {
+                "order_id": {
+                    "title": "Order Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "order_id"
+            ],
+            "title": "agora_get_orderArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "Agora_agora_get_user_orders",
+        "description": "\nGet all orders for the current user.\n\nReturns:\n    A list of orders.\n",
+        "parameters": {
+            "properties": {},
+            "title": "agora_get_user_ordersArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "Agora_agora_get_user_info",
+        "description": "\nGet the current user's profile and shipping addresses in Agora.\n\nReturns:\n    Dict containing user profile info (firstname, lastname, email) and list of shipping addresses\n",
+        "parameters": {
+            "properties": {},
+            "title": "agora_get_user_infoArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "Fewsats_fewsats_balance",
+        "description": "Retrieve the balance of the user's wallet.\nYou will rarely need to call this unless instructed by the user, or to troubleshoot payment issues.\nFewsats will automatically add balance when needed.",
+        "parameters": {
+            "properties": {},
+            "title": "fewsats_balanceArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "Fewsats_fewsats_payment_methods",
+        "description": "Retrieve the user's payment methods.\nYou will rarely need to call this unless instructed by the user, or to troubleshoot payment issues.\nFewsats will automatically select the best payment method.",
+        "parameters": {
+            "properties": {},
+            "title": "fewsats_payment_methodsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "Fewsats_fewsats_pay_offer",
+        "description": "Pays an offer_id from the l402_offers.\n\nThe l402_offer parameter must be a dict with this structure:\n{\n    'offers': [\n        {\n            'id': 'test_offer_2',        # String identifier for the offer\n            'amount': 1,                 # Numeric cost value\n            'currency': 'usd',           # Currency code\n            'description': 'Test offer', # Text description\n            'title': 'Test Package'      # Title of the package\n        }\n    ],\n    'payment_context_token': '60a8e027-8b8b-4ccf-b2b9-380ed0930283',  # Payment context token\n    'payment_request_url': 'https://api.fewsats.com/v0/l402/payment-request',  # Payment URL\n    'version': '0.2.2'  # API version\n}\n\nReturns payment status response.\nIf payment status is `needs_review` inform the user he will have to approve it at app.fewsats.com",
+        "parameters": {
+            "properties": {
+                "offer_id": {
+                    "title": "Offer Id",
+                    "type": "string"
+                },
+                "l402_offer": {
+                    "additionalProperties": true,
+                    "title": "L402 Offer",
+                    "type": "object"
+                }
+            },
+            "required": [
+                "offer_id",
+                "l402_offer"
+            ],
+            "title": "fewsats_pay_offerArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "Fewsats_fewsats_payment_info",
+        "description": "Retrieve the details of a payment.\nIf payment status is `needs_review` inform the user he will have to approve it at app.fewsats.com",
+        "parameters": {
+            "properties": {
+                "pid": {
+                    "title": "Pid",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "pid"
+            ],
+            "title": "fewsats_payment_infoArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "Fewsats_fewsats_billing_info",
+        "description": "Retrieve the user's address and billing information.\nReturns billing details including name, address, and other relevant information.\nThis information can also be used as shipping address for purchases.",
+        "parameters": {
+            "properties": {},
+            "title": "fewsats_billing_infoArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "Fewsats_fewsats_create_x402_payment_header",
+        "description": "\nCreates a payment header for the X402 protocol.\n\nThe chain is base-sepolia or base\nThe x402 payload must be a dict with this structure:\n{\n    \"accepts\": [\n        {\n            \"asset\": \"0x036CbD53842c5426634e7929541eC2318f3dCF7e\",\n            \"description\": \"Payment for GET https://proxy402.com/7Yhuf2O3zs\",\n            \"extra\": {\n                \"name\": \"USDC\",\n                \"version\": \"2\"\n            },\n            \"maxAmountRequired\": \"10\",\n            \"maxTimeoutSeconds\": 300,\n            \"mimeType\": \"\",\n            \"network\": \"base-sepolia\",\n            \"payTo\": \"0xbA5Ae80f48E0C74878c1a362D69c27c2135Aa594\",\n            \"resource\": \"https://proxy402.com/7Yhuf2O3zs\",\n            \"scheme\": \"exact\"\n        }\n    ],\n    \"error\": \"X-PAYMENT header is required\",\n    \"x402Version\": 1\n}\n\nReturns a dict with the payment_header field that must be set in X-PAYMENT header in a x402 http request.\n",
+        "parameters": {
+            "properties": {
+                "chain": {
+                    "title": "Chain",
+                    "type": "string"
+                },
+                "x402_payload": {
+                    "additionalProperties": true,
+                    "title": "X402 Payload",
+                    "type": "object"
+                }
+            },
+            "required": [
+                "chain",
+                "x402_payload"
+            ],
+            "title": "fewsats_create_x402_payment_headerArguments",
+            "type": "object"
+        }
+    }
+]

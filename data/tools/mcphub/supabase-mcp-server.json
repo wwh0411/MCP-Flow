@@ -1,0 +1,295 @@
+[
+    {
+        "name": "get_schemas",
+        "description": "List all database schemas with their sizes and table counts.",
+        "parameters": {
+            "properties": {},
+            "title": "get_schemasArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_tables",
+        "description": "List all tables, foreign tables, and views in a schema with their sizes, row counts, and metadata.\n\nProvides detailed information about all database objects in the specified schema:\n- Table/view names\n- Object types (table, view, foreign table)\n- Row counts\n- Size on disk\n- Column counts\n- Index information\n- Last vacuum/analyze times\n\nParameters:\n- schema_name: Name of the schema to inspect (e.g., 'public', 'auth', etc.)\n\nSAFETY: This is a low-risk read operation that can be executed in SAFE mode.\n",
+        "parameters": {
+            "properties": {
+                "schema_name": {
+                    "title": "Schema Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "schema_name"
+            ],
+            "title": "get_tablesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_table_schema",
+        "description": "Get detailed table structure including columns, keys, and relationships.\n\nReturns comprehensive information about a specific table's structure:\n- Column definitions (names, types, constraints)\n- Primary key information\n- Foreign key relationships\n- Indexes\n- Constraints\n- Triggers\n\nParameters:\n- schema_name: Name of the schema (e.g., 'public', 'auth')\n- table: Name of the table to inspect\n\nSAFETY: This is a low-risk read operation that can be executed in SAFE mode.\n",
+        "parameters": {
+            "properties": {
+                "schema_name": {
+                    "title": "Schema Name",
+                    "type": "string"
+                },
+                "table": {
+                    "title": "Table",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "schema_name",
+                "table"
+            ],
+            "title": "get_table_schemaArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "execute_postgresql",
+        "description": "Execute PostgreSQL statements against your Supabase database.\n\nIMPORTANT: All SQL statements must end with a semicolon (;).\n\nOPERATION TYPES AND REQUIREMENTS:\n1. READ Operations (SELECT, EXPLAIN, etc.):\n   - Can be executed directly without special requirements\n   - Example: SELECT * FROM public.users LIMIT 10;\n\n2. WRITE Operations (INSERT, UPDATE, DELETE):\n   - Require UNSAFE mode (use live_dangerously('database', True) first)\n   - Example:\n     INSERT INTO public.users (email) VALUES ('user@example.com');\n\n3. SCHEMA Operations (CREATE, ALTER, DROP):\n   - Require UNSAFE mode (use live_dangerously('database', True) first)\n   - Destructive operations (DROP, TRUNCATE) require additional confirmation\n   - Example:\n     CREATE TABLE public.test_table (id SERIAL PRIMARY KEY, name TEXT);\n\nMIGRATION HANDLING:\nAll queries that modify the database will be automatically version controlled by the server. You can provide optional migration name, if you want to name the migration.\n - Respect the following format: verb_noun_detail. Be descriptive and concise.\n - Examples:\n   - create_users_table\n   - add_email_to_profiles\n   - enable_rls_on_users\n - If you don't provide a migration name, the server will generate one based on the SQL statement\n - The system will sanitize your provided name to ensure compatibility with database systems\n - Migration names are prefixed with a timestamp in the format YYYYMMDDHHMMSS\n\nSAFETY SYSTEM:\nOperations are categorized by risk level:\n- LOW RISK: Read operations (SELECT, EXPLAIN) - allowed in SAFE mode\n- MEDIUM RISK: Write operations (INSERT, UPDATE, DELETE) - require UNSAFE mode\n- HIGH RISK: Schema operations (CREATE, ALTER) - require UNSAFE mode\n- EXTREME RISK: Destructive operations (DROP, TRUNCATE) - require UNSAFE mode and confirmation\n\nTRANSACTION HANDLING:\n- DO NOT use transaction control statements (BEGIN, COMMIT, ROLLBACK)\n- The database client automatically wraps queries in transactions\n- The SQL validator will reject queries containing transaction control statements\n- This ensures atomicity and provides rollback capability for data modifications\n\nMULTIPLE STATEMENTS:\n- You can send multiple SQL statements in a single query\n- Each statement will be executed in order within the same transaction\n- Example:\n  CREATE TABLE public.test_table (id SERIAL PRIMARY KEY, name TEXT);\n  INSERT INTO public.test_table (name) VALUES ('test');\n\nCONFIRMATION FLOW FOR HIGH-RISK OPERATIONS:\n- High-risk operations (DROP TABLE, TRUNCATE, etc.) will be rejected with a confirmation ID\n- The error message will explain what happened and provide a confirmation ID\n- Review the risks with the user before proceeding\n- Use the confirm_destructive_operation tool with the provided ID to execute the operation\n\nIMPORTANT GUIDELINES:\n- The database client starts in SAFE mode by default for safety\n- Only enable UNSAFE mode when you need to modify data or schema\n- Never mix READ and WRITE operations in the same transaction\n- For destructive operations, be prepared to confirm with the confirm_destructive_operation tool\n\nWHEN TO USE OTHER TOOLS INSTEAD:\n- For Auth operations (users, authentication, etc.): Use call_auth_admin_method instead of direct SQL\n  The Auth Admin SDK provides safer, validated methods for user management\n- For project configuration, functions, storage, etc.: Use send_management_api_request\n  The Management API handles Supabase platform features that aren't directly in the database\n\nNote: This tool operates on the PostgreSQL database only. API operations use separate safety controls.\n",
+        "parameters": {
+            "properties": {
+                "query": {
+                    "title": "Query",
+                    "type": "string"
+                },
+                "migration_name": {
+                    "default": "",
+                    "title": "Migration Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "title": "execute_postgresqlArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "retrieve_migrations",
+        "description": "Retrieve a list of all migrations a user has from Supabase.\n\nReturns a list of migrations with the following information:\n- Version (timestamp)\n- Name\n- SQL statements (if requested)\n- Statement count\n- Version type (named or numbered)\n\nParameters:\n- limit: Maximum number of migrations to return (default: 50, max: 100)\n- offset: Number of migrations to skip for pagination (default: 0)\n- name_pattern: Optional pattern to filter migrations by name. Uses SQL ILIKE pattern matching (case-insensitive).\n  The pattern is automatically wrapped with '%' wildcards, so \"users\" will match \"create_users_table\",\n  \"add_email_to_users\", etc. To search for an exact match, use the complete name.\n- include_full_queries: Whether to include the full SQL statements in the result (default: false)\n\nSAFETY: This is a low-risk read operation that can be executed in SAFE mode.\n",
+        "parameters": {
+            "properties": {
+                "limit": {
+                    "default": 50,
+                    "title": "Limit",
+                    "type": "integer"
+                },
+                "offset": {
+                    "default": 0,
+                    "title": "Offset",
+                    "type": "integer"
+                },
+                "name_pattern": {
+                    "default": "",
+                    "title": "Name Pattern",
+                    "type": "string"
+                },
+                "include_full_queries": {
+                    "default": false,
+                    "title": "Include Full Queries",
+                    "type": "boolean"
+                }
+            },
+            "title": "retrieve_migrationsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "send_management_api_request",
+        "description": "Execute a Supabase Management API request.\n\nThis tool allows you to make direct calls to the Supabase Management API, which provides\nprogrammatic access to manage your Supabase project settings, resources, and configurations.\n\nREQUEST FORMATTING:\n- Use paths exactly as defined in the API specification\n- The {ref} parameter will be automatically injected from settings\n- Format request bodies according to the API specification\n\nPARAMETERS:\n- method: HTTP method (GET, POST, PUT, PATCH, DELETE)\n- path: API path (e.g. /v1/projects/{ref}/functions)\n- path_params: Path parameters as dict (e.g. {\"function_slug\": \"my-function\"}) - use empty dict {} if not needed\n- request_params: Query parameters as dict (e.g. {\"key\": \"value\"}) - use empty dict {} if not needed\n- request_body: Request body as dict (e.g. {\"name\": \"test\"}) - use empty dict {} if not needed\n\nPATH PARAMETERS HANDLING:\n- The {ref} placeholder (project reference) is automatically injected - you don't need to provide it\n- All other path placeholders must be provided in the path_params dictionary\n- Common placeholders include:\n  * {function_slug}: For Edge Functions operations\n  * {id}: For operations on specific resources (API keys, auth providers, etc.)\n  * {slug}: For organization operations\n  * {branch_id}: For database branch operations\n  * {provider_id}: For SSO provider operations\n  * {tpa_id}: For third-party auth operations\n\nEXAMPLES:\n1. GET request with path and query parameters:\n   method: \"GET\"\n   path: \"/v1/projects/{ref}/functions/{function_slug}\"\n   path_params: {\"function_slug\": \"my-function\"}\n   request_params: {\"version\": \"1\"}\n   request_body: {}\n\n2. POST request with body:\n   method: \"POST\"\n   path: \"/v1/projects/{ref}/functions\"\n   path_params: {}\n   request_params: {}\n   request_body: {\"name\": \"test-function\", \"slug\": \"test-function\"}\n\nSAFETY SYSTEM:\nAPI operations are categorized by risk level:\n- LOW RISK: Read operations (GET) - allowed in SAFE mode\n- MEDIUM/HIGH RISK: Write operations (POST, PUT, PATCH, DELETE) - require UNSAFE mode\n- EXTREME RISK: Destructive operations - require UNSAFE mode and confirmation\n- BLOCKED: Some operations are completely blocked for safety reasons\n\nSAFETY CONSIDERATIONS:\n- By default, the API client starts in SAFE mode, allowing only read operations\n- To perform write operations, first use live_dangerously(service=\"api\", enable=True)\n- High-risk operations will be rejected with a confirmation ID\n- Use confirm_destructive_operation with the provided ID after reviewing risks\n- Some operations may be completely blocked for safety reasons\n\nFor a complete list of available API endpoints and their parameters, use the get_management_api_spec tool.\nFor details on safety rules, use the get_management_api_safety_rules tool.\n",
+        "parameters": {
+            "properties": {
+                "method": {
+                    "title": "Method",
+                    "type": "string"
+                },
+                "path": {
+                    "title": "Path",
+                    "type": "string"
+                },
+                "path_params": {
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "title": "Path Params",
+                    "type": "object"
+                },
+                "request_params": {
+                    "additionalProperties": true,
+                    "title": "Request Params",
+                    "type": "object"
+                },
+                "request_body": {
+                    "additionalProperties": true,
+                    "title": "Request Body",
+                    "type": "object"
+                }
+            },
+            "required": [
+                "method",
+                "path",
+                "path_params",
+                "request_params",
+                "request_body"
+            ],
+            "title": "send_management_api_requestArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_management_api_spec",
+        "description": "Get the complete Supabase Management API specification.\n\nReturns the full OpenAPI specification for the Supabase Management API, including:\n- All available endpoints and operations\n- Required and optional parameters for each operation\n- Request and response schemas\n- Authentication requirements\n- Safety information for each operation\n\nThis tool can be used in four different ways:\n1. Without parameters: Returns all domains (default)\n2. With path and method: Returns the full specification for a specific API endpoint\n3. With domain only: Returns all paths and methods within that domain\n4. With all_paths=True: Returns all paths and methods\n\nParameters:\n- params: Dictionary containing optional parameters:\n    - path: Optional API path (e.g., \"/v1/projects/{ref}/functions\")\n    - method: Optional HTTP method (e.g., \"GET\", \"POST\")\n    - domain: Optional domain/tag name (e.g., \"Auth\", \"Storage\")\n    - all_paths: Optional boolean, if True returns all paths and methods\n\nAvailable domains:\n- Analytics: Analytics-related endpoints\n- Auth: Authentication and authorization endpoints\n- Database: Database management endpoints\n- Domains: Custom domain configuration endpoints\n- Edge Functions: Serverless function management endpoints\n- Environments: Environment configuration endpoints\n- OAuth: OAuth integration endpoints\n- Organizations: Organization management endpoints\n- Projects: Project management endpoints\n- Rest: RESTful API endpoints\n- Secrets: Secret management endpoints\n- Storage: Storage management endpoints\n\nThis specification is useful for understanding:\n- What operations are available through the Management API\n- How to properly format requests for each endpoint\n- Which operations require unsafe mode\n- What data structures to expect in responses\n\nSAFETY: This is a low-risk read operation that can be executed in SAFE mode.\n",
+        "parameters": {
+            "properties": {
+                "params": {
+                    "additionalProperties": true,
+                    "default": {},
+                    "title": "Params",
+                    "type": "object"
+                }
+            },
+            "title": "get_management_api_specArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_auth_admin_methods_spec",
+        "description": "Get Python SDK methods specification for Auth Admin.\n\nReturns a comprehensive dictionary of all Auth Admin methods available in the Supabase Python SDK, including:\n- Method names and descriptions\n- Required and optional parameters for each method\n- Parameter types and constraints\n- Return value information\n\nThis tool is useful for exploring the capabilities of the Auth Admin SDK and understanding\nhow to properly format parameters for the call_auth_admin_method tool.\n\nNo parameters required.\n",
+        "parameters": {
+            "properties": {},
+            "title": "get_auth_admin_methods_specArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "call_auth_admin_method",
+        "description": "Call an Auth Admin method from Supabase Python SDK.\n\nThis tool provides a safe, validated interface to the Supabase Auth Admin SDK, allowing you to:\n- Manage users (create, update, delete)\n- List and search users\n- Generate authentication links\n- Manage multi-factor authentication\n- And more\n\nIMPORTANT NOTES:\n- Request bodies must adhere to the Python SDK specification\n- Some methods may have nested parameter structures\n- The tool validates all parameters against Pydantic models\n- Extra fields not defined in the models will be rejected\n\nAVAILABLE METHODS:\n- get_user_by_id: Retrieve a user by their ID\n- list_users: List all users with pagination\n- create_user: Create a new user\n- delete_user: Delete a user by their ID\n- invite_user_by_email: Send an invite link to a user's email\n- generate_link: Generate an email link for various authentication purposes\n- update_user_by_id: Update user attributes by ID\n- delete_factor: Delete a factor on a user\n\nEXAMPLES:\n1. Get user by ID:\n   method: \"get_user_by_id\"\n   params: {\"uid\": \"user-uuid-here\"}\n\n2. Create user:\n   method: \"create_user\"\n   params: {\n     \"email\": \"user@example.com\",\n     \"password\": \"secure-password\"\n   }\n\n3. Update user by ID:\n   method: \"update_user_by_id\"\n   params: {\n     \"uid\": \"user-uuid-here\",\n     \"attributes\": {\n       \"email\": \"new@email.com\"\n     }\n   }\n\nFor complete documentation of all methods and their parameters, use the get_auth_admin_methods_spec tool.\n",
+        "parameters": {
+            "properties": {
+                "method": {
+                    "title": "Method",
+                    "type": "string"
+                },
+                "params": {
+                    "additionalProperties": true,
+                    "title": "Params",
+                    "type": "object"
+                }
+            },
+            "required": [
+                "method",
+                "params"
+            ],
+            "title": "call_auth_admin_methodArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "live_dangerously",
+        "description": "Toggle unsafe mode for either Management API or Database operations.\n\nWHAT THIS TOOL DOES:\nThis tool switches between safe (default) and unsafe operation modes for either the Management API or Database operations.\n\nSAFETY MODES EXPLAINED:\n1. Database Safety Modes:\n   - SAFE mode (default): Only low-risk operations like SELECT queries are allowed\n   - UNSAFE mode: Higher-risk operations including INSERT, UPDATE, DELETE, and schema changes are permitted\n\n2. API Safety Modes:\n   - SAFE mode (default): Only low-risk operations that don't modify state are allowed\n   - UNSAFE mode: Higher-risk state-changing operations are permitted (except those explicitly blocked for safety)\n\nOPERATION RISK LEVELS:\nThe system categorizes operations by risk level:\n- LOW: Safe read operations with minimal impact\n- MEDIUM: Write operations that modify data but don't change structure\n- HIGH: Operations that modify database structure or important system settings\n- EXTREME: Destructive operations that could cause data loss or service disruption\n\nWHEN TO USE THIS TOOL:\n- Use this tool BEFORE attempting write operations or schema changes\n- Enable unsafe mode only when you need to perform data modifications\n- Always return to safe mode after completing write operations\n\nUSAGE GUIDELINES:\n- Start in safe mode by default for exploration and analysis\n- Switch to unsafe mode only when you need to make changes\n- Be specific about which service you're enabling unsafe mode for\n- Consider the risks before enabling unsafe mode, especially for database operations\n- For database operations requiring schema changes, you'll need to enable unsafe mode first\n\nParameters:\n- service: Which service to toggle (\"api\" or \"database\")\n- enable_unsafe_mode: True to enable unsafe mode, False for safe mode (default: False)\n\nExamples:\n1. Enable database unsafe mode:\n   live_dangerously(service=\"database\", enable_unsafe_mode=True)\n\n2. Return to safe mode after operations:\n   live_dangerously(service=\"database\", enable_unsafe_mode=False)\n\n3. Enable API unsafe mode:\n   live_dangerously(service=\"api\", enable_unsafe_mode=True)\n\nNote: This tool affects ALL subsequent operations for the specified service until changed again.\n",
+        "parameters": {
+            "properties": {
+                "service": {
+                    "enum": [
+                        "api",
+                        "database"
+                    ],
+                    "title": "Service",
+                    "type": "string"
+                },
+                "enable_unsafe_mode": {
+                    "default": false,
+                    "title": "Enable Unsafe Mode",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "service"
+            ],
+            "title": "live_dangerouslyArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "confirm_destructive_operation",
+        "description": "Execute a destructive database or API operation after confirmation. Use this only after reviewing the risks with the user.\n\nHOW IT WORKS:\n- This tool executes a previously rejected high-risk operation using its confirmation ID\n- The operation will be exactly the same as the one that generated the ID\n- No need to retype the query or api request params - the system remembers it\n\nSTEPS:\n1. Explain the risks to the user and get their approval\n2. Use this tool with the confirmation ID from the error message\n3. The original query will be executed as-is\n\nPARAMETERS:\n- operation_type: Type of operation (\"api\" or \"database\")\n- confirmation_id: The ID provided in the error message (required)\n- user_confirmation: Set to true to confirm execution (default: false)\n\nNOTE: Confirmation IDs expire after 5 minutes for security\n",
+        "parameters": {
+            "properties": {
+                "operation_type": {
+                    "enum": [
+                        "api",
+                        "database"
+                    ],
+                    "title": "Operation Type",
+                    "type": "string"
+                },
+                "confirmation_id": {
+                    "title": "Confirmation Id",
+                    "type": "string"
+                },
+                "user_confirmation": {
+                    "default": false,
+                    "title": "User Confirmation",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "operation_type",
+                "confirmation_id"
+            ],
+            "title": "confirm_destructive_operationArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "retrieve_logs",
+        "description": "Retrieve logs from your Supabase project's services for debugging and monitoring.\n\nReturns log entries from various Supabase services with timestamps, messages, and metadata.\nThis tool provides access to the same logs available in the Supabase dashboard's Logs & Analytics section.\n\nAVAILABLE LOG COLLECTIONS:\n- postgres: Database server logs including queries, errors, warnings, and system messages\n- api_gateway: API requests, responses, and errors processed by the Kong API gateway\n- auth: Authentication and authorization logs for sign-ups, logins, and token operations\n- postgrest: Logs from the RESTful API service that exposes your PostgreSQL database\n- pooler: Connection pooling logs from pgbouncer and supavisor services\n- storage: Object storage service logs for file uploads, downloads, and permissions\n- realtime: Logs from the real-time subscription service for WebSocket connections\n- edge_functions: Serverless function execution logs including invocations and errors\n- cron: Scheduled job logs (can be queried through postgres logs with specific filters)\n- pgbouncer: Connection pooler logs\n\nPARAMETERS:\n- collection: The log collection to query (required, one of the values listed above)\n- limit: Maximum number of log entries to return (default: 20)\n- hours_ago: Retrieve logs from the last N hours (default: 1)\n- filters: List of filter objects with field, operator, and value (default: [])\n  Format: [{\"field\": \"field_name\", \"operator\": \"=\", \"value\": \"value\"}]\n- search: Text to search for in event messages (default: \"\")\n- custom_query: Complete custom SQL query to execute instead of the pre-built queries (default: \"\")\n\nHOW IT WORKS:\nThis tool makes a request to the Supabase Management API endpoint for logs, sending\neither a pre-built optimized query for the selected collection or your custom query.\nEach log collection has a specific table structure and metadata format that requires\nappropriate CROSS JOIN UNNEST operations to access nested fields.\n\nEXAMPLES:\n1. Using pre-built parameters:\n   collection: \"postgres\"\n   limit: 20\n   hours_ago: 24\n   filters: [{\"field\": \"parsed.error_severity\", \"operator\": \"=\", \"value\": \"ERROR\"}]\n   search: \"connection\"\n\n2. Using a custom query:\n   collection: \"edge_functions\"\n   custom_query: \"SELECT id, timestamp, event_message, m.function_id, m.execution_time_ms\n                 FROM function_edge_logs\n                 CROSS JOIN unnest(metadata) AS m\n                 WHERE m.execution_time_ms > 1000\n                 ORDER BY timestamp DESC LIMIT 10\"\n\nMETADATA STRUCTURE:\nThe metadata structure is important because it determines how to access nested fields in filters:\n- postgres_logs: Use \"parsed.field_name\" for fields like error_severity, query, application_name\n- edge_logs: Use \"request.field_name\" or \"response.field_name\" for HTTP details\n- function_edge_logs: Use \"function_id\", \"execution_time_ms\" for function metrics\n\nNOTE FOR LLM CLIENTS:\nWhen encountering errors with field access, examine the error message to see what fields are\nactually available in the structure. Start with basic fields before accessing nested metadata.\n\nSAFETY CONSIDERATIONS:\n- This is a low-risk read operation that can be executed in SAFE mode\n- Requires a valid Supabase Personal Access Token to be configured\n- Not available for local Supabase instances (requires cloud deployment)\n",
+        "parameters": {
+            "properties": {
+                "collection": {
+                    "title": "Collection",
+                    "type": "string"
+                },
+                "limit": {
+                    "default": 20,
+                    "title": "Limit",
+                    "type": "integer"
+                },
+                "hours_ago": {
+                    "default": 1,
+                    "title": "Hours Ago",
+                    "type": "integer"
+                },
+                "filters": {
+                    "default": [],
+                    "items": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "title": "Filters",
+                    "type": "array"
+                },
+                "search": {
+                    "default": "",
+                    "title": "Search",
+                    "type": "string"
+                },
+                "custom_query": {
+                    "default": "",
+                    "title": "Custom Query",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "collection"
+            ],
+            "title": "retrieve_logsArguments",
+            "type": "object"
+        }
+    }
+]

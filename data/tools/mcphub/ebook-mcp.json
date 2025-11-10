@@ -1,0 +1,209 @@
+[
+    {
+        "name": "get_pdf_local_path",
+        "description": "\n    Given a PDF URL, deterministically derive a local filename from the URL,\n    check the system temp directory, download if missing, and return the full path.\n\n    Returns:\n        str: Full path to the local PDF file in the system temp directory.\n\n    Raises:\n        ValueError: If the URL is invalid or not HTTP/HTTPS.\n        URLError/HTTPError/OSError: If download or file operations fail.\n    ",
+        "parameters": {
+            "properties": {
+                "url": {
+                    "title": "Url",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "title": "get_pdf_local_pathArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_all_epub_files",
+        "description": "Get all epub files in a given path.\n    ",
+        "parameters": {
+            "properties": {
+                "path": {
+                    "title": "Path",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "path"
+            ],
+            "title": "get_all_epub_filesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_epub_metadata",
+        "description": "Get metadata of a given ebook.\n\n    Args:\n        epub_path: Full path to the ebook file.eg. \"/Users/macbook/Downloads/test.epub\"\n\n    Returns:\n        List[Tuple[str, str]]: Return a list，Each element is a Tuple，contains key and value of metadata\n\n    Raises:\n        FileNotFoundError: Raises when the epub file not found\n        Exception: Raisers when running into parsing error of epub file\n    ",
+        "parameters": {
+            "properties": {
+                "epub_path": {
+                    "title": "Epub Path",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "epub_path"
+            ],
+            "title": "get_epub_metadataArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_epub_toc",
+        "description": "Get table of contents of a given EPUB file.\n\n    Args:\n        epub_path: Full path to the ebook file.eg. \"/Users/macbook/Downloads/test.epub\"\n\n    Returns:\n        List[Tuple[str, str]]: List of TOC entries, each entry is a tuple of (title, href)\n\n    Raises:\n        FileNotFoundError: Raises when the EPUB file not found\n        Exception: Raisers when running into parsing error of EPUB file\n    ",
+        "parameters": {
+            "properties": {
+                "epub_path": {
+                    "title": "Epub Path",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "epub_path"
+            ],
+            "title": "get_epub_tocArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_epub_chapter_markdown",
+        "description": "Get content of a given chapter using the improved extraction method.\n\n    ✅ RECOMMENDED: This tool fixes the truncation issue in the original version when processing subchapters.\n    It can correctly handle EPUB files with subchapters and provide complete chapter content.\n\n    This function uses extract_chapter_html which properly handles subchapters\n    and provides accurate chapter boundaries, fixing the issue where subchapters\n    in the TOC cause premature truncation of chapter content.\n\n    Args:\n        epub_path: Full path to the ebook file. eg. \"/Users/macbook/Downloads/test.epub\"\n        chapter_id: Chapter id of the chapter to get content (e.g., \"chapter1.xhtml#section1_3\")\n\n    Returns:\n        str: Chapter content in markdown format\n    ",
+        "parameters": {
+            "properties": {
+                "epub_path": {
+                    "title": "Epub Path",
+                    "type": "string"
+                },
+                "chapter_id": {
+                    "title": "Chapter Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "epub_path",
+                "chapter_id"
+            ],
+            "title": "get_epub_chapter_markdownArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_all_pdf_files",
+        "description": "Get all PDF files in a given path.\n    ",
+        "parameters": {
+            "properties": {
+                "path": {
+                    "title": "Path",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "path"
+            ],
+            "title": "get_all_pdf_filesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_pdf_metadata",
+        "description": "Get metadata of a given PDF file.\n\n    Args:\n        pdf_path: Full path to the PDF file.eg. \"/Users/macbook/Downloads/test.pdf\"\n\n    Returns:\n        Dict[str, Union[str, List[str]]]: Dictionary containing metadata\n\n    Raises:\n        FileNotFoundError: Raises when the PDF file not found\n        Exception: Raisers when running into parsing error of PDF file\n    ",
+        "parameters": {
+            "properties": {
+                "pdf_path": {
+                    "title": "Pdf Path",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "pdf_path"
+            ],
+            "title": "get_pdf_metadataArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_pdf_toc",
+        "description": "Get table of contents of a given PDF file.\n\n    Args:\n        pdf_path: Full path to the PDF file.eg. \"/Users/macbook/Downloads/test.pdf\"\n\n    Returns:\n        List[Tuple[str, int]]: List of TOC entries, each entry is a tuple of (title, page_number)\n\n    Raises:\n        FileNotFoundError: Raises when the PDF file not found\n        Exception: Raisers when running into parsing error of PDF file\n    ",
+        "parameters": {
+            "properties": {
+                "pdf_path": {
+                    "title": "Pdf Path",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "pdf_path"
+            ],
+            "title": "get_pdf_tocArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_pdf_page_text",
+        "description": "Get text content of a specific page in PDF file.\n\n    Args:\n        pdf_path: Full path to the PDF file.eg. \"/Users/macbook/Downloads/test.pdf\"\n        page_number: Page number to extract (1-based index)\n\n    Returns:\n        str: Extracted text content\n    ",
+        "parameters": {
+            "properties": {
+                "pdf_path": {
+                    "title": "Pdf Path",
+                    "type": "string"
+                },
+                "page_number": {
+                    "title": "Page Number",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "pdf_path",
+                "page_number"
+            ],
+            "title": "get_pdf_page_textArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_pdf_page_markdown",
+        "description": "Get markdown formatted content of a specific page in PDF file.\n\n    Args:\n        pdf_path: Full path to the PDF file.eg. \"/Users/macbook/Downloads/test.pdf\"\n        page_number: Page number to extract (1-based index)\n\n    Returns:\n        str: Markdown formatted text\n    ",
+        "parameters": {
+            "properties": {
+                "pdf_path": {
+                    "title": "Pdf Path",
+                    "type": "string"
+                },
+                "page_number": {
+                    "title": "Page Number",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "pdf_path",
+                "page_number"
+            ],
+            "title": "get_pdf_page_markdownArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_pdf_chapter_content",
+        "description": "Get content of a specific chapter in PDF file by its title.\n\n    Args:\n        pdf_path: Full path to the PDF file.eg. \"/Users/macbook/Downloads/test.pdf\"\n        chapter_title: Title of the chapter to extract\n\n    Returns:\n        Tuple[str, List[int]]: Tuple containing (chapter_content, page_numbers)\n    ",
+        "parameters": {
+            "properties": {
+                "pdf_path": {
+                    "title": "Pdf Path",
+                    "type": "string"
+                },
+                "chapter_title": {
+                    "title": "Chapter Title",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "pdf_path",
+                "chapter_title"
+            ],
+            "title": "get_pdf_chapter_contentArguments",
+            "type": "object"
+        }
+    }
+]

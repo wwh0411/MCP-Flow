@@ -1,0 +1,119 @@
+[
+    {
+        "name": "databricks-mcp-server_execute_sql",
+        "description": "Executes SQL statements on a Databricks warehouse and returns the results",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "execution_timeout_seconds": {
+                    "default": 60,
+                    "description": "Maximum time in seconds to wait for query execution",
+                    "type": "number"
+                },
+                "max_rows": {
+                    "default": 100,
+                    "description": "Maximum number of rows to return in the result",
+                    "type": "number"
+                },
+                "statement": {
+                    "description": "SQL statement to execute",
+                    "type": "string"
+                },
+                "warehouse_id": {
+                    "description": "ID of the warehouse to use for execution. If not specified, the first available warehouse will be used",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "statement"
+            ]
+        }
+    },
+    {
+        "name": "databricks-mcp-server_get_table",
+        "description": "Gets detailed information about a single Databricks table",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "full_name": {
+                    "description": "Full name of the table in format 'catalog.schema.table'",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "full_name"
+            ]
+        }
+    },
+    {
+        "name": "databricks-mcp-server_list_catalogs",
+        "description": "Lists all catalogs available in the Databricks workspace",
+        "parameters": {
+            "type": "object"
+        }
+    },
+    {
+        "name": "databricks-mcp-server_list_schemas",
+        "description": "Lists all schemas in a specified Databricks catalog",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "catalog": {
+                    "description": "Name of the catalog to list schemas from",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "catalog"
+            ]
+        }
+    },
+    {
+        "name": "databricks-mcp-server_list_tables",
+        "description": "Lists all tables in a specified Databricks schema with optional filtering",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "catalog": {
+                    "description": "Name of the catalog containing the schema",
+                    "type": "string"
+                },
+                "max_results": {
+                    "default": 10,
+                    "description": "Maximum number of tables to return (0 for all, non-recommended)",
+                    "type": "number"
+                },
+                "omit_columns": {
+                    "default": false,
+                    "description": "Whether to omit column details in the response",
+                    "type": "boolean"
+                },
+                "omit_properties": {
+                    "default": true,
+                    "description": "Whether to omit table properties in the response, helps to reduce response size",
+                    "type": "boolean"
+                },
+                "schema": {
+                    "description": "Name of the schema to list tables from",
+                    "type": "string"
+                },
+                "table_name_pattern": {
+                    "default": ".*",
+                    "description": "Regular expression pattern to filter table names",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "catalog",
+                "schema"
+            ]
+        }
+    },
+    {
+        "name": "databricks-mcp-server_list_warehouses",
+        "description": "Lists all SQL warehouses available in the Databricks workspace",
+        "parameters": {
+            "type": "object"
+        }
+    }
+]

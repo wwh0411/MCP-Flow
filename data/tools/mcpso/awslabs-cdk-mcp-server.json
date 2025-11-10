@@ -1,0 +1,172 @@
+[
+    {
+        "name": "awslabs-cdk-mcp-server_CDKGeneralGuidance",
+        "description": "Use this tool to get prescriptive CDK advice for building applications on AWS.\n\nArgs:\n    ctx: MCP context\n",
+        "parameters": {
+            "properties": {},
+            "title": "cdk_guidanceArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "awslabs-cdk-mcp-server_ExplainCDKNagRule",
+        "description": "Explain a specific CDK Nag rule with AWS Well-Architected guidance.\n\nCDK Nag is a crucial tool for ensuring your CDK applications follow AWS security best practices.\n\nBasic implementation:\n```typescript\nimport { App } from 'aws-cdk-lib';\nimport { AwsSolutionsChecks } from 'cdk-nag';\n\nconst app = new App();\n// Create your stack\nconst stack = new MyStack(app, 'MyStack');\n// Apply CDK Nag\nAwsSolutionsChecks.check(app);\n```\n\nOptional integration patterns:\n\n1. Using environment variables:\n```typescript\nif (process.env.ENABLE_CDK_NAG === 'true') {\n  AwsSolutionsChecks.check(app);\n}\n```\n\n2. Using CDK context parameters:\n```typescript\n3. Environment-specific application:\n```typescript\nconst environment = app.node.tryGetContext('environment') || 'development';\nif (['production', 'staging'].includes(environment)) {\n  AwsSolutionsChecks.check(stack);\n}\n```\n\nFor more information on specific rule packs:\n- Use resource `cdk-nag://rules/{rule_pack}` to get all rules for a specific pack\n- Use resource `cdk-nag://warnings/{rule_pack}` to get warnings for a specific pack\n- Use resource `cdk-nag://errors/{rule_pack}` to get errors for a specific pack\n\nArgs:\n    ctx: MCP context\n    rule_id: The CDK Nag rule ID (e.g., 'AwsSolutions-IAM4')\n\nReturns:\n    Dictionary with detailed explanation and remediation steps\n",
+        "parameters": {
+            "properties": {
+                "rule_id": {
+                    "title": "Rule Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "rule_id"
+            ],
+            "title": "explain_cdk_nag_ruleArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "awslabs-cdk-mcp-server_CheckCDKNagSuppressions",
+        "description": "Check if CDK code contains Nag suppressions that require human review.\n\nScans TypeScript/JavaScript code for NagSuppressions usage to ensure security\nsuppressions receive proper human oversight and justification.\n\nArgs:\n    ctx: MCP context\n    code: CDK code to analyze (TypeScript/JavaScript)\n    file_path: Path to a file containing CDK code to analyze\n\nReturns:\n    Analysis results with suppression details and security guidance\n",
+        "parameters": {
+            "properties": {
+                "code": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Code"
+                },
+                "file_path": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "File Path"
+                }
+            },
+            "title": "check_cdk_nag_suppressions_toolArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "awslabs-cdk-mcp-server_GenerateBedrockAgentSchema",
+        "description": "Generate OpenAPI schema for Bedrock Agent Action Groups from a file.\n\nThis tool converts a Lambda file with BedrockAgentResolver into a Bedrock-compatible\nOpenAPI schema. It uses a progressive approach to handle common issues:\n1. Direct import of the Lambda file\n2. Simplified version with problematic imports commented out\n3. Fallback script generation if needed\n\nArgs:\n    ctx: MCP context\n    lambda_code_path: Path to Python file containing BedrockAgentResolver app\n    output_path: Where to save the generated schema\n\nReturns:\n    Dictionary with schema generation results, including status, path to generated schema,\n    and diagnostic information if errors occurred\n",
+        "parameters": {
+            "properties": {
+                "lambda_code_path": {
+                    "title": "Lambda Code Path",
+                    "type": "string"
+                },
+                "output_path": {
+                    "title": "Output Path",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "lambda_code_path",
+                "output_path"
+            ],
+            "title": "bedrock_schema_generator_from_fileArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "awslabs-cdk-mcp-server_GetAwsSolutionsConstructPattern",
+        "description": "Search and discover AWS Solutions Constructs patterns.\n\nAWS Solutions Constructs are vetted architecture patterns that combine multiple\nAWS services to solve common use cases following AWS Well-Architected best practices.\n\nKey benefits:\n- Accelerated Development: Implement common patterns without boilerplate code\n- Best Practices Built-in: Security, reliability, and performance best practices\n- Reduced Complexity: Simplified interfaces for multi-service architectures\n- Well-Architected: Patterns follow AWS Well-Architected Framework principles\n\nWhen to use Solutions Constructs:\n- Implementing common architecture patterns (e.g., API + Lambda + DynamoDB)\n- You want secure defaults and best practices applied automatically\n- You need to quickly prototype or build production-ready infrastructure\n\nThis tool provides metadata about patterns. For complete documentation,\nuse the resource URI returned in the 'documentation_uri' field.\n\nArgs:\n    ctx: MCP context\n    pattern_name: Optional name of the specific pattern (e.g., 'aws-lambda-dynamodb')\n    services: Optional list of AWS services to search for patterns that use them\n             (e.g., ['lambda', 'dynamodb'])\n\nReturns:\n    Dictionary with pattern metadata including description, services, and documentation URI\n",
+        "parameters": {
+            "properties": {
+                "pattern_name": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Pattern Name"
+                },
+                "services": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Services"
+                }
+            },
+            "title": "get_aws_solutions_construct_patternArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "awslabs-cdk-mcp-server_SearchGenAICDKConstructs",
+        "description": "Search for GenAI CDK constructs by name or type.\n\nThe search is flexible and will match any of your search terms (OR logic).\nIt handles common variations like singular/plural forms and terms with/without spaces.\nContent is fetched dynamically from GitHub to ensure the most up-to-date documentation.\n\nExamples:\n- \"bedrock agent\" - Returns all agent-related constructs\n- \"knowledgebase vector\" - Returns knowledge base constructs related to vector stores\n- \"agent actiongroups\" - Returns action groups for agents\n- \"opensearch vector\" - Returns OpenSearch vector constructs\n\nThe search supports subdirectory content (like knowledge bases and their sections)\nand will find matches across all available content.\n\nArgs:\n    ctx: MCP context\n    query: Search term(s) to find constructs by name or description\n    construct_type: Optional filter by construct type ('bedrock', 'opensearchserverless', etc.)\n\nReturns:\n    Dictionary with matching constructs and resource URIs\n",
+        "parameters": {
+            "properties": {
+                "query": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Query"
+                },
+                "construct_type": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Construct Type"
+                }
+            },
+            "title": "search_genai_cdk_constructsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "awslabs-cdk-mcp-server_LambdaLayerDocumentationProvider",
+        "description": "Provide documentation sources for Lambda layers.\n\nThis tool returns information about where to find documentation for Lambda layers\nand instructs the MCP Client to fetch and process this documentation.\n\nArgs:\n    ctx: MCP context\n    layer_type: Type of layer (\"generic\" or \"python\")\n\nReturns:\n    Dictionary with documentation source information\n",
+        "parameters": {
+            "properties": {
+                "layer_type": {
+                    "title": "Layer Type",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "layer_type"
+            ],
+            "title": "lambda_layer_documentation_providerArguments",
+            "type": "object"
+        }
+    }
+]

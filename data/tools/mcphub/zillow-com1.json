@@ -1,0 +1,5468 @@
+[
+    {
+        "name": "property_extended_search",
+        "description": "Search for properties by parameters. *Note.* If you search by exact address, the endpoint will return only zpid, or list of `zpid`s if it's a building with many units or `lotId`s for building. **To get more information about a property by `zpid`, use a `/property` endpoint. For `lotId` use a `/building` endpoint.** `location` is required if `polygon` and `coordinates` are empty.",
+        "parameters": {
+            "properties": {
+                "location": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Location details (address, county, neighborhood or Zip code). It is required if the polygon or coordinates is empty. The maximum number of locations (city, zip code) is 5, separate location by ; Multi location /propertyExtendedSearch?location=78013;78014;New York, NY The maximum number of locations is 5 Max length: 100 Please note that for the ZIP Code Type PO Box there will be empty results.",
+                    "title": "Location"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Page number if at the previous response totalPages > 1. Max value is 20. To be able to access more data, you can break down your request by dividing it into price groups using the minPrice and maxPrice parameters. For example 0 - 100,000, 100,001 - 500,000, 500,001 - 800,000 and so on. This trick will help you to get more data. Default: 0",
+                    "title": "Page"
+                },
+                "status_type": {
+                    "default": null,
+                    "description": "Valid values: ForSale, ForRent, RecentlySold",
+                    "enum": [
+                        "ForSale",
+                        "ForRent",
+                        "RecentlySold",
+                        null
+                    ],
+                    "title": "Status Type"
+                },
+                "home_type": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Property type comma-separated or empty for all types: For Rent Townhomes Houses Apartments_Condos_Co-ops For others: Multi-family Apartments Houses Manufactured Condos LotsLand Townhomes",
+                    "title": "Home Type"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For status_type = ForSale OR RecentlySold are available: Homes_for_You Price_High_Low Price_Low_High Newest Bedrooms Bathrooms Square_Feet Lot_Size default Homes_for_You For status_type = ForRent are available: Verified_Source Payment_High_Low Payment_Low_High Newest Bedrooms Bathrooms Square_Feet Lot_Size default Verified_Source",
+                    "title": "Sort"
+                },
+                "polygon": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Format: lon lat,lon1 lat1,lon2 lat2 It is required if the location or coordinates is empty. The last pair must be the same as the first pair.",
+                    "title": "Polygon"
+                },
+                "minPrice": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If status_type = ForSale OR RecentlySold you can filter by min price. Default: 0",
+                    "title": "Minprice"
+                },
+                "maxPrice": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If status_type = ForSale OR RecentlySold you can filter by max price. Default: 0",
+                    "title": "Maxprice"
+                },
+                "rentMinPrice": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If status_type = ForRent you can filter by min rent price. Default: 0",
+                    "title": "Rentminprice"
+                },
+                "rentMaxPrice": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If status_type = ForRent you can filter by max rent price. Default: 0",
+                    "title": "Rentmaxprice"
+                },
+                "bathsMin": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Bathrooms min count Default: 0",
+                    "title": "Bathsmin"
+                },
+                "bathsMax": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Bathrooms max count Default: 0",
+                    "title": "Bathsmax"
+                },
+                "bedsMin": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Bedrooms min count Default: 0",
+                    "title": "Bedsmin"
+                },
+                "bedsMax": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Bedrooms max count Default: 0",
+                    "title": "Bedsmax"
+                },
+                "sqftMin": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Square Feet min value Default: 0",
+                    "title": "Sqftmin"
+                },
+                "sqftMax": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Square Feet max value. Default: 0",
+                    "title": "Sqftmax"
+                },
+                "buildYearMin": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Year Built min value. Default: 0",
+                    "title": "Buildyearmin"
+                },
+                "buildYearMax": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Year Built max value. Default: 0",
+                    "title": "Buildyearmax"
+                },
+                "daysOn": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Days on Z. Use with status_type='ForSale' or status_type='ForRent' Available values: 1,7,14,30,90,6m,12m,24m,36m",
+                    "title": "Dayson"
+                },
+                "soldInLast": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "'Sold In Last' on Z. Use with status_type='RecentlySold'. Available values: 1,7,14,30,90,6m,12m,24m,36m",
+                    "title": "Soldinlast"
+                },
+                "isBasementFinished": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Basement filter. Set it to 1 if needed. Default: 0",
+                    "title": "Isbasementfinished"
+                },
+                "isBasementUnfinished": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Basement filter. Set it to 1 if needed. Default: 0",
+                    "title": "Isbasementunfinished"
+                },
+                "isPendingUnderContract": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Pending & Under Contract filter. Set it to 1 if needed. Default: 0",
+                    "title": "Ispendingundercontract"
+                },
+                "isAcceptingBackupOffers": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Accepting Backup Offers filter. Set it to 1 if needed. Default: 0",
+                    "title": "Isacceptingbackupoffers"
+                },
+                "isComingSoon": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Coming Soon listings are homes that will soon be on the market.. Set it to 1 if needed.",
+                    "title": "Iscomingsoon"
+                },
+                "otherListings": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If set to 1, the results will only include data from the Other Listings tab.",
+                    "title": "Otherlistings"
+                },
+                "isNewConstruction": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "New Construction filter. Set it to 1 or true if you only need properties with New Construction status.",
+                    "title": "Isnewconstruction"
+                },
+                "keywords": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter with keywords.",
+                    "title": "Keywords"
+                },
+                "lotSizeMin": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Available values: 1,000 sqft 2,000 sqft 3,000 sqft 4,000 sqft 5,000 sqft 7,500 sqft 1/4 acre/10,890 sqft 1/2 acre/21,780 sqft 1 acre/43,560 sqft",
+                    "title": "Lotsizemin"
+                },
+                "lotSizeMax": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Available values: 1,000 sqft 2,000 sqft 3,000 sqft 4,000 sqft 5,000 sqft 7,500 sqft 1/4 acre/10,890 sqft 1/2 acre/21,780 sqft 1 acre/43,560 sqft 2 acres/87,120 sqft 5 acres/217,800 sqft 10 acres/435,600 sqft 20 acres/871,200 sqft 50 acres/2,178,000 sqft 100 acres/4,356,000 sqft",
+                    "title": "Lotsizemax"
+                },
+                "saleByAgent": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default - true. To get FSBO set saleByAgent=false&saleByOwner=true&otherListings=true.",
+                    "title": "Salebyagent"
+                },
+                "saleByOwner": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default - true. To get only FSBO set saleByAgent=false&saleByOwner=true&otherListings=true",
+                    "title": "Salebyowner"
+                },
+                "isForSaleForeclosure": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If you only need to get ForSaleForeclosure set to true or 1.",
+                    "title": "Isforsaleforeclosure"
+                },
+                "isWaterfront": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Iswaterfront"
+                },
+                "hasPool": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Haspool"
+                },
+                "hasAirConditioning": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Hasairconditioning"
+                },
+                "isCityView": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Iscityview"
+                },
+                "isMountainView": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Ismountainview"
+                },
+                "isWaterView": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Iswaterview"
+                },
+                "isParkView": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Isparkview"
+                },
+                "isOpenHousesOnly": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Must have open house",
+                    "title": "Isopenhousesonly"
+                },
+                "is3dHome": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Must have 3D Tour",
+                    "title": "Is3Dhome"
+                },
+                "coordinates": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "It is required if the location or polygon is empty. Format: lon lat,diameter. Diameter in miles from 1 to 99 -118.51750373840332 34.007063913440916,20",
+                    "title": "Coordinates"
+                },
+                "hoa": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max HOA. Default: 0",
+                    "title": "Hoa"
+                },
+                "includeHomesWithNoHoaData": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default - true.",
+                    "title": "Includehomeswithnohoadata"
+                },
+                "isAuction": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Auctions. Default true.",
+                    "title": "Isauction"
+                },
+                "schools": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Available values: elementary, public, private, middle, charter, high For multiple selection, separate with comma: middle,high",
+                    "title": "Schools"
+                },
+                "schoolsRating": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Min school ratings. From 1 to 10",
+                    "title": "Schoolsrating"
+                },
+                "includeUnratedSchools": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include schools with no rating",
+                    "title": "Includeunratedschools"
+                },
+                "hasGarage": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Must have a garage. Default value false",
+                    "title": "Hasgarage"
+                },
+                "parkingSpots": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parking Spots. Max value - 4 Default: 0",
+                    "title": "Parkingspots"
+                },
+                "isForeclosed": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Isforeclosed"
+                },
+                "isPreForeclosure": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Ispreforeclosure"
+                },
+                "isEntirePlace": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default - true. Apply when status_type = 'ForRent'. Set it to false if you need only a room.",
+                    "title": "Isentireplace"
+                },
+                "isRoom": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default - false. Apply when status_type = 'ForRent' Set it true and isEntirePlace to false if you need only a room.",
+                    "title": "Isroom"
+                },
+                "largeDogsAllowed": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Allows large dogs. Only For Rent",
+                    "title": "Largedogsallowed"
+                },
+                "smallDogsAllowed": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Allows small dogs. Only For Rent",
+                    "title": "Smalldogsallowed"
+                },
+                "catsAllowed": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Allows cats. Only For Rent",
+                    "title": "Catsallowed"
+                },
+                "noPets": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "No pets. Only For Rent",
+                    "title": "Nopets"
+                },
+                "moveInDate": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Move-in Date Only For Rent",
+                    "title": "Moveindate"
+                },
+                "parkingAvailable": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "On-site Parking. Only For Rent",
+                    "title": "Parkingavailable"
+                },
+                "inUnitLaundry": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "In-unit Laundry. Only For Rent",
+                    "title": "Inunitlaundry"
+                },
+                "acceptsApplications": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Accepts Zillow Applications. Only For Rent",
+                    "title": "Acceptsapplications"
+                },
+                "incomeRestricted": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Income restricted. Only For Rent",
+                    "title": "Incomerestricted"
+                },
+                "hardwoodFloor": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Hardwood Floors. Only For Rent",
+                    "title": "Hardwoodfloor"
+                },
+                "disabledAccess": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Disabled Access. Only For Rent",
+                    "title": "Disabledaccess"
+                },
+                "utilitiesIncluded": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Utilities Included. Only For Rent",
+                    "title": "Utilitiesincluded"
+                },
+                "shortTermLease": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Short term lease available. Only For Rent",
+                    "title": "Shorttermlease"
+                },
+                "furnished": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Furnished. Only For Rent",
+                    "title": "Furnished"
+                },
+                "outdoorSpace": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Outdoor space. Only For Rent",
+                    "title": "Outdoorspace"
+                },
+                "controlledAccess": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Controlled access. Only For Rent",
+                    "title": "Controlledaccess"
+                },
+                "highSpeedInternet": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "High speed internet. Only For Rent",
+                    "title": "Highspeedinternet"
+                },
+                "elevator": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Elevator. Only For Rent",
+                    "title": "Elevator"
+                },
+                "multiFamilyBuilding": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Apartment Community. Only For Rent",
+                    "title": "Multifamilybuilding"
+                },
+                "minMonthlyCostPayment": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Min Monthly Cost Payment",
+                    "title": "Minmonthlycostpayment"
+                },
+                "maxMonthlyCostPayment": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max Monthly Cost Payment",
+                    "title": "Maxmonthlycostpayment"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "property_search_complete_list",
+        "description": "Search for complete list of properties by parameters. *Note.* If you search by exact address, the endpoint will return only zpid, or list of `zpid`s if it's a building with many units or `lotId`s for building. **To get more information about a property by `zpid`, use a `/property` endpoint. For `lotId` use a `/building` endpoint.** `location` is required if `polygon` and `coordinates` are empty.",
+        "parameters": {
+            "properties": {
+                "location": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Location details (address, county, neighborhood or Zip code). It is required if the polygon or coordinates is empty. The maximum number of locations (city, zip code) is 5, separate location by ; Multi location /propertyExtendedSearch?location=78013;78014;New York, NY The maximum number of locations is 5 Max length: 100 Please note that for the ZIP Code Type PO Box there will be empty results.",
+                    "title": "Location"
+                },
+                "status_type": {
+                    "default": null,
+                    "description": "Valid values: ForSale, ForRent, RecentlySold",
+                    "enum": [
+                        "ForSale",
+                        "ForRent",
+                        "RecentlySold",
+                        null
+                    ],
+                    "title": "Status Type"
+                },
+                "home_type": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Property type comma-separated or empty for all types: For Rent Townhomes Houses Apartments_Condos_Co-ops For others: Multi-family Apartments Houses Manufactured Condos LotsLand Townhomes",
+                    "title": "Home Type"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For status_type = ForSale OR RecentlySold are available: Homes_for_You Price_High_Low Price_Low_High Newest Bedrooms Bathrooms Square_Feet Lot_Size default Homes_for_You For status_type = ForRent are available: Verified_Source Payment_High_Low Payment_Low_High Newest Bedrooms Bathrooms Square_Feet Lot_Size default Verified_Source",
+                    "title": "Sort"
+                },
+                "polygon": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Format: lon lat,lon1 lat1,lon2 lat2 It is required if the location or coordinates is empty. The last pair must be the same as the first pair.",
+                    "title": "Polygon"
+                },
+                "minPrice": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If status_type = ForSale OR RecentlySold you can filter by min price. Default: 0",
+                    "title": "Minprice"
+                },
+                "maxPrice": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If status_type = ForSale OR RecentlySold you can filter by max price. Default: 0",
+                    "title": "Maxprice"
+                },
+                "rentMinPrice": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If status_type = ForRent you can filter by min rent price. Default: 0",
+                    "title": "Rentminprice"
+                },
+                "rentMaxPrice": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If status_type = ForRent you can filter by max rent price. Default: 0",
+                    "title": "Rentmaxprice"
+                },
+                "bathsMin": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Bathrooms min count Default: 0",
+                    "title": "Bathsmin"
+                },
+                "bathsMax": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Bathrooms max count Default: 0",
+                    "title": "Bathsmax"
+                },
+                "bedsMin": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Bedrooms min count Default: 0",
+                    "title": "Bedsmin"
+                },
+                "bedsMax": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Bedrooms max count Default: 0",
+                    "title": "Bedsmax"
+                },
+                "sqftMin": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Square Feet min value Default: 0",
+                    "title": "Sqftmin"
+                },
+                "sqftMax": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Square Feet max value. Default: 0",
+                    "title": "Sqftmax"
+                },
+                "buildYearMin": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Year Built min value. Default: 0",
+                    "title": "Buildyearmin"
+                },
+                "buildYearMax": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Year Built max value. Default: 0",
+                    "title": "Buildyearmax"
+                },
+                "daysOn": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Days on Z. Use with status_type='ForSale' or status_type='ForRent' Available values: 1,7,14,30,90,6m,12m,24m,36m",
+                    "title": "Dayson"
+                },
+                "soldInLast": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "'Sold In Last' on Z. Use with status_type='RecentlySold'. Available values: 1,7,14,30,90,6m,12m,24m,36m",
+                    "title": "Soldinlast"
+                },
+                "isBasementFinished": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Basement filter. Set it to 1 if needed. Default: 0",
+                    "title": "Isbasementfinished"
+                },
+                "isBasementUnfinished": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Basement filter. Set it to 1 if needed. Default: 0",
+                    "title": "Isbasementunfinished"
+                },
+                "isPendingUnderContract": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Pending & Under Contract filter. Set it to 1 if needed. Default: 0",
+                    "title": "Ispendingundercontract"
+                },
+                "isAcceptingBackupOffers": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Accepting Backup Offers filter. Set it to 1 if needed. Default: 0",
+                    "title": "Isacceptingbackupoffers"
+                },
+                "isComingSoon": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Coming Soon listings are homes that will soon be on the market.. Set it to 1 if needed.",
+                    "title": "Iscomingsoon"
+                },
+                "otherListings": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If set to 1, the results will only include data from the Other Listings tab.",
+                    "title": "Otherlistings"
+                },
+                "isNewConstruction": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "New Construction filter. Set it to 1 or true if you only need properties with New Construction status.",
+                    "title": "Isnewconstruction"
+                },
+                "keywords": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter with keywords.",
+                    "title": "Keywords"
+                },
+                "lotSizeMin": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Available values: 1,000 sqft 2,000 sqft 3,000 sqft 4,000 sqft 5,000 sqft 7,500 sqft 1/4 acre/10,890 sqft 1/2 acre/21,780 sqft 1 acre/43,560 sqft",
+                    "title": "Lotsizemin"
+                },
+                "lotSizeMax": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Available values: 1,000 sqft 2,000 sqft 3,000 sqft 4,000 sqft 5,000 sqft 7,500 sqft 1/4 acre/10,890 sqft 1/2 acre/21,780 sqft 1 acre/43,560 sqft 2 acres/87,120 sqft 5 acres/217,800 sqft 10 acres/435,600 sqft 20 acres/871,200 sqft 50 acres/2,178,000 sqft 100 acres/4,356,000 sqft",
+                    "title": "Lotsizemax"
+                },
+                "saleByAgent": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default - true. To get FSBO set saleByAgent=false&saleByOwner=true&otherListings=true.",
+                    "title": "Salebyagent"
+                },
+                "saleByOwner": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default - true. To get only FSBO set saleByAgent=false&saleByOwner=true&otherListings=true",
+                    "title": "Salebyowner"
+                },
+                "isForSaleForeclosure": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If you only need to get ForSaleForeclosure set to true or 1.",
+                    "title": "Isforsaleforeclosure"
+                },
+                "isWaterfront": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Iswaterfront"
+                },
+                "hasPool": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Haspool"
+                },
+                "hasAirConditioning": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Hasairconditioning"
+                },
+                "isCityView": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Iscityview"
+                },
+                "isMountainView": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Ismountainview"
+                },
+                "isWaterView": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Iswaterview"
+                },
+                "isParkView": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Isparkview"
+                },
+                "isOpenHousesOnly": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Must have open house",
+                    "title": "Isopenhousesonly"
+                },
+                "is3dHome": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Must have 3D Tour",
+                    "title": "Is3Dhome"
+                },
+                "coordinates": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "It is required if the location or polygon is empty. Format: lon lat,diameter. Diameter in miles from 1 to 99 -118.51750373840332 34.007063913440916,20",
+                    "title": "Coordinates"
+                },
+                "hoa": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max HOA. Default: 0",
+                    "title": "Hoa"
+                },
+                "includeHomesWithNoHoaData": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default - true.",
+                    "title": "Includehomeswithnohoadata"
+                },
+                "isAuction": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Auctions. Default true.",
+                    "title": "Isauction"
+                },
+                "schools": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Available values: elementary, public, private, middle, charter, high For multiple selection, separate with comma: middle,high",
+                    "title": "Schools"
+                },
+                "schoolsRating": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Min school ratings. From 1 to 10",
+                    "title": "Schoolsrating"
+                },
+                "includeUnratedSchools": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include schools with no rating",
+                    "title": "Includeunratedschools"
+                },
+                "hasGarage": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Must have a garage. Default value false",
+                    "title": "Hasgarage"
+                },
+                "parkingSpots": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parking Spots. Max value - 4 Default: 0",
+                    "title": "Parkingspots"
+                },
+                "isForeclosed": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Isforeclosed"
+                },
+                "isPreForeclosure": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Ispreforeclosure"
+                },
+                "isEntirePlace": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default - true. Apply when status_type = 'ForRent'. Set it to false if you need only a room.",
+                    "title": "Isentireplace"
+                },
+                "isRoom": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default - false. Apply when status_type = 'ForRent' Set it true and isEntirePlace to false if you need only a room.",
+                    "title": "Isroom"
+                },
+                "largeDogsAllowed": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Allows large dogs. Only For Rent",
+                    "title": "Largedogsallowed"
+                },
+                "smallDogsAllowed": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Allows small dogs. Only For Rent",
+                    "title": "Smalldogsallowed"
+                },
+                "catsAllowed": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Allows cats. Only For Rent",
+                    "title": "Catsallowed"
+                },
+                "noPets": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "No pets. Only For Rent",
+                    "title": "Nopets"
+                },
+                "moveInDate": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Move-in Date Only For Rent",
+                    "title": "Moveindate"
+                },
+                "parkingAvailable": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "On-site Parking. Only For Rent",
+                    "title": "Parkingavailable"
+                },
+                "inUnitLaundry": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "In-unit Laundry. Only For Rent",
+                    "title": "Inunitlaundry"
+                },
+                "acceptsApplications": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Accepts Zillow Applications. Only For Rent",
+                    "title": "Acceptsapplications"
+                },
+                "incomeRestricted": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Income restricted. Only For Rent",
+                    "title": "Incomerestricted"
+                },
+                "hardwoodFloor": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Hardwood Floors. Only For Rent",
+                    "title": "Hardwoodfloor"
+                },
+                "disabledAccess": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Disabled Access. Only For Rent",
+                    "title": "Disabledaccess"
+                },
+                "utilitiesIncluded": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Utilities Included. Only For Rent",
+                    "title": "Utilitiesincluded"
+                },
+                "shortTermLease": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Short term lease available. Only For Rent",
+                    "title": "Shorttermlease"
+                },
+                "furnished": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Furnished. Only For Rent",
+                    "title": "Furnished"
+                },
+                "outdoorSpace": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Outdoor space. Only For Rent",
+                    "title": "Outdoorspace"
+                },
+                "controlledAccess": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Controlled access. Only For Rent",
+                    "title": "Controlledaccess"
+                },
+                "highSpeedInternet": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "High speed internet. Only For Rent",
+                    "title": "Highspeedinternet"
+                },
+                "elevator": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Elevator. Only For Rent",
+                    "title": "Elevator"
+                },
+                "multiFamilyBuilding": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Apartment Community. Only For Rent",
+                    "title": "Multifamilybuilding"
+                },
+                "minMonthlyCostPayment": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Min Monthly Cost Payment",
+                    "title": "Minmonthlycostpayment"
+                },
+                "maxMonthlyCostPayment": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max Monthly Cost Payment",
+                    "title": "Maxmonthlycostpayment"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "property_by_polygon",
+        "description": "Search for properties using polygon of points.",
+        "parameters": {
+            "properties": {
+                "polygon": {
+                    "description": "Format: lon lat,lon1 lat1,lon2 lat2 The last pair must be the same as the first pair.",
+                    "title": "Polygon",
+                    "type": "string"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Page number if at the previous response totalPages > 1. Max value is 20. To be able to access more data, you can break down your request by dividing it into price groups using the minPrice and maxPrice parameters. For example 0 - 100,000, 100,001 - 500,000, 500,001 - 800,000 and so on. This trick will help you to get more data. Default: 0",
+                    "title": "Page"
+                },
+                "status_type": {
+                    "default": null,
+                    "description": "Valid values: ForSale, ForRent, RecentlySold",
+                    "enum": [
+                        "ForSale",
+                        "ForRent",
+                        "RecentlySold",
+                        null
+                    ],
+                    "title": "Status Type"
+                },
+                "home_type": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Property type comma-separated or empty for all types: For Rent Townhomes Houses Apartments_Condos_Co-ops For others: Multi-family Apartments Houses Manufactured Condos LotsLand Townhomes",
+                    "title": "Home Type"
+                },
+                "sort": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For status_type = ForSale OR RecentlySold are available: Homes_for_You Price_High_Low Price_Low_High Newest Bedrooms Bathrooms Square_Feet Lot_Size default Homes_for_You For status_type = ForRent are available: Verified_Source Payment_High_Low Payment_Low_High Newest Bedrooms Bathrooms Square_Feet Lot_Size default Verified_Source",
+                    "title": "Sort"
+                },
+                "minPrice": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If status_type = ForSale OR RecentlySold you can filter by min price. Default: 0",
+                    "title": "Minprice"
+                },
+                "maxPrice": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If status_type = ForSale OR RecentlySold you can filter by max price. Default: 0",
+                    "title": "Maxprice"
+                },
+                "rentMinPrice": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If status_type = ForRent you can filter by min rent price. Default: 0",
+                    "title": "Rentminprice"
+                },
+                "rentMaxPrice": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If status_type = ForRent you can filter by max rent price. Default: 0",
+                    "title": "Rentmaxprice"
+                },
+                "bathsMin": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Bathrooms min count Default: 0",
+                    "title": "Bathsmin"
+                },
+                "bathsMax": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Bathrooms max count Default: 0",
+                    "title": "Bathsmax"
+                },
+                "bedsMin": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Bedrooms min count Default: 0",
+                    "title": "Bedsmin"
+                },
+                "bedsMax": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Bedrooms max count Default: 0",
+                    "title": "Bedsmax"
+                },
+                "sqftMin": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Square Feet min value Default: 0",
+                    "title": "Sqftmin"
+                },
+                "sqftMax": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Square Feet max value. Default: 0",
+                    "title": "Sqftmax"
+                },
+                "buildYearMin": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Year Built min value. Default: 0",
+                    "title": "Buildyearmin"
+                },
+                "buildYearMax": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Year Built max value. Default: 0",
+                    "title": "Buildyearmax"
+                },
+                "daysOn": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Days on Z. Use with status_type='ForSale' or status_type='ForRent' Available values: 1,7,14,30,90,6m,12m,24m,36m",
+                    "title": "Dayson"
+                },
+                "soldInLast": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "'Sold In Last' on Z. Use with status_type='RecentlySold'. Available values: 1,7,14,30,90,6m,12m,24m,36m",
+                    "title": "Soldinlast"
+                },
+                "isBasementFinished": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Basement filter. Set it to 1 if needed. Default: 0",
+                    "title": "Isbasementfinished"
+                },
+                "isBasementUnfinished": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Basement filter. Set it to 1 if needed. Default: 0",
+                    "title": "Isbasementunfinished"
+                },
+                "isPendingUnderContract": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Pending & Under Contract filter. Set it to 1 if needed. Default: 0",
+                    "title": "Ispendingundercontract"
+                },
+                "isAcceptingBackupOffers": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Accepting Backup Offers filter. Set it to 1 if needed. Default: 0",
+                    "title": "Isacceptingbackupoffers"
+                },
+                "isComingSoon": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Coming Soon listings are homes that will soon be on the market.. Set it to 1 if needed.",
+                    "title": "Iscomingsoon"
+                },
+                "otherListings": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If set to 1, the results will only include data from the Other Listings tab. Default: 0",
+                    "title": "Otherlistings"
+                },
+                "isNewConstruction": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "New Construction filter. Set it to 1 if you only need properties with New Construction status.",
+                    "title": "Isnewconstruction"
+                },
+                "keywords": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter with keywords.",
+                    "title": "Keywords"
+                },
+                "lotSizeMin": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Available values: 1,000 sqft 2,000 sqft 3,000 sqft 4,000 sqft 5,000 sqft 7,500 sqft 1/4 acre/10,890 sqft 1/2 acre/21,780 sqft 1 acre/43,560 sqft",
+                    "title": "Lotsizemin"
+                },
+                "lotSizeMax": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Available values: 1,000 sqft 2,000 sqft 3,000 sqft 4,000 sqft 5,000 sqft 7,500 sqft 1/4 acre/10,890 sqft 1/2 acre/21,780 sqft 1 acre/43,560 sqft 2 acres/87,120 sqft 5 acres/217,800 sqft 10 acres/435,600 sqft 20 acres/871,200 sqft 50 acres/2,178,000 sqft 100 acres/4,356,000 sqft",
+                    "title": "Lotsizemax"
+                },
+                "saleByAgent": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default - true. If you only need to get FSBO set to false or 0.",
+                    "title": "Salebyagent"
+                },
+                "saleByOwner": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default - true. If you only need to get FSBA set to false or 0.",
+                    "title": "Salebyowner"
+                },
+                "isForSaleForeclosure": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If you only need to get ForSaleForeclosure set to true or 1.",
+                    "title": "Isforsaleforeclosure"
+                },
+                "isWaterfront": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Iswaterfront"
+                },
+                "hasPool": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Haspool"
+                },
+                "hasAirConditioning": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Hasairconditioning"
+                },
+                "isCityView": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Iscityview"
+                },
+                "isMountainView": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Ismountainview"
+                },
+                "isWaterView": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Iswaterview"
+                },
+                "isParkView": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Isparkview"
+                },
+                "isOpenHousesOnly": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Must have open house",
+                    "title": "Isopenhousesonly"
+                },
+                "is3dHome": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Must have 3D Tour",
+                    "title": "Is3Dhome"
+                },
+                "hoa": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max HOA. Default: 0",
+                    "title": "Hoa"
+                },
+                "includeHomesWithNoHoaData": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default - true.",
+                    "title": "Includehomeswithnohoadata"
+                },
+                "isAuction": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Auctions. Default true.",
+                    "title": "Isauction"
+                },
+                "schools": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Available values: elementary, public, private, middle, charter, high For multiple selection, separate with comma: middle,high",
+                    "title": "Schools"
+                },
+                "schoolsRating": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Min school ratings. From 1 to 10",
+                    "title": "Schoolsrating"
+                },
+                "includeUnratedSchools": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include schools with no rating",
+                    "title": "Includeunratedschools"
+                },
+                "hasGarage": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Must have a garage. Default value false",
+                    "title": "Hasgarage"
+                },
+                "parkingSpots": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Parking Spots. Max value - 4 Default: 0",
+                    "title": "Parkingspots"
+                },
+                "isForeclosed": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Isforeclosed"
+                },
+                "isEntirePlace": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default - true. Apply when status_type = 'ForRent'. Set it to false if you need only a room.",
+                    "title": "Isentireplace"
+                },
+                "isPreForeclosure": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Ispreforeclosure"
+                },
+                "isRoom": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default - false. Apply when status_type = 'ForRent' Set it true and isEntirePlace to false if you need only a room.",
+                    "title": "Isroom"
+                },
+                "largeDogsAllowed": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Allows large dogs. Only For Rent",
+                    "title": "Largedogsallowed"
+                },
+                "smallDogsAllowed": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Allows large dogs. Only For Rent",
+                    "title": "Smalldogsallowed"
+                },
+                "catsAllowed": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Allows cats. Only For Rent",
+                    "title": "Catsallowed"
+                },
+                "noPets": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Allows cats. Only For Rent",
+                    "title": "Nopets"
+                },
+                "moveInDate": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Move-in Date Only For Rent",
+                    "title": "Moveindate"
+                },
+                "parkingAvailable": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "On-site Parking. Only For Rent",
+                    "title": "Parkingavailable"
+                },
+                "inUnitLaundry": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "In-unit Laundry. Only For Rent",
+                    "title": "Inunitlaundry"
+                },
+                "acceptsApplications": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Accepts Zillow Applications. Only For Rent",
+                    "title": "Acceptsapplications"
+                },
+                "incomeRestricted": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Income restricted. Only For Rent",
+                    "title": "Incomerestricted"
+                },
+                "hardwoodFloor": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Hardwood Floors. Only For Rent",
+                    "title": "Hardwoodfloor"
+                },
+                "disabledAccess": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Disabled Access. Only For Rent",
+                    "title": "Disabledaccess"
+                },
+                "utilitiesIncluded": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Utilities Included. Only For Rent",
+                    "title": "Utilitiesincluded"
+                },
+                "shortTermLease": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Short term lease available. Only For Rent",
+                    "title": "Shorttermlease"
+                },
+                "furnished": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Furnished. Only For Rent",
+                    "title": "Furnished"
+                },
+                "outdoorSpace": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Outdoor space. Only For Rent",
+                    "title": "Outdoorspace"
+                },
+                "controlledAccess": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Controlled access. Only For Rent",
+                    "title": "Controlledaccess"
+                },
+                "highSpeedInternet": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "High speed internet. Only For Rent",
+                    "title": "Highspeedinternet"
+                },
+                "elevator": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Elevator. Only For Rent",
+                    "title": "Elevator"
+                },
+                "multiFamilyBuilding": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Apartment Community. Only For Rent",
+                    "title": "Multifamilybuilding"
+                },
+                "minMonthlyCostPayment": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Min Monthly Cost Payment Default: 0",
+                    "title": "Minmonthlycostpayment"
+                },
+                "maxMonthlyCostPayment": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max Monthly Cost Payment Default: 0",
+                    "title": "Maxmonthlycostpayment"
+                }
+            },
+            "required": [
+                "polygon"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "rent_estimate",
+        "description": "*`address` or `long` and `lat` is required!* For more accuracy use `beds` and `baths` parameters. Will return rent estimates and comparable rentals if need.",
+        "parameters": {
+            "properties": {
+                "propertyType": {
+                    "description": "Valid values: SingleFamily, Condo, MultiFamily, Townhouse, Apartment",
+                    "enum": [
+                        "SingleFamily",
+                        "Condo",
+                        "MultiFamily",
+                        "Townhouse",
+                        "Apartment"
+                    ],
+                    "title": "Propertytype",
+                    "type": "string"
+                },
+                "address": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Address"
+                },
+                "long": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Long"
+                },
+                "lat": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Lat"
+                },
+                "d": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Diameter in miles. The max and value is 0.5, and the low value is 0.05. The default value is 0.5 Default: 0.5",
+                    "title": "D"
+                },
+                "beds": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Beds"
+                },
+                "baths": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Baths"
+                },
+                "sqftMin": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Sqftmin"
+                },
+                "sqftMax": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Sqftmax"
+                },
+                "includeComps": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Includecomps"
+                }
+            },
+            "required": [
+                "propertyType"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "location_suggestions",
+        "description": "Search for a location by name.",
+        "parameters": {
+            "properties": {
+                "q": {
+                    "description": "State, county, neighborhood, city, street name",
+                    "title": "Q",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "q"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "property_by_coordinates",
+        "description": "Search the property by coordinates. *Note.* The endpoint will return only an array of zpid. To get more information use `/property` endpoint. If you need additional filters, you can use `/propertyExtendedSearch` with a parameter `coordinates` or `polygon`.",
+        "parameters": {
+            "properties": {
+                "long": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Longitude Default: -118.504744",
+                    "title": "Long"
+                },
+                "lat": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Latitude Default: 34.01822",
+                    "title": "Lat"
+                },
+                "d": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Diameter in miles. The max value is 0.5, and the low value is 0.05. The default value is 0.1 Default: 0.1",
+                    "title": "D"
+                },
+                "includeSold": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Include to results sold properties. true or 1 to include (default). false or 0 to exclude.",
+                    "title": "Includesold"
+                }
+            },
+            "required": [
+                "long",
+                "lat"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_by_url",
+        "description": "Get a list of properties by providing Zillow's search results URL",
+        "parameters": {
+            "properties": {
+                "url": {
+                    "description": "This URL you can get from browser address bar after you apply all parameters on Zillow site.",
+                    "title": "Url",
+                    "type": "string"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Page"
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "property_by_mls",
+        "description": "Search for the property by MLS #. *Note.* The endpoint will return an array of `zpid`. To get more information, use `/property` endpoint. If we find more than one address with the given MLS, we will send them in `otherAddress` key. You can check them for additional.",
+        "parameters": {
+            "properties": {
+                "mls": {
+                    "description": "MLS #",
+                    "title": "Mls",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "mls"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "images",
+        "description": "Property images and videos.",
+        "parameters": {
+            "properties": {
+                "zpid": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Default: 2080998890",
+                    "title": "Zpid"
+                },
+                "property_url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Full page URL - https://www.zillow.com/homedetails/101-California-Ave-UNIT-506-Santa-Monica-CA-90403/20485717_zpid/",
+                    "title": "Property Url"
+                }
+            },
+            "required": [
+                "zpid"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "price_and_tax_history",
+        "description": "History of Property Taxes and Prices. `zpid` or `property_url` is required.",
+        "parameters": {
+            "properties": {
+                "zpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Zpid"
+                },
+                "property_url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Property Url"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "property_comps",
+        "description": "Get property comps by `zpid` or `property_url` or `address`.",
+        "parameters": {
+            "properties": {
+                "zpid": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Zpid"
+                },
+                "property_url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Property Url"
+                },
+                "address": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Address"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "walk_and_transit_score",
+        "description": "Data about walk, bike and transit scores by zpid.",
+        "parameters": {
+            "properties": {
+                "zpid": {
+                    "description": "Unique ID that Zillow gives to each property.",
+                    "title": "Zpid",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "zpid"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "building",
+        "description": "Building details. *Only for rent apartments.* Only one of the three parameters is required.",
+        "parameters": {
+            "properties": {
+                "lotId": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "lotId = buildingId (you can get it a response from the /property endpoint). Only one of the three parameters is required. Default: 1001411303",
+                    "title": "Lotid"
+                },
+                "buildingId": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "You can get it a response from the /property endpoint. Only one of the three parameters is required.",
+                    "title": "Buildingid"
+                },
+                "url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Building URL https://www.zillow.com/b/48-east-ave-austin-tx-9LRMhF/ or /apartments/portland-or/charmain-apartments/9VLnvH/ Only one of the three parameters is required.",
+                    "title": "Url"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "zestimate",
+        "description": "Get Zestimate value by `zpid` or `address` or `URL`.",
+        "parameters": {
+            "properties": {
+                "zpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zpid or address or property_url parameter is required.",
+                    "title": "Zpid"
+                },
+                "address": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zpid or address or property_url parameter is required.",
+                    "title": "Address"
+                },
+                "property_url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zpid or address or property_url parameter is required.",
+                    "title": "Property Url"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "zestimate_history",
+        "description": "Zestimate History for property by `zpid` or `url`. Result has format where t - time, v - zestimate value.",
+        "parameters": {
+            "properties": {
+                "zpid": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Unique ID that Zillow gives to each property. Default: 13172523",
+                    "title": "Zpid"
+                },
+                "property_url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Property page full URL - https://www.zillow.com/homedetails/7646-S-Cook-Way-Centennial-CO-80122/13172523_zpid/",
+                    "title": "Property Url"
+                },
+                "address": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The zpid or address or property_url parameter is required.",
+                    "title": "Address"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "ping",
+        "description": "Ping",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "build_web_url",
+        "description": "**Beta** Build Web Url.",
+        "parameters": {
+            "properties": {
+                "location": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "You can pass: state, city, zipcode or county.",
+                    "title": "Location"
+                },
+                "home_type": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Property type comma-separated or empty for all types: Multi-family Apartments Houses Manufactured Condos LotsLand Townhomes",
+                    "title": "Home Type"
+                },
+                "beds": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Beds"
+                },
+                "baths": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Baths"
+                },
+                "sqft": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Sqft"
+                },
+                "isAuction": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Isauction"
+                },
+                "min_price": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Min Price"
+                },
+                "max_price": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Max Price"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "value_history_local_rental_rates",
+        "description": "Rent Zestimate History",
+        "parameters": {
+            "properties": {
+                "zpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Unique ID that Zillow gives to each property.",
+                    "title": "Zpid"
+                },
+                "property_url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Property page full URL",
+                    "title": "Property Url"
+                },
+                "address": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Address"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "value_history_zestimate_percent_change",
+        "description": "Zestimate Percent Change",
+        "parameters": {
+            "properties": {
+                "zpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Unique ID that Zillow gives to each property.",
+                    "title": "Zpid"
+                },
+                "property_url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Property page full URL",
+                    "title": "Property Url"
+                },
+                "address": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Address"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "value_history_local_home_values",
+        "description": "Zestimate Value History",
+        "parameters": {
+            "properties": {
+                "zpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Unique ID that Zillow gives to each property.",
+                    "title": "Zpid"
+                },
+                "property_url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Property page full URL",
+                    "title": "Property Url"
+                },
+                "address": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Address"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "value_history_listing_prices",
+        "description": "Local Listing Prices",
+        "parameters": {
+            "properties": {
+                "zpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Unique ID that Zillow gives to each property.",
+                    "title": "Zpid"
+                },
+                "property_url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Property page full URL.",
+                    "title": "Property Url"
+                },
+                "address": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Address"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "value_history_tax_assessment",
+        "description": "Tax Assessment History",
+        "parameters": {
+            "properties": {
+                "zpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Unique ID that Zillow gives to each property.",
+                    "title": "Zpid"
+                },
+                "property_url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Property page full URL",
+                    "title": "Property Url"
+                },
+                "address": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Address"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "value_history_tax_paid",
+        "description": "Tax Paid History",
+        "parameters": {
+            "properties": {
+                "zpid": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Unique ID that Zillow gives to each property.",
+                    "title": "Zpid"
+                },
+                "property_url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Property page full URL",
+                    "title": "Property Url"
+                },
+                "address": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Address"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "value_estimate",
+        "description": "*`address` or `long` and `lat` is required!* For more accuracy use `beds` and `baths` parameters. Will return value estimates and comparable rentals if need.",
+        "parameters": {
+            "properties": {
+                "propertyType": {
+                    "description": "Valid values: SingleFamily, Condo, MultiFamily, Townhouse, Apartment",
+                    "enum": [
+                        "SingleFamily",
+                        "Condo",
+                        "MultiFamily",
+                        "Townhouse",
+                        "Apartment"
+                    ],
+                    "title": "Propertytype",
+                    "type": "string"
+                },
+                "address": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Address"
+                },
+                "long": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Long"
+                },
+                "lat": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Lat"
+                },
+                "d": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Diameter in miles. The max and value is 1.5, and the low value is 0.05. The default value is 0.5 Default: 0.5",
+                    "title": "D"
+                },
+                "beds": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Beds"
+                },
+                "baths": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Baths"
+                },
+                "sqftMin": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Sqftmin"
+                },
+                "sqftMax": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Sqftmax"
+                },
+                "includeComps": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Includecomps"
+                }
+            },
+            "required": [
+                "propertyType"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "map_boundary",
+        "description": "Get map boundary by ZIP code",
+        "parameters": {
+            "properties": {
+                "zip": {
+                    "description": "US zip code",
+                    "title": "Zip",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "zip"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "property_floor_plan",
+        "description": "Get floorplan images",
+        "parameters": {
+            "properties": {
+                "zpid": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Note, not all properties have this information Only those that have a value of true in the isShowcaseListing field, this value can be found by using /property (Property details) endpoint Default: 0",
+                    "title": "Zpid"
+                },
+                "property_url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Full page URL - https://www.zillow.com/homedetails/6361-Blucher-Ave-Van-Nuys-CA-91411/19971282_zpid/",
+                    "title": "Property Url"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "off_market_data",
+        "description": "You can get off-market properties. Results include both off-market and on-market data. Filter only by ZIP code. The data is not very accurate on the border of 2 zip, but if you try the next pages it will work.",
+        "parameters": {
+            "properties": {
+                "zip": {
+                    "description": "ZIP code. There is no other filter, only by ZIP code. Results include both off-market and on-market data. The data is not very accurate on the border of 2 zip, but if you try the next pages it will work.",
+                    "title": "Zip",
+                    "type": "string"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Page"
+                }
+            },
+            "required": [
+                "zip"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent_details",
+        "description": "Get agent details by username (contact details, active listings, reviews, etc).",
+        "parameters": {
+            "properties": {
+                "username": {
+                    "description": "",
+                    "title": "Username",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "username"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent_reviews",
+        "description": "Agent reviews",
+        "parameters": {
+            "properties": {
+                "zuid": {
+                    "description": "Agent unique id - zuid",
+                    "title": "Zuid",
+                    "type": "string"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max value: 20. Page size is 5 (max). Default: 1",
+                    "title": "Page"
+                }
+            },
+            "required": [
+                "zuid"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent_active_listings",
+        "description": "Agent's active listings. The endpoint will return a list of the property. To get a property details use `/property (Zillow property details)` endpoint.",
+        "parameters": {
+            "properties": {
+                "zuid": {
+                    "description": "Agent unique id - zuid",
+                    "title": "Zuid",
+                    "type": "string"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max value: 20 Default: 1",
+                    "title": "Page"
+                },
+                "size": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max value: 5 Default: 5",
+                    "title": "Size"
+                }
+            },
+            "required": [
+                "zuid"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent_sold_listings",
+        "description": "Listings of sold property by agent (`zuid`)",
+        "parameters": {
+            "properties": {
+                "zuid": {
+                    "description": "Agent unique id - zuid",
+                    "title": "Zuid",
+                    "type": "string"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max value: 20 Default: 1",
+                    "title": "Page"
+                },
+                "size": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max value: 5 Default: 5",
+                    "title": "Size"
+                }
+            },
+            "required": [
+                "zuid"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "agent_rental_listings",
+        "description": "Listings of rental property by agent (`zuid`)",
+        "parameters": {
+            "properties": {
+                "zuid": {
+                    "description": "Agent unique id - zuid",
+                    "title": "Zuid",
+                    "type": "string"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max value: 20 Default: 1",
+                    "title": "Page"
+                },
+                "size": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max value: 5 Default: 5",
+                    "title": "Size"
+                }
+            },
+            "required": [
+                "zuid"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "find_agent_v2",
+        "description": "Find agent by `name` or `location`",
+        "parameters": {
+            "properties": {
+                "location": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "e.g. Newport Beach or zip code 90278",
+                    "title": "Location"
+                },
+                "name": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search by name e.g. Regina Vannicola",
+                    "title": "Name"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max value 25",
+                    "title": "Page"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "find_agent",
+        "description": "**Deprecated!** Find agent by `name` or `location name` or `lat` and `lng`",
+        "parameters": {
+            "properties": {
+                "locationText": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "e.g. Newport Beach or zip code 90278",
+                    "title": "Locationtext"
+                },
+                "name": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Search by name e.g. Regina Vannicola",
+                    "title": "Name"
+                },
+                "lat": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "e.g. 34.010116",
+                    "title": "Lat"
+                },
+                "lng": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "e.g. -118.498786",
+                    "title": "Lng"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 1",
+                    "title": "Page"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "resolve_address_to_zpid",
+        "description": "Resolving the addresses from the given file to `zpid`. The limit for the BASIC plan is 10 lines and for the other plans it is 100 lines. ***Cost: 1 request per line!*** Expand ==> Code snippet (Python) [gist.github.com](https://gist.github.com/apimaker001/6ec89060307f8b5d15c0b245e378fbd4) ***How does this work?*** You send a file with the addresses (one per line) and as the answer will receive data, where you will find `jobNumber` field. After some time (2 sec per line) use your `jobNumber` value and `/getJobResults` endpoint to get the results. ***Results example*** **You send the file with lines** 5500 Grand Lake Drive, San Antonio, TX 1636 Sonnet Drive, Grapevine, Texas 76051 2310 fairhill dr newport beach ca 92660 **You will receive the file with lines (format csv: address,zpid)** \"5500 Grand Lake Drive, San Antonio, TX\",26187246 \"1636 Sonnet Drive, Grapevine, Texas 76051\",28959146 \"2310 fairhill dr newport beach ca 92660\",2069242807,25214848",
+        "parameters": {
+            "properties": {
+                "data": {
+                    "additionalProperties": true,
+                    "default": null,
+                    "description": "",
+                    "title": "Data",
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_job_results",
+        "description": "Get the result data by `jobNumber`.",
+        "parameters": {
+            "properties": {
+                "jobNumber": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Default: 0",
+                    "title": "Jobnumber"
+                }
+            },
+            "required": [
+                "jobNumber"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "remove_job",
+        "description": "Use for remove job from queue by id.",
+        "parameters": {
+            "properties": {
+                "id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Job id Default: 0",
+                    "title": "Id"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "similar_property",
+        "description": "Get similar properties for sale. `zpid` or `property_url` is required parameter.",
+        "parameters": {
+            "properties": {
+                "zpid": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "You can get it from /propertyExtendedSearch or /propertyByCoordinates endpoints, or extract it from a full URL. Default: 2080998890",
+                    "title": "Zpid"
+                },
+                "property_url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Full page URL - https://www.zillow.com/homedetails/101-California-Ave-UNIT-506-Santa-Monica-CA-90403/20485717_zpid/",
+                    "title": "Property Url"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "similar_sales",
+        "description": "Recently sold homes with similar features to those passed by zpid home, such as bedrooms, bathrooms, location and square footage. `zpid` or `property_url` is required parameter.",
+        "parameters": {
+            "properties": {
+                "zpid": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "You can get it from /propertyExtendedSearch or /propertyByCoordinates endpoints, or extract it from a full URL. Default: 19959099",
+                    "title": "Zpid"
+                },
+                "property_url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Full page URL - https://www.zillow.com/homedetails/7301-Lennox-Ave-UNIT-D06-Los-Angeles-CA-91405/19959099_zpid/",
+                    "title": "Property Url"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "similar_for_rent",
+        "description": "Get similar properties for rent. `zpid` or `property_url` is required parameter.",
+        "parameters": {
+            "properties": {
+                "zpid": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "You can get it from /propertyExtendedSearch or /propertyByCoordinates endpoints, or extract it from a full URL. Default: 246283880",
+                    "title": "Zpid"
+                },
+                "property_url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Full page URL - https://www.zillow.com/homedetails/102-Griffith-Ave-Prattville-AL-36066/77224_zpid/",
+                    "title": "Property Url"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "market_data",
+        "description": "**beta version** Rental market summary and year trends. Use zip code as `resourceId` or get `resourceId` for your city in response data from `/marketLocation`.",
+        "parameters": {
+            "properties": {
+                "resourceId": {
+                    "description": "Get it from the endpoint /marketLocation response.",
+                    "title": "Resourceid",
+                    "type": "string"
+                },
+                "beds": {
+                    "default": null,
+                    "description": "0 - Studio 1 - 1 bedroom 2 - 2 bedroom 3 - 3 bedroom 4plus - 4 bedroom +",
+                    "enum": [
+                        "0",
+                        "1",
+                        "2",
+                        "3",
+                        "4plus",
+                        null
+                    ],
+                    "title": "Beds"
+                },
+                "propertyTypes": {
+                    "default": null,
+                    "description": "Valid values: house, apartment_condo, townhouse",
+                    "enum": [
+                        "house",
+                        "apartment_condo",
+                        "townhouse",
+                        null
+                    ],
+                    "title": "Propertytypes"
+                }
+            },
+            "required": [
+                "resourceId"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "market_location",
+        "description": "**beta version** Get `resourceId` for city you want.",
+        "parameters": {
+            "properties": {
+                "location": {
+                    "description": "Search by city or ZIP",
+                    "title": "Location",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "location"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "other_professionals_search",
+        "description": "Search for other professionals. Check the `type` parameter.",
+        "parameters": {
+            "properties": {
+                "location": {
+                    "description": "Neighborhood /City /Zip",
+                    "title": "Location",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "Valid values: property_managers, inspectors, photographers, other",
+                    "enum": [
+                        "property_managers",
+                        "inspectors",
+                        "photographers",
+                        "other"
+                    ],
+                    "title": "Type",
+                    "type": "string"
+                },
+                "name": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Name"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Page"
+                }
+            },
+            "required": [
+                "location",
+                "type"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "other_professionals_reviews",
+        "description": "Get reviews",
+        "parameters": {
+            "properties": {
+                "zuid": {
+                    "description": "zuid from search response.",
+                    "title": "Zuid",
+                    "type": "string"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Page"
+                },
+                "size": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max value - 20 Default: 0",
+                    "title": "Size"
+                }
+            },
+            "required": [
+                "zuid"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "lender_details",
+        "description": "Get lender details",
+        "parameters": {
+            "properties": {
+                "screenName": {
+                    "description": "",
+                    "title": "Screenname",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "screenName"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "lender_reviews",
+        "description": "Reviews",
+        "parameters": {
+            "properties": {
+                "lenderId": {
+                    "description": "",
+                    "title": "Lenderid",
+                    "type": "string"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Page"
+                }
+            },
+            "required": [
+                "lenderId"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "lender_search",
+        "description": "Search for lender",
+        "parameters": {
+            "properties": {
+                "location": {
+                    "description": "City, State or Zip. Only lenders licensed in the state will be displayed.",
+                    "title": "Location",
+                    "type": "string"
+                },
+                "lenderName": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Lendername"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Page"
+                }
+            },
+            "required": [
+                "location"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "skip_trace_address_from_file",
+        "description": "Resolve Address from File. Check tab `Body` to pickup a **CSV** file. The limit for the BASIC plan is 10 lines and for the other plans it is 100 lines. ***Cost: 5 request per line!***",
+        "parameters": {
+            "properties": {
+                "data": {
+                    "additionalProperties": true,
+                    "default": null,
+                    "description": "",
+                    "title": "Data",
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_the_result_data_by_jobnumber",
+        "description": "Get the result data by jobNumber",
+        "parameters": {
+            "properties": {
+                "jobNumber": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Jobnumber"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "people_profile_details",
+        "description": "Profile Details",
+        "parameters": {
+            "properties": {
+                "id": {
+                    "description": "ID from /people/searchByAddress endpoint.",
+                    "title": "Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "people_search_by_address",
+        "description": "**deprecated** **beta version** **1 success request will reduce 5 requests from your limit.** We check address, if we can extract data (all names and phones, 2 or 10 does not matter) we subtract 5 from your plan limit. if not, then we subtract 1 from your plan limit Search People By Address",
+        "parameters": {
+            "properties": {
+                "address": {
+                    "description": "Enter street address to search, example 2246 Tennessee St.",
+                    "title": "Address",
+                    "type": "string"
+                },
+                "location": {
+                    "description": "Enter city, state or zip to search",
+                    "title": "Location",
+                    "type": "string"
+                },
+                "format": {
+                    "default": null,
+                    "description": "simple - will return requested data as a line address,location,phone1,phone2,...,phoneX",
+                    "enum": [
+                        "full",
+                        "simple",
+                        null
+                    ],
+                    "title": "Format"
+                }
+            },
+            "required": [
+                "address",
+                "location"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "mortgage_rates",
+        "description": "Get Mortgage Rates by state",
+        "parameters": {
+            "properties": {
+                "program": {
+                    "description": "The loan program. You can select from 1 to 4 programs, separated by commas. Available: Fixed30Year, Fixed20Year, Fixed15Year, Fixed10Year, ARM3, ARM5, ARM7, HomeEquity30Year, HomeEquity30YearDueIn15, HomeEquity15Year, HELOC20Year, HELOC15Year, HELOC10Year",
+                    "title": "Program",
+                    "type": "string"
+                },
+                "state": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The state abbreviation. AK,AL,AR,AS,AZ,CA,CO,CT,DC,DE,FL,GA, GU,HI,IA,ID,IL,IN,KS,KY,LA,MA,MD,ME,MH, MI,MN,MO,MP,MS,MT,NC,ND,NE, NH,NJ,NM,NV,NY,OH,OK,OR,PA,PR,RI,SC,SD,TN,TX,UT,VA,VI,VT,WA,WI,WV,WY,US",
+                    "title": "State"
+                },
+                "refinance": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Refinance"
+                },
+                "loanType": {
+                    "default": null,
+                    "description": "Valid values: Conventional, FHA, VA, USDA, other, Jumbo",
+                    "enum": [
+                        "Conventional",
+                        "FHA",
+                        "VA",
+                        "USDA",
+                        "Other",
+                        "Jumbo",
+                        null
+                    ],
+                    "title": "Loantype"
+                },
+                "loanAmount": {
+                    "default": null,
+                    "description": "Micro < $100,000 SmallConforming $100,000 - $200,000 Conforming > $200,000 SuperConforming Jumbo",
+                    "enum": [
+                        "Conforming",
+                        "SmallConforming",
+                        "SuperConforming",
+                        "Jumbo",
+                        "Micro",
+                        null
+                    ],
+                    "title": "Loanamount"
+                },
+                "loanToValue": {
+                    "default": null,
+                    "description": "Normal < 80% High > 80% < 95% VeryHigh >= 95%",
+                    "enum": [
+                        "Normal",
+                        "High",
+                        "VeryHigh",
+                        null
+                    ],
+                    "title": "Loantovalue"
+                },
+                "creditScore": {
+                    "default": null,
+                    "description": "Low < 680 credit score. High > 680 < 740 VeryHigh > 740",
+                    "enum": [
+                        "Low",
+                        "High",
+                        "VeryHigh",
+                        null
+                    ],
+                    "title": "Creditscore"
+                },
+                "duration": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "From 0 to 4000 Default: 30",
+                    "title": "Duration"
+                }
+            },
+            "required": [
+                "program"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "property_estimate_mortgage",
+        "description": "Get estimated monthly mortgage payment",
+        "parameters": {
+            "properties": {
+                "zpid": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Unique ID that Zillow gives to each property.",
+                    "title": "Zpid"
+                },
+                "property_url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "",
+                    "title": "Property Url"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "monthly_inventory",
+        "description": "Monthly Inventory. - Active Listing Count, Active Listing Count M/M - Avg Listing Price, Avg Listing Price M/M - Days on Market, Days on Market M/M - New Listing Count, New Listing Count M/M - Median Listing Price, Median Listing Price M/M - Total Listing Count, Total Listing Count M/M - Price Increase Count, Price Increase Count m/M",
+        "parameters": {
+            "properties": {
+                "zip": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Required if yyyymm is empty. ex. 17249 Default: 0",
+                    "title": "Zip"
+                },
+                "yyyymm": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Required if zip is empty. From 201607 to the previous month. Default: 202411",
+                    "title": "Yyyymm"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Default: 0",
+                    "title": "Page"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Max 100 per page Default: 10",
+                    "title": "Limit"
+                }
+            },
+            "type": "object"
+        }
+    }
+]

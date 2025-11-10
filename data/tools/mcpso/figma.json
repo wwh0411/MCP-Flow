@@ -1,0 +1,824 @@
+[
+    {
+        "name": "figma_figma_get_me",
+        "description": "Get the current user",
+        "parameters": {
+            "properties": {},
+            "required": [],
+            "type": "object"
+        }
+    },
+    {
+        "name": "figma_figma_get_file",
+        "description": "Get a Figma file by key",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileKey": {
+                    "type": "string",
+                    "description": "The file key to use for the operation"
+                },
+                "version": {
+                    "type": "string",
+                    "description": "A specific version ID to get"
+                },
+                "ids": {
+                    "type": "string",
+                    "description": "Comma separated list of nodes that you care about in the document"
+                },
+                "depth": {
+                    "type": "number",
+                    "description": "Positive integer representing how deep into the document tree to traverse"
+                },
+                "geometry": {
+                    "type": "string",
+                    "description": "Set to \"paths\" to export vector data"
+                },
+                "plugin_data": {
+                    "type": "string",
+                    "description": "A comma separated list of plugin IDs and/or the string \"shared\""
+                },
+                "branch_data": {
+                    "type": "boolean",
+                    "description": "Returns branch metadata for the requested file"
+                }
+            },
+            "required": [
+                "fileKey"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "figma_figma_get_file_nodes",
+        "description": "Get specific nodes from a Figma file",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileKey": {
+                    "type": "string",
+                    "description": "The file key to use for the operation"
+                },
+                "ids": {
+                    "type": "string",
+                    "description": "A comma separated list of node IDs to retrieve and convert"
+                },
+                "version": {
+                    "type": "string",
+                    "description": "A specific version ID to get"
+                },
+                "depth": {
+                    "type": "number",
+                    "description": "Positive integer representing how deep into the node tree to traverse"
+                },
+                "geometry": {
+                    "type": "string",
+                    "description": "Set to \"paths\" to export vector data"
+                },
+                "plugin_data": {
+                    "type": "string",
+                    "description": "A comma separated list of plugin IDs and/or the string \"shared\""
+                }
+            },
+            "required": [
+                "fileKey",
+                "ids"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "figma_figma_get_images",
+        "description": "Render images from a Figma file",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileKey": {
+                    "type": "string",
+                    "description": "The file key to use for the operation"
+                },
+                "ids": {
+                    "type": "string",
+                    "description": "A comma separated list of node IDs to render"
+                },
+                "version": {
+                    "type": "string",
+                    "description": "A specific version ID to get"
+                },
+                "scale": {
+                    "type": "number",
+                    "description": "A number between 0.01 and 4, the image scaling factor"
+                },
+                "format": {
+                    "type": "string",
+                    "enum": [
+                        "jpg",
+                        "png",
+                        "svg",
+                        "pdf"
+                    ],
+                    "description": "A string enum for the image output format"
+                },
+                "svg_outline_text": {
+                    "type": "boolean",
+                    "description": "Whether text elements are rendered as outlines (vector paths) or as <text> elements in SVGs"
+                },
+                "svg_include_id": {
+                    "type": "boolean",
+                    "description": "Whether to include id attributes for all SVG elements"
+                },
+                "svg_include_node_id": {
+                    "type": "boolean",
+                    "description": "Whether to include node id attributes for all SVG elements"
+                },
+                "svg_simplify_stroke": {
+                    "type": "boolean",
+                    "description": "Whether to simplify inside/outside strokes and use stroke attribute if possible"
+                },
+                "contents_only": {
+                    "type": "boolean",
+                    "description": "Whether content that overlaps the node should be excluded from rendering"
+                },
+                "use_absolute_bounds": {
+                    "type": "boolean",
+                    "description": "Use the full dimensions of the node regardless of whether or not it is cropped"
+                }
+            },
+            "required": [
+                "fileKey",
+                "ids"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "figma_figma_get_image_fills",
+        "description": "Get image fills in a Figma file",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileKey": {
+                    "type": "string",
+                    "description": "The file key to use for the operation"
+                }
+            },
+            "required": [
+                "fileKey"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "figma_figma_get_file_versions",
+        "description": "Get version history of a Figma file",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileKey": {
+                    "type": "string",
+                    "description": "The file key to use for the operation"
+                },
+                "page_size": {
+                    "type": "number",
+                    "description": "The number of items returned in a page of the response"
+                },
+                "before": {
+                    "type": "number",
+                    "description": "A version ID for one of the versions in the history. Gets versions before this ID"
+                },
+                "after": {
+                    "type": "number",
+                    "description": "A version ID for one of the versions in the history. Gets versions after this ID"
+                }
+            },
+            "required": [
+                "fileKey"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "figma_figma_get_comments",
+        "description": "Get comments in a Figma file",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileKey": {
+                    "type": "string",
+                    "description": "The file key to use for the operation"
+                },
+                "as_md": {
+                    "type": "boolean",
+                    "description": "Whether to return the comments as markdown",
+                    "default": false
+                }
+            },
+            "required": [
+                "fileKey"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "figma_figma_post_comment",
+        "description": "Add a comment to a Figma file",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileKey": {
+                    "type": "string",
+                    "description": "The file key to use for the operation"
+                },
+                "message": {
+                    "type": "string",
+                    "description": "The text contents of the comment to post"
+                },
+                "comment_id": {
+                    "type": "string",
+                    "description": "The ID of the comment to reply to, if any"
+                },
+                "client_meta": {
+                    "description": "The position where to place the comment"
+                }
+            },
+            "required": [
+                "fileKey",
+                "message"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "figma_figma_delete_comment",
+        "description": "Delete a comment from a Figma file",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileKey": {
+                    "type": "string",
+                    "description": "The file key to use for the operation"
+                },
+                "commentId": {
+                    "type": "string",
+                    "description": "The ID of the comment to delete"
+                }
+            },
+            "required": [
+                "fileKey",
+                "commentId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "figma_figma_get_comment_reactions",
+        "description": "Get reactions for a comment",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileKey": {
+                    "type": "string",
+                    "description": "The file key to use for the operation"
+                },
+                "commentId": {
+                    "type": "string",
+                    "description": "The ID of the comment to get reactions for"
+                },
+                "cursor": {
+                    "type": "string",
+                    "description": "Cursor for pagination"
+                }
+            },
+            "required": [
+                "fileKey",
+                "commentId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "figma_figma_post_comment_reaction",
+        "description": "Add a reaction to a comment",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileKey": {
+                    "type": "string",
+                    "description": "The file key to use for the operation"
+                },
+                "commentId": {
+                    "type": "string",
+                    "description": "The ID of the comment to add a reaction to"
+                },
+                "emoji": {
+                    "type": "string",
+                    "description": "The emoji to react with"
+                }
+            },
+            "required": [
+                "fileKey",
+                "commentId",
+                "emoji"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "figma_figma_delete_comment_reaction",
+        "description": "Delete a reaction from a comment",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileKey": {
+                    "type": "string",
+                    "description": "The file key to use for the operation"
+                },
+                "commentId": {
+                    "type": "string",
+                    "description": "The ID of the comment to delete a reaction from"
+                },
+                "emoji": {
+                    "type": "string",
+                    "description": "The emoji to remove"
+                }
+            },
+            "required": [
+                "fileKey",
+                "commentId",
+                "emoji"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "figma_figma_get_team_projects",
+        "description": "Get projects in a team",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "teamId": {
+                    "type": "string",
+                    "description": "The ID of the team to get projects for"
+                }
+            },
+            "required": [
+                "teamId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "figma_figma_get_project_files",
+        "description": "Get files in a project",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectId": {
+                    "type": "string",
+                    "description": "The ID of the project to get files for"
+                },
+                "branch_data": {
+                    "type": "boolean",
+                    "description": "Returns branch metadata in the response"
+                }
+            },
+            "required": [
+                "projectId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "figma_figma_get_team_components",
+        "description": "Get components in a team",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "teamId": {
+                    "type": "string",
+                    "description": "The ID of the team to get components for"
+                },
+                "page_size": {
+                    "type": "number",
+                    "description": "Number of items to return in a paged list of results"
+                },
+                "after": {
+                    "type": "number",
+                    "description": "Cursor indicating which id after which to start retrieving components for"
+                },
+                "before": {
+                    "type": "number",
+                    "description": "Cursor indicating which id before which to start retrieving components for"
+                }
+            },
+            "required": [
+                "teamId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "figma_figma_get_file_components",
+        "description": "Get components in a file",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileKey": {
+                    "type": "string",
+                    "description": "The file key to use for the operation"
+                }
+            },
+            "required": [
+                "fileKey"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "figma_figma_get_component",
+        "description": "Get a component by key",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "description": "The key of the component to get"
+                }
+            },
+            "required": [
+                "key"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "figma_figma_get_team_component_sets",
+        "description": "Get component sets in a team",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "teamId": {
+                    "type": "string",
+                    "description": "The ID of the team to get component sets for"
+                },
+                "page_size": {
+                    "type": "number",
+                    "description": "Number of items to return in a paged list of results"
+                },
+                "after": {
+                    "type": "number",
+                    "description": "Cursor indicating which id after which to start retrieving component sets for"
+                },
+                "before": {
+                    "type": "number",
+                    "description": "Cursor indicating which id before which to start retrieving component sets for"
+                }
+            },
+            "required": [
+                "teamId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "figma_figma_get_file_component_sets",
+        "description": "Get component sets in a file",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileKey": {
+                    "type": "string",
+                    "description": "The file key to use for the operation"
+                }
+            },
+            "required": [
+                "fileKey"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "figma_figma_get_component_set",
+        "description": "Get a component set by key",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "description": "The key of the component set to get"
+                }
+            },
+            "required": [
+                "key"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "figma_figma_get_team_styles",
+        "description": "Get styles in a team",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "teamId": {
+                    "type": "string",
+                    "description": "The ID of the team to get styles for"
+                },
+                "page_size": {
+                    "type": "number",
+                    "description": "Number of items to return in a paged list of results"
+                },
+                "after": {
+                    "type": "number",
+                    "description": "Cursor indicating which id after which to start retrieving styles for"
+                },
+                "before": {
+                    "type": "number",
+                    "description": "Cursor indicating which id before which to start retrieving styles for"
+                }
+            },
+            "required": [
+                "teamId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "figma_figma_get_file_styles",
+        "description": "Get styles in a file",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileKey": {
+                    "type": "string",
+                    "description": "The file key to use for the operation"
+                }
+            },
+            "required": [
+                "fileKey"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "figma_figma_get_style",
+        "description": "Get a style by key",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "description": "The key of the style to get"
+                }
+            },
+            "required": [
+                "key"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "figma_figma_post_webhook",
+        "description": "Create a webhook",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "event_type": {
+                    "type": "string",
+                    "description": "An enum representing the possible events that a webhook can subscribe to"
+                },
+                "team_id": {
+                    "type": "string",
+                    "description": "Team id to receive updates about"
+                },
+                "endpoint": {
+                    "type": "string",
+                    "description": "The HTTP endpoint that will receive a POST request when the event triggers"
+                },
+                "passcode": {
+                    "type": "string",
+                    "description": "String that will be passed back to your webhook endpoint to verify that it is being called by Figma"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "State of the webhook, including any error state it may be in"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "User provided description or name for the webhook"
+                }
+            },
+            "required": [
+                "event_type",
+                "team_id",
+                "endpoint",
+                "passcode"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "figma_figma_get_webhook",
+        "description": "Get a webhook by ID",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "webhook_id": {
+                    "type": "string",
+                    "description": "The ID of the webhook to get"
+                }
+            },
+            "required": [
+                "webhook_id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "figma_figma_update_webhook",
+        "description": "Update a webhook",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "webhook_id": {
+                    "type": "string",
+                    "description": "The ID of the webhook to update"
+                },
+                "endpoint": {
+                    "type": "string",
+                    "description": "The HTTP endpoint that will receive a POST request when the event triggers"
+                },
+                "passcode": {
+                    "type": "string",
+                    "description": "String that will be passed back to your webhook endpoint to verify that it is being called by Figma"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "State of the webhook, including any error state it may be in"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "User provided description or name for the webhook"
+                }
+            },
+            "required": [
+                "webhook_id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "figma_figma_delete_webhook",
+        "description": "Delete a webhook",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "webhook_id": {
+                    "type": "string",
+                    "description": "The ID of the webhook to delete"
+                }
+            },
+            "required": [
+                "webhook_id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "figma_figma_get_team_webhooks",
+        "description": "Get webhooks for a team",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "team_id": {
+                    "type": "string",
+                    "description": "The ID of the team to get webhooks for"
+                }
+            },
+            "required": [
+                "team_id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "figma_figma_get_library_analytics_component_usages",
+        "description": "Get library analytics component usage data",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileKey": {
+                    "type": "string",
+                    "description": "The file key to use for the operation"
+                },
+                "cursor": {
+                    "type": "string",
+                    "description": "Cursor indicating what page of data to fetch"
+                },
+                "group_by": {
+                    "type": "string",
+                    "enum": [
+                        "component",
+                        "file"
+                    ],
+                    "description": "A dimension to group returned analytics data by"
+                }
+            },
+            "required": [
+                "fileKey",
+                "group_by"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "figma_figma_get_library_analytics_style_usages",
+        "description": "Get library analytics style usage data",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileKey": {
+                    "type": "string",
+                    "description": "The file key to use for the operation"
+                },
+                "cursor": {
+                    "type": "string",
+                    "description": "Cursor indicating what page of data to fetch"
+                },
+                "group_by": {
+                    "type": "string",
+                    "enum": [
+                        "style",
+                        "file"
+                    ],
+                    "description": "A dimension to group returned analytics data by"
+                }
+            },
+            "required": [
+                "fileKey",
+                "group_by"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "figma_figma_get_library_analytics_variable_usages",
+        "description": "Get library analytics variable usage data",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileKey": {
+                    "type": "string",
+                    "description": "The file key to use for the operation"
+                },
+                "cursor": {
+                    "type": "string",
+                    "description": "Cursor indicating what page of data to fetch"
+                },
+                "group_by": {
+                    "type": "string",
+                    "enum": [
+                        "variable",
+                        "file"
+                    ],
+                    "description": "A dimension to group returned analytics data by"
+                }
+            },
+            "required": [
+                "fileKey",
+                "group_by"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

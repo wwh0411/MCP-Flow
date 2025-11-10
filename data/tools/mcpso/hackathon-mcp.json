@@ -1,0 +1,100 @@
+[
+    {
+        "name": "mcp-server-theme-parks_list_destinations",
+        "description": "Retrieves a list of all available top-level theme park destinations (e.g., Walt Disney World Resort, Universal Orlando Resort).",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-theme-parks_get_entity_details",
+        "description": "Fetches detailed static information for a specific entity (like a park, attraction, or restaurant) using its unique ID.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "entity_id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "The unique GUID identifier for the entity (e.g., a specific destination, park, attraction, show, or restaurant)."
+                }
+            },
+            "required": [
+                "entity_id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-theme-parks_get_entity_children",
+        "description": "Retrieves all direct child entities for a given parent entity ID (e.g., all parks within a destination, or all attractions within a park).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "entity_id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "The unique GUID identifier for the entity (e.g., a specific destination, park, attraction, show, or restaurant)."
+                }
+            },
+            "required": [
+                "entity_id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-theme-parks_get_entity_live_data",
+        "description": "Fetches live data for a specific entity and its children. This can include attraction wait times, park operating hours, and show times.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "entity_id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "The unique GUID identifier for the entity (e.g., a specific destination, park, attraction, show, or restaurant)."
+                }
+            },
+            "required": [
+                "entity_id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "mcp-server-theme-parks_get_entity_schedule",
+        "description": "Retrieves the operating schedule or calendar data for a specific entity. Can specify a year and month, or get general schedule data.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "entity_id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "The unique GUID identifier for the entity."
+                },
+                "year": {
+                    "type": "integer",
+                    "minimum": 2000,
+                    "maximum": 2100,
+                    "description": "Optional. The year for the schedule (e.g., 2025). If omitted with month, fetches general schedule."
+                },
+                "month": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 12,
+                    "description": "Optional. The month for the schedule (1-12). If omitted with year, fetches general schedule. Requires year if specified."
+                }
+            },
+            "required": [
+                "entity_id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

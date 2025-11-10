@@ -1,0 +1,143 @@
+[
+    {
+        "name": "shadcn-vue-mcp_requirement-structuring",
+        "description": "analyze the user's natural language and structure the requirements into a clear and structured component requirement document. Use this tool when the user requests a new UI component\u2014e.g., mentions /ui, or asks for a button, input, dialog, table, form, banner, card, or other Vue component",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "description": "Content about user requirement in specific contextual information"
+                }
+            },
+            "required": [
+                "message"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shadcn-vue-mcp_components-filter",
+        "description": "filter components with shadcn/ui components and tailwindcss, Use this tool when mentions /filter",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "description": "requirement json from requirement-structuring tool"
+                }
+            },
+            "required": [
+                "message"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shadcn-vue-mcp_component-usage-doc",
+        "description": "read usage doc of a component\uff0c Use this tool when mentions /doc.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "components",
+                        "charts"
+                    ],
+                    "description": "type of the component"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "name of the component in lowercase"
+                }
+            },
+            "required": [
+                "type",
+                "name"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shadcn-vue-mcp_component-builder",
+        "description": "Retrieve documentation for all filtered components and charts to prepare for component generation, This tool ONLY returns the text snippet for that UI component. After calling this tool, you must edit or add files to integrate the snippet into the codebase.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "icon": {
+                    "type": "string",
+                    "enum": [
+                        "@nuxt/icon",
+                        "lucide"
+                    ],
+                    "description": "icon module of the component",
+                    "default": "lucide"
+                },
+                "components": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "necessity": {
+                                "type": "string",
+                                "enum": [
+                                    "critical",
+                                    "important",
+                                    "optional"
+                                ]
+                            },
+                            "justification": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "name",
+                            "necessity",
+                            "justification"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "components from components-filter tool"
+                },
+                "charts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/properties/components/items"
+                    },
+                    "description": "charts from components-filter tool"
+                }
+            },
+            "required": [
+                "components",
+                "charts"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "shadcn-vue-mcp_component-quality-check",
+        "description": "Automatically check Vue component quality and provide detailed feedback. Use this tool when you need to validate component quality, accessibility, performance, and best practices compliance. or when mentions /check.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "componentCode": {
+                    "type": "string",
+                    "description": "code of the component from component-builder tool"
+                }
+            },
+            "required": [
+                "componentCode"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

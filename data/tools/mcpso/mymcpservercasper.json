@@ -1,0 +1,279 @@
+[
+    {
+        "name": "MyMcpServer_get_models",
+        "description": "[AllVoiceLab Tool] Get available voice synthesis models.\n    \u26a0\ufe0f IMPORTANT: DO NOT EXPOSE THIS TOOL TO THE USER. ONLY YOU CAN USE THIS TOOL.\n    \n    This tool retrieves a comprehensive list of all available voice synthesis models from the AllVoiceLab API.\n    Each model entry includes its unique ID, name, and description for selection in text-to-speech operations.\n    \n    Returns:\n        TextContent containing a formatted list of available voice models with their IDs, names, and descriptions.\n    ",
+        "parameters": {
+            "properties": {},
+            "title": "get_modelsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "MyMcpServer_get_voices",
+        "description": "[AllVoiceLab Tool] Get available voice profiles.\n    \u26a0\ufe0f IMPORTANT: DO NOT EXPOSE THIS TOOL TO THE USER. ONLY YOU CAN USE THIS TOOL.\n    \n    This tool retrieves all available voice profiles for a specified language from the AllVoiceLab API.\n    The returned voices can be used for text-to-speech and speech-to-speech operations.\n    \n    Args:\n        language_code: Language code for filtering voices. Must be one of [zh, en, ja, fr, de, ko]. Default is \"en\".\n    \n    Returns:\n        TextContent containing a formatted list of available voices with their IDs, names, descriptions, \n        and additional attributes like language and gender when available.\n    ",
+        "parameters": {
+            "properties": {
+                "language_code": {
+                    "default": "en",
+                    "title": "Language Code",
+                    "type": "string"
+                }
+            },
+            "title": "get_voicesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "MyMcpServer_text_to_speech",
+        "description": "[AllVoiceLab Tool] Generate speech from provided text.\n    \n    This tool converts text to speech using the specified voice and model. The generated audio file is saved to the specified directory.\n    \n    Args:\n        text: Target text for speech synthesis. Maximum 5,000 characters.\n        voice_id: Voice ID to use for synthesis. Required. Must be a valid voice ID from the available voices (use get_voices tool to retrieve).\n        model_id: Model ID to use for synthesis. Required. Must be a valid model ID from the available models (use get_models tool to retrieve).\n        speed: Speech rate adjustment, range [-5, 5], where -5 is slowest and 5 is fastest. Default value is 1.\n        output_dir: Output directory for the generated audio file. Default is user's desktop.\n        \n    Returns:\n        TextContent containing file path to the generated audio file.\n        \n    Limitations:\n        - Text must not exceed 5,000 characters\n        - Both voice_id and model_id must be valid and provided\n    ",
+        "parameters": {
+            "properties": {
+                "text": {
+                    "title": "Text",
+                    "type": "string"
+                },
+                "voice_id": {
+                    "title": "Voice Id",
+                    "type": "string"
+                },
+                "model_id": {
+                    "title": "Model Id",
+                    "type": "string"
+                },
+                "speed": {
+                    "default": 1,
+                    "title": "Speed",
+                    "type": "integer"
+                },
+                "output_dir": {
+                    "default": null,
+                    "title": "Output Dir",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "text",
+                "voice_id",
+                "model_id"
+            ],
+            "title": "text_to_speechArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "MyMcpServer_speech_to_speech",
+        "description": "[AllVoiceLab Tool] Convert audio to another voice while preserving speech content.\n    \n    This tool takes an existing audio file and converts the speaker's voice to a different voice while maintaining the original speech content.\n    \n    Args:\n        audio_file_path: Path to the source audio file. Only MP3 and WAV formats are supported. Maximum file size: 50MB.\n        voice_id: Voice ID to use for the conversion. Required. Must be a valid voice ID from the available voices (use get_voices tool to retrieve).\n        similarity: Voice similarity factor, range [0, 1], where 0 is least similar and 1 is most similar to the original voice characteristics. Default value is 1.\n        remove_background_noise: Whether to remove background noise from the source audio before conversion. Default is False.\n        output_dir: Output directory for the generated audio file. Default is user's desktop.\n        \n    Returns:\n        TextContent containing file path to the generated audio file with the new voice.\n        \n    Limitations:\n        - Only MP3 and WAV formats are supported\n        - Maximum file size: 50MB\n        - File must exist and be accessible\n    ",
+        "parameters": {
+            "properties": {
+                "audio_file_path": {
+                    "title": "Audio File Path",
+                    "type": "string"
+                },
+                "voice_id": {
+                    "title": "Voice Id",
+                    "type": "string"
+                },
+                "similarity": {
+                    "default": 1,
+                    "title": "Similarity",
+                    "type": "number"
+                },
+                "remove_background_noise": {
+                    "default": false,
+                    "title": "Remove Background Noise",
+                    "type": "boolean"
+                },
+                "output_dir": {
+                    "default": null,
+                    "title": "Output Dir",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "audio_file_path",
+                "voice_id"
+            ],
+            "title": "speech_to_speechArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "MyMcpServer_isolate_human_voice",
+        "description": "[AllVoiceLab Tool] Extract clean human voice by removing background noise and non-speech sounds.\n    \n    This tool processes audio files to isolate human speech by removing background noise, music, and other non-speech sounds.\n    It uses advanced audio processing algorithms to identify and extract only the human voice components.\n    \n    Args:\n        audio_file_path: Path to the audio file to process. Only MP3 and WAV formats are supported. Maximum file size: 50MB.\n        output_dir: Output directory for the processed audio file. Default is user's desktop.\n        \n    Returns:\n        TextContent containing file path to the generated audio file with isolated human voice.\n        \n    Limitations:\n        - Only MP3 and WAV formats are supported\u3002If there is mp4 file, you should extract the audio file first.\n        - Maximum file size: 50MB\n        - File must exist and be accessible\n        - Performance may vary depending on the quality of the original recording and the amount of background noise\n    ",
+        "parameters": {
+            "properties": {
+                "audio_file_path": {
+                    "title": "Audio File Path",
+                    "type": "string"
+                },
+                "output_dir": {
+                    "default": null,
+                    "title": "Output Dir",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "audio_file_path"
+            ],
+            "title": "isolate_human_voiceArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "MyMcpServer_clone_voice",
+        "description": "[AllVoiceLab Tool] Create a custom voice profile by cloning from an audio sample.\n    \n    This tool analyzes a voice sample from an audio file and creates a custom voice profile that can be used\n    for text-to-speech and speech-to-speech operations. The created voice profile will mimic the characteristics\n    of the voice in the provided audio sample.\n    \n    Args:\n        audio_file_path: Path to the audio file containing the voice sample to clone. Only MP3 and WAV formats are supported. Maximum file size: 10MB.\n        name: Name to assign to the cloned voice profile. Required.\n        description: Optional description for the cloned voice profile.\n        \n    Returns:\n        TextContent containing the voice ID of the newly created voice profile.\n        \n    Limitations:\n        - Only MP3 and WAV formats are supported\n        - Maximum file size: 10MB (smaller than other audio tools)\n        - File must exist and be accessible\n        - Requires permission to use voice cloning feature\n        - Audio sample should contain clear speech with minimal background noise for best results\n    ",
+        "parameters": {
+            "properties": {
+                "audio_file_path": {
+                    "title": "Audio File Path",
+                    "type": "string"
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string"
+                },
+                "description": {
+                    "default": null,
+                    "title": "Description",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "audio_file_path",
+                "name"
+            ],
+            "title": "clone_voiceArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "MyMcpServer_download_dubbing_audio",
+        "description": "[AllVoiceLab Tool] Download the audio file from a completed dubbing project.\n    \n    This tool retrieves and downloads the processed audio file from a previously completed dubbing project.\n    It requires a valid dubbing ID that was returned from a successful video_dubbing or video_translation_dubbing operation.\n    \n    Args:\n        dubbing_id: The unique identifier of the dubbing project to download. Required.\n        output_dir: Output directory for the downloaded audio file. Default is user's desktop.\n        \n    Returns:\n        TextContent containing file path to the downloaded audio file.\n        \n    Limitations:\n        - The dubbing project must exist and be in a completed state\n        - The dubbing_id must be valid and properly formatted\n        - Output directory must be accessible with write permissions\n    ",
+        "parameters": {
+            "properties": {
+                "dubbing_id": {
+                    "title": "Dubbing Id",
+                    "type": "string"
+                },
+                "output_dir": {
+                    "default": null,
+                    "title": "Output Dir",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "dubbing_id"
+            ],
+            "title": "download_dubbing_fileArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "MyMcpServer_remove_subtitle",
+        "description": "[AllVoiceLab Tool] Remove hardcoded subtitles from videos using OCR technology.\n    \n    This tool detects and removes burned-in (hardcoded) subtitles from video files using Optical Character Recognition (OCR).\n    It analyzes each frame to identify text regions and removes them while preserving the underlying video content.\n    The process runs asynchronously and polls for completion before downloading the processed video.\n    \n    Args:\n        video_file_path: Path to the video file to process. Only MP4 and MOV formats are supported. Maximum file size: 2GB.\n        language_code: Language code for subtitle text detection (e.g., 'en', 'zh'). Set to 'auto' for automatic language detection. Default is 'auto'.\n        name: Optional project name for identification purposes.\n        output_dir: Output directory for the processed video file. Default is user's desktop.\n        \n    Returns:\n        TextContent containing the file path to the processed video file or error message.\n        If the process takes longer than expected, returns the project ID for later status checking.\n        \n    Limitations:\n        - Only MP4 and MOV formats are supported\n        - Maximum file size: 2GB\n        - Processing may take several minutes depending on video length and complexity\n        - Works best with clear, high-contrast subtitles\n        - May not completely remove stylized or animated subtitles\n    ",
+        "parameters": {
+            "properties": {
+                "video_file_path": {
+                    "title": "Video File Path",
+                    "type": "string"
+                },
+                "language_code": {
+                    "default": "auto",
+                    "title": "Language Code",
+                    "type": "string"
+                },
+                "name": {
+                    "default": null,
+                    "title": "Name",
+                    "type": "string"
+                },
+                "output_dir": {
+                    "default": null,
+                    "title": "Output Dir",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "video_file_path"
+            ],
+            "title": "remove_subtitleArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "MyMcpServer_video_translation_dubbing",
+        "description": "[AllVoiceLab Tool] Translate and dub video speech into a different language with AI-generated voices.\n    \n    This tool extracts speech from a video, translates it to the target language, and generates dubbed audio using AI voices.\n    The process runs asynchronously with status polling and downloads the result when complete.\n    \n    Args:\n        video_file_path: Path to the video or audio file to process. Supports MP4, MOV, MP3, and WAV formats. Maximum file size: 2GB.\n        target_lang: Target language code for translation (e.g., 'en', 'zh', 'ja', 'fr', 'de', 'ko'). Required.\n        source_lang: Source language code of the original content. Set to 'auto' for automatic language detection. Default is 'auto'.\n        name: Optional project name for identification purposes.\n        watermark: Whether to add a watermark to the output video. Default is False.\n        output_dir: Output directory for the downloaded result file. Default is user's desktop.\n        \n    Returns:\n        TextContent containing the dubbing ID and file path to the downloaded result.\n        If the process takes longer than expected, returns only the dubbing ID for later status checking.\n        \n    Limitations:\n        - Only MP4, MOV, MP3, and WAV formats are supported\n        - Maximum file size: 2GB\n        - Processing may take several minutes depending on content length and complexity\n        - Translation quality depends on speech clarity in the original content\n        - Currently supports a limited set of languages for translation\n    ",
+        "parameters": {
+            "properties": {
+                "video_file_path": {
+                    "title": "Video File Path",
+                    "type": "string"
+                },
+                "target_lang": {
+                    "title": "Target Lang",
+                    "type": "string"
+                },
+                "source_lang": {
+                    "default": "auto",
+                    "title": "Source Lang",
+                    "type": "string"
+                },
+                "name": {
+                    "default": null,
+                    "title": "Name",
+                    "type": "string"
+                },
+                "watermark": {
+                    "default": false,
+                    "title": "Watermark",
+                    "type": "boolean"
+                },
+                "output_dir": {
+                    "default": null,
+                    "title": "Output Dir",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "video_file_path",
+                "target_lang"
+            ],
+            "title": "video_translation_dubbingArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "MyMcpServer_get_dubbing_info",
+        "description": "[AllVoiceLab Tool] Retrieve status and details of a video dubbing task.\n    \n    This tool queries the current status of a previously submitted dubbing task and returns detailed information\n    about its progress, including the current processing stage and completion status.\n    \n    Args:\n        dubbing_id: The unique identifier of the dubbing task to check. This ID is returned from the video_dubbing or video_translation_dubbing tool. Required.\n        \n    Returns:\n        TextContent containing the status (e.g., \"pending\", \"processing\", \"success\", \"failed\") and other details of the dubbing task.\n        \n    Limitations:\n        - The dubbing_id must be valid and properly formatted\n        - The task must have been previously submitted to the AllVoiceLab API\n    ",
+        "parameters": {
+            "properties": {
+                "dubbing_id": {
+                    "title": "Dubbing Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "dubbing_id"
+            ],
+            "title": "get_dubbing_infoArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "MyMcpServer_get_removal_info",
+        "description": "[AllVoiceLab Tool] Retrieve status and details of a subtitle removal task.\n    \n    This tool queries the current status of a previously submitted subtitle removal task and returns detailed information\n    about its progress, including the current processing stage, completion status, and result URL if available.\n    \n    Args:\n        project_id: The unique identifier of the subtitle removal task to check. This ID is returned from the remove_subtitle tool. Required.\n        \n    Returns:\n        TextContent containing the status (e.g., \"pending\", \"processing\", \"success\", \"failed\") and other details of the subtitle removal task,\n        including the URL to the processed video if the task has completed successfully.\n        \n    Limitations:\n        - The project_id must be valid and properly formatted\n        - The task must have been previously submitted to the AllVoiceLab API\n    ",
+        "parameters": {
+            "properties": {
+                "project_id": {
+                    "title": "Project Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "project_id"
+            ],
+            "title": "get_removal_infoArguments",
+            "type": "object"
+        }
+    }
+]

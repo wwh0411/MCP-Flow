@@ -1,0 +1,187 @@
+[
+    {
+        "name": "box-create-sign-request",
+        "description": "Creates a signature request. This involves preparing a document for signing and sending the signature request to signers. [See the documentation](https://developer.box.com/reference/post-sign-requests/).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "signers": {
+                    "type": "string",
+                    "description": "Array of signers for the signature request. Each signer should be a JSON object with at least an email property. [See the documentation](https://developer.box.com/reference/post-sign-requests/#param-signers) for more information. Example: `{\"email\": \"signer@example.com\", \"role\": \"signer\"}`"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the signature request"
+                },
+                "parentFolder": {
+                    "type": "string",
+                    "description": "The destination folder to place final, signed document and signing log. Uses root folder (0) if not specified"
+                },
+                "emailSubject": {
+                    "type": "string",
+                    "description": "Subject of sign request email. If not provided, a default subject will be used"
+                },
+                "emailMessage": {
+                    "type": "string",
+                    "description": "Message to include in sign request email. If not provided, a default message will be used"
+                },
+                "redirectUrl": {
+                    "type": "string",
+                    "description": "The URI that a signer will be redirected to after signing a document"
+                },
+                "declinedRedirectUrl": {
+                    "type": "string",
+                    "description": "The URI that a signer will be redirected to after declining to sign a document"
+                },
+                "additionalOptions": {
+                    "type": "string",
+                    "description": "Additional parameters to send in the request. See the [documentation](https://developer.box.com/reference/post-sign-requests/) for all available parameters. Values will be parsed as JSON where applicable"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "box-download-file",
+        "description": "Downloads a file from Box to your workflow's `/tmp` directory. [See the documentation](https://developer.box.com/reference/get-files-id-content/)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "folderId": {
+                    "type": "string",
+                    "description": "Folder containing the file to download"
+                },
+                "fileId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "fileName": {
+                    "type": "string",
+                    "description": "The name of the new downloaded file"
+                },
+                "syncDir": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": [
+                "folderId",
+                "fileName"
+            ]
+        }
+    },
+    {
+        "name": "box-get-comments",
+        "description": "Fetches comments for a file. [See the documentation](https://developer.box.com/reference/get-files-id-comments/).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "folderId": {
+                    "type": "string",
+                    "description": "Use this option to select your File ID from a dropdown list."
+                },
+                "fileId": {
+                    "type": "string",
+                    "description": "The file ID to get comments from. Use a custom expression to reference a file from your workflow or select it from the dropdown list."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "box-search-content",
+        "description": "Searches for files, folders, web links, and shared files across the users content or across the entire enterprise. [See the documentation](https://developer.box.com/reference/get-search/).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "searchType": {
+                    "type": "string",
+                    "description": ""
+                },
+                "query": {
+                    "type": "string",
+                    "description": ""
+                },
+                "mdfilters": {
+                    "type": "string",
+                    "description": ""
+                },
+                "fields": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "box-upload-file",
+        "description": "Uploads a small file to Box. [See the documentation](https://developer.box.com/reference/post-files-content/).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "file": {
+                    "type": "string",
+                    "description": ""
+                },
+                "createdAt": {
+                    "type": "string",
+                    "description": ""
+                },
+                "modifiedAt": {
+                    "type": "string",
+                    "description": ""
+                },
+                "fileName": {
+                    "type": "string",
+                    "description": ""
+                },
+                "parentId": {
+                    "type": "string",
+                    "description": ""
+                },
+                "syncDir": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "box-upload-file-version",
+        "description": "Update a file's content. [See the documentation](https://developer.box.com/reference/post-files-id-content/).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "folderId": {
+                    "type": "string",
+                    "description": "Folder containing the file to update"
+                },
+                "fileId": {
+                    "type": "string",
+                    "description": "The file to upload a new version of"
+                },
+                "file": {
+                    "type": "string",
+                    "description": ""
+                },
+                "modifiedAt": {
+                    "type": "string",
+                    "description": ""
+                },
+                "fileName": {
+                    "type": "string",
+                    "description": "An optional new name for the file. If specified, the file will be renamed when the new version is uploaded."
+                },
+                "syncDir": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": [
+                "folderId"
+            ]
+        }
+    }
+]

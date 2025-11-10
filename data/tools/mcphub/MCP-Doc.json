@@ -1,0 +1,599 @@
+[
+    {
+        "name": "create_document",
+        "description": "\n    Create a new Word document\n    \n    Parameters:\n    - file_path: Document save path\n    ",
+        "parameters": {
+            "properties": {
+                "file_path": {
+                    "title": "File Path",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "file_path"
+            ],
+            "title": "create_documentArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "open_document",
+        "description": "\n    Open an existing Word document\n    \n    Parameters:\n    - file_path: Path to the document to open\n    ",
+        "parameters": {
+            "properties": {
+                "file_path": {
+                    "title": "File Path",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "file_path"
+            ],
+            "title": "open_documentArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "save_document",
+        "description": "\n    Save the currently open Word document to the original file (update the original file)\n    ",
+        "parameters": {
+            "properties": {},
+            "title": "save_documentArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "add_paragraph",
+        "description": "\n    Add paragraph text to document\n    \n    Parameters:\n    - text: Paragraph text content\n    - bold: Whether to bold\n    - italic: Whether to italicize\n    - underline: Whether to underline\n    - font_size: Font size (points)\n    - font_name: Font name\n    - color: Text color (format: #FF0000)\n    - alignment: Alignment (left, center, right, justify)\n    ",
+        "parameters": {
+            "properties": {
+                "text": {
+                    "title": "Text",
+                    "type": "string"
+                },
+                "bold": {
+                    "default": false,
+                    "title": "Bold",
+                    "type": "boolean"
+                },
+                "italic": {
+                    "default": false,
+                    "title": "Italic",
+                    "type": "boolean"
+                },
+                "underline": {
+                    "default": false,
+                    "title": "Underline",
+                    "type": "boolean"
+                },
+                "font_size": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Font Size"
+                },
+                "font_name": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Font Name"
+                },
+                "color": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Color"
+                },
+                "alignment": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Alignment"
+                }
+            },
+            "required": [
+                "text"
+            ],
+            "title": "add_paragraphArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "add_heading",
+        "description": "\n    Add heading to document\n    \n    Parameters:\n    - text: Heading text\n    - level: Heading level (1-9)\n    ",
+        "parameters": {
+            "properties": {
+                "text": {
+                    "title": "Text",
+                    "type": "string"
+                },
+                "level": {
+                    "title": "Level",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "text",
+                "level"
+            ],
+            "title": "add_headingArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "add_table",
+        "description": "\n    Add table to document\n    \n    Parameters:\n    - rows: Number of rows\n    - cols: Number of columns\n    - data: Table data, two-dimensional array\n    ",
+        "parameters": {
+            "properties": {
+                "rows": {
+                    "title": "Rows",
+                    "type": "integer"
+                },
+                "cols": {
+                    "title": "Cols",
+                    "type": "integer"
+                },
+                "data": {
+                    "anyOf": [
+                        {
+                            "items": {},
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Data"
+                }
+            },
+            "required": [
+                "rows",
+                "cols"
+            ],
+            "title": "add_tableArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_document_info",
+        "description": "\n    Get document information, including paragraph count, table count, styles, etc.\n    ",
+        "parameters": {
+            "properties": {},
+            "title": "get_document_infoArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_text",
+        "description": "\n    Search for text in the document\n    \n    Parameters:\n    - keyword: Keyword to search for\n    ",
+        "parameters": {
+            "properties": {
+                "keyword": {
+                    "title": "Keyword",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "keyword"
+            ],
+            "title": "search_textArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_and_replace",
+        "description": "\n    Search and replace text in the document, providing detailed replacement information and preview options\n    \n    Parameters:\n    - keyword: Keyword to search for\n    - replace_with: Text to replace with\n    - preview_only: Whether to only preview without actually replacing, default is False\n    ",
+        "parameters": {
+            "properties": {
+                "keyword": {
+                    "title": "Keyword",
+                    "type": "string"
+                },
+                "replace_with": {
+                    "title": "Replace With",
+                    "type": "string"
+                },
+                "preview_only": {
+                    "default": false,
+                    "title": "Preview Only",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "keyword",
+                "replace_with"
+            ],
+            "title": "search_and_replaceArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "find_and_replace",
+        "description": "\n    Find and replace text in the document\n    \n    Parameters:\n    - find_text: Text to find\n    - replace_text: Text to replace with\n    ",
+        "parameters": {
+            "properties": {
+                "find_text": {
+                    "title": "Find Text",
+                    "type": "string"
+                },
+                "replace_text": {
+                    "title": "Replace Text",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "find_text",
+                "replace_text"
+            ],
+            "title": "find_and_replaceArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "merge_table_cells",
+        "description": "\n    Merge table cells\n    \n    Parameters:\n    - table_index: Table index\n    - start_row: Start row index\n    - start_col: Start column index\n    - end_row: End row index\n    - end_col: End column index\n    ",
+        "parameters": {
+            "properties": {
+                "table_index": {
+                    "title": "Table Index",
+                    "type": "integer"
+                },
+                "start_row": {
+                    "title": "Start Row",
+                    "type": "integer"
+                },
+                "start_col": {
+                    "title": "Start Col",
+                    "type": "integer"
+                },
+                "end_row": {
+                    "title": "End Row",
+                    "type": "integer"
+                },
+                "end_col": {
+                    "title": "End Col",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "table_index",
+                "start_row",
+                "start_col",
+                "end_row",
+                "end_col"
+            ],
+            "title": "merge_table_cellsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "split_table",
+        "description": "\n    Split table into two tables at specified row\n    \n    Parameters:\n    - table_index: Table index\n    - row_index: Split table after this row\n    ",
+        "parameters": {
+            "properties": {
+                "table_index": {
+                    "title": "Table Index",
+                    "type": "integer"
+                },
+                "row_index": {
+                    "title": "Row Index",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "table_index",
+                "row_index"
+            ],
+            "title": "split_tableArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "add_table_row",
+        "description": "\n    Add a row to table\n    \n    Parameters:\n    - table_index: Table index\n    - data: Row data in list format\n    ",
+        "parameters": {
+            "properties": {
+                "table_index": {
+                    "title": "Table Index",
+                    "type": "integer"
+                },
+                "data": {
+                    "anyOf": [
+                        {
+                            "items": {},
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Data"
+                }
+            },
+            "required": [
+                "table_index"
+            ],
+            "title": "add_table_rowArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "delete_table_row",
+        "description": "\n    Delete a row from table\n    \n    Parameters:\n    - table_index: Table index\n    - row_index: Row index to delete\n    ",
+        "parameters": {
+            "properties": {
+                "table_index": {
+                    "title": "Table Index",
+                    "type": "integer"
+                },
+                "row_index": {
+                    "title": "Row Index",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "table_index",
+                "row_index"
+            ],
+            "title": "delete_table_rowArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "edit_table_cell",
+        "description": "\n    Edit table cell content\n    \n    Parameters:\n    - table_index: Table index\n    - row_index: Row index\n    - col_index: Column index\n    - text: Cell text\n    ",
+        "parameters": {
+            "properties": {
+                "table_index": {
+                    "title": "Table Index",
+                    "type": "integer"
+                },
+                "row_index": {
+                    "title": "Row Index",
+                    "type": "integer"
+                },
+                "col_index": {
+                    "title": "Col Index",
+                    "type": "integer"
+                },
+                "text": {
+                    "title": "Text",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "table_index",
+                "row_index",
+                "col_index",
+                "text"
+            ],
+            "title": "edit_table_cellArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "add_page_break",
+        "description": "\n    Add page break\n    ",
+        "parameters": {
+            "properties": {},
+            "title": "add_page_breakArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "set_page_margins",
+        "description": "\n    Set page margins\n    \n    Parameters:\n    - top: Top margin (cm)\n    - bottom: Bottom margin (cm)\n    - left: Left margin (cm)\n    - right: Right margin (cm)\n    ",
+        "parameters": {
+            "properties": {
+                "top": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Top"
+                },
+                "bottom": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Bottom"
+                },
+                "left": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Left"
+                },
+                "right": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Right"
+                }
+            },
+            "title": "set_page_marginsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "delete_paragraph",
+        "description": "\n    Delete specified paragraph from document\n    \n    Parameters:\n    - paragraph_index: Paragraph index to delete\n    ",
+        "parameters": {
+            "properties": {
+                "paragraph_index": {
+                    "title": "Paragraph Index",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "paragraph_index"
+            ],
+            "title": "delete_paragraphArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "delete_text",
+        "description": "\n    Delete specified text from paragraph\n    \n    Parameters:\n    - paragraph_index: Paragraph index\n    - start_pos: Start position (0-based index)\n    - end_pos: End position (not included in the text)\n    ",
+        "parameters": {
+            "properties": {
+                "paragraph_index": {
+                    "title": "Paragraph Index",
+                    "type": "integer"
+                },
+                "start_pos": {
+                    "title": "Start Pos",
+                    "type": "integer"
+                },
+                "end_pos": {
+                    "title": "End Pos",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "paragraph_index",
+                "start_pos",
+                "end_pos"
+            ],
+            "title": "delete_textArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "save_as_document",
+        "description": "\n    Save current document as a new file\n    \n    Parameters:\n    - new_file_path: Path to save the new file\n    ",
+        "parameters": {
+            "properties": {
+                "new_file_path": {
+                    "title": "New File Path",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "new_file_path"
+            ],
+            "title": "save_as_documentArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "create_document_copy",
+        "description": "\n    Create a copy of the current document in the directory of the original file\n    \n    Parameters:\n    - suffix: Suffix to add to the original file name, default is \"-副本\"\n    ",
+        "parameters": {
+            "properties": {
+                "suffix": {
+                    "default": "-副本",
+                    "title": "Suffix",
+                    "type": "string"
+                }
+            },
+            "title": "create_document_copyArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "replace_section",
+        "description": "\n    Find specified title in document and replace content under that title, keeping original position, format, and style\n    \n    Parameters:\n    - section_title: Title text to find\n    - new_content: New content list, each element is a paragraph\n    - preserve_title: Whether to keep original title, default is True\n    ",
+        "parameters": {
+            "properties": {
+                "section_title": {
+                    "title": "Section Title",
+                    "type": "string"
+                },
+                "new_content": {
+                    "items": {},
+                    "title": "New Content",
+                    "type": "array"
+                },
+                "preserve_title": {
+                    "default": true,
+                    "title": "Preserve Title",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "section_title",
+                "new_content"
+            ],
+            "title": "replace_sectionArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "edit_section_by_keyword",
+        "description": "\n    Find paragraphs containing specified keyword and replace them and their surrounding content, keeping original position, format, and style\n    \n    Parameters:\n    - keyword: Keyword to find\n    - new_content: New content list, each element is a paragraph\n    - section_range: Surrounding paragraph range to replace, default is 3\n    ",
+        "parameters": {
+            "properties": {
+                "keyword": {
+                    "title": "Keyword",
+                    "type": "string"
+                },
+                "new_content": {
+                    "items": {},
+                    "title": "New Content",
+                    "type": "array"
+                },
+                "section_range": {
+                    "default": 3,
+                    "title": "Section Range",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "keyword",
+                "new_content"
+            ],
+            "title": "edit_section_by_keywordArguments",
+            "type": "object"
+        }
+    }
+]

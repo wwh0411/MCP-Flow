@@ -1,0 +1,484 @@
+[
+    {
+        "name": "ultimatecodermcp_tool_process_files",
+        "description": "\n    Process multiple files asynchronously with progress updates.\n\n    **When to use 'tool_process_files':**\n    1. You want to read and process a batch of files in sequence while reporting progress.\n\n    **Parameters**:\n    - files: List[str]\n      A list of file paths.\n    - ctx: Context\n      The FastMCP context for logging and progress updates.\n\n    **Behavior**:\n    - Reads each file, logs how many characters were read, or logs an error.\n    - Reports incremental progress for each file.\n\n    Returns:\n    - A summary of the results for each file.\n    ",
+        "parameters": {
+            "properties": {
+                "files": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Files",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "files"
+            ],
+            "title": "tool_process_filesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "ultimatecodermcp_tool_list_files",
+        "description": "\n    List the contents of a directory, optionally recursively.\n\n    **When to use 'tool_list_files':**\n    1. You want a simple directory listing with type info ([DIR], [FILE]).\n    2. You can optionally traverse subdirectories with `recursive=True`.\n\n    **Parameters**:\n    - directory_path: str (default=None)\n      The path of the directory to list. If None, uses current working directory.\n    - recursive: bool (default=False)\n      Whether to recurse into subdirectories.\n\n    **Error Handling**:\n    - Returns an error if the path is not a directory.\n    - If an exception arises, returns the error message.\n\n    Returns:\n    - A newline-separated list of entries, each prefixed with [FILE] or [DIR].\n    ",
+        "parameters": {
+            "properties": {
+                "directory_path": {
+                    "default": null,
+                    "title": "Directory Path",
+                    "type": "string"
+                },
+                "recursive": {
+                    "default": false,
+                    "title": "Recursive",
+                    "type": "boolean"
+                }
+            },
+            "title": "tool_list_filesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "ultimatecodermcp_tool_read_file",
+        "description": "\n    Read a file (text or image) from disk, optionally returning metadata.\n\n    **When to use 'tool_read_file':**\n    1. You need to retrieve file contents as plain text or base64 (for images).\n    2. You might also want metadata like MIME type.\n\n    **Parameters**:\n    - file_path: str  \n      Path to the file to read.\n    - return_metadata: bool (default=False)  \n      If True, returns a dict with content, mime_type, is_image.\n\n    **Error Handling**:\n    - Returns a string with the error if something fails.\n    ",
+        "parameters": {
+            "properties": {
+                "file_path": {
+                    "title": "File Path",
+                    "type": "string"
+                },
+                "return_metadata": {
+                    "default": false,
+                    "title": "Return Metadata",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "file_path"
+            ],
+            "title": "tool_read_fileArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "ultimatecodermcp_tool_write_file",
+        "description": "\n    Overwrite a file's content with new text.\n\n    **When to use 'tool_write_file':**\n    1. You want to replace a file entirely with new content.\n\n    **Parameters**:\n    - file_path: str\n      Target file path.\n    - content: str\n      New text content to write.\n\n    **Error Handling**:\n    - Returns error messages on I/O failure.\n    ",
+        "parameters": {
+            "properties": {
+                "file_path": {
+                    "title": "File Path",
+                    "type": "string"
+                },
+                "content": {
+                    "title": "Content",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "file_path",
+                "content"
+            ],
+            "title": "tool_write_fileArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "ultimatecodermcp_tool_delete_path",
+        "description": "\n    Delete a file or directory (recursively).\n\n    **When to use 'tool_delete_path':**\n    1. You want to remove a file or folder from the filesystem.\n\n    **Parameters**:\n    - path_to_delete: str  \n      The path to remove.\n\n    **Error Handling**:\n    - Returns a message if path does not exist or if deletion fails.\n    ",
+        "parameters": {
+            "properties": {
+                "path_to_delete": {
+                    "title": "Path To Delete",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "path_to_delete"
+            ],
+            "title": "tool_delete_pathArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "ultimatecodermcp_tool_move_file",
+        "description": "\n    Move or rename a file or directory.\n\n    **When to use 'tool_move_file':**\n    1. You want to rename a file or relocate it in the filesystem.\n\n    **Parameters**:\n    - source_path: str\n      The current file or folder path.\n    - destination_path: str\n      The new location/path.\n\n    **Error Handling**:\n    - Returns an error string if operation fails.\n    ",
+        "parameters": {
+            "properties": {
+                "source_path": {
+                    "title": "Source Path",
+                    "type": "string"
+                },
+                "destination_path": {
+                    "title": "Destination Path",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "source_path",
+                "destination_path"
+            ],
+            "title": "tool_move_fileArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "ultimatecodermcp_tool_search_files",
+        "description": "\n    Search for filenames matching a pattern under a given root directory.\n\n    **When to use 'tool_search_files':**\n    1. You need to locate all files with a given extension or wildcard (e.g., '*.cpp').\n\n    **Parameters**:\n    - root_path: str\n      Directory to start searching.\n    - pattern: str\n      Filename pattern (glob) to match.\n\n    **Error Handling**:\n    - Returns an error if the path is invalid or not a directory.\n\n    Returns:\n    - A list of matching file paths, or 'No matches found.' if none.\n    ",
+        "parameters": {
+            "properties": {
+                "root_path": {
+                    "title": "Root Path",
+                    "type": "string"
+                },
+                "pattern": {
+                    "title": "Pattern",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "root_path",
+                "pattern"
+            ],
+            "title": "tool_search_filesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "ultimatecodermcp_tool_get_file_info",
+        "description": "\n    Return metadata about a file (size, timestamps, type, permissions).\n\n    **When to use 'tool_get_file_info':**\n    1. You need quick stats about a file, like creation time or size.\n\n    **Parameters**:\n    - file_path: str\n      Path to the file.\n\n    **Error Handling**:\n    - Returns an error if the path doesn't exist or can't be accessed.\n    ",
+        "parameters": {
+            "properties": {
+                "file_path": {
+                    "title": "File Path",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "file_path"
+            ],
+            "title": "tool_get_file_infoArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "ultimatecodermcp_tool_read_multiple_files",
+        "description": "\n    Read multiple files, returning content & metadata for each.\n\n    **When to use 'tool_read_multiple_files':**\n    1. You have a list of files and need to read them all, possibly images too.\n\n    **Parameters**:\n    - paths: List[str]\n      A list of file paths to read.\n\n    **Error Handling**:\n    - Returns an error if any file cannot be read.\n    - Continues reading subsequent files if possible.\n\n    Returns:\n    - A stringified dictionary mapping each path to its metadata.\n    ",
+        "parameters": {
+            "properties": {
+                "paths": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Paths",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "paths"
+            ],
+            "title": "tool_read_multiple_filesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "ultimatecodermcp_tool_create_directory",
+        "description": "\n    Recursively create a directory.\n\n    **When to use 'tool_create_directory':**\n    1. You want to ensure a folder (and its parents) exist before writing files.\n\n    **Parameters**:\n    - dir_path: str\n      The directory path to create.\n\n    **Error Handling**:\n    - Returns an error if creation fails (e.g., permission issues).\n    ",
+        "parameters": {
+            "properties": {
+                "dir_path": {
+                    "title": "Dir Path",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "dir_path"
+            ],
+            "title": "tool_create_directoryArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "ultimatecodermcp_tool_run_command",
+        "description": "\n    Execute a shell command locally, capturing output and exit code.\n\n    **When to use 'tool_run_command':**\n    1. You want to run a system command (shell) and get full stdout/stderr back.\n\n    **Parameters**:\n    - command: str\n      The shell command to execute.\n\n    **Error Handling**:\n    - Returns an error message if execution fails or times out.\n    ",
+        "parameters": {
+            "properties": {
+                "command": {
+                    "title": "Command",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "command"
+            ],
+            "title": "tool_run_commandArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "ultimatecodermcp_tool_diff_files",
+        "description": "\n    Produce a unified diff between two text files.\n\n    **When to use 'tool_diff_files':**\n    1. You want to quickly see changes between two versions of a file.\n\n    **Parameters**:\n    - file1: str\n      Path to the original file.\n    - file2: str\n      Path to the updated file.\n\n    **Error Handling**:\n    - Returns an error if reading fails or if binary files are encountered.\n    ",
+        "parameters": {
+            "properties": {
+                "file1": {
+                    "title": "File1",
+                    "type": "string"
+                },
+                "file2": {
+                    "title": "File2",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "file1",
+                "file2"
+            ],
+            "title": "tool_diff_filesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "ultimatecodermcp_tool_replace_line",
+        "description": "\n    Replace a specific line in a file (1-based index).\n\n    **When to use 'tool_replace_line':**\n    1. You only need to change one line in a text file.\n\n    **Parameters**:\n    - file_path: str\n      Path to the file.\n    - line_number: int\n      1-based line number to replace.\n    - new_line: str\n      The new line text.\n\n    **Error Handling**:\n    - Returns an error if the line_number is out of range or if I/O fails.\n    ",
+        "parameters": {
+            "properties": {
+                "file_path": {
+                    "title": "File Path",
+                    "type": "string"
+                },
+                "line_number": {
+                    "title": "Line Number",
+                    "type": "integer"
+                },
+                "new_line": {
+                    "title": "New Line",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "file_path",
+                "line_number",
+                "new_line"
+            ],
+            "title": "tool_replace_lineArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "ultimatecodermcp_tool_replace_block",
+        "description": "\n    Replace a multi-line block of text within a file, optionally using regex for advanced matching.\n\n    **When to use 'tool_replace_block':**\n    1. You need to replace a chunk of text that is less than ~30% of the file's content.\n       (For bigger edits, consider a complete file replacement or patch approach.)\n    2. A smaller, line-level edit or single-string search/replace won't suffice.\n    3. You want to ensure the entire matching context is replaced in one go, especially with multi-line changes.\n\n    **Parameters**:\n    - file_path: str  \n      Path to the file you want to edit.\n    - search_block: str  \n      The exact block or regex pattern to match.\n    - replacement_block: str  \n      The text that will overwrite the matched block.\n    - use_regex: bool (default=False)  \n      If True, interpret search_block as a regex in DOTALL mode.\n\n    **Error Handling**:\n    - Returns an error if the block is not found or if multiple matches exist (can't disambiguate).\n    - Overwrites the first or unique match only.\n\n    **Cautions**:\n    - If the file changes drastically (>30%), consider a complete replacement or patch approach.\n    - If you only need to fix a single line, see `tool_replace_line`.\n    - For small single-string edits, try `tool_search_replace`.\n\n    **Examples**:\n    1) Non-Regex:\n      {\n        \"file_path\": \"path/to/code.py\",\n        \"search_block\": \"oldFunction()\\n    pass\",\n        \"replacement_block\": \"newFunction()\\n    print('Hello')\",\n        \"use_regex\": false\n      }\n\n    2) Regex:\n      {\n        \"file_path\": \"path/to/config.json\",\n        \"search_block\": \"\"version\": \\d+\",\n        \"replacement_block\": \"\"version\": 42\",\n        \"use_regex\": true\n      }\n\n    Returns:\n    - Success or error message.\n    ",
+        "parameters": {
+            "properties": {
+                "file_path": {
+                    "title": "File Path",
+                    "type": "string"
+                },
+                "search_block": {
+                    "title": "Search Block",
+                    "type": "string"
+                },
+                "replacement_block": {
+                    "title": "Replacement Block",
+                    "type": "string"
+                },
+                "use_regex": {
+                    "default": false,
+                    "title": "Use Regex",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "file_path",
+                "search_block",
+                "replacement_block"
+            ],
+            "title": "tool_replace_blockArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "ultimatecodermcp_tool_apply_patch",
+        "description": "\n    Apply a unified diff patch using the system's patch command with strict context matching.\n\n    **When to use 'tool_apply_patch':**\n    1. You have a unified diff that must match exactly (no fuzz) to apply changes.\n\n    **Parameters**:\n    - patch_text: str\n      The unified diff text.\n\n    **Error Handling**:\n    - Returns error if `patch` is unavailable or if the patch fails to apply.\n    ",
+        "parameters": {
+            "properties": {
+                "patch_text": {
+                    "title": "Patch Text",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "patch_text"
+            ],
+            "title": "tool_apply_patchArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "ultimatecodermcp_tool_list_processes",
+        "description": "\n    List current system processes.\n\n    **When to use 'tool_list_processes':**\n    1. You want to see a snapshot of what's running on the system.\n\n    Returns:\n    - A string containing the output of tasklist or ps aux.\n    ",
+        "parameters": {
+            "properties": {},
+            "title": "tool_list_processesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "ultimatecodermcp_tool_kill_process",
+        "description": "\n    Kill a process by PID using signal 9 (force kill).\n\n    **When to use 'tool_kill_process':**\n    1. You need to forcibly stop a process that won't respond otherwise.\n\n    **Parameters**:\n    - pid: int\n      The PID of the process to kill.\n\n    **Error Handling**:\n    - Returns an error if the kill operation fails.\n    ",
+        "parameters": {
+            "properties": {
+                "pid": {
+                    "title": "Pid",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "pid"
+            ],
+            "title": "tool_kill_processArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "ultimatecodermcp_tool_search_code",
+        "description": "\n    Search file contents for a text or regex pattern, using ripgrep if available.\n\n    **When to use 'tool_search_code':**\n    1. You want to locate lines in code matching a pattern across multiple files.\n    2. You can limit search scope with filename patterns, case sensitivity, etc.\n\n    **Parameters**:\n    - rootPath: str  \n      The directory to start searching in.\n    - pattern: str  \n      The text/regex pattern to find.\n    - filePattern: str (default=\"\")\n      A file name filter (e.g., \"*.py\").\n    - ignoreCase: bool (default=True)\n      Case-insensitive match if True.\n    - maxResults: int (default=1000)\n      The maximum number of matches to return.\n    - includeHidden: bool (default=False)\n      Whether to also search hidden files.\n    - contextLines: int (default=0)\n      Number of lines of context around each match.\n\n    **Error Handling**:\n    - If ripgrep is missing or fails, it falls back to a Python-based search.\n\n    Returns:\n    - A list of matches, each line in the format \"file (Line X): match\".\n    - Or 'No matches found.' if none.\n    ",
+        "parameters": {
+            "properties": {
+                "rootPath": {
+                    "title": "Rootpath",
+                    "type": "string"
+                },
+                "pattern": {
+                    "title": "Pattern",
+                    "type": "string"
+                },
+                "filePattern": {
+                    "default": "",
+                    "title": "Filepattern",
+                    "type": "string"
+                },
+                "ignoreCase": {
+                    "default": true,
+                    "title": "Ignorecase",
+                    "type": "boolean"
+                },
+                "maxResults": {
+                    "default": 1000,
+                    "title": "Maxresults",
+                    "type": "integer"
+                },
+                "includeHidden": {
+                    "default": false,
+                    "title": "Includehidden",
+                    "type": "boolean"
+                },
+                "contextLines": {
+                    "default": 0,
+                    "title": "Contextlines",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "rootPath",
+                "pattern"
+            ],
+            "title": "tool_search_codeArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "ultimatecodermcp_tool_search_replace",
+        "description": "\n    Perform a single-target search and replace in a file.\n\n    **When to use 'tool_search_replace':**\n    1. You want to replace the first occurrence of a string in a file.\n    2. For multi-line changes, consider `tool_replace_block`.\n\n    **Parameters**:\n    - filePath: str\n      The file to edit.\n    - search: str\n      The substring to look for.\n    - replace: str\n      The new substring to insert.\n\n    **Error Handling**:\n    - Returns an error if the substring is not found.\n    ",
+        "parameters": {
+            "properties": {
+                "filePath": {
+                    "title": "Filepath",
+                    "type": "string"
+                },
+                "search": {
+                    "title": "Search",
+                    "type": "string"
+                },
+                "replace": {
+                    "title": "Replace",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "filePath",
+                "search",
+                "replace"
+            ],
+            "title": "tool_search_replaceArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "ultimatecodermcp_tool_lint_json",
+        "description": "\n    Validate if a file is valid JSON.\n\n    **When to use 'tool_lint_json':**\n    1. You have a JSON file and want to ensure it has no syntax errors.\n\n    **Parameters**:\n    - file_path: str\n      The JSON file path.\n\n    **Error Handling**:\n    - Returns 'Linting Error' with details if invalid.\n\n    Returns:\n    - 'Linting Passed' if the file is valid JSON.\n    ",
+        "parameters": {
+            "properties": {
+                "file_path": {
+                    "title": "File Path",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "file_path"
+            ],
+            "title": "tool_lint_jsonArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "ultimatecodermcp_tool_lint_python",
+        "description": "\n    Lint a Python file using flake8 for style and syntax checks.\n\n    **When to use 'tool_lint_python':**\n    1. You want quick warnings about code style or minor issues.\n\n    **Parameters**:\n    - file_path: str\n      The .py file to check.\n\n    **Error Handling**:\n    - Returns an error message if flake8 cannot be run.\n\n    Returns:\n    - Lint results, or 'No linting issues found.' if clean.\n    ",
+        "parameters": {
+            "properties": {
+                "file_path": {
+                    "title": "File Path",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "file_path"
+            ],
+            "title": "tool_lint_pythonArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "ultimatecodermcp_tool_static_analysis_python",
+        "description": "\n    Perform deeper static analysis on a Python file using pylint.\n\n    **When to use 'tool_static_analysis_python':**\n    1. You want a more robust check for potential bugs and best practices.\n\n    **Parameters**:\n    - file_path: str\n      The Python file to analyze.\n\n    **Error Handling**:\n    - If pylint fails, returns an error message.\n\n    Returns:\n    - Pylint's report, or 'No static analysis issues found.' if empty.\n    ",
+        "parameters": {
+            "properties": {
+                "file_path": {
+                    "title": "File Path",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "file_path"
+            ],
+            "title": "tool_static_analysis_pythonArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "ultimatecodermcp_tool_line_python_file",
+        "description": "\n    Return a Python file's contents with line numbers.\n\n    **When to use 'tool_line_python_file':**\n    1. You want to display file lines with indices before partial edits.\n\n    **Parameters**:\n    - file_path: str\n      The Python file to number.\n\n    **Error Handling**:\n    - Returns an error if reading fails.\n    ",
+        "parameters": {
+            "properties": {
+                "file_path": {
+                    "title": "File Path",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "file_path"
+            ],
+            "title": "tool_line_python_fileArguments",
+            "type": "object"
+        }
+    }
+]

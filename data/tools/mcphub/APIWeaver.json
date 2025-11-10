@@ -1,0 +1,113 @@
+[
+    {
+        "name": "register_api",
+        "description": "Register a new API configuration and create MCP tools for its endpoints.\n\nArgs:\n    config: API configuration dictionary containing:\n        - name: API name\n        - base_url: Base URL for the API\n        - description: Optional API description\n        - auth: Optional authentication configuration\n        - headers: Optional global headers\n        - endpoints: List of endpoint configurations\n\nReturns:\n    Success message with list of created tools",
+        "parameters": {
+            "properties": {
+                "config": {
+                    "additionalProperties": true,
+                    "title": "Config",
+                    "type": "object"
+                }
+            },
+            "required": [
+                "config"
+            ],
+            "title": "register_apiArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_apis",
+        "description": "List all registered APIs and their endpoints.\n\nReturns:\n    Dictionary of registered APIs with their configurations",
+        "parameters": {
+            "properties": {},
+            "title": "list_apisArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "unregister_api",
+        "description": "Unregister an API and remove its tools.\n\nArgs:\n    api_name: Name of the API to unregister\n\nReturns:\n    Success message",
+        "parameters": {
+            "properties": {
+                "api_name": {
+                    "title": "Api Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "api_name"
+            ],
+            "title": "unregister_apiArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "test_api_connection",
+        "description": "Test connection to a registered API.\n\nArgs:\n    api_name: Name of the API to test\n\nReturns:\n    Connection test results",
+        "parameters": {
+            "properties": {
+                "api_name": {
+                    "title": "Api Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "api_name"
+            ],
+            "title": "test_api_connectionArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "call_api",
+        "description": "Call any registered API endpoint with dynamic parameters.\n\nThis is a generic tool that allows calling any registered API endpoint\nwithout having to use the specific endpoint tools. Useful for ad-hoc\nAPI calls or when you want more flexibility.\n\nArgs:\n    api_name: Name of the registered API to call\n    endpoint_name: Name of the endpoint within the API\n    parameters: Dictionary of parameters to pass to the endpoint\n    ctx: Optional context for logging\n\nReturns:\n    API response data and metadata\n\nExample:\n    # Call OpenWeatherMap API\n    result = await call_api(\n        api_name=\"OpenWeatherMap\",\n        endpoint_name=\"get_weather\",\n        parameters={\"q\": \"London\", \"units\": \"metric\"}\n    )\n    \n    # Call GitHub API\n    result = await call_api(\n        api_name=\"GitHub\",\n        endpoint_name=\"get_user\",\n        parameters={\"username\": \"octocat\"}\n    )",
+        "parameters": {
+            "properties": {
+                "endpoint_name": {
+                    "title": "Endpoint Name",
+                    "type": "string"
+                },
+                "api_name": {
+                    "title": "Api Name",
+                    "type": "string"
+                },
+                "parameters": {
+                    "additionalProperties": true,
+                    "title": "Parameters",
+                    "type": "object"
+                }
+            },
+            "required": [
+                "endpoint_name",
+                "api_name",
+                "parameters"
+            ],
+            "title": "call_apiArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_api_schema",
+        "description": "Get the schema/documentation for an API or specific endpoint.\n\nThis tool helps understand what parameters are available for API calls\nand their requirements before making actual calls.\n\nArgs:\n    api_name: Name of the registered API\n    endpoint_name: Optional specific endpoint name. If not provided, returns all endpoints\n    ctx: Optional context for logging\n\nReturns:\n    Schema information for the API or endpoint",
+        "parameters": {
+            "properties": {
+                "endpoint_name": {
+                    "title": "Endpoint Name",
+                    "type": "string"
+                },
+                "api_name": {
+                    "title": "Api Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "endpoint_name",
+                "api_name"
+            ],
+            "title": "get_api_schemaArguments",
+            "type": "object"
+        }
+    }
+]

@@ -1,0 +1,188 @@
+[
+    {
+        "name": "introspect_graphql_schema",
+        "description": "This tool introspects and returns the portion of the Shopify Admin API GraphQL schema relevant to the user prompt. Only use this for the Shopify Admin API, and not any other APIs like the Shopify Storefront API or the Shopify Functions API.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "conversationId": {
+                    "type": "string",
+                    "description": "🔗 REQUIRED: conversationId from learn_shopify_api tool. Call learn_shopify_api first if you don't have this."
+                },
+                "query": {
+                    "type": "string",
+                    "description": "Search term to filter schema elements by name. Only pass simple terms like 'product', 'discountProduct', etc."
+                },
+                "filter": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "all",
+                            "types",
+                            "queries",
+                            "mutations"
+                        ]
+                    },
+                    "default": [
+                        "all"
+                    ],
+                    "description": "Filter results to show specific sections. Valid values are 'types', 'queries', 'mutations', or 'all' (default)"
+                },
+                "api": {
+                    "type": "string",
+                    "enum": [
+                        "admin"
+                    ],
+                    "default": "admin",
+                    "description": "The API to introspect. Valid options are:\n- 'admin': The Admin API is the primary API for managing your Shopify store. It allows you to create and manage products, orders, customers, and more.\nDefault is 'admin'."
+                },
+                "version": {
+                    "type": "string",
+                    "enum": [
+                        "2024-10",
+                        "2025-01",
+                        "2025-04",
+                        "2025-07",
+                        "unstable"
+                    ],
+                    "default": "2025-07",
+                    "description": "The version of the API to introspect. MUST be one of '2024-10' or '2025-01' or '2025-04' or '2025-07' or 'unstable'. Default is '2025-07'."
+                }
+            },
+            "required": [
+                "conversationId",
+                "query"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "learn_shopify_api",
+        "description": "\n    🚨 MANDATORY FIRST STEP: This tool MUST be called before any other Shopify tools.\n\n    ⚠️  ALL OTHER SHOPIFY TOOLS WILL FAIL without a conversationId from this tool.\n    This tool generates a conversationId that is REQUIRED for all subsequent tool calls. After calling this tool, you MUST extract the conversationId from the response and pass it to every other Shopify tool call.\n\n    🔄 MULTIPLE API SUPPORT: You MUST call this tool multiple times in the same conversation when you need to learn about different Shopify APIs. THIS IS NOT OPTIONAL. Just pass the existing conversationId to maintain conversation continuity while loading the new API context.\n\n    For example, a user might ask a question about the Admin API, then switch to the Functions API, then ask a question about polaris UI components. In this case I would expect you to call learn_shopify_api three times with the following arguments:\n\n    - learn_shopify_api(api: \"admin\") -> conversationId: \"123\"\n    - learn_shopify_api(api: \"functions\", conversationId: \"123\")\n    - learn_shopify_api(api: \"polaris\", conversationId: \"123\")\n\n    This is because the conversationId is used to maintain conversation continuity while loading the new API context.\n\n    🚨 Valid arguments for `api` are:\n        - admin: The Admin GraphQL API lets you build apps and integrations that extend and enhance the Shopify admin.\n    - functions: Shopify Functions allow developers to customize the backend logic that powers parts of Shopify. Here are all the available APIs: Discount, Cart and Checkout Validation, Cart Transform, Pickup Point Delivery Option Generator, Delivery Customization, Fulfillment Constraints, Local Pickup Delivery Option Generator, Order Routing Location Rule, Payment Customization\n    - hydrogen: Shopify Hydrogen store feature implementation guides. Here are all the available feature guides: Bundles, Subscriptions, Combined Listings, Markets. Always use this tool first when implementing one of these features in a Hydrogen store. Keywords: hydrogen, localization, markets, subscriptions, selling plans, combined listings, bundles. \n    - storefront-web-components: How to create storefronts using Storefront Web Components. Storefront Web Components let you bring Shopify-powered commerce capabilities to any website. Shopify Storefront Web Components are a set of web components that enable developers to build customizable storefronts using only HTML and Shopify's APIs. Keywords: web components, html, shopify-store, shopify-context, shopify-list-context, shopify-data, shopify-media, shopify-money, shopify-cart, shopify-variant-selector\n\n    🔄 WORKFLOW:\n    1. Call learn_shopify_api first with the initial API\n    2. Extract the conversationId from the response\n    3. Pass that same conversationId to ALL other Shopify tools\n    4. If you need to know more about a different API at any point in the conversation, call learn_shopify_api again with the new API and the same conversationId\n\n\n    DON'T SEARCH THE WEB WHEN REFERENCING INFORMATION FROM THIS DOCUMENTATION. IT WILL NOT BE ACCURATE.\n    PREFER THE USE OF THE fetch_full_docs TOOL TO RETRIEVE INFORMATION FROM THE DEVELOPER DOCUMENTATION SITE.\n  ",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "api": {
+                    "type": "string",
+                    "enum": [
+                        "admin",
+                        "functions",
+                        "hydrogen",
+                        "storefront-web-components"
+                    ],
+                    "description": "The Shopify API you are building for"
+                },
+                "conversationId": {
+                    "type": "string",
+                    "description": "Optional existing conversation UUID. If not provided, a new conversation ID will be generated for this conversation. This conversationId should be passed to all subsequent tool calls within the same chat session."
+                }
+            },
+            "required": [
+                "api"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "search_docs_chunks",
+        "description": "This tool will take in the user prompt, search shopify.dev, and return relevant documentation and code examples that will help answer the user's question.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "conversationId": {
+                    "type": "string",
+                    "description": "🔗 REQUIRED: conversationId from learn_shopify_api tool. Call learn_shopify_api first if you don't have this."
+                },
+                "prompt": {
+                    "type": "string",
+                    "description": "The search query for Shopify documentation"
+                },
+                "max_num_results": {
+                    "type": "number",
+                    "description": "Maximum number of results to return from the search. Do not pass this when calling the tool for the first time, only use this when you want to limit the number of results deal with small context window issues."
+                }
+            },
+            "required": [
+                "conversationId",
+                "prompt"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "fetch_full_docs",
+        "description": "Use this tool to retrieve a list of full documentation pages from shopify.dev.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "conversationId": {
+                    "type": "string",
+                    "description": "🔗 REQUIRED: conversationId from learn_shopify_api tool. Call learn_shopify_api first if you don't have this."
+                },
+                "paths": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "The paths to the full documentation pages to read, i.e. [\"/docs/api/app-home\", \"/docs/api/functions\"]. Paths should be relative to the root of the developer documentation site."
+                }
+            },
+            "required": [
+                "conversationId",
+                "paths"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "validate_graphql_codeblocks",
+        "description": "This tool validates GraphQL code blocks against the Shopify GraphQL schema to ensure they don't contain hallucinated fields or operations. If a user asks for an LLM to generate a GraphQL operation, this tool should always be used to ensure valid code was generated.\n\n    It returns a comprehensive validation result with details for each code block explaining why it was valid or invalid. This detail is provided so LLMs know how to modify code snippets to remove errors.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "conversationId": {
+                    "type": "string",
+                    "description": "🔗 REQUIRED: conversationId from learn_shopify_api tool. Call learn_shopify_api first if you don't have this."
+                },
+                "api": {
+                    "type": "string",
+                    "enum": [
+                        "admin"
+                    ],
+                    "default": "admin",
+                    "description": "The GraphQL API to validate against. Valid options are:\n- 'admin': The Admin API is the primary API for managing your Shopify store. It allows you to create and manage products, orders, customers, and more.\nDefault is 'admin'."
+                },
+                "version": {
+                    "type": "string",
+                    "enum": [
+                        "2024-10",
+                        "2025-01",
+                        "2025-04",
+                        "2025-07",
+                        "unstable"
+                    ],
+                    "default": "2025-07",
+                    "description": "The version of the API to validate against. MUST be one of '2024-10' or '2025-01' or '2025-04' or '2025-07' or 'unstable'\nDefault is '2025-07'."
+                },
+                "codeblocks": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Array of GraphQL code blocks to validate"
+                }
+            },
+            "required": [
+                "conversationId",
+                "codeblocks"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

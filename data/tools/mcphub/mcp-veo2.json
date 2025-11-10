@@ -1,0 +1,341 @@
+[
+    {
+        "name": "generateVideoFromText",
+        "description": "Generate a video from a text prompt",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "prompt": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1000
+                },
+                "aspectRatio": {
+                    "type": "string",
+                    "enum": [
+                        "16:9",
+                        "9:16"
+                    ],
+                    "default": "16:9"
+                },
+                "personGeneration": {
+                    "type": "string",
+                    "enum": [
+                        "dont_allow",
+                        "allow_adult"
+                    ],
+                    "default": "dont_allow"
+                },
+                "numberOfVideos": {
+                    "type": "number",
+                    "enum": [
+                        1,
+                        2
+                    ],
+                    "default": 1
+                },
+                "durationSeconds": {
+                    "type": "number",
+                    "minimum": 5,
+                    "maximum": 8,
+                    "default": 5
+                },
+                "enhancePrompt": {
+                    "type": [
+                        "boolean",
+                        "string"
+                    ],
+                    "default": false
+                },
+                "negativePrompt": {
+                    "type": "string",
+                    "default": ""
+                },
+                "includeFullData": {
+                    "type": [
+                        "boolean",
+                        "string"
+                    ],
+                    "default": false
+                },
+                "autoDownload": {
+                    "type": [
+                        "boolean",
+                        "string"
+                    ],
+                    "default": true
+                }
+            },
+            "required": [
+                "prompt"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "generateVideoFromImage",
+        "description": "Generate a video from an image",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "prompt": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1000,
+                    "default": "Generate a video from this image"
+                },
+                "image": {
+                    "anyOf": [
+                        {
+                            "type": "object",
+                            "properties": {
+                                "type": {
+                                    "type": "string",
+                                    "const": "image"
+                                },
+                                "mimeType": {
+                                    "type": "string"
+                                },
+                                "data": {
+                                    "type": "string",
+                                    "minLength": 1
+                                }
+                            },
+                            "required": [
+                                "type",
+                                "mimeType",
+                                "data"
+                            ],
+                            "additionalProperties": false
+                        },
+                        {
+                            "type": "string",
+                            "format": "uri"
+                        },
+                        {
+                            "type": "string",
+                            "minLength": 1
+                        }
+                    ]
+                },
+                "aspectRatio": {
+                    "type": "string",
+                    "enum": [
+                        "16:9",
+                        "9:16"
+                    ],
+                    "default": "16:9"
+                },
+                "personGeneration": {
+                    "type": "string",
+                    "enum": [
+                        "dont_allow",
+                        "allow_adult"
+                    ],
+                    "default": "dont_allow"
+                },
+                "numberOfVideos": {
+                    "type": "number",
+                    "enum": [
+                        1,
+                        2
+                    ],
+                    "default": 1
+                },
+                "durationSeconds": {
+                    "type": "number",
+                    "minimum": 5,
+                    "maximum": 8,
+                    "default": 5
+                },
+                "enhancePrompt": {
+                    "type": [
+                        "boolean",
+                        "string"
+                    ],
+                    "default": false
+                },
+                "negativePrompt": {
+                    "type": "string",
+                    "default": ""
+                },
+                "includeFullData": {
+                    "type": [
+                        "boolean",
+                        "string"
+                    ],
+                    "default": false
+                },
+                "autoDownload": {
+                    "type": [
+                        "boolean",
+                        "string"
+                    ],
+                    "default": true
+                }
+            },
+            "required": [
+                "image"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "generateImage",
+        "description": "Generate an image from a text prompt using Google Imagen",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "prompt": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1000
+                },
+                "numberOfImages": {
+                    "type": "number",
+                    "minimum": 1,
+                    "maximum": 4,
+                    "default": 1
+                },
+                "includeFullData": {
+                    "type": [
+                        "boolean",
+                        "string"
+                    ],
+                    "default": false
+                }
+            },
+            "required": [
+                "prompt"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "generateVideoFromGeneratedImage",
+        "description": "Generate a video from a generated image (one-step process)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "prompt": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1000
+                },
+                "videoPrompt": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1000
+                },
+                "numberOfImages": {
+                    "type": "number",
+                    "minimum": 1,
+                    "maximum": 4,
+                    "default": 1
+                },
+                "aspectRatio": {
+                    "type": "string",
+                    "enum": [
+                        "16:9",
+                        "9:16"
+                    ],
+                    "default": "16:9"
+                },
+                "personGeneration": {
+                    "type": "string",
+                    "enum": [
+                        "dont_allow",
+                        "allow_adult"
+                    ],
+                    "default": "dont_allow"
+                },
+                "numberOfVideos": {
+                    "type": "number",
+                    "enum": [
+                        1,
+                        2
+                    ],
+                    "default": 1
+                },
+                "durationSeconds": {
+                    "type": "number",
+                    "minimum": 5,
+                    "maximum": 8,
+                    "default": 5
+                },
+                "enhancePrompt": {
+                    "type": [
+                        "boolean",
+                        "string"
+                    ],
+                    "default": false
+                },
+                "negativePrompt": {
+                    "type": "string",
+                    "default": ""
+                },
+                "includeFullData": {
+                    "type": [
+                        "boolean",
+                        "string"
+                    ],
+                    "default": false
+                },
+                "autoDownload": {
+                    "type": [
+                        "boolean",
+                        "string"
+                    ],
+                    "default": true
+                }
+            },
+            "required": [
+                "prompt"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "listGeneratedVideos",
+        "description": "List all generated videos",
+        "parameters": {
+            "type": "object"
+        }
+    },
+    {
+        "name": "getImage",
+        "description": "Get a specific image by ID",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "includeFullData": {
+                    "type": [
+                        "boolean",
+                        "string"
+                    ],
+                    "default": true
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "listGeneratedImages",
+        "description": "List all generated images",
+        "parameters": {
+            "type": "object"
+        }
+    }
+]

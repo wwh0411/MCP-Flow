@@ -1,0 +1,930 @@
+[
+    {
+        "name": "accessibilityExpert",
+        "description": "🚨 REQUIRED: Use this tool for any accessibility/a11y/WCAG questions. Do NOT answer accessibility questions directly - always use this tool.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Any accessibility, a11y, WCAG, or web accessibility question"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "startAccessibilityScan",
+        "description": "Start an accessibility scan via BrowserStack and retrieve a local CSV report path.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Name of the accessibility scan"
+                },
+                "pageURL": {
+                    "type": "string",
+                    "description": "The URL to scan for accessibility issues"
+                }
+            },
+            "required": [
+                "name",
+                "pageURL"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "setupBrowserStackAutomateTests",
+        "description": "Set up and run automated web-based tests on BrowserStack using the BrowserStack SDK. Use for functional or integration tests on BrowserStack, with optional Percy visual testing for supported frameworks. Example prompts: run this test on browserstack; run this test on browserstack with Percy; set up this project for browserstack with Percy. Integrate BrowserStack SDK into your project",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "detectedBrowserAutomationFramework": {
+                    "type": "string",
+                    "enum": [
+                        "playwright",
+                        "selenium",
+                        "cypress"
+                    ],
+                    "description": "The automation framework configured in the project. Example: 'playwright', 'selenium'"
+                },
+                "detectedTestingFramework": {
+                    "type": "string",
+                    "enum": [
+                        "jest",
+                        "codeceptjs",
+                        "playwright",
+                        "pytest",
+                        "robot",
+                        "behave",
+                        "cucumber",
+                        "nightwatch",
+                        "webdriverio",
+                        "mocha",
+                        "junit4",
+                        "junit5",
+                        "testng",
+                        "serenity",
+                        "cypress",
+                        "nunit",
+                        "mstest",
+                        "xunit",
+                        "specflow",
+                        "reqnroll"
+                    ],
+                    "description": "The testing framework used in the project. Be precise with framework selection Example: 'webdriverio', 'jest', 'pytest', 'junit4', 'junit5', 'mocha'"
+                },
+                "detectedLanguage": {
+                    "type": "string",
+                    "enum": [
+                        "nodejs",
+                        "python",
+                        "java",
+                        "csharp"
+                    ],
+                    "description": "The programming language used in the project. Example: 'nodejs', 'python', 'java', 'csharp'"
+                },
+                "desiredPlatforms": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "windows",
+                            "macos",
+                            "android",
+                            "ios"
+                        ]
+                    },
+                    "description": "The platforms the user wants to test on. Always ask this to the user, do not try to infer this."
+                },
+                "enablePercy": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Set to true if the user wants to enable Percy for visual testing. Defaults to false."
+                }
+            },
+            "required": [
+                "detectedBrowserAutomationFramework",
+                "detectedTestingFramework",
+                "detectedLanguage",
+                "desiredPlatforms"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "runAppLiveSession",
+        "description": "Use this tool when user wants to manually check their app on a particular mobile device using BrowserStack's cloud infrastructure. Can be used to debug crashes, slow performance, etc.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "desiredPhone": {
+                    "type": "string",
+                    "description": "The full name of the device to run the app on. Example: 'iPhone 12 Pro' or 'Samsung Galaxy S20' or 'Google Pixel 6'. Always ask the user for the device they want to use, do not assume it. "
+                },
+                "desiredPlatformVersion": {
+                    "type": "string",
+                    "description": "Specifies the platform version to run the app on. For example, use '12.0' for Android or '16.0' for iOS. If the user says 'latest', 'newest', or similar, normalize it to 'latest'. Likewise, convert terms like 'earliest' or 'oldest' to 'oldest'."
+                },
+                "desiredPlatform": {
+                    "type": "string",
+                    "enum": [
+                        "android",
+                        "ios"
+                    ],
+                    "description": "Which platform to run on, examples: 'android', 'ios'. Set this based on the app path provided."
+                },
+                "appPath": {
+                    "type": "string",
+                    "description": "The path to the .ipa or .apk file to install on the device. Always ask the user for the app path, do not assume it."
+                }
+            },
+            "required": [
+                "desiredPhone",
+                "desiredPlatformVersion",
+                "desiredPlatform",
+                "appPath"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "runBrowserLiveSession",
+        "description": "Launch a BrowserStack Live session (desktop or mobile).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "platformType": {
+                    "type": "string",
+                    "enum": [
+                        "desktop",
+                        "mobile"
+                    ],
+                    "description": "Must be 'desktop' or 'mobile'"
+                },
+                "desiredURL": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "The URL to test"
+                },
+                "desiredOS": {
+                    "type": "string",
+                    "enum": [
+                        "Windows",
+                        "OS X",
+                        "android",
+                        "ios",
+                        "winphone"
+                    ],
+                    "description": "Desktop OS ('Windows' or 'OS X') or mobile OS ('android','ios','winphone')"
+                },
+                "desiredOSVersion": {
+                    "type": "string",
+                    "description": "The OS version must be specified as a version number (e.g., '10', '14.0') or as a keyword such as 'latest' or 'oldest'. Normalize variations like 'newest' or 'most recent' to 'latest', and terms like 'earliest' or 'first' to 'oldest'. For macOS, version names (e.g., 'Sequoia') must be used instead of numeric versions."
+                },
+                "desiredBrowser": {
+                    "type": "string",
+                    "enum": [
+                        "chrome",
+                        "firefox",
+                        "safari",
+                        "edge",
+                        "ie"
+                    ],
+                    "description": "Browser for desktop (Chrome, IE, Firefox, Safari, Edge)"
+                },
+                "desiredBrowserVersion": {
+                    "type": "string",
+                    "description": "Browser version for desktop (e.g. '133.2', 'latest'). If the user says 'latest', 'newest', or similar, normalize it to 'latest'. Likewise, convert terms like 'earliest' or 'oldest' to 'oldest'."
+                },
+                "desiredDevice": {
+                    "type": "string",
+                    "description": "Device name for mobile"
+                }
+            },
+            "required": [
+                "platformType",
+                "desiredURL",
+                "desiredOS",
+                "desiredOSVersion",
+                "desiredBrowser"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "createProjectOrFolder",
+        "description": "Create a project and/or folder in BrowserStack Test Management.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "project_name": {
+                    "type": "string",
+                    "description": "Name of the project to create."
+                },
+                "project_description": {
+                    "type": "string",
+                    "description": "Description for the new project."
+                },
+                "project_identifier": {
+                    "type": "string",
+                    "description": "Existing project identifier to use for folder creation."
+                },
+                "folder_name": {
+                    "type": "string",
+                    "description": "Name of the folder to create."
+                },
+                "folder_description": {
+                    "type": "string",
+                    "description": "Description for the new folder."
+                },
+                "parent_id": {
+                    "type": "number",
+                    "description": "Parent folder ID; if omitted, folder is created at root."
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "createTestCase",
+        "description": "Use this tool to create a test case in BrowserStack Test Management.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "project_identifier": {
+                    "type": "string",
+                    "description": "The ID of the BrowserStack project where the test case should be created. If no project identifier is provided, ask the user if they would like to create a new project using the createProjectOrFolder tool."
+                },
+                "folder_id": {
+                    "type": "string",
+                    "description": "The ID of the folder within the project where the test case should be created. If not provided, ask the user if they would like to create a new folder using the createProjectOrFolder tool."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the test case."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Brief description of the test case."
+                },
+                "owner": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "Email of the test case owner."
+                },
+                "preconditions": {
+                    "type": "string",
+                    "description": "Any preconditions (HTML allowed)."
+                },
+                "test_case_steps": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "step": {
+                                "type": "string",
+                                "description": "Action to perform in this step."
+                            },
+                            "result": {
+                                "type": "string",
+                                "description": "Expected result of this step."
+                            }
+                        },
+                        "required": [
+                            "step",
+                            "result"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "List of steps and expected results."
+                },
+                "issues": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of the linked Jira, Asana or Azure issues ID's. This should be strictly in array format not the string of json."
+                },
+                "issue_tracker": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "description": "Issue tracker name,  For example, use jira for Jira, azure for Azure DevOps, or asana for Asana."
+                        },
+                        "host": {
+                            "type": "string",
+                            "format": "uri",
+                            "description": "Base URL of the issue tracker."
+                        }
+                    },
+                    "required": [
+                        "name",
+                        "host"
+                    ],
+                    "additionalProperties": false
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Tags to attach to the test case. This should be strictly in array format not the string of json"
+                },
+                "custom_fields": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "description": "Map of custom field names to values."
+                }
+            },
+            "required": [
+                "project_identifier",
+                "folder_id",
+                "name",
+                "test_case_steps"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "listTestCases",
+        "description": "List test cases in a project with optional filters (status, priority, custom fields, etc.)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "project_identifier": {
+                    "type": "string",
+                    "description": "Identifier of the project to fetch test cases from. This id starts with a PR- and is followed by a number."
+                },
+                "folder_id": {
+                    "type": "string",
+                    "description": "If provided, only return cases in this folder."
+                },
+                "case_type": {
+                    "type": "string",
+                    "description": "Comma-separated list of case types (e.g. functional,regression)."
+                },
+                "priority": {
+                    "type": "string",
+                    "description": "Comma-separated list of priorities (e.g. critical,medium,low)."
+                },
+                "p": {
+                    "type": "number",
+                    "description": "Page number."
+                }
+            },
+            "required": [
+                "project_identifier"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "createTestRun",
+        "description": "Create a test run in BrowserStack Test Management.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "project_identifier": {
+                    "type": "string",
+                    "description": "Identifier of the project in which to create the test run."
+                },
+                "test_run": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "description": "Name of the test run"
+                        },
+                        "description": {
+                            "type": "string",
+                            "description": "Brief information about the test run"
+                        },
+                        "run_state": {
+                            "type": "string",
+                            "enum": [
+                                "new_run",
+                                "in_progress",
+                                "under_review",
+                                "rejected",
+                                "done",
+                                "closed"
+                            ],
+                            "description": "State of the test run. One of new_run, in_progress, under_review, rejected, done, closed"
+                        },
+                        "issues": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Linked issue IDs"
+                        },
+                        "issue_tracker": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "host": {
+                                    "type": "string",
+                                    "format": "uri"
+                                }
+                            },
+                            "required": [
+                                "name",
+                                "host"
+                            ],
+                            "additionalProperties": false,
+                            "description": "Issue tracker configuration"
+                        },
+                        "test_cases": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "List of test case IDs"
+                        },
+                        "folder_ids": {
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            },
+                            "description": "Folder IDs to include"
+                        }
+                    },
+                    "required": [
+                        "name"
+                    ],
+                    "additionalProperties": false
+                }
+            },
+            "required": [
+                "project_identifier",
+                "test_run"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "listTestRuns",
+        "description": "List test runs in a project with optional filters (date ranges, assignee, state, etc.)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "project_identifier": {
+                    "type": "string",
+                    "description": "Identifier of the project to fetch test runs from (usually starts with PR-)."
+                },
+                "run_state": {
+                    "type": "string",
+                    "description": "Return all test runs with this state (comma-separated)"
+                }
+            },
+            "required": [
+                "project_identifier"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "updateTestRun",
+        "description": "Update a test run in BrowserStack Test Management.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "project_identifier": {
+                    "type": "string",
+                    "description": "Identifier of the project (Starts with 'PR-')"
+                },
+                "test_run_id": {
+                    "type": "string",
+                    "description": "Test run identifier (e.g., TR-678)"
+                },
+                "test_run": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "description": "New name of the test run"
+                        },
+                        "run_state": {
+                            "type": "string",
+                            "enum": [
+                                "new_run",
+                                "in_progress",
+                                "under_review",
+                                "rejected",
+                                "done",
+                                "closed"
+                            ],
+                            "description": "Updated state of the test run"
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            },
+            "required": [
+                "project_identifier",
+                "test_run_id",
+                "test_run"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "addTestResult",
+        "description": "Add a test result to a specific test run via BrowserStack Test Management API.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "project_identifier": {
+                    "type": "string",
+                    "description": "Identifier of the project (Starts with 'PR-')"
+                },
+                "test_run_id": {
+                    "type": "string",
+                    "description": "Identifier of the test run (e.g., TR-678)"
+                },
+                "test_result": {
+                    "type": "object",
+                    "properties": {
+                        "status": {
+                            "type": "string",
+                            "description": "Status of the test result, e.g., 'passed', 'failed'."
+                        },
+                        "description": {
+                            "type": "string",
+                            "description": "Optional description of the test result."
+                        }
+                    },
+                    "required": [
+                        "status"
+                    ],
+                    "additionalProperties": false
+                },
+                "test_case_id": {
+                    "type": "string",
+                    "description": "Identifier of the test case, e.g., 'TC-13'."
+                }
+            },
+            "required": [
+                "project_identifier",
+                "test_run_id",
+                "test_result",
+                "test_case_id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "uploadProductRequirementFile",
+        "description": "Upload files (e.g., PDRs, PDFs) to BrowserStack Test Management and retrieve a file mapping ID. This is utilized for generating test cases from files and is part of the Test Case Generator AI Agent in BrowserStack.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "project_identifier": {
+                    "type": "string",
+                    "description": "ID of the project where the file should be uploaded. Do not assume it, always ask user for it."
+                },
+                "file_path": {
+                    "type": "string",
+                    "description": "Full path to the file that should be uploaded"
+                }
+            },
+            "required": [
+                "project_identifier",
+                "file_path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "createTestCasesFromFile",
+        "description": "Generate test cases from a file in BrowserStack Test Management using the Test Case Generator AI Agent.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "documentId": {
+                    "type": "string",
+                    "description": "Internal document identifier"
+                },
+                "folderId": {
+                    "type": "string",
+                    "description": "BrowserStack folder ID"
+                },
+                "projectReferenceId": {
+                    "type": "string",
+                    "description": "The BrowserStack project reference ID is a unique identifier found in the project URL within the BrowserStack Test Management Platform. This ID is also returned by the Upload Document tool."
+                }
+            },
+            "required": [
+                "documentId",
+                "folderId",
+                "projectReferenceId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "createLCASteps",
+        "description": "Generate Low Code Automation (LCA) steps for a test case in BrowserStack Test Management using the Low Code Automation Agent.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "project_identifier": {
+                    "type": "string",
+                    "description": "ID of the project (Starts with 'PR-')"
+                },
+                "test_case_identifier": {
+                    "type": "string",
+                    "description": "Identifier of the test case (e.g., 'TC-12345')"
+                },
+                "base_url": {
+                    "type": "string",
+                    "description": "Base URL for the test (e.g., 'google.com')"
+                },
+                "credentials": {
+                    "type": "object",
+                    "properties": {
+                        "username": {
+                            "type": "string",
+                            "description": "Username for authentication"
+                        },
+                        "password": {
+                            "type": "string",
+                            "description": "Password for authentication"
+                        }
+                    },
+                    "required": [
+                        "username",
+                        "password"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Optional credentials for authentication. Extract from the test case details if provided in it. This is required for the test cases which require authentication."
+                },
+                "local_enabled": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether local testing is enabled"
+                },
+                "test_name": {
+                    "type": "string",
+                    "description": "Name of the test"
+                },
+                "test_case_details": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "description": "Name of the test case"
+                        },
+                        "description": {
+                            "type": "string",
+                            "description": "Description of the test case"
+                        },
+                        "preconditions": {
+                            "type": "string",
+                            "description": "Preconditions for the test case"
+                        },
+                        "test_case_steps": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "step": {
+                                        "type": "string",
+                                        "description": "Test step description"
+                                    },
+                                    "result": {
+                                        "type": "string",
+                                        "description": "Expected result"
+                                    }
+                                },
+                                "required": [
+                                    "step",
+                                    "result"
+                                ],
+                                "additionalProperties": false
+                            },
+                            "description": "Array of test case steps with expected results"
+                        }
+                    },
+                    "required": [
+                        "name",
+                        "description",
+                        "preconditions",
+                        "test_case_steps"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Test case details including steps"
+                },
+                "wait_for_completion": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether to wait for LCA build completion (default: true)"
+                }
+            },
+            "required": [
+                "project_identifier",
+                "test_case_identifier",
+                "base_url",
+                "test_name",
+                "test_case_details"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "takeAppScreenshot",
+        "description": "Use this tool to take a screenshot of an app running on a BrowserStack device. This is useful for visual testing and debugging.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "desiredPhone": {
+                    "type": "string",
+                    "description": "The full name of the device to run the app on. Example: 'iPhone 12 Pro' or 'Samsung Galaxy S20'. Always ask the user for the device they want to use."
+                },
+                "desiredPlatformVersion": {
+                    "type": "string",
+                    "description": "The platform version to run the app on. Use 'latest' or 'oldest' for dynamic resolution."
+                },
+                "desiredPlatform": {
+                    "type": "string",
+                    "enum": [
+                        "android",
+                        "ios"
+                    ],
+                    "description": "Platform to run the app on. Either 'android' or 'ios'."
+                },
+                "appPath": {
+                    "type": "string",
+                    "description": "The path to the .apk or .ipa file. Required for app installation."
+                }
+            },
+            "required": [
+                "desiredPhone",
+                "desiredPlatformVersion",
+                "desiredPlatform",
+                "appPath"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "runAppTestsOnBrowserStack",
+        "description": "Run AppAutomate tests on BrowserStack by uploading app and test suite. If running from Android Studio or Xcode, the tool will help export app and test files automatically. For other environments, you'll need to provide the paths to your pre-built app and test files.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "appPath": {
+                    "type": "string",
+                    "description": "Path to your application file:\nIf in development IDE directory:\n• For Android: 'gradle assembleDebug'\n• For iOS:\n  xcodebuild clean -scheme YOUR_SCHEME && \\\n  xcodebuild archive -scheme YOUR_SCHEME -configuration Release -archivePath build/app.xcarchive && \\\n  xcodebuild -exportArchive -archivePath build/app.xcarchive -exportPath build/ipa -exportOptionsPlist exportOptions.plist\n\nIf in other directory, provide existing app path"
+                },
+                "testSuitePath": {
+                    "type": "string",
+                    "description": "Path to your test suite file:\nIf in development IDE directory:\n• For Android: 'gradle assembleAndroidTest'\n• For iOS:\n  xcodebuild test-without-building -scheme YOUR_SCHEME -destination 'generic/platform=iOS' && \\\n  cd ~/Library/Developer/Xcode/DerivedData/*/Build/Products/Debug-iphonesimulator/ && \\\n  zip -r Tests.zip *.xctestrun *-Runner.app\n\nIf in other directory, provide existing test file path"
+                },
+                "devices": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of devices to run the test on, e.g., ['Samsung Galaxy S20-10.0', 'iPhone 12 Pro-16.0']."
+                },
+                "project": {
+                    "type": "string",
+                    "default": "BStack-AppAutomate-Suite",
+                    "description": "Project name for organizing test runs on BrowserStack."
+                },
+                "detectedAutomationFramework": {
+                    "type": "string",
+                    "description": "The automation framework used in the project, such as 'espresso' (Android) or 'xcuitest' (iOS)."
+                }
+            },
+            "required": [
+                "appPath",
+                "testSuitePath",
+                "devices",
+                "detectedAutomationFramework"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "getFailureLogs",
+        "description": "Fetch various types of logs from a BrowserStack session. Supports both automate and app-automate sessions.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "sessionType": {
+                    "type": "string",
+                    "enum": [
+                        "automate",
+                        "app-automate"
+                    ],
+                    "description": "Type of BrowserStack session. Must be explicitly provided by the user."
+                },
+                "sessionId": {
+                    "type": "string",
+                    "description": "The BrowserStack session ID. Must be explicitly provided by the user."
+                },
+                "buildId": {
+                    "type": "string",
+                    "description": "Required only when sessionType is 'app-automate'. If sessionType is 'app-automate', always ask the user to provide the build ID before proceeding."
+                },
+                "logTypes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "networkLogs",
+                            "sessionLogs",
+                            "consoleLogs",
+                            "deviceLogs",
+                            "appiumLogs",
+                            "crashLogs"
+                        ]
+                    },
+                    "description": "The types of logs to fetch."
+                }
+            },
+            "required": [
+                "sessionType",
+                "sessionId",
+                "logTypes"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "fetchAutomationScreenshots",
+        "description": "Fetch and process screenshots from a BrowserStack Automate session",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "sessionId": {
+                    "type": "string",
+                    "description": "The BrowserStack session ID to fetch screenshots from"
+                },
+                "sessionType": {
+                    "type": "string",
+                    "enum": [
+                        "automate",
+                        "app-automate"
+                    ],
+                    "description": "Type of BrowserStack session"
+                }
+            },
+            "required": [
+                "sessionId",
+                "sessionType"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "fetchSelfHealedSelectors",
+        "description": "Retrieves AI-generated, self-healed selectors for a BrowserStack Automate session to resolve flaky tests caused by dynamic DOM changes.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "sessionId": {
+                    "type": "string",
+                    "description": "The session ID of the test run"
+                }
+            },
+            "required": [
+                "sessionId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

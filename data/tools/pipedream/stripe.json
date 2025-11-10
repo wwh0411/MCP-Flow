@@ -1,0 +1,1747 @@
+[
+    {
+        "name": "stripe-cancel-or-reverse-payout",
+        "description": "Cancel a pending payout or reverse a paid payout. [See the documentation here](https://docs.stripe.com/api/payouts/cancel) and [here](https://docs.stripe.com/api/payouts/reverse)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "alert": {
+                    "type": "string",
+                    "description": ""
+                },
+                "id": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "stripe-cancel-payment-intent",
+        "description": "Cancel a PaymentIntent. [See the documentation](https://stripe.com/docs/payments/payment-intents).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "alert": {
+                    "type": "string",
+                    "description": ""
+                },
+                "id": {
+                    "type": "string",
+                    "description": ""
+                },
+                "cancellationReason": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "stripe-cancel-subscription",
+        "description": "Cancel a subscription. [See the documentation](https://docs.stripe.com/api/subscriptions/cancel?lang=node)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "subscriptionId": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "stripe-capture-payment-intent",
+        "description": "Capture the funds of an existing uncaptured payment intent. [See the documentation](https://stripe.com/docs/api/payment_intents/capture).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "alert": {
+                    "type": "string",
+                    "description": ""
+                },
+                "id": {
+                    "type": "string",
+                    "description": ""
+                },
+                "amountToCapture": {
+                    "type": "string",
+                    "description": "The amount to capture from the PaymentIntent, which must be less than or equal to the original amount. Defaults to the full `amount_capturable` if it's not provided."
+                },
+                "metadata": {
+                    "type": "string",
+                    "description": ""
+                },
+                "applicationFeeAmount": {
+                    "type": "string",
+                    "description": "The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner’s Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents use case for connected accounts."
+                },
+                "finalCapture": {
+                    "type": "string",
+                    "description": "When capturing a PaymentIntent, setting final_capture to false notifies Stripe to not release the remaining uncaptured funds to make sure that they're captured in future requests. You can only use this setting when multicapture is available for PaymentIntents."
+                },
+                "statementDescriptor": {
+                    "type": "string",
+                    "description": ""
+                },
+                "statementDescriptorSuffix": {
+                    "type": "string",
+                    "description": "Provides information about a card charge. Concatenated to the account’s statement descriptor prefix to form the complete statement descriptor that appears on the customer’s statement."
+                },
+                "transferDataAmount": {
+                    "type": "string",
+                    "description": "The amount that will be transferred automatically when a charge succeeds."
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "stripe-confirm-payment-intent",
+        "description": "Confirm that your customer intends to pay with current or provided payment method. [See the documentation](https://stripe.com/docs/api/payment_intents/confirm).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "alert": {
+                    "type": "string",
+                    "description": ""
+                },
+                "id": {
+                    "type": "string",
+                    "description": ""
+                },
+                "customer": {
+                    "type": "string",
+                    "description": ""
+                },
+                "paymentMethod": {
+                    "type": "string",
+                    "description": ""
+                },
+                "receiptEmail": {
+                    "type": "string",
+                    "description": "Email address that the receipt for the resulting payment will be sent to. If receipt_email is specified for a payment in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails)."
+                },
+                "setupFutureUsage": {
+                    "type": "string",
+                    "description": ""
+                },
+                "shippingAddressCity": {
+                    "type": "string",
+                    "description": ""
+                },
+                "shippingAddressCountry": {
+                    "type": "string",
+                    "description": ""
+                },
+                "shippingAddressLine1": {
+                    "type": "string",
+                    "description": ""
+                },
+                "shippingAddressLine2": {
+                    "type": "string",
+                    "description": ""
+                },
+                "shippingAddressPostalCode": {
+                    "type": "string",
+                    "description": ""
+                },
+                "shippingAddressState": {
+                    "type": "string",
+                    "description": ""
+                },
+                "shippingName": {
+                    "type": "string",
+                    "description": ""
+                },
+                "shippingCarrier": {
+                    "type": "string",
+                    "description": ""
+                },
+                "shippingPhone": {
+                    "type": "string",
+                    "description": ""
+                },
+                "shippingTrackingNumber": {
+                    "type": "string",
+                    "description": ""
+                },
+                "captureMethod": {
+                    "type": "string",
+                    "description": "Controls when the funds will be captured from the customer's account."
+                },
+                "confirmationToken": {
+                    "type": "string",
+                    "description": "ID of the ConfirmationToken used to confirm this PaymentIntent."
+                },
+                "errorOnRequiresAction": {
+                    "type": "string",
+                    "description": "Set to true to fail the payment attempt if the PaymentIntent transitions into requires_action. This parameter is intended for simpler integrations that do not handle customer actions, like saving cards without authentication."
+                },
+                "mandate": {
+                    "type": "string",
+                    "description": "ID of the mandate that's used for this payment."
+                },
+                "mandateDataCustomerAcceptanceType": {
+                    "type": "string",
+                    "description": "The type of customer acceptance information included with the Mandate."
+                },
+                "mandateDataCustomerAcceptanceAcceptedAt": {
+                    "type": "string",
+                    "description": "The time at which the customer accepted the Mandate."
+                },
+                "mandateDataCustomerAcceptanceOffline": {
+                    "type": "string",
+                    "description": "If this is a Mandate accepted offline, this hash contains details about the offline acceptance."
+                },
+                "mandateDataCustomerAcceptanceOnlineIpAddress": {
+                    "type": "string",
+                    "description": "The IP address from which the Mandate was accepted by the customer."
+                },
+                "mandateDataCustomerAcceptanceOnlineUserAgent": {
+                    "type": "string",
+                    "description": "The user agent of the browser from which the Mandate was accepted by the customer."
+                },
+                "offSession": {
+                    "type": "string",
+                    "description": "Set to true to indicate that the customer isn't in your checkout flow during this payment attempt and can't authenticate. Use this parameter in scenarios where you collect card details and charge them later."
+                },
+                "paymentMethodData": {
+                    "type": "string",
+                    "description": "If provided, this hash will be used to create a PaymentMethod. The new PaymentMethod will appear in the [payment_method](https://docs.stripe.com/api/payment_intents/object#payment_intent_object-payment_method) property on the PaymentIntent. [See the documentation](https://docs.stripe.com/api/payment_intents/confirm#confirm_payment_intent-payment_method_data)."
+                },
+                "paymentMethodOptions": {
+                    "type": "string",
+                    "description": "Payment method-specific configuration for this PaymentIntent. [See the documentation](https://docs.stripe.com/api/payment_intents/confirm#confirm_payment_intent-payment_method_options)."
+                },
+                "paymentMethodTypes": {
+                    "type": "string",
+                    "description": ""
+                },
+                "radarOptionsSession": {
+                    "type": "string",
+                    "description": "A Radar Session is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments."
+                },
+                "returnUrl": {
+                    "type": "string",
+                    "description": "The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site. If you'd prefer to redirect to a mobile application, you can alternatively supply an application URI scheme. This parameter is only used for cards and other redirect-based payment methods."
+                },
+                "useStripeSdk": {
+                    "type": "string",
+                    "description": "Set to true when confirming server-side and using Stripe.js, iOS, or Android client-side SDKs to handle the next actions."
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "stripe-create-billing-meter",
+        "description": "Creates a billing meter. [See the documentation](https://docs.stripe.com/api/billing/meter/create).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "alert": {
+                    "type": "string",
+                    "description": ""
+                },
+                "defaultAggregationFormula": {
+                    "type": "string",
+                    "description": "Specifies how events are aggregated"
+                },
+                "displayName": {
+                    "type": "string",
+                    "description": "The meter's name. Not visible to the customer."
+                },
+                "eventName": {
+                    "type": "string",
+                    "description": "The name of the meter event to record usage for. Corresponds with the `event_name` field on meter events."
+                },
+                "customerMappingEventPayloadKey": {
+                    "type": "string",
+                    "description": "The key in the meter event payload to use for mapping the event to a customer."
+                },
+                "eventTimeWindow": {
+                    "type": "string",
+                    "description": "The time window to pre-aggregate meter events for, if any."
+                },
+                "valueSettingsEventPayloadKey": {
+                    "type": "string",
+                    "description": "The key in the usage event payload to use as the value for this meter. For example, if the event payload contains usage on a `bytes_used` field, then set it to `bytes_used`."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "stripe-create-customer",
+        "description": "Create a customer. [See the documentation](https://stripe.com/docs/api/customers/create).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The customer's full name or business name."
+                },
+                "description": {
+                    "type": "string",
+                    "description": ""
+                },
+                "email": {
+                    "type": "string",
+                    "description": ""
+                },
+                "addressCity": {
+                    "type": "string",
+                    "description": ""
+                },
+                "addressCountry": {
+                    "type": "string",
+                    "description": ""
+                },
+                "addressLine1": {
+                    "type": "string",
+                    "description": ""
+                },
+                "addressLine2": {
+                    "type": "string",
+                    "description": ""
+                },
+                "addressPostalCode": {
+                    "type": "string",
+                    "description": ""
+                },
+                "addressState": {
+                    "type": "string",
+                    "description": ""
+                },
+                "metadata": {
+                    "type": "string",
+                    "description": ""
+                },
+                "paymentMethodType": {
+                    "type": "string",
+                    "description": "The type of payment method to create"
+                },
+                "paymentMethod": {
+                    "type": "string",
+                    "description": ""
+                },
+                "phone": {
+                    "type": "string",
+                    "description": ""
+                },
+                "shippingAddressCity": {
+                    "type": "string",
+                    "description": ""
+                },
+                "shippingAddressCountry": {
+                    "type": "string",
+                    "description": ""
+                },
+                "shippingAddressLine1": {
+                    "type": "string",
+                    "description": ""
+                },
+                "shippingAddressLine2": {
+                    "type": "string",
+                    "description": ""
+                },
+                "shippingAddressPostalCode": {
+                    "type": "string",
+                    "description": ""
+                },
+                "shippingAddressState": {
+                    "type": "string",
+                    "description": ""
+                },
+                "shippingName": {
+                    "type": "string",
+                    "description": ""
+                },
+                "shippingPhone": {
+                    "type": "string",
+                    "description": ""
+                },
+                "taxIpAddress": {
+                    "type": "string",
+                    "description": "A recent IP address of the customer used for tax reporting and tax location inference. Stripe recommends updating the IP address when a new PaymentMethod is attached or the address field on the customer is updated. We recommend against updating this field more frequently since it could result in unexpected tax location/reporting outcomes."
+                },
+                "taxValidateLocation": {
+                    "type": "string",
+                    "description": "A flag that indicates when Stripe should validate the customer tax location. Defaults to deferred."
+                },
+                "balance": {
+                    "type": "string",
+                    "description": "An integer amount in cents that represents the customer's current balance, which affect the customer's future invoices. A negative amount represents a credit that decreases the amount due on an invoice; a positive amount increases the amount due on an invoice."
+                },
+                "cashBalanceSettingsReconciliationMode": {
+                    "type": "string",
+                    "description": "Controls how funds transferred by the customer are applied to payment intents and invoices. Valid options are automatic, manual, or merchant_default. For more information about these reconciliation modes, see Reconciliation."
+                },
+                "invoicePrefix": {
+                    "type": "string",
+                    "description": "The prefix for the customer used to generate unique invoice numbers. Must be 3–12 uppercase letters or numbers."
+                },
+                "invoiceSettingsCustomFields": {
+                    "type": "string",
+                    "description": "The list of up to 4 default custom fields to be displayed on invoices for this customer. When updating, pass an empty string to remove previously-defined fields."
+                },
+                "invoiceSettingsDefaultPaymentMethod": {
+                    "type": "string",
+                    "description": "ID of a payment method that's attached to the customer, to be used as the customer's default payment method for subscriptions and invoices."
+                },
+                "invoiceSettingsRenderingOptionsAmountTaxDisplay": {
+                    "type": "string",
+                    "description": "How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of exclude_tax or include_inclusive_tax. include_inclusive_tax will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. exclude_tax will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts."
+                },
+                "nextInvoiceSequence": {
+                    "type": "number",
+                    "description": "The sequence to be used on the customer's next invoice. Defaults to 1."
+                },
+                "preferredLocales": {
+                    "type": "string",
+                    "description": "Customer's preferred languages, ordered by preference."
+                },
+                "source": {
+                    "type": "string",
+                    "description": "When using payment sources created via the Token or Sources APIs, passing source will create a new source object, make it the new customer default source, and delete the old customer default if one exists. If you want to add additional sources instead of replacing the existing default, use the card creation API. Whenever you attach a card to a customer, Stripe will automatically validate the card."
+                },
+                "taxExempt": {
+                    "type": "string",
+                    "description": "The customer's tax exemption. One of none, exempt, or reverse."
+                },
+                "taxIdData": {
+                    "type": "string",
+                    "description": "The customer's tax IDs. [See the documentation](https://docs.stripe.com/api/customers/create#create_customer-tax_id_data)."
+                },
+                "testClock": {
+                    "type": "string",
+                    "description": "ID of the test clock to attach to the customer."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "stripe-create-invoice",
+        "description": "Create an invoice. [See the documentation](https://stripe.com/docs/api/invoices/create).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "autoAdvance": {
+                    "type": "string",
+                    "description": ""
+                },
+                "automaticTaxEnabled": {
+                    "type": "string",
+                    "description": "Whether Stripe automatically computes tax on this invoice. Note that incompatible invoice items (invoice items with manually specified tax rates, negative amounts, or tax_behavior=unspecified) cannot be added to automatic tax invoices."
+                },
+                "automaticTaxLiabilityType": {
+                    "type": "string",
+                    "description": "Type of the account referenced in the request."
+                },
+                "automaticTaxLiabilityAccount": {
+                    "type": "string",
+                    "description": "The connected account being referenced when type is account."
+                },
+                "collectionMethod": {
+                    "type": "string",
+                    "description": ""
+                },
+                "customer": {
+                    "type": "string",
+                    "description": ""
+                },
+                "description": {
+                    "type": "string",
+                    "description": ""
+                },
+                "metadata": {
+                    "type": "string",
+                    "description": ""
+                },
+                "subscription": {
+                    "type": "string",
+                    "description": ""
+                },
+                "daysUntilDue": {
+                    "type": "string",
+                    "description": "The number of days from when the invoice is created until it is due. Valid only for invoices where `collection_method=send_invoice`."
+                },
+                "defaultPaymentMethod": {
+                    "type": "string",
+                    "description": "Must belong to the customer associated with the invoice. If not set, defaults to the subscription's default payment method, if any, or to the default payment method in the customer's invoice settings."
+                }
+            },
+            "required": [
+                "customer"
+            ]
+        }
+    },
+    {
+        "name": "stripe-create-invoice-item",
+        "description": "Add a line item to an invoice. [See the documentation](https://stripe.com/docs/api/invoiceitems/create).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "customer": {
+                    "type": "string",
+                    "description": ""
+                },
+                "amount": {
+                    "type": "string",
+                    "description": ""
+                },
+                "currency": {
+                    "type": "string",
+                    "description": ""
+                },
+                "description": {
+                    "type": "string",
+                    "description": ""
+                },
+                "metadata": {
+                    "type": "string",
+                    "description": ""
+                },
+                "pricingPrice": {
+                    "type": "string",
+                    "description": ""
+                },
+                "subscription": {
+                    "type": "string",
+                    "description": ""
+                },
+                "invoice": {
+                    "type": "string",
+                    "description": ""
+                },
+                "quantity": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": [
+                "customer"
+            ]
+        }
+    },
+    {
+        "name": "stripe-create-payment-intent",
+        "description": "Create a payment intent. [See the documentation](https://stripe.com/docs/api/payment_intents/create).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "string",
+                    "description": ""
+                },
+                "country": {
+                    "type": "string",
+                    "description": ""
+                },
+                "currency": {
+                    "type": "string",
+                    "description": ""
+                },
+                "paymentMethodTypes": {
+                    "type": "array",
+                    "description": ""
+                },
+                "statementDescriptor": {
+                    "type": "string",
+                    "description": ""
+                },
+                "statementDescriptorSuffix": {
+                    "type": "string",
+                    "description": ""
+                },
+                "metadata": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": [
+                "amount",
+                "country",
+                "currency"
+            ]
+        }
+    },
+    {
+        "name": "stripe-create-payout",
+        "description": "Create a payout. [See the documentation](https://stripe.com/docs/api/payouts/create).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "alert": {
+                    "type": "string",
+                    "description": ""
+                },
+                "amount": {
+                    "type": "string",
+                    "description": ""
+                },
+                "country": {
+                    "type": "string",
+                    "description": ""
+                },
+                "currency": {
+                    "type": "string",
+                    "description": ""
+                },
+                "description": {
+                    "type": "string",
+                    "description": ""
+                },
+                "statementDescriptor": {
+                    "type": "string",
+                    "description": ""
+                },
+                "method": {
+                    "type": "string",
+                    "description": "`instant` is only supported for payouts to debit cards"
+                },
+                "sourceType": {
+                    "type": "string",
+                    "description": "The balance type of your Stripe balance to draw this payout from"
+                },
+                "metadata": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": [
+                "amount",
+                "country",
+                "currency"
+            ]
+        }
+    },
+    {
+        "name": "stripe-create-price",
+        "description": "Creates a new price for an existing product. The price can be recurring or one-time. [See the documentation](https://stripe.com/docs/api/prices/create)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "product": {
+                    "type": "string",
+                    "description": ""
+                },
+                "country": {
+                    "type": "string",
+                    "description": ""
+                },
+                "currency": {
+                    "type": "string",
+                    "description": ""
+                },
+                "active": {
+                    "type": "string",
+                    "description": "Whether the price can be used for new purchases. Defaults to `true`"
+                },
+                "unitAmount": {
+                    "type": "string",
+                    "description": "A positive integer in cents (or `0` for a free price) representing how much to charge. One of **Unit Amount** or **Custom Unit Amount** is required, unless **Billing Scheme** is `tiered`."
+                },
+                "customUnitAmountEnabled": {
+                    "type": "string",
+                    "description": "Pass in `true` to enable **Custom Unit Amount**"
+                },
+                "customUnitAmountMaximum": {
+                    "type": "string",
+                    "description": "The maximum unit amount the customer can specify for this item."
+                },
+                "customUnitAmountMinimum": {
+                    "type": "string",
+                    "description": "The minimum unit amount the customer can specify for this item."
+                },
+                "customUnitAmountPreset": {
+                    "type": "string",
+                    "description": "The starting unit amount which can be updated by the customer."
+                },
+                "recurringInterval": {
+                    "type": "string",
+                    "description": ""
+                },
+                "recurringUsageType": {
+                    "type": "string",
+                    "description": "Configures how the quantity per period should be determined. Can be either `metered` or `licensed`. `licensed` automatically bills the quantity set when adding it to a subscription. `metered` aggregates the total usage based on usage records. Defaults to `licensed`."
+                }
+            },
+            "required": [
+                "country",
+                "currency"
+            ]
+        }
+    },
+    {
+        "name": "stripe-create-product",
+        "description": "Creates a new product object in Stripe. [See the documentation](https://stripe.com/docs/api/products/create).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The product's name, meant to be displayable to the customer."
+                },
+                "active": {
+                    "type": "string",
+                    "description": "Whether the product is currently available for purchase. Defaults to true."
+                },
+                "unitLabel": {
+                    "type": "string",
+                    "description": "A label that represents units of this product. When set, this will be included in customers receipts, invoices, Checkout, and the customer portal."
+                },
+                "country": {
+                    "type": "string",
+                    "description": ""
+                },
+                "defaultPriceDataUnitAmount": {
+                    "type": "string",
+                    "description": "A positive integer in cents (or `0` for a free price) representing how much to charge. One of **Unit Amount** or **Unit Amount Decimal** is required."
+                },
+                "defaultPriceDataUnitAmountDecimal": {
+                    "type": "string",
+                    "description": ""
+                },
+                "defaultPriceDataCurrency": {
+                    "type": "string",
+                    "description": ""
+                },
+                "defaultPriceDataRecurringInterval": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": [
+                "name"
+            ]
+        }
+    },
+    {
+        "name": "stripe-create-refund",
+        "description": "Create a refund. [See the documentation](https://stripe.com/docs/api/refunds/create).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "alert": {
+                    "type": "string",
+                    "description": ""
+                },
+                "charge": {
+                    "type": "string",
+                    "description": ""
+                },
+                "paymentIntent": {
+                    "type": "string",
+                    "description": ""
+                },
+                "amount": {
+                    "type": "string",
+                    "description": ""
+                },
+                "reason": {
+                    "type": "string",
+                    "description": "String indicating the reason for the refund. If you believe the charge to be fraudulent, specifying fraudulent as the reason will add the associated card and email to your [block lists](https://docs.stripe.com/radar/lists), and will also help us improve our fraud detection algorithms."
+                },
+                "refundApplicationFee": {
+                    "type": "string",
+                    "description": "Whether the application fee should be refunded when refunding this charge. If a full charge refund is given, the full application fee will be refunded. Otherwise, the application fee will be refunded in an amount proportional to the amount of the charge refunded. Note that an application fee can be refunded only by the application that created the charge."
+                },
+                "reverseTransfer": {
+                    "type": "string",
+                    "description": "Whether the transfer should be reversed when refunding this charge. The transfer will be reversed proportionally to the amount being refunded (either the entire or partial amount). A transfer can be reversed only by the application that created the charge."
+                },
+                "metadata": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "stripe-create-subscription",
+        "description": "Create a subscription. [See the documentation](https://stripe.com/docs/api/subscriptions/create).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "customer": {
+                    "type": "string",
+                    "description": ""
+                },
+                "items": {
+                    "type": "string",
+                    "description": ""
+                },
+                "country": {
+                    "type": "string",
+                    "description": ""
+                },
+                "currency": {
+                    "type": "string",
+                    "description": ""
+                },
+                "description": {
+                    "type": "string",
+                    "description": ""
+                },
+                "collectionMethod": {
+                    "type": "string",
+                    "description": "Either charge_automatically, or send_invoice. When charging automatically, Stripe will attempt to pay this subscription at the end of the cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as active. Defaults to charge_automatically."
+                },
+                "daysUntilDue": {
+                    "type": "string",
+                    "description": "Number of days a customer has to pay invoices generated by this subscription. Valid only for subscriptions where collection_method is set to send_invoice."
+                },
+                "paymentType": {
+                    "type": "string",
+                    "description": ""
+                },
+                "defaultPaymentMethod": {
+                    "type": "string",
+                    "description": ""
+                },
+                "metadata": {
+                    "type": "string",
+                    "description": ""
+                },
+                "automaticTaxEnabled": {
+                    "type": "string",
+                    "description": "Enabled automatic tax calculation which will automatically compute tax rates on all invoices generated by the subscription."
+                },
+                "automaticTaxLiabilityType": {
+                    "type": "string",
+                    "description": "Type of the account referenced in the request."
+                },
+                "automaticTaxLiabilityAccount": {
+                    "type": "string",
+                    "description": "The connected account being referenced when **Automatic Tax - Liability - Type** is account."
+                },
+                "paymentBehavior": {
+                    "type": "string",
+                    "description": "Specifies whether to create the subscription in the incomplete or active state. Only applies to subscriptions when **Collection Method** is set to `charge_automatically`. [See the documentation](https://docs.stripe.com/api/subscriptions/create#create_subscription-payment_behavior)."
+                }
+            },
+            "required": [
+                "customer",
+                "items"
+            ]
+        }
+    },
+    {
+        "name": "stripe-delete-customer",
+        "description": "Delete a customer. [See the documentation](https://stripe.com/docs/api/customers/delete).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "customer": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": [
+                "customer"
+            ]
+        }
+    },
+    {
+        "name": "stripe-delete-invoice-item",
+        "description": "Delete a line item from an invoice. [See the documentation](https://stripe.com/docs/api/invoiceitems/delete).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "invoice": {
+                    "type": "string",
+                    "description": ""
+                },
+                "id": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "stripe-delete-or-void-invoice",
+        "description": "Delete a draft invoice, or void a non-draft or subscription invoice. [See the documentation](https://stripe.com/docs/api/invoiceitems/delete).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "stripe-finalize-invoice",
+        "description": "Finalize a draft invoice. [See the documentation](https://stripe.com/docs/api/invoices/finalize).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": ""
+                },
+                "autoAdvance": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "stripe-list-balance-history",
+        "description": "List all balance transactions. [See the documentation](https://stripe.com/docs/api/balance_transactions/list).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "alert": {
+                    "type": "string",
+                    "description": ""
+                },
+                "payout": {
+                    "type": "string",
+                    "description": ""
+                },
+                "currency": {
+                    "type": "string",
+                    "description": ""
+                },
+                "type": {
+                    "type": "string",
+                    "description": "The type of transaction to return. If not specified, all transactions will be returned."
+                },
+                "limit": {
+                    "type": "string",
+                    "description": ""
+                },
+                "createdGt": {
+                    "type": "string",
+                    "description": ""
+                },
+                "createdGte": {
+                    "type": "string",
+                    "description": ""
+                },
+                "createdLt": {
+                    "type": "string",
+                    "description": ""
+                },
+                "createdLte": {
+                    "type": "string",
+                    "description": ""
+                },
+                "endingBefore": {
+                    "type": "string",
+                    "description": ""
+                },
+                "startingAfter": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "stripe-list-customers",
+        "description": "Find or list customers. [See the documentation](https://stripe.com/docs/api/customers/list).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "description": "Search by customer email address (case-sensitive)"
+                },
+                "limit": {
+                    "type": "string",
+                    "description": ""
+                },
+                "createdGt": {
+                    "type": "string",
+                    "description": ""
+                },
+                "createdGte": {
+                    "type": "string",
+                    "description": ""
+                },
+                "createdLt": {
+                    "type": "string",
+                    "description": ""
+                },
+                "createdLte": {
+                    "type": "string",
+                    "description": ""
+                },
+                "endingBefore": {
+                    "type": "string",
+                    "description": ""
+                },
+                "startingAfter": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "stripe-list-invoices",
+        "description": "Find or list invoices. [See the documentation](https://stripe.com/docs/api/invoices/list).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "customer": {
+                    "type": "string",
+                    "description": ""
+                },
+                "subscription": {
+                    "type": "string",
+                    "description": ""
+                },
+                "status": {
+                    "type": "string",
+                    "description": "If set, only returns invoices that are in the given status. Otherwise, all invoices are returned."
+                },
+                "collectionMethod": {
+                    "type": "string",
+                    "description": "The collection method of the invoice to retrieve."
+                },
+                "limit": {
+                    "type": "string",
+                    "description": ""
+                },
+                "createdGt": {
+                    "type": "string",
+                    "description": ""
+                },
+                "createdGte": {
+                    "type": "string",
+                    "description": ""
+                },
+                "createdLt": {
+                    "type": "string",
+                    "description": ""
+                },
+                "createdLte": {
+                    "type": "string",
+                    "description": ""
+                },
+                "endingBefore": {
+                    "type": "string",
+                    "description": ""
+                },
+                "startingAfter": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "stripe-list-payment-intents",
+        "description": "Retrieves a list of payment intents that were previously created. [See the documentation](https://stripe.com/docs/api/payment_intents/list).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "customer": {
+                    "type": "string",
+                    "description": ""
+                },
+                "limit": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "stripe-list-payouts",
+        "description": "Find or list payouts. [See the documentation](https://stripe.com/docs/api/payouts/list).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "description": "The status of the payouts to be returned. If not specified, all payouts will be returned."
+                },
+                "limit": {
+                    "type": "string",
+                    "description": ""
+                },
+                "createdGt": {
+                    "type": "string",
+                    "description": ""
+                },
+                "createdGte": {
+                    "type": "string",
+                    "description": ""
+                },
+                "createdLt": {
+                    "type": "string",
+                    "description": ""
+                },
+                "createdLte": {
+                    "type": "string",
+                    "description": ""
+                },
+                "arrivalDateGt": {
+                    "type": "string",
+                    "description": ""
+                },
+                "arrivalDateGte": {
+                    "type": "string",
+                    "description": ""
+                },
+                "arrivalDateLt": {
+                    "type": "string",
+                    "description": ""
+                },
+                "arrivalDateLte": {
+                    "type": "string",
+                    "description": ""
+                },
+                "destination": {
+                    "type": "string",
+                    "description": "The ID of an external account - only return payouts sent to this external account."
+                },
+                "endingBefore": {
+                    "type": "string",
+                    "description": ""
+                },
+                "startingAfter": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "stripe-list-refunds",
+        "description": "Find or list refunds. [See the documentation](https://stripe.com/docs/api/refunds/list).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "charge": {
+                    "type": "string",
+                    "description": ""
+                },
+                "paymentIntent": {
+                    "type": "string",
+                    "description": ""
+                },
+                "limit": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "stripe-retrieve-balance",
+        "description": "Retrieves the current account balance, based on the authentication that was used to make the request. [See the documentation](https://stripe.com/docs/api/balance/balance_retrieve).",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    },
+    {
+        "name": "stripe-retrieve-checkout-session",
+        "description": "A Checkout Session represents your customer's session as they pay for one-time purchases or subscriptions through Stripe Checkout. [See the documentation](https://stripe.com/docs/api/checkout/sessions/retrieve).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "stripe-retrieve-checkout-session-line-items",
+        "description": "Given a checkout session ID, retrieve the line items. [See the documentation](https://stripe.com/docs/api/checkout/sessions/line_items).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "checkoutSessionId": {
+                    "type": "string",
+                    "description": "The ID of a Stripe Checkout Session. [See the documentation](https://stripe.com/docs/api/checkout/sessions/object#checkout_session_object-id)."
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "The number of line items to retrieve (min: 1, max: 100)"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "stripe-retrieve-customer",
+        "description": "Retrieves the details of an existing customer. [See the documentation](https://stripe.com/docs/api/customers/retrieve).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "stripe-retrieve-invoice",
+        "description": "Retrieves the details of an existing invoice. [See the documentation](https://stripe.com/docs/api/invoices/retrieve).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "stripe-retrieve-invoice-item",
+        "description": "Retrieve a single line item on an invoice. [See the documentation](https://stripe.com/docs/api/invoiceitems/retrieve).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "customer": {
+                    "type": "string",
+                    "description": ""
+                },
+                "subscription": {
+                    "type": "string",
+                    "description": ""
+                },
+                "invoice": {
+                    "type": "string",
+                    "description": ""
+                },
+                "id": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "stripe-retrieve-payment-intent",
+        "description": "Retrieves the details of a payment intent that was previously created. [See the documentation](https://stripe.com/docs/api/payment_intents/retrieve).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "clientSecret": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": [
+                "clientSecret"
+            ]
+        }
+    },
+    {
+        "name": "stripe-retrieve-payout",
+        "description": "Retrieves the details of an existing payout. [See the documentation](https://stripe.com/docs/api/payouts/retrieve).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "stripe-retrieve-price",
+        "description": "Retrieves the details of an existing product price. [See the documentation](https://stripe.com/docs/api/prices/retrieve).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "stripe-retrieve-product",
+        "description": "Retrieve a product by ID. [See the documentation](https://stripe.com/docs/api/products/retrieve).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "productId": {
+                    "type": "string",
+                    "description": "A Stripe Product ID. [See the documentation](https://stripe.com/docs/api/products/object#product_object-id)"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "stripe-retrieve-refund",
+        "description": "Retrieves the details of an existing refund. [See the documentation](https://stripe.com/docs/api/refunds/retrieve).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "stripe-search-customers",
+        "description": "Search customers by various attributes like email domain, created date, etc. [See the documentation](https://stripe.com/docs/api/customers/search).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Search query using Stripe's [search query language](https://stripe.com/docs/search#search-query-language). Example: `email~\"example.com\" AND created>1609459200`"
+                },
+                "email": {
+                    "type": "string",
+                    "description": "Search by customer email address (e.g.,`user@example.com`)"
+                },
+                "emailDomain": {
+                    "type": "string",
+                    "description": "Search by email **domain** (e.g., `example.com` to find all emails from that domain)"
+                },
+                "createdAfter": {
+                    "type": "string",
+                    "description": "Filter customers created after this date (format: `YYYY-MM-DD`)"
+                },
+                "createdBefore": {
+                    "type": "string",
+                    "description": "Filter customers created before this date (format: `YYYY-MM-DD`)"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of customers to return"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "stripe-search-subscriptions",
+        "description": "Search for subscriptions. [See the documentation](https://docs.stripe.com/api/subscriptions/search?lang=node)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "The search query string. See [search query language](https://docs.stripe.com/search#search-query-language) and the list of supported [query fields for subscriptions](https://docs.stripe.com/search#query-fields-for-subscriptions)."
+                },
+                "maxResults": {
+                    "type": "number",
+                    "description": "The maximum number of results to return"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "stripe-send-invoice",
+        "description": "Manually send an invoice to your customer out of the normal schedule for payment (note that no emails are actually sent in test mode). [See the documentation](https://stripe.com/docs/api/invoices/send).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "stripe-update-customer",
+        "description": "Update a customer. [See the documentation](https://stripe.com/docs/api/customers/update).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "customer": {
+                    "type": "string",
+                    "description": ""
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The customer's full name or business name."
+                },
+                "email": {
+                    "type": "string",
+                    "description": ""
+                },
+                "phone": {
+                    "type": "string",
+                    "description": ""
+                },
+                "description": {
+                    "type": "string",
+                    "description": ""
+                },
+                "addressCity": {
+                    "type": "string",
+                    "description": ""
+                },
+                "addressCountry": {
+                    "type": "string",
+                    "description": ""
+                },
+                "addressLine1": {
+                    "type": "string",
+                    "description": ""
+                },
+                "addressLine2": {
+                    "type": "string",
+                    "description": ""
+                },
+                "addressPostalCode": {
+                    "type": "string",
+                    "description": ""
+                },
+                "addressState": {
+                    "type": "string",
+                    "description": ""
+                },
+                "metadata": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": [
+                "customer"
+            ]
+        }
+    },
+    {
+        "name": "stripe-update-invoice",
+        "description": "Update an invoice. [See the documentation](https://stripe.com/docs/api/invoices/update).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": ""
+                },
+                "description": {
+                    "type": "string",
+                    "description": ""
+                },
+                "autoAdvance": {
+                    "type": "string",
+                    "description": ""
+                },
+                "collectionMethod": {
+                    "type": "string",
+                    "description": "Either charge_automatically or send_invoice. This field can be updated only on draft invoices."
+                },
+                "daysUntilDue": {
+                    "type": "string",
+                    "description": "The number of days from which the invoice is created until it is due. Only valid for invoices where `collection_method=send_invoice`. This field can only be updated on draft invoices."
+                },
+                "paymentMethodType": {
+                    "type": "string",
+                    "description": "The type of payment method to create"
+                },
+                "defaultPaymentMethod": {
+                    "type": "string",
+                    "description": ""
+                },
+                "metadata": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "stripe-update-invoice-item",
+        "description": "Update an invoice line item. [See the documentation](https://stripe.com/docs/api/invoiceitems/update).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "customer": {
+                    "type": "string",
+                    "description": ""
+                },
+                "subscription": {
+                    "type": "string",
+                    "description": ""
+                },
+                "invoice": {
+                    "type": "string",
+                    "description": ""
+                },
+                "id": {
+                    "type": "string",
+                    "description": ""
+                },
+                "amount": {
+                    "type": "string",
+                    "description": ""
+                },
+                "currency": {
+                    "type": "string",
+                    "description": ""
+                },
+                "quantity": {
+                    "type": "string",
+                    "description": ""
+                },
+                "description": {
+                    "type": "string",
+                    "description": ""
+                },
+                "metadata": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "stripe-update-payment-intent",
+        "description": "Update a payment intent. [See the documentation](https://stripe.com/docs/api/payment_intents/update).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": ""
+                },
+                "amount": {
+                    "type": "string",
+                    "description": ""
+                },
+                "country": {
+                    "type": "string",
+                    "description": ""
+                },
+                "currency": {
+                    "type": "string",
+                    "description": ""
+                },
+                "customer": {
+                    "type": "string",
+                    "description": ""
+                },
+                "description": {
+                    "type": "string",
+                    "description": ""
+                },
+                "metadata": {
+                    "type": "string",
+                    "description": ""
+                },
+                "paymentMethod": {
+                    "type": "string",
+                    "description": ""
+                },
+                "receiptEmail": {
+                    "type": "string",
+                    "description": "Email address that the receipt for the resulting payment will be sent to. If receipt_email is specified for a payment in live mode, a receipt will be sent regardless of your email settings."
+                },
+                "setupFutureUsage": {
+                    "type": "string",
+                    "description": ""
+                },
+                "shippingAddressCity": {
+                    "type": "string",
+                    "description": ""
+                },
+                "shippingAddressCountry": {
+                    "type": "string",
+                    "description": ""
+                },
+                "shippingAddressLine1": {
+                    "type": "string",
+                    "description": ""
+                },
+                "shippingAddressLine2": {
+                    "type": "string",
+                    "description": ""
+                },
+                "shippingAddressPostalCode": {
+                    "type": "string",
+                    "description": ""
+                },
+                "shippingAddressState": {
+                    "type": "string",
+                    "description": ""
+                },
+                "shippingName": {
+                    "type": "string",
+                    "description": ""
+                },
+                "shippingCarrier": {
+                    "type": "string",
+                    "description": ""
+                },
+                "shippingPhone": {
+                    "type": "string",
+                    "description": ""
+                },
+                "shippingTrackingNumber": {
+                    "type": "string",
+                    "description": ""
+                },
+                "statementDescriptor": {
+                    "type": "string",
+                    "description": ""
+                },
+                "statementDescriptorSuffix": {
+                    "type": "string",
+                    "description": ""
+                },
+                "paymentMethodTypes": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "stripe-update-payout",
+        "description": "Update the metadata on a payout. [See the documentation](https://stripe.com/docs/api/payouts/update).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": ""
+                },
+                "metadata": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": [
+                "id",
+                "metadata"
+            ]
+        }
+    },
+    {
+        "name": "stripe-update-refund",
+        "description": "Update the metadata on a refund. [See the documentation](https://stripe.com/docs/api/refunds/update).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": ""
+                },
+                "metadata": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": [
+                "id",
+                "metadata"
+            ]
+        }
+    },
+    {
+        "name": "stripe-void-invoice",
+        "description": "Void an invoice. [See the documentation](https://stripe.com/docs/api/invoices/void).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "stripe-write-off-invoice",
+        "description": "Mark an invoice as uncollectible. [See the documentation](https://stripe.com/docs/api/invoices/mark_uncollectible).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    }
+]

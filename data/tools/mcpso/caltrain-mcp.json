@@ -1,0 +1,45 @@
+[
+    {
+        "name": "caltrain_next_trains",
+        "description": "Return the next few scheduled Caltrain departures.\n\nArgs:\n    origin: Station name (e.g. 'San Jose Diridon', 'Palo Alto', 'San Francisco').\n            Supports common abbreviations like 'SF' for San Francisco, 'SJ' for San Jose.\n            If station is not found, use list_stations() to see all available options.\n    destination: Station name (e.g. 'San Francisco', 'Mountain View', 'Tamien').\n                 Supports common abbreviations like 'SF' for San Francisco, 'SJ' for San Jose.\n                 If station is not found, use list_stations() to see all available options.\n    when_iso: Optional ISO-8601 datetime (local time). Default: now.\n\nNote: If you get a \"Station not found\" error, try using the list_stations() tool first\nto see exact station names, then retry with the correct spelling.\n",
+        "parameters": {
+            "properties": {
+                "origin": {
+                    "title": "Origin",
+                    "type": "string"
+                },
+                "destination": {
+                    "title": "Destination",
+                    "type": "string"
+                },
+                "when_iso": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "When Iso"
+                }
+            },
+            "required": [
+                "origin",
+                "destination"
+            ],
+            "title": "next_trainsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "caltrain_list_stations",
+        "description": "List all available Caltrain stations.\n\nThis tool is useful when you need to find the exact station names, especially if\nthe next_trains() tool returns a \"Station not found\" error. Station names are\ncase-insensitive and support some common abbreviations like 'SF' and 'SJ'.\n\nReturns a formatted list of all Caltrain stations that can be used as origin\nor destination in the next_trains() tool.\n",
+        "parameters": {
+            "properties": {},
+            "title": "list_stationsArguments",
+            "type": "object"
+        }
+    }
+]

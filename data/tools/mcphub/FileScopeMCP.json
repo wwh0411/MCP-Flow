@@ -1,0 +1,398 @@
+[
+    {
+        "name": "list_saved_trees",
+        "description": "List all saved file trees",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "delete_file_tree",
+        "description": "Delete a file tree configuration",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "filename": {
+                    "type": "string",
+                    "description": "Name of the JSON file to delete"
+                }
+            },
+            "required": [
+                "filename"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "create_file_tree",
+        "description": "Create or load a file tree configuration",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "filename": {
+                    "type": "string",
+                    "description": "Name of the JSON file to store the file tree"
+                },
+                "baseDirectory": {
+                    "type": "string",
+                    "description": "Base directory to scan for files"
+                }
+            },
+            "required": [
+                "filename",
+                "baseDirectory"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "select_file_tree",
+        "description": "Select an existing file tree to work with",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "filename": {
+                    "type": "string",
+                    "description": "Name of the JSON file containing the file tree"
+                }
+            },
+            "required": [
+                "filename"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "list_files",
+        "description": "List all files in the project with their importance rankings",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "get_file_importance",
+        "description": "Get the importance ranking of a specific file",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "filepath": {
+                    "type": "string",
+                    "description": "The path to the file to check"
+                }
+            },
+            "required": [
+                "filepath"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "find_important_files",
+        "description": "Find the most important files in the project",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "number",
+                    "description": "Number of files to return (default: 10)"
+                },
+                "minImportance": {
+                    "type": "number",
+                    "description": "Minimum importance score (0-10)"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "get_file_summary",
+        "description": "Get the summary of a specific file",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "filepath": {
+                    "type": "string",
+                    "description": "The path to the file to check"
+                }
+            },
+            "required": [
+                "filepath"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "set_file_summary",
+        "description": "Set the summary of a specific file",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "filepath": {
+                    "type": "string",
+                    "description": "The path to the file to update"
+                },
+                "summary": {
+                    "type": "string",
+                    "description": "The summary text to set"
+                }
+            },
+            "required": [
+                "filepath",
+                "summary"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "read_file_content",
+        "description": "Read the content of a specific file",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "filepath": {
+                    "type": "string",
+                    "description": "The path to the file to read"
+                }
+            },
+            "required": [
+                "filepath"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "set_file_importance",
+        "description": "Manually set the importance ranking of a specific file",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "filepath": {
+                    "type": "string",
+                    "description": "The path to the file to update"
+                },
+                "importance": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 10,
+                    "description": "The importance value to set (0-10)"
+                }
+            },
+            "required": [
+                "filepath",
+                "importance"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "recalculate_importance",
+        "description": "Recalculate importance values for all files based on dependencies",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "toggle_file_watching",
+        "description": "Toggle file watching on/off",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "get_file_watching_status",
+        "description": "Get the current status of file watching",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "update_file_watching_config",
+        "description": "Update file watching configuration",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "config": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "debounceMs": {
+                            "type": "integer",
+                            "exclusiveMinimum": 0
+                        },
+                        "ignoreDotFiles": {
+                            "type": "boolean"
+                        },
+                        "autoRebuildTree": {
+                            "type": "boolean"
+                        },
+                        "maxWatchedDirectories": {
+                            "type": "integer",
+                            "exclusiveMinimum": 0
+                        },
+                        "watchForNewFiles": {
+                            "type": "boolean"
+                        },
+                        "watchForDeleted": {
+                            "type": "boolean"
+                        },
+                        "watchForChanged": {
+                            "type": "boolean"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "File watching configuration options"
+                }
+            },
+            "required": [
+                "config"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "debug_list_all_files",
+        "description": "List all file paths in the current file tree",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "generate_diagram",
+        "description": "Generate a Mermaid diagram for the current file tree",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "style": {
+                    "type": "string",
+                    "enum": [
+                        "default",
+                        "dependency",
+                        "directory",
+                        "hybrid",
+                        "package-deps"
+                    ],
+                    "description": "Diagram style"
+                },
+                "maxDepth": {
+                    "type": "number",
+                    "description": "Maximum depth for directory trees (1-10)"
+                },
+                "minImportance": {
+                    "type": "number",
+                    "description": "Only show files above this importance (0-10)"
+                },
+                "showDependencies": {
+                    "type": "boolean",
+                    "description": "Whether to show dependency relationships"
+                },
+                "showPackageDeps": {
+                    "type": "boolean",
+                    "description": "Whether to show package dependencies"
+                },
+                "packageGrouping": {
+                    "type": "boolean",
+                    "description": "Whether to group packages by scope"
+                },
+                "autoGroupThreshold": {
+                    "type": "number",
+                    "description": "Auto-group nodes when parent has more than this many direct children (default: 8)"
+                },
+                "excludePackages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Packages to exclude from diagram"
+                },
+                "includeOnlyPackages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Only include these packages (if specified)"
+                },
+                "outputPath": {
+                    "type": "string",
+                    "description": "Full path or relative path where to save the diagram file (.mmd or .html)"
+                },
+                "outputFormat": {
+                    "type": "string",
+                    "enum": [
+                        "mmd",
+                        "html"
+                    ],
+                    "description": "Output format (mmd or html)"
+                },
+                "layout": {
+                    "type": "object",
+                    "properties": {
+                        "direction": {
+                            "type": "string",
+                            "enum": [
+                                "TB",
+                                "BT",
+                                "LR",
+                                "RL"
+                            ],
+                            "description": "Graph direction"
+                        },
+                        "rankSpacing": {
+                            "type": "number",
+                            "minimum": 10,
+                            "maximum": 100,
+                            "description": "Space between ranks"
+                        },
+                        "nodeSpacing": {
+                            "type": "number",
+                            "minimum": 10,
+                            "maximum": 100,
+                            "description": "Space between nodes"
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            },
+            "required": [
+                "style"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "exclude_and_remove",
+        "description": "Exclude and remove a file or pattern from the file tree",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "filepath": {
+                    "type": "string",
+                    "description": "The path or pattern of the file to exclude and remove"
+                }
+            },
+            "required": [
+                "filepath"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

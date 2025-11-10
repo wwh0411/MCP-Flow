@@ -1,0 +1,51 @@
+[
+    {
+        "name": "search_documentation",
+        "description": "Search OCI documentation using the OCI Documentation Search API.\n\n    ## Usage\n\n    This tool searches across all OCI documentation for pages matching your search phrase.\n    Use it to find relevant documentation when you don't have a specific URL.\n\n    ## Search Tips\n\n    - Use specific technical terms rather than general phrases\n    - Include service names to narrow results (e.g., \"OCI Object Storage bucket versioning\" instead of just \"versioning\")\n    - Use quotes for exact phrase matching (e.g., \"Using Instance Configurations and Instance Pools\")\n    - Include abbreviations and alternative terms to improve results\n\n    ## Result Interpretation\n\n    Each result includes:\n    - score: The relevance score (higher is more relevant)\n    - url: The documentation page URL\n    - description: A brief excerpt or summary\n    - body: Related text snippets\n\n    Args:\n        ctx: MCP context for logging and error handling\n        search_phrase: Search phrase to use\n        limit: Maximum number of results to return\n\n    Returns:\n        List of search results with URLs, titles, and context snippets\n    ",
+        "inputSchema": {
+            "properties": {
+                "search_phrase": {
+                    "title": "Search Phrase",
+                    "type": "string"
+                },
+                "limit": {
+                    "default": 3,
+                    "title": "Limit",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "search_phrase"
+            ],
+            "title": "search_documentationArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "read_documentation",
+        "description": "Fetch and convert an OCI documentation page to markdown format.\n\n    ## Usage\n\n    This tool retrieves the content of an AWS documentation page and converts it to markdown format.\n    For long documents, you can make multiple calls with different start_index values to retrieve\n    the entire content in chunks.\n\n    ## URL Requirements\n\n    - Must be from the https://docs.oracle.com/ domain\n    - Must end with .html or .htm\n\n    ## Example URLs\n\n    - https://docs.oracle.com/en-us/iaas/Content/Object/Concepts/objectstorageoverview.htm\n    - https://docs.oracle.com/en-us/iaas/Content/Compute/References/bestpracticescompute.htm\n\n    ## Output Format\n\n    The output is formatted as markdown text with:\n    - Preserved headings and structure\n    - Code blocks for examples\n    - Lists and tables converted to markdown format\n\n    ## Handling Long Documents\n\n    If the response indicates the document was truncated, you have several options:\n\n    1. **Continue Reading**: Make another call with start_index set to the end of the previous response\n    2. **Stop Early**: For very long documents (>30,000 characters), if you've already found the specific information needed, you can stop reading\n\n    Args:\n        ctx: MCP context for logging and error handling\n        url: URL of the AWS documentation page to read\n        max_length: Maximum number of characters to return\n        start_index: On return output starting at this character index\n\n    Returns:\n        Markdown content of the AWS documentation\n    ",
+        "inputSchema": {
+            "properties": {
+                "url": {
+                    "title": "Url",
+                    "type": "string"
+                },
+                "start_index": {
+                    "title": "Start Index",
+                    "type": "integer"
+                },
+                "max_length": {
+                    "default": 5000,
+                    "title": "Max Length",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "url",
+                "start_index"
+            ],
+            "title": "read_documentationArguments",
+            "type": "object"
+        }
+    }
+]

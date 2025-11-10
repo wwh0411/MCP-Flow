@@ -1,0 +1,219 @@
+[
+    {
+        "name": "list_workflows",
+        "description": "List all workflows from n8n",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "create_workflow",
+        "description": "Create a new workflow in n8n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "nodes": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "type": {
+                                "type": "string"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "parameters": {
+                                "type": "object"
+                            }
+                        },
+                        "required": [
+                            "type",
+                            "name"
+                        ]
+                    }
+                },
+                "connections": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "source": {
+                                "type": "string"
+                            },
+                            "target": {
+                                "type": "string"
+                            },
+                            "sourceOutput": {
+                                "type": "number",
+                                "default": 0
+                            },
+                            "targetInput": {
+                                "type": "number",
+                                "default": 0
+                            }
+                        },
+                        "required": [
+                            "source",
+                            "target"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "nodes"
+            ]
+        }
+    },
+    {
+        "name": "get_workflow",
+        "description": "Get a workflow by ID",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "update_workflow",
+        "description": "Update an existing workflow",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "nodes": {
+                    "type": "array"
+                },
+                "connections": {
+                    "type": "array"
+                }
+            },
+            "required": [
+                "id",
+                "nodes"
+            ]
+        }
+    },
+    {
+        "name": "delete_workflow",
+        "description": "Delete a workflow by ID",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "activate_workflow",
+        "description": "Activate a workflow by ID",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "deactivate_workflow",
+        "description": "Deactivate a workflow by ID",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "list_executions",
+        "description": "List all executions from n8n with optional filters",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "includeData": {
+                    "type": "boolean"
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "error",
+                        "success",
+                        "waiting"
+                    ]
+                },
+                "workflowId": {
+                    "type": "string"
+                },
+                "projectId": {
+                    "type": "string"
+                },
+                "limit": {
+                    "type": "number"
+                },
+                "cursor": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    {
+        "name": "get_execution",
+        "description": "Get details of a specific execution by ID",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "number"
+                },
+                "includeData": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "delete_execution",
+        "description": "Delete an execution by ID",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    }
+]

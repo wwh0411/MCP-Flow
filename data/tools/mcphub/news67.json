@@ -1,0 +1,528 @@
+[
+    {
+        "name": "news_feed",
+        "description": "This endpoint fetches latest news published. This endpoint can be used to get a continuous feed of news on your dashboard. Various filter can be applied to get the feed according to requirements. The topics are made available as soon as our pipeline finihes processing them, thus provding near real time output.",
+        "parameters": {
+            "properties": {
+                "categoryCode": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter feed of news based on IPTC categories code. Use /categories-info resource to get the values.",
+                    "title": "Categorycode"
+                },
+                "batchSize": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of news elements to be returned in each call. Defaults to 10, maximum 30",
+                    "title": "Batchsize"
+                },
+                "languages": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Two letter ISO code to filter content by language. Use /languages resource to get language codes. Defaults to all.",
+                    "title": "Languages"
+                },
+                "sortOrder": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Sort the final result in descending or ascending order of publication by passing 'oldest' or 'latest' respectively, defaults to oldest.",
+                    "title": "Sortorder"
+                },
+                "sources": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "FIlter feed of news from different source/sources. Takes comma separated values.",
+                    "title": "Sources"
+                },
+                "sentiment": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter the feed for news with either positive or negative sentiments. Defaults to both",
+                    "title": "Sentiment"
+                },
+                "skip": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For next batch of results use this with value increment of previous call batchSize value. Default is zero.",
+                    "title": "Skip"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "world_trending",
+        "description": "Get trending news topics from across the world with this endpoint. We determine trending news / / topics by considering unique sources, and nationalities which are talking about the same topic, / / along with various languages the topic is published in. Thus providing an unbiased list topics which are / / being talked about across the world.",
+        "parameters": {
+            "properties": {
+                "relatedNewsLimit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Limit the number of news that are returned inside a cluster.",
+                    "title": "Relatednewslimit"
+                },
+                "languages": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Two letter ISO code to filter content by languages. Use comman separated codes to get results for multiple languages. Use /languages resource to get language codes. Defaults to all.",
+                    "title": "Languages"
+                },
+                "top": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Limit number of trending topics that are returned. Defaults to 10.",
+                    "title": "Top"
+                },
+                "skip": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For next batch of results use this with value increment of previous call top value.",
+                    "title": "Skip"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "topic_search",
+        "description": "Use topic-search endpoint to find news which talks about specific topics. Topics can range from specific keywords, to the name of a person or a place, or a combination of both. Results can be filtered by topics that are present in the title or text of the news, or both by default.",
+        "parameters": {
+            "properties": {
+                "languages": {
+                    "description": "Two letter ISO code to filter content by language. Use /languages resource to get language codes.",
+                    "title": "Languages",
+                    "type": "string"
+                },
+                "search": {
+                    "description": "Phrases or topics to be searched, in any of supported language.",
+                    "title": "Search",
+                    "type": "string"
+                },
+                "batchSize": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of news elements to be returned in each call. Defaults to 10, maximum 30.",
+                    "title": "Batchsize"
+                },
+                "skip": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For next batch of results use this with value increment of previous call batchSize value.",
+                    "title": "Skip"
+                },
+                "searchType": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Boolean search parameter applied between search terms. Must be AND or OR, defaults to OR.",
+                    "title": "Searchtype"
+                },
+                "qField": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Field where input text would be matched Must be either title, or text.",
+                    "title": "Qfield"
+                },
+                "sortBy": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Sort the final results by relevance or publication date in descending order. Defaults to relevance.",
+                    "title": "Sortby"
+                },
+                "publishedAfter": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "ISO 8601 formatted Date Time value to filter the results which are published after the input date. It must be within 30 days from the current date. example format: With date and time: YYYY-MM-DDTHH:MM:SS With only Date: YYYY-MM-DD",
+                    "title": "Publishedafter"
+                },
+                "publishedBefore": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "ISO 8601 formatted Date Time value to filter the results which are published before the input date. It must be within 30 days from the current date. If using the upper limit, it will show results going as far back as 35 days. example format: With date and time: YYYY-MM-DDTHH:MM:SS With only Date: YYYY-MM-DD",
+                    "title": "Publishedbefore"
+                }
+            },
+            "required": [
+                "languages",
+                "search"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "country_news",
+        "description": "This endpoint returns news which are specific to countries. You can use different filters to get local news about a country, international news about country, or inter-country news which discusses about the two countries.",
+        "parameters": {
+            "properties": {
+                "skip": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "For next batch of results use this with value increment of previous call batchSize value.",
+                    "title": "Skip"
+                },
+                "batchSize": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of news elements to be returned in each call.",
+                    "title": "Batchsize"
+                },
+                "fromCountry": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Use this parameter to filter news from a given country.",
+                    "title": "Fromcountry"
+                },
+                "languages": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Two letter ISO code to filter content by languages. Use comman separated codes to get results for multiple languages. Use /languages resource to get language codes. Defaults to all.",
+                    "title": "Languages"
+                },
+                "onlyInternational": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "To get only international news when getting news fromCountry, use true. Defaults to false.",
+                    "title": "Onlyinternational"
+                },
+                "aboutCountry": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Use this parameter to filter news which talks about a specific country.",
+                    "title": "Aboutcountry"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "crypto_news",
+        "description": "Get latest news and topics about Blockchain & Cryptocurrencies. Use sentiments to follow only positive news. Use token filter to get news about token that you want to follow.",
+        "parameters": {
+            "properties": {
+                "token": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Enter token symbol to get news specific to that currency. Default is all tokens we process.",
+                    "title": "Token"
+                },
+                "languages": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Two letter ISO language code to filter the news. Multiple languages can be selected by passing a comma separated string. Default is all.",
+                    "title": "Languages"
+                },
+                "sentiment": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Use sentiment value of \"positive\" or \"negative\" to filter out content. Default to both",
+                    "title": "Sentiment"
+                },
+                "publishedAfter": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Date field to get news published after input date. Must be within last 30 days from current day to 30 mins ago from current time in UTC. Formatted as YYYY-MM-DDTHH:MM:SS Default to last 30th day.",
+                    "title": "Publishedafter"
+                },
+                "publishedBefore": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Date field to get news published before input date. Must be within last 30 days from current day to 30 mins ago from current time in UTC. Formatted as YYYY-MM-DDTHH:MM:SS Default to last 30th day.",
+                    "title": "Publishedbefore"
+                },
+                "sortOrder": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Sort the news output by \"latest\" news first or \"oldest\" news first based on captured publication date using this parameter. Defaults to latest.",
+                    "title": "Sortorder"
+                },
+                "batchSize": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Use this parameter to limit the number of news per result. Default to 15, maximum 30 Default: 0",
+                    "title": "Batchsize"
+                },
+                "skip": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Use this parameter for pagination to get next batch of results. Default to 0 Default: 0",
+                    "title": "Skip"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "language_info",
+        "description": "Get two letter language codes for languages supported by us.",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "catergories_info",
+        "description": "Get list of IPTC media category labels and code o filter our news feed.",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "countries_info",
+        "description": "Get list of two letter country codes",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    }
+]

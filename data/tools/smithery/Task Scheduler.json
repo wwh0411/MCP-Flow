@@ -1,0 +1,545 @@
+[
+    {
+        "name": "scheduler-mcp_list_tasks",
+        "description": "List all scheduled tasks.",
+        "parameters": {
+            "properties": {},
+            "title": "list_tasksArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "scheduler-mcp_get_task",
+        "description": "Get details of a specific task.\n            \n            Args:\n                task_id: ID of the task to retrieve\n            ",
+        "parameters": {
+            "properties": {
+                "task_id": {
+                    "title": "Task Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "task_id"
+            ],
+            "title": "get_taskArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "scheduler-mcp_add_command_task",
+        "description": "Add a new shell command task.",
+        "parameters": {
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string"
+                },
+                "schedule": {
+                    "title": "Schedule",
+                    "type": "string"
+                },
+                "command": {
+                    "title": "Command",
+                    "type": "string"
+                },
+                "description": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Description"
+                },
+                "enabled": {
+                    "default": true,
+                    "title": "Enabled",
+                    "type": "boolean"
+                },
+                "do_only_once": {
+                    "default": true,
+                    "title": "Do Only Once",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "name",
+                "schedule",
+                "command"
+            ],
+            "title": "add_command_taskArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "scheduler-mcp_add_api_task",
+        "description": "Add a new API call task.",
+        "parameters": {
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string"
+                },
+                "schedule": {
+                    "title": "Schedule",
+                    "type": "string"
+                },
+                "api_url": {
+                    "title": "Api Url",
+                    "type": "string"
+                },
+                "api_method": {
+                    "default": "GET",
+                    "title": "Api Method",
+                    "type": "string"
+                },
+                "api_headers": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": {
+                                "type": "string"
+                            },
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Api Headers"
+                },
+                "api_body": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": true,
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Api Body"
+                },
+                "description": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Description"
+                },
+                "enabled": {
+                    "default": true,
+                    "title": "Enabled",
+                    "type": "boolean"
+                },
+                "do_only_once": {
+                    "default": true,
+                    "title": "Do Only Once",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "name",
+                "schedule",
+                "api_url"
+            ],
+            "title": "add_api_taskArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "scheduler-mcp_add_ai_task",
+        "description": "Add a new AI task.",
+        "parameters": {
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string"
+                },
+                "schedule": {
+                    "title": "Schedule",
+                    "type": "string"
+                },
+                "prompt": {
+                    "title": "Prompt",
+                    "type": "string"
+                },
+                "description": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Description"
+                },
+                "enabled": {
+                    "default": true,
+                    "title": "Enabled",
+                    "type": "boolean"
+                },
+                "do_only_once": {
+                    "default": true,
+                    "title": "Do Only Once",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "name",
+                "schedule",
+                "prompt"
+            ],
+            "title": "add_ai_taskArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "scheduler-mcp_add_reminder_task",
+        "description": "Add a new reminder task that shows a popup notification with sound.",
+        "parameters": {
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string"
+                },
+                "schedule": {
+                    "title": "Schedule",
+                    "type": "string"
+                },
+                "message": {
+                    "title": "Message",
+                    "type": "string"
+                },
+                "title": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Title"
+                },
+                "description": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Description"
+                },
+                "enabled": {
+                    "default": true,
+                    "title": "Enabled",
+                    "type": "boolean"
+                },
+                "do_only_once": {
+                    "default": true,
+                    "title": "Do Only Once",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "name",
+                "schedule",
+                "message"
+            ],
+            "title": "add_reminder_taskArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "scheduler-mcp_update_task",
+        "description": "Update an existing task.",
+        "parameters": {
+            "properties": {
+                "task_id": {
+                    "title": "Task Id",
+                    "type": "string"
+                },
+                "name": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Name"
+                },
+                "schedule": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Schedule"
+                },
+                "command": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Command"
+                },
+                "api_url": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Api Url"
+                },
+                "api_method": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Api Method"
+                },
+                "api_headers": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": {
+                                "type": "string"
+                            },
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Api Headers"
+                },
+                "api_body": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": true,
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Api Body"
+                },
+                "prompt": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Prompt"
+                },
+                "description": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Description"
+                },
+                "enabled": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Enabled"
+                },
+                "do_only_once": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Do Only Once"
+                },
+                "reminder_title": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Reminder Title"
+                },
+                "reminder_message": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Reminder Message"
+                }
+            },
+            "required": [
+                "task_id"
+            ],
+            "title": "update_taskArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "scheduler-mcp_remove_task",
+        "description": "Remove a task.",
+        "parameters": {
+            "properties": {
+                "task_id": {
+                    "title": "Task Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "task_id"
+            ],
+            "title": "remove_taskArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "scheduler-mcp_enable_task",
+        "description": "Enable a task.",
+        "parameters": {
+            "properties": {
+                "task_id": {
+                    "title": "Task Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "task_id"
+            ],
+            "title": "enable_taskArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "scheduler-mcp_disable_task",
+        "description": "Disable a task.",
+        "parameters": {
+            "properties": {
+                "task_id": {
+                    "title": "Task Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "task_id"
+            ],
+            "title": "disable_taskArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "scheduler-mcp_run_task_now",
+        "description": "Run a task immediately.",
+        "parameters": {
+            "properties": {
+                "task_id": {
+                    "title": "Task Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "task_id"
+            ],
+            "title": "run_task_nowArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "scheduler-mcp_get_task_executions",
+        "description": "Get execution history for a task.",
+        "parameters": {
+            "properties": {
+                "task_id": {
+                    "title": "Task Id",
+                    "type": "string"
+                },
+                "limit": {
+                    "default": 10,
+                    "title": "Limit",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "task_id"
+            ],
+            "title": "get_task_executionsArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "scheduler-mcp_get_server_info",
+        "description": "Get server information.",
+        "parameters": {
+            "properties": {},
+            "title": "get_server_infoArguments",
+            "type": "object"
+        }
+    }
+]

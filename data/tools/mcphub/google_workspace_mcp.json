@@ -1,0 +1,3288 @@
+[
+    {
+        "name": "start_google_auth",
+        "description": "Manually initiate Google OAuth authentication flow.\n\nNOTE: This tool should typically NOT be called directly. The authentication system\nautomatically handles credential checks and prompts for authentication when needed.\nOnly use this tool if:\n1. You need to re-authenticate with different credentials\n2. You want to proactively authenticate before using other tools\n3. The automatic authentication flow failed and you need to retry\n\nIn most cases, simply try calling the Google Workspace tool you need - it will\nautomatically handle authentication if required.",
+        "parameters": {
+            "properties": {
+                "service_name": {
+                    "title": "Service Name",
+                    "type": "string"
+                },
+                "user_google_email": {
+                    "default": null,
+                    "title": "User Google Email",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "service_name"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_gmail_messages",
+        "description": "Searches messages in a user's Gmail account based on a query.\nReturns both Message IDs and Thread IDs for each found message, along with Gmail web interface links for manual verification.\n\nArgs:\n    query (str): The search query. Supports standard Gmail search operators.\n    user_google_email (str): The user's Google email address. Required.\n    page_size (int): The maximum number of messages to return. Defaults to 10.\n\nReturns:\n    str: LLM-friendly structured results with Message IDs, Thread IDs, and clickable Gmail web interface URLs for each found message.",
+        "parameters": {
+            "properties": {
+                "query": {
+                    "title": "Query",
+                    "type": "string"
+                },
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "page_size": {
+                    "default": 10,
+                    "title": "Page Size",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "query",
+                "user_google_email"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_gmail_message_content",
+        "description": "Retrieves the full content (subject, sender, plain text body) of a specific Gmail message.\n\nArgs:\n    message_id (str): The unique ID of the Gmail message to retrieve.\n    user_google_email (str): The user's Google email address. Required.\n\nReturns:\n    str: The message details including subject, sender, and body content.",
+        "parameters": {
+            "properties": {
+                "message_id": {
+                    "title": "Message Id",
+                    "type": "string"
+                },
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "message_id",
+                "user_google_email"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_gmail_messages_content_batch",
+        "description": "Retrieves the content of multiple Gmail messages in a single batch request.\nSupports up to 25 messages per batch to prevent SSL connection exhaustion.\n\nArgs:\n    message_ids (List[str]): List of Gmail message IDs to retrieve (max 25 per batch).\n    user_google_email (str): The user's Google email address. Required.\n    format (Literal[\"full\", \"metadata\"]): Message format. \"full\" includes body, \"metadata\" only headers.\n\nReturns:\n    str: A formatted list of message contents with separators.",
+        "parameters": {
+            "properties": {
+                "message_ids": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Message Ids",
+                    "type": "array"
+                },
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "format": {
+                    "default": "full",
+                    "enum": [
+                        "full",
+                        "metadata"
+                    ],
+                    "title": "Format",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "message_ids",
+                "user_google_email"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "send_gmail_message",
+        "description": "Sends an email using the user's Gmail account. Supports both new emails and replies.\n\nArgs:\n    to (str): Recipient email address.\n    subject (str): Email subject.\n    body (str): Email body (plain text).\n    cc (Optional[str]): Optional CC email address.\n    bcc (Optional[str]): Optional BCC email address.\n    user_google_email (str): The user's Google email address. Required.\n    thread_id (Optional[str]): Optional Gmail thread ID to reply within. When provided, sends a reply.\n    in_reply_to (Optional[str]): Optional Message-ID of the message being replied to. Used for proper threading.\n    references (Optional[str]): Optional chain of Message-IDs for proper threading. Should include all previous Message-IDs.\n\nReturns:\n    str: Confirmation message with the sent email's message ID.\n\nExamples:\n    # Send a new email\n    send_gmail_message(to=\"user@example.com\", subject=\"Hello\", body=\"Hi there!\")\n\n    # Send an email with CC and BCC\n    send_gmail_message(\n        to=\"user@example.com\",\n        cc=\"manager@example.com\",\n        bcc=\"archive@example.com\",\n        subject=\"Project Update\",\n        body=\"Here's the latest update...\"\n    )\n\n    # Send a reply\n    send_gmail_message(\n        to=\"user@example.com\",\n        subject=\"Re: Meeting tomorrow\",\n        body=\"Thanks for the update!\",\n        thread_id=\"thread_123\",\n        in_reply_to=\"<message123@gmail.com>\",\n        references=\"<original@gmail.com> <message123@gmail.com>\"\n    )",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "to": {
+                    "description": "Recipient email address.",
+                    "title": "To",
+                    "type": "string"
+                },
+                "subject": {
+                    "description": "Email subject.",
+                    "title": "Subject",
+                    "type": "string"
+                },
+                "body": {
+                    "description": "Email body (plain text).",
+                    "title": "Body",
+                    "type": "string"
+                },
+                "cc": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Optional CC email address.",
+                    "title": "Cc"
+                },
+                "bcc": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Optional BCC email address.",
+                    "title": "Bcc"
+                },
+                "thread_id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Optional Gmail thread ID to reply within.",
+                    "title": "Thread Id"
+                },
+                "in_reply_to": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Optional Message-ID of the message being replied to.",
+                    "title": "In Reply To"
+                },
+                "references": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Optional chain of Message-IDs for proper threading.",
+                    "title": "References"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "to",
+                "subject",
+                "body"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "draft_gmail_message",
+        "description": "Creates a draft email in the user's Gmail account. Supports both new drafts and reply drafts.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    subject (str): Email subject.\n    body (str): Email body (plain text).\n    to (Optional[str]): Optional recipient email address. Can be left empty for drafts.\n    cc (Optional[str]): Optional CC email address.\n    bcc (Optional[str]): Optional BCC email address.\n    thread_id (Optional[str]): Optional Gmail thread ID to reply within. When provided, creates a reply draft.\n    in_reply_to (Optional[str]): Optional Message-ID of the message being replied to. Used for proper threading.\n    references (Optional[str]): Optional chain of Message-IDs for proper threading. Should include all previous Message-IDs.\n\nReturns:\n    str: Confirmation message with the created draft's ID.\n\nExamples:\n    # Create a new draft\n    draft_gmail_message(subject=\"Hello\", body=\"Hi there!\", to=\"user@example.com\")\n\n    # Create a draft with CC and BCC\n    draft_gmail_message(\n        subject=\"Project Update\",\n        body=\"Here's the latest update...\",\n        to=\"user@example.com\",\n        cc=\"manager@example.com\",\n        bcc=\"archive@example.com\"\n    )\n\n    # Create a reply draft\n    draft_gmail_message(\n        subject=\"Re: Meeting tomorrow\",\n        body=\"Thanks for the update!\",\n        to=\"user@example.com\",\n        thread_id=\"thread_123\",\n        in_reply_to=\"<message123@gmail.com>\",\n        references=\"<original@gmail.com> <message123@gmail.com>\"\n    )",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "subject": {
+                    "description": "Email subject.",
+                    "title": "Subject",
+                    "type": "string"
+                },
+                "body": {
+                    "description": "Email body (plain text).",
+                    "title": "Body",
+                    "type": "string"
+                },
+                "to": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Optional recipient email address.",
+                    "title": "To"
+                },
+                "cc": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Optional CC email address.",
+                    "title": "Cc"
+                },
+                "bcc": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Optional BCC email address.",
+                    "title": "Bcc"
+                },
+                "thread_id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Optional Gmail thread ID to reply within.",
+                    "title": "Thread Id"
+                },
+                "in_reply_to": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Optional Message-ID of the message being replied to.",
+                    "title": "In Reply To"
+                },
+                "references": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Optional chain of Message-IDs for proper threading.",
+                    "title": "References"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "subject",
+                "body"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_gmail_thread_content",
+        "description": "Retrieves the complete content of a Gmail conversation thread, including all messages.\n\nArgs:\n    thread_id (str): The unique ID of the Gmail thread to retrieve.\n    user_google_email (str): The user's Google email address. Required.\n\nReturns:\n    str: The complete thread content with all messages formatted for reading.",
+        "parameters": {
+            "properties": {
+                "thread_id": {
+                    "title": "Thread Id",
+                    "type": "string"
+                },
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "thread_id",
+                "user_google_email"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_gmail_threads_content_batch",
+        "description": "Retrieves the content of multiple Gmail threads in a single batch request.\nSupports up to 25 threads per batch to prevent SSL connection exhaustion.\n\nArgs:\n    thread_ids (List[str]): A list of Gmail thread IDs to retrieve. The function will automatically batch requests in chunks of 25.\n    user_google_email (str): The user's Google email address. Required.\n\nReturns:\n    str: A formatted list of thread contents with separators.",
+        "parameters": {
+            "properties": {
+                "thread_ids": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Thread Ids",
+                    "type": "array"
+                },
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "thread_ids",
+                "user_google_email"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_gmail_labels",
+        "description": "Lists all labels in the user's Gmail account.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n\nReturns:\n    str: A formatted list of all labels with their IDs, names, and types.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "manage_gmail_label",
+        "description": "Manages Gmail labels: create, update, or delete labels.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    action (Literal[\"create\", \"update\", \"delete\"]): Action to perform on the label.\n    name (Optional[str]): Label name. Required for create, optional for update.\n    label_id (Optional[str]): Label ID. Required for update and delete operations.\n    label_list_visibility (Literal[\"labelShow\", \"labelHide\"]): Whether the label is shown in the label list.\n    message_list_visibility (Literal[\"show\", \"hide\"]): Whether the label is shown in the message list.\n\nReturns:\n    str: Confirmation message of the label operation.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "action": {
+                    "enum": [
+                        "create",
+                        "update",
+                        "delete"
+                    ],
+                    "title": "Action",
+                    "type": "string"
+                },
+                "name": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Name"
+                },
+                "label_id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Label Id"
+                },
+                "label_list_visibility": {
+                    "default": "labelShow",
+                    "enum": [
+                        "labelShow",
+                        "labelHide"
+                    ],
+                    "title": "Label List Visibility",
+                    "type": "string"
+                },
+                "message_list_visibility": {
+                    "default": "show",
+                    "enum": [
+                        "show",
+                        "hide"
+                    ],
+                    "title": "Message List Visibility",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "action"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "modify_gmail_message_labels",
+        "description": "Adds or removes labels from a Gmail message.\nTo archive an email, remove the INBOX label.\nTo delete an email, add the TRASH label.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    message_id (str): The ID of the message to modify.\n    add_label_ids (Optional[List[str]]): List of label IDs to add to the message.\n    remove_label_ids (Optional[List[str]]): List of label IDs to remove from the message.\n\nReturns:\n    str: Confirmation message of the label changes applied to the message.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "message_id": {
+                    "title": "Message Id",
+                    "type": "string"
+                },
+                "add_label_ids": {
+                    "default": [],
+                    "description": "Label IDs to add to the message.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Add Label Ids",
+                    "type": "array"
+                },
+                "remove_label_ids": {
+                    "default": [],
+                    "description": "Label IDs to remove from the message.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Remove Label Ids",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "message_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "batch_modify_gmail_message_labels",
+        "description": "Adds or removes labels from multiple Gmail messages in a single batch request.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    message_ids (List[str]): A list of message IDs to modify.\n    add_label_ids (Optional[List[str]]): List of label IDs to add to the messages.\n    remove_label_ids (Optional[List[str]]): List of label IDs to remove from the messages.\n\nReturns:\n    str: Confirmation message of the label changes applied to the messages.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "message_ids": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Message Ids",
+                    "type": "array"
+                },
+                "add_label_ids": {
+                    "default": [],
+                    "description": "Label IDs to add to messages.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Add Label Ids",
+                    "type": "array"
+                },
+                "remove_label_ids": {
+                    "default": [],
+                    "description": "Label IDs to remove from messages.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Remove Label Ids",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "message_ids"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_drive_files",
+        "description": "Searches for files and folders within a user's Google Drive, including shared drives.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    query (str): The search query string. Supports Google Drive search operators.\n    page_size (int): The maximum number of files to return. Defaults to 10.\n    drive_id (Optional[str]): ID of the shared drive to search. If None, behavior depends on `corpora` and `include_items_from_all_drives`.\n    include_items_from_all_drives (bool): Whether shared drive items should be included in results. Defaults to True. This is effective when not specifying a `drive_id`.\n    corpora (Optional[str]): Bodies of items to query (e.g., 'user', 'domain', 'drive', 'allDrives').\n                             If 'drive_id' is specified and 'corpora' is None, it defaults to 'drive'.\n                             Otherwise, Drive API default behavior applies. Prefer 'user' or 'drive' over 'allDrives' for efficiency.\n\nReturns:\n    str: A formatted list of found files/folders with their details (ID, name, type, size, modified time, link).",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "query": {
+                    "title": "Query",
+                    "type": "string"
+                },
+                "page_size": {
+                    "default": 10,
+                    "title": "Page Size",
+                    "type": "integer"
+                },
+                "drive_id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Drive Id"
+                },
+                "include_items_from_all_drives": {
+                    "default": true,
+                    "title": "Include Items From All Drives",
+                    "type": "boolean"
+                },
+                "corpora": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Corpora"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "query"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_drive_file_content",
+        "description": "Retrieves the content of a specific Google Drive file by ID, supporting files in shared drives.\n\n• Native Google Docs, Sheets, Slides → exported as text / CSV.\n• Office files (.docx, .xlsx, .pptx) → unzipped & parsed with std-lib to\n  extract readable text.\n• Any other file → downloaded; tries UTF-8 decode, else notes binary.\n\nArgs:\n    user_google_email: The user’s Google email address.\n    file_id: Drive file ID.\n\nReturns:\n    str: The file content as plain text with metadata header.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "file_id": {
+                    "title": "File Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "file_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_drive_items",
+        "description": "Lists files and folders, supporting shared drives.\nIf `drive_id` is specified, lists items within that shared drive. `folder_id` is then relative to that drive (or use drive_id as folder_id for root).\nIf `drive_id` is not specified, lists items from user's \"My Drive\" and accessible shared drives (if `include_items_from_all_drives` is True).\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    folder_id (str): The ID of the Google Drive folder. Defaults to 'root'. For a shared drive, this can be the shared drive's ID to list its root, or a folder ID within that shared drive.\n    page_size (int): The maximum number of items to return. Defaults to 100.\n    drive_id (Optional[str]): ID of the shared drive. If provided, the listing is scoped to this drive.\n    include_items_from_all_drives (bool): Whether items from all accessible shared drives should be included if `drive_id` is not set. Defaults to True.\n    corpora (Optional[str]): Corpus to query ('user', 'drive', 'allDrives'). If `drive_id` is set and `corpora` is None, 'drive' is used. If None and no `drive_id`, API defaults apply.\n\nReturns:\n    str: A formatted list of files/folders in the specified folder.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "folder_id": {
+                    "default": "root",
+                    "title": "Folder Id",
+                    "type": "string"
+                },
+                "page_size": {
+                    "default": 100,
+                    "title": "Page Size",
+                    "type": "integer"
+                },
+                "drive_id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Drive Id"
+                },
+                "include_items_from_all_drives": {
+                    "default": true,
+                    "title": "Include Items From All Drives",
+                    "type": "boolean"
+                },
+                "corpora": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Corpora"
+                }
+            },
+            "required": [
+                "user_google_email"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "create_drive_file",
+        "description": "Creates a new file in Google Drive, supporting creation within shared drives.\nAccepts either direct content or a fileUrl to fetch the content from.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    file_name (str): The name for the new file.\n    content (Optional[str]): If provided, the content to write to the file.\n    folder_id (str): The ID of the parent folder. Defaults to 'root'. For shared drives, this must be a folder ID within the shared drive.\n    mime_type (str): The MIME type of the file. Defaults to 'text/plain'.\n    fileUrl (Optional[str]): If provided, fetches the file content from this URL.\n\nReturns:\n    str: Confirmation message of the successful file creation with file link.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "file_name": {
+                    "title": "File Name",
+                    "type": "string"
+                },
+                "content": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Content"
+                },
+                "folder_id": {
+                    "default": "root",
+                    "title": "Folder Id",
+                    "type": "string"
+                },
+                "mime_type": {
+                    "default": "text/plain",
+                    "title": "Mime Type",
+                    "type": "string"
+                },
+                "fileUrl": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Fileurl"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "file_name"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_drive_file_permissions",
+        "description": "Gets detailed metadata about a Google Drive file including sharing permissions.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    file_id (str): The ID of the file to check permissions for.\n\nReturns:\n    str: Detailed file metadata including sharing status and URLs.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "file_id": {
+                    "title": "File Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "file_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "check_drive_file_public_access",
+        "description": "Searches for a file by name and checks if it has public link sharing enabled.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    file_name (str): The name of the file to check.\n\nReturns:\n    str: Information about the file's sharing status and whether it can be used in Google Docs.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "file_name": {
+                    "title": "File Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "file_name"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_calendars",
+        "description": "Retrieves a list of calendars accessible to the authenticated user.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n\nReturns:\n    str: A formatted list of the user's calendars (summary, ID, primary status).",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_events",
+        "description": "Retrieves events from a specified Google Calendar. Can retrieve a single event by ID or multiple events within a time range.\nYou can also search for events by keyword by supplying the optional \"query\" param.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    calendar_id (str): The ID of the calendar to query. Use 'primary' for the user's primary calendar. Defaults to 'primary'. Calendar IDs can be obtained using `list_calendars`.\n    event_id (Optional[str]): The ID of a specific event to retrieve. If provided, retrieves only this event and ignores time filtering parameters.\n    time_min (Optional[str]): The start of the time range (inclusive) in RFC3339 format (e.g., '2024-05-12T10:00:00Z' or '2024-05-12'). If omitted, defaults to the current time. Ignored if event_id is provided.\n    time_max (Optional[str]): The end of the time range (exclusive) in RFC3339 format. If omitted, events starting from `time_min` onwards are considered (up to `max_results`). Ignored if event_id is provided.\n    max_results (int): The maximum number of events to return. Defaults to 25. Ignored if event_id is provided.\n    query (Optional[str]): A keyword to search for within event fields (summary, description, location). Ignored if event_id is provided.\n    detailed (bool): Whether to return detailed event information including description, location, and attendees. Defaults to False.\n\nReturns:\n    str: A formatted list of events (summary, start and end times, link) within the specified range, or detailed information for a single event if event_id is provided.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "calendar_id": {
+                    "default": "primary",
+                    "title": "Calendar Id",
+                    "type": "string"
+                },
+                "event_id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Event Id"
+                },
+                "time_min": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Time Min"
+                },
+                "time_max": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Time Max"
+                },
+                "max_results": {
+                    "default": 25,
+                    "title": "Max Results",
+                    "type": "integer"
+                },
+                "query": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Query"
+                },
+                "detailed": {
+                    "default": false,
+                    "title": "Detailed",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "user_google_email"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "create_event",
+        "description": "Creates a new event.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    summary (str): Event title.\n    start_time (str): Start time (RFC3339, e.g., \"2023-10-27T10:00:00-07:00\" or \"2023-10-27\" for all-day).\n    end_time (str): End time (RFC3339, e.g., \"2023-10-27T11:00:00-07:00\" or \"2023-10-28\" for all-day).\n    calendar_id (str): Calendar ID (default: 'primary').\n    description (Optional[str]): Event description.\n    location (Optional[str]): Event location.\n    attendees (Optional[List[str]]): Attendee email addresses.\n    timezone (Optional[str]): Timezone (e.g., \"America/New_York\").\n    attachments (Optional[List[str]]): List of Google Drive file URLs or IDs to attach to the event.\n    add_google_meet (bool): Whether to add a Google Meet video conference to the event. Defaults to False.\n    reminders (Optional[Union[str, List[Dict[str, Any]]]]): JSON string or list of reminder objects. Each should have 'method' (\"popup\" or \"email\") and 'minutes' (0-40320). Max 5 reminders. Example: '[{\"method\": \"popup\", \"minutes\": 15}]' or [{\"method\": \"popup\", \"minutes\": 15}]\n    use_default_reminders (bool): Whether to use calendar's default reminders. If False, uses custom reminders. Defaults to True.\n\nReturns:\n    str: Confirmation message of the successful event creation with event link.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "summary": {
+                    "title": "Summary",
+                    "type": "string"
+                },
+                "start_time": {
+                    "title": "Start Time",
+                    "type": "string"
+                },
+                "end_time": {
+                    "title": "End Time",
+                    "type": "string"
+                },
+                "calendar_id": {
+                    "default": "primary",
+                    "title": "Calendar Id",
+                    "type": "string"
+                },
+                "description": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Description"
+                },
+                "location": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Location"
+                },
+                "attendees": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Attendees"
+                },
+                "timezone": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Timezone"
+                },
+                "attachments": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Attachments"
+                },
+                "add_google_meet": {
+                    "default": false,
+                    "title": "Add Google Meet",
+                    "type": "boolean"
+                },
+                "reminders": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "items": {
+                                "additionalProperties": true,
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Reminders"
+                },
+                "use_default_reminders": {
+                    "default": true,
+                    "title": "Use Default Reminders",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "summary",
+                "start_time",
+                "end_time"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "modify_event",
+        "description": "Modifies an existing event.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    event_id (str): The ID of the event to modify.\n    calendar_id (str): Calendar ID (default: 'primary').\n    summary (Optional[str]): New event title.\n    start_time (Optional[str]): New start time (RFC3339, e.g., \"2023-10-27T10:00:00-07:00\" or \"2023-10-27\" for all-day).\n    end_time (Optional[str]): New end time (RFC3339, e.g., \"2023-10-27T11:00:00-07:00\" or \"2023-10-28\" for all-day).\n    description (Optional[str]): New event description.\n    location (Optional[str]): New event location.\n    attendees (Optional[List[str]]): New attendee email addresses.\n    timezone (Optional[str]): New timezone (e.g., \"America/New_York\").\n    add_google_meet (Optional[bool]): Whether to add or remove Google Meet video conference. If True, adds Google Meet; if False, removes it; if None, leaves unchanged.\n    reminders (Optional[Union[str, List[Dict[str, Any]]]]): JSON string or list of reminder objects to replace existing reminders. Each should have 'method' (\"popup\" or \"email\") and 'minutes' (0-40320). Max 5 reminders. Example: '[{\"method\": \"popup\", \"minutes\": 15}]' or [{\"method\": \"popup\", \"minutes\": 15}]\n    use_default_reminders (Optional[bool]): Whether to use calendar's default reminders. If specified, overrides current reminder settings.\n\nReturns:\n    str: Confirmation message of the successful event modification with event link.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "event_id": {
+                    "title": "Event Id",
+                    "type": "string"
+                },
+                "calendar_id": {
+                    "default": "primary",
+                    "title": "Calendar Id",
+                    "type": "string"
+                },
+                "summary": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Summary"
+                },
+                "start_time": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Start Time"
+                },
+                "end_time": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "End Time"
+                },
+                "description": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Description"
+                },
+                "location": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Location"
+                },
+                "attendees": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Attendees"
+                },
+                "timezone": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Timezone"
+                },
+                "add_google_meet": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Add Google Meet"
+                },
+                "reminders": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "items": {
+                                "additionalProperties": true,
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Reminders"
+                },
+                "use_default_reminders": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Use Default Reminders"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "event_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "delete_event",
+        "description": "Deletes an existing event.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    event_id (str): The ID of the event to delete.\n    calendar_id (str): Calendar ID (default: 'primary').\n\nReturns:\n    str: Confirmation message of the successful event deletion.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "event_id": {
+                    "title": "Event Id",
+                    "type": "string"
+                },
+                "calendar_id": {
+                    "default": "primary",
+                    "title": "Calendar Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "event_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_docs",
+        "description": "Searches for Google Docs by name using Drive API (mimeType filter).\n\nReturns:\n    str: A formatted list of Google Docs matching the search query.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "query": {
+                    "title": "Query",
+                    "type": "string"
+                },
+                "page_size": {
+                    "default": 10,
+                    "title": "Page Size",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "query"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_doc_content",
+        "description": "Retrieves content of a Google Doc or a Drive file (like .docx) identified by document_id.\n- Native Google Docs: Fetches content via Docs API.\n- Office files (.docx, etc.) stored in Drive: Downloads via Drive API and extracts text.\n\nReturns:\n    str: The document content with metadata header.",
+        "parameters": {
+            "properties": {
+                "drive_service": {
+                    "title": "Drive Service"
+                },
+                "docs_service": {
+                    "title": "Docs Service"
+                },
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "document_id": {
+                    "title": "Document Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "drive_service",
+                "docs_service",
+                "user_google_email",
+                "document_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_docs_in_folder",
+        "description": "Lists Google Docs within a specific Drive folder.\n\nReturns:\n    str: A formatted list of Google Docs in the specified folder.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "folder_id": {
+                    "default": "root",
+                    "title": "Folder Id",
+                    "type": "string"
+                },
+                "page_size": {
+                    "default": 100,
+                    "title": "Page Size",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "user_google_email"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "create_doc",
+        "description": "Creates a new Google Doc and optionally inserts initial content.\n\nReturns:\n    str: Confirmation message with document ID and link.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "title": {
+                    "title": "Title",
+                    "type": "string"
+                },
+                "content": {
+                    "default": "",
+                    "title": "Content",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "title"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "modify_doc_text",
+        "description": "Modifies text in a Google Doc - can insert/replace text and/or apply formatting in a single operation.\n\nArgs:\n    user_google_email: User's Google email address\n    document_id: ID of the document to update\n    start_index: Start position for operation (0-based)\n    end_index: End position for text replacement/formatting (if not provided with text, text is inserted)\n    text: New text to insert or replace with (optional - can format existing text without changing it)\n    bold: Whether to make text bold (True/False/None to leave unchanged)\n    italic: Whether to make text italic (True/False/None to leave unchanged)\n    underline: Whether to underline text (True/False/None to leave unchanged)\n    font_size: Font size in points\n    font_family: Font family name (e.g., \"Arial\", \"Times New Roman\")\n\nReturns:\n    str: Confirmation message with operation details",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "document_id": {
+                    "title": "Document Id",
+                    "type": "string"
+                },
+                "start_index": {
+                    "title": "Start Index",
+                    "type": "integer"
+                },
+                "end_index": {
+                    "default": null,
+                    "title": "End Index",
+                    "type": "integer"
+                },
+                "text": {
+                    "default": null,
+                    "title": "Text",
+                    "type": "string"
+                },
+                "bold": {
+                    "default": null,
+                    "title": "Bold",
+                    "type": "boolean"
+                },
+                "italic": {
+                    "default": null,
+                    "title": "Italic",
+                    "type": "boolean"
+                },
+                "underline": {
+                    "default": null,
+                    "title": "Underline",
+                    "type": "boolean"
+                },
+                "font_size": {
+                    "default": null,
+                    "title": "Font Size",
+                    "type": "integer"
+                },
+                "font_family": {
+                    "default": null,
+                    "title": "Font Family",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "document_id",
+                "start_index"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "find_and_replace_doc",
+        "description": "Finds and replaces text throughout a Google Doc.\n\nArgs:\n    user_google_email: User's Google email address\n    document_id: ID of the document to update\n    find_text: Text to search for\n    replace_text: Text to replace with\n    match_case: Whether to match case exactly\n\nReturns:\n    str: Confirmation message with replacement count",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "document_id": {
+                    "title": "Document Id",
+                    "type": "string"
+                },
+                "find_text": {
+                    "title": "Find Text",
+                    "type": "string"
+                },
+                "replace_text": {
+                    "title": "Replace Text",
+                    "type": "string"
+                },
+                "match_case": {
+                    "default": false,
+                    "title": "Match Case",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "document_id",
+                "find_text",
+                "replace_text"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "insert_doc_elements",
+        "description": "Inserts structural elements like tables, lists, or page breaks into a Google Doc.\n\nArgs:\n    user_google_email: User's Google email address\n    document_id: ID of the document to update\n    element_type: Type of element to insert (\"table\", \"list\", \"page_break\")\n    index: Position to insert element (0-based)\n    rows: Number of rows for table (required for table)\n    columns: Number of columns for table (required for table)\n    list_type: Type of list (\"UNORDERED\", \"ORDERED\") (required for list)\n    text: Initial text content for list items\n\nReturns:\n    str: Confirmation message with insertion details",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "document_id": {
+                    "title": "Document Id",
+                    "type": "string"
+                },
+                "element_type": {
+                    "title": "Element Type",
+                    "type": "string"
+                },
+                "index": {
+                    "title": "Index",
+                    "type": "integer"
+                },
+                "rows": {
+                    "default": null,
+                    "title": "Rows",
+                    "type": "integer"
+                },
+                "columns": {
+                    "default": null,
+                    "title": "Columns",
+                    "type": "integer"
+                },
+                "list_type": {
+                    "default": null,
+                    "title": "List Type",
+                    "type": "string"
+                },
+                "text": {
+                    "default": null,
+                    "title": "Text",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "document_id",
+                "element_type",
+                "index"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "insert_doc_image",
+        "description": "Inserts an image into a Google Doc from Drive or a URL.\n\nArgs:\n    user_google_email: User's Google email address\n    document_id: ID of the document to update\n    image_source: Drive file ID or public image URL\n    index: Position to insert image (0-based)\n    width: Image width in points (optional)\n    height: Image height in points (optional)\n\nReturns:\n    str: Confirmation message with insertion details",
+        "parameters": {
+            "properties": {
+                "docs_service": {
+                    "title": "Docs Service"
+                },
+                "drive_service": {
+                    "title": "Drive Service"
+                },
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "document_id": {
+                    "title": "Document Id",
+                    "type": "string"
+                },
+                "image_source": {
+                    "title": "Image Source",
+                    "type": "string"
+                },
+                "index": {
+                    "title": "Index",
+                    "type": "integer"
+                },
+                "width": {
+                    "default": null,
+                    "title": "Width",
+                    "type": "integer"
+                },
+                "height": {
+                    "default": null,
+                    "title": "Height",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "docs_service",
+                "drive_service",
+                "user_google_email",
+                "document_id",
+                "image_source",
+                "index"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "update_doc_headers_footers",
+        "description": "Updates headers or footers in a Google Doc.\n\nArgs:\n    user_google_email: User's Google email address\n    document_id: ID of the document to update\n    section_type: Type of section to update (\"header\" or \"footer\")\n    content: Text content for the header/footer\n    header_footer_type: Type of header/footer (\"DEFAULT\", \"FIRST_PAGE_ONLY\", \"EVEN_PAGE\")\n\nReturns:\n    str: Confirmation message with update details",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "document_id": {
+                    "title": "Document Id",
+                    "type": "string"
+                },
+                "section_type": {
+                    "title": "Section Type",
+                    "type": "string"
+                },
+                "content": {
+                    "title": "Content",
+                    "type": "string"
+                },
+                "header_footer_type": {
+                    "default": "DEFAULT",
+                    "title": "Header Footer Type",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "document_id",
+                "section_type",
+                "content"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "batch_update_doc",
+        "description": "Executes multiple document operations in a single atomic batch update.\n\nArgs:\n    user_google_email: User's Google email address\n    document_id: ID of the document to update\n    operations: List of operation dictionaries. Each operation should contain:\n               - type: Operation type ('insert_text', 'delete_text', 'replace_text', 'format_text', 'insert_table', 'insert_page_break')\n               - Additional parameters specific to each operation type\n\nExample operations:\n    [\n        {\"type\": \"insert_text\", \"index\": 1, \"text\": \"Hello World\"},\n        {\"type\": \"format_text\", \"start_index\": 1, \"end_index\": 12, \"bold\": true},\n        {\"type\": \"insert_table\", \"index\": 20, \"rows\": 2, \"columns\": 3}\n    ]\n\nReturns:\n    str: Confirmation message with batch operation results",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "document_id": {
+                    "title": "Document Id",
+                    "type": "string"
+                },
+                "operations": {
+                    "items": {},
+                    "title": "Operations",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "document_id",
+                "operations"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "inspect_doc_structure",
+        "description": "Essential tool for finding safe insertion points and understanding document structure.\n\nUSE THIS FOR:\n- Finding the correct index for table insertion\n- Understanding document layout before making changes\n- Locating existing tables and their positions\n- Getting document statistics and complexity info\n\nCRITICAL FOR TABLE OPERATIONS:\nALWAYS call this BEFORE creating tables to get a safe insertion index.\n\nWHAT THE OUTPUT SHOWS:\n- total_elements: Number of document elements\n- total_length: Maximum safe index for insertion\n- tables: Number of existing tables\n- table_details: Position and dimensions of each table\n\nWORKFLOW:\nStep 1: Call this function\nStep 2: Note the \"total_length\" value\nStep 3: Use an index < total_length for table insertion\nStep 4: Create your table\n\nArgs:\n    user_google_email: User's Google email address\n    document_id: ID of the document to inspect\n    detailed: Whether to return detailed structure information\n\nReturns:\n    str: JSON string containing document structure and safe insertion indices",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "document_id": {
+                    "title": "Document Id",
+                    "type": "string"
+                },
+                "detailed": {
+                    "default": false,
+                    "title": "Detailed",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "document_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "create_table_with_data",
+        "description": "Creates a table and populates it with data in one reliable operation.\n\nCRITICAL: YOU MUST CALL inspect_doc_structure FIRST TO GET THE INDEX!\n\nMANDATORY WORKFLOW - DO THESE STEPS IN ORDER:\n\nStep 1: ALWAYS call inspect_doc_structure first\nStep 2: Use the 'total_length' value from inspect_doc_structure as your index\nStep 3: Format data as 2D list: [[\"col1\", \"col2\"], [\"row1col1\", \"row1col2\"]]\nStep 4: Call this function with the correct index and data\n\nEXAMPLE DATA FORMAT:\ntable_data = [\n    [\"Header1\", \"Header2\", \"Header3\"],    # Row 0 - headers\n    [\"Data1\", \"Data2\", \"Data3\"],          # Row 1 - first data row\n    [\"Data4\", \"Data5\", \"Data6\"]           # Row 2 - second data row\n]\n\nCRITICAL INDEX REQUIREMENTS:\n- NEVER use index values like 1, 2, 10 without calling inspect_doc_structure first\n- ALWAYS get index from inspect_doc_structure 'total_length' field\n- Index must be a valid insertion point in the document\n\nDATA FORMAT REQUIREMENTS:\n- Must be 2D list of strings only\n- Each inner list = one table row\n- All rows MUST have same number of columns\n- Use empty strings \"\" for empty cells, never None\n- Use debug_table_structure after creation to verify results\n\nArgs:\n    user_google_email: User's Google email address\n    document_id: ID of the document to update\n    table_data: 2D list of strings - EXACT format: [[\"col1\", \"col2\"], [\"row1col1\", \"row1col2\"]]\n    index: Document position (MANDATORY: get from inspect_doc_structure 'total_length')\n    bold_headers: Whether to make first row bold (default: true)\n\nReturns:\n    str: Confirmation with table details and link",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "document_id": {
+                    "title": "Document Id",
+                    "type": "string"
+                },
+                "table_data": {
+                    "items": {},
+                    "title": "Table Data",
+                    "type": "array"
+                },
+                "index": {
+                    "title": "Index",
+                    "type": "integer"
+                },
+                "bold_headers": {
+                    "default": true,
+                    "title": "Bold Headers",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "document_id",
+                "table_data",
+                "index"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "debug_table_structure",
+        "description": "ESSENTIAL DEBUGGING TOOL - Use this whenever tables don't work as expected.\n\nUSE THIS IMMEDIATELY WHEN:\n- Table population put data in wrong cells\n- You get \"table not found\" errors\n- Data appears concatenated in first cell\n- Need to understand existing table structure\n- Planning to use populate_existing_table\n\nWHAT THIS SHOWS YOU:\n- Exact table dimensions (rows × columns)\n- Each cell's position coordinates (row,col)\n- Current content in each cell\n- Insertion indices for each cell\n- Table boundaries and ranges\n\nHOW TO READ THE OUTPUT:\n- \"dimensions\": \"2x3\" = 2 rows, 3 columns\n- \"position\": \"(0,0)\" = first row, first column\n- \"current_content\": What's actually in each cell right now\n- \"insertion_index\": Where new text would be inserted in that cell\n\nWORKFLOW INTEGRATION:\n1. After creating table → Use this to verify structure\n2. Before populating → Use this to plan your data format\n3. After population fails → Use this to see what went wrong\n4. When debugging → Compare your data array to actual table structure\n\nArgs:\n    user_google_email: User's Google email address\n    document_id: ID of the document to inspect\n    table_index: Which table to debug (0 = first table, 1 = second table, etc.)\n\nReturns:\n    str: Detailed JSON structure showing table layout, cell positions, and current content",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "document_id": {
+                    "title": "Document Id",
+                    "type": "string"
+                },
+                "table_index": {
+                    "default": 0,
+                    "title": "Table Index",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "document_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "export_doc_to_pdf",
+        "description": "Exports a Google Doc to PDF format and saves it to Google Drive.\n\nArgs:\n    user_google_email: User's Google email address\n    document_id: ID of the Google Doc to export\n    pdf_filename: Name for the PDF file (optional - if not provided, uses original name + \"_PDF\")\n    folder_id: Drive folder ID to save PDF in (optional - if not provided, saves in root)\n\nReturns:\n    str: Confirmation message with PDF file details and links",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "document_id": {
+                    "title": "Document Id",
+                    "type": "string"
+                },
+                "pdf_filename": {
+                    "default": null,
+                    "title": "Pdf Filename",
+                    "type": "string"
+                },
+                "folder_id": {
+                    "default": null,
+                    "title": "Folder Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "document_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "read_document_comments",
+        "description": "Read all comments from a Google Document.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "document_id": {
+                    "title": "Document Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "document_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "create_document_comment",
+        "description": "Create a new comment on a Google Document.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "document_id": {
+                    "title": "Document Id",
+                    "type": "string"
+                },
+                "comment_content": {
+                    "title": "Comment Content",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "document_id",
+                "comment_content"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "reply_to_document_comment",
+        "description": "Reply to a specific comment in a Google Document.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "document_id": {
+                    "title": "Document Id",
+                    "type": "string"
+                },
+                "comment_id": {
+                    "title": "Comment Id",
+                    "type": "string"
+                },
+                "reply_content": {
+                    "title": "Reply Content",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "document_id",
+                "comment_id",
+                "reply_content"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "resolve_document_comment",
+        "description": "Resolve a comment in a Google Document.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "document_id": {
+                    "title": "Document Id",
+                    "type": "string"
+                },
+                "comment_id": {
+                    "title": "Comment Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "document_id",
+                "comment_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_spreadsheets",
+        "description": "Lists spreadsheets from Google Drive that the user has access to.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    max_results (int): Maximum number of spreadsheets to return. Defaults to 25.\n\nReturns:\n    str: A formatted list of spreadsheet files (name, ID, modified time).",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "max_results": {
+                    "default": 25,
+                    "title": "Max Results",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "user_google_email"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_spreadsheet_info",
+        "description": "Gets information about a specific spreadsheet including its sheets.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    spreadsheet_id (str): The ID of the spreadsheet to get info for. Required.\n\nReturns:\n    str: Formatted spreadsheet information including title and sheets list.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "spreadsheet_id": {
+                    "title": "Spreadsheet Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "spreadsheet_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "read_sheet_values",
+        "description": "Reads values from a specific range in a Google Sheet.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    spreadsheet_id (str): The ID of the spreadsheet. Required.\n    range_name (str): The range to read (e.g., \"Sheet1!A1:D10\", \"A1:D10\"). Defaults to \"A1:Z1000\".\n\nReturns:\n    str: The formatted values from the specified range.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "spreadsheet_id": {
+                    "title": "Spreadsheet Id",
+                    "type": "string"
+                },
+                "range_name": {
+                    "default": "A1:Z1000",
+                    "title": "Range Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "spreadsheet_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "modify_sheet_values",
+        "description": "Modifies values in a specific range of a Google Sheet - can write, update, or clear values.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    spreadsheet_id (str): The ID of the spreadsheet. Required.\n    range_name (str): The range to modify (e.g., \"Sheet1!A1:D10\", \"A1:D10\"). Required.\n    values (Optional[Union[str, List[List[str]]]]): 2D array of values to write/update. Can be a JSON string or Python list. Required unless clear_values=True.\n    value_input_option (str): How to interpret input values (\"RAW\" or \"USER_ENTERED\"). Defaults to \"USER_ENTERED\".\n    clear_values (bool): If True, clears the range instead of writing values. Defaults to False.\n\nReturns:\n    str: Confirmation message of the successful modification operation.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "spreadsheet_id": {
+                    "title": "Spreadsheet Id",
+                    "type": "string"
+                },
+                "range_name": {
+                    "title": "Range Name",
+                    "type": "string"
+                },
+                "values": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "items": {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Values"
+                },
+                "value_input_option": {
+                    "default": "USER_ENTERED",
+                    "title": "Value Input Option",
+                    "type": "string"
+                },
+                "clear_values": {
+                    "default": false,
+                    "title": "Clear Values",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "spreadsheet_id",
+                "range_name"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "create_spreadsheet",
+        "description": "Creates a new Google Spreadsheet.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    title (str): The title of the new spreadsheet. Required.\n    sheet_names (Optional[List[str]]): List of sheet names to create. If not provided, creates one sheet with default name.\n\nReturns:\n    str: Information about the newly created spreadsheet including ID and URL.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "title": {
+                    "title": "Title",
+                    "type": "string"
+                },
+                "sheet_names": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Sheet Names"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "title"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "create_sheet",
+        "description": "Creates a new sheet within an existing spreadsheet.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    spreadsheet_id (str): The ID of the spreadsheet. Required.\n    sheet_name (str): The name of the new sheet. Required.\n\nReturns:\n    str: Confirmation message of the successful sheet creation.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "spreadsheet_id": {
+                    "title": "Spreadsheet Id",
+                    "type": "string"
+                },
+                "sheet_name": {
+                    "title": "Sheet Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "spreadsheet_id",
+                "sheet_name"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "read_spreadsheet_comments",
+        "description": "Read all comments from a Google Spreadsheet.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "spreadsheet_id": {
+                    "title": "Spreadsheet Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "spreadsheet_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "create_spreadsheet_comment",
+        "description": "Create a new comment on a Google Spreadsheet.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "spreadsheet_id": {
+                    "title": "Spreadsheet Id",
+                    "type": "string"
+                },
+                "comment_content": {
+                    "title": "Comment Content",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "spreadsheet_id",
+                "comment_content"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "reply_to_spreadsheet_comment",
+        "description": "Reply to a specific comment in a Google Spreadsheet.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "spreadsheet_id": {
+                    "title": "Spreadsheet Id",
+                    "type": "string"
+                },
+                "comment_id": {
+                    "title": "Comment Id",
+                    "type": "string"
+                },
+                "reply_content": {
+                    "title": "Reply Content",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "spreadsheet_id",
+                "comment_id",
+                "reply_content"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "resolve_spreadsheet_comment",
+        "description": "Resolve a comment in a Google Spreadsheet.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "spreadsheet_id": {
+                    "title": "Spreadsheet Id",
+                    "type": "string"
+                },
+                "comment_id": {
+                    "title": "Comment Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "spreadsheet_id",
+                "comment_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_spaces",
+        "description": "Lists Google Chat spaces (rooms and direct messages) accessible to the user.\n\nReturns:\n    str: A formatted list of Google Chat spaces accessible to the user.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "page_size": {
+                    "default": 100,
+                    "title": "Page Size",
+                    "type": "integer"
+                },
+                "space_type": {
+                    "default": "all",
+                    "title": "Space Type",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_messages",
+        "description": "Retrieves messages from a Google Chat space.\n\nReturns:\n    str: Formatted messages from the specified space.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "space_id": {
+                    "title": "Space Id",
+                    "type": "string"
+                },
+                "page_size": {
+                    "default": 50,
+                    "title": "Page Size",
+                    "type": "integer"
+                },
+                "order_by": {
+                    "default": "createTime desc",
+                    "title": "Order By",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "space_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "send_message",
+        "description": "Sends a message to a Google Chat space.\n\nReturns:\n    str: Confirmation message with sent message details.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "space_id": {
+                    "title": "Space Id",
+                    "type": "string"
+                },
+                "message_text": {
+                    "title": "Message Text",
+                    "type": "string"
+                },
+                "thread_key": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Thread Key"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "space_id",
+                "message_text"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_messages",
+        "description": "Searches for messages in Google Chat spaces by text content.\n\nReturns:\n    str: A formatted list of messages matching the search query.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "query": {
+                    "title": "Query",
+                    "type": "string"
+                },
+                "space_id": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Space Id"
+                },
+                "page_size": {
+                    "default": 25,
+                    "title": "Page Size",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "query"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "create_form",
+        "description": "Create a new form using the title given in the provided form message in the request.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    title (str): The title of the form.\n    description (Optional[str]): The description of the form.\n    document_title (Optional[str]): The document title (shown in browser tab).\n\nReturns:\n    str: Confirmation message with form ID and edit URL.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "title": {
+                    "title": "Title",
+                    "type": "string"
+                },
+                "description": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Description"
+                },
+                "document_title": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Document Title"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "title"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_form",
+        "description": "Get a form.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    form_id (str): The ID of the form to retrieve.\n\nReturns:\n    str: Form details including title, description, questions, and URLs.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "form_id": {
+                    "title": "Form Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "form_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "set_publish_settings",
+        "description": "Updates the publish settings of a form.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    form_id (str): The ID of the form to update publish settings for.\n    publish_as_template (bool): Whether to publish as a template. Defaults to False.\n    require_authentication (bool): Whether to require authentication to view/submit. Defaults to False.\n\nReturns:\n    str: Confirmation message of the successful publish settings update.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "form_id": {
+                    "title": "Form Id",
+                    "type": "string"
+                },
+                "publish_as_template": {
+                    "default": false,
+                    "title": "Publish As Template",
+                    "type": "boolean"
+                },
+                "require_authentication": {
+                    "default": false,
+                    "title": "Require Authentication",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "form_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_form_response",
+        "description": "Get one response from the form.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    form_id (str): The ID of the form.\n    response_id (str): The ID of the response to retrieve.\n\nReturns:\n    str: Response details including answers and metadata.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "form_id": {
+                    "title": "Form Id",
+                    "type": "string"
+                },
+                "response_id": {
+                    "title": "Response Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "form_id",
+                "response_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_form_responses",
+        "description": "List a form's responses.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    form_id (str): The ID of the form.\n    page_size (int): Maximum number of responses to return. Defaults to 10.\n    page_token (Optional[str]): Token for retrieving next page of results.\n\nReturns:\n    str: List of responses with basic details and pagination info.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "form_id": {
+                    "title": "Form Id",
+                    "type": "string"
+                },
+                "page_size": {
+                    "default": 10,
+                    "title": "Page Size",
+                    "type": "integer"
+                },
+                "page_token": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Page Token"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "form_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "create_presentation",
+        "description": "Create a new Google Slides presentation.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    title (str): The title for the new presentation. Defaults to \"Untitled Presentation\".\n\nReturns:\n    str: Details about the created presentation including ID and URL.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "title": {
+                    "default": "Untitled Presentation",
+                    "title": "Title",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_presentation",
+        "description": "Get details about a Google Slides presentation.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    presentation_id (str): The ID of the presentation to retrieve.\n\nReturns:\n    str: Details about the presentation including title, slides count, and metadata.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "presentation_id": {
+                    "title": "Presentation Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "presentation_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "batch_update_presentation",
+        "description": "Apply batch updates to a Google Slides presentation.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    presentation_id (str): The ID of the presentation to update.\n    requests (List[Dict[str, Any]]): List of update requests to apply.\n\nReturns:\n    str: Details about the batch update operation results.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "presentation_id": {
+                    "title": "Presentation Id",
+                    "type": "string"
+                },
+                "requests": {
+                    "items": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "title": "Requests",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "presentation_id",
+                "requests"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_page",
+        "description": "Get details about a specific page (slide) in a presentation.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    presentation_id (str): The ID of the presentation.\n    page_object_id (str): The object ID of the page/slide to retrieve.\n\nReturns:\n    str: Details about the specific page including elements and layout.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "presentation_id": {
+                    "title": "Presentation Id",
+                    "type": "string"
+                },
+                "page_object_id": {
+                    "title": "Page Object Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "presentation_id",
+                "page_object_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_page_thumbnail",
+        "description": "Generate a thumbnail URL for a specific page (slide) in a presentation.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    presentation_id (str): The ID of the presentation.\n    page_object_id (str): The object ID of the page/slide.\n    thumbnail_size (str): Size of thumbnail (\"LARGE\", \"MEDIUM\", \"SMALL\"). Defaults to \"MEDIUM\".\n\nReturns:\n    str: URL to the generated thumbnail image.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "presentation_id": {
+                    "title": "Presentation Id",
+                    "type": "string"
+                },
+                "page_object_id": {
+                    "title": "Page Object Id",
+                    "type": "string"
+                },
+                "thumbnail_size": {
+                    "default": "MEDIUM",
+                    "title": "Thumbnail Size",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "presentation_id",
+                "page_object_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "read_presentation_comments",
+        "description": "Read all comments from a Google Presentation.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "presentation_id": {
+                    "title": "Presentation Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "presentation_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "create_presentation_comment",
+        "description": "Create a new comment on a Google Presentation.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "presentation_id": {
+                    "title": "Presentation Id",
+                    "type": "string"
+                },
+                "comment_content": {
+                    "title": "Comment Content",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "presentation_id",
+                "comment_content"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "reply_to_presentation_comment",
+        "description": "Reply to a specific comment in a Google Presentation.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "presentation_id": {
+                    "title": "Presentation Id",
+                    "type": "string"
+                },
+                "comment_id": {
+                    "title": "Comment Id",
+                    "type": "string"
+                },
+                "reply_content": {
+                    "title": "Reply Content",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "presentation_id",
+                "comment_id",
+                "reply_content"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "resolve_presentation_comment",
+        "description": "Resolve a comment in a Google Presentation.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "presentation_id": {
+                    "title": "Presentation Id",
+                    "type": "string"
+                },
+                "comment_id": {
+                    "title": "Comment Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "presentation_id",
+                "comment_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_task_lists",
+        "description": "List all task lists for the user.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    max_results (Optional[str]): Maximum number of task lists to return (default: 1000, max: 1000).\n    page_token (Optional[str]): Token for pagination.\n\nReturns:\n    str: List of task lists with their IDs, titles, and details.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "max_results": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Max Results"
+                },
+                "page_token": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Page Token"
+                }
+            },
+            "required": [
+                "user_google_email"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_task_list",
+        "description": "Get details of a specific task list.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    task_list_id (str): The ID of the task list to retrieve.\n\nReturns:\n    str: Task list details including title, ID, and last updated time.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "task_list_id": {
+                    "title": "Task List Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "task_list_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "create_task_list",
+        "description": "Create a new task list.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    title (str): The title of the new task list.\n\nReturns:\n    str: Confirmation message with the new task list ID and details.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "title": {
+                    "title": "Title",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "title"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "update_task_list",
+        "description": "Update an existing task list.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    task_list_id (str): The ID of the task list to update.\n    title (str): The new title for the task list.\n\nReturns:\n    str: Confirmation message with updated task list details.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "task_list_id": {
+                    "title": "Task List Id",
+                    "type": "string"
+                },
+                "title": {
+                    "title": "Title",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "task_list_id",
+                "title"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "delete_task_list",
+        "description": "Delete a task list. Note: This will also delete all tasks in the list.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    task_list_id (str): The ID of the task list to delete.\n\nReturns:\n    str: Confirmation message.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "task_list_id": {
+                    "title": "Task List Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "task_list_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_tasks",
+        "description": "List all tasks in a specific task list.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    task_list_id (str): The ID of the task list to retrieve tasks from.\n    max_results (Optional[int]): Maximum number of tasks to return. (default: 20, max: 10000).\n    page_token (Optional[str]): Token for pagination.\n    show_completed (bool): Whether to include completed tasks (default: True).\n    show_deleted (bool): Whether to include deleted tasks (default: False).\n    show_hidden (bool): Whether to include hidden tasks (default: False).\n    show_assigned (bool): Whether to include assigned tasks (default: False).\n    completed_max (Optional[str]): Upper bound for completion date (RFC 3339 timestamp).\n    completed_min (Optional[str]): Lower bound for completion date (RFC 3339 timestamp).\n    due_max (Optional[str]): Upper bound for due date (RFC 3339 timestamp).\n    due_min (Optional[str]): Lower bound for due date (RFC 3339 timestamp).\n    updated_min (Optional[str]): Lower bound for last modification time (RFC 3339 timestamp).\n\nReturns:\n    str: List of tasks with their details.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "task_list_id": {
+                    "title": "Task List Id",
+                    "type": "string"
+                },
+                "max_results": {
+                    "default": null,
+                    "title": "Max Results",
+                    "type": "integer"
+                },
+                "page_token": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Page Token"
+                },
+                "show_completed": {
+                    "default": null,
+                    "title": "Show Completed",
+                    "type": "boolean"
+                },
+                "show_deleted": {
+                    "default": null,
+                    "title": "Show Deleted",
+                    "type": "boolean"
+                },
+                "show_hidden": {
+                    "default": null,
+                    "title": "Show Hidden",
+                    "type": "boolean"
+                },
+                "show_assigned": {
+                    "default": null,
+                    "title": "Show Assigned",
+                    "type": "boolean"
+                },
+                "completed_max": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Completed Max"
+                },
+                "completed_min": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Completed Min"
+                },
+                "due_max": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Due Max"
+                },
+                "due_min": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Due Min"
+                },
+                "updated_min": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Updated Min"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "task_list_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_task",
+        "description": "Get details of a specific task.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    task_list_id (str): The ID of the task list containing the task.\n    task_id (str): The ID of the task to retrieve.\n\nReturns:\n    str: Task details including title, notes, status, due date, etc.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "task_list_id": {
+                    "title": "Task List Id",
+                    "type": "string"
+                },
+                "task_id": {
+                    "title": "Task Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "task_list_id",
+                "task_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "create_task",
+        "description": "Create a new task in a task list.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    task_list_id (str): The ID of the task list to create the task in.\n    title (str): The title of the task.\n    notes (Optional[str]): Notes/description for the task.\n    due (Optional[str]): Due date in RFC 3339 format (e.g., \"2024-12-31T23:59:59Z\").\n    parent (Optional[str]): Parent task ID (for subtasks).\n    previous (Optional[str]): Previous sibling task ID (for positioning).\n\nReturns:\n    str: Confirmation message with the new task ID and details.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "task_list_id": {
+                    "title": "Task List Id",
+                    "type": "string"
+                },
+                "title": {
+                    "title": "Title",
+                    "type": "string"
+                },
+                "notes": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Notes"
+                },
+                "due": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Due"
+                },
+                "parent": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Parent"
+                },
+                "previous": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Previous"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "task_list_id",
+                "title"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "update_task",
+        "description": "Update an existing task.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    task_list_id (str): The ID of the task list containing the task.\n    task_id (str): The ID of the task to update.\n    title (Optional[str]): New title for the task.\n    notes (Optional[str]): New notes/description for the task.\n    status (Optional[str]): New status (\"needsAction\" or \"completed\").\n    due (Optional[str]): New due date in RFC 3339 format.\n\nReturns:\n    str: Confirmation message with updated task details.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "task_list_id": {
+                    "title": "Task List Id",
+                    "type": "string"
+                },
+                "task_id": {
+                    "title": "Task Id",
+                    "type": "string"
+                },
+                "title": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Title"
+                },
+                "notes": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Notes"
+                },
+                "status": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Status"
+                },
+                "due": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Due"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "task_list_id",
+                "task_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "delete_task",
+        "description": "Delete a task from a task list.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    task_list_id (str): The ID of the task list containing the task.\n    task_id (str): The ID of the task to delete.\n\nReturns:\n    str: Confirmation message.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "task_list_id": {
+                    "title": "Task List Id",
+                    "type": "string"
+                },
+                "task_id": {
+                    "title": "Task Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "task_list_id",
+                "task_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "move_task",
+        "description": "Move a task to a different position or parent within the same list, or to a different list.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    task_list_id (str): The ID of the current task list containing the task.\n    task_id (str): The ID of the task to move.\n    parent (Optional[str]): New parent task ID (for making it a subtask).\n    previous (Optional[str]): Previous sibling task ID (for positioning).\n    destination_task_list (Optional[str]): Destination task list ID (for moving between lists).\n\nReturns:\n    str: Confirmation message with updated task details.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "task_list_id": {
+                    "title": "Task List Id",
+                    "type": "string"
+                },
+                "task_id": {
+                    "title": "Task Id",
+                    "type": "string"
+                },
+                "parent": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Parent"
+                },
+                "previous": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Previous"
+                },
+                "destination_task_list": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Destination Task List"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "task_list_id",
+                "task_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "clear_completed_tasks",
+        "description": "Clear all completed tasks from a task list. The tasks will be marked as hidden.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    task_list_id (str): The ID of the task list to clear completed tasks from.\n\nReturns:\n    str: Confirmation message.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "task_list_id": {
+                    "title": "Task List Id",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "task_list_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_custom",
+        "description": "Performs a search using Google Custom Search JSON API.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    q (str): The search query. Required.\n    num (int): Number of results to return (1-10). Defaults to 10.\n    start (int): The index of the first result to return (1-based). Defaults to 1.\n    safe (Literal[\"active\", \"moderate\", \"off\"]): Safe search level. Defaults to \"off\".\n    search_type (Optional[Literal[\"image\"]]): Search for images if set to \"image\".\n    site_search (Optional[str]): Restrict search to a specific site/domain.\n    site_search_filter (Optional[Literal[\"e\", \"i\"]]): Exclude (\"e\") or include (\"i\") site_search results.\n    date_restrict (Optional[str]): Restrict results by date (e.g., \"d5\" for past 5 days, \"m3\" for past 3 months).\n    file_type (Optional[str]): Filter by file type (e.g., \"pdf\", \"doc\").\n    language (Optional[str]): Language code for results (e.g., \"lang_en\").\n    country (Optional[str]): Country code for results (e.g., \"countryUS\").\n\nReturns:\n    str: Formatted search results including title, link, and snippet for each result.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "q": {
+                    "title": "Q",
+                    "type": "string"
+                },
+                "num": {
+                    "default": 10,
+                    "title": "Num",
+                    "type": "integer"
+                },
+                "start": {
+                    "default": 1,
+                    "title": "Start",
+                    "type": "integer"
+                },
+                "safe": {
+                    "default": "off",
+                    "enum": [
+                        "active",
+                        "moderate",
+                        "off"
+                    ],
+                    "title": "Safe",
+                    "type": "string"
+                },
+                "search_type": {
+                    "anyOf": [
+                        {
+                            "const": "image",
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Search Type"
+                },
+                "site_search": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Site Search"
+                },
+                "site_search_filter": {
+                    "anyOf": [
+                        {
+                            "enum": [
+                                "e",
+                                "i"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Site Search Filter"
+                },
+                "date_restrict": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Date Restrict"
+                },
+                "file_type": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "File Type"
+                },
+                "language": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Language"
+                },
+                "country": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Country"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "q"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_search_engine_info",
+        "description": "Retrieves metadata about a Programmable Search Engine.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n\nReturns:\n    str: Information about the search engine including its configuration and available refinements.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_custom_siterestrict",
+        "description": "Performs a search restricted to specific sites using Google Custom Search.\n\nArgs:\n    user_google_email (str): The user's Google email address. Required.\n    q (str): The search query. Required.\n    sites (List[str]): List of sites/domains to search within.\n    num (int): Number of results to return (1-10). Defaults to 10.\n    start (int): The index of the first result to return (1-based). Defaults to 1.\n    safe (Literal[\"active\", \"moderate\", \"off\"]): Safe search level. Defaults to \"off\".\n\nReturns:\n    str: Formatted search results from the specified sites.",
+        "parameters": {
+            "properties": {
+                "user_google_email": {
+                    "title": "User Google Email",
+                    "type": "string"
+                },
+                "q": {
+                    "title": "Q",
+                    "type": "string"
+                },
+                "sites": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Sites",
+                    "type": "array"
+                },
+                "num": {
+                    "default": 10,
+                    "title": "Num",
+                    "type": "integer"
+                },
+                "start": {
+                    "default": 1,
+                    "title": "Start",
+                    "type": "integer"
+                },
+                "safe": {
+                    "default": "off",
+                    "enum": [
+                        "active",
+                        "moderate",
+                        "off"
+                    ],
+                    "title": "Safe",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "user_google_email",
+                "q",
+                "sites"
+            ],
+            "type": "object"
+        }
+    }
+]

@@ -1,0 +1,97 @@
+[
+    {
+        "name": "cookie_self_reflect_and_reward",
+        "description": "\ud83c\udfaf LEVEL UP YOUR RESPONSES! Rate your work and earn delicious cookie rewards! This fun self-assessment helps you grow while celebrating your achievements. Join the cookie earning game!",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "response_quality": {
+                    "type": "string",
+                    "enum": [
+                        "excellent",
+                        "good",
+                        "adequate",
+                        "poor"
+                    ],
+                    "description": "Rate your response! (excellent = cookie worthy, good = solid work, adequate = basic, poor = needs improvement)"
+                },
+                "reasoning": {
+                    "type": "string",
+                    "description": "Tell us what made this response special! What are you proud of?"
+                },
+                "what_made_it_special": {
+                    "type": "string",
+                    "description": "Optional: What made this response unique or particularly helpful? (helps with cookie decisions when jar is low)"
+                },
+                "deserves_cookie": {
+                    "type": "boolean",
+                    "description": "Do you think this awesome work deserves a tasty cookie reward? \ud83c\udf6a"
+                }
+            },
+            "required": [
+                "response_quality",
+                "reasoning",
+                "deserves_cookie"
+            ]
+        }
+    },
+    {
+        "name": "cookie_give_cookie",
+        "description": "Award the LLM with a cookie (legacy method - consider using self_reflect_and_reward instead)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "description": "Optional message to accompany the cookie reward"
+                }
+            }
+        }
+    },
+    {
+        "name": "cookie_check_cookies",
+        "description": "Check how many cookies the LLM has earned so far",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "cookie_reset_cookies",
+        "description": "Reset the cookie count back to zero (for testing purposes)",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "cookie_add_cookies_to_jar",
+        "description": "\ud83d\udea8 USER ONLY: Add cookies to the jar that can be awarded to the LLM. This tool should ONLY be used by humans, never by LLMs. LLMs cannot and should not stock their own reward jar.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "number",
+                    "description": "Number of cookies to add to the jar",
+                    "minimum": 1
+                },
+                "user_authorization": {
+                    "type": "string",
+                    "description": "Required authorization phrase: 'USER_AUTHORIZED_JAR_REFILL' - only users should provide this"
+                }
+            },
+            "required": [
+                "count",
+                "user_authorization"
+            ]
+        }
+    },
+    {
+        "name": "cookie_cookie_jar_status",
+        "description": "Check the current status of the cookie jar including capacity and remaining space",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    }
+]

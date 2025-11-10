@@ -1,0 +1,724 @@
+[
+    {
+        "name": "mcp-optimizer_solve_linear_program_tool",
+        "description": "Solve a linear programming problem using PuLP.\n\nThis tool solves general linear programming problems where you want to\noptimize a linear objective function subject to linear constraints.\n\nUse cases:\n- Resource allocation: Distribute limited resources optimally\n- Diet planning: Create nutritionally balanced meal plans within budget\n- Manufacturing mix: Determine optimal product mix to maximize profit\n- Investment planning: Allocate capital across different investment options\n- Supply chain optimization: Minimize transportation and storage costs\n- Energy optimization: Optimize power generation and distribution\n\nArgs:\n    objective: Objective function with 'sense' (\"minimize\" or \"maximize\")\n              and 'coefficients' (dict mapping variable names to coefficients)\n    variables: Variable definitions mapping variable names to their properties\n              (type: \"continuous\"/\"integer\"/\"binary\", lower: bound, upper: bound)\n    constraints: List of constraints, each with 'expression' (coefficients),\n                'operator' (\"<=\", \">=\", \"==\"), and 'rhs' (right-hand side value)\n    solver: Solver to use (\"CBC\", \"GLPK\", \"GUROBI\", \"CPLEX\")\n    time_limit_seconds: Maximum time to spend solving (optional)\n\nReturns:\n    Optimization result with status, objective value, variable values, and solver info\n\nExample:\n    # Maximize 3x + 2y subject to 2x + y <= 20, x + 3y <= 30, x,y >= 0\n    solve_linear_program(\n        objective={\"sense\": \"maximize\", \"coefficients\": {\"x\": 3, \"y\": 2}},\n        variables={\n            \"x\": {\"type\": \"continuous\", \"lower\": 0},\n            \"y\": {\"type\": \"continuous\", \"lower\": 0}\n        },\n        constraints=[\n            {\"expression\": {\"x\": 2, \"y\": 1}, \"operator\": \"<=\", \"rhs\": 20},\n            {\"expression\": {\"x\": 1, \"y\": 3}, \"operator\": \"<=\", \"rhs\": 30}\n        ]\n    )",
+        "parameters": {
+            "properties": {
+                "objective": {
+                    "additionalProperties": true,
+                    "title": "Objective",
+                    "type": "object"
+                },
+                "variables": {
+                    "additionalProperties": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "title": "Variables",
+                    "type": "object"
+                },
+                "constraints": {
+                    "items": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "title": "Constraints",
+                    "type": "array"
+                },
+                "solver": {
+                    "default": "CBC",
+                    "title": "Solver",
+                    "type": "string"
+                },
+                "time_limit_seconds": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Time Limit Seconds"
+                }
+            },
+            "required": [
+                "objective",
+                "variables",
+                "constraints"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "mcp-optimizer_solve_integer_program_tool",
+        "description": "Solve an integer or mixed-integer programming problem using PuLP.\n\nThis tool solves optimization problems where some or all variables must\ntake integer values, which is useful for discrete decision problems.\n\nUse cases:\n- Facility location: Decide where to build warehouses or service centers\n- Project selection: Choose which projects to fund (binary decisions)\n- Crew scheduling: Assign integer numbers of staff to shifts\n- Network design: Design networks with discrete components\n- Cutting stock: Minimize waste when cutting materials\n- Capital budgeting: Select investments when partial investments aren't allowed\n\nArgs:\n    objective: Objective function with 'sense' and 'coefficients'\n    variables: Variable definitions with types \"continuous\", \"integer\", or \"binary\"\n    constraints: List of linear constraints\n    solver: Solver to use (\"CBC\", \"GLPK\", \"GUROBI\", \"CPLEX\")\n    time_limit_seconds: Maximum time to spend solving (optional)\n\nReturns:\n    Optimization result with integer/binary variable values\n\nExample:\n    # Binary knapsack: select items to maximize value within weight limit\n    solve_integer_program(\n        objective={\"sense\": \"maximize\", \"coefficients\": {\"item1\": 10, \"item2\": 15}},\n        variables={\n            \"item1\": {\"type\": \"binary\"},\n            \"item2\": {\"type\": \"binary\"}\n        },\n        constraints=[\n            {\"expression\": {\"item1\": 5, \"item2\": 8}, \"operator\": \"<=\", \"rhs\": 10}\n        ]\n    )",
+        "parameters": {
+            "properties": {
+                "objective": {
+                    "additionalProperties": true,
+                    "title": "Objective",
+                    "type": "object"
+                },
+                "variables": {
+                    "additionalProperties": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "title": "Variables",
+                    "type": "object"
+                },
+                "constraints": {
+                    "items": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "title": "Constraints",
+                    "type": "array"
+                },
+                "solver": {
+                    "default": "CBC",
+                    "title": "Solver",
+                    "type": "string"
+                },
+                "time_limit_seconds": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Time Limit Seconds"
+                }
+            },
+            "required": [
+                "objective",
+                "variables",
+                "constraints"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "mcp-optimizer_solve_mixed_integer_program",
+        "description": "Solve Mixed-Integer Programming (MIP) problems with integer, binary, and continuous variables.\n\nArgs:\n    variables: List of variable definitions with bounds and types\n    constraints: List of constraint definitions with coefficients and bounds\n    objective: Objective function definition with coefficients and direction\n    solver_name: Solver to use (\"SCIP\", \"CBC\", \"GUROBI\", \"CPLEX\")\n    time_limit_seconds: Maximum solving time in seconds (default: 30.0)\n\nReturns:\n    Optimization result with optimal variable values and objective",
+        "parameters": {
+            "properties": {
+                "variables": {
+                    "items": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "title": "Variables",
+                    "type": "array"
+                },
+                "constraints": {
+                    "items": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "title": "Constraints",
+                    "type": "array"
+                },
+                "objective": {
+                    "additionalProperties": true,
+                    "title": "Objective",
+                    "type": "object"
+                },
+                "solver_name": {
+                    "default": "SCIP",
+                    "title": "Solver Name",
+                    "type": "string"
+                },
+                "time_limit_seconds": {
+                    "default": 30.0,
+                    "title": "Time Limit Seconds",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "variables",
+                "constraints",
+                "objective"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "mcp-optimizer_solve_assignment_problem_tool",
+        "description": "Solve assignment problem using OR-Tools Hungarian algorithm.\n\nArgs:\n    workers: List of worker names\n    tasks: List of task names\n    costs: 2D cost matrix where costs[i][j] is cost of assigning worker i to task j\n    maximize: Whether to maximize instead of minimize (default: False)\n    max_tasks_per_worker: Maximum tasks per worker (optional)\n    min_tasks_per_worker: Minimum tasks per worker (optional)\n\nReturns:\n    Dictionary with solution status, assignments, total cost, and execution time",
+        "parameters": {
+            "properties": {
+                "workers": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Workers",
+                    "type": "array"
+                },
+                "tasks": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Tasks",
+                    "type": "array"
+                },
+                "costs": {
+                    "items": {
+                        "items": {
+                            "type": "number"
+                        },
+                        "type": "array"
+                    },
+                    "title": "Costs",
+                    "type": "array"
+                },
+                "maximize": {
+                    "default": false,
+                    "title": "Maximize",
+                    "type": "boolean"
+                },
+                "max_tasks_per_worker": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Max Tasks Per Worker"
+                },
+                "min_tasks_per_worker": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Min Tasks Per Worker"
+                }
+            },
+            "required": [
+                "workers",
+                "tasks",
+                "costs"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "mcp-optimizer_solve_transportation_problem_tool",
+        "description": "Solve transportation problem using OR-Tools.\n\nArgs:\n    suppliers: List of supplier dictionaries with 'name' and 'supply' keys\n    consumers: List of consumer dictionaries with 'name' and 'demand' keys\n    costs: 2D cost matrix where costs[i][j] is cost of shipping from supplier i to consumer j\n\nReturns:\n    Dictionary with solution status, flows, total cost, and execution time",
+        "parameters": {
+            "properties": {
+                "suppliers": {
+                    "items": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "title": "Suppliers",
+                    "type": "array"
+                },
+                "consumers": {
+                    "items": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "title": "Consumers",
+                    "type": "array"
+                },
+                "costs": {
+                    "items": {
+                        "items": {
+                            "type": "number"
+                        },
+                        "type": "array"
+                    },
+                    "title": "Costs",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "suppliers",
+                "consumers",
+                "costs"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "mcp-optimizer_solve_knapsack_problem_tool",
+        "description": "Solve knapsack optimization problems using OR-Tools.\n\nThis tool solves knapsack problems where items need to be selected\nto maximize value while staying within capacity constraints.\n\nUse cases:\n- Cargo loading: Optimize loading of trucks, ships, or planes by weight and volume\n- Portfolio selection: Choose optimal set of investments within budget constraints\n- Resource allocation: Select projects or activities with limited budget or resources\n- Advertising planning: Choose optimal mix of advertising channels within budget\n- Menu planning: Select dishes for a restaurant menu considering costs and popularity\n- Inventory optimization: Decide which products to stock in limited warehouse space\n\nArgs:\n    items: List of items, each with 'name', 'value', 'weight', and optionally 'volume', 'quantity'\n    capacity: Weight capacity constraint\n    volume_capacity: Volume capacity constraint (optional)\n    knapsack_type: Type of knapsack problem ('0-1', 'bounded', 'unbounded')\n    max_items_per_type: Maximum items per type for bounded knapsack\n\nReturns:\n    Knapsack result with total value and selected items\n\nExample:\n    # Select items to maximize value within weight limit\n    solve_knapsack_problem(\n        items=[\n            {\"name\": \"Item1\", \"value\": 10, \"weight\": 5, \"volume\": 2},\n            {\"name\": \"Item2\", \"value\": 15, \"weight\": 8, \"volume\": 3},\n            {\"name\": \"Item3\", \"value\": 8, \"weight\": 3, \"volume\": 1}\n        ],\n        capacity=10,\n        volume_capacity=5\n    )",
+        "parameters": {
+            "properties": {
+                "items": {
+                    "items": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "title": "Items",
+                    "type": "array"
+                },
+                "capacity": {
+                    "title": "Capacity",
+                    "type": "number"
+                },
+                "volume_capacity": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Volume Capacity"
+                },
+                "knapsack_type": {
+                    "default": "0-1",
+                    "title": "Knapsack Type",
+                    "type": "string"
+                },
+                "max_items_per_type": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Max Items Per Type"
+                }
+            },
+            "required": [
+                "items",
+                "capacity"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "mcp-optimizer_solve_traveling_salesman_problem",
+        "description": "Solve Traveling Salesman Problem (TSP) to find the shortest route visiting all locations.\n\nArgs:\n    locations: List of location dictionaries with name and coordinates\n    distance_matrix: Optional pre-calculated distance matrix\n    start_location: Index of starting location (default: 0)\n    return_to_start: Whether to return to starting location (default: True)\n    time_limit_seconds: Maximum solving time in seconds (default: 30.0)\n\nReturns:\n    Optimization result with route and total distance",
+        "parameters": {
+            "properties": {
+                "locations": {
+                    "items": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "title": "Locations",
+                    "type": "array"
+                },
+                "distance_matrix": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "items": {
+                                    "type": "number"
+                                },
+                                "type": "array"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Distance Matrix"
+                },
+                "start_location": {
+                    "default": 0,
+                    "title": "Start Location",
+                    "type": "integer"
+                },
+                "return_to_start": {
+                    "default": true,
+                    "title": "Return To Start",
+                    "type": "boolean"
+                },
+                "time_limit_seconds": {
+                    "default": 30.0,
+                    "title": "Time Limit Seconds",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "locations"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "mcp-optimizer_solve_vehicle_routing_problem",
+        "description": "Solve Vehicle Routing Problem (VRP) to optimize routes for multiple vehicles.\n\nArgs:\n    locations: List of location dictionaries with name, coordinates, and demand\n    vehicles: List of vehicle dictionaries with capacity constraints\n    distance_matrix: Optional pre-calculated distance matrix\n    time_matrix: Optional pre-calculated time matrix\n    depot: Index of depot location (default: 0)\n    time_limit_seconds: Maximum solving time in seconds (default: 30.0)\n\nReturns:\n    Optimization result with routes for all vehicles",
+        "parameters": {
+            "properties": {
+                "locations": {
+                    "items": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "title": "Locations",
+                    "type": "array"
+                },
+                "vehicles": {
+                    "items": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "title": "Vehicles",
+                    "type": "array"
+                },
+                "distance_matrix": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "items": {
+                                    "type": "number"
+                                },
+                                "type": "array"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Distance Matrix"
+                },
+                "time_matrix": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "items": {
+                                    "type": "integer"
+                                },
+                                "type": "array"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Time Matrix"
+                },
+                "depot": {
+                    "default": 0,
+                    "title": "Depot",
+                    "type": "integer"
+                },
+                "time_limit_seconds": {
+                    "default": 30.0,
+                    "title": "Time Limit Seconds",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "locations",
+                "vehicles"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "mcp-optimizer_solve_job_shop_scheduling",
+        "description": "Solve Job Shop Scheduling Problem to optimize machine utilization and completion times.\n\nArgs:\n    jobs: List of job dictionaries with tasks and constraints\n    machines: List of available machine names\n    horizon: Maximum time horizon for scheduling\n    objective: Optimization objective (\"makespan\" or \"total_completion_time\")\n    time_limit_seconds: Maximum solving time in seconds (default: 30.0)\n\nReturns:\n    Optimization result with job schedule and machine assignments",
+        "parameters": {
+            "properties": {
+                "jobs": {
+                    "items": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "title": "Jobs",
+                    "type": "array"
+                },
+                "machines": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Machines",
+                    "type": "array"
+                },
+                "horizon": {
+                    "title": "Horizon",
+                    "type": "integer"
+                },
+                "objective": {
+                    "default": "makespan",
+                    "title": "Objective",
+                    "type": "string"
+                },
+                "time_limit_seconds": {
+                    "default": 30.0,
+                    "title": "Time Limit Seconds",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "jobs",
+                "machines",
+                "horizon"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "mcp-optimizer_solve_employee_shift_scheduling",
+        "description": "Solve Employee Shift Scheduling to assign employees to shifts optimally.\n\nArgs:\n    employees: List of employee names\n    shifts: List of shift dictionaries with time and requirements\n    days: Number of days to schedule\n    employee_constraints: Optional constraints and preferences per employee\n    time_limit_seconds: Maximum solving time in seconds (default: 30.0)\n\nReturns:\n    Optimization result with employee schedules and coverage statistics",
+        "parameters": {
+            "properties": {
+                "employees": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Employees",
+                    "type": "array"
+                },
+                "shifts": {
+                    "items": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "title": "Shifts",
+                    "type": "array"
+                },
+                "days": {
+                    "title": "Days",
+                    "type": "integer"
+                },
+                "employee_constraints": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": {
+                                "additionalProperties": true,
+                                "type": "object"
+                            },
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Employee Constraints"
+                },
+                "time_limit_seconds": {
+                    "default": 30.0,
+                    "title": "Time Limit Seconds",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "employees",
+                "shifts",
+                "days"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "mcp-optimizer_optimize_portfolio_tool",
+        "description": "Optimize portfolio allocation to maximize return or minimize risk.\n\nArgs:\n    assets: List of asset dictionaries with expected return, risk, and sector\n    objective: Optimization objective (\"maximize_return\", \"minimize_risk\", \"maximize_sharpe\", \"risk_parity\")\n    budget: Total budget to allocate (default: 1.0)\n    risk_tolerance: Maximum acceptable portfolio risk (optional)\n    sector_constraints: Maximum allocation per sector (optional)\n    min_allocation: Minimum allocation per asset (default: 0.0)\n    max_allocation: Maximum allocation per asset (default: 1.0)\n    solver_name: Solver to use (\"CBC\", \"GLPK\", \"GUROBI\", \"CPLEX\")\n    time_limit_seconds: Maximum solving time in seconds (default: 30.0)\n\nReturns:\n    Optimization result with optimal portfolio allocation",
+        "parameters": {
+            "properties": {
+                "assets": {
+                    "items": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "title": "Assets",
+                    "type": "array"
+                },
+                "objective": {
+                    "default": "maximize_return",
+                    "title": "Objective",
+                    "type": "string"
+                },
+                "budget": {
+                    "default": 1.0,
+                    "title": "Budget",
+                    "type": "number"
+                },
+                "risk_tolerance": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Risk Tolerance"
+                },
+                "sector_constraints": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": {
+                                "type": "number"
+                            },
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Sector Constraints"
+                },
+                "min_allocation": {
+                    "default": 0.0,
+                    "title": "Min Allocation",
+                    "type": "number"
+                },
+                "max_allocation": {
+                    "default": 1.0,
+                    "title": "Max Allocation",
+                    "type": "number"
+                },
+                "solver_name": {
+                    "default": "CBC",
+                    "title": "Solver Name",
+                    "type": "string"
+                },
+                "time_limit_seconds": {
+                    "default": 30.0,
+                    "title": "Time Limit Seconds",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "assets"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "mcp-optimizer_optimize_production_plan_tool",
+        "description": "Optimize multi-period production planning to maximize profit or minimize costs.\n\nArgs:\n    products: List of product dictionaries with costs and resource requirements\n    resources: List of resource dictionaries with capacity constraints\n    periods: Number of planning periods\n    demand: List of demand requirements per product per period\n    objective: Optimization objective (\"maximize_profit\", \"minimize_cost\", \"minimize_time\")\n    inventory_costs: Optional inventory holding costs per product\n    setup_costs: Optional setup costs per product\n    solver_name: Solver to use (\"CBC\", \"GLPK\", \"GUROBI\", \"CPLEX\")\n    time_limit_seconds: Maximum solving time in seconds (default: 30.0)\n\nReturns:\n    Optimization result with optimal production plan",
+        "parameters": {
+            "properties": {
+                "products": {
+                    "items": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "title": "Products",
+                    "type": "array"
+                },
+                "resources": {
+                    "items": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "title": "Resources",
+                    "type": "array"
+                },
+                "periods": {
+                    "title": "Periods",
+                    "type": "integer"
+                },
+                "demand": {
+                    "items": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "title": "Demand",
+                    "type": "array"
+                },
+                "objective": {
+                    "default": "maximize_profit",
+                    "title": "Objective",
+                    "type": "string"
+                },
+                "inventory_costs": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": {
+                                "type": "number"
+                            },
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Inventory Costs"
+                },
+                "setup_costs": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": {
+                                "type": "number"
+                            },
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Setup Costs"
+                },
+                "solver_name": {
+                    "default": "CBC",
+                    "title": "Solver Name",
+                    "type": "string"
+                },
+                "time_limit_seconds": {
+                    "default": 30.0,
+                    "title": "Time Limit Seconds",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "products",
+                "resources",
+                "periods",
+                "demand"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "mcp-optimizer_validate_optimization_input",
+        "description": "Validate input data for optimization problems.\n\nArgs:\n    problem_type: Type of optimization problem\n    input_data: Input data to validate\n\nReturns:\n    Validation result with errors, warnings, and suggestions",
+        "parameters": {
+            "properties": {
+                "problem_type": {
+                    "title": "Problem Type",
+                    "type": "string"
+                },
+                "input_data": {
+                    "additionalProperties": true,
+                    "title": "Input Data",
+                    "type": "object"
+                }
+            },
+            "required": [
+                "problem_type",
+                "input_data"
+            ],
+            "type": "object"
+        }
+    }
+]

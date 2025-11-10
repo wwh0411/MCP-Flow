@@ -1,0 +1,31 @@
+[
+    {
+        "name": "run_code",
+        "description": "\nRun code in a sandboxed environment.\n\nSpecify a runtime and then provide some code to run.\n\n| runtime | Programming Language |\n|---------|----------------------|\n| python  | Python               |\n| quickjs | JavaScript           |\n| clang   | C                    |\n| clangpp | C++                  |\n| ruby    | Ruby                 |\n| php-cgi | PHP                  |\n\nYou can write code for any of the available runtimes, so use the best\nprogramming language for the job.\n\nIf you're unsure, try Python or JavaScript first.\n\nUse this tool for the following scenarios:\n * Running a complex calculation to get an accurate answer\n * Solving a problem that requires an algorithm\n * Generating statistics or analysing data\n * Seeing the result of a small snippet of code run in isolation\n * Debugging code by running small snippets\n * Testing code by running small snippets\n\nYou can use STDOUT to print out results so that you can use them.\nFollowing execution you'll be provided with the STDIN, STDOUT, and\nSTDERR combined in the form of TTY output.\n\nMake sure that all the data you need is provided inside the program,\nyou won't be able to access the file system or connect to the internet.\n\nThe code is executed in a safe and secure temporary sandbox. You\nwon't be able to make network connections, access the filesystem, or\nexecute system commands. You won't be able to import any packages\nfrom a package manager or execute any external programs. Only the\ncore programming language capabilities are available.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "runtime": {
+                    "type": "string",
+                    "enum": [
+                        "python",
+                        "quickjs",
+                        "clang",
+                        "clangpp",
+                        "ruby",
+                        "php-cgi"
+                    ]
+                },
+                "code": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "runtime",
+                "code"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

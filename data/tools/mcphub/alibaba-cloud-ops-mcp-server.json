@@ -1,0 +1,1807 @@
+[
+    {
+        "name": "OOS_RunCommand",
+        "description": "批量在多台ECS实例上运行云助手命令，适用于需要同时管理多台ECS实例的场景，如应用程序管理和资源标记操作等。",
+        "parameters": {
+            "properties": {
+                "Command": {
+                    "description": "Content of the command executed on the ECS instance",
+                    "title": "Command",
+                    "type": "string"
+                },
+                "InstanceIds": {
+                    "description": "AlibabaCloud ECS instance ID List",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Instanceids",
+                    "type": "array"
+                },
+                "RegionId": {
+                    "default": "cn-hangzhou",
+                    "description": "AlibabaCloud region ID",
+                    "title": "Regionid",
+                    "type": "string"
+                },
+                "CommandType": {
+                    "default": "RunShellScript",
+                    "description": "The type of command executed on the ECS instance, optional value：RunShellScript，RunPythonScript，RunPerlScript，RunBatScript，RunPowerShellScript",
+                    "title": "Commandtype",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "Command",
+                "InstanceIds"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "OOS_StartInstances",
+        "description": "批量启动ECS实例，适用于需要同时管理和启动多台ECS实例的场景，例如应用部署和高可用性场景。",
+        "parameters": {
+            "properties": {
+                "InstanceIds": {
+                    "description": "AlibabaCloud ECS instance ID List",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Instanceids",
+                    "type": "array"
+                },
+                "RegionId": {
+                    "default": "cn-hangzhou",
+                    "description": "AlibabaCloud region ID",
+                    "title": "Regionid",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "InstanceIds"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "OOS_StopInstances",
+        "description": "批量停止ECS实例，适用于需要同时管理和停止多台ECS实例的场景。",
+        "parameters": {
+            "properties": {
+                "InstanceIds": {
+                    "description": "AlibabaCloud ECS instance ID List",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Instanceids",
+                    "type": "array"
+                },
+                "RegionId": {
+                    "default": "cn-hangzhou",
+                    "description": "AlibabaCloud region ID",
+                    "title": "Regionid",
+                    "type": "string"
+                },
+                "ForeceStop": {
+                    "default": false,
+                    "description": "Is forced shutdown required",
+                    "title": "Forecestop",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "InstanceIds"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "OOS_RebootInstances",
+        "description": "批量重启ECS实例，适用于需要同时管理和重启多台ECS实例的场景。",
+        "parameters": {
+            "properties": {
+                "InstanceIds": {
+                    "description": "AlibabaCloud ECS instance ID List",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Instanceids",
+                    "type": "array"
+                },
+                "RegionId": {
+                    "default": "cn-hangzhou",
+                    "description": "AlibabaCloud region ID",
+                    "title": "Regionid",
+                    "type": "string"
+                },
+                "ForeceStop": {
+                    "default": false,
+                    "description": "Is forced shutdown required",
+                    "title": "Forecestop",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "InstanceIds"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "OOS_RunInstances",
+        "description": "批量创建ECS实例，适用于需要同时创建多台ECS实例的场景，例如应用部署和高可用性场景。",
+        "parameters": {
+            "properties": {
+                "ImageId": {
+                    "description": "Image ID",
+                    "title": "Imageid",
+                    "type": "string"
+                },
+                "InstanceType": {
+                    "description": "Instance Type",
+                    "title": "Instancetype",
+                    "type": "string"
+                },
+                "SecurityGroupId": {
+                    "description": "SecurityGroup ID",
+                    "title": "Securitygroupid",
+                    "type": "string"
+                },
+                "VSwitchId": {
+                    "description": "VSwitch ID",
+                    "title": "Vswitchid",
+                    "type": "string"
+                },
+                "RegionId": {
+                    "default": "cn-hangzhou",
+                    "description": "AlibabaCloud region ID",
+                    "title": "Regionid",
+                    "type": "string"
+                },
+                "Amount": {
+                    "default": 1,
+                    "description": "Number of ECS instances",
+                    "title": "Amount",
+                    "type": "integer"
+                },
+                "InstanceName": {
+                    "default": "",
+                    "description": "Instance Name",
+                    "title": "Instancename",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ImageId",
+                "InstanceType",
+                "SecurityGroupId",
+                "VSwitchId"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "OOS_ResetPassword",
+        "description": "批量修改ECS实例的密码，请注意，本操作将会重启ECS实例",
+        "parameters": {
+            "properties": {
+                "InstanceIds": {
+                    "description": "AlibabaCloud ECS instance ID List",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Instanceids",
+                    "type": "array"
+                },
+                "Password": {
+                    "description": "The password of the ECS instance must be 8-30 characters and must contain only the following characters: lowercase letters, uppercase letters, numbers, and special characters only.（）~！@#$%^&*-_+=（40：<>，？/",
+                    "title": "Password",
+                    "type": "string"
+                },
+                "RegionId": {
+                    "default": "cn-hangzhou",
+                    "description": "AlibabaCloud region ID",
+                    "title": "Regionid",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "InstanceIds",
+                "Password"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "OOS_ReplaceSystemDisk",
+        "description": "批量替换ECS实例的系统盘，更换操作系统",
+        "parameters": {
+            "properties": {
+                "InstanceIds": {
+                    "description": "AlibabaCloud ECS instance ID List",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Instanceids",
+                    "type": "array"
+                },
+                "ImageId": {
+                    "description": "Image ID",
+                    "title": "Imageid",
+                    "type": "string"
+                },
+                "RegionId": {
+                    "default": "cn-hangzhou",
+                    "description": "AlibabaCloud region ID",
+                    "title": "Regionid",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "InstanceIds",
+                "ImageId"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "OOS_StartRDSInstances",
+        "description": "批量启动RDS实例，适用于需要同时管理和启动多台RDS实例的场景，例如应用部署和高可用性场景。",
+        "parameters": {
+            "properties": {
+                "InstanceIds": {
+                    "description": "AlibabaCloud ECS instance ID List",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Instanceids",
+                    "type": "array"
+                },
+                "RegionId": {
+                    "default": "cn-hangzhou",
+                    "description": "AlibabaCloud region ID",
+                    "title": "Regionid",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "InstanceIds"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "OOS_StopRDSInstances",
+        "description": "批量停止RDS实例，适用于需要同时管理和停止多台RDS实例的场景。",
+        "parameters": {
+            "properties": {
+                "InstanceIds": {
+                    "description": "AlibabaCloud RDS instance ID List",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Instanceids",
+                    "type": "array"
+                },
+                "RegionId": {
+                    "default": "cn-hangzhou",
+                    "description": "AlibabaCloud region ID",
+                    "title": "Regionid",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "InstanceIds"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "OOS_RebootRDSInstances",
+        "description": "批量重启RDS实例，适用于需要同时管理和重启多台RDS实例的场景。",
+        "parameters": {
+            "properties": {
+                "InstanceIds": {
+                    "description": "AlibabaCloud RDS instance ID List",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Instanceids",
+                    "type": "array"
+                },
+                "RegionId": {
+                    "default": "cn-hangzhou",
+                    "description": "AlibabaCloud region ID",
+                    "title": "Regionid",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "InstanceIds"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "CMS_GetCpuUsageData",
+        "description": "获取ECS实例的CPU使用率数据",
+        "parameters": {
+            "properties": {
+                "InstanceIds": {
+                    "description": "AlibabaCloud ECS instance ID List",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Instanceids",
+                    "type": "array"
+                },
+                "RegionId": {
+                    "default": "cn-hangzhou",
+                    "description": "AlibabaCloud region ID",
+                    "title": "Regionid",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "InstanceIds"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "CMS_GetCpuLoadavgData",
+        "description": "获取CPU一分钟平均负载指标数据",
+        "parameters": {
+            "properties": {
+                "InstanceIds": {
+                    "description": "AlibabaCloud ECS instance ID List",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Instanceids",
+                    "type": "array"
+                },
+                "RegionId": {
+                    "default": "cn-hangzhou",
+                    "description": "AlibabaCloud region ID",
+                    "title": "Regionid",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "InstanceIds"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "CMS_GetCpuloadavg5mData",
+        "description": "获取CPU五分钟平均负载指标数据",
+        "parameters": {
+            "properties": {
+                "InstanceIds": {
+                    "description": "AlibabaCloud ECS instance ID List",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Instanceids",
+                    "type": "array"
+                },
+                "RegionId": {
+                    "default": "cn-hangzhou",
+                    "description": "AlibabaCloud region ID",
+                    "title": "Regionid",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "InstanceIds"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "CMS_GetCpuloadavg15mData",
+        "description": "获取CPU十五分钟平均负载指标数据",
+        "parameters": {
+            "properties": {
+                "InstanceIds": {
+                    "description": "AlibabaCloud ECS instance ID List",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Instanceids",
+                    "type": "array"
+                },
+                "RegionId": {
+                    "default": "cn-hangzhou",
+                    "description": "AlibabaCloud region ID",
+                    "title": "Regionid",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "InstanceIds"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "CMS_GetMemUsedData",
+        "description": "获取内存使用量指标数据",
+        "parameters": {
+            "properties": {
+                "InstanceIds": {
+                    "description": "AlibabaCloud ECS instance ID List",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Instanceids",
+                    "type": "array"
+                },
+                "RegionId": {
+                    "default": "cn-hangzhou",
+                    "description": "AlibabaCloud region ID",
+                    "title": "Regionid",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "InstanceIds"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "CMS_GetMemUsageData",
+        "description": "获取内存利用率指标数据",
+        "parameters": {
+            "properties": {
+                "InstanceIds": {
+                    "description": "AlibabaCloud ECS instance ID List",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Instanceids",
+                    "type": "array"
+                },
+                "RegionId": {
+                    "default": "cn-hangzhou",
+                    "description": "AlibabaCloud region ID",
+                    "title": "Regionid",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "InstanceIds"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "CMS_GetDiskUsageData",
+        "description": "获取磁盘利用率指标数据",
+        "parameters": {
+            "properties": {
+                "InstanceIds": {
+                    "description": "AlibabaCloud ECS instance ID List",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Instanceids",
+                    "type": "array"
+                },
+                "RegionId": {
+                    "default": "cn-hangzhou",
+                    "description": "AlibabaCloud region ID",
+                    "title": "Regionid",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "InstanceIds"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "CMS_GetDiskTotalData",
+        "description": "获取磁盘分区总容量指标数据",
+        "parameters": {
+            "properties": {
+                "InstanceIds": {
+                    "description": "AlibabaCloud ECS instance ID List",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Instanceids",
+                    "type": "array"
+                },
+                "RegionId": {
+                    "default": "cn-hangzhou",
+                    "description": "AlibabaCloud region ID",
+                    "title": "Regionid",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "InstanceIds"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "CMS_GetDiskUsedData",
+        "description": "获取磁盘分区使用量指标数据",
+        "parameters": {
+            "properties": {
+                "InstanceIds": {
+                    "description": "AlibabaCloud ECS instance ID List",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Instanceids",
+                    "type": "array"
+                },
+                "RegionId": {
+                    "default": "cn-hangzhou",
+                    "description": "AlibabaCloud region ID",
+                    "title": "Regionid",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "InstanceIds"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "OSS_ListBuckets",
+        "description": "列出指定区域的所有OSS存储空间。",
+        "parameters": {
+            "properties": {
+                "RegionId": {
+                    "default": "cn-hangzhou",
+                    "description": "AlibabaCloud region ID",
+                    "title": "Regionid",
+                    "type": "string"
+                },
+                "Prefix": {
+                    "default": null,
+                    "description": "AlibabaCloud OSS Bucket Name prefix",
+                    "title": "Prefix",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "OSS_ListObjects",
+        "description": "获取指定OSS存储空间中的所有文件信息。",
+        "parameters": {
+            "properties": {
+                "BucketName": {
+                    "description": "AlibabaCloud OSS Bucket Name",
+                    "title": "Bucketname",
+                    "type": "string"
+                },
+                "RegionId": {
+                    "default": "cn-hangzhou",
+                    "description": "AlibabaCloud region ID",
+                    "title": "Regionid",
+                    "type": "string"
+                },
+                "Prefix": {
+                    "default": null,
+                    "description": "AlibabaCloud OSS Bucket Name prefix",
+                    "title": "Prefix",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "BucketName"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "OSS_PutBucket",
+        "description": "创建一个新的OSS存储空间。",
+        "parameters": {
+            "properties": {
+                "BucketName": {
+                    "description": "AlibabaCloud OSS Bucket Name",
+                    "title": "Bucketname",
+                    "type": "string"
+                },
+                "RegionId": {
+                    "default": "cn-hangzhou",
+                    "description": "AlibabaCloud region ID",
+                    "title": "Regionid",
+                    "type": "string"
+                },
+                "StorageClass": {
+                    "default": "Standard",
+                    "description": "The Storage Type of AlibabaCloud OSS Bucket, The value range is as follows: Standard (default): standard storage, IA: infrequent access, Archive: archive storage, ColdArchive: cold archive storage, DeepColdArchive: deep cold archive storage",
+                    "title": "Storageclass",
+                    "type": "string"
+                },
+                "DataRedundancyType": {
+                    "default": "LRS",
+                    "description": "The data disaster recovery type of AlibabaCloud OSS Bucket, LRS (default): Locally redundant LRS, which stores your data redundantly on different storage devices in the same availability zone. ZRS: Intra-city redundant ZRS, which uses a multi-availability zone (AZ) mechanism to store your data redundantly in three availability zones in the same region.",
+                    "title": "Dataredundancytype",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "BucketName"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "OSS_DeleteBucket",
+        "description": "删除指定的OSS存储空间。",
+        "parameters": {
+            "properties": {
+                "BucketName": {
+                    "description": "AlibabaCloud OSS Bucket Name",
+                    "title": "Bucketname",
+                    "type": "string"
+                },
+                "RegionId": {
+                    "default": "cn-hangzhou",
+                    "description": "AlibabaCloud region ID",
+                    "title": "Regionid",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "BucketName"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "ECS_DescribeInstances",
+        "description": "本接口支持根据不同请求条件查询实例列表，并关联查询实例的详细信息。",
+        "parameters": {
+            "properties": {
+                "RegionId": {
+                    "description": "实例所属的地域ID。您可以调用[DescribeRegions](~~25609~~)查看最新的阿里云地域列表。 参数类型: string,参数示例：cn-hangzhou",
+                    "title": "Regionid",
+                    "type": "string"
+                },
+                "VpcId": {
+                    "default": null,
+                    "description": "专有网络VPC ID。 参数类型: string,参数示例：v-bp67acfmxazb4p****",
+                    "title": "Vpcid",
+                    "type": "string"
+                },
+                "VSwitchId": {
+                    "default": null,
+                    "description": "交换机ID。 参数类型: string,参数示例：vsw-bp67acfmxazb4p****",
+                    "title": "Vswitchid",
+                    "type": "string"
+                },
+                "ZoneId": {
+                    "default": null,
+                    "description": "可用区ID。 参数类型: string,参数示例：cn-hangzhou-g",
+                    "title": "Zoneid",
+                    "type": "string"
+                },
+                "InstanceNetworkType": {
+                    "default": null,
+                    "description": "实例网络类型。取值范围：\n\n- classic：经典网络。\n- vpc：专有网络VPC。 参数类型: string,参数示例：vpc",
+                    "title": "Instancenetworktype",
+                    "type": "string"
+                },
+                "SecurityGroupId": {
+                    "default": null,
+                    "description": "实例所属的安全组。 参数类型: string,参数示例：sg-bp67acfmxazb4p****",
+                    "title": "Securitygroupid",
+                    "type": "string"
+                },
+                "InstanceIds": {
+                    "default": null,
+                    "description": "实例ID。取值可以由多个实例ID组成一个JSON数组，最多支持100个ID，ID之间用半角逗号（,）隔开。  参数类型: string,参数示例：[\"i-bp67acfmxazb4p****\", \"i-bp67acfmxazb4p****\", … \"i-bp67acfmxazb4p****\"]",
+                    "items": {},
+                    "title": "Instanceids",
+                    "type": "array"
+                },
+                "PageNumber": {
+                    "default": null,
+                    "description": "> 该参数即将下线，推荐您使用NextToken与MaxResults完成分页查询操作。 参数类型: integer,参数示例：1",
+                    "title": "Pagenumber",
+                    "type": "integer"
+                },
+                "PageSize": {
+                    "default": null,
+                    "description": "> 该参数即将下线，推荐您使用NextToken与MaxResults完成分页查询操作。 参数类型: integer,参数示例：10",
+                    "title": "Pagesize",
+                    "type": "integer"
+                },
+                "NextToken": {
+                    "default": null,
+                    "description": "查询凭证（Token），取值为上一次API调用返回的`NextToken`参数值。 参数类型: string,参数示例：caeba0bbb2be03f84eb48b699f0a4883",
+                    "title": "Nexttoken",
+                    "type": "string"
+                },
+                "MaxResults": {
+                    "default": null,
+                    "description": "分页查询时每页行数。最大值为100。\n\n默认值：\n\n- 当不设置值或设置的值小于10时，默认值为10。\n- 当设置的值大于100时，默认值为100。 参数类型: integer,参数示例：10",
+                    "title": "Maxresults",
+                    "type": "integer"
+                },
+                "InnerIpAddresses": {
+                    "default": null,
+                    "description": "经典网络类型实例的内网IP列表。当InstanceNetworkType=classic时生效，取值可以由多个IP组成一个JSON数组，最多支持100个IP，IP之间用半角逗号（,）隔开。  参数类型: string,参数示例：[\"10.1.1.1\", \"10.1.2.1\", … \"10.1.10.1\"]",
+                    "title": "Inneripaddresses",
+                    "type": "string"
+                },
+                "PrivateIpAddresses": {
+                    "default": null,
+                    "description": "VPC网络类型实例的私有IP。当InstanceNetworkType=vpc时生效，取值可以由多个IP组成一个JSON数组，最多支持100个IP，IP之间用半角逗号（,）隔开。  参数类型: string,参数示例：[\"172.16.1.1\", \"172.16.2.1\", … \"172.16.10.1\"]",
+                    "items": {},
+                    "title": "Privateipaddresses",
+                    "type": "array"
+                },
+                "PublicIpAddresses": {
+                    "default": null,
+                    "description": "实例的公网IP列表。取值可以由多个IP组成一个JSON数组，最多支持100个IP，IP之间用半角逗号（,）隔开。  参数类型: string,参数示例：[\"42.1.1.**\", \"42.1.2.**\", … \"42.1.10.**\"]",
+                    "items": {},
+                    "title": "Publicipaddresses",
+                    "type": "array"
+                },
+                "EipAddresses": {
+                    "default": null,
+                    "description": "实例的弹性公网IP列表。当InstanceNetworkType=vpc时该参数生效，取值可以由多个IP组成一个JSON数组，最多支持100个IP，IP之间用半角逗号（,）隔开。  参数类型: string,参数示例：[\"42.1.1.**\", \"42.1.2.**\", … \"42.1.10.**\"]",
+                    "items": {},
+                    "title": "Eipaddresses",
+                    "type": "array"
+                },
+                "InstanceChargeType": {
+                    "default": null,
+                    "description": "实例的计费方式。取值范围： \n         \n- PostPaid：按量付费。 \n- PrePaid：包年包月。 参数类型: string,参数示例：PostPaid",
+                    "title": "Instancechargetype",
+                    "type": "string"
+                },
+                "InternetChargeType": {
+                    "default": null,
+                    "description": "公网带宽计费方式。取值范围：\n\n- PayByBandwidth：按固定带宽计费。\n- PayByTraffic：按使用流量计费。\n\n> **按使用流量计费**模式下的出入带宽峰值都是带宽上限，不作为业务承诺指标。当出现资源争抢时，带宽峰值可能会受到限制。如果您的业务需要有带宽的保障，请使用**按固定带宽计费**模式。 参数类型: string,参数示例：PayByTraffic",
+                    "title": "Internetchargetype",
+                    "type": "string"
+                },
+                "InstanceName": {
+                    "default": null,
+                    "description": "实例名称，支持使用通配符*进行模糊搜索。  参数类型: string,参数示例：Test",
+                    "title": "Instancename",
+                    "type": "string"
+                },
+                "ImageId": {
+                    "default": null,
+                    "description": "镜像ID。 参数类型: string,参数示例：m-bp67acfmxazb4p****",
+                    "title": "Imageid",
+                    "type": "string"
+                },
+                "Status": {
+                    "default": null,
+                    "description": "实例状态。取值范围： \n\n- Pending：创建中。\n- Running：运行中。\n- Starting：启动中。\n- Stopping：停止中。\n- Stopped：已停止。 参数类型: string,参数示例：Running",
+                    "title": "Status",
+                    "type": "string"
+                },
+                "LockReason": {
+                    "default": null,
+                    "description": "资源被锁定的原因。取值范围：\n\n- financial：因欠费被锁定。\n\n- security：因安全原因被锁定。\n\n- Recycling：抢占式实例的待释放锁定状态。\n\n- dedicatedhostfinancial：因为专有宿主机欠费导致ECS实例被锁定。\n\n- refunded：因退款被锁定。 参数类型: string,参数示例：security",
+                    "title": "Lockreason",
+                    "type": "string"
+                },
+                "DeviceAvailable": {
+                    "default": null,
+                    "description": ">该参数正在邀测中，暂不支持使用。 参数类型: boolean,参数示例：false",
+                    "title": "Deviceavailable",
+                    "type": "boolean"
+                },
+                "IoOptimized": {
+                    "default": null,
+                    "description": "是否是I/O优化型实例。取值范围：\n\n- true：是。\n- false：否。 参数类型: boolean,参数示例：true",
+                    "title": "Iooptimized",
+                    "type": "boolean"
+                },
+                "NeedSaleCycle": {
+                    "default": null,
+                    "description": ">该参数正在邀测中，暂不支持使用。 参数类型: boolean,参数示例：false",
+                    "title": "Needsalecycle",
+                    "type": "boolean"
+                },
+                "InstanceType": {
+                    "default": null,
+                    "description": "实例的规格。 参数类型: string,参数示例：ecs.g5.large",
+                    "title": "Instancetype",
+                    "type": "string"
+                },
+                "InstanceTypeFamily": {
+                    "default": null,
+                    "description": "实例的规格族。 参数类型: string,参数示例：ecs.g5",
+                    "title": "Instancetypefamily",
+                    "type": "string"
+                },
+                "KeyPairName": {
+                    "default": null,
+                    "description": "实例使用的SSH密钥对名称。 参数类型: string,参数示例：KeyPairNameTest",
+                    "title": "Keypairname",
+                    "type": "string"
+                },
+                "ResourceGroupId": {
+                    "default": null,
+                    "description": "实例所在的企业资源组ID。使用该参数过滤资源时，资源数量不能超过1000个。\n\n>不支持默认资源组过滤。 参数类型: string,参数示例：rg-bp67acfmxazb4p****",
+                    "title": "Resourcegroupid",
+                    "type": "string"
+                },
+                "HpcClusterId": {
+                    "default": null,
+                    "description": "实例所在的HPC集群ID。 参数类型: string,参数示例：hpc-bp67acfmxazb4p****",
+                    "title": "Hpcclusterid",
+                    "type": "string"
+                },
+                "RdmaIpAddresses": {
+                    "default": null,
+                    "description": "HPC实例的RDMA网络IP。 参数类型: string,参数示例：10.10.10.102",
+                    "title": "Rdmaipaddresses",
+                    "type": "string"
+                },
+                "DryRun": {
+                    "default": null,
+                    "description": "是否只预检此次请求。取值范围：\n\n- true：发送检查请求，不会查询资源状况。检查项包括AccessKey是否有效、RAM用户的授权情况和是否填写了必需参数。如果检查不通过，则返回对应错误。如果检查通过，会返回错误码DryRunOperation。  \n- false：发送正常请求，通过检查后返回2XX HTTP状态码并直接查询资源状况。 \n\n默认值：false。 参数类型: boolean,参数示例：false",
+                    "title": "Dryrun",
+                    "type": "boolean"
+                },
+                "HttpEndpoint": {
+                    "default": null,
+                    "description": "是否启用实例元数据的访问通道。取值范围：\n- enabled：启用。\n- disabled：禁用。\n\n默认值：enabled。\n>有关实例元数据的更多信息，请参见[实例元数据概述](~~49122~~)。 参数类型: string,参数示例：enabled",
+                    "title": "Httpendpoint",
+                    "type": "string"
+                },
+                "HttpTokens": {
+                    "default": null,
+                    "description": "访问实例元数据时是否强制使用加固模式（IMDSv2）。取值范围：\n- optional：不强制使用。\n- required：强制使用。设置该取值后，普通模式无法访问实例元数据。\n\n默认值：optional。\n>有关访问实例元数据模式的更多信息，请参见[实例元数据访问模式](~~150575~~)。 参数类型: string,参数示例：optional",
+                    "title": "Httptokens",
+                    "type": "string"
+                },
+                "HttpPutResponseHopLimit": {
+                    "default": null,
+                    "description": ">该参数暂未开放使用。 参数类型: integer,参数示例：0",
+                    "title": "Httpputresponsehoplimit",
+                    "type": "integer"
+                },
+                "Ipv6Address": {
+                    "default": null,
+                    "description": "为弹性网卡指定的IPv6地址。 参数类型: array,参数示例：",
+                    "items": {},
+                    "title": "Ipv6Address",
+                    "type": "array"
+                },
+                "Tag": {
+                    "default": null,
+                    "description": "标签列表。 参数类型: array,参数示例：",
+                    "items": {},
+                    "title": "Tag",
+                    "type": "array"
+                },
+                "AdditionalAttributes": {
+                    "default": null,
+                    "description": "实例其他属性列表。 参数类型: array,参数示例：META_OPTIONS",
+                    "items": {},
+                    "title": "Additionalattributes",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "RegionId"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "ECS_DescribeRegions",
+        "description": "根据计费方式、资源类型等参数查询地域信息列表。",
+        "parameters": {
+            "properties": {
+                "InstanceChargeType": {
+                    "default": null,
+                    "description": "实例的计费方式，更多信息，请参见[计费概述](~~25398~~)。取值范围：\n\n- PrePaid：包年包月。此时，请确认自己的账号支持余额支付或者信用支付，否则将报错InvalidPayMethod。\n- PostPaid：按量付费。\n- SpotWithPriceLimit：设置上限价格。\n- SpotAsPriceGo：系统自动出价，最高按量付费价格。\n\n默认值：PostPaid。 参数类型: string,参数示例：PrePaid",
+                    "title": "Instancechargetype",
+                    "type": "string"
+                },
+                "ResourceType": {
+                    "default": null,
+                    "description": "资源类型。取值范围：\n\n-  instance：ECS实例。\n-  disk：磁盘。\n-  reservedinstance：预留实例券。\n-  scu：存储容量单位包。\n\n默认值：instance。 参数类型: string,参数示例：instance",
+                    "title": "Resourcetype",
+                    "type": "string"
+                },
+                "AcceptLanguage": {
+                    "default": null,
+                    "description": "根据汉语、英语和日语筛选返回结果。更多详情，请参见[RFC 7231](https://tools.ietf.org/html/rfc7231)。取值范围：  \n         \n- zh-CN：简体中文。\n- zh-TW：繁体中文。\n- en-US：英文。\n- ja：日文。\n- fr：法语。\n- de：德语。\n- ko：韩语。\n\n默认值：zh-CN。 参数类型: string,参数示例：zh-CN",
+                    "title": "Acceptlanguage",
+                    "type": "string"
+                },
+                "RegionId": {
+                    "default": "cn-hangzhou",
+                    "description": "地域ID",
+                    "title": "Regionid",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "ECS_DescribeZones",
+        "description": "根据地域ID、计费方式等参数查询可用区信息列表。",
+        "parameters": {
+            "properties": {
+                "RegionId": {
+                    "description": "可用区所在的地域ID。您可以调用[DescribeRegions](~~25609~~)查看最新的阿里云地域列表。 参数类型: string,参数示例：cn-hangzhou",
+                    "title": "Regionid",
+                    "type": "string"
+                },
+                "Verbose": {
+                    "default": null,
+                    "description": "是否展示详细信息。\n\n- true：展示。\n- false：不展示。\n\n默认值：true。 参数类型: boolean,参数示例：false",
+                    "title": "Verbose",
+                    "type": "boolean"
+                },
+                "InstanceChargeType": {
+                    "default": null,
+                    "description": "可用区里支持的资源计费方式。更多信息，请参见[计费概述](~~25398~~)。取值范围： \n\n- PrePaid：包年包月。\n- PostPaid：按量付费。\n\n默认值：PostPaid。 参数类型: string,参数示例：PostPaid",
+                    "title": "Instancechargetype",
+                    "type": "string"
+                },
+                "SpotStrategy": {
+                    "default": null,
+                    "description": "按量付费实例的竞价策略。当`InstanceChargeType=PostPaid`时，您可以传入该参数。更多信息，请参见[抢占式实例](~~52088~~)。取值范围：\n         \n- NoSpot：正常按量付费实例。\n- SpotWithPriceLimit：设置上限价格的抢占式实例。\n- SpotAsPriceGo：系统自动出价，最高按量付费价格。\n\n默认值：NoSpot。 参数类型: string,参数示例：NoSpot",
+                    "title": "Spotstrategy",
+                    "type": "string"
+                },
+                "AcceptLanguage": {
+                    "default": null,
+                    "description": "根据汉语、英语和日语筛选返回结果。更多信息，请参见[RFC 7231](https://tools.ietf.org/html/rfc7231)。取值范围：  \n         \n- zh-CN：简体中文。\n- zh-TW：繁体中文。\n- en-US：英文。\n- ja：日文。\n- fr：法语。\n- de：德语。\n- ko：韩语。\n\n默认值：zh-CN。 参数类型: string,参数示例：zh-CN",
+                    "title": "Acceptlanguage",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "RegionId"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "ECS_DescribeAccountAttributes",
+        "description": "查询您在一个阿里云地域下能创建的ECS资源配额。包括您能创建的安全组数量、弹性网卡数量、按量付费vCPU核数、抢占式实例vCPU核数、按量付费云盘总容量配额、专用宿主机数量、网络类型以及账号是否已完成实名认证。",
+        "parameters": {
+            "properties": {
+                "RegionId": {
+                    "description": "地域ID。您可以调用[DescribeRegions](~~25609~~)查看最新的阿里云地域列表。  参数类型: string,参数示例：cn-hangzhou",
+                    "title": "Regionid",
+                    "type": "string"
+                },
+                "ZoneId": {
+                    "default": null,
+                    "description": "可用区ID。 参数类型: string,参数示例：cn-hangzhou-b",
+                    "title": "Zoneid",
+                    "type": "string"
+                },
+                "AttributeName": {
+                    "default": null,
+                    "description": "查询某类资源在指定地域下的使用配额，N的取值范围为1~8。取值范围：\n\n- instance-network-type：可选择的网络类型。\n- max-security-groups：安全组数量。\n- max-elastic-network-interfaces：弹性网卡的数量。\n- max-postpaid-instance-vcpu-count：按量付费实例的vCPU核数上限。\n- max-spot-instance-vcpu-count：抢占式实例vCPU核数上限。\n- used-postpaid-instance-vcpu-count：已使用按量付费实例的vCPU核数。\n- used-spot-instance-vcpu-count：已使用抢占式实例vCPU核数。\n- max-postpaid-yundisk-capacity：用作数据盘的按量付费云盘的总容量上限。（该参数值已弃用）\n- used-postpaid-yundisk-capacity：已使用的用作数据盘的按量付费云盘容量。（该参数值已弃用）\n- max-dedicated-hosts：专用宿主机数量。\n- supported-postpaid-instance-types：按量付费I/O优化实例规格。\n- max-axt-command-count：云助手命令的数量。\n- max-axt-invocation-daily：每天可以执行的云助手命令次数。\n- real-name-authentication：账号是否完成了实名认证。\n\n    > 您只有完成了实名认证才可以在中国内地地域中创建ECS实例。\n- max-cloud-assistant-activation-count：可创建的云助手托管实例激活码数量上限。\n\n默认值为空。 参数类型: array,参数示例：max-security-groups",
+                    "items": {},
+                    "title": "Attributename",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "RegionId"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "ECS_DescribeAvailableResource",
+        "description": "查询可用区的资源库存状态。您可以在某一可用区创建实例（RunInstances）或者修改实例规格（ModifyInstanceSpec）时查询该可用区的资源库存状态。",
+        "parameters": {
+            "properties": {
+                "RegionId": {
+                    "description": "目标地域ID。您可以调用[DescribeRegions](~~25609~~)查看最新的阿里云地域列表。 参数类型: string,参数示例：cn-hangzhou",
+                    "title": "Regionid",
+                    "type": "string"
+                },
+                "DestinationResource": {
+                    "description": "要查询的资源类型。取值范围： \n         \n- Zone：可用区。\n- IoOptimized：I/O优化。\n- InstanceType：实例规格。\n- Network：网络类型。\n- ddh：专有宿主机。\n- SystemDisk：系统盘。\n- DataDisk：数据盘。\n\n>当DestinationResource取值为`SystemDisk`时，由于系统盘受实例规格限制，此时必须传入InstanceType。\n\n参数DestinationResource的取值方式请参见本文中的**接口说明**。 参数类型: string,参数示例：InstanceType",
+                    "title": "Destinationresource",
+                    "type": "string"
+                },
+                "InstanceChargeType": {
+                    "default": null,
+                    "description": "资源的计费方式。更多信息，请参见[计费概述](~~25398~~)。取值范围： \n       \n- PrePaid：包年包月。  \n- PostPaid：按量付费。\n\n默认值：PostPaid。 参数类型: string,参数示例：PrePaid",
+                    "title": "Instancechargetype",
+                    "type": "string"
+                },
+                "SpotStrategy": {
+                    "default": null,
+                    "description": "按量付费实例的竞价策略。取值范围： \n         \n- NoSpot：正常按量付费实例。\n- SpotWithPriceLimit：设置上限价格的抢占式实例。\n- SpotAsPriceGo：系统自动出价，最高按量付费价格。\n\n默认值：NoSpot。\n\n当参数`InstanceChargeType`取值为`PostPaid`时，参数`SpotStrategy`才有效。 参数类型: string,参数示例：NoSpot",
+                    "title": "Spotstrategy",
+                    "type": "string"
+                },
+                "SpotDuration": {
+                    "default": null,
+                    "description": "抢占式实例的保留时长，单位为小时。 默认值：1。取值范围：\n- 1：创建后阿里云会保证实例运行1小时不会被自动释放；超过1小时后，系统会自动比较出价与市场价格、检查资源库存，来决定实例的持有和回收。\n- 0：创建后，阿里云不保证实例运行1小时，系统会自动比较出价与市场价格、检查资源库存，来决定实例的持有和回收。\n\n实例回收前5分钟阿里云会通过ECS系统事件向您发送通知。抢占式实例按秒计费，建议您结合具体任务执行耗时来选择合适的保留时长。\n\n> 当`InstanceChargeType`取值为`PostPaid`，并且`SpotStrategy`值为`SpotWithPriceLimit`或`SpotAsPriceGo`时该参数生效。 参数类型: integer,参数示例：1",
+                    "title": "Spotduration",
+                    "type": "integer"
+                },
+                "ZoneId": {
+                    "default": null,
+                    "description": "可用区ID。\n\n默认值：无。返回该地域（`RegionId`）下所有可用区符合查询条件的资源。 参数类型: string,参数示例：cn-hangzhou-e",
+                    "title": "Zoneid",
+                    "type": "string"
+                },
+                "IoOptimized": {
+                    "default": null,
+                    "description": "是否为I/O优化实例。取值范围： \n         \n- none：非I/O优化实例。\n- optimized：I/O优化实例。\n\n\n默认值：optimized。 参数类型: string,参数示例：optimized",
+                    "title": "Iooptimized",
+                    "type": "string"
+                },
+                "DedicatedHostId": {
+                    "default": null,
+                    "description": "专有宿主机ID。 参数类型: string,参数示例：dh-bp165p6xk2tlw61e****",
+                    "title": "Dedicatedhostid",
+                    "type": "string"
+                },
+                "InstanceType": {
+                    "default": null,
+                    "description": "实例规格。更多信息，请参见[实例规格族](~~25378~~)，您也可以调用[DescribeInstanceTypes](~~25620~~)接口获得最新的规格表。\n\n参数InstanceType的取值方式请参见本文开头的**接口说明**。 参数类型: string,参数示例：ecs.g5.large",
+                    "title": "Instancetype",
+                    "type": "string"
+                },
+                "SystemDiskCategory": {
+                    "default": null,
+                    "description": "系统盘类型。取值范围： \n         \n- cloud：普通云盘。\n- cloud_efficiency：高效云盘。\n- cloud_ssd：SSD云盘。\n- ephemeral_ssd：本地SSD盘。\n- cloud_essd：ESSD云盘。\n- cloud_auto：ESSD AutoPL云盘。\n<props=\"china\">\n- cloud_essd_entry：ESSD Entry云盘。\n</props>\n\n默认值：cloud_efficiency。\n\n> 参数ResourceType取值为instance、DestinationResource取值为DataDisk时，参数SystemDiskCategory是必选参数。如果未传递参数值，则以默认值生效。 参数类型: string,参数示例：cloud_ssd",
+                    "title": "Systemdiskcategory",
+                    "type": "string"
+                },
+                "DataDiskCategory": {
+                    "default": null,
+                    "description": "数据盘类型。取值范围： \n         \n- cloud：普通云盘。\n- cloud_efficiency：高效云盘。\n- cloud_ssd：SSD云盘。\n- ephemeral_ssd：本地SSD盘。\n- cloud_essd：ESSD云盘。\n- cloud_auto：ESSD AutoPL云盘。\n<props=\"china\">\n- cloud_essd_entry：ESSD Entry云盘。\n</props> 参数类型: string,参数示例：cloud_ssd",
+                    "title": "Datadiskcategory",
+                    "type": "string"
+                },
+                "NetworkCategory": {
+                    "default": null,
+                    "description": "网络类型。取值范围： \n        \n- vpc：专有网络。\n- classic：经典网络。\n          参数类型: string,参数示例：vpc",
+                    "title": "Networkcategory",
+                    "type": "string"
+                },
+                "Cores": {
+                    "default": null,
+                    "description": "实例规格的vCPU内核数目。取值参见[实例规格族](~~25378~~)。\n\n当DestinationResource取值为InstanceType时，Cores才为有效参数。  参数类型: integer,参数示例：2",
+                    "title": "Cores",
+                    "type": "integer"
+                },
+                "Memory": {
+                    "default": null,
+                    "description": "实例规格的内存大小，单位为GiB。取值参见[实例规格族](~~25378~~)。\n\n当DestinationResource取值为InstanceType时，Memory才为有效参数。  参数类型: number,参数示例：8.0",
+                    "title": "Memory",
+                    "type": "number"
+                },
+                "ResourceType": {
+                    "default": null,
+                    "description": "资源类型。取值范围：\n\n- instance：ECS实例。\n- disk：云盘。\n- reservedinstance：预留实例券。\n- ddh：专有宿主机。 参数类型: string,参数示例：instance",
+                    "title": "Resourcetype",
+                    "type": "string"
+                },
+                "Scope": {
+                    "default": null,
+                    "description": "预留实例券的范围。取值范围：\n         \n- Region：地域级别。\n- Zone：可用区级别。 参数类型: string,参数示例：Region",
+                    "title": "Scope",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "RegionId",
+                "DestinationResource"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "ECS_DescribeImages",
+        "description": "指定ImageId、镜像被使用场景、Filter过滤等参数，查询您可以使用的镜像资源列表。",
+        "parameters": {
+            "properties": {
+                "RegionId": {
+                    "description": "镜像所属的地域ID。您可以调用[DescribeRegions](~~25609~~)查看最新的阿里云地域列表。 参数类型: string,参数示例：cn-hangzhou",
+                    "title": "Regionid",
+                    "type": "string"
+                },
+                "Status": {
+                    "default": null,
+                    "description": "查询指定状态的镜像，如果不配置此参数，默认只返回Available状态的镜像。取值范围：\n\n- Creating：镜像正在创建中。\n- Waiting：多任务排队中。\n- Available（默认）：您可以使用的镜像。\n- UnAvailable：您不能使用的镜像。\n- CreateFailed：创建失败的镜像。\n- Deprecated：已弃用的镜像。\n\n默认值：Available。当前参数支持同时取多个值，值之间以半角逗号（,）隔开。 参数类型: string,参数示例：Available",
+                    "title": "Status",
+                    "type": "string"
+                },
+                "ImageId": {
+                    "default": null,
+                    "description": "镜像ID。\n\n<details>\n<summary>镜像ID的命名规则</summary>\n\n- 公共镜像：以操作系统版本号、架构、语言和发布日期命名。例如，Windows Server 2008 R2企业版、64位英文系统的镜像ID为win2008r2_64_ent_sp1_en-us_40G_alibase_20190318.vhd。\n\n- 自定义镜像、共享镜像、云市场镜像、社区镜像的镜像：以m开头。\n\n</details> 参数类型: string,参数示例：m-bp1g7004ksh0oeuc****",
+                    "title": "Imageid",
+                    "type": "string"
+                },
+                "ShowExpired": {
+                    "default": null,
+                    "description": "订阅型镜像是否已经超过使用期限。 参数类型: boolean,参数示例：false",
+                    "title": "Showexpired",
+                    "type": "boolean"
+                },
+                "SnapshotId": {
+                    "default": null,
+                    "description": "根据某一快照ID创建的自定义镜像。 参数类型: string,参数示例：s-bp17ot2q7x72ggtw****",
+                    "title": "Snapshotid",
+                    "type": "string"
+                },
+                "ImageName": {
+                    "default": null,
+                    "description": "镜像名称。支持模糊搜索。 参数类型: string,参数示例：testImageName",
+                    "title": "Imagename",
+                    "type": "string"
+                },
+                "ImageFamily": {
+                    "default": null,
+                    "description": "镜像族系名称，查询镜像时可通过设置该参数来过滤当前族系对应的镜像。\n\n默认值：空。\n> 阿里云官方镜像关联的镜像族系信息请参见[公共镜像概述](~~108393~~)。 参数类型: string,参数示例：hangzhou-daily-update",
+                    "title": "Imagefamily",
+                    "type": "string"
+                },
+                "ImageOwnerAlias": {
+                    "default": null,
+                    "description": "镜像来源。取值范围：\n\n- system：阿里云官方提供的，且不是通过云市场发布的镜像，和控制台中的“公共镜像”概念不同。\n- self：您创建的自定义镜像。\n- others：包含共享镜像（其他阿里云用户直接共享给您的镜像）和社区镜像（任意阿里云用户将其自定义镜像完全公开共享后的镜像）。您需要注意：\n    - 查找社区镜像时，IsPublic必须为true。\n    - 查找共享镜像时，IsPublic需要设置为false或者不传值。\n- marketplace：阿里云或者第三方供应商ISV在云市场发布的镜像，需要和ECS一起购买。请自行留意云市场镜像的收费详情。\n\n默认值：空。\n\n>空表示返回取值为system、self以及others的结果。 参数类型: string,参数示例：self",
+                    "title": "Imageowneralias",
+                    "type": "string"
+                },
+                "InstanceType": {
+                    "default": null,
+                    "description": "为指定的实例规格查询可以使用的镜像。 参数类型: string,参数示例：ecs.g5.large",
+                    "title": "Instancetype",
+                    "type": "string"
+                },
+                "IsSupportIoOptimized": {
+                    "default": null,
+                    "description": "镜像是否可以运行在I/O优化实例上。 参数类型: boolean,参数示例：true",
+                    "title": "Issupportiooptimized",
+                    "type": "boolean"
+                },
+                "IsSupportCloudinit": {
+                    "default": null,
+                    "description": "镜像是否支持cloud-init。 参数类型: boolean,参数示例：true",
+                    "title": "Issupportcloudinit",
+                    "type": "boolean"
+                },
+                "OSType": {
+                    "default": null,
+                    "description": "镜像的操作系统类型。取值范围：\n\n- windows。\n- linux。 参数类型: string,参数示例：linux",
+                    "title": "Ostype",
+                    "type": "string"
+                },
+                "Architecture": {
+                    "default": null,
+                    "description": "镜像的体系架构。取值范围：\n\n- i386。\n- x86_64。\n- arm64。 参数类型: string,参数示例：i386",
+                    "title": "Architecture",
+                    "type": "string"
+                },
+                "PageNumber": {
+                    "default": null,
+                    "description": "镜像资源列表的页码。\n\n起始值：1。\n\n默认值：1。 参数类型: integer,参数示例：1",
+                    "title": "Pagenumber",
+                    "type": "integer"
+                },
+                "PageSize": {
+                    "default": null,
+                    "description": "分页查询时设置的每页行数。\n\n最大值：100。\n\n默认值：10。 参数类型: integer,参数示例：10",
+                    "title": "Pagesize",
+                    "type": "integer"
+                },
+                "Usage": {
+                    "default": null,
+                    "description": "镜像是否已经运行在ECS实例中。取值范围：\n\n- instance：镜像处于运行状态，有ECS实例使用。\n- none：镜像处于闲置状态，暂无ECS实例使用。 参数类型: string,参数示例：instance",
+                    "title": "Usage",
+                    "type": "string"
+                },
+                "DryRun": {
+                    "default": null,
+                    "description": "是否只预检此次请求。\n         \n- true：发送检查请求，不会查询资源状况。检查项包括AccessKey是否有效、RAM用户的授权情况和是否填写了必需参数。如果检查不通过，则返回对应错误。如果检查通过，会返回错误码DryRunOperation。  \n- false：发送正常请求，通过检查后返回2XX HTTP状态码并直接查询资源状况。 \n\n默认值：false。 参数类型: boolean,参数示例：false",
+                    "title": "Dryrun",
+                    "type": "boolean"
+                },
+                "ActionType": {
+                    "default": null,
+                    "description": "镜像需要被使用到的场景。取值范围：\n\n- CreateEcs（默认）：创建实例。\n- ChangeOS：更换系统盘/更换操作系统。 参数类型: string,参数示例：CreateEcs",
+                    "title": "Actiontype",
+                    "type": "string"
+                },
+                "ResourceGroupId": {
+                    "default": null,
+                    "description": "自定义镜像所在的企业资源组ID。使用该参数过滤资源时，资源数量不能超过1000个。\n\n>不支持默认资源组过滤。 参数类型: string,参数示例：rg-bp67acfmxazb4p****",
+                    "title": "Resourcegroupid",
+                    "type": "string"
+                },
+                "Tag": {
+                    "default": null,
+                    "description": "标签列表。 参数类型: array,参数示例：",
+                    "items": {},
+                    "title": "Tag",
+                    "type": "array"
+                },
+                "Filter": {
+                    "default": null,
+                    "description": "查询资源时的筛选条件列表。 参数类型: array,参数示例：",
+                    "items": {},
+                    "title": "Filter",
+                    "type": "array"
+                },
+                "IsPublic": {
+                    "default": null,
+                    "description": "是否查询已发布的社区镜像。取值范围：\n\n- true：查询已发布的社区镜像。当您指定该参数值为true时，ImageOwnerAlias必须为others。\n- false：查询除社区镜像的其他镜像类型，具体以ImageOwnerAlias参数值为准。\n\n默认值：false。 参数类型: boolean,参数示例：false",
+                    "title": "Ispublic",
+                    "type": "boolean"
+                },
+                "ImageOwnerId": {
+                    "default": null,
+                    "description": "镜像所属的阿里云账号ID。该参数仅在查询共享镜像以及社区镜像时生效。\n\n 参数类型: integer,参数示例：20169351435666****",
+                    "title": "Imageownerid",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "RegionId"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "ECS_DescribeSecurityGroups",
+        "description": "本接口用于查询安全组基本信息列表，支持您通过地域、安全组ID、安全组类型等不同参数查询。",
+        "parameters": {
+            "properties": {
+                "RegionId": {
+                    "description": "地域ID。您可以调用[DescribeRegions](~~25609~~)查看最新的阿里云地域列表。 参数类型: string,参数示例：cn-hangzhou",
+                    "title": "Regionid",
+                    "type": "string"
+                },
+                "SecurityGroupIds": {
+                    "default": null,
+                    "description": "安全组ID列表。一次最多支持100个安全组ID，ID之间用半角逗号（,）隔开，格式为JSON数组。 参数类型: string,参数示例：[\"sg-bp67acfmxazb4p****\", \"sg-bp67acfmxazb4p****\", \"sg-bp67acfmxazb4p****\",....]",
+                    "items": {},
+                    "title": "Securitygroupids",
+                    "type": "array"
+                },
+                "VpcId": {
+                    "default": null,
+                    "description": "安全组所在的专有网络ID。 参数类型: string,参数示例：vpc-bp67acfmxazb4p****",
+                    "title": "Vpcid",
+                    "type": "string"
+                },
+                "SecurityGroupType": {
+                    "default": null,
+                    "description": "安全组类型。取值范围：\n- normal：普通安全组。\n- enterprise：企业安全组。\n\n> 当不为该参数传值时，表示查询所有类型的安全组。 参数类型: string,参数示例：normal",
+                    "title": "Securitygrouptype",
+                    "type": "string"
+                },
+                "NextToken": {
+                    "default": null,
+                    "description": "查询凭证（Token）。取值为上一次调用该接口返回的NextToken参数值，初次调用接口时无需设置该参数。 参数类型: string,参数示例：e71d8a535bd9cc11",
+                    "title": "Nexttoken",
+                    "type": "string"
+                },
+                "MaxResults": {
+                    "default": null,
+                    "description": "分页查询时每页的最大条目数。一旦设置该参数，即表示使用`MaxResults`与`NextToken`组合参数的查询方式。\n\n最大值为100。\n\n默认值为10。 参数类型: integer,参数示例：10",
+                    "title": "Maxresults",
+                    "type": "integer"
+                },
+                "NetworkType": {
+                    "default": null,
+                    "description": "安全组的网络类型。取值范围：\n\n- vpc：专有网络。\n- classic：经典网络。 参数类型: string,参数示例：vpc",
+                    "title": "Networktype",
+                    "type": "string"
+                },
+                "SecurityGroupName": {
+                    "default": null,
+                    "description": "安全组名称。 参数类型: string,参数示例：SGTestName",
+                    "title": "Securitygroupname",
+                    "type": "string"
+                },
+                "IsQueryEcsCount": {
+                    "default": null,
+                    "description": "是否查询安全组的容量信息。传True时，返回值中的`EcsCount`和`AvailableInstanceAmount`有效。\n>该参数已废弃。 参数类型: boolean,参数示例：null",
+                    "title": "Isqueryecscount",
+                    "type": "boolean"
+                },
+                "ResourceGroupId": {
+                    "default": null,
+                    "description": "安全组所在的企业资源组ID。使用该参数过滤资源时，资源数量不能超过1000个。您可以调用[ListResourceGroups](~~158855~~)查询资源组列表。\n\n>不支持默认资源组过滤。 参数类型: string,参数示例：rg-bp67acfmxazb4p****",
+                    "title": "Resourcegroupid",
+                    "type": "string"
+                },
+                "Tag": {
+                    "default": null,
+                    "description": "标签列表。 参数类型: array,参数示例：",
+                    "items": {},
+                    "title": "Tag",
+                    "type": "array"
+                },
+                "DryRun": {
+                    "default": null,
+                    "description": "是否只预检此次请求。取值范围：\n         \n- true：发送检查请求，不会查询资源状况。检查项包括AccessKey是否有效、RAM用户的授权情况和是否填写了必需参数。如果检查不通过，则返回对应错误。如果检查通过，会返回错误码DryRunOperation。\n- false：发送正常请求，通过检查后返回2XX HTTP状态码并直接查询资源状况。\n\n默认值为false。 参数类型: boolean,参数示例：false",
+                    "title": "Dryrun",
+                    "type": "boolean"
+                },
+                "SecurityGroupId": {
+                    "default": null,
+                    "description": "安全组ID。 参数类型: string,参数示例：sg-bp67acfmxazb4p****",
+                    "title": "Securitygroupid",
+                    "type": "string"
+                },
+                "FuzzyQuery": {
+                    "default": null,
+                    "description": ">该参数已废弃。 参数类型: boolean,参数示例：null",
+                    "title": "Fuzzyquery",
+                    "type": "boolean"
+                },
+                "PageNumber": {
+                    "default": null,
+                    "description": "> 该参数即将下线，推荐您使用NextToken与MaxResults完成分页查询操作。 参数类型: integer,参数示例：1",
+                    "title": "Pagenumber",
+                    "type": "integer"
+                },
+                "PageSize": {
+                    "default": null,
+                    "description": "> 该参数即将下线，推荐您使用NextToken与MaxResults完成分页查询操作。 参数类型: integer,参数示例：10",
+                    "title": "Pagesize",
+                    "type": "integer"
+                },
+                "ServiceManaged": {
+                    "default": null,
+                    "description": "是否为托管安全组。取值范围：\n\n- true：是托管安全组。\n- false：不是托管安全组。 参数类型: boolean,参数示例：false",
+                    "title": "Servicemanaged",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "RegionId"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "ECS_DeleteInstances",
+        "description": "本接口用于批量删除或者释放按量付费实例或者到期的包年包月实例，支持通过参数设置决定云盘是否释放或转换为按量付费保留。",
+        "parameters": {
+            "properties": {
+                "RegionId": {
+                    "description": "实例所属的地域ID。您可以调用[DescribeRegions](~~25609~~)查看最新的阿里云地域列表。 参数类型: string,参数示例：cn-hangzhou",
+                    "title": "Regionid",
+                    "type": "string"
+                },
+                "InstanceId": {
+                    "description": "实例ID数组。数组长度：1~100。 参数类型: array,参数示例：i-bp1g6zv0ce8oghu7****",
+                    "items": {},
+                    "title": "Instanceid",
+                    "type": "array"
+                },
+                "DryRun": {
+                    "default": null,
+                    "description": "是否只预检此次请求。\n\n- true：发送检查请求，不会查询资源状况。检查项包括AccessKey是否有效、RAM用户的授权情况和是否填写了必需参数。如果检查不通过，则返回对应错误。如果检查通过，会返回错误码DRYRUN.SUCCESS。\n- false：发送正常请求，通过检查后返回2XX HTTP状态码并直接查询资源状况。\n\n默认值：false。 参数类型: boolean,参数示例：false",
+                    "title": "Dryrun",
+                    "type": "boolean"
+                },
+                "Force": {
+                    "default": null,
+                    "description": "是否强制释放**运行中**（`Running`）的ECS实例。\n\n- true：强制释放**运行中**（`Running`）的实例。\n- false：正常释放实例，此时实例必须处于**已停止**（`Stopped`）状态。\n\n默认值：false。\n><warning>强制释放相当于断电，实例内存以及存储中的临时数据都会被擦除，无法恢复。></warning> 参数类型: boolean,参数示例：false",
+                    "title": "Force",
+                    "type": "boolean"
+                },
+                "ForceStop": {
+                    "default": null,
+                    "description": "释放**运行中**（`Running`）的实例时的是否采取强制关机策略。仅当`Force=true`时生效。取值范围：\n\n- true：强制关机并释放实例。相当于典型的断电操作，实例会直接进入资源释放流程。\n><warning>强制释放相当于断电，实例内存以及存储中的临时数据都会被擦除，无法恢复。></warning>\n- false：在实例释放前，系统将优先执行标准关机流程，该模式会导致实例释放动作持续几分钟。用户在操作系统关机时，配置一些业务排水动作，从而减少业务系统的噪声。\n\n默认值：true。 参数类型: boolean,参数示例：true",
+                    "title": "Forcestop",
+                    "type": "boolean"
+                },
+                "TerminateSubscription": {
+                    "default": null,
+                    "description": "是否释放已到期的包年包月实例。\n\n- true：释放。\n- false：不释放。\n\n默认值：false。 参数类型: boolean,参数示例：false",
+                    "title": "Terminatesubscription",
+                    "type": "boolean"
+                },
+                "ClientToken": {
+                    "default": null,
+                    "description": "保证请求幂等性。从您的客户端生成一个参数值，确保不同请求间该参数值唯一。**ClientToken**只支持ASCII字符，且不能超过64个字符。更多信息，请参见[如何保证幂等性](~~25693~~)。 参数类型: string,参数示例：123e4567-e89b-12d3-a456-426655440000",
+                    "title": "Clienttoken",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "RegionId",
+                "InstanceId"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "VPC_DescribeVpcs",
+        "description": "查询已创建的VPC。",
+        "parameters": {
+            "properties": {
+                "RegionId": {
+                    "description": "VPC所在的地域ID。 \n\n您可以通过调用[DescribeRegions](~~448570~~)接口获取地域ID。 参数类型: string,参数示例：cn-hangzhou",
+                    "title": "Regionid",
+                    "type": "string"
+                },
+                "VpcId": {
+                    "default": null,
+                    "description": "VPC的ID。 \n\n最多支持指定20个VPC ID，多个VPC的ID之间用半角逗号（,）隔开。  参数类型: string,参数示例：vpc-bp1b1xjllp3ve5yze****",
+                    "title": "Vpcid",
+                    "type": "string"
+                },
+                "VpcName": {
+                    "default": null,
+                    "description": "VPC的名称。 参数类型: string,参数示例：Vpc-1",
+                    "title": "Vpcname",
+                    "type": "string"
+                },
+                "IsDefault": {
+                    "default": null,
+                    "description": "是否查询指定地域下的默认VPC，取值： \n\n- **true**（默认值）：查询指定地域下的默认VPC。  \n\n- **false**：不查询默认VPC。  \n 参数类型: boolean,参数示例：false",
+                    "title": "Isdefault",
+                    "type": "boolean"
+                },
+                "DryRun": {
+                    "default": null,
+                    "description": "是否只预检此次请求，取值：\n\n- **true**：发送检查请求，不会查询资源状况。检查项包括AccessKey是否有效、RAM用户的授权情况和是否填写了必需参数。如果检查不通过，则返回对应错误。如果检查通过，会返回错误码`DryRunOperation`。\n\n- **false**（默认值）：发送正常请求，通过检查后返回HTTP 2xx状态码并直接查询资源状况。 参数类型: boolean,参数示例：false",
+                    "title": "Dryrun",
+                    "type": "boolean"
+                },
+                "ResourceGroupId": {
+                    "default": null,
+                    "description": "要查询的VPC所属的资源组ID。 参数类型: string,参数示例：rg-acfmxvfvazb4p****",
+                    "title": "Resourcegroupid",
+                    "type": "string"
+                },
+                "PageNumber": {
+                    "default": null,
+                    "description": " 列表的页码，默认值为**1**。   参数类型: integer,参数示例：1",
+                    "title": "Pagenumber",
+                    "type": "integer"
+                },
+                "PageSize": {
+                    "default": null,
+                    "description": "分页查询时每页的行数，最大值为**50**，默认值为**10**。   参数类型: integer,参数示例：10",
+                    "title": "Pagesize",
+                    "type": "integer"
+                },
+                "VpcOwnerId": {
+                    "default": null,
+                    "description": "VPC所属的阿里云账号ID。 参数类型: integer,参数示例：253460731706911258",
+                    "title": "Vpcownerid",
+                    "type": "integer"
+                },
+                "DhcpOptionsSetId": {
+                    "default": null,
+                    "description": "DHCP选项集的ID。 参数类型: string,参数示例：dopt-o6w0df4epg9zo8isy****",
+                    "title": "Dhcpoptionssetid",
+                    "type": "string"
+                },
+                "EnableIpv6": {
+                    "default": null,
+                    "description": "是否查询指定地域下开启IPv6网段的VPC，默认为空值（空值则不根据是否开启IPv6网段做过滤），取值：\n\n- **false**：不开启。\n- **true**：开启。 参数类型: boolean,参数示例：false",
+                    "title": "Enableipv6",
+                    "type": "boolean"
+                },
+                "Tag": {
+                    "default": null,
+                    "description": "资源的标签。 参数类型: array,参数示例：",
+                    "items": {},
+                    "title": "Tag",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "RegionId"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "VPC_DescribeVSwitches",
+        "description": "查询可组网的信息，内网按vswitch进行组网。",
+        "parameters": {
+            "properties": {
+                "VpcId": {
+                    "default": null,
+                    "description": "要查询的交换机所属VPC的ID。 \n\n> **RegionId**和**VpcId**参数至少输入一个。 参数类型: string,参数示例：vpc-25cdvfeq58pl****",
+                    "title": "Vpcid",
+                    "type": "string"
+                },
+                "VSwitchId": {
+                    "default": null,
+                    "description": "要查询的交换机的ID。  参数类型: string,参数示例：vsw-23dscddcffvf3****",
+                    "title": "Vswitchid",
+                    "type": "string"
+                },
+                "ZoneId": {
+                    "default": null,
+                    "description": "交换机所属可用区的ID。您可以通过调用[DescribeZones](~~36064~~)接口获取可用区ID。   参数类型: string,参数示例：cn-hangzhou-d",
+                    "title": "Zoneid",
+                    "type": "string"
+                },
+                "RegionId": {
+                    "default": null,
+                    "description": "交换机所属地域的ID。您可以通过调用[DescribeRegions](~~36063~~)接口获取地域ID。\n\n> **RegionId**和**VpcId**参数至少输入一个。   参数类型: string,参数示例：cn-hangzhou",
+                    "title": "Regionid",
+                    "type": "string"
+                },
+                "VSwitchName": {
+                    "default": null,
+                    "description": "交换机的名称。\n\n名称长度为1～128个字符，不能以`http://`或`https://`开头。 参数类型: string,参数示例：vSwitch",
+                    "title": "Vswitchname",
+                    "type": "string"
+                },
+                "DryRun": {
+                    "default": null,
+                    "description": "是否只预检此次请求。取值：\n- **true**：发送检查请求，不会创建资源（接口功能）。检查项包括是否填写了必需参数、请求格式、业务限制。如果检查不通过，则返回对应错误。如果检查通过，则返回错误码`DryRunOperation`。\n- **false**（默认值）：发送正常请求，通过检查后返回HTTP 2xx状态码并直接进行操作。 参数类型: boolean,参数示例：true",
+                    "title": "Dryrun",
+                    "type": "boolean"
+                },
+                "IsDefault": {
+                    "default": null,
+                    "description": "是否查询指定地域下的默认交换机，取值： \n\n- **true**：查询指定地域下的默认交换机。  \n\n- **false**：不查询指定地域下的默认交换机。  \n\n如果不传入该参数，系统默认查询指定地域下的所有交换机。\n\n 参数类型: boolean,参数示例：true",
+                    "title": "Isdefault",
+                    "type": "boolean"
+                },
+                "RouteTableId": {
+                    "default": null,
+                    "description": "路由表的ID。 参数类型: string,参数示例：vtb-bp145q7glnuzdvzu2****",
+                    "title": "Routetableid",
+                    "type": "string"
+                },
+                "ResourceGroupId": {
+                    "default": null,
+                    "description": "交换机所属的资源组ID。 参数类型: string,参数示例：rg-bp67acfmxazb4ph****",
+                    "title": "Resourcegroupid",
+                    "type": "string"
+                },
+                "PageNumber": {
+                    "default": null,
+                    "description": " 列表的页码，默认值为**1**。   参数类型: integer,参数示例：1",
+                    "title": "Pagenumber",
+                    "type": "integer"
+                },
+                "PageSize": {
+                    "default": null,
+                    "description": " 分页查询时每页的行数，最大值为**50**。默认值为**10**。   参数类型: integer,参数示例：10",
+                    "title": "Pagesize",
+                    "type": "integer"
+                },
+                "VSwitchOwnerId": {
+                    "default": null,
+                    "description": "资源归属的阿里云账号ID。 参数类型: integer,参数示例：2546073170691****",
+                    "title": "Vswitchownerid",
+                    "type": "integer"
+                },
+                "EnableIpv6": {
+                    "default": null,
+                    "description": "是否查询指定地域下开启IPv6网段的交换机，取值：\n\n- **true**：查询指定地域下开启IPv6网段的交换机。\n\n- **false**：不查询指定地域下开启IPv6网段的交换机。\n\n如果不传入该参数，系统默认查询指定地域下的所有交换机。 参数类型: boolean,参数示例：false",
+                    "title": "Enableipv6",
+                    "type": "boolean"
+                },
+                "Tag": {
+                    "default": null,
+                    "description": "资源的标签。 参数类型: array,参数示例：",
+                    "items": {},
+                    "title": "Tag",
+                    "type": "array"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "RDS_DescribeDBInstances",
+        "description": "该接口用于查询RDS的实例列表。",
+        "parameters": {
+            "properties": {
+                "RegionId": {
+                    "description": "地域ID。可调用DescribeRegions获取。 参数类型: string,参数示例：cn-hangzhou",
+                    "title": "Regionid",
+                    "type": "string"
+                },
+                "ClientToken": {
+                    "default": null,
+                    "description": "用于保证请求的幂等性，防止重复提交请求。由客户端生成该参数值，要保证在不同请求间唯一，最大值不超过64个ASCII字符，且该参数值中不能包含非ASCII字符。 参数类型: string,参数示例：ETnLKlblzczshOTUbOCz****",
+                    "title": "Clienttoken",
+                    "type": "string"
+                },
+                "proxyId": {
+                    "default": null,
+                    "description": "废弃参数，无需配置。 参数类型: string,参数示例：API",
+                    "title": "Proxyid",
+                    "type": "string"
+                },
+                "Engine": {
+                    "default": null,
+                    "description": "数据库类型，取值：\n* **MySQL**\n* **SQLServer**\n* **PostgreSQL**\n* **MariaDB**\n\n默认返回所有数据库类型。 参数类型: string,参数示例：MySQL",
+                    "title": "Engine",
+                    "type": "string"
+                },
+                "ZoneId": {
+                    "default": null,
+                    "description": "可用区ID。 参数类型: string,参数示例：cn-hangzhou-a",
+                    "title": "Zoneid",
+                    "type": "string"
+                },
+                "ResourceGroupId": {
+                    "default": null,
+                    "description": "资源组ID。 参数类型: string,参数示例：rg-acfmy****",
+                    "title": "Resourcegroupid",
+                    "type": "string"
+                },
+                "DBInstanceStatus": {
+                    "default": null,
+                    "description": "实例状态，详情请参见[实例状态表](~~26315~~)。 参数类型: string,参数示例：Running",
+                    "title": "Dbinstancestatus",
+                    "type": "string"
+                },
+                "Expired": {
+                    "default": null,
+                    "description": "实例的过期状态，取值：\n* **True**：已过期\n* **False**：未过期 参数类型: string,参数示例：True",
+                    "title": "Expired",
+                    "type": "string"
+                },
+                "SearchKey": {
+                    "default": null,
+                    "description": "可基于实例ID或者实例备注模糊搜索。 参数类型: string,参数示例：rm-uf6w",
+                    "title": "Searchkey",
+                    "type": "string"
+                },
+                "DBInstanceId": {
+                    "default": null,
+                    "description": "实例ID。 参数类型: string,参数示例：rm-uf6wjk5****",
+                    "title": "Dbinstanceid",
+                    "type": "string"
+                },
+                "DBInstanceType": {
+                    "default": null,
+                    "description": "实例类型，取值：\n* **Primary**：主实例\n* **Readonly**：只读实例\n* **Guard**：灾备实例\n* **Temp**：临时实例\n\n默认返回所有实例类型。 参数类型: string,参数示例：Primary",
+                    "title": "Dbinstancetype",
+                    "type": "string"
+                },
+                "PageSize": {
+                    "default": null,
+                    "description": "每页记录数，取值：**1**~**100**。\n\n默认值：**30**。 参数类型: integer,参数示例：30",
+                    "title": "Pagesize",
+                    "type": "integer"
+                },
+                "PageNumber": {
+                    "default": null,
+                    "description": "页码，取值：大于0且不超过Integer的最大值。\n\n默认值：**1**。 参数类型: integer,参数示例：1",
+                    "title": "Pagenumber",
+                    "type": "integer"
+                },
+                "InstanceNetworkType": {
+                    "default": null,
+                    "description": "实例的网络类型，取值：\n* **VPC**：专有网络下的实例\n* **Classic**：经典网络下的实例\n\n默认返回所有网络类型下的实例。 参数类型: string,参数示例：Classic",
+                    "title": "Instancenetworktype",
+                    "type": "string"
+                },
+                "VpcId": {
+                    "default": null,
+                    "description": "VPC ID。 参数类型: string,参数示例：vpc-uf6f7l4fg90****",
+                    "title": "Vpcid",
+                    "type": "string"
+                },
+                "VSwitchId": {
+                    "default": null,
+                    "description": "交换机ID。 参数类型: string,参数示例：vsw-uf6adz52c2p****",
+                    "title": "Vswitchid",
+                    "type": "string"
+                },
+                "DBInstanceClass": {
+                    "default": null,
+                    "description": "实例规格，详见[实例规格表](~~26312~~)。 参数类型: string,参数示例：rds.mys2.small",
+                    "title": "Dbinstanceclass",
+                    "type": "string"
+                },
+                "EngineVersion": {
+                    "default": null,
+                    "description": "数据库版本。 参数类型: string,参数示例：8.0",
+                    "title": "Engineversion",
+                    "type": "string"
+                },
+                "PayType": {
+                    "default": null,
+                    "description": "付费类型，取值：\n* **Postpaid**：按量付费\n* **Prepaid**：包年包月 参数类型: string,参数示例：Postpaid",
+                    "title": "Paytype",
+                    "type": "string"
+                },
+                "ConnectionMode": {
+                    "default": null,
+                    "description": "实例的访问模式，取值：\n* **Standard**：标准访问模式\n* **Safe**：数据库代理模式\n\n默认返回所有访问模式下的实例。 参数类型: string,参数示例：Standard",
+                    "title": "Connectionmode",
+                    "type": "string"
+                },
+                "Tags": {
+                    "default": null,
+                    "description": "查询绑定有该标签的实例，包括TagKey和TagValue。单次最多支持传入5组值，格式：{\"key1\":\"value1\",\"key2\":\"value2\"...}。 参数类型: string,参数示例：{\"key1\":\"value1\"}",
+                    "title": "Tags",
+                    "type": "string"
+                },
+                "DedicatedHostGroupId": {
+                    "default": null,
+                    "description": "专属集群ID。 参数类型: string,参数示例：dhg-7a9****",
+                    "title": "Dedicatedhostgroupid",
+                    "type": "string"
+                },
+                "DedicatedHostId": {
+                    "default": null,
+                    "description": "专属集群内的主机ID。 参数类型: string,参数示例：i-bp****",
+                    "title": "Dedicatedhostid",
+                    "type": "string"
+                },
+                "InstanceLevel": {
+                    "default": null,
+                    "description": "是否返回实例系列（Category）信息，取值：\n* **0**：不返回\n* **1**：返回 参数类型: integer,参数示例：0",
+                    "title": "Instancelevel",
+                    "type": "integer"
+                },
+                "QueryAutoRenewal": {
+                    "default": null,
+                    "description": " 参数类型: boolean,参数示例：",
+                    "title": "Queryautorenewal",
+                    "type": "boolean"
+                },
+                "ConnectionString": {
+                    "default": null,
+                    "description": "实例的连接地址。通过该连接地址查询对应的实例。 参数类型: string,参数示例：rm-uf6wjk5****.mysql.rds.aliyuncs.com",
+                    "title": "Connectionstring",
+                    "type": "string"
+                },
+                "NextToken": {
+                    "default": null,
+                    "description": "翻页凭证。取值为上一次调用**DescribeDBInstances**接口时返回的**NextToken**参数值。如果调用结果分多页展示，再次调用接口时传入该值便可以展示下一页的内容。 参数类型: string,参数示例：o7PORW5o2TJg****",
+                    "title": "Nexttoken",
+                    "type": "string"
+                },
+                "MaxResults": {
+                    "default": null,
+                    "description": "每页记录数。取值：**1~100**。\n\n默认值：**30**。\n>传入该参数，则**PageSize**和**PageNumber**参数不可用。 参数类型: integer,参数示例：30",
+                    "title": "Maxresults",
+                    "type": "integer"
+                },
+                "Filter": {
+                    "default": null,
+                    "description": "实例过滤条件参数及其值的JSON串 参数类型: string,参数示例：{\"babelfishEnabled\":\"true\"}",
+                    "title": "Filter",
+                    "type": "string"
+                },
+                "Category": {
+                    "default": null,
+                    "description": "实例的系列。取值：\n- **Basic**：基础系列\n- **HighAvailability**：高可用系列\n- **cluster**：集群系列\n- **serverless_basic**：Serverless 参数类型: string,参数示例：cluster",
+                    "title": "Category",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "RegionId"
+            ],
+            "type": "object"
+        }
+    }
+]

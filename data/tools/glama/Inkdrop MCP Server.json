@@ -1,0 +1,346 @@
+[
+    {
+        "name": "inkdrop_read-note",
+        "description": "Retrieve the complete contents of the note by its ID from the database.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "noteId": {
+                    "type": "string",
+                    "description": "ID of the note to retrieve. It can be found as `_id` in the note docs. It always starts with `note:`."
+                }
+            },
+            "required": [
+                "noteId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "inkdrop_search-notes",
+        "description": "List all notes that contain a given keyword.\nThe result does not include entire note bodies as they are truncated in 200 characters.\nYou have to retrieve the full note content by calling `read-note`.\nHere are tips to specify keywords effectively:\n\n## Use special qualifiers to narrow down results\n\nYou can use special qualifiers to get more accurate results. See the qualifiers and their usage examples:\n\n- **book**  \n  `book:Blog`: Searches for notes in the 'Blog' notebook.\n  `book:\"Desktop App\"`: Searches for notes in the 'Desktop App' notebook.\n- **bookId**\n  `bookId:kGlLniaV`: Searches for notes in the notebook ID 'book:kGlLniaV'.\n- **tag**  \n  `tag:JavaScript`: Searches for all notes having the 'JavaScript' tag. Read more about [tags](https://docs.inkdrop.app/manual/write-notes#tag-notes).\n- **status**  \n  `status:onHold`: Searches for all notes with the 'On hold' status. Read more about [statuses](/reference/note-statuses).\n- **title**  \n  `title:\"JavaScript setTimeout\"`: Searches for the note with the specified title.\n- **body**  \n  `body:KEYWORD`: Searches for a specific word in all notes. Equivalent to a [global search](#search-for-notes-across-all-notebooks).\n\n### Combine qualifiers\n\nYou can combine the filter qualifiers to refine data even more.\n\n**Find notes that contain the word 'Hello' and have the 'Issue' tag.**\n\n```text\nHello tag:Issue\n```\n\n**Find notes that contain the word 'Typescript,' have the 'Contribution' tag, and the 'Completed' status**\n\n```text\nTypescript tag:Contribution status:Completed\n```\n\n## Search for text with spaces\n\nTo find the text that includes spaces, put the text into the double quotation marks (\"):\n\n```text\n\"database associations\"\n```\n\n## Exclude text from search\n\nTo exclude text from the search results or ignore a specific qualifier, put the minus sign (-) before it. You can also combine the exclusions. See the examples:\n\n- `-book:Backend \"closure functions\"`: Ignores the 'Backend' notebook while searching for the 'closure functions' phrase.\n- `-tag:JavaScript`: Ignores all notes having the 'JavaScript' tag.\n- `-book:Typescript tag:work \"Data types\"`: Ignores the 'Typescript' notebook and the 'work' tag while searching for the 'Data types' phrase.\n- `-status:dropped title:\"Sprint 10.0\" debounce`: Ignores notes with the 'Dropped' status while searching for the 'debounce' word in the note with the 'Sprint 10.0' title.\n- `-\"Phrase to ignore\" \"in the rest of a sentence\"`: Ignores the 'Phrase to ignore' part while searching for 'in the rest of a sentence'.\n\nNote that you can't specify excluding modifiers only without including conditions.\n\n**WARNING**: Make sure to enter a text to search for after the exclusion modifier.\n\n- \u2705 Will work  \n  `-book:Backend \"closure functions\"`\n\n- \u26d4\ufe0f Won't work  \n   `-book:Backend`. There's no query. Inkdrop doesn't understand what to search for.\n    ",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "keyword": {
+                    "type": "string",
+                    "description": "Keyword to search for."
+                }
+            },
+            "required": [
+                "keyword"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "inkdrop_list-notes",
+        "description": "List all notes with specified conditions.\nThe result does not include entire note bodies as they are truncated in 200 characters.\nYou have to retrieve the full note content by calling `read-note`.\n",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "bookId": {
+                    "type": "string",
+                    "description": "ID of the notebook. It always starts with 'book:'. You can retrieve a list of notebooks with `list-notebooks`"
+                },
+                "tagIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "default": [],
+                    "description": "An array of tag IDs to filter. It always starts with 'tag:'. You can retrieve a list of available tags from `list-tags`."
+                },
+                "keyword": {
+                    "type": "string",
+                    "description": "Keyword to filter notes"
+                },
+                "sort": {
+                    "type": "string",
+                    "enum": [
+                        "updatedAt",
+                        "createdAt",
+                        "title"
+                    ],
+                    "default": "updatedAt",
+                    "description": "Sort the documents by the specified field"
+                },
+                "descending": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Reverse the order of the output documents"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "inkdrop_create-note",
+        "description": "Create a new note in the database",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "bookId": {
+                    "type": "string",
+                    "minLength": 5,
+                    "maxLength": 128,
+                    "pattern": "^(book:|trash$)",
+                    "description": "The notebook ID"
+                },
+                "title": {
+                    "type": "string",
+                    "maxLength": 128,
+                    "description": "The note title"
+                },
+                "body": {
+                    "type": "string",
+                    "maxLength": 1048576,
+                    "description": "The content of the note represented with Markdown"
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "none",
+                        "active",
+                        "onHold",
+                        "completed",
+                        "dropped"
+                    ],
+                    "description": "The status of the note"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "pattern": "^tag\\:"
+                    },
+                    "description": "An array of tag IDs to assign to the note. Call `list-tags` or `read-tag` to retrieve available tags. You can create a new tag with `create-tag` tool if necessary."
+                }
+            },
+            "required": [
+                "bookId",
+                "title",
+                "body"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "inkdrop_update-note",
+        "description": "Update the existing note in the database. You should retrieve the existing note with `read-note` first. When updating the note, you must specify not only the changed fields but also all the un-changed fields.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string",
+                    "minLength": 6,
+                    "maxLength": 128,
+                    "pattern": "^note:",
+                    "description": "The unique document ID which should start with `note:` and the remains are randomly generated string"
+                },
+                "_rev": {
+                    "type": "string",
+                    "description": "This is a CouchDB specific field. The current MVCC-token/revision of this document (mandatory and immutable)."
+                },
+                "bookId": {
+                    "type": "string",
+                    "minLength": 5,
+                    "maxLength": 128,
+                    "pattern": "^(book:|trash$)",
+                    "description": "The notebook ID"
+                },
+                "title": {
+                    "type": "string",
+                    "maxLength": 128,
+                    "description": "The note title"
+                },
+                "body": {
+                    "type": "string",
+                    "maxLength": 1048576,
+                    "description": "The content of the note in Markdown. NOTE: Do not escape special characters like `\\n`."
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "none",
+                        "active",
+                        "onHold",
+                        "completed",
+                        "dropped"
+                    ],
+                    "description": "The status of the note"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "pattern": "^tag\\:"
+                    },
+                    "description": "An array of tag IDs to assign to the note. Call `list-tags` or `read-tag` to retrieve available tags. You can create a new tag with `create-tag` tool if necessary."
+                }
+            },
+            "required": [
+                "_id",
+                "_rev",
+                "bookId",
+                "title",
+                "body"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "inkdrop_list-tags",
+        "description": "Retrieve a list of all tags",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "inkdrop_read-tag",
+        "description": "Retrieve a single tag",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "tagId": {
+                    "type": "string",
+                    "description": "ID of the tag to retrieve. It can be found as `_id` in the tag docs. It always starts with `tag:`."
+                }
+            },
+            "required": [
+                "tagId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "inkdrop_create-tag",
+        "description": "Create a new tag in the database",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "color": {
+                    "type": "string",
+                    "enum": [
+                        "default",
+                        "red",
+                        "orange",
+                        "yellow",
+                        "olive",
+                        "green",
+                        "teal",
+                        "blue",
+                        "violet",
+                        "purple",
+                        "pink",
+                        "brown",
+                        "grey",
+                        "black"
+                    ],
+                    "default": "default",
+                    "description": "The color type of the tag"
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "description": "The name of the tag"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "inkdrop_update-tag",
+        "description": "Update the existing tag in the database. You should retrieve the existing tag with `list-tags` first. When updating the tag, you must specify not only the changed fields but also all the un-changed fields.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string",
+                    "minLength": 6,
+                    "maxLength": 128,
+                    "pattern": "^tag:",
+                    "description": "The unique document ID which should start with `tag:` and the remains are randomly generated string"
+                },
+                "_rev": {
+                    "type": "string",
+                    "description": "This is a CouchDB specific field. The current MVCC-token/revision of this document (mandatory and immutable)."
+                },
+                "color": {
+                    "type": "string",
+                    "enum": [
+                        "default",
+                        "red",
+                        "orange",
+                        "yellow",
+                        "olive",
+                        "green",
+                        "teal",
+                        "blue",
+                        "violet",
+                        "purple",
+                        "pink",
+                        "brown",
+                        "grey",
+                        "black"
+                    ],
+                    "default": "default",
+                    "description": "The color type of the tag"
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "description": "The name of the tag"
+                }
+            },
+            "required": [
+                "_id",
+                "_rev",
+                "name"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "inkdrop_list-notebooks",
+        "description": "Retrieve a list of all notebooks",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "inkdrop_read-book",
+        "description": "Retrieve a single book",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "bookId": {
+                    "type": "string",
+                    "description": "ID of the book to retrieve. It can be found as `_id` in the book docs. It always starts with `book:`."
+                }
+            },
+            "required": [
+                "bookId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

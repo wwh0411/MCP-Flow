@@ -1,0 +1,1000 @@
+[
+    {
+        "name": "linear_getViewer",
+        "description": "Get information about the currently authenticated user",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "linear_getOrganization",
+        "description": "Get information about the current Linear organization",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "linear_getUsers",
+        "description": "Get a list of users in the Linear organization",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "linear_getLabels",
+        "description": "Get a list of issue labels from Linear",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "linear_getTeams",
+        "description": "Get a list of teams from Linear",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "linear_getWorkflowStates",
+        "description": "Get workflow states for a team",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "teamId": {
+                    "type": "string",
+                    "description": "ID of the team to get workflow states for"
+                },
+                "includeArchived": {
+                    "type": "boolean",
+                    "description": "Whether to include archived states (default: false)"
+                }
+            },
+            "required": [
+                "teamId"
+            ]
+        }
+    },
+    {
+        "name": "linear_getProjects",
+        "description": "Get a list of projects from Linear",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
+    {
+        "name": "linear_createProject",
+        "description": "Create a new project in Linear",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Name of the project"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Short summary of the project"
+                },
+                "content": {
+                    "type": "string",
+                    "description": "Content of the project (Markdown supported)"
+                },
+                "teamIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "IDs of the teams this project belongs to"
+                },
+                "state": {
+                    "type": "string",
+                    "description": "Initial state of the project (e.g., 'planned', 'started', 'paused', 'completed', 'canceled')"
+                }
+            },
+            "required": [
+                "name",
+                "teamIds"
+            ]
+        }
+    },
+    {
+        "name": "linear_updateProject",
+        "description": "Update an existing project in Linear",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "ID of the project to update"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "New name of the project"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "New short summary of the project"
+                },
+                "content": {
+                    "type": "string",
+                    "description": "New content of the project (Markdown supported)"
+                },
+                "state": {
+                    "type": "string",
+                    "description": "New state of the project (e.g., 'planned', 'started', 'paused', 'completed', 'canceled')"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "linear_addIssueToProject",
+        "description": "Add an existing issue to a project",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "issueId": {
+                    "type": "string",
+                    "description": "ID or identifier of the issue to add to the project"
+                },
+                "projectId": {
+                    "type": "string",
+                    "description": "ID of the project to add the issue to"
+                }
+            },
+            "required": [
+                "issueId",
+                "projectId"
+            ]
+        }
+    },
+    {
+        "name": "linear_getProjectIssues",
+        "description": "Get all issues associated with a project",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "projectId": {
+                    "type": "string",
+                    "description": "ID of the project to get issues for"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of issues to return (default: 25)"
+                }
+            },
+            "required": [
+                "projectId"
+            ]
+        }
+    },
+    {
+        "name": "linear_getCycles",
+        "description": "Get a list of all cycles",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "teamId": {
+                    "type": "string",
+                    "description": "ID of the team to get cycles for (optional)"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of cycles to return (default: 25)"
+                }
+            }
+        }
+    },
+    {
+        "name": "linear_getActiveCycle",
+        "description": "Get the currently active cycle for a team",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "teamId": {
+                    "type": "string",
+                    "description": "ID of the team to get the active cycle for"
+                }
+            },
+            "required": [
+                "teamId"
+            ]
+        }
+    },
+    {
+        "name": "linear_addIssueToCycle",
+        "description": "Add an issue to a cycle",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "issueId": {
+                    "type": "string",
+                    "description": "ID or identifier of the issue to add to the cycle"
+                },
+                "cycleId": {
+                    "type": "string",
+                    "description": "ID of the cycle to add the issue to"
+                }
+            },
+            "required": [
+                "issueId",
+                "cycleId"
+            ]
+        }
+    },
+    {
+        "name": "linear_getInitiatives",
+        "description": "Get a list of all initiatives from Linear",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "includeArchived": {
+                    "type": "boolean",
+                    "description": "Include archived initiatives in the results",
+                    "default": false
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of initiatives to return",
+                    "default": 50
+                }
+            }
+        }
+    },
+    {
+        "name": "linear_getInitiativeById",
+        "description": "Get details of a specific initiative by ID",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "initiativeId": {
+                    "type": "string",
+                    "description": "The ID of the initiative to retrieve"
+                },
+                "includeProjects": {
+                    "type": "boolean",
+                    "description": "Include associated projects in the response",
+                    "default": true
+                }
+            },
+            "required": [
+                "initiativeId"
+            ]
+        }
+    },
+    {
+        "name": "linear_createInitiative",
+        "description": "Create a new initiative",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Name of the initiative"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description of the initiative"
+                },
+                "content": {
+                    "type": "string",
+                    "description": "Content in markdown format"
+                },
+                "ownerId": {
+                    "type": "string",
+                    "description": "ID of the user who owns the initiative"
+                },
+                "targetDate": {
+                    "type": "string",
+                    "description": "Target completion date (ISO 8601 format)"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "Status of the initiative",
+                    "enum": [
+                        "notStarted",
+                        "inProgress",
+                        "completed",
+                        "paused"
+                    ]
+                },
+                "icon": {
+                    "type": "string",
+                    "description": "Icon emoji for the initiative"
+                },
+                "color": {
+                    "type": "string",
+                    "description": "Color of the initiative in hex format"
+                }
+            },
+            "required": [
+                "name"
+            ]
+        }
+    },
+    {
+        "name": "linear_updateInitiative",
+        "description": "Update an existing initiative",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "initiativeId": {
+                    "type": "string",
+                    "description": "The ID of the initiative to update"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Updated name of the initiative"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Updated description of the initiative"
+                },
+                "content": {
+                    "type": "string",
+                    "description": "Updated content in markdown format"
+                },
+                "ownerId": {
+                    "type": "string",
+                    "description": "Updated owner ID"
+                },
+                "targetDate": {
+                    "type": "string",
+                    "description": "Updated target completion date (ISO 8601 format)"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "Updated status of the initiative",
+                    "enum": [
+                        "notStarted",
+                        "inProgress",
+                        "completed",
+                        "paused"
+                    ]
+                },
+                "icon": {
+                    "type": "string",
+                    "description": "Updated icon emoji"
+                },
+                "color": {
+                    "type": "string",
+                    "description": "Updated color in hex format"
+                }
+            },
+            "required": [
+                "initiativeId"
+            ]
+        }
+    },
+    {
+        "name": "linear_archiveInitiative",
+        "description": "Archive an initiative",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "initiativeId": {
+                    "type": "string",
+                    "description": "The ID of the initiative to archive"
+                }
+            },
+            "required": [
+                "initiativeId"
+            ]
+        }
+    },
+    {
+        "name": "linear_unarchiveInitiative",
+        "description": "Unarchive an initiative",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "initiativeId": {
+                    "type": "string",
+                    "description": "The ID of the initiative to unarchive"
+                }
+            },
+            "required": [
+                "initiativeId"
+            ]
+        }
+    },
+    {
+        "name": "linear_deleteInitiative",
+        "description": "Delete an initiative (move to trash)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "initiativeId": {
+                    "type": "string",
+                    "description": "The ID of the initiative to delete"
+                }
+            },
+            "required": [
+                "initiativeId"
+            ]
+        }
+    },
+    {
+        "name": "linear_getInitiativeProjects",
+        "description": "Get all projects associated with an initiative",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "initiativeId": {
+                    "type": "string",
+                    "description": "The ID of the initiative"
+                },
+                "includeArchived": {
+                    "type": "boolean",
+                    "description": "Include archived projects in the results",
+                    "default": false
+                }
+            },
+            "required": [
+                "initiativeId"
+            ]
+        }
+    },
+    {
+        "name": "linear_addProjectToInitiative",
+        "description": "Add a project to an initiative",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "initiativeId": {
+                    "type": "string",
+                    "description": "The ID of the initiative"
+                },
+                "projectId": {
+                    "type": "string",
+                    "description": "The ID of the project to add"
+                }
+            },
+            "required": [
+                "initiativeId",
+                "projectId"
+            ]
+        }
+    },
+    {
+        "name": "linear_removeProjectFromInitiative",
+        "description": "Remove a project from an initiative",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "initiativeId": {
+                    "type": "string",
+                    "description": "The ID of the initiative"
+                },
+                "projectId": {
+                    "type": "string",
+                    "description": "The ID of the project to remove"
+                }
+            },
+            "required": [
+                "initiativeId",
+                "projectId"
+            ]
+        }
+    },
+    {
+        "name": "linear_getIssues",
+        "description": "Get a list of recent issues from Linear",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of issues to return (default: 10)"
+                }
+            }
+        }
+    },
+    {
+        "name": "linear_getIssueById",
+        "description": "Get a specific issue by ID or identifier (e.g., ABC-123)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "The ID or identifier of the issue (e.g., ABC-123)"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "linear_searchIssues",
+        "description": "Search for issues with various filters",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Text to search for in issue title or description"
+                },
+                "teamId": {
+                    "type": "string",
+                    "description": "Filter issues by team ID"
+                },
+                "assigneeId": {
+                    "type": "string",
+                    "description": "Filter issues by assignee ID"
+                },
+                "projectId": {
+                    "type": "string",
+                    "description": "Filter issues by project ID"
+                },
+                "states": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Filter issues by state name (e.g., 'Todo', 'In Progress', 'Done')"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of issues to return (default: 10)"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "linear_createIssue",
+        "description": "Create a new issue in Linear",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "description": "Title of the issue"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description of the issue (Markdown supported)"
+                },
+                "teamId": {
+                    "type": "string",
+                    "description": "ID of the team the issue belongs to"
+                },
+                "assigneeId": {
+                    "type": "string",
+                    "description": "ID of the user to assign the issue to"
+                },
+                "priority": {
+                    "type": "number",
+                    "description": "Priority of the issue (0 = No priority, 1 = Urgent, 2 = High, 3 = Normal, 4 = Low)"
+                },
+                "projectId": {
+                    "type": "string",
+                    "description": "ID of the project the issue belongs to"
+                },
+                "cycleId": {
+                    "type": "string",
+                    "description": "ID of the cycle to add the issue to"
+                },
+                "estimate": {
+                    "type": "number",
+                    "description": "The estimated complexity/points for the issue"
+                },
+                "dueDate": {
+                    "type": "string",
+                    "description": "The date at which the issue is due (YYYY-MM-DD format)"
+                },
+                "labelIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "IDs of the labels to attach to the issue"
+                },
+                "parentId": {
+                    "type": "string",
+                    "description": "ID of the parent issue (to create as a sub-task)"
+                },
+                "subscriberIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "IDs of the users to subscribe to the issue"
+                },
+                "stateId": {
+                    "type": "string",
+                    "description": "ID of the workflow state for the issue"
+                },
+                "templateId": {
+                    "type": "string",
+                    "description": "ID of a template to use for creating the issue"
+                },
+                "sortOrder": {
+                    "type": "number",
+                    "description": "The position of the issue in relation to other issues"
+                }
+            },
+            "required": [
+                "title",
+                "teamId"
+            ]
+        }
+    },
+    {
+        "name": "linear_updateIssue",
+        "description": "Update an existing issue in Linear",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "ID or identifier of the issue to update (e.g., ABC-123)"
+                },
+                "title": {
+                    "type": "string",
+                    "description": "New title for the issue"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "New description for the issue (Markdown supported)"
+                },
+                "stateId": {
+                    "type": "string",
+                    "description": "ID of the new state for the issue"
+                },
+                "priority": {
+                    "type": "number",
+                    "description": "New priority for the issue (0 = No priority, 1 = Urgent, 2 = High, 3 = Normal, 4 = Low)"
+                },
+                "projectId": {
+                    "type": "string",
+                    "description": "ID of the project to move the issue to"
+                },
+                "assigneeId": {
+                    "type": "string",
+                    "description": "ID of the user to assign the issue to, or null to unassign"
+                },
+                "cycleId": {
+                    "type": "string",
+                    "description": "ID of the cycle to move the issue to, or null to remove from current cycle"
+                },
+                "estimate": {
+                    "type": "number",
+                    "description": "The estimated complexity/points for the issue"
+                },
+                "dueDate": {
+                    "type": "string",
+                    "description": "The new due date for the issue (YYYY-MM-DD format), or null to remove"
+                },
+                "labelIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "IDs of the labels to set on the issue (replacing existing labels)"
+                },
+                "addedLabelIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "IDs of labels to add to the issue (without removing existing ones)"
+                },
+                "removedLabelIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "IDs of labels to remove from the issue"
+                },
+                "parentId": {
+                    "type": "string",
+                    "description": "ID of the parent issue, or null to convert to a regular issue"
+                },
+                "subscriberIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "IDs of the users to subscribe to the issue (replacing existing subscribers)"
+                },
+                "teamId": {
+                    "type": "string",
+                    "description": "ID of the team to move the issue to"
+                },
+                "sortOrder": {
+                    "type": "number",
+                    "description": "The position of the issue in relation to other issues"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    },
+    {
+        "name": "linear_createComment",
+        "description": "Add a comment to an issue in Linear",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "issueId": {
+                    "type": "string",
+                    "description": "ID or identifier of the issue to comment on (e.g., ABC-123)"
+                },
+                "body": {
+                    "type": "string",
+                    "description": "Text of the comment (Markdown supported)"
+                }
+            },
+            "required": [
+                "issueId",
+                "body"
+            ]
+        }
+    },
+    {
+        "name": "linear_addIssueLabel",
+        "description": "Add a label to an issue in Linear",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "issueId": {
+                    "type": "string",
+                    "description": "ID or identifier of the issue to add the label to (e.g., ABC-123)"
+                },
+                "labelId": {
+                    "type": "string",
+                    "description": "ID of the label to add to the issue"
+                }
+            },
+            "required": [
+                "issueId",
+                "labelId"
+            ]
+        }
+    },
+    {
+        "name": "linear_removeIssueLabel",
+        "description": "Remove a label from an issue in Linear",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "issueId": {
+                    "type": "string",
+                    "description": "ID or identifier of the issue to remove the label from (e.g., ABC-123)"
+                },
+                "labelId": {
+                    "type": "string",
+                    "description": "ID of the label to remove from the issue"
+                }
+            },
+            "required": [
+                "issueId",
+                "labelId"
+            ]
+        }
+    },
+    {
+        "name": "linear_assignIssue",
+        "description": "Assign an issue to a user",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "issueId": {
+                    "type": "string",
+                    "description": "ID or identifier of the issue to assign (e.g., ABC-123)"
+                },
+                "assigneeId": {
+                    "type": "string",
+                    "description": "ID of the user to assign the issue to, or null to unassign"
+                }
+            },
+            "required": [
+                "issueId",
+                "assigneeId"
+            ]
+        }
+    },
+    {
+        "name": "linear_subscribeToIssue",
+        "description": "Subscribe to issue updates",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "issueId": {
+                    "type": "string",
+                    "description": "ID or identifier of the issue to subscribe to (e.g., ABC-123)"
+                }
+            },
+            "required": [
+                "issueId"
+            ]
+        }
+    },
+    {
+        "name": "linear_convertIssueToSubtask",
+        "description": "Convert an issue to a subtask",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "issueId": {
+                    "type": "string",
+                    "description": "ID or identifier of the issue to convert (e.g., ABC-123)"
+                },
+                "parentIssueId": {
+                    "type": "string",
+                    "description": "ID or identifier of the parent issue (e.g., ABC-456)"
+                }
+            },
+            "required": [
+                "issueId",
+                "parentIssueId"
+            ]
+        }
+    },
+    {
+        "name": "linear_createIssueRelation",
+        "description": "Create relations between issues (blocks, is blocked by, etc.)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "issueId": {
+                    "type": "string",
+                    "description": "ID or identifier of the first issue (e.g., ABC-123)"
+                },
+                "relatedIssueId": {
+                    "type": "string",
+                    "description": "ID or identifier of the second issue (e.g., ABC-456)"
+                },
+                "type": {
+                    "type": "string",
+                    "description": "Type of relation: 'blocks', 'blocked_by', 'related', 'duplicate', 'duplicate_of'",
+                    "enum": [
+                        "blocks",
+                        "blocked_by",
+                        "related",
+                        "duplicate",
+                        "duplicate_of"
+                    ]
+                }
+            },
+            "required": [
+                "issueId",
+                "relatedIssueId",
+                "type"
+            ]
+        }
+    },
+    {
+        "name": "linear_archiveIssue",
+        "description": "Archive an issue",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "issueId": {
+                    "type": "string",
+                    "description": "ID or identifier of the issue to archive (e.g., ABC-123)"
+                }
+            },
+            "required": [
+                "issueId"
+            ]
+        }
+    },
+    {
+        "name": "linear_setIssuePriority",
+        "description": "Set the priority of an issue",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "issueId": {
+                    "type": "string",
+                    "description": "ID or identifier of the issue (e.g., ABC-123)"
+                },
+                "priority": {
+                    "type": "number",
+                    "description": "Priority level (0 = No priority, 1 = Urgent, 2 = High, 3 = Normal, 4 = Low)",
+                    "enum": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4
+                    ]
+                }
+            },
+            "required": [
+                "issueId",
+                "priority"
+            ]
+        }
+    },
+    {
+        "name": "linear_transferIssue",
+        "description": "Transfer an issue to another team",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "issueId": {
+                    "type": "string",
+                    "description": "ID or identifier of the issue to transfer (e.g., ABC-123)"
+                },
+                "teamId": {
+                    "type": "string",
+                    "description": "ID of the team to transfer the issue to"
+                }
+            },
+            "required": [
+                "issueId",
+                "teamId"
+            ]
+        }
+    },
+    {
+        "name": "linear_duplicateIssue",
+        "description": "Duplicate an issue",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "issueId": {
+                    "type": "string",
+                    "description": "ID or identifier of the issue to duplicate (e.g., ABC-123)"
+                }
+            },
+            "required": [
+                "issueId"
+            ]
+        }
+    },
+    {
+        "name": "linear_getIssueHistory",
+        "description": "Get the history of changes made to an issue",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "issueId": {
+                    "type": "string",
+                    "description": "ID or identifier of the issue (e.g., ABC-123)"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of history events to return (default: 10)"
+                }
+            },
+            "required": [
+                "issueId"
+            ]
+        }
+    },
+    {
+        "name": "linear_getComments",
+        "description": "Get all comments for an issue",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "issueId": {
+                    "type": "string",
+                    "description": "ID or identifier of the issue to get comments from (e.g., ABC-123)"
+                },
+                "limit": {
+                    "type": "number",
+                    "description": "Maximum number of comments to return (default: 25)"
+                }
+            },
+            "required": [
+                "issueId"
+            ]
+        }
+    }
+]

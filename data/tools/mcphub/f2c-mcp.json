@@ -1,0 +1,107 @@
+[
+    {
+        "name": "get_code",
+        "description": "Generate UI code for a given node or the currently selected node in the Figma desktop app. Use the nodeId parameter to specify a node id. If no node id is provided, the currently selected node will be used. If a URL is provided, extract the node id from the URL, for example, if given the URL https://figma.com/design/:fileKey/:fileName?node-id=1-2, the extracted nodeId would be 1:2.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileKey": {
+                    "type": "string",
+                    "description": "The Figma file identifier found in the file URL (e.g., https://www.figma.com/file/XXXXXXXXXXXX/). Extract the XXXXXXXXXXXX portion as the fileKey."
+                },
+                "ids": {
+                    "type": "string",
+                    "description": "Comma-separated list of Figma node IDs for conversion. To obtain node IDs, select elements in Figma, right-click and select \"Copy/Paste as\" → \"Copy ID\"."
+                },
+                "personalToken": {
+                    "type": "string",
+                    "description": "Figma personal access token for API authentication.The parameters are not required when the tool is called."
+                },
+                "localPath": {
+                    "type": "string",
+                    "description": "Absolute path for asset(e.g., images) and code storage. Directory will be created if non-existent. Path must follow OS-specific format without special character escaping. When this path is set, all code-related static resources are stored in this directory, while other assets (e.g., images) will be saved into the subdirectory named assets under this path."
+                },
+                "imgFormat": {
+                    "type": "string",
+                    "enum": [
+                        "png",
+                        "jpg",
+                        "svg"
+                    ],
+                    "default": "png",
+                    "description": "Export format for image assets: \"png\" for lossless quality, \"jpg\" for compressed files, or \"svg\" for vector graphics."
+                },
+                "scaleSize": {
+                    "type": "number",
+                    "minimum": 1,
+                    "maximum": 4,
+                    "default": 1,
+                    "description": "Image export scale factor (1-4). Higher values yield better quality at the cost of larger file sizes."
+                }
+            },
+            "required": [
+                "fileKey",
+                "ids"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "get_image",
+        "description": "Generate an image for a given node or the currently selected node in the Figma desktop app. Use the nodeId parameter to specify a node id. If no node id is provided, the currently selected node will be used. If a URL is provided, extract the node id from the URL, for example, if given the URL https://figma.com/design/:fileKey/:fileName?node-id=1-2, the extracted nodeId would be 1:2. Also export Figma design images for visual verification and design fidelity validation. Essential for comparing generated code output against original designs, ensuring pixel-perfect implementation and catching visual discrepancies during the design-to-code process.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fileKey": {
+                    "type": "string",
+                    "description": "Figma file identifier from the URL for accessing the design source"
+                },
+                "ids": {
+                    "type": "string",
+                    "description": "Comma-separated node IDs to export. Use \"Copy ID\" from Figma context menu to get precise element references for comparison"
+                },
+                "format": {
+                    "type": "string",
+                    "enum": [
+                        "jpg",
+                        "png",
+                        "svg",
+                        "pdf"
+                    ],
+                    "description": "Export format for verification: \"png\" for pixel-perfect comparison with transparency, \"jpg\" for quick previews, \"svg\" for scalable reference, \"pdf\" for print validation"
+                },
+                "scale": {
+                    "type": "number",
+                    "description": "Scale factor (1-4x) for high-resolution comparison. Use 2x+ for detailed fidelity checks on retina displays"
+                },
+                "svg_include_id": {
+                    "type": "boolean",
+                    "description": "Include element IDs in SVG for precise element mapping during code validation"
+                },
+                "svg_simplify_stroke": {
+                    "type": "boolean",
+                    "description": "Simplify stroke paths for cleaner reference images during visual comparison"
+                },
+                "use_absolute_bounds": {
+                    "type": "boolean",
+                    "description": "Use absolute positioning for accurate layout verification against implemented code"
+                },
+                "version": {
+                    "type": "string",
+                    "description": "Specific design version for consistent comparison baseline"
+                },
+                "personalToken": {
+                    "type": "string",
+                    "description": "Figma personal access token for authenticated access to design files"
+                }
+            },
+            "required": [
+                "fileKey",
+                "ids"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

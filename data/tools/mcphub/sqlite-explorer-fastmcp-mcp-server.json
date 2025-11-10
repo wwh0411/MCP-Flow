@@ -1,0 +1,60 @@
+[
+    {
+        "name": "read_query",
+        "description": "Execute a query on the Messages database.\n    \n    Args:\n        query: SELECT SQL query to execute\n        params: Optional list of parameters for the query\n        fetch_all: If True, fetches all results. If False, fetches one row.\n        row_limit: Maximum number of rows to return (default 1000)\n    \n    Returns:\n        List of dictionaries containing the query results\n    ",
+        "inputSchema": {
+            "properties": {
+                "params": {
+                    "title": "params",
+                    "type": "string"
+                },
+                "query": {
+                    "title": "Query",
+                    "type": "string"
+                },
+                "fetch_all": {
+                    "default": true,
+                    "title": "Fetch All",
+                    "type": "boolean"
+                },
+                "row_limit": {
+                    "default": 1000,
+                    "title": "Row Limit",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "params",
+                "query"
+            ],
+            "title": "read_queryArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_tables",
+        "description": "List all tables in the Messages database.\n    \n    Returns:\n        List of table names in the database\n    ",
+        "inputSchema": {
+            "properties": {},
+            "title": "list_tablesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "describe_table",
+        "description": "Get detailed information about a table's schema.\n    \n    Args:\n        table_name: Name of the table to describe\n        \n    Returns:\n        List of dictionaries containing column information:\n        - name: Column name\n        - type: Column data type\n        - notnull: Whether the column can contain NULL values\n        - dflt_value: Default value for the column\n        - pk: Whether the column is part of the primary key\n    ",
+        "inputSchema": {
+            "properties": {
+                "table_name": {
+                    "title": "Table Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "table_name"
+            ],
+            "title": "describe_tableArguments",
+            "type": "object"
+        }
+    }
+]

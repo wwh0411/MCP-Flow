@@ -1,0 +1,309 @@
+[
+    {
+        "name": "redis_hmset",
+        "description": "Set multiple hash fields to multiple values",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "description": "Hash key"
+                },
+                "fields": {
+                    "type": "object",
+                    "description": "Field-value pairs to set",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [
+                "key",
+                "fields"
+            ]
+        }
+    },
+    {
+        "name": "redis_hget",
+        "description": "Get the value of a hash field",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "description": "Hash key"
+                },
+                "field": {
+                    "type": "string",
+                    "description": "Field to get"
+                }
+            },
+            "required": [
+                "key",
+                "field"
+            ]
+        }
+    },
+    {
+        "name": "redis_hgetall",
+        "description": "Get all the fields and values in a hash",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "description": "Hash key"
+                }
+            },
+            "required": [
+                "key"
+            ]
+        }
+    },
+    {
+        "name": "redis_scan",
+        "description": "Scan Redis keys matching a pattern",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "pattern": {
+                    "type": "string",
+                    "description": "Pattern to match (e.g., \"user:*\" or \"schedule:*\")"
+                },
+                "count": {
+                    "type": "number",
+                    "description": "Number of keys to return per iteration (optional)",
+                    "minimum": 1
+                }
+            },
+            "required": [
+                "pattern"
+            ]
+        }
+    },
+    {
+        "name": "redis_set",
+        "description": "Set string value with optional NX (only if not exists) and PX (expiry in milliseconds) options",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "description": "Key to set"
+                },
+                "value": {
+                    "type": "string",
+                    "description": "Value to set"
+                },
+                "nx": {
+                    "type": "boolean",
+                    "description": "Only set if key does not exist"
+                },
+                "px": {
+                    "type": "number",
+                    "description": "Set expiry in milliseconds"
+                }
+            },
+            "required": [
+                "key",
+                "value"
+            ]
+        }
+    },
+    {
+        "name": "redis_get",
+        "description": "Get string value",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "description": "Key to get"
+                }
+            },
+            "required": [
+                "key"
+            ]
+        }
+    },
+    {
+        "name": "redis_del",
+        "description": "Delete a key",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "description": "Key to delete"
+                }
+            },
+            "required": [
+                "key"
+            ]
+        }
+    },
+    {
+        "name": "redis_zadd",
+        "description": "Add one or more members to a sorted set",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "description": "Sorted set key"
+                },
+                "members": {
+                    "type": "array",
+                    "description": "Array of score-value pairs to add",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "score": {
+                                "type": "number",
+                                "description": "Score for the member"
+                            },
+                            "value": {
+                                "type": "string",
+                                "description": "Member value"
+                            }
+                        },
+                        "required": [
+                            "score",
+                            "value"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "key",
+                "members"
+            ]
+        }
+    },
+    {
+        "name": "redis_zrange",
+        "description": "Return a range of members from a sorted set by index",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "description": "Sorted set key"
+                },
+                "start": {
+                    "type": "number",
+                    "description": "Start index (0-based)"
+                },
+                "stop": {
+                    "type": "number",
+                    "description": "Stop index (inclusive)"
+                },
+                "withScores": {
+                    "type": "boolean",
+                    "description": "Include scores in output",
+                    "default": false
+                }
+            },
+            "required": [
+                "key",
+                "start",
+                "stop"
+            ]
+        }
+    },
+    {
+        "name": "redis_zrangebyscore",
+        "description": "Return members from a sorted set with scores between min and max",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "description": "Sorted set key"
+                },
+                "min": {
+                    "type": "number",
+                    "description": "Minimum score"
+                },
+                "max": {
+                    "type": "number",
+                    "description": "Maximum score"
+                },
+                "withScores": {
+                    "type": "boolean",
+                    "description": "Include scores in output",
+                    "default": false
+                }
+            },
+            "required": [
+                "key",
+                "min",
+                "max"
+            ]
+        }
+    },
+    {
+        "name": "redis_zrem",
+        "description": "Remove one or more members from a sorted set",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "description": "Sorted set key"
+                },
+                "members": {
+                    "type": "array",
+                    "description": "Array of members to remove",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [
+                "key",
+                "members"
+            ]
+        }
+    },
+    {
+        "name": "redis_sadd",
+        "description": "Add one or more members to a set",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "description": "Set key"
+                },
+                "members": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Members to add to the set"
+                }
+            },
+            "required": [
+                "key",
+                "members"
+            ]
+        }
+    },
+    {
+        "name": "redis_smembers",
+        "description": "Get all members in a set",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "description": "Set key"
+                }
+            },
+            "required": [
+                "key"
+            ]
+        }
+    }
+]

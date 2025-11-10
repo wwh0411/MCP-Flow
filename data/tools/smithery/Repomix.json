@@ -1,0 +1,128 @@
+[
+    {
+        "name": "repo-to-file-mcp_pack_codebase",
+        "description": "Package local code directory into a consolidated file for AI analysis",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "directory": {
+                    "type": "string",
+                    "description": "Directory to pack (Absolute path)"
+                },
+                "compress": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Utilize Tree-sitter to intelligently extract essential code signatures and structure while removing implementation details, significantly reducing token usage (default: true)"
+                },
+                "includePatterns": {
+                    "type": "string",
+                    "description": "Specify which files to include using fast-glob compatible patterns (e.g., \"**/*.js,src/**\"). Only files matching these patterns will be processed. It is recommended to pack only necessary files."
+                },
+                "ignorePatterns": {
+                    "type": "string",
+                    "description": "Specify additional files to exclude using fast-glob compatible patterns (e.g., \"test/**,*.spec.js\"). These patterns complement .gitignore and default ignores. It is recommended to pack only necessary files."
+                },
+                "topFilesLength": {
+                    "type": "number",
+                    "default": 10,
+                    "description": "Number of top files to display in the metrics (default: 10)"
+                }
+            },
+            "required": [
+                "directory"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "repo-to-file-mcp_pack_remote_repository",
+        "description": "Fetch, clone and package a GitHub repository into a consolidated file for AI analysis",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "remote": {
+                    "type": "string",
+                    "description": "GitHub repository URL or user/repo (e.g., yamadashy/repomix)"
+                },
+                "compress": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Utilize Tree-sitter to intelligently extract essential code signatures and structure while removing implementation details, significantly reducing token usage (default: true)"
+                },
+                "includePatterns": {
+                    "type": "string",
+                    "description": "Specify which files to include using fast-glob compatible patterns (e.g., \"**/*.js,src/**\"). Only files matching these patterns will be processed. It is recommended to pack only necessary files."
+                },
+                "ignorePatterns": {
+                    "type": "string",
+                    "description": "Specify additional files to exclude using fast-glob compatible patterns (e.g., \"test/**,*.spec.js\"). These patterns complement .gitignore and default ignores. It is recommended to pack only necessary files."
+                },
+                "topFilesLength": {
+                    "type": "number",
+                    "default": 10,
+                    "description": "Number of top files to display in the metrics (default: 10)"
+                }
+            },
+            "required": [
+                "remote"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "repo-to-file-mcp_read_repomix_output",
+        "description": "Read the contents of a Repomix output file in environments where direct file access is not possible. This tool is specifically intended for cases where the client cannot access the file system directly, such as in web-based environments or sandboxed applications. For systems with direct file access, use standard file operations instead.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "outputId": {
+                    "type": "string",
+                    "description": "ID of the Repomix output file to read"
+                }
+            },
+            "required": [
+                "outputId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "repo-to-file-mcp_file_system_read_file",
+        "description": "Read a file using an absolute path with security validation.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "Absolute path to the file to read"
+                }
+            },
+            "required": [
+                "path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "repo-to-file-mcp_file_system_read_directory",
+        "description": "List contents of a directory using an absolute path.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "Absolute path to the directory to list"
+                }
+            },
+            "required": [
+                "path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

@@ -1,0 +1,213 @@
+[
+    {
+        "name": "unrealmcp_get_scene_info",
+        "description": "Get detailed information about the current Unreal scene.",
+        "parameters": {
+            "properties": {},
+            "title": "get_scene_infoArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "unrealmcp_create_object",
+        "description": "Create a new object in the Unreal scene.\n        \n        Args:\n            type: The type of object to create (e.g., 'StaticMeshActor', 'PointLight', etc.)\n            location: Optional 3D location as [x, y, z]\n            label: Optional label for the object\n        ",
+        "parameters": {
+            "properties": {
+                "type": {
+                    "title": "Type",
+                    "type": "string"
+                },
+                "location": {
+                    "default": null,
+                    "items": {},
+                    "title": "Location",
+                    "type": "array"
+                },
+                "label": {
+                    "default": null,
+                    "title": "Label",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "type"
+            ],
+            "title": "create_objectArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "unrealmcp_modify_object",
+        "description": "Modify an existing object in the Unreal scene.\n        \n        Args:\n            name: The name of the object to modify\n            location: Optional 3D location as [x, y, z]\n            rotation: Optional rotation as [pitch, yaw, roll]\n            scale: Optional scale as [x, y, z]\n        ",
+        "parameters": {
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string"
+                },
+                "location": {
+                    "default": null,
+                    "items": {},
+                    "title": "Location",
+                    "type": "array"
+                },
+                "rotation": {
+                    "default": null,
+                    "items": {},
+                    "title": "Rotation",
+                    "type": "array"
+                },
+                "scale": {
+                    "default": null,
+                    "items": {},
+                    "title": "Scale",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "title": "modify_objectArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "unrealmcp_delete_object",
+        "description": "Delete an object from the Unreal scene.\n        \n        Args:\n            name: The name of the object to delete\n        ",
+        "parameters": {
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "title": "delete_objectArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "unrealmcp_create_material",
+        "description": "Create a new material in the Unreal project.\n        \n        Args:\n            package_path: The path where the material should be created (e.g., '/Game/Materials')\n            name: The name of the material\n            properties: Optional dictionary of material properties to set. Can include:\n                - shading_model: str (e.g., \"DefaultLit\", \"Unlit\", \"Subsurface\", etc.)\n                - blend_mode: str (e.g., \"Opaque\", \"Masked\", \"Translucent\", etc.)\n                - two_sided: bool\n                - dithered_lod_transition: bool\n                - cast_contact_shadow: bool\n                - base_color: list[float] (RGBA values 0-1)\n                - metallic: float (0-1)\n                - roughness: float (0-1)\n        ",
+        "parameters": {
+            "properties": {
+                "package_path": {
+                    "title": "Package Path",
+                    "type": "string"
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string"
+                },
+                "properties": {
+                    "type": "object",
+                    "additionalProperties": true,
+                    "default": null,
+                    "title": "Properties"
+                }
+            },
+            "required": [
+                "package_path",
+                "name"
+            ],
+            "title": "create_materialArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "unrealmcp_modify_material",
+        "description": "Modify an existing material's properties.\n        \n        Args:\n            path: The full path to the material (e.g., '/Game/Materials/MyMaterial')\n            properties: Dictionary of material properties to set. Can include:\n                - shading_model: str (e.g., \"DefaultLit\", \"Unlit\", \"Subsurface\", etc.)\n                - blend_mode: str (e.g., \"Opaque\", \"Masked\", \"Translucent\", etc.)\n                - two_sided: bool\n                - dithered_lod_transition: bool\n                - cast_contact_shadow: bool\n                - base_color: list[float] (RGBA values 0-1)\n                - metallic: float (0-1)\n                - roughness: float (0-1)\n        ",
+        "parameters": {
+            "properties": {
+                "path": {
+                    "title": "Path",
+                    "type": "string"
+                },
+                "properties": {
+                    "type": "object",
+                    "additionalProperties": true,
+                    "title": "Properties"
+                }
+            },
+            "required": [
+                "path",
+                "properties"
+            ],
+            "title": "modify_materialArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "unrealmcp_get_material_info",
+        "description": "Get information about a material.\n        \n        Args:\n            path: The full path to the material (e.g., '/Game/Materials/MyMaterial')\n            \n        Returns:\n            Dictionary containing material information including:\n                - name: str\n                - path: str\n                - shading_model: str\n                - blend_mode: str\n                - two_sided: bool\n                - dithered_lod_transition: bool\n                - cast_contact_shadow: bool\n                - base_color: list[float]\n                - metallic: float\n                - roughness: float\n        ",
+        "parameters": {
+            "properties": {
+                "path": {
+                    "title": "Path",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "path"
+            ],
+            "title": "get_material_infoArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "unrealmcp_execute_python",
+        "description": "Execute Python code or a Python script file in Unreal Engine.\n        \n        This function allows you to execute arbitrary Python code directly in the Unreal Engine\n        environment. You can either provide Python code as a string or specify a path to a Python\n        script file to execute.\n        \n        The Python code will have access to the full Unreal Engine Python API, including the 'unreal'\n        module, allowing you to interact with and manipulate the Unreal Engine editor and its assets.\n        \n        Args:\n            code: Python code to execute as a string. Can be multiple lines.\n            file: Path to a Python script file to execute.\n            \n        Note: \n            - You must provide either code or file, but not both.\n            - The output of the Python code will be visible in the Unreal Engine log.\n            - The Python code runs in the Unreal Engine process, so it has full access to the engine.\n            - Be careful with destructive operations as they can affect your project.\n            \n        Examples:\n            # Execute simple Python code\n            execute_python(code=\"print('Hello from Unreal Engine!')\")\n            \n            # Get information about the current level\n            execute_python(code='''\n            import unreal\n            level = unreal.EditorLevelLibrary.get_editor_world()\n            print(f\"Current level: {level.get_name()}\")\n            actors = unreal.EditorLevelLibrary.get_all_level_actors()\n            print(f\"Number of actors: {len(actors)}\")\n            ''')\n            \n            # Execute a Python script file\n            execute_python(file=\"D:/my_scripts/create_assets.py\")\n        ",
+        "parameters": {
+            "properties": {
+                "code": {
+                    "default": null,
+                    "title": "Code",
+                    "type": "string"
+                },
+                "file": {
+                    "default": null,
+                    "title": "File",
+                    "type": "string"
+                }
+            },
+            "title": "execute_pythonArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "unrealmcp_my_custom_tool",
+        "description": "",
+        "parameters": {
+            "properties": {
+                "ctx": {
+                    "title": "ctx",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ctx"
+            ],
+            "title": "my_custom_toolArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "unrealmcp_get_actor_count",
+        "description": "Get the number of actors in the current Unreal Engine scene.",
+        "parameters": {
+            "properties": {
+                "ctx": {
+                    "title": "ctx",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ctx"
+            ],
+            "title": "get_actor_countArguments",
+            "type": "object"
+        }
+    }
+]

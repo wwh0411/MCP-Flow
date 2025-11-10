@@ -1,0 +1,257 @@
+[
+    {
+        "name": "symfp-gen_get_server_info",
+        "description": "Get information about the bridge server and API connection status",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "symfp-gen_get_cache_status",
+        "description": "Get current status of the symbol documentation cache including age, version, and TTL settings",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "symfp-gen_refresh_symbol_documentation",
+        "description": "Manually refresh the symbol documentation cache from the API",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "symfp-gen_validate_library",
+        "description": "Validate a complete Eagle library file (requires uploading the file first)",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "file_id": {
+                    "type": "string",
+                    "description": "File ID from library upload"
+                }
+            },
+            "required": [
+                "file_id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "symfp-gen_upload_library",
+        "description": "Upload Eagle library XML content for validation and preview. This tool provides the preview URL for viewing your component.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "library_content": {
+                    "type": "string",
+                    "description": "Complete Eagle library XML content - paste the template or your XML directly here"
+                },
+                "filename": {
+                    "type": "string",
+                    "description": "Filename for the upload (default: library.lbr)"
+                }
+            },
+            "required": [
+                "library_content"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "symfp-gen_generate_connector_symbol",
+        "description": "Generate a connector symbol using static templates or dynamic generation",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "datasheet_id": {
+                    "type": "string",
+                    "description": "Datasheet ID for the connector"
+                },
+                "category": {
+                    "type": "string",
+                    "description": "Template category (usually 'connector')"
+                },
+                "template": {
+                    "type": "string",
+                    "description": "Template ID (e.g., 'usb_type_c', 'header', 'audio_jack')"
+                },
+                "part_name": {
+                    "type": "string",
+                    "description": "Part name for the generated component"
+                },
+                "connector_config": {
+                    "type": "object",
+                    "properties": {
+                        "connector_type": {
+                            "type": "string",
+                            "description": "Type of connector ('standard', 'audio', 'usb', 'coaxial')"
+                        },
+                        "connector_subtype": {
+                            "type": "string",
+                            "description": "Subtype (e.g., 'male', 'female', 'terminal_block')"
+                        },
+                        "use_static_template": {
+                            "type": "boolean",
+                            "description": "Use static template if available (default: true)"
+                        },
+                        "connector_gender": {
+                            "type": "string",
+                            "description": "Connector gender ('male', 'female') - mapped to connector_subtype"
+                        },
+                        "num_pins": {
+                            "type": "number",
+                            "description": "Number of pins per row (1-1000, required for dynamic generation)"
+                        },
+                        "row_option": {
+                            "type": "string",
+                            "description": "Number of rows ('1', '2', '3', '4')"
+                        },
+                        "num_sections": {
+                            "type": "number",
+                            "description": "Number of sections (1, 2)"
+                        },
+                        "pin_naming_format": {
+                            "type": "string",
+                            "description": "Pin naming format ('numeric', 'zero_padded', 'alpha', 'alpha_zero_padded', 'custom_prefix')"
+                        },
+                        "custom_prefix": {
+                            "type": "string",
+                            "description": "Custom prefix when format is 'custom_prefix'"
+                        },
+                        "shield_pins": {
+                            "type": "boolean",
+                            "description": "Include shield pins"
+                        },
+                        "shield_count": {
+                            "type": "number",
+                            "description": "Number of shield pins (\u22650)"
+                        },
+                        "power_pins": {
+                            "type": "boolean",
+                            "description": "Include power pins"
+                        },
+                        "power_count": {
+                            "type": "number",
+                            "description": "Number of power pins (\u22650)"
+                        },
+                        "differential_pair": {
+                            "type": "boolean",
+                            "description": "Use differential pair configuration"
+                        },
+                        "sequence_type": {
+                            "type": "string",
+                            "description": "Sequence type ('linear', 'sequential')"
+                        },
+                        "description": {
+                            "type": "string",
+                            "description": "Library description"
+                        },
+                        "jack_size": {
+                            "type": "string",
+                            "description": "Jack size (e.g., '3.5mm', '6.35mm') - for audio connectors"
+                        }
+                    },
+                    "additionalProperties": true,
+                    "description": "Connector configuration options"
+                }
+            },
+            "required": [
+                "datasheet_id",
+                "category",
+                "template",
+                "part_name",
+                "connector_config"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "symfp-gen_get_symbol_documentation",
+        "description": "Get Eagle symbol format documentation and templates for direct XML generation. NOTE: Documentation is also available as MCP resource 'eagle://symbol-documentation'",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "symfp-gen_get_ic_pin_placement_rules",
+        "description": "Get IC-specific pin placement rules for optimal symbol layout when generating IC symbols",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "symfp-gen_get_ic_templates",
+        "description": "Get list of all available IC templates. START HERE to browse templates before using other IC template tools. ANY template can be used as a starting point for customization",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "symfp-gen_get_ic_template_by_category",
+        "description": "Get IC templates for a specific category with complete metadata including file paths for downloading",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "string",
+                    "description": "Template category name (e.g., 'microcontrollers', 'amplifiers', 'interface')"
+                }
+            },
+            "required": [
+                "category"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "symfp-gen_get_ic_categories",
+        "description": "Get available IC template categories with template counts and descriptions",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "symfp-gen_download_ic_template",
+        "description": "Download an Eagle .lbr library file for a specific IC template",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "file_path": {
+                    "type": "string",
+                    "description": "File path from template metadata (e.g., 'microcontrollers/atmega328p.lbr')"
+                }
+            },
+            "required": [
+                "file_path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

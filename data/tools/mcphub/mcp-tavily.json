@@ -1,0 +1,214 @@
+[
+    {
+        "name": "tavily_web_search",
+        "description": "Performs a comprehensive web search using Tavily's AI-powered search engine. \n                Excels at extracting and summarizing relevant content from web pages, making it ideal for research, \n                fact-finding, and gathering detailed information. Can run in either 'basic' mode for faster, simpler searches \n                or 'advanced' mode for more thorough analysis. Basic is cheaper and good for most use cases. \n                Supports filtering results by including or excluding specific domains.\n                Use include_domains/exclude_domains parameters to filter by specific websites.\n                Returns multiple search results with AI-extracted relevant content.",
+        "parameters": {
+            "description": "Parameters for general web search.",
+            "properties": {
+                "query": {
+                    "description": "Search query",
+                    "title": "Query",
+                    "type": "string"
+                },
+                "max_results": {
+                    "default": 5,
+                    "description": "Maximum number of results to return",
+                    "exclusiveMaximum": 20,
+                    "exclusiveMinimum": 0,
+                    "title": "Max Results",
+                    "type": "integer"
+                },
+                "include_domains": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "List of domains to specifically include in the search results (e.g. ['example.com', 'test.org'] or 'example.com')",
+                    "title": "Include Domains"
+                },
+                "exclude_domains": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "List of domains to specifically exclude from the search results (e.g. ['example.com', 'test.org'] or 'example.com')",
+                    "title": "Exclude Domains"
+                },
+                "search_depth": {
+                    "default": "basic",
+                    "description": "Depth of search - 'basic' or 'advanced'",
+                    "enum": [
+                        "basic",
+                        "advanced"
+                    ],
+                    "title": "Search Depth",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "title": "GeneralSearch",
+            "type": "object"
+        }
+    },
+    {
+        "name": "tavily_answer_search",
+        "description": "Performs a web search using Tavily's AI search engine and generates a direct answer to the query, \n                along with supporting search results. Best used for questions that need concrete answers backed by current web sources. \n                Uses advanced search depth by default for comprehensive analysis.\n\n                Features powerful source control through domain filtering:\n                - For academic research: exclude_domains=[\"wikipedia.org\"] for more scholarly sources\n                - For financial analysis: include_domains=[\"wsj.com\", \"bloomberg.com\", \"ft.com\"]\n                - For technical documentation: include_domains=[\"docs.python.org\", \"developer.mozilla.org\"]\n                - For scientific papers: include_domains=[\"nature.com\", \"sciencedirect.com\"]\n                - Can combine includes and excludes to fine-tune your sources\n\n                Particularly effective for factual queries, technical questions, and queries requiring synthesis of multiple sources.",
+        "parameters": {
+            "description": "Parameters for search with answer.",
+            "properties": {
+                "query": {
+                    "description": "Search query",
+                    "title": "Query",
+                    "type": "string"
+                },
+                "max_results": {
+                    "default": 5,
+                    "description": "Maximum number of results to return",
+                    "exclusiveMaximum": 20,
+                    "exclusiveMinimum": 0,
+                    "title": "Max Results",
+                    "type": "integer"
+                },
+                "include_domains": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "List of domains to specifically include in the search results (e.g. ['example.com', 'test.org'] or 'example.com')",
+                    "title": "Include Domains"
+                },
+                "exclude_domains": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "List of domains to specifically exclude from the search results (e.g. ['example.com', 'test.org'] or 'example.com')",
+                    "title": "Exclude Domains"
+                },
+                "search_depth": {
+                    "default": "advanced",
+                    "description": "Depth of search - 'basic' or 'advanced'",
+                    "enum": [
+                        "basic",
+                        "advanced"
+                    ],
+                    "title": "Search Depth",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "title": "AnswerSearch",
+            "type": "object"
+        }
+    },
+    {
+        "name": "tavily_news_search",
+        "description": "Searches recent news articles using Tavily's specialized news search functionality. \n                Ideal for current events, recent developments, and trending topics. Can filter results by recency \n                (number of days back to search) and by including or excluding specific news domains.\n\n                Powerful domain filtering for news sources:\n                - For mainstream news: include_domains=[\"reuters.com\", \"apnews.com\", \"bbc.com\"]\n                - For financial news: include_domains=[\"bloomberg.com\", \"wsj.com\", \"ft.com\"]\n                - For tech news: include_domains=[\"techcrunch.com\", \"theverge.com\"]\n                - To exclude paywalled content: exclude_domains=[\"wsj.com\", \"ft.com\"]\n                - To focus on specific regions: include_domains=[\"bbc.co.uk\"] for UK news\n\n                Returns news articles with publication dates and relevant excerpts.",
+        "parameters": {
+            "description": "Parameters for news search.",
+            "properties": {
+                "query": {
+                    "description": "Search query",
+                    "title": "Query",
+                    "type": "string"
+                },
+                "max_results": {
+                    "default": 5,
+                    "description": "Maximum number of results to return",
+                    "exclusiveMaximum": 20,
+                    "exclusiveMinimum": 0,
+                    "title": "Max Results",
+                    "type": "integer"
+                },
+                "include_domains": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "List of domains to specifically include in the search results (e.g. ['example.com', 'test.org'] or 'example.com')",
+                    "title": "Include Domains"
+                },
+                "exclude_domains": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "List of domains to specifically exclude from the search results (e.g. ['example.com', 'test.org'] or 'example.com')",
+                    "title": "Exclude Domains"
+                },
+                "days": {
+                    "anyOf": [
+                        {
+                            "exclusiveMinimum": 0,
+                            "maximum": 365,
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of days back to search (default is 3)",
+                    "title": "Days"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "title": "NewsSearch",
+            "type": "object"
+        }
+    }
+]

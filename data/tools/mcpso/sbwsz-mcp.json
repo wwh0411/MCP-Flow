@@ -1,0 +1,140 @@
+[
+    {
+        "name": "sbwsz_get_card_by_set_and_number",
+        "description": "\u901a\u8fc7\u7cfb\u5217\u4ee3\u7801\u548c\u6536\u96c6\u7f16\u53f7\u83b7\u53d6\u5355\u5f20\u5361\u724c\u3002",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "set": {
+                    "type": "string",
+                    "description": "\u7cfb\u5217\u4ee3\u7801\uff0c\u4f8b\u5982 'NEO'\u3001'MOM'"
+                },
+                "collector_number": {
+                    "type": "string",
+                    "description": "\u6536\u96c6\u7f16\u53f7\uff0c\u4f8b\u5982 '1'\u3001'112'\u3001'1a'"
+                }
+            },
+            "required": [
+                "set",
+                "collector_number"
+            ]
+        }
+    },
+    {
+        "name": "sbwsz_search_cards",
+        "description": "\u901a\u8fc7\u67e5\u8be2\u5b57\u7b26\u4e32\u641c\u7d22\u5361\u724c\uff0c\u652f\u6301\u5206\u9875\u548c\u6392\u5e8f\u3002\n\n**\u67e5\u8be2\u8bed\u6cd5\u793a\u4f8b:**\n- `t:creature c:r` (\u7ea2\u8272\u751f\u7269)\n- `pow>=5 or mv<2` (\u529b\u91cf\u5927\u4e8e\u7b49\u4e8e5\u6216\u6cd5\u672f\u529b\u503c\u5c0f\u4e8e2)\n- `o:\"draw a card\" -c:u` (\u5305\u542b\"\u6293\u4e00\u5f20\u724c\"\u7684\u975e\u84dd\u8272\u724c)\n- `(t:instant or t:sorcery) mv<=3` (3\u8d39\u6216\u4ee5\u4e0b\u7684\u77ac\u95f4\u6216\u6cd5\u672f)\n\n**\u5206\u9875\u53c2\u6570:**\n- `page`: \u9875\u7801 (\u6574\u6570, \u9ed8\u8ba4 1)\n- `page_size`: \u6bcf\u9875\u6570\u91cf (\u6574\u6570, \u9ed8\u8ba4 20, \u6700\u5927 100)\n\n**\u6392\u5e8f\u53c2\u6570:**\n- `order`: \u6309\u5b57\u6bb5\u6392\u5e8f\uff0c\u9017\u53f7\u5206\u9694\u3002\u524d\u7f00 `-` \u8868\u793a\u964d\u5e8f\n  (\u4f8b\u5982: `name`, `-mv`, `name,-rarity`)\n  \u9ed8\u8ba4\u6392\u5e8f: `name`\n\n**\u5176\u4ed6\u53c2\u6570:**\n- `unique`: \u53bb\u91cd\u65b9\u5f0f (id, oracle_id, illustration_id)\n- `priority_chinese`: \u662f\u5426\u4f18\u5148\u663e\u793a\u4e2d\u6587\u5361\u724c",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "q": {
+                    "type": "string",
+                    "description": "\u67e5\u8be2\u5b57\u7b26\u4e32\uff0c\u4f8b\u5982 't:creature c:r'\u3001'pow>=5 or mv<2'\u3001's:TDM -t:creature'"
+                },
+                "page": {
+                    "type": "integer",
+                    "description": "\u9875\u7801 (\u9ed8\u8ba4 1)"
+                },
+                "page_size": {
+                    "type": "integer",
+                    "description": "\u6bcf\u9875\u6570\u91cf (\u9ed8\u8ba4 20\uff0c\u6700\u5927 100)"
+                },
+                "order": {
+                    "type": "string",
+                    "description": "\u6392\u5e8f\u5b57\u6bb5 (\u4f8b\u5982: name, -mv, rarity)"
+                },
+                "unique": {
+                    "type": "string",
+                    "description": "\u53bb\u91cd\u65b9\u5f0f: id(\u4e0d\u53bb\u91cd), oracle_id(\u6309\u5361\u724c\u540d\u53bb\u91cd), illustration_id(\u6309\u63d2\u56fe\u53bb\u91cd)"
+                },
+                "priority_chinese": {
+                    "type": "boolean",
+                    "description": "\u662f\u5426\u4f18\u5148\u663e\u793a\u4e2d\u6587\u5361\u724c (\u9ed8\u8ba4 true)"
+                }
+            },
+            "required": [
+                "q"
+            ]
+        }
+    },
+    {
+        "name": "sbwsz_get_sets",
+        "description": "\u8fd4\u56de\u6240\u6709MTG\u5361\u724c\u7cfb\u5217\u7684\u5b8c\u6574\u6570\u636e\uff0c\u6309\u53d1\u5e03\u65e5\u671f\u964d\u5e8f\u6392\u5217",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    },
+    {
+        "name": "sbwsz_get_set",
+        "description": "\u6839\u636e\u7cfb\u5217\u4ee3\u7801\u83b7\u53d6\u5355\u4e2a\u7cfb\u5217\u7684\u8be6\u7ec6\u4fe1\u606f",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "set_code": {
+                    "type": "string",
+                    "description": "\u7cfb\u5217\u4ee3\u7801\uff0c\u4f8b\u5982 'NEO'\u3001'MOM'"
+                }
+            },
+            "required": [
+                "set_code"
+            ]
+        }
+    },
+    {
+        "name": "sbwsz_get_set_cards",
+        "description": "\u83b7\u53d6\u7279\u5b9a\u7cfb\u5217\u7684\u6240\u6709\u5361\u724c\uff0c\u652f\u6301\u5206\u9875\u548c\u6392\u5e8f\u3002",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "set_code": {
+                    "type": "string",
+                    "description": "\u7cfb\u5217\u4ee3\u7801\uff0c\u4f8b\u5982 'NEO'\u3001'MOM'"
+                },
+                "page": {
+                    "type": "integer",
+                    "description": "\u9875\u7801 (\u9ed8\u8ba4 1)"
+                },
+                "page_size": {
+                    "type": "integer",
+                    "description": "\u6bcf\u9875\u6570\u91cf (\u9ed8\u8ba4 20\uff0c\u6700\u5927 100)"
+                },
+                "order": {
+                    "type": "string",
+                    "description": "\u6392\u5e8f\u5b57\u6bb5 (\u4f8b\u5982: collector_number, name, -mv)"
+                },
+                "priority_chinese": {
+                    "type": "boolean",
+                    "description": "\u662f\u5426\u4f18\u5148\u663e\u793a\u4e2d\u6587\u5361\u724c (\u9ed8\u8ba4 true)"
+                }
+            },
+            "required": [
+                "set_code"
+            ]
+        }
+    },
+    {
+        "name": "sbwsz_hzls",
+        "description": "\u6d3b\u5b57\u4e71\u5237\uff08\u4f7f\u7528\u5361\u724c\u56fe\u50cf\u62fc\u63a5\u53e5\u5b50\uff09\uff0c\u5c06\u8f93\u5165\u7684\u6587\u672c\u4f7f\u7528\u9b54\u6cd5\u5361\u724c\u56fe\u50cf\u62fc\u63a5\u6210\u56fe\u7247",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "target_sentence": {
+                    "type": "string",
+                    "description": "\u8981\u62fc\u63a5\u7684\u76ee\u6807\u53e5\u5b50/\u6587\u672c"
+                },
+                "cut_full_image": {
+                    "type": "boolean",
+                    "description": "\u662f\u5426\u4f7f\u7528\u5361\u724c\u5b8c\u6574\u56fe\u50cf (\u9ed8\u8ba4 true)"
+                },
+                "with_link": {
+                    "type": "boolean",
+                    "description": "\u662f\u5426\u5305\u542b\u94fe\u63a5\u6c34\u5370 (\u9ed8\u8ba4 true)"
+                }
+            },
+            "required": [
+                "target_sentence"
+            ]
+        }
+    }
+]

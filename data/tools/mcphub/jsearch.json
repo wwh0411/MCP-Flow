@@ -1,0 +1,353 @@
+[
+    {
+        "name": "job_search",
+        "description": "Search for jobs posted on any public job site across the web on the largest job aggregate in the world (Google for Jobs). Extensive filtering support and most options available on Google for Jobs.",
+        "parameters": {
+            "properties": {
+                "query": {
+                    "description": "Free-form jobs search query. It is highly recommended to include job title and location as part of the query, see query examples below. Examples: web development jobs in chicago marketing manager in new york via linkedin",
+                    "title": "Query",
+                    "type": "string"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Page to return (each page includes up to 10 results). Default: 1 Allowed values: 1-100 Default: 1",
+                    "title": "Page"
+                },
+                "num_pages": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Number of pages to return, starting from page. Default: 1 Allowed values: 1-20 Note: requests for more than one page and up to 10 pages are charged x2 and requests for more than 10 pages are charged 3x. Default: 1",
+                    "title": "Num Pages"
+                },
+                "country": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Country code of the country from which to return job postings. Please note that this parameter must be set in order to get jobs in a specific country, for example, to query for software developer jobs in Berlin, one should add country=de to the request - e.g. query=software+developers+in+berlin&country=de. Default: us Allowed values: See https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2",
+                    "title": "Country"
+                },
+                "language": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Language code in which to return job postings. Leave empty to use the primary language in the specified country (country parameter). Note that each country supports certain languages. In case a language not supported by the specified country is used, it is likely that no results will be returned. Allowed values: See https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes",
+                    "title": "Language"
+                },
+                "date_posted": {
+                    "default": null,
+                    "description": "Find jobs posted within the time you specify. Default: all Allowed values: all, today, 3days, week, month",
+                    "enum": [
+                        "all",
+                        "today",
+                        "3days",
+                        "week",
+                        "month",
+                        null
+                    ],
+                    "title": "Date Posted"
+                },
+                "work_from_home": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Only return work from home / remote jobs. Default: false",
+                    "title": "Work From Home"
+                },
+                "employment_types": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Find jobs of particular employment types, specified as a comma delimited list of the following values: FULLTIME, CONTRACTOR, PARTTIME, INTERN.",
+                    "title": "Employment Types"
+                },
+                "job_requirements": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Find jobs with specific requirements, specified as a comma delimited list of the following values: under_3_years_experience, more_than_3_years_experience, no_experience, no_degree.",
+                    "title": "Job Requirements"
+                },
+                "radius": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Return jobs within a certain distance from location as specified as part of the query (in km). This internally sent as the Google \"lrad\" parameter and although it might affect the results, it is not strictly followed by Google for Jobs.",
+                    "title": "Radius"
+                },
+                "exclude_job_publishers": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Exclude jobs published by specific publishers, specified as a comma (,) separated list of publishers to exclude. Example: BeeBe,Dice",
+                    "title": "Exclude Job Publishers"
+                },
+                "fields": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A comma separated list of job fields to include in the response (field projection). By default all fields are returned. Example: employer_name,job_publisher,job_title,job_country",
+                    "title": "Fields"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "job_details",
+        "description": "Get all job details, including additional information such as: application options / links, employer reviews and estimated salaries for similar jobs.",
+        "parameters": {
+            "properties": {
+                "job_id": {
+                    "description": "Job Id of the job for which to get details. Batching of up to 20 Job Ids is supported by separating multiple Job Ids by comma (,). Note that each Job Id in a batch request is counted as a request for quota calculation.",
+                    "title": "Job Id",
+                    "type": "string"
+                },
+                "country": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Country code of the country from which to return job posting. Default: us Allowed values: See https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2",
+                    "title": "Country"
+                },
+                "language": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Language code in which to return job postings. Leave empty to use the primary language in the specified country (country parameter). Allowed values: See https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes",
+                    "title": "Language"
+                },
+                "fields": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A comma separated list of job fields to include in the response (field projection). By default all fields are returned. Example: employer_name,job_publisher,job_title,job_country",
+                    "title": "Fields"
+                }
+            },
+            "required": [
+                "job_id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "job_salary",
+        "description": "Get estimated salaries / pay for a jobs around a location by job title and location. The salary estimation is returned for several periods, depending on data availability / relevance, and includes: hourly, daily, weekly, monthly, or yearly.",
+        "parameters": {
+            "properties": {
+                "job_title": {
+                    "description": "Job title for which to get salary estimation.",
+                    "title": "Job Title",
+                    "type": "string"
+                },
+                "location": {
+                    "description": "Free-text location/area in which to get salary estimation.",
+                    "title": "Location",
+                    "type": "string"
+                },
+                "location_type": {
+                    "default": null,
+                    "description": "Specify the type of the location you are looking to get salary estimation for additional accuracy. Allowed values: ANY, CITY, STATE, COUNTRY Default: ANY",
+                    "enum": [
+                        "ANY",
+                        "CITY",
+                        "STATE",
+                        "COUNTRY",
+                        null
+                    ],
+                    "title": "Location Type"
+                },
+                "years_of_experience": {
+                    "default": null,
+                    "description": "Get job estimation for a specific experience level range (years). Allowed values: ALL, LESS_THAN_ONE, ONE_TO_THREE, FOUR_TO_SIX, SEVEN_TO_NINE, TEN_TO_FOURTEEN, ABOVE_FIFTEEN Default: ALL",
+                    "enum": [
+                        "ALL",
+                        "LESS_THAN_ONE",
+                        "ONE_TO_THREE",
+                        "FOUR_TO_SIX",
+                        "SEVEN_TO_NINE",
+                        "TEN_TO_FOURTEEN",
+                        "ABOVE_FIFTEEN",
+                        null
+                    ],
+                    "title": "Years Of Experience"
+                },
+                "fields": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "A comma separated list of job salary fields to include in the response (field projection). By default all fields are returned. Example: job_title,median_salary,location",
+                    "title": "Fields"
+                }
+            },
+            "required": [
+                "job_title",
+                "location"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "company_job_salary",
+        "description": "Get estimated job salaries/pay in a specific company by job title and optionally a location and experience level in years.",
+        "parameters": {
+            "properties": {
+                "company": {
+                    "description": "The company name for which to get salary information (e.g. Amazon).",
+                    "title": "Company",
+                    "type": "string"
+                },
+                "job_title": {
+                    "description": "Job title for which to get salary estimation.",
+                    "title": "Job Title",
+                    "type": "string"
+                },
+                "location": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Free-text location/area in which to get salary estimation.",
+                    "title": "Location"
+                },
+                "location_type": {
+                    "default": null,
+                    "description": "Specify the type of the location you are looking to get salary estimation for additional accuracy. Allowed values: ANY, CITY, STATE, COUNTRY Default: ANY",
+                    "enum": [
+                        "ANY",
+                        "CITY",
+                        "STATE",
+                        "COUNTRY",
+                        null
+                    ],
+                    "title": "Location Type"
+                },
+                "years_of_experience": {
+                    "default": null,
+                    "description": "Get job estimation for a specific experience level range (years). Allowed values: ALL, LESS_THAN_ONE, ONE_TO_THREE, FOUR_TO_SIX, SEVEN_TO_NINE, TEN_TO_FOURTEEN, ABOVE_FIFTEEN Default: ALL",
+                    "enum": [
+                        "ALL",
+                        "LESS_THAN_ONE",
+                        "ONE_TO_THREE",
+                        "FOUR_TO_SIX",
+                        "SEVEN_TO_NINE",
+                        "TEN_TO_FOURTEEN",
+                        "ABOVE_FIFTEEN",
+                        null
+                    ],
+                    "title": "Years Of Experience"
+                }
+            },
+            "required": [
+                "company",
+                "job_title"
+            ],
+            "type": "object"
+        }
+    }
+]

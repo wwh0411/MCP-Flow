@@ -1,0 +1,786 @@
+[
+    {
+        "name": "list_titles",
+        "description": "Get a listing of titles that match certain parameters. This powerful endpoint can allow you to find many combinations of titles. For example you could search for something as granular \"Horror Movies Streaming on Netflix in the USA\" by using the genres, types, source_ids and regions parameters. Results are paginated, and return 250 pages per query by default. Useful for mapping all Watchmode title IDs in your app, and finding in bulk what titles are available in different countries, different sources or source types. Streaming sources are limited to USA only for free plans.",
+        "parameters": {
+            "properties": {
+                "types": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter result to only include certain types of titles. Pass a single type or pass multiple types comma delimited. Possible values: movie, tv_series, tv_special, tv_miniseries, short_film",
+                    "title": "Types"
+                },
+                "regions": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Pass one of the region values (eg. US), or multiple regions comma delimited to only return sources active in those regions. Currently supported regions: US, GB, CA, AU Note: If you populate the source_ids or source_types you can only set a single region, and if you set no region US will be set by default.",
+                    "title": "Regions"
+                },
+                "source_types": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter results to only include titles that are available on a specific type(s) of source (such a subscription, or TV Everywhere channel apps, etc). By default all are selected, pass one or multiple (comma delimited) of these values: sub, rent, buy, free, tve Note: If you populate this you can only set a single region, and if you set no region US will be set by default.",
+                    "title": "Source Types"
+                },
+                "source_ids": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Pass an individual ID for a source (returned from the /sources/ endpoint) to filter the results to titles available on that source. Pass multiple values comma separated to return titles available on one of the sources you pass in. Note: If you populate this you can only set a single region, and if you set no region US will be set by default.",
+                    "title": "Source Ids"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Set the page of results you want to return, if this isn't set you will always get page 1 returned. Default: 1",
+                    "title": "Page"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Set how many titles to return per page, default and maximum is 250. Default: 250",
+                    "title": "Limit"
+                },
+                "genres": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter results to only include certain genre(s). Pass in a single genre id (which you would get from the /v1/genres/ endpoint, or multiple comma separated.",
+                    "title": "Genres"
+                },
+                "sort_by": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Sort order of results, possible values: relevance_desc, relevance_asc, popularity_desc, popularity_asc, release_date_desc, release_date_asc, title_desc, title_asc. Default value is: relevance_desc.",
+                    "title": "Sort By"
+                },
+                "network_ids": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Pass an individual ID for a TV network (returned from the /networks/ endpoint) to filter the results to titles the originally aired on that TV network. Pass multiple values comma separated to return titles that aired on one of the networks you passed in.",
+                    "title": "Network Ids"
+                },
+                "release_date_start": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Set the start of a range for when the title was released (the initial release of the movie or show, not necessarily when it was released on a streaming service). For example, to only include releases on or after January 1, 2001 set this to 20010101 Default: 20010101",
+                    "title": "Release Date Start"
+                },
+                "release_date_end": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Set the end of a range for when the title was released (the initial release of the movie or show, not necessarily when it was released on a streaming service). For example, to only include releases on or before December 11, 2020 set this to 20201211 Default: 20201211",
+                    "title": "Release Date End"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "person",
+        "description": "Return details on a specific person (actor, director, etc).",
+        "parameters": {
+            "properties": {
+                "id": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "Default: 7110004",
+                    "title": "Id"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search",
+        "description": "Search for titles or people using an external ID (IMDB, TheMovieDB.org), or by name. Returns an array of results objects, that can either be a title or a person. Useful for getting the Watchmode IDs for titles and people. For example, you can set the parameters to search_value=Breaking%20Bad and search_field=name to get all of the titles named \"Breaking bad\", and then use the IDs returned in other endpoints such as /v1/title/",
+        "parameters": {
+            "properties": {
+                "search_field": {
+                    "description": "The field for us to search in, either a 3rd party ID or \\\\\\\"name\\\\\\\" which will search for a movie/show title or a person's name depending on the type(s) set. Must be one of the following options: imdb_id, tmdb_person_id, tmdb_movie_id, tmdb_tv_id, name.",
+                    "title": "Search Field",
+                    "type": "string"
+                },
+                "search_value": {
+                    "description": "The value we should search for. For example, if you set search_field to imdb_id, this would be the IMDB title/person ID, eg. tt0944947.",
+                    "title": "Search Value",
+                    "type": "string"
+                },
+                "types": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Pass one of the following values, or multiple comma separated values to only return certain types: tv, movie, person.",
+                    "title": "Types"
+                }
+            },
+            "required": [
+                "search_field",
+                "search_value"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "autocomplete_search",
+        "description": "Search for titles/and or people by name or a partial name. Useful for building an autocomplete search of titles and/or people. The results include the field result_type to indicate which type of result it is (title or person). For titles, the movie poster will be returned in image_url, for a person a headshot will be returned in image_url.",
+        "parameters": {
+            "properties": {
+                "search_value": {
+                    "description": "The phrase to search for, can be a full title or person name, or a partial phrase. For example searching for \\\"The sha\\\" will find the movie \\\"The Shawshank Redemption\\\".",
+                    "title": "Search Value",
+                    "type": "string"
+                },
+                "search_type": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Set this to 1 to include titles and people in results. Set this to 2 to include titles only. Set this to 3 to include movies only. Set this to 4 to include TV only. Set this to 5 to include people only. By default this is set to 1. Default: 1",
+                    "title": "Search Type"
+                }
+            },
+            "required": [
+                "search_value"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "streaming_release_dates",
+        "description": "Get a listing of recently released or coming soon releases on the major streaming services. Only major services and US releases dates included, however most of the major services (Netflix, Hulu, etc) release original content on the same days in all countries they support. We return is_original field to indicate wheter the title is an original release on that streaming service.",
+        "parameters": {
+            "properties": {
+                "start_date": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "By default, this endpoint will return release dates from the current date through the next 30 days. Populate this parameter to manually set a start date to include releases from a specific date range, format is YYYYMMDD (eg 20210101 for January 1st, 2021), or for more granular results down to the second YYYYMMDDHHMMSS (eg 20210101123459 for January 1st, 2021 12:24pm and 59 seconds). Hours are in 24 hour format and in Eastern Standard Time. Month, day, hour, minutes and seconds use leading zeros for single digit values. Default: 20220301",
+                    "title": "Start Date"
+                },
+                "end_date": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "By default, this endpoint will return release dates from the current date through the next 30 days. Populate this parameter to manually set a end date to include releases from a specific date range, format is YYYYMMDD (eg 20210101 for January 1st, 2021), or for more granular results down to the second YYYYMMDDHHMMSS (eg 20210101123459 for January 1st, 2021 12:24pm and 59 seconds). Hours are in 24 hour format and in Eastern Standard Time. Month, day, hour, minutes and seconds use leading zeros for single digit values. Default: 20220312",
+                    "title": "End Date"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Set how many release dates to return, default is 500. Default: 250",
+                    "title": "Limit"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "new_titles",
+        "description": "Get a listing of the title IDs of new titles added to Watchmode within the date range. You can use this to find new titles, then use the /v1/title/ endpoint to get details on the title.",
+        "parameters": {
+            "properties": {
+                "start_date": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "By default, the changes API will return changes since the beginning of yesterday. Populate this parameter to manually set a start date to include changes from a specific date range, format is YYYYMMDD (eg 20210101 for January 1st, 2021). Default: 0",
+                    "title": "Start Date"
+                },
+                "end_date": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "By default, the changes API will return changes since the beginning of yesterday. Populate this parameter to manually set a end date to include changes from a specific date range, format is YYYYMMDD (eg 20210101 for January 1st, 2021). Default: 0",
+                    "title": "End Date"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Set the page of results you want to return, if this isn't set you will always get page 1 returned. Default: 1",
+                    "title": "Page"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Set how many titles to return per page, default and maximum is 250. Default: 50",
+                    "title": "Limit"
+                },
+                "types": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter result to only include certain types of titles. Pass a single type or pass multiple types comma delimited. Possible values: movie, tv_series, tv_special, tv_miniseries, short_film",
+                    "title": "Types"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "titles_with_changed_sources",
+        "description": "Get a listing of titles that have changed to their streaming sources within the date range.",
+        "parameters": {
+            "properties": {
+                "types": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter result to only include certain types of titles. Pass a single type or pass multiple types comma delimited. Possible values: movie, tv_series, tv_special, tv_miniseries, short_film",
+                    "title": "Types"
+                },
+                "regions": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Pass in the 2 character region code (eg US) for the country you want to get titles with changed sources from. There is a limit to 1 region on this endpoint, if you leave this field blank US changes will be returned only.",
+                    "title": "Regions"
+                },
+                "start_date": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "By default, the changes API will return changes since the beginning of yesterday. Populate this parameter to manually set a start date to include changes from a specific date range, format is YYYYMMDD (eg 20210101 for January 1st, 2021), or for more granular results down to the second YYYYMMDDHHMMSS (eg 20210101123459 for January 1st, 2021 12:24pm and 59 seconds). Hours are in 24 hour format and in Eastern Standard Time. Month, day, hour, minutes and seconds use leading zeros for single digit values. Default: 0",
+                    "title": "Start Date"
+                },
+                "end_date": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "By default, the changes API will return changes since the beginning of yesterday. Populate this parameter to manually set a end date to include changes from a specific date range, format is YYYYMMDD (eg 20210101 for January 1st, 2021), or for more granular results down to the second YYYYMMDDHHMMSS (eg 20210101123459 for January 1st, 2021 12:24pm and 59 seconds). Hours are in 24 hour format and in Eastern Standard Time. Month, day, hour, minutes and seconds use leading zeros for single digit values. Default: 0",
+                    "title": "End Date"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Set the page of results you want to return, if this isn't set you will always get page 1 returned. Default: 1",
+                    "title": "Page"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Set how many titles to return per page, default and maximum is 250. Default: 50",
+                    "title": "Limit"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "new_people",
+        "description": "Get a listing of the ids of new people added to Watchmode within the date range.",
+        "parameters": {
+            "properties": {
+                "start_date": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "By default, the changes API will return changes since the beginning of yesterday. Populate this parameter to manually set a start date to include changes from a specific date range, format is YYYYMMDD (eg 20210101 for January 1st, 2021), or for more granular results down to the second YYYYMMDDHHMMSS (eg 20210101123459 for January 1st, 2021 12:24pm and 59 seconds). Hours are in 24 hour format and in Eastern Standard Time. Month, day, hour, minutes and seconds use leading zeros for single digit values. Default: 0",
+                    "title": "Start Date"
+                },
+                "end_date": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "By default, the changes API will return changes since the beginning of yesterday. Populate this parameter to manually set a end date to include changes from a specific date range, format is YYYYMMDD (eg 20210101 for January 1st, 2021), or for more granular results down to the second YYYYMMDDHHMMSS (eg 20210101123459 for January 1st, 2021 12:24pm and 59 seconds). Hours are in 24 hour format and in Eastern Standard Time. Month, day, hour, minutes and seconds use leading zeros for single digit values. Default: 0",
+                    "title": "End Date"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Set the page of results you want to return, if this isn't set you will always get page 1 returned. Default: 1",
+                    "title": "Page"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Set how many titles to return per page, default and maximum is 250. Default: 50",
+                    "title": "Limit"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "titles_with_changed_episodes",
+        "description": "Get a listing of titles that have changes to their episodes (new episodes, episode details changed, etc) within the date range.",
+        "parameters": {
+            "properties": {
+                "start_date": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "By default, the changes API will return changes since the beginning of yesterday. Populate this parameter to manually set a start date to include changes from a specific date range, format is YYYYMMDD (eg 20210101 for January 1st, 2021), or for more granular results down to the second YYYYMMDDHHMMSS (eg 20210101123459 for January 1st, 2021 12:24pm and 59 seconds). Hours are in 24 hour format and in Eastern Standard Time. Month, day, hour, minutes and seconds use leading zeros for single digit values.",
+                    "title": "Start Date"
+                },
+                "end_date": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "By default, the changes API will return changes since the beginning of yesterday. Populate this parameter to manually set a end date to include changes from a specific date range, format is YYYYMMDD (eg 20210101 for January 1st, 2021), or for more granular results down to the second YYYYMMDDHHMMSS (eg 20210101123459 for January 1st, 2021 12:24pm and 59 seconds). Hours are in 24 hour format and in Eastern Standard Time. Month, day, hour, minutes and seconds use leading zeros for single digit values.",
+                    "title": "End Date"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "By default, the changes API will return changes since the beginning of yesterday. Populate this parameter to manually set a end date to include changes from a specific date range, format is YYYYMMDD (eg 20210101 for January 1st, 2021). Default: 1",
+                    "title": "Page"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Set the page of results you want to return, if this isn't set you will always get page 1 returned. Default: 50",
+                    "title": "Limit"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "titles_with_changed_details",
+        "description": "Get a listing of titles that have had a change to their basic details (overview, cast, genres, ratings, etc) within the date range.",
+        "parameters": {
+            "properties": {
+                "types": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Filter result to only include certain types of titles. Pass a single type or pass multiple types comma delimited. Possible values: movie, tv_series, tv_special, tv_miniseries, short_film",
+                    "title": "Types"
+                },
+                "start_date": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "By default, the changes API will return changes since the beginning of yesterday. Populate this parameter to manually set a start date to include changes from a specific date range, format is YYYYMMDD (eg 20210101 for January 1st, 2021), or for more granular results down to the second YYYYMMDDHHMMSS (eg 20210101123459 for January 1st, 2021 12:24pm and 59 seconds). Hours are in 24 hour format and in Eastern Standard Time. Month, day, hour, minutes and seconds use leading zeros for single digit values. Default: 0",
+                    "title": "Start Date"
+                },
+                "end_date": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "By default, the changes API will return changes since the beginning of yesterday. Populate this parameter to manually set a end date to include changes from a specific date range, format is YYYYMMDD (eg 20210101 for January 1st, 2021), or for more granular results down to the second YYYYMMDDHHMMSS (eg 20210101123459 for January 1st, 2021 12:24pm and 59 seconds). Hours are in 24 hour format and in Eastern Standard Time. Month, day, hour, minutes and seconds use leading zeros for single digit values. Default: 0",
+                    "title": "End Date"
+                },
+                "page": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Set the page of results you want to return, if this isn't set you will always get page 1 returned. Default: 1",
+                    "title": "Page"
+                },
+                "limit": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Set how many titles to return per page, default and maximum is 250. Default: 50",
+                    "title": "Limit"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "genres",
+        "description": "Return a mapping of genre names and IDs. Some genres have a tmdb_id, which is the corresponding genre ID on TheMovieDB.org API.",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "sources",
+        "description": "Return a listing of all streaming sources that Watchmode supports. Optionally filter by type of source (subscription, free, etc).",
+        "parameters": {
+            "properties": {
+                "types": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Pass one of the following values, or multiple comma separated values to only return certain types of streaming sources: sub, free, purchase, tve. \\\\\\\"sub\\\\\\\" means the service is a subscription service, \\\\\\\"tve\\\\\\\" means the service is a TV channel app.",
+                    "title": "Types"
+                },
+                "regions": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Pass one of the region values (eg. US), or multiple regions comma delimited to only return sources active in those regions. Currently supported regions: US, GB, CA, AU",
+                    "title": "Regions"
+                }
+            },
+            "type": "object"
+        }
+    },
+    {
+        "name": "networks",
+        "description": "Return a listing of all TV networks that may be returned for a title in the /title endpoint.",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "regions",
+        "description": "Return a listing of all regions (countries) that Watchmode currently supports and their 2 letter country codes used in the return data of other endpoints.",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    }
+]

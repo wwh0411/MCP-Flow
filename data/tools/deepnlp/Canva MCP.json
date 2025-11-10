@@ -1,0 +1,148 @@
+[
+    {
+        "name": "read-canva-connect-documentation-index",
+        "description": "Read the Canva Connect developer documentation index. This is a resource that contains a list of all the pages in the documentation for building Connect integrations on Canva.\n    It documents the Connect API, authentication, design guidelines, best practices, examples and much more. Everything you need to build a Connect integration on Canva, can be found here.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "read-canva-apps-sdk-documentation-index",
+        "description": "Read the Canva Apps SDK developer documentation index. This is a resource that contains a list of all the pages in the documentation for building apps on Canva.\n    It documents Apps SDK, App UI Kit, App i18n kit, design guidelines, best practices, examples and much more. Everything you need to build an app on Canva, can be found here.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "read-canva-documentation-pages",
+        "description": "Read specific pages of the Canva developer documentation. The pages are specified by url, which must be valid URLs and be from the output from read-canva-apps-sdk-documentation-index, read-canva-connect-documentation-index,\n    or a previous call to read-canva-apps-documentation-page. In the response, you will receive each url followed by the content of that page. You can request multiple pages at once.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "urls": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [
+                "urls"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "read-canva-app-ui-kit-index",
+        "description": "Read the Canva App UI Kit components index. This resource provides a comprehensive catalog of all available UI components in the @canva/app-ui-kit package, including:\n    - Text/Typography components (Title, Text in various sizes)\n    - Form components (Input, Select, Checkbox, Radio, etc.)\n    - Navigation components (Tabs, FlyoutMenu, Flyout)\n    - Layout components (Box, Grid, Columns, Rows)\n    - Feedback components (Alert, Progress bar, Loading indicator)\n    - Media components (ImageCard, VideoCard, AudioCard)\n    - Interactive components (Button, Switch, Slider)\n    - Icons\n    - And many more components with their variations and example code.\n    Each component entry includes the different components, props_metadata, variations and implementation code examples.\n    Any components code generated from this catalog MUST strictly adhere to the exact props and component specifications outlined in the catalog and the props_metadata looked\n     up from the read-canva-app-ui-kit-page tool.\n    The generated code should not invent, modify, or hallucinate any props that aren't explicitly defined in this catalog. If unsure, always use the read-canva-app-ui-kit-page tool to discover what components, patterns, icons and props are available.\n    Any code suggestions must use only the documented props with their correct types, valid values, and proper implementation patterns as shown in the examples.\n    The components catalog should be used in conjunction with the canva-app-ui-kit-patterns-catalog to ensure consistent and accessible user experiences across Canva apps.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "read-canva-app-ui-kit-patterns-catalog",
+        "description": "Read the Canva App UI Kit patterns json catalog. This resource provides a collection of common UI patterns and best practices for building Canva apps, including:\n    - Surface Header patterns for navigation and page structure\n    - Credit Counter patterns for managing user credits\n    - And other common UI patterns that combine multiple components\n    Each pattern includes detailed descriptions, implementation guidelines, and example code. These patterns help ensure consistent and accessible user experiences across Canva apps.\n    These patterns are not included directly in the @canva/app-ui-kit package, but are a composite of multiple components to create a new component that is a pattern.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "read-canva-app-ui-kit-page",
+        "description": "Read the extended props definitions for specific components of the Canva App UI Kit. This tool is especially useful when you need to know the\n    extended props of a component and the possible values, when composing recommended code that uses Canva App UI Kit components. The excepted\n    arguments to this tool is the project_root of the app (to resolve the path to the @canva/app-ui-kit package from node_modules) and the\n    props_metadata of the component. The props_metadata is an array of objects that contains the component_name, props_name and file_path, which\n    can be found in the output of read-canva-app-ui-kit-index. In the response, you will receive each result if successful, component name, props\n    name and props with possible values, types and examples. You can request multiple components props_metadata once.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "project_root": {
+                    "type": "string",
+                    "description": "The absolute path to the root directory of the app (e.g. '/Users/username/projects/my-app'), used to understand where the @canva/app-ui-kit package can be resolved from node_modules. Agents are encouraged to search for where node_modules can be found if not found in the project_root."
+                },
+                "props_metadata": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "component_name": {
+                                "type": "string",
+                                "description": "The name of the component to get the props for."
+                            },
+                            "props_name": {
+                                "type": "string",
+                                "description": "The name of the props to get the values for."
+                            },
+                            "file_path": {
+                                "type": "string",
+                                "description": "The file path of the component to get the props for. Assumed to be installed in node_modules in the project_root."
+                            }
+                        },
+                        "required": [
+                            "component_name",
+                            "props_name",
+                            "file_path"
+                        ],
+                        "additionalProperties": false
+                    },
+                    "description": "The array of metadata of the component props (component and props exports name and file_path to the ui kit props definition)."
+                }
+            },
+            "required": [
+                "project_root",
+                "props_metadata"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "read-canva-cli-documentation",
+        "description": "Read the Canva CLI documentation. Read this *before* running any canva CLI commands to make sure you understand. This is a resource that includes instructions on how to use the Canva CLI including commands like login, app creation, preview, doctor, and other commands. This is based on the CLI's README plus extra guidance for AI usage.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "read-canva-apps-sdk-design-guidelines",
+        "description": "These are the design guidelines for releasing Apps SDK apps on Canva. All apps released on Canva must follow these guidelines. The guidelines describe the various UI resources and libraries that Canva provides and how to use them to build your app. It also provides help on accessibility, internationalization, design principles, and best practices.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "design-review-instructions",
+        "description": "Instructions on how to review the design of an app. If you are asked to review an app, a canva app, or do a design review, you MUST check this first.\n    Includes details on what you should be provided, what you should look for, and what other tools you should make use of.\n    ",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "create-canva-app-instructions",
+        "description": "\nInstructions for creating a new Canva Apps SDK app. If you are asked to create an app, or an intent, you will need to follow these instructions. \n\nThese instructions require the following tools, if you do not have them, direct the user to the documentation at https://canva.dev instead.\n\n* PROPOSE a command to run on behalf of the user such as run_terminal_cmd or run_command or run_in_terminal\n* Read the contents of a file such as read_file or view_file\n\n",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

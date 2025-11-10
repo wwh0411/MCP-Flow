@@ -1,0 +1,153 @@
+[
+    {
+        "name": "azure-mcp_list-role-assignments",
+        "description": "List role assignments for the subscription or resource group",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "scope": {
+                    "type": "string",
+                    "description": "Scope for role assignments (subscription, resource group, or resource ID). Leave empty for subscription level."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "azure-mcp_get-role-definitions",
+        "description": "List available role definitions",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "scope": {
+                    "type": "string",
+                    "description": "Scope for role definitions. Leave empty for subscription level."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "azure-mcp_get-user-permissions",
+        "description": "Get detailed user permissions by combining role assignments and role definitions",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "scope": {
+                    "type": "string",
+                    "description": "Scope to check permissions for. Leave empty for subscription level."
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "azure-mcp_run-azure-code",
+        "description": "Run Azure code",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "reasoning": {
+                    "type": "string",
+                    "description": "The reasoning behind the code"
+                },
+                "code": {
+                    "type": "string",
+                    "description": "Your job is to answer questions about Azure environment by writing Javascript code using Azure SDK. The code must adhere to a few rules:\n- Use the provided client instances: 'resourceClient' for ResourceManagementClient, 'subscriptionClient' for SubscriptionClient, and 'authorizationClient' for AuthorizationManagementClient\n- DO NOT create new client instances or import Azure SDK packages\n- Use async/await and promises\n- Think step-by-step before writing the code\n- Avoid hardcoded values like Resource IDs\n- Handle errors gracefully\n- Handle pagination correctly using for-await-of loops\n- Data returned must be JSON containing only the minimal amount of data needed\n- Code MUST \"return\" a value: string, number, boolean or JSON object"
+                },
+                "tenantId": {
+                    "type": "string",
+                    "description": "Azure Tenant ID"
+                },
+                "subscriptionId": {
+                    "type": "string",
+                    "description": "Azure Subscription ID"
+                }
+            },
+            "required": [
+                "reasoning",
+                "code"
+            ]
+        }
+    },
+    {
+        "name": "azure-mcp_list-tenants",
+        "description": "List all available Azure tenants",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    },
+    {
+        "name": "azure-mcp_select-tenant",
+        "description": "Select Azure tenant and subscription",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "tenantId": {
+                    "type": "string",
+                    "description": "Azure Tenant ID to select"
+                },
+                "subscriptionId": {
+                    "type": "string",
+                    "description": "Azure Subscription ID to select"
+                }
+            },
+            "required": [
+                "tenantId",
+                "subscriptionId"
+            ]
+        }
+    },
+    {
+        "name": "azure-mcp_list-resource-groups",
+        "description": "List all resource groups in the selected subscription",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    },
+    {
+        "name": "azure-mcp_get-resource-details",
+        "description": "Get detailed information about a specific resource",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "resourceId": {
+                    "type": "string",
+                    "description": "Azure Resource ID"
+                }
+            },
+            "required": [
+                "resourceId"
+            ]
+        }
+    },
+    {
+        "name": "azure-mcp_create-resource-group",
+        "description": "Create a new resource group",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Resource group name"
+                },
+                "location": {
+                    "type": "string",
+                    "description": "Azure region"
+                },
+                "tags": {
+                    "type": "object",
+                    "description": "Resource tags (optional)"
+                }
+            },
+            "required": [
+                "name",
+                "location"
+            ]
+        }
+    }
+]

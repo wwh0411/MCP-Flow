@@ -1,0 +1,171 @@
+[
+    {
+        "name": "weather_forecast_data",
+        "description": "Provides access to weather forecast information. The forecast is available for up to seven days at the hourly, 12 hour and daily summary level.",
+        "parameters": {
+            "properties": {
+                "aggregateHours": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The interval between weather forecast data in the output. 1 represents an hourly forecast, 24 represents a daily forecast. As the source data is calculated at the hourly level, records calculated at 12 or 24 hours are aggregated to indicate the predominant weather condition during that time period. For example the maximum temperature, total precipitation, maximum windspeed etc. Supported values 1,12 or 24. Default: 24",
+                    "title": "Aggregatehours"
+                },
+                "location": {
+                    "description": "he address or latitude or longitude of the location. Addresses can be specified as full addresses. The system will also attempt to match partial addresses such as city, state, zip code, postal code and other common formats. When specify a point based on longitude, latitude, the format must be specifed as latitude,longitude where both latitude and longitude are in decimal degrees. latitude should run from -90 to 90 and longitude from -180 to 180 (with 0 being at the prime meridian through London, UK).",
+                    "title": "Location",
+                    "type": "string"
+                },
+                "contentType": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "When present, choose between json or csv output",
+                    "title": "Contenttype"
+                },
+                "unitGroup": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "unitGroup - The system of units used for the output data. Supported values are us,uk,metric.",
+                    "title": "Unitgroup"
+                },
+                "shortColumnNames": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "When false, the returned dataset includes descriptive column names. When true, returns shorter, abbreviated column names with only alphanumeric characters. The short names are useful for programmatic use of the data.",
+                    "title": "Shortcolumnnames"
+                }
+            },
+            "required": [
+                "aggregateHours",
+                "location"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "historical_weather_record",
+        "description": "The weather history data is suitable for retrieving hourly or daily historical weather records.",
+        "parameters": {
+            "properties": {
+                "startDateTime": {
+                    "description": "The date time for the start of the data request using the time zone of the location. In the ISO format: yyyy-MM-ddTHH:mm:ss. Hours should be specified in 24 hour clock format.",
+                    "title": "Startdatetime",
+                    "type": "string"
+                },
+                "aggregateHours": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "number"
+                        }
+                    ],
+                    "description": "The interval between weather history data in the output. 1 represent hourly records, 24 represents a daily forecast. As the source data is recorded at the hourly level, 24 hour records are aggregated to indicate the predominant weather conditions during that time period. Supported values 1 or 24. Default: 24",
+                    "title": "Aggregatehours"
+                },
+                "location": {
+                    "description": "The address or latitude or longitude of the location. Addresses can be specified as full addresses. The system will also attempt to match partial addresses such as city, state, zip code, postal code and other common formats. When specify a point based on longitude, latitude, the format must be specifed as latitude,longitude where both latitude and longitude are in decimal degrees. latitude should run from -90 to 90 and longitude from -180 to 180 (with 0 being at the prime meridian through London, UK).",
+                    "title": "Location",
+                    "type": "string"
+                },
+                "endDateTime": {
+                    "description": "The date time for the start of the data request using the time zone of the location. In the ISO format: yyyy-MM-ddTHH:mm:ss. Hours should be specified in 24 hour clock format.",
+                    "title": "Enddatetime",
+                    "type": "string"
+                },
+                "unitGroup": {
+                    "description": "The system of units used for the output data. Supported values are us,uk,metric",
+                    "title": "Unitgroup",
+                    "type": "string"
+                },
+                "dayStartTime": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "When present and not set to the same as the dayEndTime, filters the output to records that between the specified day times. This is useful for setting filters for business hours. Format h:m:ss (eg 9:00:00 woudl be 9am).",
+                    "title": "Daystarttime"
+                },
+                "contentType": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "When present, choose between json or csv output",
+                    "title": "Contenttype"
+                },
+                "dayEndTime": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "When present and not set to the same as the dayEndTime, filters the output to records that between the specified day times.",
+                    "title": "Dayendtime"
+                },
+                "shortColumnNames": {
+                    "anyOf": [
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "When false, the returned dataset includes descriptive column names. When true, returns shorter, abbreviated column names with only alphanumeric characters. The short names are useful for programmatic use of the data.",
+                    "title": "Shortcolumnnames"
+                }
+            },
+            "required": [
+                "startDateTime",
+                "aggregateHours",
+                "location",
+                "endDateTime",
+                "unitGroup"
+            ],
+            "type": "object"
+        }
+    }
+]

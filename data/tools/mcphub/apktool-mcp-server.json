@@ -1,0 +1,365 @@
+[
+    {
+        "name": "decode_apk",
+        "description": "Decode an APK file using APKTool",
+        "parameters": {
+            "properties": {
+                "apk_path": {
+                    "title": "Apk Path",
+                    "type": "string"
+                },
+                "force": {
+                    "default": true,
+                    "title": "Force",
+                    "type": "boolean"
+                },
+                "no_res": {
+                    "default": false,
+                    "title": "No Res",
+                    "type": "boolean"
+                },
+                "no_src": {
+                    "default": false,
+                    "title": "No Src",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "apk_path"
+            ],
+            "title": "decode_apkArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "build_apk",
+        "description": "Build an APK file from a decoded APKTool project.",
+        "parameters": {
+            "properties": {
+                "project_dir": {
+                    "title": "Project Dir",
+                    "type": "string"
+                },
+                "output_apk": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Output Apk"
+                },
+                "debug": {
+                    "default": true,
+                    "title": "Debug",
+                    "type": "boolean"
+                },
+                "force_all": {
+                    "default": false,
+                    "title": "Force All",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "project_dir"
+            ],
+            "title": "build_apkArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_manifest",
+        "description": "Get the AndroidManifest.xml content from a decoded APK project.",
+        "parameters": {
+            "properties": {
+                "project_dir": {
+                    "title": "Project Dir",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "project_dir"
+            ],
+            "title": "get_manifestArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_apktool_yml",
+        "description": "Get apktool.yml information from a decoded APK project.",
+        "parameters": {
+            "properties": {
+                "project_dir": {
+                    "title": "Project Dir",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "project_dir"
+            ],
+            "title": "get_apktool_ymlArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_smali_directories",
+        "description": "List all smali directories in a project",
+        "parameters": {
+            "properties": {
+                "project_dir": {
+                    "title": "Project Dir",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "project_dir"
+            ],
+            "title": "list_smali_directoriesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_smali_files",
+        "description": "List smali files in a specific smali directory, optionally filtered by package prefix.",
+        "parameters": {
+            "properties": {
+                "project_dir": {
+                    "title": "Project Dir",
+                    "type": "string"
+                },
+                "smali_dir": {
+                    "default": "smali",
+                    "title": "Smali Dir",
+                    "type": "string"
+                },
+                "package_prefix": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Package Prefix"
+                }
+            },
+            "required": [
+                "project_dir"
+            ],
+            "title": "list_smali_filesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_smali_file",
+        "description": "Get content of a specific smali file by class name.",
+        "parameters": {
+            "properties": {
+                "project_dir": {
+                    "title": "Project Dir",
+                    "type": "string"
+                },
+                "class_name": {
+                    "title": "Class Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "project_dir",
+                "class_name"
+            ],
+            "title": "get_smali_fileArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "modify_smali_file",
+        "description": "Modify the content of a specific smali file.",
+        "parameters": {
+            "properties": {
+                "project_dir": {
+                    "title": "Project Dir",
+                    "type": "string"
+                },
+                "class_name": {
+                    "title": "Class Name",
+                    "type": "string"
+                },
+                "new_content": {
+                    "title": "New Content",
+                    "type": "string"
+                },
+                "create_backup": {
+                    "default": true,
+                    "title": "Create Backup",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "project_dir",
+                "class_name",
+                "new_content"
+            ],
+            "title": "modify_smali_fileArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_resources",
+        "description": "List resources in a project, optionally filtered by resource type.",
+        "parameters": {
+            "properties": {
+                "project_dir": {
+                    "title": "Project Dir",
+                    "type": "string"
+                },
+                "resource_type": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "Resource Type"
+                }
+            },
+            "required": [
+                "project_dir"
+            ],
+            "title": "list_resourcesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_resource_file",
+        "description": "Get content of a specific resource file.",
+        "parameters": {
+            "properties": {
+                "project_dir": {
+                    "title": "Project Dir",
+                    "type": "string"
+                },
+                "resource_type": {
+                    "title": "Resource Type",
+                    "type": "string"
+                },
+                "resource_name": {
+                    "title": "Resource Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "project_dir",
+                "resource_type",
+                "resource_name"
+            ],
+            "title": "get_resource_fileArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "modify_resource_file",
+        "description": "Modify the content of a specific resource file.",
+        "parameters": {
+            "properties": {
+                "project_dir": {
+                    "title": "Project Dir",
+                    "type": "string"
+                },
+                "resource_type": {
+                    "title": "Resource Type",
+                    "type": "string"
+                },
+                "resource_name": {
+                    "title": "Resource Name",
+                    "type": "string"
+                },
+                "new_content": {
+                    "title": "New Content",
+                    "type": "string"
+                },
+                "create_backup": {
+                    "default": true,
+                    "title": "Create Backup",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "project_dir",
+                "resource_type",
+                "resource_name",
+                "new_content"
+            ],
+            "title": "modify_resource_fileArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_in_files",
+        "description": "Search for a pattern in files specified extensions.",
+        "parameters": {
+            "properties": {
+                "project_dir": {
+                    "title": "Project Dir",
+                    "type": "string"
+                },
+                "search_pattern": {
+                    "title": "Search Pattern",
+                    "type": "string"
+                },
+                "file_extensions": {
+                    "default": [
+                        ".smali",
+                        ".xml"
+                    ],
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "File Extensions",
+                    "type": "array"
+                },
+                "max_results": {
+                    "default": 100,
+                    "title": "Max Results",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "project_dir",
+                "search_pattern"
+            ],
+            "title": "search_in_filesArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "clean_project",
+        "description": "Clean a project directory to prepare for rebuilding.",
+        "parameters": {
+            "properties": {
+                "project_dir": {
+                    "title": "Project Dir",
+                    "type": "string"
+                },
+                "backup": {
+                    "default": true,
+                    "title": "Backup",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "project_dir"
+            ],
+            "title": "clean_projectArguments",
+            "type": "object"
+        }
+    }
+]

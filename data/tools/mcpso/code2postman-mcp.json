@@ -1,0 +1,341 @@
+[
+    {
+        "name": "code2postman-mcp_create_postman_collection",
+        "description": "\nCreate a Postman collection from a directory structure. Extension of the file must be .json\n\nArgs:\n    file_path: The path to the file to create the Postman collection from (string)\n    name: The name of the project (string)\n    description: The description of the project (string)\nReturns:\n    The initial Postman collection in JSON format (string)\n",
+        "parameters": {
+            "properties": {
+                "file_path": {
+                    "title": "File Path",
+                    "type": "string"
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string"
+                },
+                "description": {
+                    "title": "Description",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "file_path",
+                "name",
+                "description"
+            ],
+            "title": "create_postman_collectionArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "code2postman-mcp_add_postman_collection_item",
+        "description": "\nAdd an item to the Postman collection\n\nArgs:\n    file_path: The path to the Postman collection file (string)\n    item: The item dictionary to add (dict containing at least 'name' and 'request' keys)\n          Example: {\n              \"name\": \"Get User\",\n              \"request\": {\n                  \"method\": \"GET\",\n                  \"url\": \"https://api.example.com/users/1\"\n              }\n          }\nReturns:\n    The updated Postman collection data (dict)\n",
+        "parameters": {
+            "properties": {
+                "file_path": {
+                    "title": "File Path",
+                    "type": "string"
+                },
+                "item": {
+                    "additionalProperties": true,
+                    "title": "Item",
+                    "type": "object"
+                }
+            },
+            "required": [
+                "file_path",
+                "item"
+            ],
+            "title": "add_postman_collection_itemArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "code2postman-mcp_read_postman_collection",
+        "description": "\nRead the Postman collection\n\nArgs:\n    file_path: The path to the Postman collection file (string)\nReturns:\n    The Postman collection data (dict)\n",
+        "parameters": {
+            "properties": {
+                "file_path": {
+                    "title": "File Path",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "file_path"
+            ],
+            "title": "read_postman_collectionArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "code2postman-mcp_add_postman_collection_info",
+        "description": "\nUpdate or add the info section of a Postman collection\n\nArgs:\n    file_path: The path to the Postman collection file (string)\n    info: The info dictionary to update/add (dict)\n          Example: {\n              \"name\": \"Updated Collection\",\n              \"description\": \"Updated description\",\n              \"version\": \"1.0.0\",\n              \"schema\": \"https://schema.getpostman.com/json/collection/v2.1.0/collection.json\"\n          }\nReturns:\n    The updated Postman collection data (dict)\n",
+        "parameters": {
+            "properties": {
+                "file_path": {
+                    "title": "File Path",
+                    "type": "string"
+                },
+                "info": {
+                    "additionalProperties": true,
+                    "title": "Info",
+                    "type": "object"
+                }
+            },
+            "required": [
+                "file_path",
+                "info"
+            ],
+            "title": "add_postman_collection_infoArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "code2postman-mcp_add_postman_collection_event",
+        "description": "\nAdd an event to the Postman collection\n\nArgs:\n    file_path: The path to the Postman collection file (string)\n    event: The event dictionary with keys like listen, script, etc. (dict)\n          Example: {\n              \"listen\": \"prerequest\",\n              \"script\": {\n                  \"type\": \"text/javascript\",\n                  \"exec\": [\"console.log('This runs before each request');\"]\n              }\n          }\nReturns:\n    The updated Postman collection data (dict)\n",
+        "parameters": {
+            "properties": {
+                "file_path": {
+                    "title": "File Path",
+                    "type": "string"
+                },
+                "event": {
+                    "additionalProperties": true,
+                    "title": "Event",
+                    "type": "object"
+                }
+            },
+            "required": [
+                "file_path",
+                "event"
+            ],
+            "title": "add_postman_collection_eventArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "code2postman-mcp_add_postman_collection_variable",
+        "description": "\nAdd a variable to the Postman collection\n\nArgs:\n    file_path: The path to the Postman collection file (string)\n    variable: The variable dictionary with keys like key, value, type, etc. (dict)\n            Example: {\n                \"key\": \"base_url\",\n                \"value\": \"https://api.example.com\",\n                \"type\": \"string\"\n            }\nReturns:\n    The updated Postman collection data (dict)\n",
+        "parameters": {
+            "properties": {
+                "file_path": {
+                    "title": "File Path",
+                    "type": "string"
+                },
+                "variable": {
+                    "additionalProperties": true,
+                    "title": "Variable",
+                    "type": "object"
+                }
+            },
+            "required": [
+                "file_path",
+                "variable"
+            ],
+            "title": "add_postman_collection_variableArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "code2postman-mcp_add_postman_collection_auth",
+        "description": "\nAdd or update authentication information for the Postman collection\n\nArgs:\n    file_path: The path to the Postman collection file (string)\n    auth: The auth dictionary with type and necessary auth parameters (dict)\n          Example: {\n              \"type\": \"bearer\",\n              \"bearer\": [\n                  {\n                      \"key\": \"token\",\n                      \"value\": \"{{token_variable}}\",\n                      \"type\": \"string\"\n                  }\n              ]\n          }\nReturns:\n    The updated Postman collection data (dict)\n",
+        "parameters": {
+            "properties": {
+                "file_path": {
+                    "title": "File Path",
+                    "type": "string"
+                },
+                "auth": {
+                    "additionalProperties": true,
+                    "title": "Auth",
+                    "type": "object"
+                }
+            },
+            "required": [
+                "file_path",
+                "auth"
+            ],
+            "title": "add_postman_collection_authArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "code2postman-mcp_add_postman_collection_protocol_behavior",
+        "description": "\nAdd or update protocol profile behavior settings for the Postman collection\n\nArgs:\n    file_path: The path to the Postman collection file (string)\n    behavior: The protocolProfileBehavior dictionary (dict)\n             Example: {\n                 \"disableBodyPruning\": true,\n                 \"followRedirects\": false\n             }\nReturns:\n    The updated Postman collection data (dict)\n",
+        "parameters": {
+            "properties": {
+                "file_path": {
+                    "title": "File Path",
+                    "type": "string"
+                },
+                "behavior": {
+                    "additionalProperties": true,
+                    "title": "Behavior",
+                    "type": "object"
+                }
+            },
+            "required": [
+                "file_path",
+                "behavior"
+            ],
+            "title": "add_postman_collection_protocol_behaviorArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "code2postman-mcp_delete_postman_collection_item",
+        "description": "\nDelete an item from the Postman collection by name\n\nArgs:\n    file_path: The path to the Postman collection file (string)\n    item_name: The name of the item to delete (string)\nReturns:\n    The updated Postman collection data (dict)\n",
+        "parameters": {
+            "properties": {
+                "file_path": {
+                    "title": "File Path",
+                    "type": "string"
+                },
+                "item_name": {
+                    "title": "Item Name",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "file_path",
+                "item_name"
+            ],
+            "title": "delete_postman_collection_itemArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "code2postman-mcp_update_postman_collection_variable",
+        "description": "\nUpdate a specific variable in the Postman collection by key\n\nArgs:\n    file_path: The path to the Postman collection file (string)\n    key: The key of the variable to update (string)\n    new_value: The new value for the variable (string)\nReturns:\n    The updated Postman collection data (dict)\n",
+        "parameters": {
+            "properties": {
+                "file_path": {
+                    "title": "File Path",
+                    "type": "string"
+                },
+                "key": {
+                    "title": "Key",
+                    "type": "string"
+                },
+                "new_value": {
+                    "title": "New Value",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "file_path",
+                "key",
+                "new_value"
+            ],
+            "title": "update_postman_collection_variableArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "code2postman-mcp_add_postman_collection_folder",
+        "description": "\nAdd a folder to the Postman collection\n\nArgs:\n    file_path: The path to the Postman collection file (string)\n    folder_name: The name of the folder (string)\n    items: Optional list of item dictionaries to add to the folder (list of dicts)\nReturns:\n    The updated Postman collection data (dict)\n",
+        "parameters": {
+            "properties": {
+                "file_path": {
+                    "title": "File Path",
+                    "type": "string"
+                },
+                "folder_name": {
+                    "title": "Folder Name",
+                    "type": "string"
+                },
+                "items": {
+                    "default": null,
+                    "items": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "title": "Items",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "file_path",
+                "folder_name"
+            ],
+            "title": "add_postman_collection_folderArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "code2postman-mcp_add_item_to_folder",
+        "description": "\nAdd an item to a specific folder in the Postman collection\n\nArgs:\n    file_path: The path to the Postman collection file (string)\n    folder_name: The name of the folder to add the item to (string)\n    item: The item dictionary to add (dict)\nReturns:\n    The updated Postman collection data (dict)\n",
+        "parameters": {
+            "properties": {
+                "file_path": {
+                    "title": "File Path",
+                    "type": "string"
+                },
+                "folder_name": {
+                    "title": "Folder Name",
+                    "type": "string"
+                },
+                "item": {
+                    "additionalProperties": true,
+                    "title": "Item",
+                    "type": "object"
+                }
+            },
+            "required": [
+                "file_path",
+                "folder_name",
+                "item"
+            ],
+            "title": "add_item_to_folderArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "code2postman-mcp_get_tree_directory_from_path",
+        "description": "\nGenerate a tree directory structure as a string, excluding files and directories\nbased on the specified programming language using regex patterns.\n\nArgs:\n    path: The root path to start generating the tree from\n    language: The programming language to filter files. Possible values: [\"python\", \"javascript\", \"java\", \"go\", \"ruby\", \"rust\", \"csharp\", \"generic\"]\n    \nReturns:\n    A formatted string representing the directory tree with line counts for each file\n",
+        "parameters": {
+            "properties": {
+                "path": {
+                    "title": "Path",
+                    "type": "string"
+                },
+                "language": {
+                    "title": "Language",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "path",
+                "language"
+            ],
+            "title": "get_tree_directory_from_pathArguments",
+            "type": "object"
+        }
+    },
+    {
+        "name": "code2postman-mcp_read_file",
+        "description": "\nRead content from a file with line numbers, validating the file path first.\n\nArgs:\n    file_path: Path to the file to read\n    start_line: Line number to start reading from (0-indexed, default: 0)\n    end_line: Line number to end reading at (0-indexed, inclusive, default: None for all lines)\n    \nReturns:\n    A string with numbered lines from the file\n    \nRaises:\n    FileNotFoundError: If the file does not exist\n    ValueError: If the line parameters are invalid\n",
+        "parameters": {
+            "properties": {
+                "file_path": {
+                    "title": "File Path",
+                    "type": "string"
+                },
+                "start_line": {
+                    "default": 0,
+                    "title": "Start Line",
+                    "type": "integer"
+                },
+                "end_line": {
+                    "default": null,
+                    "title": "End Line",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "file_path"
+            ],
+            "title": "read_fileArguments",
+            "type": "object"
+        }
+    }
+]

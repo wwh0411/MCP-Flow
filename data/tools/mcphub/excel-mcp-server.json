@@ -1,0 +1,360 @@
+[
+    {
+        "name": "excel_copy_sheet",
+        "description": "Copy existing sheet to a new sheet",
+        "parameters": {
+            "properties": {
+                "dstSheetName": {
+                    "description": "Sheet name to be copied",
+                    "type": "string"
+                },
+                "fileAbsolutePath": {
+                    "description": "Absolute path to the Excel file",
+                    "type": "string"
+                },
+                "srcSheetName": {
+                    "description": "Source sheet name in the Excel file",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "fileAbsolutePath",
+                "srcSheetName",
+                "dstSheetName"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "excel_create_table",
+        "description": "Create a table in the Excel sheet",
+        "parameters": {
+            "properties": {
+                "fileAbsolutePath": {
+                    "description": "Absolute path to the Excel file",
+                    "type": "string"
+                },
+                "range": {
+                    "description": "Range to be a table (e.g., \"A1:C10\")",
+                    "type": "string"
+                },
+                "sheetName": {
+                    "description": "Sheet name where the table is created",
+                    "type": "string"
+                },
+                "tableName": {
+                    "description": "Table name to be created",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "fileAbsolutePath",
+                "sheetName",
+                "tableName"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "excel_describe_sheets",
+        "description": "List all sheet information of specified Excel file",
+        "parameters": {
+            "properties": {
+                "fileAbsolutePath": {
+                    "description": "Absolute path to the Excel file",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "fileAbsolutePath"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "excel_format_range",
+        "description": "Format cells in the Excel sheet with style information",
+        "parameters": {
+            "properties": {
+                "fileAbsolutePath": {
+                    "description": "Absolute path to the Excel file",
+                    "type": "string"
+                },
+                "range": {
+                    "description": "Range of cells in the Excel sheet (e.g., \"A1:C3\")",
+                    "type": "string"
+                },
+                "sheetName": {
+                    "description": "Sheet name in the Excel file",
+                    "type": "string"
+                },
+                "styles": {
+                    "description": "2D array of style objects for each cell. If a cell does not change style, use null. The number of items of the array must match the range size.",
+                    "items": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "description": "Style object for the cell",
+                                    "properties": {
+                                        "border": {
+                                            "items": {
+                                                "properties": {
+                                                    "color": {
+                                                        "pattern": "^#[0-9A-Fa-f]{6}$",
+                                                        "type": "string"
+                                                    },
+                                                    "style": {
+                                                        "enum": [
+                                                            "none",
+                                                            "continuous",
+                                                            "dash",
+                                                            "dot",
+                                                            "double",
+                                                            "dashDot",
+                                                            "dashDotDot",
+                                                            "slantDashDot",
+                                                            "mediumDashDot",
+                                                            "mediumDashDotDot"
+                                                        ],
+                                                        "type": "string"
+                                                    },
+                                                    "type": {
+                                                        "enum": [
+                                                            "left",
+                                                            "right",
+                                                            "top",
+                                                            "bottom",
+                                                            "diagonalDown",
+                                                            "diagonalUp"
+                                                        ],
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "type"
+                                                ],
+                                                "type": "object"
+                                            },
+                                            "type": "array"
+                                        },
+                                        "decimalPlaces": {
+                                            "maximum": 30,
+                                            "minimum": 0,
+                                            "type": "integer"
+                                        },
+                                        "fill": {
+                                            "properties": {
+                                                "color": {
+                                                    "items": {
+                                                        "pattern": "^#[0-9A-Fa-f]{6}$",
+                                                        "type": "string"
+                                                    },
+                                                    "type": "array"
+                                                },
+                                                "pattern": {
+                                                    "enum": [
+                                                        "none",
+                                                        "solid",
+                                                        "mediumGray",
+                                                        "darkGray",
+                                                        "lightGray",
+                                                        "darkHorizontal",
+                                                        "darkVertical",
+                                                        "darkDown",
+                                                        "darkUp",
+                                                        "darkGrid",
+                                                        "darkTrellis",
+                                                        "lightHorizontal",
+                                                        "lightVertical",
+                                                        "lightDown",
+                                                        "lightUp",
+                                                        "lightGrid",
+                                                        "lightTrellis",
+                                                        "gray125",
+                                                        "gray0625"
+                                                    ],
+                                                    "type": "string"
+                                                },
+                                                "shading": {
+                                                    "enum": [
+                                                        "horizontal",
+                                                        "vertical",
+                                                        "diagonalDown",
+                                                        "diagonalUp",
+                                                        "fromCenter",
+                                                        "fromCorner"
+                                                    ],
+                                                    "type": "string"
+                                                },
+                                                "type": {
+                                                    "enum": [
+                                                        "gradient",
+                                                        "pattern"
+                                                    ],
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "type",
+                                                "pattern",
+                                                "color"
+                                            ],
+                                            "type": "object"
+                                        },
+                                        "font": {
+                                            "properties": {
+                                                "bold": {
+                                                    "type": "boolean"
+                                                },
+                                                "color": {
+                                                    "pattern": "^#[0-9A-Fa-f]{6}$",
+                                                    "type": "string"
+                                                },
+                                                "italic": {
+                                                    "type": "boolean"
+                                                },
+                                                "size": {
+                                                    "maximum": 409,
+                                                    "minimum": 1,
+                                                    "type": "number"
+                                                },
+                                                "strike": {
+                                                    "type": "boolean"
+                                                },
+                                                "underline": {
+                                                    "enum": [
+                                                        "none",
+                                                        "single",
+                                                        "double",
+                                                        "singleAccounting",
+                                                        "doubleAccounting"
+                                                    ],
+                                                    "type": "string"
+                                                },
+                                                "vertAlign": {
+                                                    "enum": [
+                                                        "baseline",
+                                                        "superscript",
+                                                        "subscript"
+                                                    ],
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "numFmt": {
+                                            "description": "Custom number format string",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                {
+                                    "description": "No style applied to this cell",
+                                    "type": "null"
+                                }
+                            ]
+                        },
+                        "type": "array"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "fileAbsolutePath",
+                "sheetName",
+                "range",
+                "styles"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "excel_read_sheet",
+        "description": "Read values from Excel sheet with pagination.",
+        "parameters": {
+            "properties": {
+                "fileAbsolutePath": {
+                    "description": "Absolute path to the Excel file",
+                    "type": "string"
+                },
+                "range": {
+                    "description": "Range of cells to read in the Excel sheet (e.g., \"A1:C10\"). [default: first paging range]",
+                    "type": "string"
+                },
+                "sheetName": {
+                    "description": "Sheet name in the Excel file",
+                    "type": "string"
+                },
+                "showFormula": {
+                    "description": "Show formula instead of value",
+                    "type": "boolean"
+                },
+                "showStyle": {
+                    "description": "Show style information for cells",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "fileAbsolutePath",
+                "sheetName"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "excel_write_to_sheet",
+        "description": "Write values to the Excel sheet",
+        "parameters": {
+            "properties": {
+                "fileAbsolutePath": {
+                    "description": "Absolute path to the Excel file",
+                    "type": "string"
+                },
+                "newSheet": {
+                    "description": "Create a new sheet if true, otherwise write to the existing sheet",
+                    "type": "boolean"
+                },
+                "range": {
+                    "description": "Range of cells in the Excel sheet (e.g., \"A1:C10\")",
+                    "type": "string"
+                },
+                "sheetName": {
+                    "description": "Sheet name in the Excel file",
+                    "type": "string"
+                },
+                "values": {
+                    "description": "Values to write to the Excel sheet. If the value is a formula, it should start with \"=\"",
+                    "items": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "number"
+                                },
+                                {
+                                    "type": "boolean"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ]
+                        },
+                        "type": "array"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "fileAbsolutePath",
+                "sheetName",
+                "newSheet",
+                "range",
+                "values"
+            ],
+            "type": "object"
+        }
+    }
+]

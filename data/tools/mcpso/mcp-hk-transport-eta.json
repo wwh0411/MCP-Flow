@@ -1,0 +1,52 @@
+[
+    {
+        "name": "hk-transport-eta_get-route",
+        "description": "Get route detail with route number, Avaliable transport: bus, minibus, mtr (use 'mtr_hr' as input), light rail. Return list of route with company, route, routeType, dir, orig, dest, stopList, routeId, description. stopList is a list of stop with id, name, lat, long.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "routeNo": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "routeNo"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "hk-transport-eta_get-eta",
+        "description": "Get ETA (Estimated Time of Arrival) from a stop, parameters can retrive from `get-route`. Special case for parameter `dir`: when company is `mtr_hr`, use `UT` as value if travel from `orig` to `dest`, use `DT` as value if travel from `dest` to `orig`. Return eta in minutes and remark for special information.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "company": {
+                    "type": "string"
+                },
+                "routeId": {
+                    "type": "string"
+                },
+                "stop": {
+                    "type": "string"
+                },
+                "routeType": {
+                    "type": "string"
+                },
+                "dir": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "company",
+                "routeId",
+                "stop",
+                "routeType",
+                "dir"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

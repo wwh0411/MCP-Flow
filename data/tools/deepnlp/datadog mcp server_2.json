@@ -1,0 +1,330 @@
+[
+    {
+        "name": "datadog_get-monitors",
+        "description": "Fetch monitors from Datadog with optional filtering. Use groupStates to filter by monitor status (e.g., 'alert', 'warn', 'no data'), tags or monitorTags to filter by tag criteria, and limit to control result size.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "groupStates": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "tags": {
+                    "type": "string"
+                },
+                "monitorTags": {
+                    "type": "string"
+                },
+                "limit": {
+                    "type": "number",
+                    "default": 100
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "datadog_get-monitor",
+        "description": "Get detailed information about a specific Datadog monitor by its ID. Use this to retrieve the complete configuration, status, and other details of a single monitor.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "monitorId": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "monitorId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "datadog_get-dashboards",
+        "description": "Retrieve a list of all dashboards from Datadog. Useful for discovering available dashboards and their IDs for further exploration.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "filterConfigured": {
+                    "type": "boolean"
+                },
+                "limit": {
+                    "type": "number",
+                    "default": 100
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "datadog_get-dashboard",
+        "description": "Get the complete definition of a specific Datadog dashboard by its ID. Returns all widgets, layout, and configuration details.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "dashboardId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "dashboardId"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "datadog_get-metrics",
+        "description": "List available metrics from Datadog. Optionally use the q parameter to search for specific metrics matching a pattern. Helpful for discovering metrics to use in monitors or dashboards.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "q": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "datadog_get-metric-metadata",
+        "description": "Retrieve detailed metadata about a specific metric, including its type, description, unit, and other attributes. Use this to understand a metric's meaning and proper usage.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "metricName": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "metricName"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "datadog_get-events",
+        "description": "Search for events in Datadog within a specified time range. Events include deployments, alerts, comments, and other activities. Useful for correlating system behaviors with specific events.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "start": {
+                    "type": "number"
+                },
+                "end": {
+                    "type": "number"
+                },
+                "priority": {
+                    "type": "string",
+                    "enum": [
+                        "normal",
+                        "low"
+                    ]
+                },
+                "sources": {
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "string"
+                },
+                "unaggregated": {
+                    "type": "boolean"
+                },
+                "excludeAggregation": {
+                    "type": "boolean"
+                },
+                "limit": {
+                    "type": "number",
+                    "default": 100
+                }
+            },
+            "required": [
+                "start",
+                "end"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "datadog_get-incidents",
+        "description": "List incidents from Datadog's incident management system. Can filter by active/archived status and use query strings to find specific incidents. Helpful for reviewing current or past incidents.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "includeArchived": {
+                    "type": "boolean"
+                },
+                "pageSize": {
+                    "type": "number"
+                },
+                "pageOffset": {
+                    "type": "number"
+                },
+                "query": {
+                    "type": "string"
+                },
+                "limit": {
+                    "type": "number",
+                    "default": 100
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "datadog_search-logs",
+        "description": "Search logs in Datadog with advanced filtering options. Use filter.query for search terms (e.g., 'service:web-app status:error'), from/to for time ranges (e.g., 'now-15m', 'now'), and sort to order results. Essential for investigating application issues.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "filter": {
+                    "type": "object",
+                    "properties": {
+                        "query": {
+                            "type": "string"
+                        },
+                        "from": {
+                            "type": "string"
+                        },
+                        "to": {
+                            "type": "string"
+                        },
+                        "indexes": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "sort": {
+                    "type": "string"
+                },
+                "page": {
+                    "type": "object",
+                    "properties": {
+                        "limit": {
+                            "type": "number"
+                        },
+                        "cursor": {
+                            "type": "string"
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "limit": {
+                    "type": "number",
+                    "default": 100
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    },
+    {
+        "name": "datadog_aggregate-logs",
+        "description": "Perform analytical queries and aggregations on log data. Essential for calculating metrics (count, avg, sum, etc.), grouping data by fields, and creating statistical summaries from logs. Use this when you need to analyze patterns or extract metrics from log data.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "filter": {
+                    "type": "object",
+                    "properties": {
+                        "query": {
+                            "type": "string"
+                        },
+                        "from": {
+                            "type": "string"
+                        },
+                        "to": {
+                            "type": "string"
+                        },
+                        "indexes": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "compute": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "aggregation": {
+                                "type": "string"
+                            },
+                            "metric": {
+                                "type": "string"
+                            },
+                            "type": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "aggregation"
+                        ],
+                        "additionalProperties": false
+                    }
+                },
+                "groupBy": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "facet": {
+                                "type": "string"
+                            },
+                            "limit": {
+                                "type": "number"
+                            },
+                            "sort": {
+                                "type": "object",
+                                "properties": {
+                                    "aggregation": {
+                                        "type": "string"
+                                    },
+                                    "order": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "aggregation",
+                                    "order"
+                                ],
+                                "additionalProperties": false
+                            }
+                        },
+                        "required": [
+                            "facet"
+                        ],
+                        "additionalProperties": false
+                    }
+                },
+                "options": {
+                    "type": "object",
+                    "properties": {
+                        "timezone": {
+                            "type": "string"
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+    }
+]

@@ -1,0 +1,284 @@
+[
+    {
+        "name": "copy_file",
+        "description": "Copy files and directories.",
+        "parameters": {
+            "properties": {
+                "destination": {
+                    "description": "Destination path",
+                    "type": "string"
+                },
+                "source": {
+                    "description": "Source path of the file or directory",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "source",
+                "destination"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "create_directory",
+        "description": "Create a new directory or ensure a directory exists.",
+        "parameters": {
+            "properties": {
+                "path": {
+                    "description": "Path of the directory to create",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "path"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "delete_file",
+        "description": "Delete a file or directory from the file system.",
+        "parameters": {
+            "properties": {
+                "path": {
+                    "description": "Path to the file or directory to delete",
+                    "type": "string"
+                },
+                "recursive": {
+                    "description": "Whether to recursively delete directories (default: false)",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "path"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "get_file_info",
+        "description": "Retrieve detailed metadata about a file or directory.",
+        "parameters": {
+            "properties": {
+                "path": {
+                    "description": "Path to the file or directory",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "path"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_allowed_directories",
+        "description": "Returns the list of directories that this server is allowed to access.",
+        "parameters": {
+            "properties": {},
+            "type": "object"
+        }
+    },
+    {
+        "name": "list_directory",
+        "description": "Get a detailed listing of all files and directories in a specified path.",
+        "parameters": {
+            "properties": {
+                "path": {
+                    "description": "Path of the directory to list",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "path"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "modify_file",
+        "description": "Update file by finding and replacing text. Provides a simple pattern matching interface without needing exact character positions.",
+        "parameters": {
+            "properties": {
+                "all_occurrences": {
+                    "description": "Replace all occurrences of the matching text (default: true)",
+                    "type": "boolean"
+                },
+                "find": {
+                    "description": "Text to search for (exact match or regex pattern)",
+                    "type": "string"
+                },
+                "path": {
+                    "description": "Path to the file to modify",
+                    "type": "string"
+                },
+                "regex": {
+                    "description": "Treat the find pattern as a regular expression (default: false)",
+                    "type": "boolean"
+                },
+                "replace": {
+                    "description": "Text to replace with",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "path",
+                "find",
+                "replace"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "move_file",
+        "description": "Move or rename files and directories.",
+        "parameters": {
+            "properties": {
+                "destination": {
+                    "description": "Destination path",
+                    "type": "string"
+                },
+                "source": {
+                    "description": "Source path of the file or directory",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "source",
+                "destination"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "read_file",
+        "description": "Read the complete contents of a file from the file system.",
+        "parameters": {
+            "properties": {
+                "path": {
+                    "description": "Path to the file to read",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "path"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "read_multiple_files",
+        "description": "Read the contents of multiple files in a single operation.",
+        "parameters": {
+            "properties": {
+                "paths": {
+                    "description": "List of file paths to read",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "paths"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_files",
+        "description": "Recursively search for files and directories matching a pattern.",
+        "parameters": {
+            "properties": {
+                "path": {
+                    "description": "Starting path for the search",
+                    "type": "string"
+                },
+                "pattern": {
+                    "description": "Search pattern to match against file names",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "path",
+                "pattern"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "search_within_files",
+        "description": "Search for text within file contents. Unlike search_files which only searches file names, this tool scans the actual contents of text files for matching substrings. Binary files are automatically excluded from the search. Reports file paths and line numbers where matches are found.",
+        "parameters": {
+            "properties": {
+                "depth": {
+                    "description": "Maximum directory depth to search (default: unlimited)",
+                    "type": "number"
+                },
+                "max_results": {
+                    "description": "Maximum number of results to return (default: 1000)",
+                    "type": "number"
+                },
+                "path": {
+                    "description": "Starting path for the search (must be a directory)",
+                    "type": "string"
+                },
+                "substring": {
+                    "description": "Text to search for within file contents",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "path",
+                "substring"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "tree",
+        "description": "Returns a hierarchical JSON representation of a directory structure.",
+        "parameters": {
+            "properties": {
+                "depth": {
+                    "description": "Maximum depth to traverse (default: 3)",
+                    "type": "number"
+                },
+                "follow_symlinks": {
+                    "description": "Whether to follow symbolic links (default: false)",
+                    "type": "boolean"
+                },
+                "path": {
+                    "description": "Path of the directory to traverse",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "path"
+            ],
+            "type": "object"
+        }
+    },
+    {
+        "name": "write_file",
+        "description": "Create a new file or overwrite an existing file with new content.",
+        "parameters": {
+            "properties": {
+                "content": {
+                    "description": "Content to write to the file",
+                    "type": "string"
+                },
+                "path": {
+                    "description": "Path where to write the file",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "path",
+                "content"
+            ],
+            "type": "object"
+        }
+    }
+]

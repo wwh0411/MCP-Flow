@@ -1,0 +1,136 @@
+[
+    {
+        "name": "postgres_connect_db",
+        "description": "Connect to PostgreSQL database. NOTE: Default connection exists - only use when requested or if other commands fail",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "host": {
+                    "type": "string",
+                    "description": "Database host"
+                },
+                "port": {
+                    "type": "number",
+                    "description": "Database port (default: 5432)"
+                },
+                "user": {
+                    "type": "string",
+                    "description": "Database user"
+                },
+                "password": {
+                    "type": "string",
+                    "description": "Database password"
+                },
+                "database": {
+                    "type": "string",
+                    "description": "Database name"
+                }
+            },
+            "required": [
+                "host",
+                "user",
+                "password",
+                "database"
+            ]
+        }
+    },
+    {
+        "name": "postgres_query",
+        "description": "Execute a SELECT query",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "sql": {
+                    "type": "string",
+                    "description": "SQL SELECT query (use $1, $2, etc. for parameters)"
+                },
+                "params": {
+                    "type": "array",
+                    "items": {
+                        "type": [
+                            "string",
+                            "number",
+                            "boolean",
+                            "null"
+                        ]
+                    },
+                    "description": "Query parameters (optional)"
+                }
+            },
+            "required": [
+                "sql"
+            ]
+        }
+    },
+    {
+        "name": "postgres_execute",
+        "description": "Execute an INSERT, UPDATE, or DELETE query",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "sql": {
+                    "type": "string",
+                    "description": "SQL query (INSERT, UPDATE, DELETE) (use $1, $2, etc. for parameters)"
+                },
+                "params": {
+                    "type": "array",
+                    "items": {
+                        "type": [
+                            "string",
+                            "number",
+                            "boolean",
+                            "null"
+                        ]
+                    },
+                    "description": "Query parameters (optional)"
+                }
+            },
+            "required": [
+                "sql"
+            ]
+        }
+    },
+    {
+        "name": "postgres_list_schemas",
+        "description": "List all schemas in the database",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    },
+    {
+        "name": "postgres_list_tables",
+        "description": "List tables in the database",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "schema": {
+                    "type": "string",
+                    "description": "Schema name (default: public)"
+                }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "postgres_describe_table",
+        "description": "Get table structure",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "table": {
+                    "type": "string",
+                    "description": "Table name"
+                },
+                "schema": {
+                    "type": "string",
+                    "description": "Schema name (default: public)"
+                }
+            },
+            "required": [
+                "table"
+            ]
+        }
+    }
+]

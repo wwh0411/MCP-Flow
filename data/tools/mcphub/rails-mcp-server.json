@@ -1,0 +1,137 @@
+[
+    {
+        "name": "switch_project",
+        "description": "Change the active Rails project to interact with a different codebase. Must be called before using other tools. Available projects are defined in the projects.yml configuration file.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "project_name": {
+                    "type": "string",
+                    "description": "Name of the project as defined in the projects.yml file (case-sensitive)"
+                }
+            },
+            "required": [
+                "project_name"
+            ]
+        }
+    },
+    {
+        "name": "project_info",
+        "description": "Retrieve comprehensive information about the current Rails project, including Rails version, directory structure, API-only status, and overall project organization. Useful for initial project exploration and understanding the codebase structure.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    },
+    {
+        "name": "list_files",
+        "description": "List files in the Rails project matching specific criteria. Use this to explore project directories or locate specific file types. If no parameters are provided, lists files in the project root.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "directory": {
+                    "type": "string",
+                    "description": "Directory path relative to the project root (e.g., 'app/models', 'config'). Leave empty to list files at the root."
+                },
+                "pattern": {
+                    "type": "string",
+                    "description": "File pattern using glob syntax (e.g., '*.rb' for Ruby files, '*.erb' for ERB templates, '*_controller.rb' for controllers)"
+                }
+            }
+        }
+    },
+    {
+        "name": "get_file",
+        "description": "Retrieve the complete content of a specific file with syntax highlighting. Use this to examine implementation details, configurations, or any text file in the project.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "File path relative to the project root (e.g., 'app/models/user.rb', 'config/routes.rb'). Use list_files first if you're not sure about the exact path."
+                }
+            },
+            "required": [
+                "path"
+            ]
+        }
+    },
+    {
+        "name": "get_routes",
+        "description": "Retrieve all HTTP routes defined in the Rails application with their associated controllers and actions. Equivalent to running 'rails routes' command. This helps understand the API endpoints or page URLs available in the application.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    },
+    {
+        "name": "analyze_models",
+        "description": "Retrieve detailed information about Active Record models in the project. When called without parameters, lists all model files. When a specific model is specified, returns its schema, associations (has_many, belongs_to, has_one), and complete source code.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "model_name": {
+                    "type": "string",
+                    "description": "Class name of a specific model to get detailed information for (e.g., 'User', 'Product'). Use CamelCase, not snake_case. If omitted, returns a list of all models."
+                }
+            }
+        }
+    },
+    {
+        "name": "get_schema",
+        "description": "Retrieve database schema information for the Rails application. Without parameters, returns all tables and the complete schema.rb. With a table name, returns detailed column information including data types, constraints, and foreign keys for that specific table.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "table_name": {
+                    "type": "string",
+                    "description": "Database table name to get detailed schema information for (e.g., 'users', 'products'). Use snake_case, plural form. If omitted, returns complete database schema."
+                }
+            }
+        }
+    },
+    {
+        "name": "analyze_controller_views",
+        "description": "Analyze the relationships between controllers, their actions, and corresponding views to understand the application's UI flow.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "controller_name": {
+                    "type": "string",
+                    "description": "Name of a specific controller to analyze (e.g., 'UsersController' or 'users'). If omitted, all controllers will be analyzed."
+                }
+            }
+        }
+    },
+    {
+        "name": "analyze_environment_config",
+        "description": "Analyze environment configurations to identify inconsistencies, security issues, and missing variables across environments.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    },
+    {
+        "name": "load_guide",
+        "description": "Load documentation guides from Rails, Turbo, Stimulus, Kamal, or Custom. Use this to get guide content for context in conversations.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "guides": {
+                    "type": "string",
+                    "description": "The guides library to search: 'rails', 'turbo', 'stimulus', 'kamal', or 'custom'"
+                },
+                "guide": {
+                    "type": "string",
+                    "description": "Specific guide name to load. If not provided, returns available guides list."
+                }
+            },
+            "required": [
+                "guides"
+            ]
+        }
+    }
+]

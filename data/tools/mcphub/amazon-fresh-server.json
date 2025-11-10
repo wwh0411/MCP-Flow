@@ -1,0 +1,75 @@
+[
+    {
+        "name": "create_amazon_fresh_link",
+        "description": "Create a link to this recipe's ingredients on Amazon Fresh. Please show the link in your response after using the tool. Here are some other suggestions on how to use this tool:\nFor best search results, please only include the canonical ingredient in the “name” field. Best practices for the “name” field include:\n- Remove all unnecessary qualifiers, brands, quantities, and prep instructions (grated, sliced, chopped, crush, crumble, etc.).\n- Avoid packaging description such as “1-gallon box” or “1 six-pack”. We’ll find the best size container for the specified unit.\n- Avoid punctuation marks (periods, commas, etc.).\n- If you want to use brand preference, enter it in the “brand” property rather than the “name” field. Absolutely do not add a brand in both the “name” and “brand” field.",
+        "parameters": {
+            "type": "object",
+            "required": [
+                "ingredients"
+            ],
+            "properties": {
+                "ingredients": {
+                    "type": "array",
+                    "description": "List of ingredient objects",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "name"
+                        ],
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "The canonical ingredient name without brand names, quantity information, or unnecessary qualifiers"
+                            },
+                            "quantityList": {
+                                "type": "array",
+                                "description": "List of quantity objects. If not provided, defaults to count = 1",
+                                "items": {
+                                    "type": "object",
+                                    "required": [
+                                        "unit",
+                                        "amount"
+                                    ],
+                                    "properties": {
+                                        "unit": {
+                                            "type": "string",
+                                            "description": "The unit type",
+                                            "enum": [
+                                                "count",
+                                                "cups",
+                                                "fl_oz",
+                                                "gallons",
+                                                "grams",
+                                                "kilograms",
+                                                "liters",
+                                                "milliliters",
+                                                "ounces",
+                                                "pints",
+                                                "pounds",
+                                                "quarts",
+                                                "tbsp",
+                                                "tsp"
+                                            ]
+                                        },
+                                        "amount": {
+                                            "type": "number",
+                                            "description": "The quantity amount as an integer or float"
+                                        }
+                                    }
+                                }
+                            },
+                            "brand": {
+                                "type": "string",
+                                "description": "Optional brand preference"
+                            },
+                            "asinOverride": {
+                                "type": "string",
+                                "description": "Optional ASIN product identifier for specific product recommendation"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+]
