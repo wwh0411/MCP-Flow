@@ -7,7 +7,8 @@
 ## 🗓️ News
 
 * **🧠 Oct 28, 2025** — MCP-Flow is released on [**arXiv**](https://arxiv.org/abs/2510.24284).
-* **🛠️ Nov 10, 2025** — We open-source all **server configurations** and **tool information**!
+* **🛠️ Nov 10, 2025** — We open-source all the **server configurations** and **tool information**!
+* **🛠️ Nov 28, 2025** — We open-source all the **instruction-function call pairs** and the **testsets for evaluation** inluding in-domain and OOD settings! The dataset is available at [HuggingFace]( https://huggingface.co/datasets/wwh0411/MCP-Flow.)
 
 
 ## 📝 Introduction
@@ -41,12 +42,12 @@
 
 | Category                         | Path                                           | Description                                                 |
 | -------------------------------- | ---------------------------------------------- | ----------------------------------------------------------- |
-| 🧠 Function calls & trajectories | `./data/function_call/` & `./data/trajectory/` | Example data; full datasets are released on **HuggingFace** |
+| 🧠 Function calls & trajectories | `./data/function_call/` & `./data/trajectory/` | Example data; full datasets are released on [HuggingFace]( https://huggingface.co/datasets/wwh0411/MCP-Flow) |
 | ⚙️ MCP configurations            | `./data/mcp_config/`                           | Configuration files for discovered servers                  |
 | 🧰 Tool information              | `./data/tools/`                                | Tool descriptions and schema definitions                    |
 | 💻 Source code                   | `./src/`                                       | Core scripts for server deployment    |
-
-
+| 📲 Testset                   | `./test_data` on HuggingFace                                  | Including in-domain and out-of-domain evaluation settings    |
+ 
 
 ## 🛠️ Installation
 
