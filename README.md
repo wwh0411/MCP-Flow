@@ -6,6 +6,7 @@
 
 ## 🗓️ News
 
+* **🎉 Apr 6, 2026** — We are happy to announce that MCP-Flow has been accepted to the **Main Conference of ACL 2026**!
 * **🧠 Oct 28, 2025** — MCP-Flow is released on [**arXiv**](https://arxiv.org/abs/2510.24284).
 * **🛠️ Nov 10, 2025** — We open-source all the **server configurations** and **tool information**!
 * **🛠️ Nov 28, 2025** — We open-source all the **instruction-function call pairs** and the **testsets for evaluation** inluding in-domain and OOD settings! The dataset is available at [HuggingFace]( https://huggingface.co/datasets/wwh0411/MCP-Flow.)
